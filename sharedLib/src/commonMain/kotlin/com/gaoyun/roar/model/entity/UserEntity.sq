@@ -1,0 +1,13 @@
+CREATE TABLE UserEntity (
+id TEXT NOT NULL PRIMARY KEY,
+name TEXT NOT NULL
+);
+
+selectById:
+SELECT * FROM UserEntity WHERE id = ?;
+
+insert:
+INSERT INTO UserEntity(id, name) VALUES (?, ?);
+
+removeById:
+DELETE FROM UserEntity WHERE id = ?;

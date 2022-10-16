@@ -1,6 +1,7 @@
 package com.gaoyun.roar.util
 
 import android.content.Context
+import com.gaoyun.roar.model.entity.RoarDatabase
 import com.squareup.sqldelight.android.AndroidSqliteDriver
 import com.squareup.sqldelight.db.SqlDriver
 import org.koin.core.module.Module

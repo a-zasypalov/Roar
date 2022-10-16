@@ -1,0 +1,14 @@
+{
+  "pet_types": [
+    {
+      "pet_type": "cat",
+      "breeds_location": "cat_breeds.json",
+      "interaction_templates_location": "cats_interactions.json"
+    },
+    {
+      "pet_type": "dog",
+      "breeds_location": "dog_breeds.json",
+      "interaction_templates_location": "dogs_interactions.json"
+    }
+  ]
+}
