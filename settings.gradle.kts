@@ -16,3 +16,4 @@ dependencyResolutionManagement {
 rootProject.name = "Roar"
 include(":androidApp")
 include(":sharedLib")
+include(":androidApp:common")
