@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="roar_green">#40A690</color>
+    <color name="roar_green_light">#4FB59F</color>
+    <color name="roar_green_dark">#2A907A</color>
+    <color name="roar_orange">#F8a966</color>
+    <color name="roar_white">#F4F9FD</color>
+    <color name="roar_beige">#F3E4D8</color>
+    <color name="roar_gray">#909090</color>
+    <color name="roar_black">#20201F</color>
+</resources>

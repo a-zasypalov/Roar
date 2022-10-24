@@ -1,0 +1,18 @@
+package com.gaoyun.roar.domain
+
+import com.gaoyun.roar.repository.UserRepository
+import com.gaoyun.roar.util.Preferences
+import com.gaoyun.roar.util.PreferencesKeys
+import org.koin.core.component.KoinComponent
+import org.koin.core.component.inject
+
+class CheckUserExistingUseCase : KoinComponent {
+
+    private val repository: UserRepository by inject()
+    private val prefs: Preferences by inject()
+
+    fun isUserExisting(): Boolean {
+        return prefs.getString(PreferencesKeys.CURRENT_USER_ID, "").isNotEmpty()
+    }
+
+}

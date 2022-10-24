@@ -11,6 +11,8 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.gaoyun.common.NavigationKeys
 import com.gaoyun.common.theme.RoarTheme
+import com.gaoyun.feature_home_screen.HomeScreenDestination
+import com.gaoyun.feature_user_registration.UserRegistrationDestination
 
 class MainActivity : AppCompatActivity() {
 
@@ -30,17 +32,20 @@ class MainActivity : AppCompatActivity() {
     @Composable
     fun GlobalDestinationState() {
         val navController = rememberNavController()
-        NavHost(navController = navController, startDestination = NavigationKeys.RouteGlobal.HOME_ROUTE) {
+        NavHost(
+            navController = navController,
+            startDestination = NavigationKeys.RouteGlobal.HOME_ROUTE
+        ) {
             composable(NavigationKeys.RouteGlobal.HOME_ROUTE) {
-
+                HomeScreenDestination(
+                    navHostController = navController
+                )
             }
 
-//            composable(
-//                route = NavigationKeys.RouteGlobal.FLIGHT_OFFERS_ROUTE_WITH_SEARCH_ID,
-//                arguments = listOf(navArgument(NavigationKeys.Arg.SAVED_SEARCH_ID) { type = NavType.StringType })
-//            ) {
-//                FlightOffersScreenDestination(navController, it.arguments?.getString(NavigationKeys.Arg.SAVED_SEARCH_ID))
-//            }
+            composable(NavigationKeys.RouteGlobal.REGISTER_USER_ROUTE) {
+                UserRegistrationDestination(navHostController = navController)
+            }
+
         }
     }
 
