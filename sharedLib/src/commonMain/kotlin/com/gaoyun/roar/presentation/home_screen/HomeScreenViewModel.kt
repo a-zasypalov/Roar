@@ -2,6 +2,7 @@ package com.gaoyun.roar.presentation.home_screen
 
 import com.gaoyun.roar.domain.CheckUserExistingUseCase
 import com.gaoyun.roar.domain.GetCurrentUserUseCase
+import com.gaoyun.roar.model.domain.User
 import com.gaoyun.roar.presentation.BaseViewModel
 import com.gaoyun.roar.util.NoUserException
 import kotlinx.coroutines.launch
@@ -18,9 +19,7 @@ class HomeScreenViewModel :
     override fun setInitialState() = HomeScreenContract.State(null, true)
 
     override fun handleEvents(event: HomeScreenContract.Event) {
-//        when (event) {
-//            is HomeScreenContract.Event.Event -> {}
-//        }
+
     }
 
     fun checkUserRegistered() = scope.launch {
@@ -33,7 +32,7 @@ class HomeScreenViewModel :
 
     private suspend fun getUser() {
         try {
-            getUserUseCase.getCurrentUser()
+            setUserDataState(getUserUseCase.getCurrentUser())
         } catch (noUser: NoUserException) {
             noUser.printStackTrace()
             setNoUserState()
@@ -41,6 +40,7 @@ class HomeScreenViewModel :
     }
 
     private fun setNoUserState() = setState { copy(user = null, isLoading = false) }
+    private fun setUserDataState(user: User) = setState { copy(user = user, isLoading = false) }
 
     fun openRegistration() {
         setEffect { HomeScreenContract.Effect.Navigation.ToUserRegistration }

@@ -1,7 +1,6 @@
 package com.gaoyun.roar
 
 import com.gaoyun.roar.domain.CheckUserExistingUseCase
-import com.gaoyun.roar.domain.DeleteUserUseCase
 import com.gaoyun.roar.domain.GetCurrentUserUseCase
 import com.gaoyun.roar.domain.RegisterUserUseCase
 import com.gaoyun.roar.model.entity.RoarDatabase
@@ -26,7 +25,6 @@ val repositoryModule = module {
 val useCaseModule = module {
     single { RegisterUserUseCase() }
     single { GetCurrentUserUseCase() }
-    single { DeleteUserUseCase() }
     single { CheckUserExistingUseCase() }
 }
 

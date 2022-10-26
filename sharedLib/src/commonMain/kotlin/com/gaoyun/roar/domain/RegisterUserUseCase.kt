@@ -19,7 +19,10 @@ class RegisterUserUseCase: KoinComponent {
             name = name
         )
 
-        repository.insertUser(newUser)
+        repository.apply {
+            deleteUsers()
+            insertUser(newUser)
+        }
         prefs.setString(PreferencesKeys.CURRENT_USER_ID, newUser.id)
     }
 

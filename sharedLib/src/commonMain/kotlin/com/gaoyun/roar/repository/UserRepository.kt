@@ -9,7 +9,7 @@ import org.koin.core.component.inject
 interface UserRepository {
     suspend fun getUser(id: String): User?
     suspend fun insertUser(user: User)
-    suspend fun deleteUser(id: String)
+    suspend fun deleteUsers()
 }
 
 class UserRepositoryImpl : UserRepository, KoinComponent {
@@ -23,7 +23,7 @@ class UserRepositoryImpl : UserRepository, KoinComponent {
         appDb.userEntityQueries.insert(user.id, user.name)
     }
 
-    override suspend fun deleteUser(id: String) {
-        appDb.userEntityQueries.removeById(id)
+    override suspend fun deleteUsers() {
+        appDb.userEntityQueries.removeAll()
     }
 }
