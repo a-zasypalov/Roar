@@ -8,6 +8,7 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 
 @Composable
 fun PrimaryRaisedButton(
@@ -27,7 +28,8 @@ fun PrimaryRaisedButton(
     ) {
         Text(
             text,
-            modifier = Modifier.padding(vertical = 4.dp)
+            modifier = Modifier.padding(vertical = 8.dp),
+            fontSize = 16.sp
         )
     }
 }

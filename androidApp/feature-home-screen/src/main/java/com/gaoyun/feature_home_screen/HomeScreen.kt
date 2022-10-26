@@ -1,9 +1,7 @@
 package com.gaoyun.feature_home_screen
 
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
 import androidx.compose.material.Scaffold
-import androidx.compose.material.Text
 import androidx.compose.material.rememberScaffoldState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -69,9 +67,7 @@ fun HomeScreen(
     Scaffold(scaffoldState = rememberedState) {
         Box {
             state.user?.let { user ->
-                Column {
-                    Text("Hello, ${user.name}")
-                }
+                NoPetsState(userName = user.name) {}
             } ?: NoUserState(viewModel::openRegistration)
 
             Loader(isLoading = state.isLoading)
