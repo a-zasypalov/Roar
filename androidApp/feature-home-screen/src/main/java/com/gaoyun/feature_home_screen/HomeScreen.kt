@@ -2,7 +2,6 @@ package com.gaoyun.feature_home_screen
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.material.Button
 import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
 import androidx.compose.material.rememberScaffoldState
@@ -73,12 +72,7 @@ fun HomeScreen(
                 Column {
                     Text("Hello, ${user.name}")
                 }
-            } ?: Column {
-                Text("Hey, let's get started")
-                Button(onClick = { viewModel.openRegistration() }) {
-                    Text("To Registration")
-                }
-            }
+            } ?: NoUserState(viewModel::openRegistration)
 
             Loader(isLoading = state.isLoading)
         }

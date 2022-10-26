@@ -7,8 +7,8 @@ import androidx.compose.material.lightColors
 import androidx.compose.runtime.Composable
 
 private val DarkColorPalette = darkColors(
-    primary = RoarLightGreen,
-    primaryVariant = RoarGreen,
+    primary = RoarOrange,
+    primaryVariant = RoarOrange,
     secondary = RoarOrange,
     background = DarkBackground,
     surface = DarkSurface,
@@ -19,15 +19,15 @@ private val DarkColorPalette = darkColors(
 )
 
 private val LightColorPalette = lightColors(
-    primary = RoarGreen,
-    primaryVariant = RoarDarkGreen,
+    primary = RoarOrange,
+    primaryVariant = RoarOrange,
     secondary = RoarOrange,
     background = RoarLightGray,
     surface = RoarWhite,
     onBackground = RoarBlack,
     onPrimary = RoarWhite,
     onSecondary = RoarWhite,
-    onSurface = RoarGreen,
+    onSurface = RoarOrange,
 )
 
 @Composable
