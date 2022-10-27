@@ -3,6 +3,7 @@ package com.gaoyun.common.ui
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.material.MaterialTheme
 import androidx.compose.material.OutlinedTextField
 import androidx.compose.material.Text
 import androidx.compose.material.TextFieldDefaults
@@ -37,10 +38,8 @@ fun TextFormField(
         keyboardActions = keyBoardActions,
         enabled = isEnabled,
         colors = TextFieldDefaults.outlinedTextFieldColors(
-            focusedBorderColor = Color.Black,
-            unfocusedBorderColor = Color.Gray,
-            disabledBorderColor = Color.Gray,
-            disabledTextColor = Color.Black
+            focusedBorderColor = MaterialTheme.colors.onBackground,
+            unfocusedBorderColor = MaterialTheme.colors.onBackground,
         ),
         placeholder = {
             Text(text = placeholder, style = TextStyle(fontSize = 18.sp, color = Color.LightGray))

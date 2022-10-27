@@ -1,12 +1,9 @@
 package com.gaoyun.feature_user_registration
 
 import androidx.compose.foundation.layout.*
-import androidx.compose.material.Icon
-import androidx.compose.material.Scaffold
-import androidx.compose.material.Text
+import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Person
-import androidx.compose.material.rememberScaffoldState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -100,7 +97,7 @@ fun UserRegistrationForm(
                     Icon(
                         Icons.Filled.Person,
                         "Name",
-                        tint = Color.Black
+                        tint = MaterialTheme.colors.onBackground
                     )
                 },
                 placeholder = "Name",

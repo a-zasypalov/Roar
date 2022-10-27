@@ -6,6 +6,7 @@
         android:supportsRtl="true"
         android:theme="@style/RoarTheme"
         android:label="Roar"
+        android:icon="@mipmap/ic_launcher"
         android:name=".RoarApp">
         <activity
             android:name=".MainActivity"
