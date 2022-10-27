@@ -15,9 +15,15 @@ class AddPetScreenViewModel :
 
     override fun setInitialState() = AddPetScreenContract.State(false)
 
-    override fun handleEvents(event: AddPetScreenContract.Event) {}
+    override fun handleEvents(event: AddPetScreenContract.Event) {
+        when (event) {
+            is AddPetScreenContract.Event.AddPetButtonClicked -> with(event) {
+                addPet(petType, breed, name, birthday, isSterilized)
+            }
+        }
+    }
 
-    fun addPet(
+    private fun addPet(
         petType: String,
         breed: String,
         name: String,

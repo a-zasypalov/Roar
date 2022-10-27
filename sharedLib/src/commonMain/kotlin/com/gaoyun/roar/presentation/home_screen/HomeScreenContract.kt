@@ -21,6 +21,7 @@ class HomeScreenContract {
         sealed class Navigation : Effect() {
             object NavigateBack : Navigation()
             object ToUserRegistration : Navigation()
+            object ToAddPet : Navigation()
         }
     }
 }

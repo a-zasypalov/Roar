@@ -36,6 +36,7 @@ dependencies {
     implementation(project(":androidApp:common"))
     implementation(project(":androidApp:feature-home-screen"))
     implementation(project(":androidApp:feature-user-registration"))
+    implementation(project(":androidApp:feature-add-pet"))
 
     implementation("androidx.compose.ui:ui:1.3.0")
     implementation("androidx.compose.ui:ui-tooling:1.3.0")

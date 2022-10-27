@@ -11,6 +11,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.gaoyun.common.NavigationKeys
 import com.gaoyun.common.theme.RoarTheme
+import com.gaoyun.feature_add_pet.AddPetDestination
 import com.gaoyun.feature_home_screen.HomeScreenDestination
 import com.gaoyun.feature_user_registration.UserRegistrationDestination
 
@@ -44,6 +45,10 @@ class MainActivity : AppCompatActivity() {
 
             composable(NavigationKeys.RouteGlobal.REGISTER_USER_ROUTE) {
                 UserRegistrationDestination(navHostController = navController)
+            }
+
+            composable(NavigationKeys.RouteGlobal.ADD_PET_ROUTE) {
+                AddPetDestination(navHostController = navController)
             }
 
         }

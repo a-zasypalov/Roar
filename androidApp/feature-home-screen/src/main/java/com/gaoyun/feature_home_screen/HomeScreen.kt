@@ -37,6 +37,7 @@ fun HomeScreenDestination(navHostController: NavHostController) {
         onNavigationRequested = { navigationEffect ->
             when (navigationEffect) {
                 is HomeScreenContract.Effect.Navigation.ToUserRegistration -> navHostController.navigate(NavigationKeys.RouteGlobal.REGISTER_USER_ROUTE)
+                is HomeScreenContract.Effect.Navigation.ToAddPet -> navHostController.navigate(NavigationKeys.RouteGlobal.ADD_PET_ROUTE)
                 is HomeScreenContract.Effect.Navigation.NavigateBack -> navHostController.popBackStack()
             }
         },
@@ -59,6 +60,7 @@ fun HomeScreen(
         effectFlow.onEach { effect ->
             when (effect) {
                 is HomeScreenContract.Effect.Navigation.ToUserRegistration -> onNavigationRequested(effect)
+                is HomeScreenContract.Effect.Navigation.ToAddPet -> onNavigationRequested(effect)
                 is HomeScreenContract.Effect.Navigation.NavigateBack -> onNavigationRequested(effect)
             }
         }.collect()
@@ -67,7 +69,7 @@ fun HomeScreen(
     Scaffold(scaffoldState = rememberedState) {
         Box {
             state.user?.let { user ->
-                NoPetsState(userName = user.name) {}
+                NoPetsState(userName = user.name, viewModel::openAddPetScreen)
             } ?: NoUserState(viewModel::openRegistration)
 
             Loader(isLoading = state.isLoading)

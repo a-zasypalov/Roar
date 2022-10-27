@@ -45,4 +45,8 @@ class HomeScreenViewModel :
     fun openRegistration() {
         setEffect { HomeScreenContract.Effect.Navigation.ToUserRegistration }
     }
+
+    fun openAddPetScreen() {
+        setEffect { HomeScreenContract.Effect.Navigation.ToAddPet }
+    }
 }
