@@ -1,4 +1,4 @@
-package com.gaoyun.roar.domain
+package com.gaoyun.roar.domain.user
 
 import com.gaoyun.roar.model.domain.User
 import com.gaoyun.roar.repository.UserRepository

@@ -1,10 +1,14 @@
 package com.gaoyun.roar
 
-import com.gaoyun.roar.domain.CheckUserExistingUseCase
-import com.gaoyun.roar.domain.GetCurrentUserUseCase
-import com.gaoyun.roar.domain.RegisterUserUseCase
+import com.gaoyun.roar.domain.pet.AddPetUseCase
+import com.gaoyun.roar.domain.pet.GetPetUseCase
+import com.gaoyun.roar.domain.user.CheckUserExistingUseCase
+import com.gaoyun.roar.domain.user.GetCurrentUserUseCase
+import com.gaoyun.roar.domain.user.RegisterUserUseCase
 import com.gaoyun.roar.model.entity.PetEntity
 import com.gaoyun.roar.model.entity.RoarDatabase
+import com.gaoyun.roar.repository.PetRepository
+import com.gaoyun.roar.repository.PetRepositoryImpl
 import com.gaoyun.roar.repository.UserRepository
 import com.gaoyun.roar.repository.UserRepositoryImpl
 import com.gaoyun.roar.util.DriverFactory
@@ -22,12 +26,16 @@ fun initKoin(appDeclaration: KoinAppDeclaration = {}) = startKoin {
 
 val repositoryModule = module {
     single<UserRepository> { UserRepositoryImpl() }
+    single<PetRepository> { PetRepositoryImpl() }
 }
 
 val useCaseModule = module {
     single { RegisterUserUseCase() }
     single { GetCurrentUserUseCase() }
     single { CheckUserExistingUseCase() }
+
+    single { GetPetUseCase() }
+    single { AddPetUseCase() }
 }
 
 val dbModule = module {

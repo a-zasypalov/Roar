@@ -1,6 +1,6 @@
 package com.gaoyun.roar.presentation.user_register
 
-import com.gaoyun.roar.domain.RegisterUserUseCase
+import com.gaoyun.roar.domain.user.RegisterUserUseCase
 import com.gaoyun.roar.presentation.BaseViewModel
 import kotlinx.coroutines.launch
 import org.koin.core.component.KoinComponent

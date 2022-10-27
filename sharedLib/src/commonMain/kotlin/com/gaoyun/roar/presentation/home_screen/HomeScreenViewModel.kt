@@ -1,7 +1,7 @@
 package com.gaoyun.roar.presentation.home_screen
 
-import com.gaoyun.roar.domain.CheckUserExistingUseCase
-import com.gaoyun.roar.domain.GetCurrentUserUseCase
+import com.gaoyun.roar.domain.user.CheckUserExistingUseCase
+import com.gaoyun.roar.domain.user.GetCurrentUserUseCase
 import com.gaoyun.roar.model.domain.User
 import com.gaoyun.roar.presentation.BaseViewModel
 import com.gaoyun.roar.util.NoUserException
