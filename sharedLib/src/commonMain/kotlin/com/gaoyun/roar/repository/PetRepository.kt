@@ -8,6 +8,7 @@ import org.koin.core.component.inject
 
 interface PetRepository {
     suspend fun getPet(id: String): Pet?
+    suspend fun getPetsByUser(userId: String): List<Pet>
     suspend fun insertPet(pet: Pet)
     suspend fun deletePet(id: String)
 }
@@ -17,6 +18,10 @@ class PetRepositoryImpl : PetRepository, KoinComponent {
 
     override suspend fun getPet(id: String): Pet? {
         return appDb.petEntityQueries.selectById(id).executeAsOneOrNull()?.toDomain()
+    }
+
+    override suspend fun getPetsByUser(userId: String): List<Pet> {
+        return appDb.petEntityQueries.selectByUserId(userId).executeAsList().map { it.toDomain() }
     }
 
     override suspend fun insertPet(pet: Pet) {

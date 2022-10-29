@@ -15,6 +15,9 @@ reminders TEXT AS List<String>
 selectById:
 SELECT * FROM PetEntity WHERE id = ?;
 
+selectByUserId:
+SELECT * FROM PetEntity WHERE userId = ?;
+
 insertOrReplace:
 INSERT OR REPLACE INTO PetEntity(id, name, petType, breed, userId, birthday, isSterilized, dateCreated, reminders) VALUES (?, ?, ?, ?, ? ,?, ?, ?, ?);
 

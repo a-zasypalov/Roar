@@ -1,13 +1,11 @@
 package com.gaoyun.feature_add_pet
 
 import androidx.appcompat.app.AppCompatActivity
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Cake
 import androidx.compose.material.icons.filled.Pets
 import androidx.compose.runtime.*
 import androidx.compose.runtime.saveable.rememberSaveable
@@ -35,6 +33,7 @@ import kotlinx.coroutines.flow.onEach
 import kotlinx.datetime.LocalDate
 import org.koin.androidx.compose.getViewModel
 import java.time.Instant
+import java.util.concurrent.TimeUnit
 
 @Composable
 fun AddPetDestination(navHostController: NavHostController) {
@@ -131,12 +130,19 @@ fun AddPetForm(
                     trailingIcon = {
                         ExposedDropdownMenuDefaults.TrailingIcon(expanded = petTypesExpanded)
                     },
-                    colors = ExposedDropdownMenuDefaults.textFieldColors(),
+                    colors = TextFieldDefaults.outlinedTextFieldColors(
+                        trailingIconColor = MaterialTheme.colors.onBackground,
+                        placeholderColor = MaterialTheme.colors.onBackground,
+                        focusedBorderColor = MaterialTheme.colors.onBackground,
+                        unfocusedBorderColor = MaterialTheme.colors.onBackground,
+                        focusedLabelColor = MaterialTheme.colors.onBackground,
+                        unfocusedLabelColor = MaterialTheme.colors.onBackground,
+                    ),
                     modifier = Modifier.fillMaxWidth()
                 )
                 ExposedDropdownMenu(
                     expanded = petTypesExpanded,
-                    onDismissRequest = { petTypesExpanded = false }
+                    onDismissRequest = { petTypesExpanded = false },
                 ) {
                     petTypes.forEach { petTypeSelection ->
                         DropdownMenuItem(
@@ -145,7 +151,7 @@ fun AddPetForm(
                                 petTypesExpanded = false
                             }
                         ) {
-                            Text(text = petTypeSelection)
+                            Text(text = petTypeSelection, color = MaterialTheme.colors.onBackground)
                         }
                     }
                 }
@@ -169,7 +175,14 @@ fun AddPetForm(
                         trailingIcon = {
                             ExposedDropdownMenuDefaults.TrailingIcon(expanded = petBreedsExpanded)
                         },
-                        colors = ExposedDropdownMenuDefaults.textFieldColors(),
+                        colors = TextFieldDefaults.outlinedTextFieldColors(
+                            trailingIconColor = MaterialTheme.colors.onBackground,
+                            placeholderColor = MaterialTheme.colors.onBackground,
+                            focusedBorderColor = MaterialTheme.colors.onBackground,
+                            unfocusedBorderColor = MaterialTheme.colors.onBackground,
+                            focusedLabelColor = MaterialTheme.colors.onBackground,
+                            unfocusedLabelColor = MaterialTheme.colors.onBackground,
+                        ),
                         modifier = Modifier.fillMaxWidth()
                     )
                     ExposedDropdownMenu(
@@ -183,7 +196,7 @@ fun AddPetForm(
                                     petBreedsExpanded = false
                                 }
                             ) {
-                                Text(text = breedSelection)
+                                Text(text = breedSelection, color = MaterialTheme.colors.onBackground)
                             }
                         }
                     }
@@ -211,46 +224,39 @@ fun AddPetForm(
 
             Spacer(modifier = Modifier.size(16.dp))
 
-            TextFormField(
-                text = petBirthdayState.value?.toString() ?: "",
-                placeholder = "Birthday",
-                leadingIcon = {
-                    Icon(
-                        Icons.Filled.Cake,
-                        "Birthday",
-                        tint = MaterialTheme.colors.onBackground
-                    )
-                },
-                modifier = Modifier
-                    .padding(horizontal = 24.dp)
-                    .clickable {
-                        val dialogBuilder = MaterialDatePicker.Builder
-                            .datePicker()
-                            .setTitleText("Pet's birthday")
-                            .setCalendarConstraints(
-                                CalendarConstraints
-                                    .Builder()
-                                    .setStart(
-                                        Instant
-                                            .now()
-                                            .minusMillis(30 * DatetimeConstants.YEAR_MILLIS)
-                                            .toEpochMilli()
-                                    )
-                                    .setEnd(
-                                        Instant
-                                            .now()
-                                            .toEpochMilli()
-                                    )
-                                    .build()
-                            )
-                        if (petBirthdayState.value != null) {
-                            dialogBuilder.setSelection(petBirthdayState.value)
-                        }
-                        val dialog = dialogBuilder.build()
-                        dialog.addOnPositiveButtonClickListener { petBirthdayState.value = it }
-                        dialog.show(activity.supportFragmentManager, "TAG")
+            Button(
+                onClick = {
+                    val dialogBuilder = MaterialDatePicker.Builder
+                        .datePicker()
+                        .setTitleText("Pet's birthday")
+                        .setCalendarConstraints(
+                            CalendarConstraints
+                                .Builder()
+                                .setStart(
+                                    Instant
+                                        .now()
+                                        .minusMillis(30 * DatetimeConstants.YEAR_MILLIS)
+                                        .toEpochMilli()
+                                )
+                                .setEnd(
+                                    Instant
+                                        .now()
+                                        .toEpochMilli()
+                                )
+                                .build()
+                        )
+                    if (petBirthdayState.value != null) {
+                        dialogBuilder.setSelection(petBirthdayState.value)
+                    } else {
+                        dialogBuilder.setSelection(System.currentTimeMillis())
                     }
-            )
+                    val dialog = dialogBuilder.build()
+                    dialog.addOnPositiveButtonClickListener { petBirthdayState.value = it }
+                    dialog.show(activity.supportFragmentManager, "TAG")
+                }
+            ) {
+                Text("Birthday")
+            }
 
             Spacer(modifier = Modifier.size(16.dp))
 
@@ -258,7 +264,9 @@ fun AddPetForm(
                 checked = petIsSterilizedState.value,
                 onCheckedChange = { petIsSterilizedState.value = it },
                 label = "Pet is sterilized",
-                modifier = Modifier.fillMaxWidth().padding(horizontal = 8.dp)
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 8.dp)
             )
 
             Spacer(modifier = Modifier.size(90.dp))
@@ -267,7 +275,15 @@ fun AddPetForm(
 
         PrimaryRaisedButton(
             text = "Add pet",
-            onClick = { },
+            onClick = {
+                onRegisterClick(
+                    petTypeState.value,
+                    petBreedState.value,
+                    petName.value,
+                    LocalDate.fromEpochDays(TimeUnit.MILLISECONDS.toDays(petBirthdayState.value ?: System.currentTimeMillis()).toInt()),
+                    petIsSterilizedState.value
+                )
+            },
             modifier = Modifier.padding(bottom = 32.dp)
         )
     }

@@ -69,7 +69,11 @@ fun HomeScreen(
     Scaffold(scaffoldState = rememberedState) {
         Box {
             state.user?.let { user ->
-                NoPetsState(userName = user.name, viewModel::openAddPetScreen)
+                if(state.pets.isNotEmpty()) {
+                    HomeState(userName = user.name, pets = state.pets, viewModel::openAddPetScreen)
+                } else {
+                    NoPetsState(userName = user.name, viewModel::openAddPetScreen)
+                }
             } ?: NoUserState(viewModel::openRegistration)
 
             Loader(isLoading = state.isLoading)

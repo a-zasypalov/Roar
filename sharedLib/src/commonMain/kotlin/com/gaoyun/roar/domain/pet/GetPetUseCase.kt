@@ -20,4 +20,8 @@ class GetPetUseCase: KoinComponent {
         return petIds.mapNotNull { petId -> repository.getPet(petId) }
     }
 
+    suspend fun getPetByUserId(userId: String): List<Pet> {
+        return repository.getPetsByUser(userId)
+    }
+
 }
