@@ -27,7 +27,7 @@ private val LightColorPalette = lightColors(
     onBackground = RoarBlack,
     onPrimary = RoarWhite,
     onSecondary = RoarWhite,
-    onSurface = RoarOrange,
+    onSurface = RoarBlack,
 )
 
 @Composable

@@ -4,13 +4,13 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
-internal data class PetTypesResponse(
+internal data class PetTypesConfigResponse(
     @SerialName("pet_types")
-    val types: List<PetTypeResponse>
+    val types: List<PetTypeConfigResponse>
 )
 
 @Serializable
-internal data class PetTypeResponse(
+internal data class PetTypeConfigResponse(
     @SerialName("pet_type")
     val petType: String,
     @SerialName("breeds_location")

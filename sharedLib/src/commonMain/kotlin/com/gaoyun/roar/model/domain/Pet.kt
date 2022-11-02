@@ -6,7 +6,7 @@ import kotlinx.datetime.LocalDate
 
 data class Pet(
     val id: String = randomUUID(),
-    val petType: String,
+    val petType: PetType,
     val breed: String,
     val name: String,
     val userId: String,
@@ -18,7 +18,7 @@ data class Pet(
 
 fun PetEntity.toDomain() = Pet(
     id = id,
-    petType = petType,
+    petType = petType.toPetType(),
     breed = breed,
     name = name,
     userId = userId,
@@ -27,3 +27,5 @@ fun PetEntity.toDomain() = Pet(
     dateCreated = LocalDate.parse(dateCreated),
     reminders = reminders ?: emptyList()
 )
+
+

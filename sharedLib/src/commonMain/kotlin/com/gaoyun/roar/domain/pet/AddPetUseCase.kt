@@ -2,6 +2,7 @@ package com.gaoyun.roar.domain.pet
 
 import com.gaoyun.roar.domain.user.GetCurrentUserUseCase
 import com.gaoyun.roar.model.domain.Pet
+import com.gaoyun.roar.model.domain.toPetType
 import com.gaoyun.roar.repository.PetRepository
 import com.gaoyun.roar.util.toLocalDate
 import kotlinx.coroutines.flow.flow
@@ -27,7 +28,7 @@ class AddPetUseCase : KoinComponent {
         emit(
             repository.insertPet(
                 Pet(
-                    petType = petType,
+                    petType = petType.toPetType(),
                     breed = breed,
                     name = name,
                     birthday = birthday,

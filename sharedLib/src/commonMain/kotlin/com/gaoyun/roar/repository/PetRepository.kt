@@ -28,7 +28,7 @@ class PetRepositoryImpl : PetRepository, KoinComponent {
         appDb.petEntityQueries.insertOrReplace(
             pet.id,
             pet.name,
-            pet.petType,
+            pet.petType.toString(),
             pet.breed,
             pet.userId,
             pet.birthday.toString(),
