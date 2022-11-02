@@ -5,6 +5,7 @@ import com.gaoyun.roar.domain.pet.GetPetUseCase
 import com.gaoyun.roar.domain.user.CheckUserExistingUseCase
 import com.gaoyun.roar.domain.user.GetCurrentUserUseCase
 import com.gaoyun.roar.domain.user.RegisterUserUseCase
+import com.gaoyun.roar.model.entity.InteractionTemplateEntity
 import com.gaoyun.roar.model.entity.PetEntity
 import com.gaoyun.roar.model.entity.RoarDatabase
 import com.gaoyun.roar.repository.PetRepository
@@ -42,7 +43,8 @@ val dbModule = module {
     single {
         RoarDatabase(
             get<DriverFactory>().createDriver(),
-            PetEntityAdapter = PetEntity.Adapter(listOfStringsAdapter)
+            PetEntityAdapter = PetEntity.Adapter(listOfStringsAdapter),
+            InteractionTemplateEntityAdapter = InteractionTemplateEntity.Adapter(listOfPairOfStringsAdapter)
         )
     }
 }
@@ -60,4 +62,18 @@ val listOfStringsAdapter = object : ColumnAdapter<List<String>, String> {
         }
 
     override fun encode(value: List<String>) = value.joinToString(separator = ",")
+}
+
+val listOfPairOfStringsAdapter = object : ColumnAdapter<List<Pair<String, String>>, String> {
+    override fun decode(databaseValue: String) =
+        if (databaseValue.isEmpty()) {
+            listOf()
+        } else {
+            databaseValue.split(",").map { item->
+                val split = item.split(":")
+                split[0] to split[1]
+            }
+        }
+
+    override fun encode(value: List<Pair<String, String>>) = value.joinToString(separator = ",") { "${it.first}:${it.second}" }
 }

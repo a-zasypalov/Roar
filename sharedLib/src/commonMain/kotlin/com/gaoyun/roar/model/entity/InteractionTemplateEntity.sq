@@ -1,0 +1,21 @@
+import kotlin.Pair;
+import kotlin.collections.List;
+
+CREATE TABLE InteractionTemplateEntity (
+id TEXT NOT NULL PRIMARY KEY,
+name TEXT NOT NULL,
+petType TEXT NOT NULL,
+type TEXT NOT NULL,
+interactionGroup TEXT NOT NULL,
+repeatConfig TEXT NOT NULL,
+additionalFields TEXT AS List<Pair<String, String>> NOT NULL
+);
+
+selectByPetType:
+SELECT * FROM InteractionTemplateEntity WHERE petType = ?;
+
+insertOrReplace:
+INSERT OR REPLACE INTO InteractionTemplateEntity(id, name, petType, type, interactionGroup, repeatConfig, additionalFields) VALUES (?, ?, ?, ?, ? ,?, ?);
+
+deleteAll:
+DELETE FROM InteractionTemplateEntity;
