@@ -7,24 +7,24 @@ import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 
 interface PetRepository {
-    suspend fun getPet(id: String): Pet?
-    suspend fun getPetsByUser(userId: String): List<Pet>
-    suspend fun insertPet(pet: Pet)
-    suspend fun deletePet(id: String)
+    fun getPet(id: String): Pet?
+    fun getPetsByUser(userId: String): List<Pet>
+    fun insertPet(pet: Pet)
+    fun deletePet(id: String)
 }
 
 class PetRepositoryImpl : PetRepository, KoinComponent {
     private val appDb: RoarDatabase by inject()
 
-    override suspend fun getPet(id: String): Pet? {
+    override fun getPet(id: String): Pet? {
         return appDb.petEntityQueries.selectById(id).executeAsOneOrNull()?.toDomain()
     }
 
-    override suspend fun getPetsByUser(userId: String): List<Pet> {
+    override fun getPetsByUser(userId: String): List<Pet> {
         return appDb.petEntityQueries.selectByUserId(userId).executeAsList().map { it.toDomain() }
     }
 
-    override suspend fun insertPet(pet: Pet) {
+    override fun insertPet(pet: Pet) {
         appDb.petEntityQueries.insertOrReplace(
             pet.id,
             pet.name,
@@ -38,7 +38,7 @@ class PetRepositoryImpl : PetRepository, KoinComponent {
         )
     }
 
-    override suspend fun deletePet(id: String) {
+    override fun deletePet(id: String) {
         appDb.petEntityQueries.deleteById(id)
     }
 }

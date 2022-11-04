@@ -15,7 +15,7 @@ class GetCurrentUserUseCase: KoinComponent {
     private val prefs: Preferences by inject()
 
     @Throws(NoUserException::class, CancellationException::class)
-    suspend fun getCurrentUser(): User {
+    fun getCurrentUser(): User {
         prefs.getString(PreferencesKeys.CURRENT_USER_ID)?.let { userId ->
             return repository.getUser(userId) ?: throw NoUserException()
         }

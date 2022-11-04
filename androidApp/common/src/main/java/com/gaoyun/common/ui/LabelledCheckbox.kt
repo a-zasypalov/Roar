@@ -31,7 +31,6 @@ fun LabelledCheckBox(
                 interactionSource = remember { MutableInteractionSource() },
                 onClick = { onCheckedChange(!checked) }
             )
-//            .requiredHeight(ButtonDefaults.MinHeight)
             .padding(horizontal = 16.dp, vertical = 12.dp)
     ) {
         Checkbox(

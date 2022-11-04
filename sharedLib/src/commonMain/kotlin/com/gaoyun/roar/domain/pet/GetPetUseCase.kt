@@ -12,15 +12,15 @@ class GetPetUseCase: KoinComponent {
     private val repository: PetRepository by inject()
 
     @Throws(NoPetException::class, CancellationException::class)
-    suspend fun getPet(petId: String): Pet {
+    fun getPet(petId: String): Pet {
         return repository.getPet(petId) ?: throw NoPetException()
     }
 
-    suspend fun getPets(petIds: List<String>): List<Pet> {
+    fun getPets(petIds: List<String>): List<Pet> {
         return petIds.mapNotNull { petId -> repository.getPet(petId) }
     }
 
-    suspend fun getPetByUserId(userId: String): List<Pet> {
+    fun getPetByUserId(userId: String): List<Pet> {
         return repository.getPetsByUser(userId)
     }
 
