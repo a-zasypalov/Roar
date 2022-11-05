@@ -12,6 +12,7 @@ import com.gaoyun.roar.model.entity.PetEntity
 import com.gaoyun.roar.model.entity.RoarDatabase
 import com.gaoyun.roar.repository.*
 import com.gaoyun.roar.util.DriverFactory
+import com.gaoyun.roar.util.PlatformHttpClient
 import com.gaoyun.roar.util.Preferences
 import com.gaoyun.roar.util.platformModule
 import com.squareup.sqldelight.ColumnAdapter
@@ -41,6 +42,10 @@ val useCaseModule = module {
     single { GetInteractionTemplatesForPetType() }
     single { InsertInteractionTemplate() }
     single { RemoveInteractionTemplates() }
+}
+
+val networkModule = module {
+    single { PlatformHttpClient.httpClient() }
 }
 
 val dbModule = module {

@@ -5,7 +5,7 @@ import kotlinx.coroutines.flow.flow
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 
-class GetInteractionTemplatesForPetType: KoinComponent {
+class GetInteractionTemplatesForPetType : KoinComponent {
 
     private val repository: InteractionTemplateRepository by inject()
 

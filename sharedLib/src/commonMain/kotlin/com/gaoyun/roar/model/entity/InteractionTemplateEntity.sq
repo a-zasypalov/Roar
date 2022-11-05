@@ -4,15 +4,14 @@ name TEXT NOT NULL,
 petType TEXT NOT NULL,
 type TEXT NOT NULL,
 interactionGroup TEXT NOT NULL,
-repeatConfig TEXT NOT NULL,
-additionalFields TEXT NOT NULL
+repeatConfig TEXT NOT NULL
 );
 
 selectByPetType:
 SELECT * FROM InteractionTemplateEntity WHERE petType = ?;
 
 insertOrReplace:
-INSERT OR REPLACE INTO InteractionTemplateEntity(id, name, petType, type, interactionGroup, repeatConfig, additionalFields) VALUES (?, ?, ?, ?, ? ,?, ?);
+INSERT OR REPLACE INTO InteractionTemplateEntity(id, name, petType, type, interactionGroup, repeatConfig) VALUES (?, ?, ?, ?, ? ,?);
 
 deleteAll:
 DELETE FROM InteractionTemplateEntity;

@@ -2,6 +2,7 @@ package com.gaoyun.roar.util
 
 object PreferencesKeys {
     const val CURRENT_USER_ID = "CURRENT_USER_ID"
+    const val INTERACTION_TEMPLATES_LAST_UPDATE = "INTERACTION_TEMPLATES_LAST_UPDATE"
 }
 
 @Suppress("NO_ACTUAL_FOR_EXPECT")

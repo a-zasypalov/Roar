@@ -1,0 +1,26 @@
+[
+  {
+    "id": "1",
+    "name": "deworming_3m",
+    "petType": "dog",
+    "type": "deworming",
+    "interactionGroup": "health",
+    "repeatConfig": "month_any"
+  },
+  {
+    "id": "2",
+    "name": "health_check_yearly",
+    "petType": "dog",
+    "type": "health_check",
+    "interactionGroup": "health",
+    "repeatConfig": "year_any"
+  },
+  {
+    "id": "3",
+    "name": "flees_monthly",
+    "petType": "dog",
+    "type": "flees",
+    "interactionGroup": "care",
+    "repeatConfig": "month_any"
+  }
+]
