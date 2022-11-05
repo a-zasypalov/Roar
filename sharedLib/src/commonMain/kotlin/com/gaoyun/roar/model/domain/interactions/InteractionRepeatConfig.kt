@@ -1,4 +1,4 @@
-package com.gaoyun.roar.model.domain
+package com.gaoyun.roar.model.domain.interactions
 
 data class InteractionRepeatConfig(
     val each: InteractionRepeatConfigEach,

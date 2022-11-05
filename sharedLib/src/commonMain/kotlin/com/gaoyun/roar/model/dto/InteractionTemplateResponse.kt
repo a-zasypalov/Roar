@@ -1,7 +1,9 @@
 package com.gaoyun.roar.model.dto
 
-import com.gaoyun.roar.model.domain.*
-import com.gaoyun.roar.model.domain.toInteractionType
+import com.gaoyun.roar.model.domain.interactions.InteractionTemplate
+import com.gaoyun.roar.model.domain.interactions.toInteractionGroup
+import com.gaoyun.roar.model.domain.interactions.toInteractionRepeatConfig
+import com.gaoyun.roar.model.domain.interactions.toInteractionType
 import com.gaoyun.roar.model.domain.toPetType
 import kotlinx.serialization.Serializable
 

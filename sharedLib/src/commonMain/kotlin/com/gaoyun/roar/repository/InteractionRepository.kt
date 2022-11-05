@@ -1,7 +1,7 @@
 package com.gaoyun.roar.repository
 
-import com.gaoyun.roar.model.domain.Interaction
-import com.gaoyun.roar.model.domain.toDomain
+import com.gaoyun.roar.model.domain.interactions.Interaction
+import com.gaoyun.roar.model.domain.interactions.toDomain
 import com.gaoyun.roar.model.entity.RoarDatabase
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject

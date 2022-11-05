@@ -1,5 +1,7 @@
-package com.gaoyun.roar.model.domain
+package com.gaoyun.roar.model.domain.interactions
 
+import com.gaoyun.roar.model.domain.PetType
+import com.gaoyun.roar.model.domain.toPetType
 import com.gaoyun.roar.model.entity.InteractionTemplateEntity
 
 data class InteractionTemplate(

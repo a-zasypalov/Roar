@@ -1,7 +1,9 @@
 package com.gaoyun.roar.domain.interaction
 
-import com.gaoyun.roar.model.domain.*
-import com.gaoyun.roar.model.domain.toInteractionType
+import com.gaoyun.roar.model.domain.interactions.Interaction
+import com.gaoyun.roar.model.domain.interactions.InteractionRepeatConfig
+import com.gaoyun.roar.model.domain.interactions.toInteractionGroup
+import com.gaoyun.roar.model.domain.interactions.toInteractionType
 import com.gaoyun.roar.repository.InteractionRepository
 import kotlinx.coroutines.flow.flow
 import org.koin.core.component.KoinComponent

@@ -1,11 +1,10 @@
 package com.gaoyun.roar.presentation.add_reminder
 
-import com.gaoyun.roar.model.domain.InteractionTemplate
+import com.gaoyun.roar.model.domain.interactions.InteractionTemplate
 import com.gaoyun.roar.model.domain.Pet
 import com.gaoyun.roar.presentation.ViewEvent
 import com.gaoyun.roar.presentation.ViewSideEffect
 import com.gaoyun.roar.presentation.ViewState
-import kotlinx.datetime.LocalDate
 
 class AddReminderScreenContract {
 

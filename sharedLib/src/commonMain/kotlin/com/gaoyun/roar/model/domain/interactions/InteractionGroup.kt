@@ -1,4 +1,4 @@
-package com.gaoyun.roar.model.domain
+package com.gaoyun.roar.model.domain.interactions
 
 enum class InteractionGroup {
     HEALTH,

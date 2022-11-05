@@ -1,4 +1,4 @@
-package com.gaoyun.roar.model.domain
+package com.gaoyun.roar.model.domain.interactions
 
 import com.gaoyun.roar.model.entity.InteractionEntity
 import com.gaoyun.roar.util.randomUUID

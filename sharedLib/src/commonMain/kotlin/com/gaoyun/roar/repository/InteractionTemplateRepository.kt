@@ -1,7 +1,7 @@
 package com.gaoyun.roar.repository
 
-import com.gaoyun.roar.model.domain.InteractionTemplate
-import com.gaoyun.roar.model.domain.toDomain
+import com.gaoyun.roar.model.domain.interactions.InteractionTemplate
+import com.gaoyun.roar.model.domain.interactions.toDomain
 import com.gaoyun.roar.model.dto.toDomain
 import com.gaoyun.roar.model.entity.RoarDatabase
 import com.gaoyun.roar.network.InteractionTemplatesApi

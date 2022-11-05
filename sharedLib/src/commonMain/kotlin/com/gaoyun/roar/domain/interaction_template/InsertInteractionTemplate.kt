@@ -1,6 +1,6 @@
 package com.gaoyun.roar.domain.interaction_template
 
-import com.gaoyun.roar.model.domain.InteractionTemplate
+import com.gaoyun.roar.model.domain.interactions.InteractionTemplate
 import com.gaoyun.roar.repository.InteractionTemplateRepository
 import kotlinx.coroutines.flow.flow
 import org.koin.core.component.KoinComponent
