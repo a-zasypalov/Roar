@@ -9,6 +9,9 @@ import com.gaoyun.roar.domain.interaction_template.RemoveInteractionTemplates
 import com.gaoyun.roar.domain.pet.AddPetUseCase
 import com.gaoyun.roar.domain.pet.GetPetBreedsUseCase
 import com.gaoyun.roar.domain.pet.GetPetUseCase
+import com.gaoyun.roar.domain.reminder.GetReminder
+import com.gaoyun.roar.domain.reminder.InsertReminder
+import com.gaoyun.roar.domain.reminder.RemoveReminder
 import com.gaoyun.roar.domain.user.CheckUserExistingUseCase
 import com.gaoyun.roar.domain.user.GetCurrentUserUseCase
 import com.gaoyun.roar.domain.user.RegisterUserUseCase
@@ -36,6 +39,7 @@ val repositoryModule = module {
     single<PetRepository> { PetRepositoryImpl() }
     single<InteractionTemplateRepository> { InteractionTemplateRepositoryImpl() }
     single<InteractionRepository> { InteractionRepositoryImpl() }
+    single<ReminderRepository> { ReminderRepositoryImpl() }
 }
 
 val useCaseModule = module {
@@ -54,6 +58,10 @@ val useCaseModule = module {
     single { GetInteraction() }
     single { InsertInteraction() }
     single { RemoveInteraction() }
+
+    single { GetReminder() }
+    single { InsertReminder() }
+    single { RemoveReminder() }
 }
 
 val networkModule = module {

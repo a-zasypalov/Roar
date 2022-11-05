@@ -10,6 +10,7 @@ interface InteractionRepository {
     fun insertInteraction(interaction: Interaction)
     fun getInteraction(id: String): Interaction?
     fun getInteractionByPet(petId: String): List<Interaction>
+    fun setInteractionIsActive(interactionId: String, isActive: Boolean)
     fun deleteInteraction(id: String)
     fun deletePetInteractions(petId: String)
 }
@@ -38,6 +39,10 @@ class InteractionRepositoryImpl : InteractionRepository, KoinComponent {
             isActive = interaction.isActive,
             notes = interaction.notes
         )
+    }
+
+    override fun setInteractionIsActive(interactionId: String, isActive: Boolean) {
+        appDb.interactionEntityQueries.setIsActive(interactionId, isActive)
     }
 
     override fun deleteInteraction(id: String) {

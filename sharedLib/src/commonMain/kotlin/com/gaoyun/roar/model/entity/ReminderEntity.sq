@@ -1,0 +1,21 @@
+CREATE TABLE ReminderEntity (
+id TEXT NOT NULL PRIMARY KEY,
+interactionId TEXT NOT NULL,
+dateTime TEXT NOT NULL,
+isCompleted INTEGER AS Boolean NOT NULL DEFAULT 0
+);
+
+selectById:
+SELECT * FROM ReminderEntity WHERE id = ?;
+
+selectByInteraction:
+SELECT * FROM ReminderEntity WHERE interactionId = ?;
+
+insertReminder:
+INSERT OR REPLACE INTO ReminderEntity(id, interactionId, dateTime, isCompleted) VALUES (?, ?, ?, ?);
+
+setIsCompleted:
+INSERT OR REPLACE INTO ReminderEntity(id, interactionId, dateTime, isCompleted) VALUES (?, interactionId, dateTime, ?);
+
+deleteReminderById:
+DELETE FROM ReminderEntity WHERE id = ?;
