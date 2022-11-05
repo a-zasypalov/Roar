@@ -3,5 +3,10 @@
     "No breed",
     "German shepherd",
     "Mittelschnauzer"
+  ],
+  "breeds_de": [
+    "Keine Race",
+    "Deutscher Schäferhund",
+    "Mittelschnauzer"
   ]
 }
