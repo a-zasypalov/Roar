@@ -14,12 +14,12 @@ enum class PetType {
     }
 
     companion object {
-        const val CAT_STRING = "Cat"
-        const val DOG_STRING = "Dog"
+        const val CAT_STRING = "cat"
+        const val DOG_STRING = "dog"
     }
 }
 
-internal fun String.toPetType(): PetType = when (this) {
+internal fun String.toPetType(): PetType = when (this.lowercase()) {
     CAT_STRING -> PetType.CAT
     DOG_STRING -> PetType.DOG
     else -> throw IllegalArgumentException("Wrong pet type $this")

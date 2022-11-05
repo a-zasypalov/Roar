@@ -6,6 +6,11 @@ import com.gaoyun.roar.model.domain.toPetType
 import kotlinx.serialization.Serializable
 
 @Serializable
+internal data class InteractionTemplatesListResponse(
+   val items: List<InteractionTemplateResponse>
+)
+
+@Serializable
 internal data class InteractionTemplateResponse(
     val id: String,
     val name: String,

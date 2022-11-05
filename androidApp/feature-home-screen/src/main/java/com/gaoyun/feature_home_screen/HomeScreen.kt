@@ -38,6 +38,7 @@ fun HomeScreenDestination(navHostController: NavHostController) {
             when (navigationEffect) {
                 is HomeScreenContract.Effect.Navigation.ToUserRegistration -> navHostController.navigate(NavigationKeys.RouteGlobal.REGISTER_USER_ROUTE)
                 is HomeScreenContract.Effect.Navigation.ToAddPet -> navHostController.navigate(NavigationKeys.RouteGlobal.ADD_PET_ROUTE)
+                is HomeScreenContract.Effect.Navigation.ToAddReminder -> navHostController.navigate("${NavigationKeys.RouteGlobal.ADD_REMINDER_ROUTE_BUILDER}/${navigationEffect.pet.id}")
                 is HomeScreenContract.Effect.Navigation.NavigateBack -> navHostController.popBackStack()
             }
         },
@@ -61,6 +62,7 @@ fun HomeScreen(
             when (effect) {
                 is HomeScreenContract.Effect.Navigation.ToUserRegistration -> onNavigationRequested(effect)
                 is HomeScreenContract.Effect.Navigation.ToAddPet -> onNavigationRequested(effect)
+                is HomeScreenContract.Effect.Navigation.ToAddReminder -> onNavigationRequested(effect)
                 is HomeScreenContract.Effect.Navigation.NavigateBack -> onNavigationRequested(effect)
             }
         }.collect()
@@ -69,8 +71,13 @@ fun HomeScreen(
     Scaffold(scaffoldState = rememberedState) {
         Box {
             state.user?.let { user ->
-                if(state.pets.isNotEmpty()) {
-                    HomeState(userName = user.name, pets = state.pets, viewModel::openAddPetScreen)
+                if (state.pets.isNotEmpty()) {
+                    HomeState(
+                        userName = user.name,
+                        pets = state.pets,
+                        onAddPetButtonClick = viewModel::openAddPetScreen,
+                        onPetCardClick = viewModel::openAddReminderScreen
+                    )
                 } else {
                     NoPetsState(userName = user.name, viewModel::openAddPetScreen)
                 }

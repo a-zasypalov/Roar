@@ -2,6 +2,7 @@ package com.gaoyun.roar.util
 
 import com.gaoyun.roar.model.entity.RoarDatabase
 import com.gaoyun.roar.presentation.add_pet.AddPetScreenViewModel
+import com.gaoyun.roar.presentation.add_reminder.AddReminderScreenViewModel
 import com.gaoyun.roar.presentation.home_screen.HomeScreenViewModel
 import com.gaoyun.roar.presentation.user_register.RegisterUserViewModel
 import com.squareup.sqldelight.db.SqlDriver
@@ -20,6 +21,7 @@ actual fun platformModule(): Module = module {
 
     factory { HomeScreenViewModel() }
     factory { AddPetScreenViewModel() }
+    factory { AddReminderScreenViewModel() }
     factory { RegisterUserViewModel() }
 
 }

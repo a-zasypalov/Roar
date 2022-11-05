@@ -43,7 +43,7 @@ class HomeScreenViewModel :
         }
     }
 
-    private suspend fun getPets(user: User) {
+    private fun getPets(user: User) {
         val pets = getPetUseCase.getPetByUserId(user.id)
         if(pets.isNotEmpty()) {
             setPetsState(user, pets)
@@ -62,5 +62,9 @@ class HomeScreenViewModel :
 
     fun openAddPetScreen() {
         setEffect { HomeScreenContract.Effect.Navigation.ToAddPet }
+    }
+
+    fun openAddReminderScreen(pet: Pet) {
+        setEffect { HomeScreenContract.Effect.Navigation.ToAddReminder(pet) }
     }
 }

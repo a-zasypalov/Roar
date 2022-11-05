@@ -10,6 +10,7 @@ import com.gaoyun.roar.domain.user.GetCurrentUserUseCase
 import com.gaoyun.roar.domain.user.RegisterUserUseCase
 import com.gaoyun.roar.model.entity.PetEntity
 import com.gaoyun.roar.model.entity.RoarDatabase
+import com.gaoyun.roar.network.InteractionTemplatesApi
 import com.gaoyun.roar.repository.*
 import com.gaoyun.roar.util.DriverFactory
 import com.gaoyun.roar.util.PlatformHttpClient
@@ -22,7 +23,7 @@ import org.koin.dsl.module
 
 fun initKoin(appDeclaration: KoinAppDeclaration = {}) = startKoin {
     appDeclaration()
-    modules(platformModule(), repositoryModule, useCaseModule, dbModule, preferencesModule)
+    modules(platformModule(), repositoryModule, useCaseModule, dbModule, networkModule, preferencesModule)
 }
 
 val repositoryModule = module {
@@ -46,6 +47,7 @@ val useCaseModule = module {
 
 val networkModule = module {
     single { PlatformHttpClient.httpClient() }
+    single { InteractionTemplatesApi() }
 }
 
 val dbModule = module {

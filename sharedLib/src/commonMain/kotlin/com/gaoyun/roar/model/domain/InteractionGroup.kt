@@ -5,6 +5,14 @@ enum class InteractionGroup {
     CARE,
     ROUTINE;
 
+    override fun toString(): String {
+        return when (this) {
+            CARE -> CARE_STRING
+            HEALTH -> HEALTH_STRING
+            ROUTINE -> ROUTINE_STRING
+        }
+    }
+
     companion object {
         const val HEALTH_STRING = "health"
         const val CARE_STRING = "care"

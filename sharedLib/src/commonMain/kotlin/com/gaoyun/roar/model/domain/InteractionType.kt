@@ -10,6 +10,14 @@ enum class InteractionType {
         const val FLEES_STRING = "flees"
         const val HEALTH_CHECK_STRING = "health_check"
     }
+
+    override fun toString(): String {
+        return when (this) {
+            DEWORMING -> DEWORMING_STRING
+            FLEES -> FLEES_STRING
+            HEALTH_CHECK -> HEALTH_CHECK_STRING
+        }
+    }
 }
 
 internal fun String.toInteractionType(): InteractionType {

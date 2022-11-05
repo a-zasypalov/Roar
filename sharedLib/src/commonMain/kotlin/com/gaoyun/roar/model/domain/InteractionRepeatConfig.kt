@@ -3,10 +3,21 @@ package com.gaoyun.roar.model.domain
 data class InteractionRepeatConfig(
     val each: InteractionRepeatConfigEach,
     val onOrAt: String
-)
+) {
+    override fun toString(): String = "${each}_${onOrAt}"
+}
 
 enum class InteractionRepeatConfigEach {
     YEAR, MONTH, WEEK, DAY;
+
+    override fun toString(): String {
+        return when (this) {
+            YEAR -> YEAR_STRING
+            MONTH -> MONTH_STRING
+            WEEK -> WEEK_STRING
+            DAY -> DAY_STRING
+        }
+    }
 
     companion object {
         const val YEAR_STRING = "year"

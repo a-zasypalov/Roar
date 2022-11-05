@@ -1,5 +1,6 @@
 package com.gaoyun.roar.domain.interaction
 
+import com.gaoyun.roar.model.domain.PetType
 import com.gaoyun.roar.repository.InteractionTemplateRepository
 import kotlinx.coroutines.flow.flow
 import org.koin.core.component.KoinComponent
@@ -9,8 +10,8 @@ class GetInteractionTemplatesForPetType : KoinComponent {
 
     private val repository: InteractionTemplateRepository by inject()
 
-    fun getInteractionTemplatesForPetType(type: String) = flow {
-        emit(repository.getInteractionTemplatesForPetType(type))
+    fun getInteractionTemplatesForPetType(type: PetType) = flow {
+        emit(repository.getInteractionTemplatesForPetType(type.toString()))
     }
 
 }

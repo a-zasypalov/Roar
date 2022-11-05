@@ -24,6 +24,7 @@ class HomeScreenContract {
             object NavigateBack : Navigation()
             object ToUserRegistration : Navigation()
             object ToAddPet : Navigation()
+            class ToAddReminder(val pet: Pet) : Navigation()
         }
     }
 }

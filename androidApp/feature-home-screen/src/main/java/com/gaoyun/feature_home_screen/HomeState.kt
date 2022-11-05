@@ -27,7 +27,8 @@ import com.gaoyun.roar.model.domain.PetType
 fun HomeState(
     userName: String,
     pets: List<Pet>,
-    onAddPetButtonClick: () -> Unit
+    onAddPetButtonClick: () -> Unit,
+    onPetCardClick: (pet: Pet) -> Unit
 ) {
     LazyColumn(
         modifier = Modifier
@@ -61,7 +62,7 @@ fun HomeState(
                     modifier = Modifier
                         .fillMaxWidth()
                         .clickable {
-                            println("Meow")
+                            onPetCardClick(pet)
                         }
                         .padding(horizontal = 16.dp, vertical = 8.dp),
                     verticalAlignment = Alignment.CenterVertically
@@ -98,6 +99,6 @@ fun HomeState(
 @Composable
 fun HomeStatePreview() {
     RoarTheme {
-        HomeState("Tester", emptyList()) {}
+        HomeState("Tester", emptyList(), {}, {})
     }
 }
