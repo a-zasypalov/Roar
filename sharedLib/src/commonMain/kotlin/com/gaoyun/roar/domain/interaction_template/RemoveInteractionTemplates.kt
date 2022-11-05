@@ -1,4 +1,4 @@
-package com.gaoyun.roar.domain.interaction
+package com.gaoyun.roar.domain.interaction_template
 
 import com.gaoyun.roar.repository.InteractionTemplateRepository
 import kotlinx.coroutines.flow.flow

@@ -1,8 +1,11 @@
 package com.gaoyun.roar
 
-import com.gaoyun.roar.domain.interaction.GetInteractionTemplatesForPetType
-import com.gaoyun.roar.domain.interaction.InsertInteractionTemplate
-import com.gaoyun.roar.domain.interaction.RemoveInteractionTemplates
+import com.gaoyun.roar.domain.interaction.GetInteraction
+import com.gaoyun.roar.domain.interaction.InsertInteraction
+import com.gaoyun.roar.domain.interaction.RemoveInteraction
+import com.gaoyun.roar.domain.interaction_template.GetInteractionTemplatesForPetType
+import com.gaoyun.roar.domain.interaction_template.InsertInteractionTemplate
+import com.gaoyun.roar.domain.interaction_template.RemoveInteractionTemplates
 import com.gaoyun.roar.domain.pet.AddPetUseCase
 import com.gaoyun.roar.domain.pet.GetPetBreedsUseCase
 import com.gaoyun.roar.domain.pet.GetPetUseCase
@@ -32,6 +35,7 @@ val repositoryModule = module {
     single<UserRepository> { UserRepositoryImpl() }
     single<PetRepository> { PetRepositoryImpl() }
     single<InteractionTemplateRepository> { InteractionTemplateRepositoryImpl() }
+    single<InteractionRepository> { InteractionRepositoryImpl() }
 }
 
 val useCaseModule = module {
@@ -46,6 +50,10 @@ val useCaseModule = module {
     single { GetInteractionTemplatesForPetType() }
     single { InsertInteractionTemplate() }
     single { RemoveInteractionTemplates() }
+
+    single { GetInteraction() }
+    single { InsertInteraction() }
+    single { RemoveInteraction() }
 }
 
 val networkModule = module {
