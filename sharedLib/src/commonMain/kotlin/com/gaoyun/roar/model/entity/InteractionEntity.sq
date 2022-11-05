@@ -1,0 +1,29 @@
+CREATE TABLE InteractionEntity (
+id TEXT NOT NULL PRIMARY KEY,
+templateId TEXT NOT NULL,
+petId TEXT NOT NULL,
+type TEXT NOT NULL,
+name TEXT NOT NULL,
+interactionGroup TEXT NOT NULL,
+repeatConfig TEXT NOT NULL,
+isActive INTEGER AS Boolean NOT NULL DEFAULT 0,
+notes TEXT NOT NULL
+);
+
+selectByPetId:
+SELECT * FROM InteractionEntity WHERE petId = ?;
+
+selectById:
+SELECT * FROM InteractionEntity WHERE id = ?;
+
+setIsActive:
+INSERT OR REPLACE INTO InteractionEntity(id, templateId, petId, type, name, interactionGroup, repeatConfig, isActive, notes) VALUES (id, templateId, petId, type, name, interactionGroup, repeatConfig, ?, notes);
+
+insertOrReplace:
+INSERT OR REPLACE INTO InteractionEntity(id, templateId, petId, type, name, interactionGroup, repeatConfig, isActive, notes) VALUES (?, ?, ?, ?, ? ,?, ?, ?, ?);
+
+deleteByPetId:
+DELETE FROM InteractionEntity WHERE petId = ?;
+
+deleteById:
+DELETE FROM InteractionEntity WHERE id = ?;

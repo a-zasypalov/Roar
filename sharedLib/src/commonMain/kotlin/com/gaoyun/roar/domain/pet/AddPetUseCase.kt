@@ -31,6 +31,7 @@ class AddPetUseCase : KoinComponent {
                     petType = petType.toPetType(),
                     breed = breed,
                     name = name,
+                    avatar = "cat_15",
                     birthday = birthday,
                     isSterilized = isSterilized,
                     userId = userId,
