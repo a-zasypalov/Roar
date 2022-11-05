@@ -74,16 +74,22 @@ fun AddPetScreen(
     val rememberedState = rememberScaffoldState()
 
     Scaffold(scaffoldState = rememberedState) {
-        AddPetForm { petType, breed, name, birthday, isSterilized ->
-            onEventSent(AddPetScreenContract.Event.AddPetButtonClicked(petType, breed, name, birthday, isSterilized))
-        }
+        AddPetForm(
+            petBreeds = listOf( state.breeds, state.breeds, state.breeds, state.breeds, state.breeds, state.breeds).flatten(),
+            onPetTypeChosen = { petType -> onEventSent(AddPetScreenContract.Event.PetTypeChosen(petType)) },
+            onRegisterClick = { petType, breed, name, birthday, isSterilized ->
+                onEventSent(AddPetScreenContract.Event.AddPetButtonClicked(petType, breed, name, birthday, isSterilized))
+            }
+        )
     }
 }
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun AddPetForm(
-    onRegisterClick: (String, String, String, LocalDate, Boolean) -> Unit
+    petBreeds: List<String>,
+    onRegisterClick: (String, String, String, LocalDate, Boolean) -> Unit,
+    onPetTypeChosen: (String) -> Unit
 ) {
     val focusManager = LocalFocusManager.current
     val activity = LocalContext.current as AppCompatActivity
@@ -94,7 +100,6 @@ fun AddPetForm(
     var petTypesExpanded by remember { mutableStateOf(false) }
     val petTypeState = rememberSaveable { mutableStateOf("") }
 
-    val petBreeds = listOf("No breed", "Breed")
     var petBreedsExpanded by remember { mutableStateOf(false) }
     val petBreedState = rememberSaveable { mutableStateOf("") }
 
@@ -149,6 +154,7 @@ fun AddPetForm(
                             onClick = {
                                 petTypeState.value = petTypeSelection
                                 petTypesExpanded = false
+                                onPetTypeChosen(petTypeSelection)
                             }
                         ) {
                             Text(text = petTypeSelection, color = MaterialTheme.colors.onBackground)
@@ -293,6 +299,6 @@ fun AddPetForm(
 @Preview
 fun AddPetScreenPreview() {
     RoarTheme {
-        AddPetForm { _, _, _, _, _ -> }
+        AddPetForm(listOf(), { _, _, _, _, _ -> }, {})
     }
 }

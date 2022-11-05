@@ -1,0 +1,14 @@
+
+CREATE TABLE PetBreedEntity (
+petType TEXT NOT NULL,
+breed TEXT NOT NULL
+);
+
+selectByPetType:
+SELECT * FROM PetBreedEntity WHERE petType = ?;
+
+insertOrReplace:
+INSERT OR REPLACE INTO PetBreedEntity(petType, breed) VALUES (?, ?);
+
+deleteall:
+DELETE FROM PetBreedEntity;

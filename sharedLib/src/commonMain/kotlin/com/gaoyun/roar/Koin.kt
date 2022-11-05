@@ -4,6 +4,7 @@ import com.gaoyun.roar.domain.interaction.GetInteractionTemplatesForPetType
 import com.gaoyun.roar.domain.interaction.InsertInteractionTemplate
 import com.gaoyun.roar.domain.interaction.RemoveInteractionTemplates
 import com.gaoyun.roar.domain.pet.AddPetUseCase
+import com.gaoyun.roar.domain.pet.GetPetBreedsUseCase
 import com.gaoyun.roar.domain.pet.GetPetUseCase
 import com.gaoyun.roar.domain.user.CheckUserExistingUseCase
 import com.gaoyun.roar.domain.user.GetCurrentUserUseCase
@@ -11,6 +12,7 @@ import com.gaoyun.roar.domain.user.RegisterUserUseCase
 import com.gaoyun.roar.model.entity.PetEntity
 import com.gaoyun.roar.model.entity.RoarDatabase
 import com.gaoyun.roar.network.InteractionTemplatesApi
+import com.gaoyun.roar.network.PetsApi
 import com.gaoyun.roar.repository.*
 import com.gaoyun.roar.util.DriverFactory
 import com.gaoyun.roar.util.PlatformHttpClient
@@ -39,6 +41,7 @@ val useCaseModule = module {
 
     single { GetPetUseCase() }
     single { AddPetUseCase() }
+    single { GetPetBreedsUseCase() }
 
     single { GetInteractionTemplatesForPetType() }
     single { InsertInteractionTemplate() }
@@ -48,6 +51,7 @@ val useCaseModule = module {
 val networkModule = module {
     single { PlatformHttpClient.httpClient() }
     single { InteractionTemplatesApi() }
+    single { PetsApi() }
 }
 
 val dbModule = module {
