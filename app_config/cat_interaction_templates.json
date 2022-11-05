@@ -1,26 +1,28 @@
-[
-  {
-    "id": "1",
-    "name": "deworming_3m",
-    "petType": "cat",
-    "type": "deworming",
-    "interactionGroup": "health",
-    "repeatConfig": "month_any"
-  },
-  {
-    "id": "2",
-    "name": "health_check_yearly",
-    "petType": "cat",
-    "type": "health_check",
-    "interactionGroup": "health",
-    "repeatConfig": "year_any"
-  },
-  {
-    "id": "3",
-    "name": "flees_monthly",
-    "petType": "cat",
-    "type": "flees",
-    "interactionGroup": "care",
-    "repeatConfig": "month_any"
-  }
-]
+{
+  "items": [
+    {
+      "id": "1",
+      "name": "deworming_3m",
+      "petType": "cat",
+      "type": "deworming",
+      "interactionGroup": "health",
+      "repeatConfig": "month_any"
+    },
+    {
+      "id": "2",
+      "name": "health_check_yearly",
+      "petType": "cat",
+      "type": "health_check",
+      "interactionGroup": "health",
+      "repeatConfig": "year_any"
+    },
+    {
+      "id": "3",
+      "name": "flees_monthly",
+      "petType": "cat",
+      "type": "flees",
+      "interactionGroup": "care",
+      "repeatConfig": "month_any"
+    }
+  ]
+}
