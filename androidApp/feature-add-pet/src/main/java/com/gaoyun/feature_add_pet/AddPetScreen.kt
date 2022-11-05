@@ -75,7 +75,7 @@ fun AddPetScreen(
 
     Scaffold(scaffoldState = rememberedState) {
         AddPetForm(
-            petBreeds = listOf( state.breeds, state.breeds, state.breeds, state.breeds, state.breeds, state.breeds).flatten(),
+            petBreeds = state.breeds,
             onPetTypeChosen = { petType -> onEventSent(AddPetScreenContract.Event.PetTypeChosen(petType)) },
             onRegisterClick = { petType, breed, name, birthday, isSterilized ->
                 onEventSent(AddPetScreenContract.Event.AddPetButtonClicked(petType, breed, name, birthday, isSterilized))

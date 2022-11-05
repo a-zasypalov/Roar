@@ -1,5 +1,3 @@
-import kotlin.collections.List;
-
 CREATE TABLE PetEntity (
 id TEXT NOT NULL PRIMARY KEY,
 name TEXT NOT NULL,
@@ -9,8 +7,7 @@ avatar TEXT NOT NULL,
 userId TEXT NOT NULL,
 birthday TEXT NOT NULL,
 isSterilized INTEGER AS Boolean NOT NULL DEFAULT 0,
-dateCreated TEXT NOT NULL,
-reminders TEXT AS List<String>
+dateCreated TEXT NOT NULL
 );
 
 selectById:
@@ -20,7 +17,7 @@ selectByUserId:
 SELECT * FROM PetEntity WHERE userId = ?;
 
 insertOrReplace:
-INSERT OR REPLACE INTO PetEntity(id, name, petType, breed, avatar, userId, birthday, isSterilized, dateCreated, reminders) VALUES (?, ?, ?,?, ?, ? ,?, ?, ?, ?);
+INSERT OR REPLACE INTO PetEntity(id, name, petType, breed, avatar, userId, birthday, isSterilized, dateCreated) VALUES (?, ?, ?,?, ?, ? ,?, ?, ?);
 
 deleteById:
 DELETE FROM PetEntity WHERE id = ?;

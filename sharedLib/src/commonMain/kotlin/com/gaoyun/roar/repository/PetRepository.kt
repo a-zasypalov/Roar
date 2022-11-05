@@ -40,6 +40,7 @@ class PetRepositoryImpl : PetRepository, KoinComponent {
         return if (cachedBreeds.isEmpty() || (breedsLastUpdatedDateTime < Clock.System.now().toEpochMilliseconds() - DatetimeConstants.DAY_MILLIS)) {
             api.getPetBreedsByPetType(petType).breedsEn
                 .onEach { appDb.petBreedEntityQueries.insertOrReplace(petType, it) }
+                .also { preferences.setLong(PreferencesKeys.PET_BREEDS_LAST_UPDATE, Clock.System.now().toEpochMilliseconds()) }
         } else {
             cachedBreeds.map { it.breed }
         }
@@ -47,16 +48,15 @@ class PetRepositoryImpl : PetRepository, KoinComponent {
 
     override fun insertPet(pet: Pet) {
         appDb.petEntityQueries.insertOrReplace(
-            pet.id,
-            pet.name,
-            pet.breed,
-            pet.userId,
-            pet.avatar,
-            pet.petType.toString(),
-            pet.birthday.toString(),
-            pet.isSterilized,
-            pet.dateCreated.toString(),
-            pet.reminders
+            id = pet.id,
+            name = pet.name,
+            breed = pet.breed,
+            avatar = pet.avatar,
+            userId = pet.userId,
+            petType = pet.petType.toString(),
+            birthday = pet.birthday.toString(),
+            isSterilized = pet.isSterilized,
+            dateCreated = pet.dateCreated.toString()
         )
     }
 

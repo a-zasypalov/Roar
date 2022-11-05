@@ -38,7 +38,7 @@ fun HomeScreenDestination(navHostController: NavHostController) {
             when (navigationEffect) {
                 is HomeScreenContract.Effect.Navigation.ToUserRegistration -> navHostController.navigate(NavigationKeys.RouteGlobal.REGISTER_USER_ROUTE)
                 is HomeScreenContract.Effect.Navigation.ToAddPet -> navHostController.navigate(NavigationKeys.RouteGlobal.ADD_PET_ROUTE)
-                is HomeScreenContract.Effect.Navigation.ToAddReminder -> navHostController.navigate("${NavigationKeys.RouteGlobal.ADD_REMINDER_ROUTE_BUILDER}/${navigationEffect.pet.id}")
+                is HomeScreenContract.Effect.Navigation.ToAddReminder -> navHostController.navigate("${NavigationKeys.RouteGlobal.ADD_REMINDER}/${navigationEffect.pet.id}")
                 is HomeScreenContract.Effect.Navigation.NavigateBack -> navHostController.popBackStack()
             }
         },

@@ -5,6 +5,7 @@ import com.gaoyun.roar.domain.pet.GetPetBreedsUseCase
 import com.gaoyun.roar.model.domain.PetType
 import com.gaoyun.roar.model.domain.toPetType
 import com.gaoyun.roar.presentation.BaseViewModel
+import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.launch
 import kotlinx.datetime.LocalDate
 import org.koin.core.component.KoinComponent
@@ -41,9 +42,11 @@ class AddPetScreenViewModel :
         birthday: LocalDate,
         isSterilized: Boolean
     ) = scope.launch {
-        addPetUseCase.addPet(petType, breed, name, birthday, isSterilized).collect {
-            petAddedSuccessful()
-        }
+        addPetUseCase.addPet(petType, breed, name, birthday, isSterilized)
+            .catch { it.printStackTrace() }
+            .collect {
+                petAddedSuccessful()
+            }
     }
 
     private fun petAddedSuccessful() {

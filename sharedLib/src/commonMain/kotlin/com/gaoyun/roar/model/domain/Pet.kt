@@ -14,7 +14,6 @@ data class Pet(
     val birthday: LocalDate,
     val isSterilized: Boolean,
     val dateCreated: LocalDate,
-    val reminders: List<String> = listOf()
 )
 
 fun PetEntity.toDomain() = Pet(
@@ -27,7 +26,6 @@ fun PetEntity.toDomain() = Pet(
     birthday = LocalDate.parse(birthday),
     isSterilized = isSterilized,
     dateCreated = LocalDate.parse(dateCreated),
-    reminders = reminders ?: emptyList()
 )
 
 

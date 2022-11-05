@@ -75,25 +75,10 @@ val networkModule = module {
 }
 
 val dbModule = module {
-    single {
-        RoarDatabase(
-            get<DriverFactory>().createDriver(),
-            PetEntityAdapter = PetEntity.Adapter(listOfStringsAdapter),
-        )
+    single { RoarDatabase(get<DriverFactory>().createDriver())
     }
 }
 
 val preferencesModule = module {
     single { Preferences("app_prefs") }
-}
-
-val listOfStringsAdapter = object : ColumnAdapter<List<String>, String> {
-    override fun decode(databaseValue: String) =
-        if (databaseValue.isEmpty()) {
-            listOf()
-        } else {
-            databaseValue.split(",")
-        }
-
-    override fun encode(value: List<String>) = value.joinToString(separator = ",")
 }
