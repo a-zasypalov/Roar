@@ -4,7 +4,6 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.relocation.BringIntoViewRequester
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
@@ -16,15 +15,16 @@ import androidx.compose.runtime.*
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.focus.onFocusEvent
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.Lifecycle
 import androidx.navigation.NavHostController
+import com.gaoyun.common.NavigationKeys
+import com.gaoyun.common.OnLifecycleEvent
 import com.gaoyun.common.theme.RoarTheme
 import com.gaoyun.common.ui.*
 import com.gaoyun.roar.presentation.LAUNCH_LISTEN_FOR_EFFECTS
@@ -36,7 +36,6 @@ import com.google.android.material.datepicker.MaterialDatePicker
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.onEach
-import kotlinx.coroutines.launch
 import kotlinx.datetime.LocalDate
 import org.koin.androidx.compose.getViewModel
 import java.time.Instant
@@ -55,6 +54,9 @@ fun AddPetDataDestination(navHostController: NavHostController, petType: String,
         onEventSent = { event -> viewModel.setEvent(event) },
         onNavigationRequested = { navigationEffect ->
             when (navigationEffect) {
+                is AddPetDataScreenContract.Effect.Navigation.ToPetSetup -> navHostController.navigate(
+                    route = "${NavigationKeys.RouteGlobal.ADD_PET_SETUP}/${navigationEffect.petId}"
+                )
                 is AddPetDataScreenContract.Effect.Navigation.NavigateBack -> navHostController.navigateUp()
             }
         },
@@ -62,7 +64,11 @@ fun AddPetDataDestination(navHostController: NavHostController, petType: String,
         avatar = avatar
     )
 
-    viewModel.setEvent(AddPetDataScreenContract.Event.PetDataInit(petType, avatar))
+    OnLifecycleEvent { _, event ->
+        if (event == Lifecycle.Event.ON_RESUME) {
+            viewModel.setEvent(AddPetDataScreenContract.Event.PetDataInit(petType, avatar))
+        }
+    }
 }
 
 @Composable
@@ -78,7 +84,7 @@ private fun AddPetDataScreen(
         effectFlow.onEach { effect ->
             when (effect) {
                 is AddPetDataScreenContract.Effect.PetAdded -> {
-                    onNavigationRequested(AddPetDataScreenContract.Effect.Navigation.NavigateBack)
+                    onNavigationRequested(AddPetDataScreenContract.Effect.Navigation.ToPetSetup(effect.petId))
                 }
                 else -> {}
             }
@@ -91,7 +97,16 @@ private fun AddPetDataScreen(
         AddPetForm(
             petBreeds = state.breeds,
             onRegisterClick = { breed, name, birthday, isSterilized ->
-                onEventSent(AddPetDataScreenContract.Event.AddPetButtonClicked(petType, breed, name, avatar, birthday, isSterilized))
+                onEventSent(
+                    AddPetDataScreenContract.Event.AddPetButtonClicked(
+                        petType = petType,
+                        breed = breed,
+                        name = name,
+                        avatar = avatar,
+                        birthday = birthday,
+                        isSterilized = isSterilized
+                    )
+                )
             },
             avatar = avatar
         )
@@ -138,14 +153,14 @@ private fun AddPetForm(
                     verticalAlignment = Alignment.CenterVertically,
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(top = 32.dp, start = 16.dp, end = 24.dp)
+                        .padding(top = 32.dp, start = 24.dp, end = 24.dp)
                 ) {
                     Image(
                         painter = painterResource(id = activity.getDrawableByName(avatar)),
                         contentDescription = "pet",
                         modifier = Modifier
-                            .size(56.dp)
-                            .padding(end = 8.dp)
+                            .size(64.dp)
+                            .padding(end = 12.dp)
                     )
                     TextFormField(
                         text = petName.value,

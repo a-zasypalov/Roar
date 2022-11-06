@@ -24,7 +24,14 @@ class AddPetDataScreenViewModel :
     override fun handleEvents(event: AddPetDataScreenContract.Event) {
         when (event) {
             is AddPetDataScreenContract.Event.AddPetButtonClicked -> with(event) {
-                addPet(petType, breed, name, birthday, isSterilized)
+                addPet(
+                    petType = petType,
+                    breed = breed,
+                    name = name,
+                    avatar = avatar,
+                    birthday = birthday,
+                    isSterilized = isSterilized
+                )
             }
             is AddPetDataScreenContract.Event.PetDataInit -> {
                 setState { copy(petType = event.petType.toPetType(), avatar = event.avatar) }
@@ -43,17 +50,24 @@ class AddPetDataScreenViewModel :
         petType: String,
         breed: String,
         name: String,
+        avatar: String,
         birthday: LocalDate,
         isSterilized: Boolean
     ) = scope.launch {
-        addPetUseCase.addPet(petType, breed, name, birthday, isSterilized)
-            .catch { it.printStackTrace() }
-            .collectLatest {
-                petAddedSuccessful()
+        addPetUseCase.addPet(
+            petType = petType,
+            breed = breed,
+            name = name,
+            avatar = avatar,
+            birthday = birthday,
+            isSterilized = isSterilized
+        ).catch { it.printStackTrace() }
+            .collectLatest { petId ->
+                petAddedSuccessful(petId)
             }
     }
 
-    private fun petAddedSuccessful() {
-        setEffect { AddPetDataScreenContract.Effect.PetAdded }
+    private fun petAddedSuccessful(petId: String) {
+        setEffect { AddPetDataScreenContract.Effect.PetAdded(petId) }
     }
 }

@@ -26,8 +26,9 @@ class AddReminderScreenViewModel :
     }
 
     fun buildScreenState(petId: String) = scope.launch {
-        val pet = getPetUseCase.getPet(petId)
-        getInteractionTemplates(pet)
+        getPetUseCase.getPet(petId).collect { pet ->
+            getInteractionTemplates(pet)
+        }
     }
 
     private suspend fun getInteractionTemplates(pet: Pet) {

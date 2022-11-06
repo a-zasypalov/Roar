@@ -13,13 +13,15 @@ object NavigationKeys {
     }
 
     object RouteGlobal {
+        const val ADD_PET_SETUP = "ADD_PET_SETUP"
+
         const val HOME_ROUTE = "HOME"
         const val REGISTER_USER_ROUTE = "REGISTER_USER"
 
         const val ADD_PET_ROUTE = "ADD_PET"
         const val ADD_PET_AVATAR_ROUTE = "$ADD_PET_ROUTE/{${Arg.PET_TYPE_KEY}}"
         const val ADD_PET_DATA_ROUTE = "$ADD_PET_ROUTE/{${Arg.PET_TYPE_KEY}}/{${Arg.AVATAR_KEY}}"
-        const val ADD_PET_SETUP_ROUTE = "$ADD_PET_ROUTE/{${Arg.PET_TYPE_KEY}}/{${Arg.AVATAR_KEY}}/{${Arg.PET_ID_KEY}}"
+        const val ADD_PET_SETUP_ROUTE = "$ADD_PET_SETUP/{${Arg.PET_ID_KEY}}"
 
         const val ADD_REMINDER = "ADD_REMINDER"
         const val ADD_REMINDER_ROUTE = "$ADD_REMINDER/{${Arg.PET_ID_KEY}}"

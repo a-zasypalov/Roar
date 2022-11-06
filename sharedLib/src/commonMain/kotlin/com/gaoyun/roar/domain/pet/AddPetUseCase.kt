@@ -20,25 +20,25 @@ class AddPetUseCase : KoinComponent {
         petType: String,
         breed: String,
         name: String,
+        avatar: String,
         birthday: LocalDate,
         isSterilized: Boolean
     ) = flow {
         val userId = getUserUseCase.getCurrentUser().id
-
-        emit(
-            repository.insertPet(
-                Pet(
-                    petType = petType.toPetType(),
-                    breed = breed,
-                    name = name,
-                    avatar = "cat_15",
-                    birthday = birthday,
-                    isSterilized = isSterilized,
-                    userId = userId,
-                    dateCreated = Clock.System.now().toLocalDate(),
-                )
-            )
+        val pet = Pet(
+            petType = petType.toPetType(),
+            breed = breed,
+            name = name,
+            avatar = avatar,
+            birthday = birthday,
+            isSterilized = isSterilized,
+            userId = userId,
+            dateCreated = Clock.System.now().toLocalDate(),
         )
+
+        repository.insertPet(pet)
+
+        emit(pet.id)
     }
 
 }

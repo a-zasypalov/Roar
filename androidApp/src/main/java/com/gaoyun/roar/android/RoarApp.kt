@@ -4,6 +4,7 @@ import android.app.Application
 import com.gaoyun.roar.initKoin
 import com.gaoyun.roar.presentation.add_pet.data.AddPetDataScreenViewModel
 import com.gaoyun.roar.presentation.add_pet.avatar.AddPetAvatarScreenViewModel
+import com.gaoyun.roar.presentation.add_pet.setup.AddPetSetupScreenViewModel
 import com.gaoyun.roar.presentation.add_pet.type.AddPetPetTypeScreenViewModel
 import com.gaoyun.roar.presentation.add_reminder.AddReminderScreenViewModel
 import com.gaoyun.roar.presentation.home_screen.HomeScreenViewModel
@@ -34,6 +35,7 @@ val appModule = module {
     viewModel { AddPetDataScreenViewModel() }
     viewModel { AddPetPetTypeScreenViewModel() }
     viewModel { AddPetAvatarScreenViewModel() }
+    viewModel { AddPetSetupScreenViewModel() }
 
     viewModel { AddReminderScreenViewModel() }
 }

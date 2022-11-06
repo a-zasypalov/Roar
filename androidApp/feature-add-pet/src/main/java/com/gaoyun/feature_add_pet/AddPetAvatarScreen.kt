@@ -17,8 +17,10 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.Lifecycle
 import androidx.navigation.NavHostController
 import com.gaoyun.common.NavigationKeys
+import com.gaoyun.common.OnLifecycleEvent
 import com.gaoyun.common.theme.RoarTheme
 import com.gaoyun.common.ui.getDrawableByName
 import com.gaoyun.roar.config.PetsConfig
@@ -51,8 +53,11 @@ fun AddPetAvatarDestination(navHostController: NavHostController, petType: Strin
         petType = petType
     )
 
-    viewModel.setEvent(AddPetAvatarScreenContract.Event.PetTypeChosen(petType))
-
+    OnLifecycleEvent { _, event ->
+        if (event == Lifecycle.Event.ON_RESUME) {
+            viewModel.setEvent(AddPetAvatarScreenContract.Event.PetTypeChosen(petType))
+        }
+    }
 }
 
 @Composable
