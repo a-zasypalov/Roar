@@ -8,7 +8,7 @@ import com.gaoyun.roar.util.randomUUID
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 
-class RegisterUserUseCase: KoinComponent {
+class RegisterUserUseCase : KoinComponent {
 
     private val repository: UserRepository by inject()
     private val prefs: Preferences by inject()

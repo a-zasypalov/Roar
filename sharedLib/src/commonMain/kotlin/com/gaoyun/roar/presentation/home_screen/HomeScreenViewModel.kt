@@ -45,7 +45,7 @@ class HomeScreenViewModel :
 
     private fun getPets(user: User) {
         val pets = getPetUseCase.getPetByUserId(user.id)
-        if(pets.isNotEmpty()) {
+        if (pets.isNotEmpty()) {
             setPetsState(user, pets)
         } else {
             setUserDataState(user)

@@ -9,6 +9,7 @@
         android:theme="@style/RoarTheme"
         android:label="Roar"
         android:icon="@mipmap/ic_launcher"
+        android:usesCleartextTraffic="true"
         android:name=".RoarApp">
         <activity
             android:name=".MainActivity"

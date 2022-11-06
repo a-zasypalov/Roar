@@ -68,7 +68,9 @@ fun HomeScreen(
         }.collect()
     }
 
-    Scaffold(scaffoldState = rememberedState) {
+    Scaffold(
+        scaffoldState = rememberedState
+    ) {
         Box {
             state.user?.let { user ->
                 if (state.pets.isNotEmpty()) {

@@ -10,5 +10,5 @@ SELECT * FROM PetBreedEntity WHERE petType = ?;
 insertOrReplace:
 INSERT OR REPLACE INTO PetBreedEntity(petType, breed) VALUES (?, ?);
 
-deleteall:
+deleteAll:
 DELETE FROM PetBreedEntity;

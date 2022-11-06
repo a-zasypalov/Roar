@@ -73,7 +73,8 @@ val networkModule = module {
 }
 
 val dbModule = module {
-    single { RoarDatabase(get<DriverFactory>().createDriver())
+    single {
+        RoarDatabase(get<DriverFactory>().createDriver())
     }
 }
 

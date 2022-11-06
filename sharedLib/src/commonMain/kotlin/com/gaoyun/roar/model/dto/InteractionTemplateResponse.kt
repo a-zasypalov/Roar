@@ -9,7 +9,7 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 internal data class InteractionTemplatesListResponse(
-   val items: List<InteractionTemplateResponse>
+    val items: List<InteractionTemplateResponse>
 )
 
 @Serializable

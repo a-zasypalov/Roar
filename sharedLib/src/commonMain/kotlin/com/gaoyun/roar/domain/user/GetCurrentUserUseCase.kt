@@ -9,7 +9,7 @@ import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 import kotlin.coroutines.cancellation.CancellationException
 
-class GetCurrentUserUseCase: KoinComponent {
+class GetCurrentUserUseCase : KoinComponent {
 
     private val repository: UserRepository by inject()
     private val prefs: Preferences by inject()

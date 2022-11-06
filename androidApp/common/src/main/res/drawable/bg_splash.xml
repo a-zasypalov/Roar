@@ -2,11 +2,14 @@
 <layer-list xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item>
-        <color android:color="@color/roar_white"/>
+        <color android:color="@color/roar_white" />
     </item>
 
-    <item android:gravity="center" android:height="120dp" android:width="120dp">
-        <bitmap android:src="@drawable/ic_launcher_top"/>
+    <item
+        android:gravity="center"
+        android:height="120dp"
+        android:width="120dp">
+        <bitmap android:src="@drawable/ic_launcher_top" />
     </item>
 
 </layer-list>

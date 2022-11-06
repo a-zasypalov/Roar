@@ -21,7 +21,7 @@ enum class InteractionGroup {
 }
 
 fun String.toInteractionGroup(): InteractionGroup {
-    return when(this) {
+    return when (this) {
         InteractionGroup.HEALTH_STRING -> InteractionGroup.HEALTH
         InteractionGroup.CARE_STRING -> InteractionGroup.CARE
         InteractionGroup.ROUTINE_STRING -> InteractionGroup.ROUTINE

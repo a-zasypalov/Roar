@@ -12,6 +12,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
@@ -95,7 +96,9 @@ private fun ChoosePetType(
         Text(
             text = "New pet",
             style = MaterialTheme.typography.h1,
-            modifier = Modifier.padding(top = 32.dp)
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(top = 32.dp, start = 16.dp)
         )
 
         LazyVerticalGrid(
@@ -117,6 +120,7 @@ private fun ChoosePetType(
                         Image(
                             painter = painterResource(id = context.getDrawableByName(type.iconRes)),
                             contentDescription = type.nameRes,
+                            colorFilter = ColorFilter.tint(MaterialTheme.colors.onSurface),
                             modifier = Modifier
                                 .size(96.dp)
                                 .padding(16.dp)

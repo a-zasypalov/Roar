@@ -9,7 +9,7 @@ import com.gaoyun.roar.presentation.ViewState
 class AddReminderScreenContract {
 
     sealed class Event : ViewEvent {
-        class AddReminderButtonClicked(): Event()
+        class AddReminderButtonClicked() : Event()
     }
 
     data class State(

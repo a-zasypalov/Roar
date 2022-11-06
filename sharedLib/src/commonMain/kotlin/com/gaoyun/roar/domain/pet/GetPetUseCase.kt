@@ -7,7 +7,7 @@ import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 import kotlin.coroutines.cancellation.CancellationException
 
-class GetPetUseCase: KoinComponent {
+class GetPetUseCase : KoinComponent {
 
     private val repository: PetRepository by inject()
 

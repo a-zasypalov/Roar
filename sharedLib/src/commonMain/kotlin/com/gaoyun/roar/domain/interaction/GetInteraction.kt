@@ -5,7 +5,7 @@ import kotlinx.coroutines.flow.flow
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 
-class GetInteraction: KoinComponent {
+class GetInteraction : KoinComponent {
 
     private val repository: InteractionRepository by inject()
 

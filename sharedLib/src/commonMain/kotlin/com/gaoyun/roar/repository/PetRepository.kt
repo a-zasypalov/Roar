@@ -38,9 +38,15 @@ class PetRepositoryImpl : PetRepository, KoinComponent {
         val breedsLastUpdatedDateTime = preferences.getLong(PreferencesKeys.PET_BREEDS_LAST_UPDATE, 0L)
 
         return if (cachedBreeds.isEmpty() || (breedsLastUpdatedDateTime < Clock.System.now().toEpochMilliseconds() - DatetimeConstants.DAY_MILLIS)) {
-            api.getPetBreedsByPetType(petType).breedsEn
-                .onEach { appDb.petBreedEntityQueries.insertOrReplace(petType, it) }
-                .also { preferences.setLong(PreferencesKeys.PET_BREEDS_LAST_UPDATE, Clock.System.now().toEpochMilliseconds()) }
+            kotlin.runCatching {
+                api.getPetBreedsByPetType(petType).breedsEn
+                    .also { appDb.petBreedEntityQueries.deleteAll() }
+                    .onEach { appDb.petBreedEntityQueries.insertOrReplace(petType, it) }
+                    .also { preferences.setLong(PreferencesKeys.PET_BREEDS_LAST_UPDATE, Clock.System.now().toEpochMilliseconds()) }
+            }.getOrElse {
+                it.printStackTrace()
+                cachedBreeds.map { item -> item.breed }
+            }
         } else {
             cachedBreeds.map { it.breed }
         }

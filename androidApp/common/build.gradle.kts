@@ -69,6 +69,7 @@ dependencies {
     debugApi("androidx.compose.ui:ui-tooling:1.3.0")
     api("androidx.compose.ui:ui-tooling-preview:1.3.0")
     api("com.google.accompanist:accompanist-insets:0.25.1")
+    api("com.google.accompanist:accompanist-systemuicontroller:0.23.1")
 
     testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test.ext:junit:1.1.3")

@@ -20,19 +20,23 @@ import androidx.compose.ui.unit.sp
 fun TextFormField(
     modifier: Modifier = Modifier,
     text: String,
-    placeholder: String,
+    label: String,
     leadingIcon: @Composable (() -> Unit)? = null,
+    trailingIcon: @Composable (() -> Unit)? = null,
     onChange: (String) -> Unit = {},
     imeAction: ImeAction = ImeAction.Next,
     keyboardType: KeyboardType = KeyboardType.Text,
     keyBoardActions: KeyboardActions = KeyboardActions(),
-    isEnabled: Boolean = true
+    isEnabled: Boolean = true,
+    readOnly: Boolean = false
 ) {
     OutlinedTextField(
         modifier = modifier.fillMaxWidth(),
         value = text,
+        readOnly = readOnly,
         onValueChange = onChange,
         leadingIcon = leadingIcon,
+        trailingIcon = trailingIcon,
         textStyle = TextStyle(fontSize = 18.sp),
         keyboardOptions = KeyboardOptions(imeAction = imeAction, keyboardType = keyboardType),
         keyboardActions = keyBoardActions,
@@ -40,9 +44,10 @@ fun TextFormField(
         colors = TextFieldDefaults.outlinedTextFieldColors(
             focusedBorderColor = MaterialTheme.colors.onBackground,
             unfocusedBorderColor = MaterialTheme.colors.onBackground,
+            focusedLabelColor = MaterialTheme.colors.onBackground,
         ),
-        placeholder = {
-            Text(text = placeholder, style = TextStyle(fontSize = 18.sp, color = Color.LightGray))
+        label = {
+            Text(text = label)
         }
     )
 }
