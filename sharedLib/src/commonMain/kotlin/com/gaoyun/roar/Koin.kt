@@ -17,7 +17,6 @@ import com.gaoyun.roar.domain.reminder.SetReminderIsActive
 import com.gaoyun.roar.domain.user.CheckUserExistingUseCase
 import com.gaoyun.roar.domain.user.GetCurrentUserUseCase
 import com.gaoyun.roar.domain.user.RegisterUserUseCase
-import com.gaoyun.roar.model.entity.PetEntity
 import com.gaoyun.roar.model.entity.RoarDatabase
 import com.gaoyun.roar.network.InteractionTemplatesApi
 import com.gaoyun.roar.network.PetsApi
@@ -26,7 +25,6 @@ import com.gaoyun.roar.util.DriverFactory
 import com.gaoyun.roar.util.PlatformHttpClient
 import com.gaoyun.roar.util.Preferences
 import com.gaoyun.roar.util.platformModule
-import com.squareup.sqldelight.ColumnAdapter
 import org.koin.core.context.startKoin
 import org.koin.dsl.KoinAppDeclaration
 import org.koin.dsl.module

@@ -13,7 +13,8 @@ import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.gaoyun.common.NavigationKeys
 import com.gaoyun.common.theme.RoarTheme
-import com.gaoyun.feature_add_pet.AddPetDestination
+import com.gaoyun.feature_add_pet.AddPetAvatarDestination
+import com.gaoyun.feature_add_pet.AddPetPetTypeDestination
 import com.gaoyun.feature_create_reminder.AddReminderDestination
 import com.gaoyun.feature_home_screen.HomeScreenDestination
 import com.gaoyun.feature_user_registration.UserRegistrationDestination
@@ -51,7 +52,17 @@ class MainActivity : AppCompatActivity() {
             }
 
             composable(NavigationKeys.RouteGlobal.ADD_PET_ROUTE) {
-                AddPetDestination(navHostController = navController)
+                AddPetPetTypeDestination(navHostController = navController)
+            }
+
+            composable(
+                route = NavigationKeys.RouteGlobal.ADD_PET_AVATAR_ROUTE,
+                arguments = listOf(navArgument(NavigationKeys.Arg.PET_TYPE_KEY) { type = NavType.StringType })
+            ) {
+                AddPetAvatarDestination(
+                    navHostController = navController,
+                    petType = it.arguments?.getString(NavigationKeys.Arg.PET_TYPE_KEY) ?: ""
+                )
             }
 
             composable(
