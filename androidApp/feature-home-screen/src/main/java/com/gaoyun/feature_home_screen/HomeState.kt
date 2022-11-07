@@ -20,6 +20,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.gaoyun.common.R
 import com.gaoyun.common.theme.RoarTheme
+import com.gaoyun.common.ui.Loader
 import com.gaoyun.common.ui.PrimaryElevatedButton
 import com.gaoyun.roar.model.domain.Pet
 import com.gaoyun.roar.model.domain.PetType

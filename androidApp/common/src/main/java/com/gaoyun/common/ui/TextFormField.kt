@@ -8,6 +8,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.ImeAction
+import androidx.compose.ui.text.input.KeyboardCapitalization
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.sp
 
@@ -25,7 +26,8 @@ fun TextFormField(
     keyboardType: KeyboardType = KeyboardType.Text,
     keyBoardActions: KeyboardActions = KeyboardActions(),
     isEnabled: Boolean = true,
-    readOnly: Boolean = false
+    readOnly: Boolean = false,
+    keyboardCapitalization: KeyboardCapitalization = KeyboardCapitalization.Sentences
 ) {
     OutlinedTextField(
         modifier = modifier.fillMaxWidth(),
@@ -35,16 +37,20 @@ fun TextFormField(
         leadingIcon = leadingIcon,
         trailingIcon = trailingIcon,
         textStyle = TextStyle(fontSize = 18.sp),
-        keyboardOptions = KeyboardOptions(imeAction = imeAction, keyboardType = keyboardType),
+        keyboardOptions = KeyboardOptions(
+            imeAction = imeAction,
+            keyboardType = keyboardType,
+            capitalization = keyboardCapitalization
+        ),
         keyboardActions = keyBoardActions,
         enabled = isEnabled,
         colors = TextFieldDefaults.outlinedTextFieldColors(
-            focusedBorderColor = MaterialTheme.colorScheme.onBackground,
-            unfocusedBorderColor = MaterialTheme.colorScheme.onBackground,
-            focusedLabelColor = MaterialTheme.colorScheme.onBackground,
+            focusedBorderColor = MaterialTheme.colorScheme.onSurface,
+            unfocusedBorderColor = MaterialTheme.colorScheme.onSurface,
+            focusedLabelColor = MaterialTheme.colorScheme.onSurface,
         ),
         label = {
             Text(text = label)
-        }
+        },
     )
 }

@@ -2,6 +2,7 @@ package com.gaoyun.feature_add_pet
 
 import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -31,6 +32,7 @@ import com.gaoyun.roar.presentation.LAUNCH_LISTEN_FOR_EFFECTS
 import com.gaoyun.roar.presentation.add_pet.data.AddPetDataScreenContract
 import com.gaoyun.roar.presentation.add_pet.data.AddPetDataScreenViewModel
 import com.gaoyun.roar.util.DatetimeConstants
+import com.google.android.material.color.MaterialColors
 import com.google.android.material.datepicker.CalendarConstraints
 import com.google.android.material.datepicker.MaterialDatePicker
 import kotlinx.coroutines.flow.Flow
@@ -197,17 +199,22 @@ private fun AddPetForm(
                         trailingIcon = {
                             ExposedDropdownMenuDefaults.TrailingIcon(expanded = petBreedsExpanded)
                         },
-                        modifier = Modifier.fillMaxWidth()
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .menuAnchor()
                     )
                     ExposedDropdownMenu(
                         expanded = petBreedsExpanded,
-                        onDismissRequest = { petBreedsExpanded = false }
+                        onDismissRequest = { petBreedsExpanded = false },
+                        modifier = Modifier.background(MaterialTheme.colorScheme.surfaceVariant)
                     ) {
                         petBreeds.forEach { breedSelection ->
                             DropdownMenuItem(
                                 text = {
-                                    Text(text = breedSelection, color = MaterialTheme.colorScheme.onBackground)
-
+                                    Text(
+                                        text = breedSelection,
+                                        color = MaterialTheme.colorScheme.onSurfaceVariant
+                                    )
                                 },
                                 onClick = {
                                     petBreedState.value = breedSelection

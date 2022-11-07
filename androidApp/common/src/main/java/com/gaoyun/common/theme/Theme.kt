@@ -8,11 +8,13 @@ import androidx.compose.ui.platform.LocalContext
 
 private val DarkColorPalette = darkColorScheme(
     primary = RoarOrange,
+    onPrimary = RoarWhite,
+    primaryContainer = RoarOrange,
+    onPrimaryContainer = RoarWhite,
     inversePrimary = RoarOrange,
     secondary = RoarOrange,
     background = DarkSurface,
     surface = DarkSurface,
-    onPrimary = RoarWhite,
     onSecondary = RoarWhite,
     onBackground = RoarWhite,
     onSurface = RoarWhite
@@ -20,12 +22,14 @@ private val DarkColorPalette = darkColorScheme(
 
 private val LightColorPalette = lightColorScheme(
     primary = RoarOrange,
+    onPrimary = RoarWhite,
+    primaryContainer = RoarOrange,
+    onPrimaryContainer = RoarWhite,
     inversePrimary = RoarOrange,
     secondary = RoarOrange,
     background = RoarLightGray,
     surface = RoarWhite,
     onBackground = RoarBlack,
-    onPrimary = RoarWhite,
     onSecondary = RoarWhite,
     onSurface = RoarBlack,
 )

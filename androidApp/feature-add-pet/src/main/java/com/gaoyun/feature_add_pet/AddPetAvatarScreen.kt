@@ -1,5 +1,6 @@
 package com.gaoyun.feature_add_pet
 
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
@@ -92,6 +93,7 @@ fun AddPetAvatarScreen(
     }
 }
 
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
 private fun ChooseAvatar(
     petAvatars: List<PetsConfig.PetAvatarConfig>,
@@ -115,8 +117,12 @@ private fun ChooseAvatar(
                 modifier = Modifier.padding(start = 8.dp, top = 32.dp, bottom = 16.dp),
             )
         }
-        items(petAvatars) { avatar ->
-            ButtonCard {
+        items(petAvatars, key = { it.iconRes }) { avatar ->
+            ButtonCard(
+                modifier = Modifier
+                    .animateItemPlacement()
+                    .padding(8.dp)
+            ) {
                 Box(
                     contentAlignment = Alignment.Center,
                     modifier = Modifier
