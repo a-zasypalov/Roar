@@ -12,6 +12,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
+import com.example.feature_pet_screen.PetScreenDestination
 import com.gaoyun.common.NavigationKeys
 import com.gaoyun.common.theme.RoarTheme
 import com.gaoyun.feature_add_pet.AddPetAvatarDestination
@@ -89,6 +90,13 @@ class MainActivity : AppCompatActivity() {
                     navHostController = navController,
                     petId = it.arguments?.getString(NavigationKeys.Arg.PET_ID_KEY) ?: ""
                 )
+            }
+
+            composable(
+                route = NavigationKeys.RouteGlobal.PET_DETAIL_ROUTE,
+                arguments = listOf(navArgument(NavigationKeys.Arg.PET_ID_KEY) { type = NavType.StringType })
+            ) {
+                PetScreenDestination(navController, petId = it.arguments?.getString(NavigationKeys.Arg.PET_ID_KEY) ?: "")
             }
 
             composable(

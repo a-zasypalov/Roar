@@ -30,7 +30,7 @@ fun HomeState(
     userName: String,
     pets: List<Pet>,
     onAddPetButtonClick: () -> Unit,
-    onPetCardClick: (pet: Pet) -> Unit
+    onPetCardClick: (petId: String) -> Unit
 ) {
     LazyColumn(
         modifier = Modifier
@@ -64,7 +64,7 @@ fun HomeState(
                     modifier = Modifier
                         .fillMaxWidth()
                         .clickable {
-                            onPetCardClick(pet)
+                            onPetCardClick(pet.id)
                         }
                         .padding(horizontal = 16.dp, vertical = 8.dp),
                     verticalAlignment = Alignment.CenterVertically

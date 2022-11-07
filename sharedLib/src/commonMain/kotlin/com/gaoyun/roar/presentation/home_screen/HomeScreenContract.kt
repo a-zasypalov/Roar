@@ -18,13 +18,12 @@ class HomeScreenContract {
     ) : ViewState
 
     sealed class Effect : ViewSideEffect {
-//        object UserRegistered: Effect()
-
         sealed class Navigation : Effect() {
             object NavigateBack : Navigation()
             object ToUserRegistration : Navigation()
             object ToAddPet : Navigation()
             class ToAddReminder(val pet: Pet) : Navigation()
+            class ToPetScreen(val petId: String) : Navigation()
         }
     }
 }

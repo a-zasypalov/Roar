@@ -67,4 +67,8 @@ class HomeScreenViewModel :
     fun openAddReminderScreen(pet: Pet) {
         setEffect { HomeScreenContract.Effect.Navigation.ToAddReminder(pet) }
     }
+
+    fun openPetScreen(petId: String) {
+        setEffect { HomeScreenContract.Effect.Navigation.ToPetScreen(petId) }
+    }
 }
