@@ -3,8 +3,9 @@ package com.gaoyun.roar.android
 import android.os.Bundle
 import androidx.activity.compose.setContent
 import androidx.appcompat.app.AppCompatActivity
-import androidx.compose.material.MaterialTheme
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material.Surface
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
@@ -28,9 +29,7 @@ class MainActivity : AppCompatActivity() {
 
         setContent {
             RoarTheme {
-                Surface(color = MaterialTheme.colors.background) {
-                    GlobalDestinationState()
-                }
+                GlobalDestinationState()
             }
         }
 

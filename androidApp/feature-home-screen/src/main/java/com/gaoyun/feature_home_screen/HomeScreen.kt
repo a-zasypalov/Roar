@@ -1,8 +1,6 @@
 package com.gaoyun.feature_home_screen
 
 import androidx.compose.foundation.layout.Box
-import androidx.compose.material.Scaffold
-import androidx.compose.material.rememberScaffoldState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -11,6 +9,7 @@ import androidx.navigation.NavHostController
 import com.gaoyun.common.NavigationKeys
 import com.gaoyun.common.OnLifecycleEvent
 import com.gaoyun.common.ui.Loader
+import com.gaoyun.common.ui.SurfaceScaffold
 import com.gaoyun.roar.presentation.LAUNCH_LISTEN_FOR_EFFECTS
 import com.gaoyun.roar.presentation.home_screen.HomeScreenContract
 import com.gaoyun.roar.presentation.home_screen.HomeScreenViewModel
@@ -55,8 +54,6 @@ fun HomeScreen(
     onNavigationRequested: (navigationEffect: HomeScreenContract.Effect.Navigation) -> Unit,
     viewModel: HomeScreenViewModel
 ) {
-    val rememberedState = rememberScaffoldState()
-
     LaunchedEffect(LAUNCH_LISTEN_FOR_EFFECTS) {
         effectFlow.onEach { effect ->
             when (effect) {
@@ -68,9 +65,7 @@ fun HomeScreen(
         }.collect()
     }
 
-    Scaffold(
-        scaffoldState = rememberedState
-    ) {
+    SurfaceScaffold {
         Box {
             state.user?.let { user ->
                 if (state.pets.isNotEmpty()) {

@@ -5,7 +5,10 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.*
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -19,6 +22,7 @@ import androidx.navigation.NavHostController
 import com.gaoyun.common.OnLifecycleEvent
 import com.gaoyun.common.R
 import com.gaoyun.common.ui.Loader
+import com.gaoyun.common.ui.SurfaceScaffold
 import com.gaoyun.roar.model.domain.PetType
 import com.gaoyun.roar.presentation.LAUNCH_LISTEN_FOR_EFFECTS
 import com.gaoyun.roar.presentation.add_reminder.AddReminderScreenContract
@@ -74,9 +78,7 @@ fun AddReminderScreen(
         }.collect()
     }
 
-    val rememberedState = rememberScaffoldState()
-
-    Scaffold(scaffoldState = rememberedState) {
+    SurfaceScaffold {
         Box {
             LazyColumn {
                 state.pet?.let { pet ->
@@ -84,7 +86,8 @@ fun AddReminderScreen(
                         Card(
                             modifier = Modifier
                                 .padding(horizontal = 16.dp, vertical = 8.dp),
-                            shape = RoundedCornerShape(16.dp), elevation = 8.dp
+                            shape = RoundedCornerShape(16.dp),
+                            elevation = CardDefaults.cardElevation(defaultElevation = 8.dp)
                         ) {
                             Row(
                                 modifier = Modifier
@@ -97,7 +100,7 @@ fun AddReminderScreen(
                                         Image(
                                             painter = painterResource(id = R.drawable.ic_cat),
                                             contentDescription = "cat",
-                                            colorFilter = ColorFilter.tint(color = MaterialTheme.colors.onSurface),
+                                            colorFilter = ColorFilter.tint(color = MaterialTheme.colorScheme.onSurface),
                                             modifier = Modifier.size(42.dp)
                                         )
                                     }
@@ -105,7 +108,7 @@ fun AddReminderScreen(
                                         Image(
                                             painter = painterResource(id = R.drawable.ic_dog),
                                             contentDescription = "dog",
-                                            colorFilter = ColorFilter.tint(color = MaterialTheme.colors.onSurface),
+                                            colorFilter = ColorFilter.tint(color = MaterialTheme.colorScheme.onSurface),
                                             modifier = Modifier.size(42.dp)
                                         )
                                     }
@@ -113,7 +116,7 @@ fun AddReminderScreen(
 
                                 Spacer(modifier = Modifier.size(8.dp))
 
-                                Text(pet.name, color = MaterialTheme.colors.onSurface)
+                                Text(pet.name, color = MaterialTheme.colorScheme.onSurface)
                             }
                         }
                     }
@@ -123,7 +126,7 @@ fun AddReminderScreen(
                     Card(
                         modifier = Modifier
                             .padding(horizontal = 16.dp, vertical = 8.dp),
-                        shape = RoundedCornerShape(16.dp), elevation = 8.dp
+                        shape = RoundedCornerShape(16.dp), elevation = CardDefaults.cardElevation(defaultElevation = 8.dp)
                     ) {
                         Column(
                             modifier = Modifier

@@ -1,7 +1,6 @@
 package com.gaoyun.feature_add_pet
 
 import androidx.appcompat.app.AppCompatActivity
-import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
@@ -11,6 +10,7 @@ import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Cake
 import androidx.compose.material.icons.filled.Pets
+import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
@@ -91,9 +91,7 @@ private fun AddPetDataScreen(
         }.collect()
     }
 
-    val rememberedState = rememberScaffoldState()
-
-    Scaffold(scaffoldState = rememberedState) {
+    SurfaceScaffold {
         AddPetForm(
             petBreeds = state.breeds,
             onRegisterClick = { breed, name, birthday, isSterilized ->
@@ -113,7 +111,7 @@ private fun AddPetDataScreen(
     }
 }
 
-@OptIn(ExperimentalMaterialApi::class, ExperimentalFoundationApi::class)
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun AddPetForm(
     avatar: String,
@@ -141,7 +139,10 @@ private fun AddPetForm(
         modifier = Modifier
             .fillMaxSize()
     ) {
-        Card(shape = RoundedCornerShape(topStart = 24.dp, topEnd = 24.dp, bottomStart = 0.dp, bottomEnd = 0.dp), elevation = 8.dp) {
+        SurfaceCard(
+            shape = RoundedCornerShape(topStart = 24.dp, topEnd = 24.dp, bottomStart = 0.dp, bottomEnd = 0.dp),
+            elevation = CardDefaults.cardElevation(defaultElevation = 8.dp)
+        ) {
             Column(
                 horizontalAlignment = Alignment.CenterHorizontally,
                 verticalArrangement = Arrangement.Center,
@@ -168,7 +169,7 @@ private fun AddPetForm(
                             Icon(
                                 Icons.Filled.Pets,
                                 "Name",
-                                tint = MaterialTheme.colors.onBackground
+                                tint = MaterialTheme.colorScheme.onBackground
                             )
                         },
                         label = "Name",
@@ -204,13 +205,15 @@ private fun AddPetForm(
                     ) {
                         petBreeds.forEach { breedSelection ->
                             DropdownMenuItem(
+                                text = {
+                                    Text(text = breedSelection, color = MaterialTheme.colorScheme.onBackground)
+
+                                },
                                 onClick = {
                                     petBreedState.value = breedSelection
                                     petBreedsExpanded = false
-                                }
-                            ) {
-                                Text(text = breedSelection, color = MaterialTheme.colors.onBackground)
-                            }
+                                },
+                            )
                         }
                     }
                 }
@@ -224,7 +227,7 @@ private fun AddPetForm(
                         Icon(
                             Icons.Filled.Cake,
                             "Birthday",
-                            tint = MaterialTheme.colors.onBackground
+                            tint = MaterialTheme.colorScheme.onBackground
                         )
                     },
                     label = {
@@ -283,7 +286,7 @@ private fun AddPetForm(
 
                 Spacer(size = 32.dp)
 
-                PrimaryRaisedButton(
+                PrimaryElevatedButtonOnSurface(
                     text = "Add pet",
                     onClick = {
                         onRegisterClick(

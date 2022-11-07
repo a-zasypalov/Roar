@@ -48,13 +48,18 @@ dependencies {
 
     val composeVersion = "1.1.1"
     api("androidx.compose.ui:ui:$composeVersion")
-    api("androidx.compose.material:material:$composeVersion")
     api("androidx.compose.ui:ui-tooling-preview:$composeVersion")
     api("androidx.compose.material:material-icons-extended:$composeVersion")
     api("androidx.navigation:navigation-compose:2.5.3")
 
+//    api("androidx.compose.material:material:$composeVersion")
+    api("androidx.compose.material3:material3:1.0.0")
+
     api("org.jetbrains.kotlinx:kotlinx-datetime:0.4.0")
-    api("com.google.accompanist:accompanist-permissions:0.25.1")
+
+    api("com.google.accompanist:accompanist-permissions:0.27.0")
+    api("com.google.accompanist:accompanist-insets:0.27.0")
+    api("com.google.accompanist:accompanist-systemuicontroller:0.27.0")
 
     val koinVersion = "3.1.6"
     api("io.insert-koin:koin-android:$koinVersion")
@@ -68,8 +73,6 @@ dependencies {
 
     debugApi("androidx.compose.ui:ui-tooling:1.3.0")
     api("androidx.compose.ui:ui-tooling-preview:1.3.0")
-    api("com.google.accompanist:accompanist-insets:0.25.1")
-    api("com.google.accompanist:accompanist-systemuicontroller:0.23.1")
 
     testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test.ext:junit:1.1.3")

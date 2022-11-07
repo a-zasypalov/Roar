@@ -1,11 +1,12 @@
 package com.gaoyun.feature_add_pet
 
+import android.annotation.SuppressLint
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Scaffold
-import androidx.compose.material.Text
-import androidx.compose.material.rememberScaffoldState
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -20,10 +21,7 @@ import androidx.navigation.NavHostController
 import com.gaoyun.common.NavigationKeys
 import com.gaoyun.common.OnLifecycleEvent
 import com.gaoyun.common.theme.RoarTheme
-import com.gaoyun.common.ui.Loader
-import com.gaoyun.common.ui.PrimaryRaisedButton
-import com.gaoyun.common.ui.Spacer
-import com.gaoyun.common.ui.getDrawableByName
+import com.gaoyun.common.ui.*
 import com.gaoyun.roar.model.domain.Pet
 import com.gaoyun.roar.model.domain.PetType
 import com.gaoyun.roar.presentation.LAUNCH_LISTEN_FOR_EFFECTS
@@ -82,9 +80,7 @@ fun AddPetSetupScreen(
         }.collect()
     }
 
-    val rememberedState = rememberScaffoldState()
-
-    Scaffold(scaffoldState = rememberedState) {
+    SurfaceScaffold {
         state.pet?.let {
             PetAddingComplete(it) { onEventSent(AddPetSetupScreenContract.Event.ContinueButtonClicked) }
         } ?: Loader(isLoading = state.isLoading)
@@ -112,11 +108,11 @@ private fun PetAddingComplete(
 
         Spacer(16.dp)
 
-        Text("New pet added!", style = MaterialTheme.typography.h1)
+        Text("New pet added!", style = MaterialTheme.typography.displayMedium)
 
         Spacer(16.dp)
 
-        PrimaryRaisedButton(text = "Continue", onClick = onContinueButtonClicked)
+        PrimaryElevatedButton(text = "Continue", onClick = onContinueButtonClicked)
     }
 
 }

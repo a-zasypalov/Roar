@@ -1,14 +1,14 @@
 package com.gaoyun.feature_home_screen
 
 import androidx.compose.foundation.layout.*
-import androidx.compose.material.Text
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.gaoyun.common.theme.RoarTheme
-import com.gaoyun.common.ui.PrimaryRaisedButton
+import com.gaoyun.common.ui.PrimaryElevatedButton
 
 @Composable
 fun NoUserState(onRegisterButtonClick: () -> Unit) {
@@ -23,7 +23,7 @@ fun NoUserState(onRegisterButtonClick: () -> Unit) {
 
         Spacer(modifier = Modifier.size(32.dp))
 
-        PrimaryRaisedButton(
+        PrimaryElevatedButton(
             text = "Register",
             onClick = onRegisterButtonClick
         )

@@ -7,7 +7,8 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.grid.*
-import androidx.compose.material.*
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -22,6 +23,8 @@ import androidx.navigation.NavHostController
 import com.gaoyun.common.NavigationKeys
 import com.gaoyun.common.OnLifecycleEvent
 import com.gaoyun.common.theme.RoarTheme
+import com.gaoyun.common.ui.ButtonCard
+import com.gaoyun.common.ui.SurfaceScaffold
 import com.gaoyun.common.ui.getDrawableByName
 import com.gaoyun.roar.config.PetsConfig
 import com.gaoyun.roar.presentation.LAUNCH_LISTEN_FOR_EFFECTS
@@ -79,9 +82,8 @@ fun AddPetAvatarScreen(
         }.collect()
     }
 
-    val rememberedState = rememberScaffoldState()
 
-    Scaffold(scaffoldState = rememberedState) {
+    SurfaceScaffold {
         ChooseAvatar(
             petAvatars = state.avatars,
             petType = petType,
@@ -109,18 +111,17 @@ private fun ChooseAvatar(
         item(span = titleSpan) {
             Text(
                 text = "Choose avatar",
-                style = MaterialTheme.typography.h1,
+                style = MaterialTheme.typography.displayMedium,
                 modifier = Modifier.padding(start = 8.dp, top = 32.dp, bottom = 16.dp),
             )
         }
         items(petAvatars) { avatar ->
-            Card(
-                elevation = 2.dp,
-                modifier = Modifier.padding(8.dp)
-            ) {
+            ButtonCard {
                 Box(
                     contentAlignment = Alignment.Center,
-                    modifier = Modifier.clickable { onAvatarChosen(avatar.iconRes) }
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .clickable { onAvatarChosen(avatar.iconRes) }
                 ) {
                     Image(
                         painter = painterResource(id = context.getDrawableByName(avatar.iconRes)),

@@ -6,7 +6,7 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
-import androidx.compose.material.*
+import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -20,6 +20,8 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import com.gaoyun.common.NavigationKeys
 import com.gaoyun.common.theme.RoarTheme
+import com.gaoyun.common.ui.ButtonCard
+import com.gaoyun.common.ui.SurfaceScaffold
 import com.gaoyun.roar.config.PetsConfig
 import com.gaoyun.roar.presentation.LAUNCH_LISTEN_FOR_EFFECTS
 import com.gaoyun.roar.presentation.add_pet.type.AddPetPetTypeScreenContract
@@ -71,9 +73,7 @@ fun AddPetPetTypeScreen(
         }.collect()
     }
 
-    val rememberedState = rememberScaffoldState()
-
-    Scaffold(scaffoldState = rememberedState) {
+    SurfaceScaffold {
         ChoosePetType(
             petTypes = state.petTypes,
             onPetTypeChosen = { petType -> onEventSent(AddPetPetTypeScreenContract.Event.PetTypeChosen(petType)) },
@@ -95,7 +95,7 @@ private fun ChoosePetType(
 
         Text(
             text = "New pet",
-            style = MaterialTheme.typography.h1,
+            style = MaterialTheme.typography.displayMedium,
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(top = 32.dp, start = 16.dp)
@@ -109,21 +109,21 @@ private fun ChoosePetType(
             userScrollEnabled = false
         ) {
             items(petTypes) { type ->
-                Card(
-                    elevation = 2.dp,
-                    modifier = Modifier.padding(8.dp)
-                ) {
+                ButtonCard {
                     Box(
                         contentAlignment = Alignment.Center,
-                        modifier = Modifier.clickable { onPetTypeChosen(type.enumType) }
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .clickable { onPetTypeChosen(type.enumType) }
                     ) {
                         Image(
                             painter = painterResource(id = context.getDrawableByName(type.iconRes)),
                             contentDescription = type.nameRes,
-                            colorFilter = ColorFilter.tint(MaterialTheme.colors.onSurface),
+                            colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.onSurfaceVariant),
                             modifier = Modifier
                                 .size(96.dp)
                                 .padding(16.dp)
+                                .align(Alignment.Center)
                         )
                     }
                 }

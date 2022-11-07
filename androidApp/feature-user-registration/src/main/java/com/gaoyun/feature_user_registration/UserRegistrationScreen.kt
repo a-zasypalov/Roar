@@ -1,9 +1,11 @@
 package com.gaoyun.feature_user_registration
 
+import android.annotation.SuppressLint
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Person
+import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -17,7 +19,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import com.gaoyun.common.theme.RoarTheme
-import com.gaoyun.common.ui.PrimaryRaisedButton
+import com.gaoyun.common.ui.PrimaryElevatedButton
+import com.gaoyun.common.ui.SurfaceScaffold
 import com.gaoyun.common.ui.TextFormField
 import com.gaoyun.roar.presentation.LAUNCH_LISTEN_FOR_EFFECTS
 import com.gaoyun.roar.presentation.user_register.RegisterUserScreenContract
@@ -64,9 +67,8 @@ fun UserRegistrationScreen(
         }.collect()
     }
 
-    val rememberedState = rememberScaffoldState()
 
-    Scaffold(scaffoldState = rememberedState) {
+    SurfaceScaffold {
         UserRegistrationForm { name ->
             onEventSent(RegisterUserScreenContract.Event.RegisterButtonClick(name))
         }
@@ -96,7 +98,7 @@ fun UserRegistrationForm(
                     Icon(
                         Icons.Filled.Person,
                         "Name",
-                        tint = MaterialTheme.colors.onBackground
+                        tint = MaterialTheme.colorScheme.onBackground
                     )
                 },
                 label = "Name",
@@ -108,7 +110,7 @@ fun UserRegistrationForm(
             )
         }
 
-        PrimaryRaisedButton(
+        PrimaryElevatedButton(
             text = "Register",
             onClick = { onRegisterClick(nameState.value) },
             modifier = Modifier.padding(bottom = 32.dp)

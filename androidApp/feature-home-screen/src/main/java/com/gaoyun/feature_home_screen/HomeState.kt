@@ -6,9 +6,10 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.Card
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Text
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -19,7 +20,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.gaoyun.common.R
 import com.gaoyun.common.theme.RoarTheme
-import com.gaoyun.common.ui.PrimaryRaisedButton
+import com.gaoyun.common.ui.PrimaryElevatedButton
 import com.gaoyun.roar.model.domain.Pet
 import com.gaoyun.roar.model.domain.PetType
 
@@ -45,7 +46,7 @@ fun HomeState(
 
             Spacer(modifier = Modifier.size(32.dp))
 
-            PrimaryRaisedButton(
+            PrimaryElevatedButton(
                 text = "Add Pet",
                 onClick = onAddPetButtonClick
             )
@@ -56,7 +57,7 @@ fun HomeState(
             Card(
                 modifier = Modifier
                     .padding(horizontal = 16.dp, vertical = 8.dp),
-                shape = RoundedCornerShape(16.dp), elevation = 8.dp
+                shape = RoundedCornerShape(16.dp), elevation = CardDefaults.elevatedCardElevation(defaultElevation = 8.dp)
             ) {
                 Row(
                     modifier = Modifier
@@ -72,7 +73,7 @@ fun HomeState(
                             Image(
                                 painter = painterResource(id = R.drawable.ic_cat),
                                 contentDescription = "cat",
-                                colorFilter = ColorFilter.tint(color = MaterialTheme.colors.onSurface),
+                                colorFilter = ColorFilter.tint(color = MaterialTheme.colorScheme.onSurface),
                                 modifier = Modifier.size(42.dp)
                             )
                         }
@@ -80,7 +81,7 @@ fun HomeState(
                             Image(
                                 painter = painterResource(id = R.drawable.ic_dog),
                                 contentDescription = "dog",
-                                colorFilter = ColorFilter.tint(color = MaterialTheme.colors.onSurface),
+                                colorFilter = ColorFilter.tint(color = MaterialTheme.colorScheme.onSurface),
                                 modifier = Modifier.size(42.dp)
                             )
                         }
@@ -88,7 +89,7 @@ fun HomeState(
 
                     Spacer(modifier = Modifier.size(8.dp))
 
-                    Text(pet.name, color = MaterialTheme.colors.onSurface)
+                    Text(pet.name, color = MaterialTheme.colorScheme.onSurface)
                 }
             }
         }

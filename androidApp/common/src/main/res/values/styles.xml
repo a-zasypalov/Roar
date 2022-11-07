@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <style name="RoarTheme" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+    <style name="RoarTheme" parent="Theme.Material3.DayNight.NoActionBar">
         <item name="android:windowNoTitle">true</item>
         <item name="android:windowActionBar">false</item>
-        <item name="android:statusBarColor">@color/roar_statusBarColor</item>
+        <item name="android:statusBarColor">@color/design_default_color_background</item>
         <item name="colorPrimary">@color/roar_orange</item>
         <item name="colorAccent">@color/roar_orange</item>
         <item name="android:windowLightStatusBar">true</item>
