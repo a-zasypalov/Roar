@@ -50,6 +50,7 @@ fun UserRegistrationDestination(navHostController: NavHostController) {
 }
 
 @Composable
+@OptIn(ExperimentalMaterial3Api::class)
 fun UserRegistrationScreen(
     state: RegisterUserScreenContract.State,
     effectFlow: Flow<RegisterUserScreenContract.Effect>,

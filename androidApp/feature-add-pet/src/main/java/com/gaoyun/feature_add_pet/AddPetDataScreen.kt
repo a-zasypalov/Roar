@@ -32,7 +32,6 @@ import com.gaoyun.roar.presentation.LAUNCH_LISTEN_FOR_EFFECTS
 import com.gaoyun.roar.presentation.add_pet.data.AddPetDataScreenContract
 import com.gaoyun.roar.presentation.add_pet.data.AddPetDataScreenViewModel
 import com.gaoyun.roar.util.DatetimeConstants
-import com.google.android.material.color.MaterialColors
 import com.google.android.material.datepicker.CalendarConstraints
 import com.google.android.material.datepicker.MaterialDatePicker
 import kotlinx.coroutines.flow.Flow
@@ -74,6 +73,7 @@ fun AddPetDataDestination(navHostController: NavHostController, petType: String,
 }
 
 @Composable
+@OptIn(ExperimentalMaterial3Api::class)
 private fun AddPetDataScreen(
     state: AddPetDataScreenContract.State,
     effectFlow: Flow<AddPetDataScreenContract.Effect>,

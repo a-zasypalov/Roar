@@ -4,14 +4,8 @@ import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Cake
-import androidx.compose.material.icons.filled.CheckCircle
-import androidx.compose.material.icons.filled.DoNotDisturbOn
-import androidx.compose.material.icons.filled.Pets
-import androidx.compose.material3.Icon
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Surface
-import androidx.compose.material3.Text
+import androidx.compose.material.icons.filled.*
+import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -29,10 +23,7 @@ import androidx.navigation.NavHostController
 import com.gaoyun.common.NavigationKeys
 import com.gaoyun.common.OnLifecycleEvent
 import com.gaoyun.common.theme.RoarTheme
-import com.gaoyun.common.ui.Loader
-import com.gaoyun.common.ui.Spacer
-import com.gaoyun.common.ui.SurfaceScaffold
-import com.gaoyun.common.ui.getDrawableByName
+import com.gaoyun.common.ui.*
 import com.gaoyun.roar.model.domain.Pet
 import com.gaoyun.roar.model.domain.PetType
 import com.gaoyun.roar.presentation.LAUNCH_LISTEN_FOR_EFFECTS
@@ -74,6 +65,7 @@ fun PetScreenDestination(
 }
 
 @Composable
+@OptIn(ExperimentalMaterial3Api::class)
 fun PetScreen(
     state: PetScreenContract.State,
     effectFlow: Flow<PetScreenContract.Effect>,
@@ -91,7 +83,18 @@ fun PetScreen(
         }.collect()
     }
 
-    SurfaceScaffold {
+    SurfaceScaffold(
+        floatingActionButton = {
+            RoarExtendedFloatingActionButton(
+                icon = Icons.Filled.Add,
+                contentDescription = "Add reminder",
+                text = "Reminder",
+                onClick = {
+
+                })
+        },
+        floatingActionButtonPosition = FabPosition.End
+    ) {
         Box {
             state.pet?.let { pet ->
                 PetContainer(pet = pet)
@@ -158,7 +161,8 @@ private fun PetHeader(
             modifier = Modifier.padding(horizontal = 8.dp)
         ) {
             Column(
-                modifier = Modifier.fillMaxWidth()
+                modifier = Modifier
+                    .fillMaxWidth()
                     .padding(horizontal = 16.dp, vertical = 8.dp),
             ) {
                 TextWithIconBulletPoint(icon = Icons.Filled.Pets, pet.breed)

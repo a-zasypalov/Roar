@@ -56,6 +56,7 @@ fun AddPetPetTypeDestination(navHostController: NavHostController) {
 }
 
 @Composable
+@OptIn(ExperimentalMaterial3Api::class)
 fun AddPetPetTypeScreen(
     state: AddPetPetTypeScreenContract.State,
     effectFlow: Flow<AddPetPetTypeScreenContract.Effect>,

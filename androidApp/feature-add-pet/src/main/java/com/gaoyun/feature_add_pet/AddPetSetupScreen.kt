@@ -1,11 +1,9 @@
 package com.gaoyun.feature_add_pet
 
-import android.annotation.SuppressLint
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -63,6 +61,7 @@ fun AddPetSetupDestination(navHostController: NavHostController, petId: String) 
 }
 
 @Composable
+@OptIn(ExperimentalMaterial3Api::class)
 fun AddPetSetupScreen(
     state: AddPetSetupScreenContract.State,
     effectFlow: Flow<AddPetSetupScreenContract.Effect>,

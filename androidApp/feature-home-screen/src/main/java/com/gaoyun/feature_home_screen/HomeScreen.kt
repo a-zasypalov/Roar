@@ -1,6 +1,7 @@
 package com.gaoyun.feature_home_screen
 
 import androidx.compose.foundation.layout.Box
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -48,6 +49,7 @@ fun HomeScreenDestination(navHostController: NavHostController) {
 }
 
 @Composable
+@OptIn(ExperimentalMaterial3Api::class)
 fun HomeScreen(
     state: HomeScreenContract.State,
     effectFlow: Flow<HomeScreenContract.Effect>,
