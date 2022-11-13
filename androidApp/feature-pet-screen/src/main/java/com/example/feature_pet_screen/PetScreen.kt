@@ -9,6 +9,7 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -24,6 +25,7 @@ import com.gaoyun.common.NavigationKeys
 import com.gaoyun.common.OnLifecycleEvent
 import com.gaoyun.common.theme.RoarTheme
 import com.gaoyun.common.ui.*
+import com.gaoyun.roar.model.domain.Gender
 import com.gaoyun.roar.model.domain.Pet
 import com.gaoyun.roar.model.domain.PetType
 import com.gaoyun.roar.presentation.LAUNCH_LISTEN_FOR_EFFECTS
@@ -123,6 +125,7 @@ private fun PetHeader(
     modifier: Modifier = Modifier
 ) {
     val context = LocalContext.current
+    val isSterilized = remember { if (pet.isSterilized) "sterilized" else "not sterilized" }
 
     Column(
         modifier = modifier,
@@ -165,13 +168,16 @@ private fun PetHeader(
                     .fillMaxWidth()
                     .padding(horizontal = 16.dp, vertical = 8.dp),
             ) {
-                TextWithIconBulletPoint(icon = Icons.Filled.Pets, pet.breed)
-                TextWithIconBulletPoint(icon = Icons.Filled.Cake, pet.birthday.toString())
+                when(pet.gender) {
+                    Gender.MALE -> TextWithIconBulletPoint(icon = Icons.Filled.Male, "Male, $isSterilized")
+                    Gender.FEMALE -> TextWithIconBulletPoint(icon = Icons.Filled.Female, "Female, $isSterilized")
+                }
 
-                if (pet.isSterilized) {
-                    TextWithIconBulletPoint(icon = Icons.Filled.DoNotDisturbOn, "Sterilized")
-                } else {
-                    TextWithIconBulletPoint(icon = Icons.Filled.CheckCircle, "Not sterilized")
+                TextWithIconBulletPoint(icon = Icons.Filled.Cake, pet.birthday.toString())
+                TextWithIconBulletPoint(icon = Icons.Filled.Pets, pet.breed)
+
+                if(pet.chipNumber.isNotEmpty()) {
+                    TextWithIconBulletPoint(icon = Icons.Filled.Memory, "Chip: ${pet.chipNumber}")
                 }
             }
         }
@@ -208,12 +214,14 @@ fun PetScreenPreview() {
             PetContainer(
                 Pet(
                     petType = PetType.CAT,
-                    breed = "British Shorthair",
+                    breed = "Colorpoint Shorthair",
                     name = "Senior Android Developer",
                     avatar = "ic_cat_15",
                     userId = "123",
                     birthday = Clock.System.now().toLocalDate(),
                     isSterilized = false,
+                    gender = Gender.MALE,
+                    chipNumber = "123123456456",
                     dateCreated = Clock.System.now().toLocalDate()
                 )
             )

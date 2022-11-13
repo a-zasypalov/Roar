@@ -20,6 +20,7 @@ import com.gaoyun.common.NavigationKeys
 import com.gaoyun.common.OnLifecycleEvent
 import com.gaoyun.common.theme.RoarTheme
 import com.gaoyun.common.ui.*
+import com.gaoyun.roar.model.domain.Gender
 import com.gaoyun.roar.model.domain.Pet
 import com.gaoyun.roar.model.domain.PetType
 import com.gaoyun.roar.presentation.LAUNCH_LISTEN_FOR_EFFECTS
@@ -130,6 +131,8 @@ fun AddPetSetupScreenPreview() {
                 "1",
                 LocalDate.fromEpochDays(1),
                 false,
+                Gender.MALE,
+                "",
                 LocalDate.fromEpochDays(1)
             )
         ) {}

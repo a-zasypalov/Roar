@@ -16,6 +16,8 @@ class AddPetDataScreenContract {
             val breed: String,
             val name: String,
             val birthday: LocalDate,
+            val gender: String,
+            val chipNumber: String,
             val isSterilized: Boolean
         ) : Event()
     }

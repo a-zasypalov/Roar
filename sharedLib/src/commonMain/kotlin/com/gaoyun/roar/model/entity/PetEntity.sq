@@ -7,6 +7,8 @@ avatar TEXT NOT NULL,
 userId TEXT NOT NULL,
 birthday TEXT NOT NULL,
 isSterilized INTEGER AS Boolean NOT NULL DEFAULT 0,
+gender TEXT NOT NULL,
+chipNumber TEXT NOT NULL,
 dateCreated TEXT NOT NULL
 );
 
@@ -17,7 +19,7 @@ selectByUserId:
 SELECT * FROM PetEntity WHERE userId = ?;
 
 insertOrReplace:
-INSERT OR REPLACE INTO PetEntity(id, name, petType, breed, avatar, userId, birthday, isSterilized, dateCreated) VALUES (?, ?, ?,?, ?, ? ,?, ?, ?);
+INSERT OR REPLACE INTO PetEntity(id, name, petType, breed, avatar, userId, birthday, isSterilized, gender, chipNumber, dateCreated) VALUES (?, ?, ?, ?, ?,?, ?, ? ,?, ?, ?);
 
 deleteById:
 DELETE FROM PetEntity WHERE id = ?;

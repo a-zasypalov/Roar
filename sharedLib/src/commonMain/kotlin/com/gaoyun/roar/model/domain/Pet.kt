@@ -4,6 +4,7 @@ import com.gaoyun.roar.model.entity.PetEntity
 import com.gaoyun.roar.util.randomUUID
 import kotlinx.datetime.LocalDate
 
+
 data class Pet(
     val id: String = randomUUID(),
     val petType: PetType,
@@ -13,6 +14,8 @@ data class Pet(
     val userId: String,
     val birthday: LocalDate,
     val isSterilized: Boolean,
+    val gender: Gender,
+    val chipNumber: String,
     val dateCreated: LocalDate,
 )
 
@@ -25,6 +28,8 @@ fun PetEntity.toDomain() = Pet(
     userId = userId,
     birthday = LocalDate.parse(birthday),
     isSterilized = isSterilized,
+    gender = gender.toGender(),
+    chipNumber = chipNumber,
     dateCreated = LocalDate.parse(dateCreated),
 )
 

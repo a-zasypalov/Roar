@@ -10,6 +10,8 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Cake
+import androidx.compose.material.icons.filled.Fingerprint
+import androidx.compose.material.icons.filled.Memory
 import androidx.compose.material.icons.filled.Pets
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
@@ -28,6 +30,7 @@ import com.gaoyun.common.NavigationKeys
 import com.gaoyun.common.OnLifecycleEvent
 import com.gaoyun.common.theme.RoarTheme
 import com.gaoyun.common.ui.*
+import com.gaoyun.roar.model.domain.Gender
 import com.gaoyun.roar.presentation.LAUNCH_LISTEN_FOR_EFFECTS
 import com.gaoyun.roar.presentation.add_pet.data.AddPetDataScreenContract
 import com.gaoyun.roar.presentation.add_pet.data.AddPetDataScreenViewModel
@@ -96,7 +99,7 @@ private fun AddPetDataScreen(
     SurfaceScaffold {
         AddPetForm(
             petBreeds = state.breeds,
-            onRegisterClick = { breed, name, birthday, isSterilized ->
+            onRegisterClick = { breed, name, birthday, isSterilized, gender, chipNumber ->
                 onEventSent(
                     AddPetDataScreenContract.Event.AddPetButtonClicked(
                         petType = petType,
@@ -104,7 +107,9 @@ private fun AddPetDataScreen(
                         name = name,
                         avatar = avatar,
                         birthday = birthday,
-                        isSterilized = isSterilized
+                        isSterilized = isSterilized,
+                        gender = gender,
+                        chipNumber = chipNumber
                     )
                 )
             },
@@ -118,11 +123,12 @@ private fun AddPetDataScreen(
 private fun AddPetForm(
     avatar: String,
     petBreeds: List<String>,
-    onRegisterClick: (String, String, LocalDate, Boolean) -> Unit,
+    onRegisterClick: (String, String, LocalDate, Boolean, String, String) -> Unit,
 ) {
     val activity = LocalContext.current as AppCompatActivity
 
     val petName = rememberSaveable { mutableStateOf("") }
+    val chipNumberState = rememberSaveable { mutableStateOf("") }
 
     var petBreedsExpanded by remember { mutableStateOf(false) }
     val petBreedState = rememberSaveable { mutableStateOf(petBreeds.firstOrNull() ?: "") }
@@ -131,6 +137,9 @@ private fun AddPetForm(
     val petBirthdayStringState = remember { mutableStateOf(TextFieldValue()) }
 
     val petIsSterilizedState = rememberSaveable { mutableStateOf(false) }
+
+    var petGenderExpanded by remember { mutableStateOf(false) }
+    val petGenderState = rememberSaveable { mutableStateOf("Male") }
 
     if (petBreedState.value.isEmpty() && petBreeds.isNotEmpty()) {
         petBreedState.value = petBreeds.first()
@@ -227,6 +236,49 @@ private fun AddPetForm(
 
                 Spacer(size = 16.dp)
 
+                ExposedDropdownMenuBox(
+                    expanded = petGenderExpanded,
+                    onExpandedChange = { petGenderExpanded = !petGenderExpanded },
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = 24.dp)
+                ) {
+                    TextFormField(
+                        readOnly = true,
+                        text = petGenderState.value,
+                        onChange = { },
+                        label = "Gender",
+                        trailingIcon = {
+                            ExposedDropdownMenuDefaults.TrailingIcon(expanded = petGenderExpanded)
+                        },
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .menuAnchor()
+                    )
+                    ExposedDropdownMenu(
+                        expanded = petGenderExpanded,
+                        onDismissRequest = { petGenderExpanded = false },
+                        modifier = Modifier.background(MaterialTheme.colorScheme.surfaceVariant)
+                    ) {
+                        listOf("Male", "Female").forEach { genderSelection ->
+                            DropdownMenuItem(
+                                text = {
+                                    Text(
+                                        text = genderSelection,
+                                        color = MaterialTheme.colorScheme.onSurfaceVariant
+                                    )
+                                },
+                                onClick = {
+                                    petGenderState.value = genderSelection
+                                    petGenderExpanded = false
+                                },
+                            )
+                        }
+                    }
+                }
+
+                Spacer(size = 16.dp)
+
                 ReadonlyTextField(
                     value = petBirthdayStringState.value,
                     onValueChange = { petBirthdayStringState.value = it },
@@ -282,6 +334,24 @@ private fun AddPetForm(
 
                 Spacer(size = 16.dp)
 
+                TextFormField(
+                    text = chipNumberState.value,
+                    leadingIcon = {
+                        Icon(
+                            Icons.Filled.Memory,
+                            "Chip Number",
+                            tint = MaterialTheme.colorScheme.onBackground
+                        )
+                    },
+                    label = "Chip Number",
+                    onChange = {
+                        chipNumberState.value = it
+                    },
+                    imeAction = ImeAction.Done,
+                )
+
+                Spacer(size = 16.dp)
+
                 LabelledCheckBox(
                     checked = petIsSterilizedState.value,
                     onCheckedChange = { petIsSterilizedState.value = it },
@@ -300,7 +370,9 @@ private fun AddPetForm(
                             petBreedState.value,
                             petName.value,
                             LocalDate.fromEpochDays(TimeUnit.MILLISECONDS.toDays(petBirthdayState.value ?: System.currentTimeMillis()).toInt()),
-                            petIsSterilizedState.value
+                            petIsSterilizedState.value,
+                            petGenderState.value,
+                            chipNumberState.value
                         )
                     },
                 )
@@ -316,6 +388,6 @@ private fun AddPetForm(
 @Preview
 fun AddPetScreenPreview() {
     RoarTheme {
-        AddPetForm("ic_cat_15", listOf()) { _, _, _, _ -> }
+        AddPetForm("ic_cat_15", listOf()) { _, _, _, _, _, _ -> }
     }
 }

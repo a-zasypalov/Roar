@@ -1,6 +1,7 @@
 package com.gaoyun.roar.domain.pet
 
 import com.gaoyun.roar.domain.user.GetCurrentUserUseCase
+import com.gaoyun.roar.model.domain.Gender
 import com.gaoyun.roar.model.domain.Pet
 import com.gaoyun.roar.model.domain.toPetType
 import com.gaoyun.roar.repository.PetRepository
@@ -22,6 +23,8 @@ class AddPetUseCase : KoinComponent {
         name: String,
         avatar: String,
         birthday: LocalDate,
+        gender: Gender,
+        chipNumber: String,
         isSterilized: Boolean
     ) = flow {
         val userId = getUserUseCase.getCurrentUser().id
@@ -33,6 +36,8 @@ class AddPetUseCase : KoinComponent {
             birthday = birthday,
             isSterilized = isSterilized,
             userId = userId,
+            gender = gender,
+            chipNumber = chipNumber,
             dateCreated = Clock.System.now().toLocalDate(),
         )
 

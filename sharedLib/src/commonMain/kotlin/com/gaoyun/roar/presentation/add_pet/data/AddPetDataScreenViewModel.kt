@@ -3,6 +3,7 @@ package com.gaoyun.roar.presentation.add_pet.data
 import com.gaoyun.roar.domain.pet.AddPetUseCase
 import com.gaoyun.roar.domain.pet.GetPetBreedsUseCase
 import com.gaoyun.roar.model.domain.PetType
+import com.gaoyun.roar.model.domain.toGender
 import com.gaoyun.roar.model.domain.toPetType
 import com.gaoyun.roar.presentation.BaseViewModel
 import kotlinx.coroutines.flow.catch
@@ -30,7 +31,9 @@ class AddPetDataScreenViewModel :
                     name = name,
                     avatar = avatar,
                     birthday = birthday,
-                    isSterilized = isSterilized
+                    isSterilized = isSterilized,
+                    chipNumber = chipNumber,
+                    gender = gender
                 )
             }
             is AddPetDataScreenContract.Event.PetDataInit -> {
@@ -52,6 +55,8 @@ class AddPetDataScreenViewModel :
         name: String,
         avatar: String,
         birthday: LocalDate,
+        gender: String,
+        chipNumber: String,
         isSterilized: Boolean
     ) = scope.launch {
         addPetUseCase.addPet(
@@ -60,7 +65,9 @@ class AddPetDataScreenViewModel :
             name = name,
             avatar = avatar,
             birthday = birthday,
-            isSterilized = isSterilized
+            chipNumber = chipNumber,
+            isSterilized = isSterilized,
+            gender = gender.toGender()
         ).catch { it.printStackTrace() }
             .collectLatest { petId ->
                 petAddedSuccessful(petId)

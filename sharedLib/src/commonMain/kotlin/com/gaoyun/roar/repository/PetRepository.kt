@@ -62,6 +62,8 @@ class PetRepositoryImpl : PetRepository, KoinComponent {
             petType = pet.petType.toString(),
             birthday = pet.birthday.toString(),
             isSterilized = pet.isSterilized,
+            gender = pet.gender.toString(),
+            chipNumber = pet.chipNumber,
             dateCreated = pet.dateCreated.toString()
         )
     }
