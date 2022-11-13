@@ -1,7 +1,10 @@
 package com.gaoyun.feature_home_screen
 
 import androidx.compose.foundation.layout.Box
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Add
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.FabPosition
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -10,6 +13,7 @@ import androidx.navigation.NavHostController
 import com.gaoyun.common.NavigationKeys
 import com.gaoyun.common.OnLifecycleEvent
 import com.gaoyun.common.ui.Loader
+import com.gaoyun.common.ui.RoarExtendedFloatingActionButton
 import com.gaoyun.common.ui.SurfaceScaffold
 import com.gaoyun.roar.presentation.LAUNCH_LISTEN_FOR_EFFECTS
 import com.gaoyun.roar.presentation.home_screen.HomeScreenContract
@@ -70,7 +74,20 @@ fun HomeScreen(
         }.collect()
     }
 
-    SurfaceScaffold {
+    SurfaceScaffold(
+        floatingActionButton = {
+            if (state.pets.isNotEmpty()) {
+                RoarExtendedFloatingActionButton(
+                    icon = Icons.Filled.Add,
+                    contentDescription = "Add reminder",
+                    text = "Reminder",
+                    onClick = {
+
+                    })
+            }
+        },
+        floatingActionButtonPosition = FabPosition.End
+    ) {
         Box {
             state.user?.let { user ->
                 if (state.pets.isNotEmpty()) {

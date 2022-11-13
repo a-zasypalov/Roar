@@ -9,10 +9,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Cake
-import androidx.compose.material.icons.filled.Fingerprint
-import androidx.compose.material.icons.filled.Memory
-import androidx.compose.material.icons.filled.Pets
+import androidx.compose.material.icons.filled.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.runtime.saveable.rememberSaveable
@@ -30,7 +27,6 @@ import com.gaoyun.common.NavigationKeys
 import com.gaoyun.common.OnLifecycleEvent
 import com.gaoyun.common.theme.RoarTheme
 import com.gaoyun.common.ui.*
-import com.gaoyun.roar.model.domain.Gender
 import com.gaoyun.roar.presentation.LAUNCH_LISTEN_FOR_EFFECTS
 import com.gaoyun.roar.presentation.add_pet.data.AddPetDataScreenContract
 import com.gaoyun.roar.presentation.add_pet.data.AddPetDataScreenViewModel
@@ -150,9 +146,17 @@ private fun AddPetForm(
         modifier = Modifier
             .fillMaxSize()
     ) {
+        Text(
+            text = "Pet's Card",
+            style = MaterialTheme.typography.displayMedium,
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(start = 10.dp, top = 32.dp, bottom = 16.dp),
+        )
         SurfaceCard(
             shape = RoundedCornerShape(topStart = 24.dp, topEnd = 24.dp, bottomStart = 0.dp, bottomEnd = 0.dp),
-            elevation = CardDefaults.cardElevation(defaultElevation = 8.dp)
+            elevation = CardDefaults.cardElevation(defaultElevation = 8.dp),
+            modifier = Modifier.padding(horizontal = 12.dp)
         ) {
             Column(
                 horizontalAlignment = Alignment.CenterHorizontally,
@@ -208,6 +212,13 @@ private fun AddPetForm(
                         trailingIcon = {
                             ExposedDropdownMenuDefaults.TrailingIcon(expanded = petBreedsExpanded)
                         },
+                        leadingIcon = {
+                            Icon(
+                                Icons.Filled.List,
+                                "",
+                                tint = MaterialTheme.colorScheme.onBackground
+                            )
+                        },
                         modifier = Modifier
                             .fillMaxWidth()
                             .menuAnchor()
@@ -250,6 +261,13 @@ private fun AddPetForm(
                         label = "Gender",
                         trailingIcon = {
                             ExposedDropdownMenuDefaults.TrailingIcon(expanded = petGenderExpanded)
+                        },
+                        leadingIcon = {
+                            Icon(
+                                if (petGenderState.value == "Male") Icons.Filled.Male else Icons.Filled.Female,
+                                "",
+                                tint = MaterialTheme.colorScheme.onBackground
+                            )
                         },
                         modifier = Modifier
                             .fillMaxWidth()
@@ -348,6 +366,7 @@ private fun AddPetForm(
                         chipNumberState.value = it
                     },
                     imeAction = ImeAction.Done,
+                    modifier = Modifier.padding(horizontal = 24.dp),
                 )
 
                 Spacer(size = 16.dp)

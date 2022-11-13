@@ -6,22 +6,19 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.Card
-import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Pets
+import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.gaoyun.common.R
 import com.gaoyun.common.theme.RoarTheme
-import com.gaoyun.common.ui.Loader
-import com.gaoyun.common.ui.PrimaryElevatedButton
+import com.gaoyun.common.ui.Spacer
 import com.gaoyun.roar.model.domain.Pet
 import com.gaoyun.roar.model.domain.PetType
 
@@ -36,23 +33,28 @@ fun HomeState(
         modifier = Modifier
             .fillMaxWidth()
             .fillMaxHeight(),
-        horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Center
     ) {
         item {
-            Text(
-                text = "Super! Welcome $userName",
-                textAlign = TextAlign.Center
-            )
+            Column(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 16.dp, vertical = 16.dp)
+            ) {
+                Text(
+                    text = "Hey, $userName",
+                    style = MaterialTheme.typography.displayMedium,
+                )
 
-            Spacer(modifier = Modifier.size(32.dp))
+                Spacer(size = 8.dp)
 
-            PrimaryElevatedButton(
-                text = "Add Pet",
-                onClick = onAddPetButtonClick
-            )
+                FilledTonalButton(onClick = onAddPetButtonClick) {
+                    Icon(Icons.Filled.Pets, contentDescription = "")
+                    Spacer(size = 6.dp)
+                    Text("Add pet", style = MaterialTheme.typography.titleMedium)
+                }
+            }
 
-            Spacer(modifier = Modifier.size(8.dp))
+            Spacer(size = 8.dp)
         }
         items(pets) { pet ->
             Card(
