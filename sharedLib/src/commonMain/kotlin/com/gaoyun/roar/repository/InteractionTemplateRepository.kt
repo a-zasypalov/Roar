@@ -14,6 +14,7 @@ import org.koin.core.component.inject
 
 interface InteractionTemplateRepository {
     suspend fun getInteractionTemplatesForPetType(type: String): List<InteractionTemplate>
+    suspend fun getInteractionTemplate(templateId: String, petType: String): InteractionTemplate
     fun insertInteractionTemplate(interactionTemplate: InteractionTemplate)
     fun deleteAllTemplates()
 }
@@ -37,6 +38,14 @@ class InteractionTemplateRepositoryImpl : InteractionTemplateRepository, KoinCom
             cachedTemplates
         }
     }
+
+    override suspend fun getInteractionTemplate(templateId: String, petType: String): InteractionTemplate {
+        return getInteractionTemplateFromCache(templateId)
+            ?: getInteractionTemplatesForPetType(petType).first { it.id == templateId }
+    }
+
+    private fun getInteractionTemplateFromCache(templateId: String): InteractionTemplate? =
+        appDb.interactionTemplateEntityQueries.selectById(templateId).executeAsOneOrNull()?.toDomain()
 
     override fun insertInteractionTemplate(interactionTemplate: InteractionTemplate) {
         appDb.interactionTemplateEntityQueries.insertOrReplace(

@@ -4,6 +4,7 @@ import com.gaoyun.roar.domain.interaction.GetInteraction
 import com.gaoyun.roar.domain.interaction.InsertInteraction
 import com.gaoyun.roar.domain.interaction.RemoveInteraction
 import com.gaoyun.roar.domain.interaction.SetInteractionIsActive
+import com.gaoyun.roar.domain.interaction_template.GetInteractionTemplate
 import com.gaoyun.roar.domain.interaction_template.GetInteractionTemplatesForPetType
 import com.gaoyun.roar.domain.interaction_template.InsertInteractionTemplate
 import com.gaoyun.roar.domain.interaction_template.RemoveInteractionTemplates
@@ -52,6 +53,7 @@ val useCaseModule = module {
     single { GetPetBreedsUseCase() }
 
     single { GetInteractionTemplatesForPetType() }
+    single { GetInteractionTemplate() }
     single { InsertInteractionTemplate() }
     single { RemoveInteractionTemplates() }
 

@@ -3,9 +3,6 @@ package com.gaoyun.roar.android
 import android.os.Bundle
 import androidx.activity.compose.setContent
 import androidx.appcompat.app.AppCompatActivity
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material.Surface
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
@@ -20,6 +17,7 @@ import com.gaoyun.feature_add_pet.AddPetDataDestination
 import com.gaoyun.feature_add_pet.AddPetPetTypeDestination
 import com.gaoyun.feature_add_pet.AddPetSetupDestination
 import com.gaoyun.feature_create_reminder.AddReminderDestination
+import com.gaoyun.feature_create_reminder.SetupReminderDestination
 import com.gaoyun.feature_home_screen.HomeScreenDestination
 import com.gaoyun.feature_user_registration.UserRegistrationDestination
 
@@ -104,6 +102,20 @@ class MainActivity : AppCompatActivity() {
                 arguments = listOf(navArgument(NavigationKeys.Arg.PET_ID_KEY) { type = NavType.StringType })
             ) {
                 AddReminderDestination(navController, petId = it.arguments?.getString(NavigationKeys.Arg.PET_ID_KEY) ?: "")
+            }
+
+            composable(
+                route = NavigationKeys.RouteGlobal.SETUP_REMINDER_ROUTE,
+                arguments = listOf(
+                    navArgument(NavigationKeys.Arg.PET_ID_KEY) { type = NavType.StringType },
+                    navArgument(NavigationKeys.Arg.TEMPLATE_ID_KEY) { type = NavType.StringType }
+                )
+            ) {
+                SetupReminderDestination(
+                    navController,
+                    petId = it.arguments?.getString(NavigationKeys.Arg.PET_ID_KEY) ?: "",
+                    templateId = it.arguments?.getString(NavigationKeys.Arg.TEMPLATE_ID_KEY) ?: "custom"
+                )
             }
         }
     }

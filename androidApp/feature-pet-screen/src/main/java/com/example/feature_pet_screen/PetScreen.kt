@@ -58,7 +58,9 @@ fun PetScreenDestination(
         onEventSent = { event -> viewModel.setEvent(event) },
         onNavigationRequested = { navigationEffect ->
             when (navigationEffect) {
-                is PetScreenContract.Effect.Navigation.ToInteractionTemplates -> navHostController.navigate("${NavigationKeys.RouteGlobal.ADD_REMINDER}/${navigationEffect.petId}")
+                is PetScreenContract.Effect.Navigation.ToInteractionTemplates -> navigationEffect.petId?.let { petId ->
+                    navHostController.navigate("${NavigationKeys.RouteGlobal.ADD_REMINDER}/$petId")
+                }
                 is PetScreenContract.Effect.Navigation.NavigateBack -> navHostController.navigateUp()
             }
         },
@@ -91,9 +93,7 @@ fun PetScreen(
                 icon = Icons.Filled.Add,
                 contentDescription = "Add reminder",
                 text = "Reminder",
-                onClick = {
-
-                })
+                onClick = { onEventSent(PetScreenContract.Event.AddReminderButtonClicked(state.pet?.id)) })
         },
         floatingActionButtonPosition = FabPosition.End
     ) {

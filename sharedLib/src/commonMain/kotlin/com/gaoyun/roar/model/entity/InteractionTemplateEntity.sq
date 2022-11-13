@@ -7,6 +7,9 @@ interactionGroup TEXT NOT NULL,
 repeatConfig TEXT NOT NULL
 );
 
+selectById:
+SELECT * FROM InteractionTemplateEntity WHERE id = ?;
+
 selectByPetType:
 SELECT * FROM InteractionTemplateEntity WHERE petType = ?;
 

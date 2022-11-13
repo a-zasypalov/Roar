@@ -1,4 +1,4 @@
-package com.gaoyun.roar.presentation.add_reminder
+package com.gaoyun.roar.presentation.add_reminder.choose_template
 
 import com.gaoyun.roar.domain.interaction_template.GetInteractionTemplatesForPetType
 import com.gaoyun.roar.domain.pet.GetPetUseCase
@@ -19,8 +19,8 @@ class AddReminderScreenViewModel :
 
     override fun handleEvents(event: AddReminderScreenContract.Event) {
         when (event) {
-            is AddReminderScreenContract.Event.AddReminderButtonClicked -> with(event) {
-
+            is AddReminderScreenContract.Event.TemplateChosen -> with(event) {
+                setEffect { AddReminderScreenContract.Effect.TemplateChosen(templateId = templateId, petId = petId) }
             }
         }
     }

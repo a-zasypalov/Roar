@@ -6,6 +6,7 @@ object NavigationKeys {
         const val PET_ID_KEY = "PET_ID_KEY"
         const val PET_TYPE_KEY = "PET_TYPE_KEY"
         const val AVATAR_KEY = "AVATAR_KEY"
+        const val TEMPLATE_ID_KEY = "TEMPLATE_ID_KEY"
     }
 
     object RouteLocal {
@@ -25,6 +26,7 @@ object NavigationKeys {
 
         const val ADD_REMINDER = "ADD_REMINDER"
         const val ADD_REMINDER_ROUTE = "$ADD_REMINDER/{${Arg.PET_ID_KEY}}"
+        const val SETUP_REMINDER_ROUTE = "$ADD_REMINDER/{${Arg.PET_ID_KEY}}/{${Arg.TEMPLATE_ID_KEY}}"
 
         const val PET_DETAIL = "PET_DETAIL"
         const val PET_DETAIL_ROUTE = "$PET_DETAIL/{${Arg.PET_ID_KEY}}"
