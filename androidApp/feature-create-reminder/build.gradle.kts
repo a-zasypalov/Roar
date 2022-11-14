@@ -38,4 +38,5 @@ android {
 
 dependencies {
     implementation(project(":androidApp:common"))
+    implementation("androidx.compose.material:material:1.3.0")
 }

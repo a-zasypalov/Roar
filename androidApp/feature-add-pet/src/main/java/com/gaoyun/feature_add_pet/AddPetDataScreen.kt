@@ -114,7 +114,6 @@ private fun AddPetDataScreen(
     }
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun AddPetForm(
     avatar: String,
@@ -126,16 +125,14 @@ private fun AddPetForm(
     val petName = rememberSaveable { mutableStateOf("") }
     val chipNumberState = rememberSaveable { mutableStateOf("") }
 
-    var petBreedsExpanded by remember { mutableStateOf(false) }
     val petBreedState = rememberSaveable { mutableStateOf(petBreeds.firstOrNull() ?: "") }
+    val petGenderState = rememberSaveable { mutableStateOf("Male") }
 
     val petBirthdayState = rememberSaveable { mutableStateOf<Long?>(null) }
     val petBirthdayStringState = remember { mutableStateOf(TextFieldValue()) }
 
     val petIsSterilizedState = rememberSaveable { mutableStateOf(false) }
 
-    var petGenderExpanded by remember { mutableStateOf(false) }
-    val petGenderState = rememberSaveable { mutableStateOf("Male") }
 
     if (petBreedState.value.isEmpty() && petBreeds.isNotEmpty()) {
         petBreedState.value = petBreeds.first()
@@ -197,103 +194,23 @@ private fun AddPetForm(
 
                 Spacer(size = 16.dp)
 
-                ExposedDropdownMenuBox(
-                    expanded = petBreedsExpanded,
-                    onExpandedChange = { petBreedsExpanded = !petBreedsExpanded },
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(horizontal = 24.dp)
-                ) {
-                    TextFormField(
-                        readOnly = true,
-                        text = petBreedState.value,
-                        onChange = { },
-                        label = "Breed",
-                        trailingIcon = {
-                            ExposedDropdownMenuDefaults.TrailingIcon(expanded = petBreedsExpanded)
-                        },
-                        leadingIcon = {
-                            Icon(
-                                Icons.Filled.List,
-                                "",
-                                tint = MaterialTheme.colorScheme.onBackground
-                            )
-                        },
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .menuAnchor()
-                    )
-                    ExposedDropdownMenu(
-                        expanded = petBreedsExpanded,
-                        onDismissRequest = { petBreedsExpanded = false },
-                        modifier = Modifier.background(MaterialTheme.colorScheme.surfaceVariant)
-                    ) {
-                        petBreeds.forEach { breedSelection ->
-                            DropdownMenuItem(
-                                text = {
-                                    Text(
-                                        text = breedSelection,
-                                        color = MaterialTheme.colorScheme.onSurfaceVariant
-                                    )
-                                },
-                                onClick = {
-                                    petBreedState.value = breedSelection
-                                    petBreedsExpanded = false
-                                },
-                            )
-                        }
-                    }
-                }
+                DropdownMenu(
+                    valueList = petBreeds,
+                    listState = petBreedState,
+                    label = "Breed",
+                    leadingIcon = Icons.Filled.List,
+                    modifier = Modifier.fillMaxWidth().padding(horizontal = 24.dp)
+                )
 
                 Spacer(size = 16.dp)
 
-                ExposedDropdownMenuBox(
-                    expanded = petGenderExpanded,
-                    onExpandedChange = { petGenderExpanded = !petGenderExpanded },
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(horizontal = 24.dp)
-                ) {
-                    TextFormField(
-                        readOnly = true,
-                        text = petGenderState.value,
-                        onChange = { },
-                        label = "Gender",
-                        trailingIcon = {
-                            ExposedDropdownMenuDefaults.TrailingIcon(expanded = petGenderExpanded)
-                        },
-                        leadingIcon = {
-                            Icon(
-                                if (petGenderState.value == "Male") Icons.Filled.Male else Icons.Filled.Female,
-                                "",
-                                tint = MaterialTheme.colorScheme.onBackground
-                            )
-                        },
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .menuAnchor()
-                    )
-                    ExposedDropdownMenu(
-                        expanded = petGenderExpanded,
-                        onDismissRequest = { petGenderExpanded = false },
-                        modifier = Modifier.background(MaterialTheme.colorScheme.surfaceVariant)
-                    ) {
-                        listOf("Male", "Female").forEach { genderSelection ->
-                            DropdownMenuItem(
-                                text = {
-                                    Text(
-                                        text = genderSelection,
-                                        color = MaterialTheme.colorScheme.onSurfaceVariant
-                                    )
-                                },
-                                onClick = {
-                                    petGenderState.value = genderSelection
-                                    petGenderExpanded = false
-                                },
-                            )
-                        }
-                    }
-                }
+                DropdownMenu(
+                    valueList = listOf("Male", "Female"),
+                    listState = petGenderState,
+                    label = "Gender",
+                    leadingIcon = if (petGenderState.value == "Male") Icons.Filled.Male else Icons.Filled.Female,
+                    modifier = Modifier.fillMaxWidth().padding(horizontal = 24.dp)
+                )
 
                 Spacer(size = 16.dp)
 

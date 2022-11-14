@@ -9,6 +9,12 @@ enum class InteractionType {
         const val DEWORMING_STRING = "deworming"
         const val FLEES_STRING = "flees"
         const val HEALTH_CHECK_STRING = "health_check"
+
+        val TYPES_LIST = listOf(
+            DEWORMING_STRING,
+            FLEES_STRING,
+            HEALTH_CHECK_STRING
+        )
     }
 
     override fun toString(): String {

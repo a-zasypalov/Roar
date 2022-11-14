@@ -1,8 +1,8 @@
 package com.gaoyun.roar.model.domain.interactions
 
 data class InteractionRepeatConfig(
-    val each: InteractionRepeatConfigEach,
-    val onOrAt: String
+    val each: InteractionRepeatConfigEach = InteractionRepeatConfigEach.DAY,
+    val onOrAt: String = "1"
 ) {
     override fun toString(): String = "${each}_${onOrAt}"
 }

@@ -10,6 +10,7 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardCapitalization
 import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.sp
 
 
@@ -18,7 +19,7 @@ import androidx.compose.ui.unit.sp
 fun TextFormField(
     modifier: Modifier = Modifier,
     text: String,
-    label: String,
+    label: String? = null,
     leadingIcon: @Composable (() -> Unit)? = null,
     trailingIcon: @Composable (() -> Unit)? = null,
     onChange: (String) -> Unit = {},
@@ -50,7 +51,9 @@ fun TextFormField(
             focusedLabelColor = MaterialTheme.colorScheme.onSurface,
         ),
         label = {
-            Text(text = label)
+            label?.let {
+                Text(text = it)
+            }
         },
     )
 }
