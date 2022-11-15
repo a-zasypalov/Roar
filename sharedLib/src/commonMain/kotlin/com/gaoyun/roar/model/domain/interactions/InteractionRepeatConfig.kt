@@ -1,10 +1,14 @@
 package com.gaoyun.roar.model.domain.interactions
 
 data class InteractionRepeatConfig(
-    val each: InteractionRepeatConfigEach = InteractionRepeatConfigEach.DAY,
-    val onOrAt: String = "1"
+    val repeatsEveryNumber: Int = 1,
+    val repeatsEveryPeriod: InteractionRepeatConfigEach = InteractionRepeatConfigEach.DAY,
+    val repeatsEveryPeriodOn: String = "-",
+    val startsOn: String = "12.12.2022",
+    val ends: String = "no",
+    val active: Boolean = false,
 ) {
-    override fun toString(): String = "${each}_${onOrAt}"
+    override fun toString(): String = "${repeatsEveryNumber}_${repeatsEveryPeriod}_${repeatsEveryPeriodOn}_${startsOn}_$ends"
 }
 
 enum class InteractionRepeatConfigEach {
@@ -39,8 +43,14 @@ internal fun String.toInteractionRepeatConfigEach(): InteractionRepeatConfigEach
 
 internal fun String.toInteractionRepeatConfig(): InteractionRepeatConfig {
     val split = this.split("_")
-    return InteractionRepeatConfig(
-        each = split[0].toInteractionRepeatConfigEach(),
-        onOrAt = split[1]
-    )
+    return if (split.size == 5) {
+        InteractionRepeatConfig(
+            repeatsEveryNumber = split[0].toIntOrNull() ?: 1,
+            repeatsEveryPeriod = split[1].toInteractionRepeatConfigEach(),
+            repeatsEveryPeriodOn = split[2],
+            startsOn = split[3],
+            ends = split[4],
+            active = true
+        )
+    } else InteractionRepeatConfig(active = false)
 }
