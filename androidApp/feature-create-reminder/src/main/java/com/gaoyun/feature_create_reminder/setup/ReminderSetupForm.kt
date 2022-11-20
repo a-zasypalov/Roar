@@ -1,177 +1,45 @@
-package com.gaoyun.feature_create_reminder
+package com.gaoyun.feature_create_reminder.setup
 
 import androidx.appcompat.app.AppCompatActivity
-import androidx.compose.foundation.*
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.relocation.BringIntoViewRequester
-import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.*
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.*
-import androidx.compose.material3.*
+import androidx.compose.material.icons.filled.FormatListBulleted
+import androidx.compose.material.icons.filled.Notes
+import androidx.compose.material.icons.filled.Repeat
+import androidx.compose.material.icons.filled.TaskAlt
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.onFocusEvent
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.Lifecycle
-import androidx.navigation.NavHostController
-import com.gaoyun.common.OnLifecycleEvent
 import com.gaoyun.common.dialog.DatePicker
 import com.gaoyun.common.dialog.TimePicker
 import com.gaoyun.common.ui.*
 import com.gaoyun.roar.model.domain.interactions.*
-import com.gaoyun.roar.presentation.LAUNCH_LISTEN_FOR_EFFECTS
-import com.gaoyun.roar.presentation.add_reminder.setup_reminder.SetupReminderScreenContract
-import com.gaoyun.roar.presentation.add_reminder.setup_reminder.SetupReminderScreenViewModel
 import com.gaoyun.roar.util.toLocalDate
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import kotlinx.datetime.*
-import org.koin.androidx.compose.getViewModel
 import java.time.format.DateTimeFormatter
 import kotlin.time.Duration.Companion.days
 
-@Composable
-fun SetupReminderDestination(
-    navHostController: NavHostController,
-    petId: String,
-    templateId: String
-) {
-    val viewModel: SetupReminderScreenViewModel = getViewModel()
-    val state = viewModel.viewState.collectAsState().value
-
-    OnLifecycleEvent { _, event ->
-        if (event == Lifecycle.Event.ON_CREATE) {
-            viewModel.buildScreenState(petId = petId, templateId = templateId)
-        }
-    }
-
-    SetupReminderScreen(
-        state = state,
-        effectFlow = viewModel.effect,
-        onEventSent = { event -> viewModel.setEvent(event) },
-        onNavigationRequested = { navigationEffect ->
-            when (navigationEffect) {
-                is SetupReminderScreenContract.Effect.Navigation.NavigateBack -> navHostController.navigateUp()
-            }
-        },
-        viewModel = viewModel
-    )
-
-}
-
-@Composable
-@OptIn(ExperimentalMaterial3Api::class)
-fun SetupReminderScreen(
-    state: SetupReminderScreenContract.State,
-    effectFlow: Flow<SetupReminderScreenContract.Effect>,
-    onEventSent: (event: SetupReminderScreenContract.Event) -> Unit,
-    onNavigationRequested: (navigationEffect: SetupReminderScreenContract.Effect.Navigation) -> Unit,
-    viewModel: SetupReminderScreenViewModel
-) {
-
-    LaunchedEffect(LAUNCH_LISTEN_FOR_EFFECTS) {
-        effectFlow.onEach { effect ->
-            when (effect) {
-//                is SetupReminderScreenContract.Effect.TemplateChosen -> {
-//                    onNavigationRequested(AddReminderScreenContract.Effect.Navigation.ToReminderSetup(effect.templateId))
-//                }
-                else -> {}
-            }
-        }.collect()
-    }
-
-    SurfaceScaffold {
-        Box(contentAlignment = Alignment.BottomCenter) {
-            state.pet?.let { pet ->
-                Box(modifier = Modifier.fillMaxSize()) {
-                    ReminderSetupHeader(
-                        petAvatar = pet.avatar,
-                        petName = pet.name,
-                    )
-                }
-
-                Column {
-                    Spacer(size = 110.dp)
-                    SurfaceCard(
-                        shape = RoundedCornerShape(topStart = 24.dp, topEnd = 24.dp, bottomStart = 0.dp, bottomEnd = 0.dp),
-                        elevation = CardDefaults.cardElevation(defaultElevation = 8.dp),
-                        modifier = Modifier.padding(horizontal = 12.dp)
-                    ) {
-                        Box(modifier = Modifier.padding(top = 32.dp)) {
-                            ReminderSetupForm(
-                                template = state.template,
-                                repeatConfig = state.repeatConfig,
-                                onConfigSave = { config ->
-                                    onEventSent(SetupReminderScreenContract.Event.RepeatConfigChanged(config))
-                                },
-                                onSaveButtonClick = { name, type, group, repeatIsEnabled, repeatConfig, notes, date, timeHours, timeMinutes ->
-                                    onEventSent(
-                                        SetupReminderScreenContract.Event.OnSaveButtonClick(
-                                            name = name,
-                                            type = type,
-                                            group = group,
-                                            repeatIsEnabled = repeatIsEnabled,
-                                            repeatConfig = repeatConfig,
-                                            notes = notes,
-                                            petId = pet.id,
-                                            templateId = state.template?.id,
-                                            date = date,
-                                            timeHours = timeHours,
-                                            timeMinutes = timeMinutes
-                                        )
-                                    )
-                                },
-                            )
-                        }
-                    }
-                }
-            }
-
-            Loader(isLoading = state.isLoading)
-        }
-    }
-}
-
-@Composable
-private fun ReminderSetupHeader(
-    petAvatar: String,
-    petName: String,
-) {
-    Row(
-        modifier = Modifier
-            .padding(top = 32.dp, start = 16.dp, end = 16.dp),
-        verticalAlignment = Alignment.CenterVertically
-    ) {
-        Image(
-            painter = painterResource(id = LocalContext.current.getDrawableByName(petAvatar)),
-            contentDescription = petName,
-            modifier = Modifier.size(48.dp)
-        )
-
-        Spacer(size = 10.dp)
-
-        Text(
-            text = "Reminder",
-            style = MaterialTheme.typography.displayMedium,
-        )
-    }
-}
-
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
-private fun ReminderSetupForm(
+internal fun ReminderSetupForm(
     template: InteractionTemplate?,
     repeatConfig: InteractionRepeatConfig,
     onConfigSave: (String) -> Unit,

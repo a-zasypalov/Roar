@@ -35,7 +35,7 @@ class InsertInteraction : KoinComponent {
 
         repository.insertInteraction(newInteraction)
 
-        emit(newInteraction.id)
+        emit(newInteraction)
     }
 
 }

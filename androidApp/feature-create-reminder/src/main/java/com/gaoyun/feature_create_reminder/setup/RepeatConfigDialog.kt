@@ -1,4 +1,4 @@
-package com.gaoyun.feature_create_reminder
+package com.gaoyun.feature_create_reminder.setup
 
 import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.foundation.background
@@ -22,7 +22,6 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
 import com.gaoyun.common.dialog.DatePicker
-import com.gaoyun.common.dialog.TimePicker
 import com.gaoyun.common.ui.*
 import com.gaoyun.roar.model.domain.interactions.InteractionRepeatConfig
 import com.gaoyun.roar.util.toLocalDate

@@ -11,7 +11,6 @@ import com.gaoyun.roar.model.domain.interactions.InteractionType
 import com.gaoyun.roar.model.domain.interactions.toInteractionRepeatConfig
 import com.gaoyun.roar.presentation.BaseViewModel
 import com.gaoyun.roar.util.toLocalDate
-import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.launch
 import kotlinx.datetime.*
 import org.koin.core.component.KoinComponent
@@ -83,9 +82,9 @@ class SetupReminderScreenViewModel :
             group = group.toString(),
             repeatConfig = repeatConfig,
             notes = notes
-        ).collect { interactionId ->
-            insertReminder.insertReminder(interactionId, dateTime).collect { reminder ->
-                //Create system reminder
+        ).collect { interaction ->
+            insertReminder.insertReminder(interaction.id, dateTime).collect { reminder ->
+                setEffect { SetupReminderScreenContract.Effect.ReminderCreated(reminder, interaction) }
             }
         }
     }

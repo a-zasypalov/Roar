@@ -1,14 +1,11 @@
 package com.gaoyun.roar.presentation.add_reminder.setup_reminder
 
-import com.gaoyun.roar.model.domain.interactions.InteractionTemplate
 import com.gaoyun.roar.model.domain.Pet
-import com.gaoyun.roar.model.domain.interactions.InteractionGroup
-import com.gaoyun.roar.model.domain.interactions.InteractionRepeatConfig
-import com.gaoyun.roar.model.domain.interactions.InteractionType
+import com.gaoyun.roar.model.domain.Reminder
+import com.gaoyun.roar.model.domain.interactions.*
 import com.gaoyun.roar.presentation.ViewEvent
 import com.gaoyun.roar.presentation.ViewSideEffect
 import com.gaoyun.roar.presentation.ViewState
-import kotlinx.datetime.LocalDateTime
 
 class SetupReminderScreenContract {
 
@@ -37,10 +34,13 @@ class SetupReminderScreenContract {
     ) : ViewState
 
     sealed class Effect : ViewSideEffect {
-//        class TemplateChosen(val templateId: String) : Effect()
+        class ReminderCreated(
+            val reminder: Reminder,
+            val interaction: Interaction
+        ) : Effect()
 
         sealed class Navigation : Effect() {
-//            class ToReminderSetup(val templateId: String) : Navigation()
+            //            class ToReminderSetup(val templateId: String) : Navigation()
             object NavigateBack : Navigation()
         }
     }
