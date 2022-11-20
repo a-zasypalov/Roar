@@ -17,6 +17,12 @@ enum class InteractionGroup {
         const val HEALTH_STRING = "health"
         const val CARE_STRING = "care"
         const val ROUTINE_STRING = "routine"
+
+        val GROUP_LIST = listOf(
+            HEALTH_STRING,
+            CARE_STRING,
+            ROUTINE_STRING
+        )
     }
 }
 

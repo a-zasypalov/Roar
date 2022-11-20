@@ -81,48 +81,7 @@ internal fun RepeatConfigDialog(
         )
     }
 
-    val safeDateTime = repeatConfig?.startsOn?.split("T") ?: listOf()
-
-    val startsOnDate = remember {
-        mutableStateOf(
-            if (safeDateTime.size == 2)
-                LocalDate.parse(safeDateTime[0]).atStartOfDayIn(TimeZone.currentSystemDefault()).toEpochMilliseconds()
-            else
-                Clock.System.now().toEpochMilliseconds()
-        )
-    }
-
-    val startsOnDateString = remember {
-        mutableStateOf(
-            TextFieldValue(
-                Instant.fromEpochMilliseconds(startsOnDate.value).toLocalDateTime(TimeZone.currentSystemDefault()).toJavaLocalDateTime()
-                    .format(ddMMMYYYYDateFormatter)
-            )
-        )
-    }
-
-    val startsOnTime = remember {
-        mutableStateOf(
-            if (safeDateTime.size == 2)
-                LocalTime.parse(safeDateTime[1])
-            else
-                Clock.System.now().toLocalDateTime(TimeZone.currentSystemDefault()).time
-
-        )
-    }
-    val startsOnTimeString = remember {
-        mutableStateOf(
-            TextFieldValue(
-                "${
-                    if (startsOnTime.value.hour < 10) "0${startsOnTime.value.hour}" else "${startsOnTime.value.hour}"
-                }:${
-                    if (startsOnTime.value.minute < 10) "0${startsOnTime.value.minute}" else "${startsOnTime.value.minute}"
-                }"
-            )
-        )
-    }
-
-    val endSafe = repeatConfig?.ends?.split("-") ?: listOf()
+    val endSafe = repeatConfig?.ends?.split(".") ?: listOf()
     val endConditionState = rememberSaveable {
         mutableStateOf(
             if (endSafe.size == 2) {
@@ -285,61 +244,6 @@ internal fun RepeatConfigDialog(
 
                     Spacer(size = 16.dp)
 
-                    ReadonlyTextField(
-                        value = startsOnTimeString.value,
-                        onValueChange = { startsOnTimeString.value = it },
-                        label = { Text(text = "Time") },
-                        onClick = {
-                            TimePicker.pickTime(
-                                title = "Remind at",
-                                fragmentManager = activity.supportFragmentManager,
-                                hourAndMinutes = listOf(
-                                    startsOnTimeString.value.text.split(":")[0].toInt(),
-                                    startsOnTimeString.value.text.split(":")[1].toInt()
-                                ),
-                                onTimePicked = { hours, minutes ->
-                                    val hoursFormatted = if (hours < 10) "0$hours" else "$hours"
-                                    val minutesFormatted = if (minutes < 10) "0$minutes" else "$minutes"
-                                    val newTime = "$hoursFormatted:$minutesFormatted"
-                                    startsOnTimeString.value = TextFieldValue(newTime)
-                                    startsOnTime.value = LocalTime.parse(newTime)
-                                }
-                            )
-                        },
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(horizontal = defaultHorizontalPadding)
-                    )
-
-                    Spacer(size = 12.dp)
-
-                    ReadonlyTextField(
-                        value = startsOnDateString.value,
-                        onValueChange = { startsOnDateString.value = it },
-                        label = { Text(text = "Starts") },
-                        onClick = {
-                            DatePicker.pickDate(
-                                title = "Reminder start",
-                                fragmentManager = activity.supportFragmentManager,
-                                selectedDateMillis = startsOnDate.value,
-                                onDatePicked = {
-                                    startsOnDate.value = it
-                                    startsOnDateString.value = TextFieldValue(
-                                        Instant.fromEpochMilliseconds(it)
-                                            .toLocalDate()
-                                            .toJavaLocalDate()
-                                            .format(ddMMMYYYYDateFormatter)
-                                    )
-                                }
-                            )
-                        },
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(horizontal = defaultHorizontalPadding)
-                    )
-
-                    Spacer(size = 12.dp)
-
                     DropdownMenu(
                         valueList = endConditionStatesList,
                         listState = endConditionState,
@@ -360,8 +264,9 @@ internal fun RepeatConfigDialog(
                                 onClick = {
                                     DatePicker.pickDate(
                                         title = "Reminder ends on",
+                                        start = Clock.System.now().toEpochMilliseconds(),
                                         fragmentManager = activity.supportFragmentManager,
-                                        selectedDateMillis = startsOnDate.value,
+                                        selectedDateMillis = Clock.System.now().toEpochMilliseconds(),
                                         onDatePicked = {
                                             endsOnDateState.value = it
                                             endsOnDateStateString.value = TextFieldValue(
@@ -425,13 +330,13 @@ internal fun RepeatConfigDialog(
                                 else -> "-"
                             }
                             val ends = when (endConditionState.value) {
-                                "On date" -> "date-${Instant.fromEpochMilliseconds(endsOnDateState.value).toLocalDate()}"
-                                "After..." -> "times-${endsOnTimesState.value}"
-                                else -> "no-0"
+                                "On date" -> "date.${Instant.fromEpochMilliseconds(endsOnDateState.value).toLocalDate()}"
+                                "After..." -> "times.${endsOnTimesState.value}"
+                                else -> "no.0"
                             }
 
                             val config =
-                                "${repeatsEveryNumber.value}_${repeatsEveryPeriod.value}_${repeatsEveryPeriodOn}_${Instant.fromEpochMilliseconds(startsOnDate.value).toLocalDate()}T${startsOnTime.value}_$ends"
+                                "${repeatsEveryNumber.value}_${repeatsEveryPeriod.value}_${repeatsEveryPeriodOn}_$ends"
 
                             onConfigSave(config)
                             setShowDialog(false)

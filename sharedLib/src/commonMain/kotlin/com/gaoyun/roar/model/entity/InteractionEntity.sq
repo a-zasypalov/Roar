@@ -1,11 +1,11 @@
 CREATE TABLE InteractionEntity (
 id TEXT NOT NULL PRIMARY KEY,
-templateId TEXT NOT NULL,
+templateId TEXT,
 petId TEXT NOT NULL,
 type TEXT NOT NULL,
 name TEXT NOT NULL,
 interactionGroup TEXT NOT NULL,
-repeatConfig TEXT NOT NULL,
+repeatConfig TEXT,
 isActive INTEGER AS Boolean NOT NULL DEFAULT 0,
 notes TEXT NOT NULL
 );

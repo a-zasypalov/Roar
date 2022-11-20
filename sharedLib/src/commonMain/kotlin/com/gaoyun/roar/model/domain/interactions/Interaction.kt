@@ -5,12 +5,12 @@ import com.gaoyun.roar.util.randomUUID
 
 data class Interaction(
     val id: String = randomUUID(),
-    val templateId: String,
+    val templateId: String? = null,
     val petId: String,
     val type: InteractionType,
     val name: String,
     val group: InteractionGroup,
-    val repeatConfig: InteractionRepeatConfig,
+    val repeatConfig: InteractionRepeatConfig? = null,
     val isActive: Boolean,
     val notes: String = ""
 )
@@ -23,7 +23,7 @@ internal fun InteractionEntity.toDomain(): Interaction {
         type = type.toInteractionType(),
         name = name,
         group = interactionGroup.toInteractionGroup(),
-        repeatConfig = repeatConfig.toInteractionRepeatConfig(),
+        repeatConfig = repeatConfig?.toInteractionRepeatConfig(),
         isActive = isActive
     )
 }

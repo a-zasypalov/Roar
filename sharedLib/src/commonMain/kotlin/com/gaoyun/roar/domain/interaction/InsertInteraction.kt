@@ -14,28 +14,28 @@ class InsertInteraction : KoinComponent {
     private val repository: InteractionRepository by inject()
 
     fun insertInteraction(
-        templateId: String,
+        templateId: String?,
         petId: String,
         type: String,
         name: String,
         group: String,
-        repeatConfig: InteractionRepeatConfig,
+        repeatConfig: InteractionRepeatConfig?,
         notes: String
     ) = flow {
-        emit(
-            repository.insertInteraction(
-                Interaction(
-                    templateId = templateId,
-                    petId = petId,
-                    type = type.toInteractionType(),
-                    name = name,
-                    group = group.toInteractionGroup(),
-                    repeatConfig = repeatConfig,
-                    isActive = true,
-                    notes = notes
-                )
-            )
+        val newInteraction = Interaction(
+            templateId = templateId,
+            petId = petId,
+            type = type.toInteractionType(),
+            name = name,
+            group = group.toInteractionGroup(),
+            repeatConfig = repeatConfig,
+            isActive = true,
+            notes = notes
         )
+
+        repository.insertInteraction(newInteraction)
+
+        emit(newInteraction.id)
     }
 
 }

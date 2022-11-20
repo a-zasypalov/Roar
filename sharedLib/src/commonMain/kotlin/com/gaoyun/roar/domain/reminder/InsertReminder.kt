@@ -1,6 +1,7 @@
 package com.gaoyun.roar.domain.reminder
 
 import com.gaoyun.roar.model.domain.Reminder
+import com.gaoyun.roar.repository.InteractionRepository
 import com.gaoyun.roar.repository.ReminderRepository
 import kotlinx.coroutines.flow.flow
 import kotlinx.datetime.LocalDateTime
@@ -12,14 +13,14 @@ class InsertReminder : KoinComponent {
     private val repository: ReminderRepository by inject()
 
     fun insertReminder(interactionId: String, dateTime: LocalDateTime) = flow {
-        emit(
-            repository.insertReminder(
-                Reminder(
-                    interactionId = interactionId,
-                    dateTime = dateTime,
-                )
-            )
+        val newReminder = Reminder(
+            interactionId = interactionId,
+            dateTime = dateTime,
         )
+
+        repository.insertReminder(newReminder)
+
+        emit(newReminder)
     }
 
 }
