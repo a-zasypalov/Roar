@@ -1,9 +1,12 @@
 package com.gaoyun.feature_create_reminder
 
+import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
@@ -11,14 +14,20 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
+import com.gaoyun.common.dialog.DatePicker
+import com.gaoyun.common.dialog.TimePicker
 import com.gaoyun.common.ui.*
 import com.gaoyun.roar.model.domain.interactions.InteractionRepeatConfig
+import com.gaoyun.roar.util.toLocalDate
+import kotlinx.datetime.*
+import java.time.format.DateTimeFormatter
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -27,6 +36,9 @@ internal fun RepeatConfigDialog(
     setShowDialog: (Boolean) -> Unit,
     onConfigSave: (String) -> Unit
 ) {
+
+    val activity = LocalContext.current as AppCompatActivity
+    val ddMMMYYYYDateFormatter = DateTimeFormatter.ofPattern("dd MMM yyyy")
 
     val repeatsEveryNumber = rememberSaveable { mutableStateOf(repeatConfig?.repeatsEveryNumber?.toString() ?: "1") }
     val repeatsEveryPeriod = rememberSaveable { mutableStateOf(repeatConfig?.repeatsEveryPeriod?.toString() ?: "month") }
@@ -70,8 +82,45 @@ internal fun RepeatConfigDialog(
     }
 
     val safeDateTime = repeatConfig?.startsOn?.split("T") ?: listOf()
-    val startsOnDate = remember { mutableStateOf(TextFieldValue(if (safeDateTime.size == 2) safeDateTime[0] else "15 November")) }
-    val startsOnTime = remember { mutableStateOf(TextFieldValue(if (safeDateTime.size == 2) safeDateTime[1] else "19:00")) }
+
+    val startsOnDate = remember {
+        mutableStateOf(
+            if (safeDateTime.size == 2)
+                LocalDate.parse(safeDateTime[0]).atStartOfDayIn(TimeZone.currentSystemDefault()).toEpochMilliseconds()
+            else
+                Clock.System.now().toEpochMilliseconds()
+        )
+    }
+
+    val startsOnDateString = remember {
+        mutableStateOf(
+            TextFieldValue(
+                Instant.fromEpochMilliseconds(startsOnDate.value).toLocalDateTime(TimeZone.currentSystemDefault()).toJavaLocalDateTime()
+                    .format(ddMMMYYYYDateFormatter)
+            )
+        )
+    }
+
+    val startsOnTime = remember {
+        mutableStateOf(
+            if (safeDateTime.size == 2)
+                LocalTime.parse(safeDateTime[1])
+            else
+                Clock.System.now().toLocalDateTime(TimeZone.currentSystemDefault()).time
+
+        )
+    }
+    val startsOnTimeString = remember {
+        mutableStateOf(
+            TextFieldValue(
+                "${
+                    if (startsOnTime.value.hour < 10) "0${startsOnTime.value.hour}" else "${startsOnTime.value.hour}"
+                }:${
+                    if (startsOnTime.value.minute < 10) "0${startsOnTime.value.minute}" else "${startsOnTime.value.minute}"
+                }"
+            )
+        )
+    }
 
     val endSafe = repeatConfig?.ends?.split("-") ?: listOf()
     val endConditionState = rememberSaveable {
@@ -91,15 +140,20 @@ internal fun RepeatConfigDialog(
 
     val endsOnDateState = remember {
         mutableStateOf(
+            if (endSafe.size == 2 && endSafe[0] == "date")
+                LocalDate.parse(endSafe[1]).atStartOfDayIn(TimeZone.currentSystemDefault()).toEpochMilliseconds()
+            else
+                Clock.System.now().toEpochMilliseconds()
+        )
+    }
+    val endsOnDateStateString = remember {
+        mutableStateOf(
             TextFieldValue(
-                if (endSafe.size == 2 && endSafe[0] == "date") {
-                    endSafe[1]
-                } else {
-                    "15 November"
-                }
+                Instant.fromEpochMilliseconds(endsOnDateState.value).toLocalDate().toJavaLocalDate().format(ddMMMYYYYDateFormatter)
             )
         )
     }
+
     val endsOnTimesState = remember {
         mutableStateOf(
             if (endSafe.size == 2 && endSafe[0] == "times") {
@@ -129,7 +183,11 @@ internal fun RepeatConfigDialog(
                     .fillMaxWidth()
                     .padding(vertical = 36.dp)
             ) {
-                Column(modifier = Modifier.padding(vertical = 16.dp)) {
+                Column(
+                    modifier = Modifier
+                        .padding(vertical = 16.dp)
+                        .verticalScroll(rememberScrollState())
+                ) {
                     Text(
                         text = "Repeats every",
                         style = MaterialTheme.typography.displaySmall,
@@ -228,11 +286,25 @@ internal fun RepeatConfigDialog(
                     Spacer(size = 16.dp)
 
                     ReadonlyTextField(
-                        value = startsOnTime.value,
-                        onValueChange = { startsOnTime.value = it },
+                        value = startsOnTimeString.value,
+                        onValueChange = { startsOnTimeString.value = it },
                         label = { Text(text = "Time") },
                         onClick = {
-
+                            TimePicker.pickTime(
+                                title = "Remind at",
+                                fragmentManager = activity.supportFragmentManager,
+                                hourAndMinutes = listOf(
+                                    startsOnTimeString.value.text.split(":")[0].toInt(),
+                                    startsOnTimeString.value.text.split(":")[1].toInt()
+                                ),
+                                onTimePicked = { hours, minutes ->
+                                    val hoursFormatted = if (hours < 10) "0$hours" else "$hours"
+                                    val minutesFormatted = if (minutes < 10) "0$minutes" else "$minutes"
+                                    val newTime = "$hoursFormatted:$minutesFormatted"
+                                    startsOnTimeString.value = TextFieldValue(newTime)
+                                    startsOnTime.value = LocalTime.parse(newTime)
+                                }
+                            )
                         },
                         modifier = Modifier
                             .fillMaxWidth()
@@ -242,11 +314,24 @@ internal fun RepeatConfigDialog(
                     Spacer(size = 12.dp)
 
                     ReadonlyTextField(
-                        value = startsOnDate.value,
-                        onValueChange = { startsOnDate.value = it },
+                        value = startsOnDateString.value,
+                        onValueChange = { startsOnDateString.value = it },
                         label = { Text(text = "Starts") },
                         onClick = {
-
+                            DatePicker.pickDate(
+                                title = "Reminder start",
+                                fragmentManager = activity.supportFragmentManager,
+                                selectedDateMillis = startsOnDate.value,
+                                onDatePicked = {
+                                    startsOnDate.value = it
+                                    startsOnDateString.value = TextFieldValue(
+                                        Instant.fromEpochMilliseconds(it)
+                                            .toLocalDate()
+                                            .toJavaLocalDate()
+                                            .format(ddMMMYYYYDateFormatter)
+                                    )
+                                }
+                            )
                         },
                         modifier = Modifier
                             .fillMaxWidth()
@@ -269,10 +354,25 @@ internal fun RepeatConfigDialog(
                     when (endConditionState.value) {
                         "On date" -> {
                             ReadonlyTextField(
-                                value = endsOnDateState.value,
-                                onValueChange = { endsOnDateState.value = it },
+                                value = endsOnDateStateString.value,
+                                onValueChange = { endsOnDateStateString.value = it },
                                 label = { Text(text = "End on date") },
-                                onClick = { },
+                                onClick = {
+                                    DatePicker.pickDate(
+                                        title = "Reminder ends on",
+                                        fragmentManager = activity.supportFragmentManager,
+                                        selectedDateMillis = startsOnDate.value,
+                                        onDatePicked = {
+                                            endsOnDateState.value = it
+                                            endsOnDateStateString.value = TextFieldValue(
+                                                Instant.fromEpochMilliseconds(it)
+                                                    .toLocalDate()
+                                                    .toJavaLocalDate()
+                                                    .format(ddMMMYYYYDateFormatter)
+                                            )
+                                        }
+                                    )
+                                },
                                 modifier = Modifier
                                     .fillMaxWidth()
                                     .padding(horizontal = defaultHorizontalPadding)
@@ -325,13 +425,13 @@ internal fun RepeatConfigDialog(
                                 else -> "-"
                             }
                             val ends = when (endConditionState.value) {
-                                "On date" -> "date-${endsOnDateState.value.text}"
+                                "On date" -> "date-${Instant.fromEpochMilliseconds(endsOnDateState.value).toLocalDate()}"
                                 "After..." -> "times-${endsOnTimesState.value}"
                                 else -> "no-0"
                             }
 
                             val config =
-                                "${repeatsEveryNumber.value}_${repeatsEveryPeriod.value}_${repeatsEveryPeriodOn}_${startsOnDate.value.text}T${startsOnTime.value.text}_$ends"
+                                "${repeatsEveryNumber.value}_${repeatsEveryPeriod.value}_${repeatsEveryPeriodOn}_${Instant.fromEpochMilliseconds(startsOnDate.value).toLocalDate()}T${startsOnTime.value}_$ends"
 
                             onConfigSave(config)
                             setShowDialog(false)

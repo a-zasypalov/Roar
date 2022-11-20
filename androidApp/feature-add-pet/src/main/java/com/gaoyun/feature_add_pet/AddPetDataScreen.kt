@@ -25,6 +25,7 @@ import androidx.lifecycle.Lifecycle
 import androidx.navigation.NavHostController
 import com.gaoyun.common.NavigationKeys
 import com.gaoyun.common.OnLifecycleEvent
+import com.gaoyun.common.dialog.DatePicker
 import com.gaoyun.common.theme.RoarTheme
 import com.gaoyun.common.ui.*
 import com.gaoyun.roar.presentation.LAUNCH_LISTEN_FOR_EFFECTS
@@ -229,41 +230,21 @@ private fun AddPetForm(
                     },
                     modifier = Modifier.padding(horizontal = 24.dp),
                     onClick = {
-                        val dialogBuilder = MaterialDatePicker.Builder
-                            .datePicker()
-                            .setTitleText("Pet's birthday")
-                            .setCalendarConstraints(
-                                CalendarConstraints
-                                    .Builder()
-                                    .setStart(
-                                        Instant
-                                            .now()
-                                            .minusMillis(30 * DatetimeConstants.YEAR_MILLIS)
-                                            .toEpochMilli()
-                                    )
-                                    .setEnd(
-                                        Instant
-                                            .now()
-                                            .toEpochMilli()
-                                    )
-                                    .build()
-                            )
-                        if (petBirthdayState.value != null) {
-                            dialogBuilder.setSelection(petBirthdayState.value)
-                        } else {
-                            dialogBuilder.setSelection(System.currentTimeMillis())
-                        }
-                        val dialog = dialogBuilder.build()
-                        dialog.addOnPositiveButtonClickListener {
-                            petBirthdayState.value = it
-                            petBirthdayStringState.value = TextFieldValue(
-                                Instant.ofEpochMilli(it)
-                                    .atZone(ZoneId.systemDefault())
-                                    .toLocalDate()
-                                    .toString()
-                            )
-                        }
-                        dialog.show(activity.supportFragmentManager, "TAG")
+                        DatePicker.pickDate(
+                            title = "Pet's birthday",
+                            end = Instant.now().toEpochMilli(),
+                            fragmentManager = activity.supportFragmentManager,
+                            selectedDateMillis = petBirthdayState.value,
+                            onDatePicked = {
+                                petBirthdayState.value = it
+                                petBirthdayStringState.value = TextFieldValue(
+                                    Instant.ofEpochMilli(it)
+                                        .atZone(ZoneId.systemDefault())
+                                        .toLocalDate()
+                                        .toString()
+                                )
+                            }
+                        )
                     },
                 )
 

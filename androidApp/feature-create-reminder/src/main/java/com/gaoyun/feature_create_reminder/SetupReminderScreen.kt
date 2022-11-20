@@ -1,12 +1,9 @@
 package com.gaoyun.feature_create_reminder
 
-import androidx.compose.foundation.ExperimentalFoundationApi
-import androidx.compose.foundation.Image
+import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.relocation.BringIntoViewRequester
-import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
@@ -100,21 +97,26 @@ fun SetupReminderScreen(
                     )
                 }
 
-                SurfaceCard(
-                    shape = RoundedCornerShape(topStart = 24.dp, topEnd = 24.dp, bottomStart = 0.dp, bottomEnd = 0.dp),
-                    elevation = CardDefaults.cardElevation(defaultElevation = 8.dp),
-                    modifier = Modifier.padding(horizontal = 12.dp)
-                ) {
-                    ReminderSetupForm(
-                        template = state.template,
-                        repeatConfig = state.repeatConfig,
-                        onConfigSave = { config ->
-                            onEventSent(SetupReminderScreenContract.Event.RepeatConfigChanged(config))
-                        },
-                        onSaveButtonClick = {
-                            onEventSent(SetupReminderScreenContract.Event.OnSaveButtonClick(""))
-                        },
-                    )
+                Column {
+                    Spacer(size = 110.dp)
+                    SurfaceCard(
+                        shape = RoundedCornerShape(topStart = 24.dp, topEnd = 24.dp, bottomStart = 0.dp, bottomEnd = 0.dp),
+                        elevation = CardDefaults.cardElevation(defaultElevation = 8.dp),
+                        modifier = Modifier.padding(horizontal = 12.dp)
+                    ) {
+                        Box(modifier = Modifier.padding(top = 32.dp)) {
+                            ReminderSetupForm(
+                                template = state.template,
+                                repeatConfig = state.repeatConfig,
+                                onConfigSave = { config ->
+                                    onEventSent(SetupReminderScreenContract.Event.RepeatConfigChanged(config))
+                                },
+                                onSaveButtonClick = {
+                                    onEventSent(SetupReminderScreenContract.Event.OnSaveButtonClick(""))
+                                },
+                            )
+                        }
+                    }
                 }
             }
 
@@ -180,7 +182,6 @@ private fun ReminderSetupForm(
     Column(
         modifier = Modifier
             .verticalScroll(rememberScrollState())
-            .padding(top = 32.dp)
     ) {
         TextFormField(
             text = reminderName.value,

@@ -155,6 +155,10 @@ fun AddReminderScreen(
                             }
                         }
                     }
+
+                    item {
+                        Spacer(size = 56.dp)
+                    }
                 }
             }
             Loader(isLoading = state.isLoading)
