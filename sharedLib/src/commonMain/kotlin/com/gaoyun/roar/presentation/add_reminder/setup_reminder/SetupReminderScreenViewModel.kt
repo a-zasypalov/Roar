@@ -31,7 +31,11 @@ class SetupReminderScreenViewModel :
 
     fun buildScreenState(petId: String, templateId: String) = scope.launch {
         getPetUseCase.getPet(petId).collect { pet ->
-            getInteractionTemplate(pet, templateId)
+            if(templateId == "null") {
+                setState { copy(isLoading = false, pet = pet) }
+            } else {
+                getInteractionTemplate(pet, templateId)
+            }
         }
     }
 

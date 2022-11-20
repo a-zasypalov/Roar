@@ -223,7 +223,8 @@ private fun ReminderSetupForm(
             valueList = InteractionType.TYPES_LIST,
             listState = interactionTypeState,
             label = "Type",
-            leadingIcon = Icons.Filled.List
+            leadingIcon = Icons.Filled.List,
+            modifier = Modifier.padding(horizontal = 24.dp),
         )
 
         Spacer(size = 16.dp)

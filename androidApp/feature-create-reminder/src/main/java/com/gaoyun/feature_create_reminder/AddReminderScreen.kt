@@ -147,7 +147,9 @@ fun AddReminderScreen(
                             Column(
                                 modifier = Modifier
                                     .fillMaxWidth()
-                                    .clickable { }
+                                    .clickable {
+                                        onEventSent(AddReminderScreenContract.Event.TemplateChosen(templateId = "null", petId = pet.id))
+                                    }
                                     .padding(horizontal = 16.dp, vertical = 8.dp),
                             ) {
                                 Text("Custom")
