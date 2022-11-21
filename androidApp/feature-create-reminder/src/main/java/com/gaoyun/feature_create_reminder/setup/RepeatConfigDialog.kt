@@ -131,15 +131,12 @@ internal fun RepeatConfigDialog(
         )
     ) {
         Box(
-            contentAlignment = Alignment.BottomCenter,
-            modifier = Modifier
-                .fillMaxSize()
+            contentAlignment = Alignment.Center,
+            modifier = Modifier.fillMaxSize()
         ) {
             SurfaceCard(
                 shape = RoundedCornerShape(16.dp),
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(vertical = 36.dp)
+                modifier = Modifier.fillMaxWidth()
             ) {
                 Column(
                     modifier = Modifier

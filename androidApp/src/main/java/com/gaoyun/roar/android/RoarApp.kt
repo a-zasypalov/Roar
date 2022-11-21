@@ -7,6 +7,7 @@ import com.gaoyun.roar.presentation.add_pet.data.AddPetDataScreenViewModel
 import com.gaoyun.roar.presentation.add_pet.setup.AddPetSetupScreenViewModel
 import com.gaoyun.roar.presentation.add_pet.type.AddPetPetTypeScreenViewModel
 import com.gaoyun.roar.presentation.add_reminder.choose_template.AddReminderScreenViewModel
+import com.gaoyun.roar.presentation.add_reminder.complete.AddReminderCompleteScreenViewModel
 import com.gaoyun.roar.presentation.add_reminder.setup_reminder.SetupReminderScreenViewModel
 import com.gaoyun.roar.presentation.home_screen.HomeScreenViewModel
 import com.gaoyun.roar.presentation.pet_screen.PetScreenViewModel
@@ -43,4 +44,5 @@ val appModule = module {
 
     viewModel { AddReminderScreenViewModel() }
     viewModel { SetupReminderScreenViewModel() }
+    viewModel { AddReminderCompleteScreenViewModel() }
 }

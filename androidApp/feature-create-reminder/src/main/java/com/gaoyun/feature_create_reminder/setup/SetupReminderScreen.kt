@@ -1,4 +1,4 @@
-package com.gaoyun.feature_create_reminder
+package com.gaoyun.feature_create_reminder.setup
 
 import android.annotation.SuppressLint
 import android.app.AlarmManager
@@ -22,9 +22,10 @@ import androidx.compose.ui.unit.dp
 import androidx.core.content.ContextCompat.getSystemService
 import androidx.lifecycle.Lifecycle
 import androidx.navigation.NavHostController
+import com.gaoyun.common.NavigationKeys.RouteGlobal.ADD_REMINDER
 import com.gaoyun.common.OnLifecycleEvent
 import com.gaoyun.common.ui.*
-import com.gaoyun.feature_create_reminder.setup.ReminderSetupForm
+import com.gaoyun.feature_create_reminder.ReminderBroadcastReceiver
 import com.gaoyun.roar.model.domain.Reminder
 import com.gaoyun.roar.model.domain.interactions.*
 import com.gaoyun.roar.presentation.LAUNCH_LISTEN_FOR_EFFECTS
@@ -58,6 +59,9 @@ fun SetupReminderDestination(
         onEventSent = { event -> viewModel.setEvent(event) },
         onNavigationRequested = { navigationEffect ->
             when (navigationEffect) {
+                is SetupReminderScreenContract.Effect.Navigation.ToComplete -> navHostController.navigate(
+                    "$ADD_REMINDER/$petId/$templateId/${navigationEffect.petAvatar}"
+                )
                 is SetupReminderScreenContract.Effect.Navigation.NavigateBack -> navHostController.navigateUp()
             }
         },
@@ -88,12 +92,15 @@ fun SetupReminderScreen(
     onNavigationRequested: (navigationEffect: SetupReminderScreenContract.Effect.Navigation) -> Unit,
     viewModel: SetupReminderScreenViewModel
 ) {
-    val context = LocalContext.current
+    val avatar = remember { mutableStateOf("ic_cat") }
 
     LaunchedEffect(LAUNCH_LISTEN_FOR_EFFECTS) {
         effectFlow.onEach { effect ->
             when (effect) {
-                is SetupReminderScreenContract.Effect.ReminderCreated -> scheduleNotification(context, effect.reminder, effect.interaction)
+                is SetupReminderScreenContract.Effect.ReminderCreated -> {
+//                    scheduleNotification(context, effect.reminder, effect.interaction)
+                    onNavigationRequested(SetupReminderScreenContract.Effect.Navigation.ToComplete(avatar.value))
+                }
                 else -> {}
             }
         }.collect()
@@ -102,6 +109,8 @@ fun SetupReminderScreen(
     SurfaceScaffold {
         Box(contentAlignment = Alignment.BottomCenter) {
             state.pet?.let { pet ->
+                avatar.value = pet.avatar
+
                 Box(modifier = Modifier.fillMaxSize()) {
                     ReminderSetupHeader(
                         petAvatar = pet.avatar,

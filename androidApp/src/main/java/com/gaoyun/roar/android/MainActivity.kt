@@ -7,11 +7,13 @@ import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.provider.Settings
+import android.view.WindowManager
 import androidx.activity.compose.setContent
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.runtime.Composable
 import androidx.core.content.ContextCompat
+import androidx.core.view.WindowCompat
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
@@ -25,8 +27,9 @@ import com.gaoyun.feature_add_pet.AddPetAvatarDestination
 import com.gaoyun.feature_add_pet.AddPetDataDestination
 import com.gaoyun.feature_add_pet.AddPetPetTypeDestination
 import com.gaoyun.feature_add_pet.AddPetSetupDestination
+import com.gaoyun.feature_create_reminder.AddReminderCompleteDestination
 import com.gaoyun.feature_create_reminder.AddReminderDestination
-import com.gaoyun.feature_create_reminder.SetupReminderDestination
+import com.gaoyun.feature_create_reminder.setup.SetupReminderDestination
 import com.gaoyun.feature_home_screen.HomeScreenDestination
 import com.gaoyun.feature_user_registration.UserRegistrationDestination
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
@@ -37,6 +40,12 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        WindowCompat.setDecorFitsSystemWindows(window, false)
+        window.setFlags(
+            WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS,
+            WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS
+        )
 
         setContent {
             RoarTheme {
@@ -70,16 +79,16 @@ class MainActivity : AppCompatActivity() {
     }
 
     private val notificationPermissionLauncher = registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted ->
-            if (!isGranted) {
-                if (Build.VERSION.SDK_INT >= 33) {
-                    if (shouldShowRequestPermissionRationale(android.Manifest.permission.POST_NOTIFICATIONS)) {
-                        showNotificationPermissionRationale()
-                    } else {
-                        showSettingDialog()
-                    }
+        if (!isGranted) {
+            if (Build.VERSION.SDK_INT >= 33) {
+                if (shouldShowRequestPermissionRationale(android.Manifest.permission.POST_NOTIFICATIONS)) {
+                    showNotificationPermissionRationale()
+                } else {
+                    showSettingDialog()
                 }
             }
         }
+    }
 
     private fun showSettingDialog() {
         MaterialAlertDialogBuilder(this)
@@ -113,7 +122,7 @@ class MainActivity : AppCompatActivity() {
 
         NavHost(
             navController = navController,
-            startDestination = NavigationKeys.RouteGlobal.HOME_ROUTE
+            startDestination = NavigationKeys.RouteGlobal.HOME_ROUTE,
         ) {
             composable(NavigationKeys.RouteGlobal.HOME_ROUTE) {
                 HomeScreenDestination(
@@ -188,6 +197,20 @@ class MainActivity : AppCompatActivity() {
                     navController,
                     petId = it.arguments?.getString(NavigationKeys.Arg.PET_ID_KEY) ?: "",
                     templateId = it.arguments?.getString(NavigationKeys.Arg.TEMPLATE_ID_KEY) ?: "custom"
+                )
+            }
+
+            composable(
+                route = NavigationKeys.RouteGlobal.SETUP_REMINDER_COMPLETE_ROUTE,
+                arguments = listOf(
+                    navArgument(NavigationKeys.Arg.PET_ID_KEY) { type = NavType.StringType },
+                    navArgument(NavigationKeys.Arg.TEMPLATE_ID_KEY) { type = NavType.StringType },
+                    navArgument(NavigationKeys.Arg.AVATAR_KEY) { type = NavType.StringType },
+                )
+            ) {
+                AddReminderCompleteDestination(
+                    navController,
+                    petAvatar = it.arguments?.getString(NavigationKeys.Arg.AVATAR_KEY) ?: "",
                 )
             }
         }

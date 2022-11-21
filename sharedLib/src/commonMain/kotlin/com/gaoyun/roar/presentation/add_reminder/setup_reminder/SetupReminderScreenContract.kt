@@ -40,7 +40,7 @@ class SetupReminderScreenContract {
         ) : Effect()
 
         sealed class Navigation : Effect() {
-            //            class ToReminderSetup(val templateId: String) : Navigation()
+            class ToComplete(val petAvatar: String) : Navigation()
             object NavigateBack : Navigation()
         }
     }

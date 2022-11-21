@@ -1,8 +1,9 @@
 package com.gaoyun.common.ui
 
 import android.annotation.SuppressLint
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.imePadding
+import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -33,7 +34,12 @@ fun SurfaceScaffold(
         contentColor = contentColor,
         contentWindowInsets = contentWindowInsets
     ) {
-        Surface(color = MaterialTheme.colorScheme.surface) {
+        Surface(
+            color = MaterialTheme.colorScheme.surface,
+            modifier = Modifier
+                .imePadding()
+                .statusBarsPadding(),
+        ) {
             content()
         }
     }
