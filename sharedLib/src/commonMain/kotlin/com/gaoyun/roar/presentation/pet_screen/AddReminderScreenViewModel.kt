@@ -1,5 +1,6 @@
 package com.gaoyun.roar.presentation.pet_screen
 
+import com.gaoyun.roar.domain.interaction.GetInteraction
 import com.gaoyun.roar.domain.pet.GetPetUseCase
 import com.gaoyun.roar.presentation.BaseViewModel
 import kotlinx.coroutines.launch
@@ -11,6 +12,7 @@ class PetScreenViewModel :
     KoinComponent {
 
     private val getPetUseCase: GetPetUseCase by inject()
+    private val getInteraction: GetInteraction by inject()
 
     override fun setInitialState() = PetScreenContract.State(isLoading = true)
 
@@ -24,7 +26,9 @@ class PetScreenViewModel :
 
     fun buildScreenState(petId: String) = scope.launch {
         getPetUseCase.getPet(petId).collect { pet ->
-            setState { copy(pet = pet, isLoading = false) }
+            getInteraction.getInteractionByPet(pet.id).collect { interactions ->
+                setState { copy(pet = pet, isLoading = false, interactions = interactions) }
+            }
         }
     }
 }

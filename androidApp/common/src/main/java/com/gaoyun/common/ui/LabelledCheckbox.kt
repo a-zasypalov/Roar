@@ -12,6 +12,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
@@ -20,7 +21,8 @@ fun LabelledCheckBox(
     checked: Boolean,
     onCheckedChange: ((Boolean) -> Unit),
     label: String,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    verticalPadding: Dp = 12.dp
 ) {
     Row(
         verticalAlignment = Alignment.CenterVertically,
@@ -31,7 +33,7 @@ fun LabelledCheckBox(
                 interactionSource = remember { MutableInteractionSource() },
                 onClick = { onCheckedChange(!checked) }
             )
-            .padding(horizontal = 16.dp, vertical = 12.dp)
+            .padding(horizontal = 16.dp, vertical = verticalPadding)
     ) {
         Checkbox(
             checked = checked,

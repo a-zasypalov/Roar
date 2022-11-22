@@ -25,7 +25,8 @@ import androidx.navigation.NavHostController
 import com.gaoyun.common.NavigationKeys.RouteGlobal.ADD_REMINDER
 import com.gaoyun.common.OnLifecycleEvent
 import com.gaoyun.common.ui.*
-import com.gaoyun.feature_create_reminder.ReminderBroadcastReceiver
+import com.gaoyun.feature_create_reminder.notification.ReminderBroadcastReceiver
+import com.gaoyun.feature_create_reminder.notification.putReminderBroadcastReceiverArguments
 import com.gaoyun.roar.model.domain.Reminder
 import com.gaoyun.roar.model.domain.interactions.*
 import com.gaoyun.roar.presentation.LAUNCH_LISTEN_FOR_EFFECTS
@@ -64,19 +65,16 @@ fun SetupReminderDestination(
                 )
                 is SetupReminderScreenContract.Effect.Navigation.NavigateBack -> navHostController.navigateUp()
             }
-        },
-        viewModel = viewModel
+        }
     )
-
 }
 
 @SuppressLint("MissingPermission")
-fun scheduleNotification(context: Context, reminder: Reminder, interaction: Interaction) {
-    val intent = Intent(context, ReminderBroadcastReceiver::class.java).apply {
-        //TODO: Change
-        putExtra("titleExtra", interaction.name)
-        putExtra("textExtra", interaction.notes)
-    }
+fun scheduleNotification(context: Context, reminder: Reminder) {
+    val intent = Intent(context, ReminderBroadcastReceiver::class.java)
+    intent.putReminderBroadcastReceiverArguments(
+        reminderId = reminder.id
+    )
 
     val pendingIntent = PendingIntent.getBroadcast(context, 101, intent, PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE)
     val alarmManager = getSystemService(context, AlarmManager::class.java)
@@ -90,15 +88,15 @@ fun SetupReminderScreen(
     effectFlow: Flow<SetupReminderScreenContract.Effect>,
     onEventSent: (event: SetupReminderScreenContract.Event) -> Unit,
     onNavigationRequested: (navigationEffect: SetupReminderScreenContract.Effect.Navigation) -> Unit,
-    viewModel: SetupReminderScreenViewModel
 ) {
+    val context = LocalContext.current
     val avatar = remember { mutableStateOf("ic_cat") }
 
     LaunchedEffect(LAUNCH_LISTEN_FOR_EFFECTS) {
         effectFlow.onEach { effect ->
             when (effect) {
                 is SetupReminderScreenContract.Effect.ReminderCreated -> {
-//                    scheduleNotification(context, effect.reminder, effect.interaction)
+                    scheduleNotification(context, effect.reminder)
                     onNavigationRequested(SetupReminderScreenContract.Effect.Navigation.ToComplete(avatar.value))
                 }
                 else -> {}

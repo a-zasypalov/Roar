@@ -24,6 +24,6 @@
             </intent-filter>
         </activity>
 
-        <receiver android:name="com.gaoyun.feature_create_reminder.ReminderBroadcastReceiver"/>
+        <receiver android:name="com.gaoyun.feature_create_reminder.notification.ReminderBroadcastReceiver"/>
     </application>
 </manifest> 

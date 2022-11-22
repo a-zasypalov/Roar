@@ -51,8 +51,8 @@ internal fun ReminderSetupForm(
     val coroutineScope = rememberCoroutineScope()
 
     val interactionGroupState = rememberSaveable { mutableStateOf(template?.group?.toString() ?: InteractionGroup.ROUTINE_STRING) }
-    val interactionRepeatConfigState = remember { mutableStateOf(template?.repeatConfig ?: InteractionRepeatConfig()) }
-    val interactionRepeatConfigTextState = remember { mutableStateOf(TextFieldValue()) }
+    val interactionRepeatConfigState = remember { mutableStateOf(repeatConfig) }
+    val interactionRepeatConfigTextState = remember { mutableStateOf(TextFieldValue(repeatConfig.toString())) }
 
     val reminderName = rememberSaveable { mutableStateOf(template?.name ?: "") }
     val notesState = remember { mutableStateOf("") }
@@ -85,7 +85,7 @@ internal fun ReminderSetupForm(
 
     if (showDialog.value) {
         RepeatConfigDialog(
-            if (repeatConfig.active) repeatConfig else null,
+            if (interactionRepeatConfigState.value.active) interactionRepeatConfigState.value else null,
             setShowDialog = { showDialog.value = it },
             onConfigSave = {
                 onConfigSave(it)

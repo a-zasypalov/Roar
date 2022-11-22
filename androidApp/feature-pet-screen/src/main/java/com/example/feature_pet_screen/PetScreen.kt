@@ -2,6 +2,8 @@ package com.example.feature_pet_screen
 
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
@@ -13,6 +15,8 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Brush
+import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
@@ -21,6 +25,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.Lifecycle
 import androidx.navigation.NavHostController
+import com.example.pet_screen.R
 import com.gaoyun.common.NavigationKeys
 import com.gaoyun.common.OnLifecycleEvent
 import com.gaoyun.common.theme.RoarTheme
@@ -28,6 +33,10 @@ import com.gaoyun.common.ui.*
 import com.gaoyun.roar.model.domain.Gender
 import com.gaoyun.roar.model.domain.Pet
 import com.gaoyun.roar.model.domain.PetType
+import com.gaoyun.roar.model.domain.Reminder
+import com.gaoyun.roar.model.domain.interactions.InteractionGroup
+import com.gaoyun.roar.model.domain.interactions.InteractionType
+import com.gaoyun.roar.model.domain.interactions.InteractionWithReminders
 import com.gaoyun.roar.presentation.LAUNCH_LISTEN_FOR_EFFECTS
 import com.gaoyun.roar.presentation.pet_screen.PetScreenContract
 import com.gaoyun.roar.presentation.pet_screen.PetScreenViewModel
@@ -36,7 +45,11 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.onEach
 import kotlinx.datetime.Clock
+import kotlinx.datetime.LocalDateTime
+import kotlinx.datetime.TimeZone
+import kotlinx.datetime.toLocalDateTime
 import org.koin.androidx.compose.getViewModel
+import kotlin.time.Duration.Companion.hours
 
 @Composable
 fun PetScreenDestination(
@@ -99,7 +112,7 @@ fun PetScreen(
     ) {
         Box {
             state.pet?.let { pet ->
-                PetContainer(pet = pet)
+                PetContainer(pet = pet, state.interactions)
             }
 
             Loader(isLoading = state.isLoading)
@@ -108,14 +121,84 @@ fun PetScreen(
 }
 
 @Composable
-private fun PetContainer(pet: Pet) {
-    Column(
+private fun PetContainer(pet: Pet, interactions: List<InteractionWithReminders>) {
+    val context = LocalContext.current
+
+    LazyColumn(
         modifier = Modifier
-            .padding(top = 32.dp, start = 16.dp, end = 16.dp)
-            .verticalScroll(rememberScrollState())
+            .padding(start = 16.dp, end = 16.dp)
             .fillMaxWidth()
     ) {
-        PetHeader(pet = pet, modifier = Modifier.fillMaxWidth())
+        item {
+            PetHeader(
+                pet = pet, modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(top = 32.dp)
+            )
+        }
+        items(interactions) { interaction ->
+            SurfaceCard(
+                modifier = Modifier
+                    .padding(horizontal = 8.dp, vertical = 8.dp)
+                    .fillMaxWidth(),
+            ) {
+                Column(modifier = Modifier.padding(top = 12.dp)) {
+                    Row(
+                        verticalAlignment = Alignment.CenterVertically,
+                        modifier = Modifier.padding(horizontal = 12.dp)
+                    ) {
+                        Icon(
+                            Icons.Filled.Alarm,
+                            "",
+                            tint = MaterialTheme.colorScheme.primary,
+                            modifier = Modifier
+                                .clip(CircleShape)
+                                .background(MaterialTheme.colorScheme.primaryContainer)
+                                .padding(8.dp)
+                        )
+                        Spacer(size = 8.dp)
+                        Column(modifier = Modifier.weight(1f)) {
+                            Text(
+                                interaction.name,
+                                style = MaterialTheme.typography.titleLarge,
+                            )
+
+                            val repeatText = interaction.repeatConfig?.toString() ?: "No repeat"
+                            Text(repeatText, style = MaterialTheme.typography.bodyMedium)
+                        }
+                    }
+
+                    Spacer(size = 8.dp)
+
+                    interaction.reminders
+                        .filter { it.dateTime > Clock.System.now().toLocalDateTime(TimeZone.currentSystemDefault()) }
+                        .maxByOrNull { it.dateTime }?.let { nextReminder ->
+                            LabelledCheckBox(
+                                checked = nextReminder.isCompleted,
+                                label = "Next: ${nextReminder.dateTime.date} at 09:00",
+                                modifier = Modifier.fillMaxWidth(),
+                                verticalPadding = 16.dp,
+                                onCheckedChange = {}
+                            )
+//                            Box(
+//                                modifier = Modifier.fillMaxWidth().padding(end = 4.dp),
+//                                contentAlignment = Alignment.TopEnd
+//                            ) {
+//                                PrimaryTintedButton(
+//                                    text = "Details",
+//                                    onClick = {}
+//                                )
+//                            }
+                        } ?: Text(
+                        text = "No active reminder",
+                        style = MaterialTheme.typography.bodyLarge,
+                        modifier = Modifier.padding(horizontal = 16.dp, vertical = 12.dp)
+                    )
+                }
+            }
+        }
+
+        item { Spacer(size = 120.dp) }
     }
 }
 
@@ -168,7 +251,7 @@ private fun PetHeader(
                     .fillMaxWidth()
                     .padding(horizontal = 16.dp, vertical = 8.dp),
             ) {
-                when(pet.gender) {
+                when (pet.gender) {
                     Gender.MALE -> TextWithIconBulletPoint(icon = Icons.Filled.Male, "Male, $isSterilized")
                     Gender.FEMALE -> TextWithIconBulletPoint(icon = Icons.Filled.Female, "Female, $isSterilized")
                 }
@@ -176,7 +259,7 @@ private fun PetHeader(
                 TextWithIconBulletPoint(icon = Icons.Filled.Cake, pet.birthday.toString())
                 TextWithIconBulletPoint(icon = Icons.Filled.Pets, pet.breed)
 
-                if(pet.chipNumber.isNotEmpty()) {
+                if (pet.chipNumber.isNotEmpty()) {
                     TextWithIconBulletPoint(icon = Icons.Filled.Memory, "Chip: ${pet.chipNumber}")
                 }
             }
@@ -223,6 +306,21 @@ fun PetScreenPreview() {
                     gender = Gender.MALE,
                     chipNumber = "123123456456",
                     dateCreated = Clock.System.now().toLocalDate()
+                ),
+                listOf(
+                    InteractionWithReminders(
+                        petId = "",
+                        type = InteractionType.CUSTOM,
+                        name = "Interaction Name",
+                        group = InteractionGroup.CARE,
+                        isActive = true,
+                        reminders = listOf(
+                            Reminder(
+                                interactionId = "",
+                                dateTime = Clock.System.now().plus(1.hours).toLocalDateTime(TimeZone.currentSystemDefault())
+                            )
+                        )
+                    )
                 )
             )
         }

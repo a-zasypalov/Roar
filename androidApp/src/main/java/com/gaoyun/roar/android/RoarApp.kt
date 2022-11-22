@@ -1,6 +1,7 @@
 package com.gaoyun.roar.android
 
 import android.app.Application
+import com.gaoyun.feature_create_reminder.notification.ReminderBroadcastReceiverHelper
 import com.gaoyun.roar.initKoin
 import com.gaoyun.roar.presentation.add_pet.avatar.AddPetAvatarScreenViewModel
 import com.gaoyun.roar.presentation.add_pet.data.AddPetDataScreenViewModel
@@ -26,7 +27,7 @@ class RoarApp : Application() {
         initKoin {
             androidLogger(if (BuildConfig.DEBUG) Level.ERROR else Level.NONE)
             androidContext(this@RoarApp)
-            modules(appModule)
+            modules(appModule, broadcastModule)
         }
     }
 }
@@ -45,4 +46,8 @@ val appModule = module {
     viewModel { AddReminderScreenViewModel() }
     viewModel { SetupReminderScreenViewModel() }
     viewModel { AddReminderCompleteScreenViewModel() }
+}
+
+val broadcastModule = module {
+    single { ReminderBroadcastReceiverHelper() }
 }

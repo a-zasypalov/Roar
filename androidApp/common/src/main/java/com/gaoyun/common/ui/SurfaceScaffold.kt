@@ -35,7 +35,7 @@ fun SurfaceScaffold(
         contentWindowInsets = contentWindowInsets
     ) {
         Surface(
-            color = MaterialTheme.colorScheme.surface,
+            color = MaterialTheme.colorScheme.inverseOnSurface,
             modifier = Modifier
                 .imePadding()
                 .statusBarsPadding(),

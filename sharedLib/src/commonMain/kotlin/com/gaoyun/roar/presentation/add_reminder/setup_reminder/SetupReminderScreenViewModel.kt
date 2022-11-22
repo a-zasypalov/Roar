@@ -60,7 +60,7 @@ class SetupReminderScreenViewModel :
     private suspend fun getInteractionTemplate(pet: Pet, templateId: String) {
         getInteractionTemplateUseCase.getInteractionTemplate(templateId, pet.petType)
             .collect { template ->
-                setState { copy(isLoading = false, pet = pet, template = template) }
+                setState { copy(isLoading = false, pet = pet, template = template, repeatConfig = template.repeatConfig) }
             }
     }
 
