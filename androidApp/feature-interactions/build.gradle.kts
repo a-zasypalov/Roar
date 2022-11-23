@@ -4,7 +4,7 @@ plugins {
 }
 
 android {
-    namespace = "com.gaoyun.feature_home_screen"
+    namespace = "com.gaoyun.feature_interactions"
     compileSdk = 33
 
     defaultConfig {

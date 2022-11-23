@@ -10,17 +10,9 @@ android {
     defaultConfig {
         minSdk = 26
         targetSdk = 33
-
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-        consumerProguardFiles("consumer-rules.pro")
     }
 
-    buildTypes {
-        release {
-            isMinifyEnabled = false
-            proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
-        }
-    }
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_1_8
         targetCompatibility = JavaVersion.VERSION_1_8
@@ -38,5 +30,4 @@ android {
 
 dependencies {
     implementation(project(":androidApp:common"))
-    implementation("androidx.compose.material:material:1.3.0")
 }

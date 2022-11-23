@@ -39,6 +39,7 @@ dependencies {
     implementation(project(":androidApp:feature-add-pet"))
     implementation(project(":androidApp:feature-pet-screen"))
     implementation(project(":androidApp:feature-create-reminder"))
+    implementation(project(":androidApp:feature-interactions"))
 
     implementation("androidx.activity:activity-compose:1.6.1")
 }

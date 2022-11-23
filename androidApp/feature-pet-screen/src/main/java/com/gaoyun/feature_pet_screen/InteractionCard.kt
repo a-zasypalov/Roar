@@ -1,4 +1,4 @@
-package com.example.feature_pet_screen
+package com.gaoyun.feature_pet_screen
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
