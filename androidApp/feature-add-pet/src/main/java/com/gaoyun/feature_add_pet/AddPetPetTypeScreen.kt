@@ -21,7 +21,9 @@ import com.gaoyun.common.NavigationKeys
 import com.gaoyun.common.theme.RoarTheme
 import com.gaoyun.common.ui.ButtonCard
 import com.gaoyun.common.ui.SurfaceScaffold
+import com.gaoyun.common.ui.getDrawableByName
 import com.gaoyun.roar.config.PetsConfig
+import com.gaoyun.roar.model.domain.PetType
 import com.gaoyun.roar.presentation.LAUNCH_LISTEN_FOR_EFFECTS
 import com.gaoyun.roar.presentation.add_pet.type.AddPetPetTypeScreenContract
 import com.gaoyun.roar.presentation.add_pet.type.AddPetPetTypeScreenViewModel
@@ -29,8 +31,6 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.onEach
 import org.koin.androidx.compose.getViewModel
-import com.gaoyun.common.ui.getDrawableByName
-import com.gaoyun.roar.model.domain.PetType
 
 @Composable
 fun AddPetPetTypeDestination(navHostController: NavHostController) {
@@ -65,9 +65,7 @@ fun AddPetPetTypeScreen(
     LaunchedEffect(LAUNCH_LISTEN_FOR_EFFECTS) {
         effectFlow.onEach { effect ->
             when (effect) {
-                is AddPetPetTypeScreenContract.Effect.PetTypeChosen -> {
-                    onNavigationRequested(AddPetPetTypeScreenContract.Effect.Navigation.ToPetAvatar(effect.petType))
-                }
+                is AddPetPetTypeScreenContract.Effect.Navigation -> onNavigationRequested(effect)
                 else -> {}
             }
         }.collect()

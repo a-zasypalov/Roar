@@ -62,7 +62,7 @@ fun InteractionScreen(
     LaunchedEffect(LAUNCH_LISTEN_FOR_EFFECTS) {
         effectFlow.onEach { effect ->
             when (effect) {
-                is InteractionScreenContract.Effect.Navigation.NavigateBack -> onNavigationRequested(effect)
+                is InteractionScreenContract.Effect.Navigation -> onNavigationRequested(effect)
                 else -> {}
             }
         }.collect()

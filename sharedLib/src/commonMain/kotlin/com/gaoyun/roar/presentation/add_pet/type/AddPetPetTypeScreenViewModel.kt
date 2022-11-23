@@ -13,7 +13,7 @@ class AddPetPetTypeScreenViewModel :
     override fun handleEvents(event: AddPetPetTypeScreenContract.Event) {
         when (event) {
             is AddPetPetTypeScreenContract.Event.PetTypeChosen -> setEffect {
-                AddPetPetTypeScreenContract.Effect.PetTypeChosen(event.petType.toString())
+                AddPetPetTypeScreenContract.Effect.Navigation.ToPetAvatar(event.petType.toString())
             }
         }
     }

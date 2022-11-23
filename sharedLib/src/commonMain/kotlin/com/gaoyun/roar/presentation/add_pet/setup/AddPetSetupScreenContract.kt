@@ -17,11 +17,9 @@ class AddPetSetupScreenContract {
     ) : ViewState
 
     sealed class Effect : ViewSideEffect {
-        object Continue : Effect()
-
         sealed class Navigation : Effect() {
             object NavigateBack : Navigation()
-            object AddingComplete : Navigation()
+            object Continue : Navigation()
         }
     }
 }

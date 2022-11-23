@@ -50,7 +50,6 @@ fun AddPetAvatarDestination(navHostController: NavHostController, petType: Strin
             when (navigationEffect) {
                 is AddPetAvatarScreenContract.Effect.Navigation.ToPetData ->
                     navHostController.navigate("${NavigationKeys.Route.ADD_PET_ROUTE}/$petType/${navigationEffect.avatar}")
-
                 is AddPetAvatarScreenContract.Effect.Navigation.NavigateBack ->
                     navHostController.navigateUp()
             }
@@ -59,8 +58,8 @@ fun AddPetAvatarDestination(navHostController: NavHostController, petType: Strin
     )
 
     OnLifecycleEvent { _, event ->
-        if (event == Lifecycle.Event.ON_RESUME) {
-            viewModel.setEvent(AddPetAvatarScreenContract.Event.PetTypeChosen(petType))
+        if (event == Lifecycle.Event.ON_CREATE) {
+            viewModel.petTypeChosen(petType)
         }
     }
 }
@@ -77,9 +76,7 @@ fun AddPetAvatarScreen(
     LaunchedEffect(LAUNCH_LISTEN_FOR_EFFECTS) {
         effectFlow.onEach { effect ->
             when (effect) {
-                is AddPetAvatarScreenContract.Effect.AvatarChosen -> {
-                    onNavigationRequested(AddPetAvatarScreenContract.Effect.Navigation.ToPetData(effect.avatar))
-                }
+                is AddPetAvatarScreenContract.Effect.Navigation -> onNavigationRequested(effect)
                 else -> {}
             }
         }.collect()

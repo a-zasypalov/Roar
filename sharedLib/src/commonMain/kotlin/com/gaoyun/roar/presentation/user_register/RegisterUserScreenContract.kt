@@ -13,8 +13,6 @@ class RegisterUserScreenContract {
     object State : ViewState
 
     sealed class Effect : ViewSideEffect {
-        object UserRegistered : Effect()
-
         sealed class Navigation : Effect() {
             object NavigateBack : Navigation()
             object ToPetAdding : Navigation()

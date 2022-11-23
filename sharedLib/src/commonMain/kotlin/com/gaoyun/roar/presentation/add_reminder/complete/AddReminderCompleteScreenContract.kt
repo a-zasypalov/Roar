@@ -14,10 +14,8 @@ class AddReminderCompleteScreenContract {
     ) : ViewState
 
     sealed class Effect : ViewSideEffect {
-        object Continue : Effect()
-
         sealed class Navigation : Effect() {
-            object Complete : Navigation()
+            object Continue : Navigation()
             object NavigateBack : Navigation()
         }
     }

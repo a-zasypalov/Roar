@@ -8,7 +8,6 @@ import com.gaoyun.roar.presentation.ViewState
 class AddPetAvatarScreenContract {
 
     sealed class Event : ViewEvent {
-        class PetTypeChosen(val petType: String) : Event()
         class AvatarChosen(val avatar: String) : Event()
     }
 
@@ -17,7 +16,6 @@ class AddPetAvatarScreenContract {
     ) : ViewState
 
     sealed class Effect : ViewSideEffect {
-        class AvatarChosen(val avatar: String) : Effect()
         sealed class Navigation : Effect() {
             class ToPetData(val avatar: String) : Navigation()
             object NavigateBack : Navigation()

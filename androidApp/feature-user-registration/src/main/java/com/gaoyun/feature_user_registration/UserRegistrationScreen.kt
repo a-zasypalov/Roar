@@ -1,6 +1,5 @@
 package com.gaoyun.feature_user_registration
 
-import android.annotation.SuppressLint
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
@@ -60,9 +59,7 @@ fun UserRegistrationScreen(
     LaunchedEffect(LAUNCH_LISTEN_FOR_EFFECTS) {
         effectFlow.onEach { effect ->
             when (effect) {
-                is RegisterUserScreenContract.Effect.UserRegistered -> {
-                    onNavigationRequested(RegisterUserScreenContract.Effect.Navigation.NavigateBack)
-                }
+                is RegisterUserScreenContract.Effect.Navigation -> onNavigationRequested(effect)
                 else -> {}
             }
         }.collect()

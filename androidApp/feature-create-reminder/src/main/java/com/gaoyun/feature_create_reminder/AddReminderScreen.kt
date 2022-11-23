@@ -71,14 +71,7 @@ fun AddReminderScreen(
     LaunchedEffect(LAUNCH_LISTEN_FOR_EFFECTS) {
         effectFlow.onEach { effect ->
             when (effect) {
-                is AddReminderScreenContract.Effect.TemplateChosen -> {
-                    onNavigationRequested(
-                        AddReminderScreenContract.Effect.Navigation.ToReminderSetup(
-                            templateId = effect.templateId,
-                            petId = effect.petId
-                        )
-                    )
-                }
+                is AddReminderScreenContract.Effect.Navigation -> onNavigationRequested(effect)
                 else -> {}
             }
         }.collect()

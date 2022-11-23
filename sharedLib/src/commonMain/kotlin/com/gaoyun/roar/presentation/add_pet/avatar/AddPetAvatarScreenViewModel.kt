@@ -12,12 +12,13 @@ class AddPetAvatarScreenViewModel :
 
     override fun handleEvents(event: AddPetAvatarScreenContract.Event) {
         when (event) {
-            is AddPetAvatarScreenContract.Event.PetTypeChosen -> setState {
-                AddPetAvatarScreenContract.State(avatars = PetsConfig.petAvatars(event.petType))
-            }
             is AddPetAvatarScreenContract.Event.AvatarChosen -> setEffect {
-                AddPetAvatarScreenContract.Effect.AvatarChosen(event.avatar)
+                AddPetAvatarScreenContract.Effect.Navigation.ToPetData(event.avatar)
             }
         }
+    }
+
+    fun petTypeChosen(petType: String) = setState {
+        AddPetAvatarScreenContract.State(avatars = PetsConfig.petAvatars(petType))
     }
 }

@@ -17,7 +17,6 @@ class AddPetPetTypeScreenContract {
     ) : ViewState
 
     sealed class Effect : ViewSideEffect {
-        class PetTypeChosen(val petType: String) : Effect()
         sealed class Navigation : Effect() {
             class ToPetAvatar(val petType: String) : Navigation()
             object NavigateBack : Navigation()

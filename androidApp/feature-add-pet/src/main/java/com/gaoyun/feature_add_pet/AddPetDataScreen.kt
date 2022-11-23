@@ -81,9 +81,7 @@ private fun AddPetDataScreen(
     LaunchedEffect(LAUNCH_LISTEN_FOR_EFFECTS) {
         effectFlow.onEach { effect ->
             when (effect) {
-                is AddPetDataScreenContract.Effect.PetAdded -> {
-                    onNavigationRequested(AddPetDataScreenContract.Effect.Navigation.ToPetSetup(effect.petId))
-                }
+                is AddPetDataScreenContract.Effect.Navigation -> onNavigationRequested(effect)
                 else -> {}
             }
         }.collect()
@@ -196,7 +194,9 @@ private fun AddPetForm(
                     listState = petBreedState,
                     label = "Breed",
                     leadingIcon = Icons.Filled.List,
-                    modifier = Modifier.fillMaxWidth().padding(horizontal = 24.dp)
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = 24.dp)
                 )
 
                 Spacer(size = 16.dp)
@@ -206,7 +206,9 @@ private fun AddPetForm(
                     listState = petGenderState,
                     label = "Gender",
                     leadingIcon = if (petGenderState.value == "Male") Icons.Filled.Male else Icons.Filled.Female,
-                    modifier = Modifier.fillMaxWidth().padding(horizontal = 24.dp)
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = 24.dp)
                 )
 
                 Spacer(size = 16.dp)

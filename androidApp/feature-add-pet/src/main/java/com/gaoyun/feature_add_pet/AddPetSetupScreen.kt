@@ -44,7 +44,7 @@ fun AddPetSetupDestination(navHostController: NavHostController, petId: String) 
         onEventSent = { event -> viewModel.setEvent(event) },
         onNavigationRequested = { navigationEffect ->
             when (navigationEffect) {
-                is AddPetSetupScreenContract.Effect.Navigation.AddingComplete ->
+                is AddPetSetupScreenContract.Effect.Navigation.Continue ->
                     navHostController.popBackStack(NavigationKeys.Route.ADD_PET_ROUTE, true)
 
                 is AddPetSetupScreenContract.Effect.Navigation.NavigateBack ->
@@ -72,9 +72,7 @@ fun AddPetSetupScreen(
     LaunchedEffect(LAUNCH_LISTEN_FOR_EFFECTS) {
         effectFlow.onEach { effect ->
             when (effect) {
-                is AddPetSetupScreenContract.Effect.Continue -> {
-                    onNavigationRequested(AddPetSetupScreenContract.Effect.Navigation.AddingComplete)
-                }
+                is AddPetSetupScreenContract.Effect.Navigation -> onNavigationRequested(effect)
                 else -> {}
             }
         }.collect()

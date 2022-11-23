@@ -64,12 +64,7 @@ fun HomeScreen(
     LaunchedEffect(LAUNCH_LISTEN_FOR_EFFECTS) {
         effectFlow.onEach { effect ->
             when (effect) {
-                is HomeScreenContract.Effect.Navigation.ToUserRegistration -> onNavigationRequested(effect)
-                is HomeScreenContract.Effect.Navigation.ToAddPet -> onNavigationRequested(effect)
-                is HomeScreenContract.Effect.Navigation.ToPetScreen -> onNavigationRequested(effect)
-                is HomeScreenContract.Effect.Navigation.ToAddReminder -> onNavigationRequested(effect)
-
-                is HomeScreenContract.Effect.Navigation.NavigateBack -> onNavigationRequested(effect)
+                is HomeScreenContract.Effect.Navigation -> onNavigationRequested(effect)
             }
         }.collect()
     }

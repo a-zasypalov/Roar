@@ -18,7 +18,7 @@ class AddPetSetupScreenViewModel :
         when (event) {
             is AddPetSetupScreenContract.Event.PetInit -> getPet(event.petId)
             is AddPetSetupScreenContract.Event.ContinueButtonClicked -> setEffect {
-                AddPetSetupScreenContract.Effect.Continue
+                AddPetSetupScreenContract.Effect.Navigation.Continue
             }
         }
     }

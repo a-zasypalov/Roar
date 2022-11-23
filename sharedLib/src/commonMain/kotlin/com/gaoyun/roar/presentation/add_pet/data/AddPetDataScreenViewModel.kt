@@ -75,6 +75,6 @@ class AddPetDataScreenViewModel :
     }
 
     private fun petAddedSuccessful(petId: String) {
-        setEffect { AddPetDataScreenContract.Effect.PetAdded(petId) }
+        setEffect { AddPetDataScreenContract.Effect.Navigation.ToPetSetup(petId) }
     }
 }

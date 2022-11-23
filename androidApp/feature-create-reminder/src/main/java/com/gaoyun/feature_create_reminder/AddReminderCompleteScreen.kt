@@ -38,7 +38,7 @@ fun AddReminderCompleteDestination(navHostController: NavHostController, petAvat
         onEventSent = { event -> viewModel.setEvent(event) },
         onNavigationRequested = { navigationEffect ->
             when (navigationEffect) {
-                is AddReminderCompleteScreenContract.Effect.Navigation.Complete ->
+                is AddReminderCompleteScreenContract.Effect.Navigation.Continue ->
                     navHostController.popBackStack(NavigationKeys.Route.ADD_REMINDER_ROUTE, true)
 
                 is AddReminderCompleteScreenContract.Effect.Navigation.NavigateBack ->
@@ -61,9 +61,7 @@ fun AddReminderCompleteScreen(
     LaunchedEffect(LAUNCH_LISTEN_FOR_EFFECTS) {
         effectFlow.onEach { effect ->
             when (effect) {
-                is AddReminderCompleteScreenContract.Effect.Continue -> {
-                    onNavigationRequested(AddReminderCompleteScreenContract.Effect.Navigation.Complete)
-                }
+                is AddReminderCompleteScreenContract.Effect.Navigation -> onNavigationRequested(effect)
                 else -> {}
             }
         }.collect()

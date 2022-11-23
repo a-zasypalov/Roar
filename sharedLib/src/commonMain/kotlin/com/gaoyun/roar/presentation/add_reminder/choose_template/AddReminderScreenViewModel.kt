@@ -20,7 +20,7 @@ class AddReminderScreenViewModel :
     override fun handleEvents(event: AddReminderScreenContract.Event) {
         when (event) {
             is AddReminderScreenContract.Event.TemplateChosen -> with(event) {
-                setEffect { AddReminderScreenContract.Effect.TemplateChosen(templateId = templateId, petId = petId) }
+                setEffect { AddReminderScreenContract.Effect.Navigation.ToReminderSetup(templateId = templateId, petId = petId) }
             }
         }
     }

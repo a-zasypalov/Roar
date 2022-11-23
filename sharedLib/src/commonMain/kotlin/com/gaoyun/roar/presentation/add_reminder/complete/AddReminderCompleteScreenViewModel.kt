@@ -12,7 +12,7 @@ class AddReminderCompleteScreenViewModel :
     override fun handleEvents(event: AddReminderCompleteScreenContract.Event) {
         when (event) {
             is AddReminderCompleteScreenContract.Event.ContinueButtonClicked -> setEffect {
-                AddReminderCompleteScreenContract.Effect.Continue
+                AddReminderCompleteScreenContract.Effect.Navigation.Continue
             }
         }
     }

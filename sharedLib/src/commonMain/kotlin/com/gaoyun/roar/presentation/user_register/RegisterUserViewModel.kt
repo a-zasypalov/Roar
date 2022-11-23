@@ -22,6 +22,6 @@ class RegisterUserViewModel :
 
     private fun registerUser(name: String) = scope.launch {
         registerUserUseCase.register(name)
-        setEffect { RegisterUserScreenContract.Effect.UserRegistered }
+        setEffect { RegisterUserScreenContract.Effect.Navigation.ToPetAdding }
     }
 }
