@@ -1,6 +1,7 @@
 package com.gaoyun.common.ui
 
 import android.annotation.SuppressLint
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.statusBarsPadding
@@ -25,20 +26,19 @@ fun SurfaceScaffold(
     content: @Composable () -> Unit
 ) {
     Scaffold(
-        modifier = modifier,
         topBar = topBar,
         bottomBar = bottomBar,
         snackbarHost = snackbarHost,
         floatingActionButton = floatingActionButton,
         floatingActionButtonPosition = floatingActionButtonPosition,
         contentColor = contentColor,
-        contentWindowInsets = contentWindowInsets
+        containerColor = containerColor,
+        contentWindowInsets = contentWindowInsets,
     ) {
-        Surface(
-            color = MaterialTheme.colorScheme.inverseOnSurface,
-            modifier = Modifier
+        Box(
+            modifier = modifier
                 .imePadding()
-                .statusBarsPadding(),
+                .statusBarsPadding()
         ) {
             content()
         }

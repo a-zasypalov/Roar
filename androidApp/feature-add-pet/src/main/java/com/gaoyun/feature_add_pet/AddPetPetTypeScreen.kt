@@ -120,7 +120,6 @@ private fun ChoosePetType(
                         Image(
                             painter = painterResource(id = context.getDrawableByName(type.iconRes)),
                             contentDescription = type.nameRes,
-                            colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.onSurfaceVariant),
                             modifier = Modifier
                                 .size(96.dp)
                                 .padding(16.dp)

@@ -126,18 +126,28 @@ private fun PetContainer(pet: Pet, interactions: List<InteractionWithReminders>)
 
     LazyColumn(
         modifier = Modifier
-            .padding(start = 16.dp, end = 16.dp)
+            .padding(start = 8.dp, end = 8.dp)
             .fillMaxWidth()
     ) {
         item {
             PetHeader(
                 pet = pet, modifier = Modifier
                     .fillMaxWidth()
-                    .padding(top = 32.dp)
+                    .padding(top = 32.dp, bottom = 8.dp)
+            )
+        }
+        item {
+            Text(
+                text = "Reminders",
+                style = MaterialTheme.typography.headlineMedium,
+                color = MaterialTheme.colorScheme.onSurface,
+                modifier = Modifier.padding(vertical = 16.dp, horizontal = 8.dp)
             )
         }
         items(interactions) { interaction ->
-            SurfaceCard(
+            Surface(
+                tonalElevation = 4.dp,
+                shape = MaterialTheme.shapes.large,
                 modifier = Modifier
                     .padding(horizontal = 8.dp, vertical = 8.dp)
                     .fillMaxWidth(),
@@ -145,50 +155,45 @@ private fun PetContainer(pet: Pet, interactions: List<InteractionWithReminders>)
                 Column(modifier = Modifier.padding(top = 12.dp)) {
                     Row(
                         verticalAlignment = Alignment.CenterVertically,
-                        modifier = Modifier.padding(horizontal = 12.dp)
+                        modifier = Modifier.padding(horizontal = 16.dp)
                     ) {
                         Icon(
                             Icons.Filled.Alarm,
                             "",
-                            tint = MaterialTheme.colorScheme.primary,
-                            modifier = Modifier
-                                .clip(CircleShape)
-                                .background(MaterialTheme.colorScheme.primaryContainer)
-                                .padding(8.dp)
+                            tint = MaterialTheme.colorScheme.onSurface,
+                            modifier = Modifier.padding(4.dp)
                         )
-                        Spacer(size = 8.dp)
+                        Spacer(size = 12.dp)
                         Column(modifier = Modifier.weight(1f)) {
                             Text(
                                 interaction.name,
                                 style = MaterialTheme.typography.titleLarge,
+                                color = MaterialTheme.colorScheme.onSurface
                             )
 
                             val repeatText = interaction.repeatConfig?.toString() ?: "No repeat"
-                            Text(repeatText, style = MaterialTheme.typography.bodyMedium)
+                            Text(
+                                repeatText,
+                                style = MaterialTheme.typography.bodyMedium,
+                                color = MaterialTheme.colorScheme.onSurface
+                            )
                         }
                     }
 
                     Spacer(size = 8.dp)
 
                     interaction.reminders
-                        .filter { it.dateTime > Clock.System.now().toLocalDateTime(TimeZone.currentSystemDefault()) }
+                        .filter { !it.isCompleted || it.dateTime > Clock.System.now().toLocalDateTime(TimeZone.currentSystemDefault()) }
                         .maxByOrNull { it.dateTime }?.let { nextReminder ->
                             LabelledCheckBox(
-                                checked = nextReminder.isCompleted,
+                                checked = !nextReminder.isCompleted,
                                 label = "Next: ${nextReminder.dateTime.date} at 09:00",
                                 modifier = Modifier.fillMaxWidth(),
                                 verticalPadding = 16.dp,
+                                horizontalPadding = 20.dp,
+                                spacerSize = 14.dp,
                                 onCheckedChange = {}
                             )
-//                            Box(
-//                                modifier = Modifier.fillMaxWidth().padding(end = 4.dp),
-//                                contentAlignment = Alignment.TopEnd
-//                            ) {
-//                                PrimaryTintedButton(
-//                                    text = "Details",
-//                                    onClick = {}
-//                                )
-//                            }
                         } ?: Text(
                         text = "No active reminder",
                         style = MaterialTheme.typography.bodyLarge,
@@ -211,52 +216,51 @@ private fun PetHeader(
     val isSterilized = remember { if (pet.isSterilized) "sterilized" else "not sterilized" }
 
     Column(
-        modifier = modifier,
-        horizontalAlignment = Alignment.CenterHorizontally
+        modifier = modifier.padding(horizontal = 8.dp),
+        horizontalAlignment = Alignment.Start
     ) {
+
         Surface(
+            tonalElevation = 8.dp,
             modifier = Modifier
-                .fillMaxHeight()
-                .padding(top = 8.dp),
-            color = MaterialTheme.colorScheme.primaryContainer,
+                .fillMaxHeight(),
             shape = CircleShape,
         ) {
             Image(
                 painter = painterResource(id = context.getDrawableByName(pet.avatar)),
                 contentDescription = pet.name,
                 modifier = Modifier
-                    .height(96.dp)
-                    .padding(all = 16.dp)
+                    .height(72.dp)
+                    .padding(all = 12.dp)
             )
         }
 
+        Spacer(8.dp)
+
         Text(
             text = pet.name,
-            textAlign = TextAlign.Center,
-            style = MaterialTheme.typography.displayMedium
+            style = MaterialTheme.typography.displayMedium,
+            color = MaterialTheme.colorScheme.onSurface,
         )
 
         Spacer(size = 16.dp)
 
-        Surface(
+        Card(
+            elevation = CardDefaults.elevatedCardElevation(0.dp),
             shape = MaterialTheme.shapes.large,
-            border = BorderStroke(
-                width = 1.dp,
-                color = MaterialTheme.colorScheme.outline
-            ),
-            modifier = Modifier.padding(horizontal = 8.dp)
         ) {
             Column(
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(horizontal = 16.dp, vertical = 8.dp),
             ) {
+                TextWithIconBulletPoint(icon = Icons.Filled.Cake, pet.birthday.toString())
+
                 when (pet.gender) {
                     Gender.MALE -> TextWithIconBulletPoint(icon = Icons.Filled.Male, "Male, $isSterilized")
                     Gender.FEMALE -> TextWithIconBulletPoint(icon = Icons.Filled.Female, "Female, $isSterilized")
                 }
 
-                TextWithIconBulletPoint(icon = Icons.Filled.Cake, pet.birthday.toString())
                 TextWithIconBulletPoint(icon = Icons.Filled.Pets, pet.breed)
 
                 if (pet.chipNumber.isNotEmpty()) {
@@ -264,8 +268,6 @@ private fun PetHeader(
                 }
             }
         }
-
-        Spacer(size = 16.dp)
     }
 }
 
@@ -273,27 +275,29 @@ private fun PetHeader(
 fun TextWithIconBulletPoint(icon: ImageVector, text: String) {
     Row(
         verticalAlignment = Alignment.CenterVertically,
-        modifier = Modifier.padding(vertical = 8.dp)
+        modifier = Modifier.padding(vertical = 4.dp)
     ) {
         Icon(
             icon,
             text,
-            tint = MaterialTheme.colorScheme.primary,
-            modifier = Modifier
-                .clip(CircleShape)
-                .background(MaterialTheme.colorScheme.primaryContainer)
-                .padding(8.dp)
+            tint = MaterialTheme.colorScheme.onSurface,
+            modifier = Modifier.padding(4.dp),
         )
-        Spacer(size = 8.dp)
-        Text(text = text, style = MaterialTheme.typography.titleMedium)
+        Spacer(size = 12.dp)
+        Text(
+            text = text,
+            style = MaterialTheme.typography.titleMedium,
+            color = MaterialTheme.colorScheme.onSurface
+        )
     }
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 @Preview
 fun PetScreenPreview() {
     RoarTheme {
-        Surface {
+        SurfaceScaffold {
             PetContainer(
                 Pet(
                     petType = PetType.CAT,

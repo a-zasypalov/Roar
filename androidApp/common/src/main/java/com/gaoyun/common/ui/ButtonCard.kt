@@ -16,17 +16,13 @@ import androidx.compose.ui.unit.dp
 fun ButtonCard(
     modifier: Modifier = Modifier.padding(8.dp),
     shape: Shape = CardDefaults.shape,
-    elevation: CardElevation = CardDefaults.cardElevation(defaultElevation = 2.dp),
+    elevation: CardElevation = CardDefaults.cardElevation(defaultElevation = 0.dp),
     content: @Composable () -> Unit
 ) {
     Card(
         shape = shape,
         elevation = elevation,
         modifier = modifier,
-        colors = CardDefaults.cardColors(
-            containerColor = MaterialTheme.colorScheme.surface,
-            contentColor = MaterialTheme.colorScheme.onSurface
-        )
     ) {
         content()
     }

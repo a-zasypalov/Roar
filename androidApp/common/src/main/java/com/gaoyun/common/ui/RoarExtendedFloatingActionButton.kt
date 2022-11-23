@@ -15,7 +15,7 @@ fun RoarExtendedFloatingActionButton(
     onClick: () -> Unit,
     modifier: Modifier = Modifier,
     shape: Shape = FloatingActionButtonDefaults.extendedFabShape,
-    containerColor: Color = FloatingActionButtonDefaults.containerColor,
+    containerColor: Color = MaterialTheme.colorScheme.tertiaryContainer,
     contentColor: Color = contentColorFor(containerColor),
     elevation: FloatingActionButtonElevation = FloatingActionButtonDefaults.elevation(),
     icon: ImageVector,

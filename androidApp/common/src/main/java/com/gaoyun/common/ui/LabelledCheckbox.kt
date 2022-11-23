@@ -22,7 +22,9 @@ fun LabelledCheckBox(
     onCheckedChange: ((Boolean) -> Unit),
     label: String,
     modifier: Modifier = Modifier,
-    verticalPadding: Dp = 12.dp
+    verticalPadding: Dp = 12.dp,
+    horizontalPadding: Dp = 16.dp,
+    spacerSize: Dp = 6.dp
 ) {
     Row(
         verticalAlignment = Alignment.CenterVertically,
@@ -33,14 +35,14 @@ fun LabelledCheckBox(
                 interactionSource = remember { MutableInteractionSource() },
                 onClick = { onCheckedChange(!checked) }
             )
-            .padding(horizontal = 16.dp, vertical = verticalPadding)
+            .padding(horizontal = horizontalPadding, vertical = verticalPadding)
     ) {
         Checkbox(
             checked = checked,
             onCheckedChange = null
         )
 
-        Spacer(Modifier.size(6.dp))
+        Spacer(Modifier.size(spacerSize))
 
         Text(
             text = label,

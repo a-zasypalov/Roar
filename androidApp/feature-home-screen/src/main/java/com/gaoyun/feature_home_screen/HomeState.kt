@@ -36,8 +36,26 @@ fun HomeState(
             .fillMaxWidth()
             .fillMaxHeight(),
     ) {
-        item { Header(userName = userName, onAddPetButtonClick = onAddPetButtonClick) }
-        items(pets) { pet -> PetCard(pet = pet, onPetCardClick = onPetCardClick) }
+        item {
+            Header(userName = userName, onAddPetButtonClick = onAddPetButtonClick)
+        }
+
+        item {
+            Spacer(size = 8.dp)
+        }
+
+        item {
+            Text(
+                text = "Your pets",
+                style = MaterialTheme.typography.headlineLarge,
+                color = MaterialTheme.colorScheme.onSurface,
+                modifier = Modifier.padding(vertical = 16.dp, horizontal = 16.dp)
+            )
+        }
+
+        items(pets) { pet ->
+            PetCard(pet = pet, onPetCardClick = onPetCardClick)
+        }
     }
 }
 
@@ -49,11 +67,12 @@ private fun Header(
     Column(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(horizontal = 16.dp, vertical = 16.dp)
+            .padding(start = 16.dp, end = 16.dp, top = 32.dp)
     ) {
         Text(
             text = "Hey, $userName",
             style = MaterialTheme.typography.displayMedium,
+            color = MaterialTheme.colorScheme.onSurface
         )
 
         Spacer(size = 8.dp)
@@ -63,8 +82,6 @@ private fun Header(
             Spacer(size = 6.dp)
             Text("Add pet", style = MaterialTheme.typography.titleMedium)
         }
-
-        Spacer(size = 8.dp)
     }
 }
 
@@ -75,9 +92,9 @@ private fun PetCard(
 ) {
     val context = LocalContext.current
 
-    Card(
-        shape = RoundedCornerShape(16.dp),
-        elevation = CardDefaults.elevatedCardElevation(defaultElevation = 8.dp),
+    Surface(
+        shape = MaterialTheme.shapes.large,
+        tonalElevation = 8.dp,
         modifier = Modifier
             .padding(horizontal = 16.dp, vertical = 8.dp),
     ) {
@@ -85,7 +102,7 @@ private fun PetCard(
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(horizontal = 16.dp, vertical = 8.dp),
+                    .padding(horizontal = 12.dp, vertical = 8.dp),
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Image(
@@ -93,12 +110,10 @@ private fun PetCard(
                     contentDescription = pet.petType.toString(),
                     modifier = Modifier
                         .size(72.dp)
-                        .clip(CircleShape)
-                        .background(MaterialTheme.colorScheme.inverseOnSurface.copy(alpha = 0.95f))
-                        .padding(12.dp)
+                        .padding(8.dp)
                 )
 
-                Spacer(modifier = Modifier.size(16.dp))
+                Spacer(modifier = Modifier.size(8.dp))
 
                 Column(verticalArrangement = Arrangement.Center) {
                     Text(

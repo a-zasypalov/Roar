@@ -1,6 +1,7 @@
 package com.gaoyun.feature_home_screen
 
 import androidx.compose.foundation.layout.*
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -25,7 +26,8 @@ fun NoPetsState(
     ) {
         Text(
             text = "Great, nice to meet you, ${userName}!\nNow you can add pets",
-            textAlign = TextAlign.Center
+            textAlign = TextAlign.Center,
+            color = MaterialTheme.colorScheme.onSurface
         )
 
         Spacer(modifier = Modifier.size(32.dp))
