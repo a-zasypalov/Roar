@@ -2,7 +2,6 @@ package com.gaoyun.feature_add_pet
 
 import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -31,9 +30,6 @@ import com.gaoyun.common.ui.*
 import com.gaoyun.roar.presentation.LAUNCH_LISTEN_FOR_EFFECTS
 import com.gaoyun.roar.presentation.add_pet.data.AddPetDataScreenContract
 import com.gaoyun.roar.presentation.add_pet.data.AddPetDataScreenViewModel
-import com.gaoyun.roar.util.DatetimeConstants
-import com.google.android.material.datepicker.CalendarConstraints
-import com.google.android.material.datepicker.MaterialDatePicker
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.onEach
@@ -56,7 +52,7 @@ fun AddPetDataDestination(navHostController: NavHostController, petType: String,
         onNavigationRequested = { navigationEffect ->
             when (navigationEffect) {
                 is AddPetDataScreenContract.Effect.Navigation.ToPetSetup -> navHostController.navigate(
-                    route = "${NavigationKeys.RouteGlobal.ADD_PET_SETUP}/${navigationEffect.petId}"
+                    route = "${NavigationKeys.Route.ADD_PET_SETUP}/${navigationEffect.petId}"
                 )
                 is AddPetDataScreenContract.Effect.Navigation.NavigateBack -> navHostController.navigateUp()
             }

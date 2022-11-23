@@ -59,8 +59,11 @@ fun PetScreenDestination(
         onEventSent = { event -> viewModel.setEvent(event) },
         onNavigationRequested = { navigationEffect ->
             when (navigationEffect) {
+                is PetScreenContract.Effect.Navigation.ToInteractionDetails -> navHostController.navigate(
+                    "${NavigationKeys.Route.INTERACTION_DETAIL}/${navigationEffect.interactionId}"
+                )
                 is PetScreenContract.Effect.Navigation.ToInteractionTemplates -> navigationEffect.petId?.let { petId ->
-                    navHostController.navigate("${NavigationKeys.RouteGlobal.ADD_REMINDER}/$petId")
+                    navHostController.navigate("${NavigationKeys.Route.ADD_REMINDER}/$petId")
                 }
                 is PetScreenContract.Effect.Navigation.NavigateBack -> navHostController.navigateUp()
             }
@@ -81,8 +84,7 @@ fun PetScreen(
     LaunchedEffect(LAUNCH_LISTEN_FOR_EFFECTS) {
         effectFlow.onEach { effect ->
             when (effect) {
-                is PetScreenContract.Effect.Navigation.ToInteractionTemplates -> onNavigationRequested(effect)
-                is PetScreenContract.Effect.Navigation.NavigateBack -> onNavigationRequested(effect)
+                is PetScreenContract.Effect.Navigation -> onNavigationRequested(effect)
                 else -> {}
             }
         }.collect()
@@ -100,7 +102,11 @@ fun PetScreen(
     ) {
         Box {
             state.pet?.let { pet ->
-                PetContainer(pet = pet, state.interactions)
+                PetContainer(
+                    pet = pet,
+                    interactions = state.interactions,
+                    onInteractionClick = { onEventSent(PetScreenContract.Event.InteractionClicked(it)) }
+                )
             }
 
             Loader(isLoading = state.isLoading)
@@ -109,7 +115,11 @@ fun PetScreen(
 }
 
 @Composable
-private fun PetContainer(pet: Pet, interactions: List<InteractionWithReminders>) {
+private fun PetContainer(
+    pet: Pet,
+    interactions: List<InteractionWithReminders>,
+    onInteractionClick: (String) -> Unit
+) {
     LazyColumn(
         modifier = Modifier
             .padding(start = 8.dp, end = 8.dp)
@@ -142,7 +152,7 @@ private fun PetContainer(pet: Pet, interactions: List<InteractionWithReminders>)
             }
 
             items(it.value) { interaction ->
-                InteractionCard(interaction)
+                InteractionCard(interaction, onInteractionClick)
             }
         }
 
@@ -184,7 +194,7 @@ fun PetScreenPreview() {
                         )
                     )
                 )
-            )
+            ) {}
         }
     }
 }

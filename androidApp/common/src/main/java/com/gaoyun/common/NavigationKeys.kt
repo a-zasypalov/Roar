@@ -7,13 +7,10 @@ object NavigationKeys {
         const val PET_TYPE_KEY = "PET_TYPE_KEY"
         const val AVATAR_KEY = "AVATAR_KEY"
         const val TEMPLATE_ID_KEY = "TEMPLATE_ID_KEY"
+        const val INTERACTION_ID_KEY = "INTERACTION_ID_KEY"
     }
 
-    object RouteLocal {
-
-    }
-
-    object RouteGlobal {
+    object Route {
         const val ADD_PET_SETUP = "ADD_PET_SETUP"
 
         const val HOME_ROUTE = "HOME"
@@ -31,6 +28,9 @@ object NavigationKeys {
 
         const val PET_DETAIL = "PET_DETAIL"
         const val PET_DETAIL_ROUTE = "$PET_DETAIL/{${Arg.PET_ID_KEY}}"
+
+        const val INTERACTION_DETAIL = "INTERACTION_DETAIL"
+        const val INTERACTION_DETAIL_ROUTE = "$INTERACTION_DETAIL/{${Arg.INTERACTION_ID_KEY}}"
     }
 
 }

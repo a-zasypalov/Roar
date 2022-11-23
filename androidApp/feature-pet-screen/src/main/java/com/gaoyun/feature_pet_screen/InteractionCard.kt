@@ -23,7 +23,10 @@ import kotlinx.datetime.TimeZone
 import kotlinx.datetime.toLocalDateTime
 
 @Composable
-fun InteractionCard(interaction: InteractionWithReminders) {
+fun InteractionCard(
+    interaction: InteractionWithReminders,
+    onClick: (String) -> Unit
+) {
     Surface(
         tonalElevation = 4.dp,
         shape = MaterialTheme.shapes.large,
@@ -32,7 +35,7 @@ fun InteractionCard(interaction: InteractionWithReminders) {
             .fillMaxWidth(),
     ) {
         Column(modifier = Modifier
-            .clickable { }
+            .clickable { onClick(interaction.id)}
             .padding(top = 12.dp)
         ) {
             Row(

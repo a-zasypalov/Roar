@@ -45,7 +45,7 @@ fun AddPetSetupDestination(navHostController: NavHostController, petId: String) 
         onNavigationRequested = { navigationEffect ->
             when (navigationEffect) {
                 is AddPetSetupScreenContract.Effect.Navigation.AddingComplete ->
-                    navHostController.popBackStack(NavigationKeys.RouteGlobal.ADD_PET_ROUTE, true)
+                    navHostController.popBackStack(NavigationKeys.Route.ADD_PET_ROUTE, true)
 
                 is AddPetSetupScreenContract.Effect.Navigation.NavigateBack ->
                     navHostController.navigateUp()

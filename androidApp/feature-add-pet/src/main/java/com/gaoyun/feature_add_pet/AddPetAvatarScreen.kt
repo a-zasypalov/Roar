@@ -16,7 +16,6 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
@@ -50,7 +49,7 @@ fun AddPetAvatarDestination(navHostController: NavHostController, petType: Strin
         onNavigationRequested = { navigationEffect ->
             when (navigationEffect) {
                 is AddPetAvatarScreenContract.Effect.Navigation.ToPetData ->
-                    navHostController.navigate("${NavigationKeys.RouteGlobal.ADD_PET_ROUTE}/$petType/${navigationEffect.avatar}")
+                    navHostController.navigate("${NavigationKeys.Route.ADD_PET_ROUTE}/$petType/${navigationEffect.avatar}")
 
                 is AddPetAvatarScreenContract.Effect.Navigation.NavigateBack ->
                     navHostController.navigateUp()

@@ -39,7 +39,7 @@ fun AddReminderCompleteDestination(navHostController: NavHostController, petAvat
         onNavigationRequested = { navigationEffect ->
             when (navigationEffect) {
                 is AddReminderCompleteScreenContract.Effect.Navigation.Complete ->
-                    navHostController.popBackStack(NavigationKeys.RouteGlobal.ADD_REMINDER_ROUTE, true)
+                    navHostController.popBackStack(NavigationKeys.Route.ADD_REMINDER_ROUTE, true)
 
                 is AddReminderCompleteScreenContract.Effect.Navigation.NavigateBack ->
                     navHostController.navigateUp()

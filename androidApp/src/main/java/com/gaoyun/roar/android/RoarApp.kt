@@ -11,6 +11,7 @@ import com.gaoyun.roar.presentation.add_reminder.choose_template.AddReminderScre
 import com.gaoyun.roar.presentation.add_reminder.complete.AddReminderCompleteScreenViewModel
 import com.gaoyun.roar.presentation.add_reminder.setup_reminder.SetupReminderScreenViewModel
 import com.gaoyun.roar.presentation.home_screen.HomeScreenViewModel
+import com.gaoyun.roar.presentation.interactions.InteractionScreenViewModel
 import com.gaoyun.roar.presentation.pet_screen.PetScreenViewModel
 import com.gaoyun.roar.presentation.user_register.RegisterUserViewModel
 import org.koin.android.ext.koin.androidContext
@@ -42,6 +43,7 @@ val appModule = module {
     viewModel { AddPetSetupScreenViewModel() }
 
     viewModel { PetScreenViewModel() }
+    viewModel { InteractionScreenViewModel() }
 
     viewModel { AddReminderScreenViewModel() }
     viewModel { SetupReminderScreenViewModel() }

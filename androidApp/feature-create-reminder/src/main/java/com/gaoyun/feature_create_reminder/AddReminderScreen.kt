@@ -50,7 +50,7 @@ fun AddReminderDestination(
         onNavigationRequested = { navigationEffect ->
             when (navigationEffect) {
                 is AddReminderScreenContract.Effect.Navigation.ToReminderSetup -> {
-                    navHostController.navigate("${NavigationKeys.RouteGlobal.ADD_REMINDER}/${navigationEffect.petId}/${navigationEffect.templateId}")
+                    navHostController.navigate("${NavigationKeys.Route.ADD_REMINDER}/${navigationEffect.petId}/${navigationEffect.templateId}")
                 }
                 is AddReminderScreenContract.Effect.Navigation.NavigateBack -> navHostController.navigateUp()
             }

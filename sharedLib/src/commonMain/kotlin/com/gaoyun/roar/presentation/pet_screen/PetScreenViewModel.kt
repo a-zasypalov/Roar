@@ -18,6 +18,9 @@ class PetScreenViewModel :
 
     override fun handleEvents(event: PetScreenContract.Event) {
         when (event) {
+            is PetScreenContract.Event.InteractionClicked -> setEffect {
+                PetScreenContract.Effect.Navigation.ToInteractionDetails(event.interactionId)
+            }
             is PetScreenContract.Event.AddReminderButtonClicked -> setEffect {
                 PetScreenContract.Effect.Navigation.ToInteractionTemplates(event.petId)
             }

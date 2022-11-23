@@ -22,7 +22,7 @@ import androidx.compose.ui.unit.dp
 import androidx.core.content.ContextCompat.getSystemService
 import androidx.lifecycle.Lifecycle
 import androidx.navigation.NavHostController
-import com.gaoyun.common.NavigationKeys.RouteGlobal.ADD_REMINDER
+import com.gaoyun.common.NavigationKeys.Route.ADD_REMINDER
 import com.gaoyun.common.OnLifecycleEvent
 import com.gaoyun.common.ui.*
 import com.gaoyun.feature_create_reminder.notification.ReminderBroadcastReceiver
