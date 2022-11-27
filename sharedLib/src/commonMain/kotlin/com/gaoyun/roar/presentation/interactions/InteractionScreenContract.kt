@@ -10,6 +10,7 @@ class InteractionScreenContract {
 
     sealed class Event : ViewEvent {
         class OnEditButtonClick(val interactionId: String?): Event()
+        class OnSaveNotes(val notes: String): Event()
     }
 
     data class State(

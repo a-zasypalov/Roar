@@ -44,6 +44,20 @@ internal fun Interaction.withReminders(reminders: List<Reminder>): InteractionWi
     )
 }
 
+internal fun InteractionWithReminders.withoutReminders(): Interaction {
+    return Interaction(
+        id = id,
+        templateId = templateId,
+        petId = petId,
+        type = type,
+        name = name,
+        group = group,
+        repeatConfig = repeatConfig,
+        isActive = isActive,
+        notes = notes,
+    )
+}
+
 internal fun InteractionEntity.toDomain(): Interaction {
     return Interaction(
         id = id,

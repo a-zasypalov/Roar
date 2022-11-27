@@ -7,12 +7,15 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
 import com.gaoyun.common.ui.Spacer
+import com.gaoyun.common.ui.TextFormField
 import com.gaoyun.roar.model.domain.Pet
 import com.gaoyun.roar.model.domain.interactions.InteractionGroup
 import com.gaoyun.roar.model.domain.interactions.InteractionWithReminders
@@ -21,6 +24,7 @@ import com.gaoyun.roar.model.domain.interactions.InteractionWithReminders
 internal fun InteractionHeader(
     pet: Pet,
     interaction: InteractionWithReminders,
+    notesState: MutableState<String?>,
     modifier: Modifier = Modifier
 ) {
     Column(
@@ -79,12 +83,20 @@ internal fun InteractionHeader(
                 interaction.repeatConfig?.let {
                     TextWithIconBulletPoint(icon = Icons.Filled.Repeat, it.toString())
                 } ?: TextWithIconBulletPoint(icon = Icons.Filled.Repeat, "Doesn't repeat")
-
-                if (interaction.notes.isNotEmpty()) {
-                    TextWithIconBulletPoint(icon = Icons.Filled.Notes, interaction.notes)
-                }
             }
         }
+
+        Spacer(size = 16.dp)
+
+        TextFormField(
+            shape = MaterialTheme.shapes.large,
+            leadingIcon = {
+                Icon(Icons.Filled.Notes, "notes")
+            },
+            text = notesState.value ?: "",
+            imeAction = ImeAction.Default,
+            onChange = { notesState.value = it }
+        )
     }
 }
 

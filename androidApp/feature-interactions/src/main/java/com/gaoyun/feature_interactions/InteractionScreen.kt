@@ -8,19 +8,15 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material3.*
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.*
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.Lifecycle
 import androidx.navigation.NavHostController
 import com.gaoyun.common.OnLifecycleEvent
-import com.gaoyun.common.ui.LabelledCheckBox
-import com.gaoyun.common.ui.Loader
-import com.gaoyun.common.ui.RoarExtendedFloatingActionButton
-import com.gaoyun.common.ui.SurfaceScaffold
+import com.gaoyun.common.ui.*
 import com.gaoyun.roar.presentation.LAUNCH_LISTEN_FOR_EFFECTS
 import com.gaoyun.roar.presentation.interactions.InteractionScreenContract
 import com.gaoyun.roar.presentation.interactions.InteractionScreenViewModel
@@ -36,16 +32,24 @@ fun InteractionScreenDestination(
 ) {
     val viewModel: InteractionScreenViewModel = getViewModel()
     val state = viewModel.viewState.collectAsState().value
+    val notesState = rememberSaveable { mutableStateOf(state.interaction?.notes) }
+
+    if (notesState.value == null && !state.interaction?.notes.isNullOrEmpty()) {
+        notesState.value = state.interaction?.notes.orEmpty()
+    }
 
     OnLifecycleEvent { _, event ->
         if (event == Lifecycle.Event.ON_CREATE) {
             viewModel.buildScreenState(interactionId)
+        } else if (event == Lifecycle.Event.ON_PAUSE) {
+            viewModel.setEvent(InteractionScreenContract.Event.OnSaveNotes(notesState.value ?: ""))
         }
     }
 
     InteractionScreen(
         state = state,
         effectFlow = viewModel.effect,
+        notesState = notesState,
         onEventSent = { event -> viewModel.setEvent(event) },
         onNavigationRequested = { navigationEffect ->
             when (navigationEffect) {
@@ -63,8 +67,8 @@ fun InteractionScreen(
     effectFlow: Flow<InteractionScreenContract.Effect>,
     onEventSent: (event: InteractionScreenContract.Event) -> Unit,
     onNavigationRequested: (navigationEffect: InteractionScreenContract.Effect.Navigation) -> Unit,
+    notesState: MutableState<String?>
 ) {
-
     LaunchedEffect(LAUNCH_LISTEN_FOR_EFFECTS) {
         effectFlow.onEach { effect ->
             when (effect) {
@@ -87,69 +91,90 @@ fun InteractionScreen(
         Box {
             state.interaction?.let { interaction ->
                 state.pet?.let { pet ->
+                    val nextReminders = interaction.reminders.filter { !it.isCompleted }
+                    val completeReminders = interaction.reminders.filter { !it.isCompleted }
+
                     LazyColumn(modifier = Modifier.padding(horizontal = 8.dp)) {
                         item {
                             InteractionHeader(
                                 pet = pet,
                                 interaction = interaction,
+                                notesState = notesState,
                                 modifier = Modifier.padding(top = 32.dp)
                             )
                         }
 
-                        item {
-                            Text(
-                                text = "Reminders",
-                                style = MaterialTheme.typography.headlineMedium,
-                                color = MaterialTheme.colorScheme.onSurface,
-                                modifier = Modifier.padding(vertical = 16.dp, horizontal = 8.dp)
-                            )
-                        }
+                        if (nextReminders.isNotEmpty()) {
+                            item {
+                                Text(
+                                    text = "Next",
+                                    style = MaterialTheme.typography.headlineMedium,
+                                    color = MaterialTheme.colorScheme.onSurface,
+                                    modifier = Modifier.padding(vertical = 16.dp, horizontal = 8.dp)
+                                )
+                            }
 
-                        item {
-                            Surface(
-                                tonalElevation = 4.dp,
-                                shape = MaterialTheme.shapes.large,
-                                modifier = Modifier
-                                    .padding(horizontal = 8.dp, vertical = 8.dp)
-                                    .fillMaxWidth(),
-                            ) {
-                                Column {
-                                    interaction.reminders.map { reminder ->
-                                        LabelledCheckBox(
-                                            checked = !reminder.isCompleted,
-                                            label = "${reminder.dateTime.date} at 09:00",
-                                            modifier = Modifier.fillMaxWidth(),
-                                            verticalPadding = 16.dp,
-                                            horizontalPadding = 20.dp,
-                                            spacerSize = 14.dp,
-                                            onCheckedChange = {}
-                                        )
-                                    }
-                                    interaction.reminders.map { reminder ->
-                                        LabelledCheckBox(
-                                            checked = !reminder.isCompleted,
-                                            label = "${reminder.dateTime.date} at 09:00",
-                                            modifier = Modifier.fillMaxWidth(),
-                                            verticalPadding = 16.dp,
-                                            horizontalPadding = 20.dp,
-                                            spacerSize = 14.dp,
-                                            onCheckedChange = {}
-                                        )
-                                    }
-                                    interaction.reminders.map { reminder ->
-                                        LabelledCheckBox(
-                                            checked = !reminder.isCompleted,
-                                            label = "${reminder.dateTime.date} at 09:00",
-                                            modifier = Modifier.fillMaxWidth(),
-                                            verticalPadding = 16.dp,
-                                            horizontalPadding = 20.dp,
-                                            spacerSize = 14.dp,
-                                            onCheckedChange = {}
-                                        )
+                            item {
+                                Surface(
+                                    tonalElevation = 4.dp,
+                                    shape = MaterialTheme.shapes.large,
+                                    modifier = Modifier
+                                        .padding(horizontal = 8.dp, vertical = 8.dp)
+                                        .fillMaxWidth(),
+                                ) {
+                                    Column {
+                                        nextReminders.map { reminder ->
+                                            LabelledCheckBox(
+                                                checked = reminder.isCompleted,
+                                                label = "${reminder.dateTime.date} at 09:00",
+                                                modifier = Modifier.fillMaxWidth(),
+                                                verticalPadding = 16.dp,
+                                                horizontalPadding = 20.dp,
+                                                spacerSize = 14.dp,
+                                                onCheckedChange = {}
+                                            )
+                                        }
                                     }
                                 }
                             }
                         }
+
+                        if (completeReminders.isNotEmpty()) {
+                            item {
+                                Text(
+                                    text = "History",
+                                    style = MaterialTheme.typography.headlineMedium,
+                                    color = MaterialTheme.colorScheme.onSurface,
+                                    modifier = Modifier.padding(vertical = 16.dp, horizontal = 8.dp)
+                                )
+                            }
+
+                            item {
+                                Surface(
+                                    tonalElevation = 4.dp,
+                                    shape = MaterialTheme.shapes.large,
+                                    modifier = Modifier
+                                        .padding(horizontal = 8.dp, vertical = 8.dp)
+                                        .fillMaxWidth(),
+                                ) {
+                                    Column {
+                                        completeReminders.map { reminder ->
+                                            LabelledCheckBox(
+                                                checked = !reminder.isCompleted,
+                                                label = "${reminder.dateTime.date} at 09:00",
+                                                modifier = Modifier.fillMaxWidth(),
+                                                verticalPadding = 16.dp,
+                                                horizontalPadding = 20.dp,
+                                                spacerSize = 14.dp,
+                                                onCheckedChange = {}
+                                            )
+                                        }
+                                    }
+                                }
+                            }
+                        }
+
+                        item { Spacer(size = 120.dp) }
                     }
                 }
             }
