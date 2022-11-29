@@ -27,6 +27,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
+import com.gaoyun.common.DateUtils.ddMmmYyyyDateFormatter
 import com.gaoyun.common.dialog.DatePicker
 import com.gaoyun.common.dialog.TimePicker
 import com.gaoyun.common.ui.*
@@ -34,7 +35,6 @@ import com.gaoyun.roar.model.domain.interactions.*
 import com.gaoyun.roar.util.toLocalDate
 import kotlinx.coroutines.launch
 import kotlinx.datetime.*
-import java.time.format.DateTimeFormatter
 import kotlin.time.Duration.Companion.days
 
 @OptIn(ExperimentalFoundationApi::class)
@@ -46,7 +46,6 @@ internal fun ReminderSetupForm(
     onSaveButtonClick: (String, InteractionType, InteractionGroup, Boolean, InteractionRepeatConfig, String, Long, Int, Int) -> Unit,
 ) {
     val activity = LocalContext.current as AppCompatActivity
-    val ddMMMYYYYDateFormatter = DateTimeFormatter.ofPattern("dd MMM yyyy")
     val bringIntoViewRequester = remember { BringIntoViewRequester() }
     val coroutineScope = rememberCoroutineScope()
 
@@ -65,7 +64,7 @@ internal fun ReminderSetupForm(
         mutableStateOf(
             TextFieldValue(
                 Instant.fromEpochMilliseconds(startsOnDate.value).toLocalDateTime(TimeZone.currentSystemDefault()).toJavaLocalDateTime()
-                    .format(ddMMMYYYYDateFormatter)
+                    .format(ddMmmYyyyDateFormatter)
             )
         )
     }
@@ -173,7 +172,7 @@ internal fun ReminderSetupForm(
                             Instant.fromEpochMilliseconds(it)
                                 .toLocalDate()
                                 .toJavaLocalDate()
-                                .format(ddMMMYYYYDateFormatter)
+                                .format(ddMmmYyyyDateFormatter)
                         )
                     }
                 )

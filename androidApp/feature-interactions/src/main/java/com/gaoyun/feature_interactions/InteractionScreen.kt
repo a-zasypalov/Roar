@@ -15,6 +15,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.Lifecycle
 import androidx.navigation.NavHostController
+import com.gaoyun.common.DateUtils
 import com.gaoyun.common.OnLifecycleEvent
 import com.gaoyun.common.ui.*
 import com.gaoyun.roar.presentation.LAUNCH_LISTEN_FOR_EFFECTS
@@ -23,6 +24,8 @@ import com.gaoyun.roar.presentation.interactions.InteractionScreenViewModel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.onEach
+import kotlinx.datetime.toJavaLocalDate
+import kotlinx.datetime.toJavaLocalDateTime
 import org.koin.androidx.compose.getViewModel
 
 @Composable
@@ -126,7 +129,11 @@ fun InteractionScreen(
                                         nextReminders.map { reminder ->
                                             LabelledCheckBox(
                                                 checked = reminder.isCompleted,
-                                                label = "${reminder.dateTime.date} at 09:00",
+                                                label = "Next: ${
+                                                    reminder.dateTime.date.toJavaLocalDate().format(DateUtils.ddMmmmDateFormatter)
+                                                } at ${
+                                                    reminder.dateTime.toJavaLocalDateTime().format(DateUtils.hhMmTimeFormatter)
+                                                }",
                                                 modifier = Modifier.fillMaxWidth(),
                                                 verticalPadding = 16.dp,
                                                 horizontalPadding = 20.dp,
@@ -161,7 +168,11 @@ fun InteractionScreen(
                                         completeReminders.map { reminder ->
                                             LabelledCheckBox(
                                                 checked = !reminder.isCompleted,
-                                                label = "${reminder.dateTime.date} at 09:00",
+                                                label = "${
+                                                    reminder.dateTime.date.toJavaLocalDate().format(DateUtils.ddMmmmDateFormatter)
+                                                } at ${
+                                                    reminder.dateTime.toJavaLocalDateTime().format(DateUtils.hhMmTimeFormatter)
+                                                }",
                                                 modifier = Modifier.fillMaxWidth(),
                                                 verticalPadding = 16.dp,
                                                 horizontalPadding = 20.dp,

@@ -21,12 +21,12 @@ import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
+import com.gaoyun.common.DateUtils.ddMmmYyyyDateFormatter
 import com.gaoyun.common.dialog.DatePicker
 import com.gaoyun.common.ui.*
 import com.gaoyun.roar.model.domain.interactions.InteractionRepeatConfig
 import com.gaoyun.roar.util.toLocalDate
 import kotlinx.datetime.*
-import java.time.format.DateTimeFormatter
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -37,7 +37,6 @@ internal fun RepeatConfigDialog(
 ) {
 
     val activity = LocalContext.current as AppCompatActivity
-    val ddMMMYYYYDateFormatter = DateTimeFormatter.ofPattern("dd MMM yyyy")
 
     val repeatsEveryNumber = rememberSaveable { mutableStateOf(repeatConfig?.repeatsEveryNumber?.toString() ?: "1") }
     val repeatsEveryPeriod = rememberSaveable { mutableStateOf(repeatConfig?.repeatsEveryPeriod?.toString() ?: "month") }
@@ -107,7 +106,7 @@ internal fun RepeatConfigDialog(
     val endsOnDateStateString = remember {
         mutableStateOf(
             TextFieldValue(
-                Instant.fromEpochMilliseconds(endsOnDateState.value).toLocalDate().toJavaLocalDate().format(ddMMMYYYYDateFormatter)
+                Instant.fromEpochMilliseconds(endsOnDateState.value).toLocalDate().toJavaLocalDate().format(ddMmmYyyyDateFormatter)
             )
         )
     }
@@ -269,7 +268,7 @@ internal fun RepeatConfigDialog(
                                                 Instant.fromEpochMilliseconds(it)
                                                     .toLocalDate()
                                                     .toJavaLocalDate()
-                                                    .format(ddMMMYYYYDateFormatter)
+                                                    .format(ddMmmYyyyDateFormatter)
                                             )
                                         }
                                     )

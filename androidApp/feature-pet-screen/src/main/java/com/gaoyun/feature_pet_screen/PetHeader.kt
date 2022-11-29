@@ -14,6 +14,8 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
+import com.gaoyun.common.DateUtils.monthsFromNow
+import com.gaoyun.common.DateUtils.yearsFromNow
 import com.gaoyun.common.ui.Spacer
 import com.gaoyun.common.ui.getDrawableByName
 import com.gaoyun.roar.model.domain.Gender
@@ -73,7 +75,7 @@ internal fun PetHeader(
                     .fillMaxWidth()
                     .padding(horizontal = 16.dp, vertical = 8.dp),
             ) {
-                TextWithIconBulletPoint(icon = Icons.Filled.Cake, pet.birthday.toString())
+                TextWithIconBulletPoint(icon = Icons.Filled.Cake, "${pet.birthday.yearsFromNow()} years ${pet.birthday.monthsFromNow()} months")
 
                 when (pet.gender) {
                     Gender.MALE -> TextWithIconBulletPoint(icon = Icons.Filled.Male, "Male, $isSterilized")

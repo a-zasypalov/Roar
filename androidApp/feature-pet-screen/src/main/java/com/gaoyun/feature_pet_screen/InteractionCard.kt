@@ -15,12 +15,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import com.gaoyun.common.DateUtils
 import com.gaoyun.common.ui.LabelledCheckBox
 import com.gaoyun.common.ui.Spacer
 import com.gaoyun.roar.model.domain.interactions.InteractionWithReminders
-import kotlinx.datetime.Clock
-import kotlinx.datetime.TimeZone
-import kotlinx.datetime.toLocalDateTime
+import kotlinx.datetime.*
 
 @Composable
 fun InteractionCard(
@@ -35,7 +34,7 @@ fun InteractionCard(
             .fillMaxWidth(),
     ) {
         Column(modifier = Modifier
-            .clickable { onClick(interaction.id)}
+            .clickable { onClick(interaction.id) }
             .padding(top = 12.dp)
         ) {
             Row(
@@ -44,7 +43,7 @@ fun InteractionCard(
             ) {
                 Icon(
                     Icons.Filled.Alarm,
-                    "",
+                    "reminder",
                     tint = MaterialTheme.colorScheme.onSurface,
                     modifier = Modifier.padding(4.dp)
                 )
@@ -71,8 +70,12 @@ fun InteractionCard(
                 .filter { !it.isCompleted || it.dateTime > Clock.System.now().toLocalDateTime(TimeZone.currentSystemDefault()) }
                 .maxByOrNull { it.dateTime }?.let { nextReminder ->
                     LabelledCheckBox(
-                        checked = !nextReminder.isCompleted,
-                        label = "Next: ${nextReminder.dateTime.date} at 09:00",
+                        checked = nextReminder.isCompleted,
+                        label = "Next: ${
+                            nextReminder.dateTime.date.toJavaLocalDate().format(DateUtils.ddMmmmDateFormatter)
+                        } at ${
+                            nextReminder.dateTime.toJavaLocalDateTime().format(DateUtils.hhMmTimeFormatter)
+                        }",
                         modifier = Modifier.fillMaxWidth(),
                         verticalPadding = 16.dp,
                         horizontalPadding = 20.dp,
