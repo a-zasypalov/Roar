@@ -10,6 +10,7 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -68,6 +69,7 @@ fun PetScreenDestination(
                 is PetScreenContract.Effect.Navigation.NavigateBack -> navHostController.navigateUp()
             }
         },
+        viewModel = viewModel
     )
 
 }
@@ -79,6 +81,7 @@ fun PetScreen(
     effectFlow: Flow<PetScreenContract.Effect>,
     onEventSent: (event: PetScreenContract.Event) -> Unit,
     onNavigationRequested: (navigationEffect: PetScreenContract.Effect.Navigation) -> Unit,
+    viewModel: PetScreenViewModel
 ) {
 
     LaunchedEffect(LAUNCH_LISTEN_FOR_EFFECTS) {
@@ -100,12 +103,31 @@ fun PetScreen(
         },
         floatingActionButtonPosition = FabPosition.End
     ) {
+        if (state.deletePetDialogShow) {
+            AlertDialog(
+                onDismissRequest = { viewModel.hideDeletePetDialog() },
+                title = { Text("Are you sure?") },
+                text = { Text("Do you want to delete ${state.pet?.name}?") },
+                confirmButton = {
+                    TextButton(onClick = { onEventSent(PetScreenContract.Event.OnDeletePetConfirmed(state.pet?.id ?: "")) }) {
+                        Text("Yes")
+                    }
+                },
+                dismissButton = {
+                    TextButton(onClick = { viewModel.hideDeletePetDialog() }) {
+                        Text("Cancel")
+                    }
+                }
+            )
+        }
+
         Box {
             state.pet?.let { pet ->
                 PetContainer(
                     pet = pet,
                     interactions = state.interactions,
-                    onInteractionClick = { onEventSent(PetScreenContract.Event.InteractionClicked(it)) }
+                    onInteractionClick = { onEventSent(PetScreenContract.Event.InteractionClicked(it)) },
+                    onDeletePetClick = { onEventSent(PetScreenContract.Event.OnDeletePetClicked) }
                 )
             }
 
@@ -118,7 +140,8 @@ fun PetScreen(
 private fun PetContainer(
     pet: Pet,
     interactions: List<InteractionWithReminders>,
-    onInteractionClick: (String) -> Unit
+    onInteractionClick: (String) -> Unit,
+    onDeletePetClick: (String) -> Unit
 ) {
     LazyColumn(
         modifier = Modifier
@@ -156,7 +179,25 @@ private fun PetContainer(
             }
         }
 
-        item { Spacer(size = 120.dp) }
+        item { Spacer(size = 32.dp) }
+
+        item {
+            Box(
+                modifier = Modifier.fillMaxWidth(),
+                contentAlignment = Alignment.Center
+            ) {
+                TextButton(onClick = { onDeletePetClick(pet.id) }) {
+                    Text(
+                        text = "Delete pet",
+                        color = MaterialTheme.colorScheme.error,
+                        style = MaterialTheme.typography.titleMedium,
+                        modifier = Modifier.padding(horizontal = 32.dp, vertical = 8.dp)
+                    )
+                }
+            }
+        }
+
+        item { Spacer(size = 132.dp) }
     }
 }
 
@@ -193,8 +234,9 @@ fun PetScreenPreview() {
                             )
                         )
                     )
-                )
-            ) {}
+                ),
+                {}, {}
+            )
         }
     }
 }

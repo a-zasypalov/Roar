@@ -10,13 +10,16 @@ class PetScreenContract {
 
     sealed class Event : ViewEvent {
         class InteractionClicked(val interactionId: String) : Event()
+        object OnDeletePetClicked : Event()
         class AddReminderButtonClicked(val petId: String?) : Event()
+        class OnDeletePetConfirmed(val petId: String) : Event()
     }
 
     data class State(
         val isLoading: Boolean = false,
         val pet: Pet? = null,
-        val interactions: List<InteractionWithReminders> = listOf()
+        val interactions: List<InteractionWithReminders> = listOf(),
+        val deletePetDialogShow: Boolean = false
     ) : ViewState
 
     sealed class Effect : ViewSideEffect {
