@@ -77,7 +77,13 @@ fun HomeScreen(
                     icon = Icons.Filled.Add,
                     contentDescription = "Add reminder",
                     text = "Reminder",
-                    onClick = { onEventSent(HomeScreenContract.Event.SetPetChooserShow(true)) })
+                    onClick = {
+                        if(state.pets.size > 1) {
+                            onEventSent(HomeScreenContract.Event.SetPetChooserShow(true))
+                        } else {
+                            onEventSent(HomeScreenContract.Event.PetChosenForReminderCreation(state.pets.firstOrNull()?.id ?: ""))
+                        }
+                    })
             }
         },
         floatingActionButtonPosition = FabPosition.End
