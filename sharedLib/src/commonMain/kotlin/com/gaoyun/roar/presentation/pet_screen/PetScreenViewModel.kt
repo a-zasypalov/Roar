@@ -31,6 +31,9 @@ class PetScreenViewModel :
             is PetScreenContract.Event.OnDeletePetClicked -> {
                 setState { copy(deletePetDialogShow = true) }
             }
+            is PetScreenContract.Event.OnEditPetClicked -> {
+
+            }
             is PetScreenContract.Event.OnDeletePetConfirmed -> {
                 scope.launch {
                     hideDeletePetDialog()

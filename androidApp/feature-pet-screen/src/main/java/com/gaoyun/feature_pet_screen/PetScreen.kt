@@ -127,7 +127,8 @@ fun PetScreen(
                     pet = pet,
                     interactions = state.interactions,
                     onInteractionClick = { onEventSent(PetScreenContract.Event.InteractionClicked(it)) },
-                    onDeletePetClick = { onEventSent(PetScreenContract.Event.OnDeletePetClicked) }
+                    onDeletePetClick = { onEventSent(PetScreenContract.Event.OnDeletePetClicked) },
+                    onEditPetClick = { onEventSent(PetScreenContract.Event.OnEditPetClicked(it)) }
                 )
             }
 
@@ -141,7 +142,8 @@ private fun PetContainer(
     pet: Pet,
     interactions: List<InteractionWithReminders>,
     onInteractionClick: (String) -> Unit,
-    onDeletePetClick: (String) -> Unit
+    onDeletePetClick: () -> Unit,
+    onEditPetClick: (String) -> Unit
 ) {
     LazyColumn(
         modifier = Modifier
@@ -155,13 +157,15 @@ private fun PetContainer(
                     .padding(top = 32.dp, bottom = 8.dp)
             )
         }
-        item {
-            Text(
-                text = "Reminders",
-                style = MaterialTheme.typography.headlineMedium,
-                color = MaterialTheme.colorScheme.onSurface,
-                modifier = Modifier.padding(vertical = 16.dp, horizontal = 8.dp)
-            )
+        if (interactions.isNotEmpty()) {
+            item {
+                Text(
+                    text = "Reminders",
+                    style = MaterialTheme.typography.headlineMedium,
+                    color = MaterialTheme.colorScheme.onSurface,
+                    modifier = Modifier.padding(vertical = 16.dp, horizontal = 8.dp)
+                )
+            }
         }
 
         interactions.groupBy { it.group }.toSortedMap().map {
@@ -182,11 +186,22 @@ private fun PetContainer(
         item { Spacer(size = 32.dp) }
 
         item {
-            Box(
+            Column(
                 modifier = Modifier.fillMaxWidth(),
-                contentAlignment = Alignment.Center
+                horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                TextButton(onClick = { onDeletePetClick(pet.id) }) {
+                TextButton(onClick = { onEditPetClick(pet.id) }) {
+                    Text(
+                        text = "Edit pet",
+                        color = MaterialTheme.colorScheme.primary,
+                        style = MaterialTheme.typography.titleMedium,
+                        modifier = Modifier.padding(horizontal = 32.dp, vertical = 8.dp)
+                    )
+                }
+
+                Spacer(8.dp)
+
+                TextButton(onClick = { onDeletePetClick() }) {
                     Text(
                         text = "Delete pet",
                         color = MaterialTheme.colorScheme.error,
@@ -235,7 +250,7 @@ fun PetScreenPreview() {
                         )
                     )
                 ),
-                {}, {}
+                {}, {}, {}
             )
         }
     }

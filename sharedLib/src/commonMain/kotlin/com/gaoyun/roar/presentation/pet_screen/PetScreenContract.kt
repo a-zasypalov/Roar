@@ -13,6 +13,7 @@ class PetScreenContract {
         object OnDeletePetClicked : Event()
         class AddReminderButtonClicked(val petId: String?) : Event()
         class OnDeletePetConfirmed(val petId: String) : Event()
+        class OnEditPetClicked(val petId: String) : Event()
     }
 
     data class State(
