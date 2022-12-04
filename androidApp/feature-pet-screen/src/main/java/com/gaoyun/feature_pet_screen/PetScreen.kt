@@ -141,7 +141,7 @@ private fun PetContainer(
             )
         }
 
-        interactions.groupBy { it.group }.map {
+        interactions.groupBy { it.group }.toSortedMap().map {
             item {
                 Text(
                     text = it.key.toString(),

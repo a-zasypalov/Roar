@@ -9,12 +9,15 @@ import com.gaoyun.roar.presentation.ViewState
 class HomeScreenContract {
 
     sealed class Event : ViewEvent {
+        class SetPetChooserShow(val show: Boolean) : Event()
+        class PetChosenForReminderCreation(val petId: String) : Event()
     }
 
     data class State(
         val user: User? = null,
         val pets: List<Pet> = emptyList(),
-        val isLoading: Boolean = false
+        val isLoading: Boolean = false,
+        val showPetChooser: Boolean = false
     ) : ViewState
 
     sealed class Effect : ViewSideEffect {
@@ -22,7 +25,7 @@ class HomeScreenContract {
             object NavigateBack : Navigation()
             object ToUserRegistration : Navigation()
             object ToAddPet : Navigation()
-            class ToAddReminder(val pet: Pet) : Navigation()
+            class ToAddReminder(val petId: String) : Navigation()
             class ToPetScreen(val petId: String) : Navigation()
         }
     }

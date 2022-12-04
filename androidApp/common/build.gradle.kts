@@ -48,9 +48,9 @@ dependencies {
 
     api("org.jetbrains.kotlinx:kotlinx-datetime:0.4.0")
 
-    api("com.google.accompanist:accompanist-permissions:0.27.1")
-    api("com.google.accompanist:accompanist-insets:0.27.1")
-    api("com.google.accompanist:accompanist-systemuicontroller:0.27.1")
+    api("com.google.accompanist:accompanist-permissions:0.28.0")
+    api("com.google.accompanist:accompanist-insets:0.28.0")
+    api("com.google.accompanist:accompanist-systemuicontroller:0.28.0")
 
     val koinVersion = "3.1.6"
     api("io.insert-koin:koin-android:$koinVersion")

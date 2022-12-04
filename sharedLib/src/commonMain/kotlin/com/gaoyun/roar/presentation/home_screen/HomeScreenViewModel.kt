@@ -7,6 +7,7 @@ import com.gaoyun.roar.model.domain.Pet
 import com.gaoyun.roar.model.domain.User
 import com.gaoyun.roar.presentation.BaseViewModel
 import com.gaoyun.roar.util.NoUserException
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
@@ -22,7 +23,16 @@ class HomeScreenViewModel :
     override fun setInitialState() = HomeScreenContract.State(null, emptyList(), true)
 
     override fun handleEvents(event: HomeScreenContract.Event) {
-
+        when (event) {
+            is HomeScreenContract.Event.SetPetChooserShow -> setDialogShow(event.show)
+            is HomeScreenContract.Event.PetChosenForReminderCreation -> {
+                scope.launch {
+                    setDialogShow(false)
+                    delay(250)
+                    openAddReminderScreen(event.petId)
+                }
+            }
+        }
     }
 
     fun checkUserRegistered() = scope.launch {
@@ -33,7 +43,7 @@ class HomeScreenViewModel :
         }
     }
 
-    private suspend fun getUser() {
+    private fun getUser() {
         try {
             val user = getUserUseCase.getCurrentUser()
             getPets(user)
@@ -55,6 +65,7 @@ class HomeScreenViewModel :
     private fun setNoUserState() = setState { copy(user = null, isLoading = false) }
     private fun setUserDataState(user: User) = setState { copy(user = user, isLoading = false) }
     private fun setPetsState(user: User, pets: List<Pet>) = setState { copy(user = user, pets = pets, isLoading = false) }
+    private fun setDialogShow(show: Boolean) = setState { copy(showPetChooser = show) }
 
     fun openRegistration() {
         setEffect { HomeScreenContract.Effect.Navigation.ToUserRegistration }
@@ -64,8 +75,8 @@ class HomeScreenViewModel :
         setEffect { HomeScreenContract.Effect.Navigation.ToAddPet }
     }
 
-    fun openAddReminderScreen(pet: Pet) {
-        setEffect { HomeScreenContract.Effect.Navigation.ToAddReminder(pet) }
+    fun openAddReminderScreen(petId: String) {
+        setEffect { HomeScreenContract.Effect.Navigation.ToAddReminder(petId) }
     }
 
     fun openPetScreen(petId: String) {

@@ -8,6 +8,7 @@ import androidx.compose.material3.FabPosition
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
+import androidx.compose.ui.window.Dialog
 import androidx.lifecycle.Lifecycle
 import androidx.navigation.NavHostController
 import com.gaoyun.common.NavigationKeys
@@ -43,7 +44,7 @@ fun HomeScreenDestination(navHostController: NavHostController) {
                 is HomeScreenContract.Effect.Navigation.ToUserRegistration -> navHostController.navigate(NavigationKeys.Route.REGISTER_USER_ROUTE)
                 is HomeScreenContract.Effect.Navigation.ToAddPet -> navHostController.navigate(NavigationKeys.Route.ADD_PET_ROUTE)
                 is HomeScreenContract.Effect.Navigation.ToPetScreen -> navHostController.navigate("${NavigationKeys.Route.PET_DETAIL}/${navigationEffect.petId}")
-                is HomeScreenContract.Effect.Navigation.ToAddReminder -> navHostController.navigate("${NavigationKeys.Route.ADD_REMINDER}/${navigationEffect.pet.id}")
+                is HomeScreenContract.Effect.Navigation.ToAddReminder -> navHostController.navigate("${NavigationKeys.Route.ADD_REMINDER}/${navigationEffect.petId}")
                 is HomeScreenContract.Effect.Navigation.NavigateBack -> navHostController.popBackStack()
             }
         },
@@ -76,13 +77,22 @@ fun HomeScreen(
                     icon = Icons.Filled.Add,
                     contentDescription = "Add reminder",
                     text = "Reminder",
-                    onClick = {
-
-                    })
+                    onClick = { onEventSent(HomeScreenContract.Event.SetPetChooserShow(true)) })
             }
         },
         floatingActionButtonPosition = FabPosition.End
     ) {
+        if (state.showPetChooser) {
+            Dialog(
+                onDismissRequest = { onEventSent(HomeScreenContract.Event.SetPetChooserShow(false)) }
+            ) {
+                InteractionPetChooser(
+                    pets = state.pets,
+                    onPetChosen = { onEventSent(HomeScreenContract.Event.PetChosenForReminderCreation(it)) }
+                )
+            }
+        }
+
         Box {
             state.user?.let { user ->
                 if (state.pets.isNotEmpty()) {
