@@ -14,6 +14,7 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
+import com.gaoyun.common.icon
 import com.gaoyun.common.ui.Spacer
 import com.gaoyun.common.ui.TextFormField
 import com.gaoyun.roar.model.domain.Pet
@@ -53,7 +54,7 @@ internal fun InteractionHeader(
                 shape = CircleShape,
             ) {
                 Image(
-                    painter = painterResource(id = com.gaoyun.common.R.drawable.ic_cat),
+                    painter = painterResource(id = interaction.type.icon()),
                     contentDescription = pet.name,
                     modifier = Modifier
                         .height(72.dp)
@@ -84,7 +85,7 @@ internal fun InteractionHeader(
                     TextWithIconBulletPoint(icon = Icons.Filled.Repeat, it.toString())
                 } ?: TextWithIconBulletPoint(icon = Icons.Filled.Repeat, "Doesn't repeat")
 
-                if(interaction.isActive) {
+                if (interaction.isActive) {
                     TextWithIconBulletPoint(icon = Icons.Default.Done, "Active")
                 } else {
                     TextWithIconBulletPoint(icon = Icons.Default.Close, "Not active")

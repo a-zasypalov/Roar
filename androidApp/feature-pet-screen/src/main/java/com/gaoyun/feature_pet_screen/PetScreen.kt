@@ -185,7 +185,7 @@ private fun PetContainer(
                 )
             }
 
-            items(it.value) { interaction ->
+            items(it.value.sortedBy { v -> v.type }) { interaction ->
                 InteractionCard(interaction, showLastReminder, onInteractionClick, onInteractionCheckClicked)
             }
         }

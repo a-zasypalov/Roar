@@ -1,21 +1,23 @@
 package com.gaoyun.feature_pet_screen
 
 import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Alarm
-import androidx.compose.material3.*
+import androidx.compose.foundation.layout.*
+import androidx.compose.material3.Divider
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.ColorFilter
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import com.gaoyun.common.DateUtils
+import com.gaoyun.common.icon
 import com.gaoyun.common.ui.LabelledCheckBox
 import com.gaoyun.common.ui.Spacer
 import com.gaoyun.roar.model.domain.interactions.InteractionWithReminders
@@ -47,13 +49,13 @@ fun InteractionCard(
                 verticalAlignment = Alignment.CenterVertically,
                 modifier = Modifier.padding(horizontal = 16.dp)
             ) {
-                Icon(
-                    Icons.Filled.Alarm,
-                    "reminder",
-                    tint = MaterialTheme.colorScheme.onSurface,
-                    modifier = Modifier.padding(4.dp)
+                Image(
+                    painter = painterResource(id = interaction.type.icon()),
+                    contentDescription = "reminder",
+                    colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.onSurface),
+                    modifier = Modifier.padding(4.dp).size(32.dp)
                 )
-                Spacer(size = 12.dp)
+                Spacer(size = 8.dp)
                 Column(modifier = Modifier.weight(1f)) {
                     Text(
                         interaction.name,
@@ -102,7 +104,7 @@ fun InteractionCard(
                     modifier = Modifier.fillMaxWidth(),
                     verticalPadding = 16.dp,
                     horizontalPadding = 20.dp,
-                    spacerSize = 14.dp,
+                    spacerSize = 16.dp,
                     onCheckedChange = { onInteractionCheckClicked(reminderToShow.id, it) }
                 )
 
