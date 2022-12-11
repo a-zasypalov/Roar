@@ -14,9 +14,6 @@ SELECT * FROM ReminderEntity WHERE interactionId = ?;
 insertReminder:
 INSERT OR REPLACE INTO ReminderEntity(id, interactionId, dateTime, isCompleted) VALUES (?, ?, ?, ?);
 
-setIsCompleted:
-INSERT OR REPLACE INTO ReminderEntity(id, interactionId, dateTime, isCompleted) VALUES (?, interactionId, dateTime, ?);
-
 deleteReminderById:
 DELETE FROM ReminderEntity WHERE id = ?;
 

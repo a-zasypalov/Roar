@@ -72,10 +72,17 @@ fun InteractionScreen(
     onNavigationRequested: (navigationEffect: InteractionScreenContract.Effect.Navigation) -> Unit,
     notesState: MutableState<String?>
 ) {
+    val showRemoveReminderFromHistoryDialog = remember { mutableStateOf(false) }
+    val reminderToRemoveId = remember { mutableStateOf<String?>(null) }
+
     LaunchedEffect(LAUNCH_LISTEN_FOR_EFFECTS) {
         effectFlow.onEach { effect ->
             when (effect) {
                 is InteractionScreenContract.Effect.Navigation -> onNavigationRequested(effect)
+                is InteractionScreenContract.Effect.ShowRemoveReminderFromHistoryDialog -> {
+                    reminderToRemoveId.value = effect.reminderId
+                    showRemoveReminderFromHistoryDialog.value = true
+                }
                 else -> {}
             }
         }.collect()
@@ -91,11 +98,41 @@ fun InteractionScreen(
         },
         floatingActionButtonPosition = FabPosition.End
     ) {
+        if (showRemoveReminderFromHistoryDialog.value) {
+            AlertDialog(
+                onDismissRequest = {
+                    showRemoveReminderFromHistoryDialog.value = false
+                    reminderToRemoveId.value = null
+                },
+                title = { Text("Are you sure?") },
+                text = { Text("Do you want to delete this reminder from history?") },
+                confirmButton = {
+                    TextButton(onClick = {
+                        showRemoveReminderFromHistoryDialog.value = false
+                        reminderToRemoveId.value?.let {
+                            onEventSent(InteractionScreenContract.Event.OnReminderRemoveFromHistoryClick(reminderId = it, confirmed = true))
+                        }
+                        reminderToRemoveId.value = null
+                    }) {
+                        Text("Yes")
+                    }
+                },
+                dismissButton = {
+                    TextButton(onClick = {
+                        showRemoveReminderFromHistoryDialog.value = false
+                        reminderToRemoveId.value = null
+                    }) {
+                        Text("Cancel")
+                    }
+                }
+            )
+        }
+
         Box {
             state.interaction?.let { interaction ->
                 state.pet?.let { pet ->
                     val nextReminders = interaction.reminders.filter { !it.isCompleted }
-                    val completeReminders = interaction.reminders.filter { !it.isCompleted }
+                    val completeReminders = interaction.reminders.filter { it.isCompleted }.sortedBy { it.dateTime }.reversed()
 
                     LazyColumn(modifier = Modifier.padding(horizontal = 8.dp)) {
                         item {
@@ -138,7 +175,14 @@ fun InteractionScreen(
                                                 verticalPadding = 16.dp,
                                                 horizontalPadding = 20.dp,
                                                 spacerSize = 14.dp,
-                                                onCheckedChange = {}
+                                                onCheckedChange = { isComplete ->
+                                                    onEventSent(
+                                                        InteractionScreenContract.Event.OnReminderCompleteClick(
+                                                            reminderId = reminder.id,
+                                                            isComplete = isComplete
+                                                        )
+                                                    )
+                                                }
                                             )
                                         }
                                     }
@@ -165,9 +209,9 @@ fun InteractionScreen(
                                         .fillMaxWidth(),
                                 ) {
                                     Column {
-                                        completeReminders.map { reminder ->
+                                        completeReminders.mapIndexed { index, reminder ->
                                             LabelledCheckBox(
-                                                checked = !reminder.isCompleted,
+                                                checked = reminder.isCompleted,
                                                 label = "${
                                                     reminder.dateTime.date.toJavaLocalDate().format(DateUtils.ddMmmmDateFormatter)
                                                 } at ${
@@ -177,20 +221,31 @@ fun InteractionScreen(
                                                 verticalPadding = 16.dp,
                                                 horizontalPadding = 20.dp,
                                                 spacerSize = 14.dp,
-                                                onCheckedChange = {}
+                                                onCheckedChange = { isComplete ->
+                                                    if (index == 0) {
+                                                        onEventSent(
+                                                            InteractionScreenContract.Event.OnReminderCompleteClick(
+                                                                reminderId = reminder.id,
+                                                                isComplete = isComplete
+                                                            )
+                                                        )
+                                                    } else {
+                                                        onEventSent(
+                                                            InteractionScreenContract.Event.OnReminderRemoveFromHistoryClick(reminder.id)
+                                                        )
+                                                    }
+                                                }
                                             )
                                         }
                                     }
                                 }
                             }
                         }
-
                         item { Spacer(size = 120.dp) }
                     }
                 }
             }
         }
-
         Loader(isLoading = state.isLoading)
     }
 }

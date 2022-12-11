@@ -3,6 +3,8 @@ package com.gaoyun.roar.presentation.interactions
 import com.gaoyun.roar.domain.interaction.GetInteraction
 import com.gaoyun.roar.domain.interaction.InsertInteraction
 import com.gaoyun.roar.domain.pet.GetPetUseCase
+import com.gaoyun.roar.domain.reminder.RemoveReminder
+import com.gaoyun.roar.domain.reminder.SetReminderComplete
 import com.gaoyun.roar.model.domain.interactions.withoutReminders
 import com.gaoyun.roar.presentation.BaseViewModel
 import kotlinx.coroutines.flow.firstOrNull
@@ -17,6 +19,8 @@ class InteractionScreenViewModel :
     private val getPetUseCase: GetPetUseCase by inject()
     private val getInteraction: GetInteraction by inject()
     private val saveInteraction: InsertInteraction by inject()
+    private val setReminderComplete: SetReminderComplete by inject()
+    private val removeReminder: RemoveReminder by inject()
 
     override fun setInitialState() = InteractionScreenContract.State(isLoading = true)
 
@@ -24,6 +28,14 @@ class InteractionScreenViewModel :
         when (event) {
             is InteractionScreenContract.Event.OnSaveNotes -> saveNoteState(event.notes)
             is InteractionScreenContract.Event.OnEditButtonClick -> {}
+            is InteractionScreenContract.Event.OnReminderCompleteClick -> setReminderComplete(event.reminderId, event.isComplete)
+            is InteractionScreenContract.Event.OnReminderRemoveFromHistoryClick -> {
+                if (event.confirmed) {
+                    removeReminderFromHistory(event.reminderId)
+                } else {
+                    setEffect { InteractionScreenContract.Effect.ShowRemoveReminderFromHistoryDialog(event.reminderId) }
+                }
+            }
         }
     }
 
@@ -38,6 +50,19 @@ class InteractionScreenViewModel :
     private fun saveNoteState(notes: String) = scope.launch {
         viewState.value.interaction?.let {
             saveInteraction.insertInteraction(it.copy(notes = notes.trim()).withoutReminders()).firstOrNull()
+        }
+    }
+
+    private fun setReminderComplete(reminderId: String, isComplete: Boolean) = scope.launch {
+        setReminderComplete.setComplete(reminderId, isComplete).collect {
+            it?.let { interaction -> setState { copy(interaction = interaction) } }
+        }
+    }
+
+    private fun removeReminderFromHistory(reminderId: String) = scope.launch {
+        removeReminder.removeReminder(reminderId).firstOrNull()
+        getInteraction.getInteractionWithReminders(viewState.value.interaction?.id ?: "").collect { interaction ->
+            setState { copy(interaction = interaction) }
         }
     }
 }

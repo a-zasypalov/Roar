@@ -37,7 +37,8 @@ class ReminderRepositoryImpl : ReminderRepository, KoinComponent {
     }
 
     override fun setReminderCompleted(reminderId: String, complete: Boolean) {
-        appDb.reminderEntityQueries.setIsCompleted(reminderId, complete)
+        val reminder = getReminder(reminderId) ?: return
+        insertReminder(reminder.copy(isCompleted = complete))
     }
 
     override fun deleteReminder(id: String) {

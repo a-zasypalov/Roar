@@ -83,6 +83,12 @@ internal fun InteractionHeader(
                 interaction.repeatConfig?.let {
                     TextWithIconBulletPoint(icon = Icons.Filled.Repeat, it.toString())
                 } ?: TextWithIconBulletPoint(icon = Icons.Filled.Repeat, "Doesn't repeat")
+
+                if(interaction.isActive) {
+                    TextWithIconBulletPoint(icon = Icons.Default.Done, "Active")
+                } else {
+                    TextWithIconBulletPoint(icon = Icons.Default.Close, "Not active")
+                }
             }
         }
 
