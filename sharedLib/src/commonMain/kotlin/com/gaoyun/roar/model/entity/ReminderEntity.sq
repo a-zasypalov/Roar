@@ -19,3 +19,6 @@ INSERT OR REPLACE INTO ReminderEntity(id, interactionId, dateTime, isCompleted) 
 
 deleteReminderById:
 DELETE FROM ReminderEntity WHERE id = ?;
+
+deleteReminderByInteractionId:
+DELETE FROM ReminderEntity WHERE interactionId = ?;

@@ -11,5 +11,7 @@ class RemoveReminder : KoinComponent {
 
     fun removeReminder(id: String) = flow { emit(repository.deleteReminder(id)) }
 
+    fun removeReminderByInteraction(interactionId: String) = flow { emit(repository.deleteReminderByInteractionId(interactionId)) }
+
 
 }

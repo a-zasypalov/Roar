@@ -31,4 +31,12 @@ class GetInteraction : KoinComponent {
         emit(interactions)
     }
 
+    fun getInteractionIdsByPet(petId: String) = flow {
+        val interactions = repository.getInteractionByPet(petId).map {
+            it.id
+        }
+
+        emit(interactions)
+    }
+
 }

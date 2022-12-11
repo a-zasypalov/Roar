@@ -10,8 +10,9 @@ interface ReminderRepository {
     fun insertReminder(reminder: Reminder)
     fun getReminder(id: String): Reminder?
     fun getRemindersByInteraction(interactionId: String): List<Reminder>
-    fun setReminderIsActive(reminderId: String, isActive: Boolean)
+    fun setReminderCompleted(reminderId: String, complete: Boolean)
     fun deleteReminder(id: String)
+    fun deleteReminderByInteractionId(interactionId: String)
 }
 
 class ReminderRepositoryImpl : ReminderRepository, KoinComponent {
@@ -35,11 +36,15 @@ class ReminderRepositoryImpl : ReminderRepository, KoinComponent {
         )
     }
 
-    override fun setReminderIsActive(reminderId: String, isActive: Boolean) {
-        appDb.reminderEntityQueries.setIsCompleted(reminderId, isActive)
+    override fun setReminderCompleted(reminderId: String, complete: Boolean) {
+        appDb.reminderEntityQueries.setIsCompleted(reminderId, complete)
     }
 
     override fun deleteReminder(id: String) {
         appDb.reminderEntityQueries.deleteReminderById(id)
+    }
+
+    override fun deleteReminderByInteractionId(interactionId: String) {
+        appDb.reminderEntityQueries.deleteReminderByInteractionId(interactionId)
     }
 }

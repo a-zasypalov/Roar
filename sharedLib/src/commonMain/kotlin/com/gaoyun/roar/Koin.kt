@@ -15,7 +15,7 @@ import com.gaoyun.roar.domain.pet.RemovePetUseCase
 import com.gaoyun.roar.domain.reminder.GetReminder
 import com.gaoyun.roar.domain.reminder.InsertReminder
 import com.gaoyun.roar.domain.reminder.RemoveReminder
-import com.gaoyun.roar.domain.reminder.SetReminderIsActive
+import com.gaoyun.roar.domain.reminder.SetReminderComplete
 import com.gaoyun.roar.domain.user.CheckUserExistingUseCase
 import com.gaoyun.roar.domain.user.GetCurrentUserUseCase
 import com.gaoyun.roar.domain.user.RegisterUserUseCase
@@ -67,7 +67,7 @@ val useCaseModule = module {
     single { GetReminder() }
     single { InsertReminder() }
     single { RemoveReminder() }
-    single { SetReminderIsActive() }
+    single { SetReminderComplete() }
 }
 
 val networkModule = module {
