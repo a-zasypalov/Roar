@@ -14,7 +14,7 @@ class PetScreenContract {
         class AddReminderButtonClicked(val petId: String?) : Event()
         class OnDeletePetConfirmed(val petId: String) : Event()
         class OnEditPetClicked(val petId: String) : Event()
-        class OnInteractionCheckClicked(val reminderId: String, val completed: Boolean): Event()
+        class OnInteractionCheckClicked(val reminderId: String, val completed: Boolean) : Event()
     }
 
     data class State(
