@@ -143,6 +143,7 @@ private fun AddPetForm(
             style = MaterialTheme.typography.displayMedium,
             modifier = Modifier
                 .fillMaxSize()
+                .statusBarsPadding()
                 .padding(start = 10.dp, top = 32.dp, bottom = 16.dp),
         )
         SurfaceCard(

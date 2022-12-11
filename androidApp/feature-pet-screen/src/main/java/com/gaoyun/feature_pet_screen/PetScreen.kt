@@ -126,9 +126,11 @@ fun PetScreen(
                 PetContainer(
                     pet = pet,
                     interactions = state.interactions,
+                    showLastReminder = state.showLastReminder,
                     onInteractionClick = { onEventSent(PetScreenContract.Event.InteractionClicked(it)) },
                     onDeletePetClick = { onEventSent(PetScreenContract.Event.OnDeletePetClicked) },
-                    onEditPetClick = { onEventSent(PetScreenContract.Event.OnEditPetClicked(it)) }
+                    onEditPetClick = { onEventSent(PetScreenContract.Event.OnEditPetClicked(it)) },
+                    onInteractionCheckClicked = { reminderId, completed -> onEventSent(PetScreenContract.Event.OnInteractionCheckClicked(reminderId, completed)) }
                 )
             }
 
@@ -141,15 +143,20 @@ fun PetScreen(
 private fun PetContainer(
     pet: Pet,
     interactions: List<InteractionWithReminders>,
+    showLastReminder: Boolean,
     onInteractionClick: (String) -> Unit,
     onDeletePetClick: () -> Unit,
-    onEditPetClick: (String) -> Unit
+    onEditPetClick: (String) -> Unit,
+    onInteractionCheckClicked: (String, Boolean) -> Unit
 ) {
     LazyColumn(
         modifier = Modifier
             .padding(start = 8.dp, end = 8.dp)
             .fillMaxWidth()
     ) {
+        item {
+            Box(modifier = Modifier.size(WindowInsets.statusBars.asPaddingValues().calculateTopPadding()))
+        }
         item {
             PetHeader(
                 pet = pet, modifier = Modifier
@@ -179,7 +186,7 @@ private fun PetContainer(
             }
 
             items(it.value) { interaction ->
-                InteractionCard(interaction, onInteractionClick)
+                InteractionCard(interaction, showLastReminder, onInteractionClick, onInteractionCheckClicked)
             }
         }
 
@@ -250,7 +257,8 @@ fun PetScreenPreview() {
                         )
                     )
                 ),
-                {}, {}, {}
+                true,
+                {}, {}, {}, { _, _ -> }
             )
         }
     }

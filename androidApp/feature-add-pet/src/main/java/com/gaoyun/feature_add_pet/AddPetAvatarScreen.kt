@@ -3,10 +3,7 @@ package com.gaoyun.feature_add_pet
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.grid.*
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
@@ -109,6 +106,9 @@ private fun ChooseAvatar(
             .fillMaxSize(),
         userScrollEnabled = true
     ) {
+        item(span = titleSpan) {
+            Box(modifier = Modifier.size(WindowInsets.statusBars.asPaddingValues().calculateTopPadding()))
+        }
         item(span = titleSpan) {
             Text(
                 text = "Choose avatar",

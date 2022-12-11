@@ -1,9 +1,7 @@
 package com.gaoyun.feature_interactions
 
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
+import androidx.compose.animation.animateContentSize
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Edit
@@ -166,6 +164,9 @@ fun InteractionScreen(
 
                     LazyColumn(modifier = Modifier.padding(horizontal = 8.dp)) {
                         item {
+                            Box(modifier = Modifier.size(WindowInsets.statusBars.asPaddingValues().calculateTopPadding()))
+                        }
+                        item {
                             InteractionHeader(
                                 pet = pet,
                                 interaction = interaction,
@@ -238,7 +239,7 @@ fun InteractionScreen(
                                         .padding(horizontal = 8.dp, vertical = 8.dp)
                                         .fillMaxWidth(),
                                 ) {
-                                    Column {
+                                    Column(Modifier.animateContentSize()) {
                                         completeReminders.mapIndexed { index, reminder ->
                                             LabelledCheckBox(
                                                 checked = reminder.isCompleted,

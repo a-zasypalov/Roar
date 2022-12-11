@@ -35,6 +35,9 @@ fun HomeState(
             .fillMaxHeight(),
     ) {
         item {
+            Box(modifier = Modifier.size(WindowInsets.statusBars.asPaddingValues().calculateTopPadding()))
+        }
+        item {
             Header(userName = userName, onAddPetButtonClick = onAddPetButtonClick)
         }
 

@@ -3,6 +3,7 @@ package com.gaoyun.roar.presentation.pet_screen
 import com.gaoyun.roar.domain.interaction.GetInteraction
 import com.gaoyun.roar.domain.pet.GetPetUseCase
 import com.gaoyun.roar.domain.pet.RemovePetUseCase
+import com.gaoyun.roar.domain.reminder.SetReminderComplete
 import com.gaoyun.roar.presentation.BaseViewModel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.map
@@ -17,6 +18,7 @@ class PetScreenViewModel :
     private val getPetUseCase: GetPetUseCase by inject()
     private val getInteraction: GetInteraction by inject()
     private val removePet: RemovePetUseCase by inject()
+    private val setReminderComplete: SetReminderComplete by inject()
 
     override fun setInitialState() = PetScreenContract.State(isLoading = true)
 
@@ -43,6 +45,7 @@ class PetScreenViewModel :
                         .collect { setEffect { it } }
                 }
             }
+            is PetScreenContract.Event.OnInteractionCheckClicked -> setReminderComplete(event.reminderId, event.completed)
         }
     }
 
@@ -56,5 +59,18 @@ class PetScreenViewModel :
 
     fun hideDeletePetDialog() {
         setState { copy(deletePetDialogShow = false) }
+    }
+
+    private fun setReminderComplete(reminderId: String, isComplete: Boolean) = scope.launch {
+        setReminderComplete.setComplete(reminderId, isComplete).collect {
+            it?.let { interaction ->
+                setState {
+                    copy(interactions = viewState.value.interactions.toMutableList().apply {
+                        removeAll { item -> item.id == interaction.id }
+                        add(interaction)
+                    }, showLastReminder = isComplete)
+                }
+            }
+        }
     }
 }

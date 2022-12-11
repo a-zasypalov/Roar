@@ -88,7 +88,7 @@ private fun ChoosePetType(
 
     Box(
         contentAlignment = Alignment.TopCenter,
-        modifier = Modifier.fillMaxSize()
+        modifier = Modifier.fillMaxSize().statusBarsPadding()
     ) {
 
         Text(

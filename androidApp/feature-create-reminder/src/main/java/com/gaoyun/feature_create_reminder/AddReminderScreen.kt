@@ -80,6 +80,9 @@ fun AddReminderScreen(
     SurfaceScaffold {
         Box {
             LazyColumn {
+                item {
+                    Box(modifier = Modifier.size(WindowInsets.statusBars.asPaddingValues().calculateTopPadding()))
+                }
                 state.pet?.let { pet ->
                     item {
                         Row(

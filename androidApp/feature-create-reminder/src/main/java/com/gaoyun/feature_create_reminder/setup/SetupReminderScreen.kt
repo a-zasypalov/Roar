@@ -105,7 +105,7 @@ fun SetupReminderScreen(
     }
 
     SurfaceScaffold {
-        Box(contentAlignment = Alignment.BottomCenter) {
+        Box(contentAlignment = Alignment.BottomCenter, modifier = Modifier.statusBarsPadding()) {
             state.pet?.let { pet ->
                 avatar.value = pet.avatar
 
