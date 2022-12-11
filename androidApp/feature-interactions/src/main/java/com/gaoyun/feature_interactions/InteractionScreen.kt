@@ -10,6 +10,7 @@ import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -72,6 +73,7 @@ fun InteractionScreen(
     onNavigationRequested: (navigationEffect: InteractionScreenContract.Effect.Navigation) -> Unit,
     notesState: MutableState<String?>
 ) {
+    val showRemoveInteractionDialog = remember { mutableStateOf(false) }
     val showRemoveReminderFromHistoryDialog = remember { mutableStateOf(false) }
     val reminderToRemoveId = remember { mutableStateOf<String?>(null) }
 
@@ -82,6 +84,9 @@ fun InteractionScreen(
                 is InteractionScreenContract.Effect.ShowRemoveReminderFromHistoryDialog -> {
                     reminderToRemoveId.value = effect.reminderId
                     showRemoveReminderFromHistoryDialog.value = true
+                }
+                is InteractionScreenContract.Effect.ShowRemoveInteractionDialog -> {
+                    showRemoveInteractionDialog.value = true
                 }
                 else -> {}
             }
@@ -121,6 +126,31 @@ fun InteractionScreen(
                     TextButton(onClick = {
                         showRemoveReminderFromHistoryDialog.value = false
                         reminderToRemoveId.value = null
+                    }) {
+                        Text("Cancel")
+                    }
+                }
+            )
+        }
+
+        if (showRemoveInteractionDialog.value) {
+            AlertDialog(
+                onDismissRequest = { showRemoveInteractionDialog.value = false },
+                title = { Text("Are you sure?") },
+                text = { Text("Do you want to delete this interaction completely?") },
+                confirmButton = {
+                    TextButton(onClick = {
+                        showRemoveInteractionDialog.value = false
+                        state.interaction?.let { interaction ->
+                            onEventSent(InteractionScreenContract.Event.OnDeleteButtonClick(interactionId = interaction.id, confirmed = true))
+                        }
+                    }) {
+                        Text("Yes")
+                    }
+                },
+                dismissButton = {
+                    TextButton(onClick = {
+                        showRemoveInteractionDialog.value = false
                     }) {
                         Text("Cancel")
                     }
@@ -241,6 +271,43 @@ fun InteractionScreen(
                                 }
                             }
                         }
+
+                        item { Spacer(size = 32.dp) }
+
+                        item {
+                            Column(
+                                modifier = Modifier.fillMaxWidth(),
+                                horizontalAlignment = Alignment.CenterHorizontally
+                            ) {
+                                TextButton(onClick = {
+                                    onEventSent(
+                                        InteractionScreenContract.Event.OnActivateButtonClick(
+                                            interactionId = interaction.id,
+                                            activate = !interaction.isActive
+                                        )
+                                    )
+                                }) {
+                                    Text(
+                                        text = if (interaction.isActive) "Deactivate" else "Reactivate",
+                                        color = MaterialTheme.colorScheme.primary,
+                                        style = MaterialTheme.typography.titleMedium,
+                                        modifier = Modifier.padding(horizontal = 32.dp, vertical = 8.dp)
+                                    )
+                                }
+
+                                Spacer(8.dp)
+
+                                TextButton(onClick = { onEventSent(InteractionScreenContract.Event.OnDeleteButtonClick(interactionId = interaction.id)) }) {
+                                    Text(
+                                        text = "Delete interaction",
+                                        color = MaterialTheme.colorScheme.error,
+                                        style = MaterialTheme.typography.titleMedium,
+                                        modifier = Modifier.padding(horizontal = 32.dp, vertical = 8.dp)
+                                    )
+                                }
+                            }
+                        }
+
                         item { Spacer(size = 120.dp) }
                     }
                 }

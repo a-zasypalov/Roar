@@ -17,6 +17,7 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
+import com.gaoyun.common.NavigationKeys.Route.HOME_ROUTE
 import com.gaoyun.common.theme.RoarTheme
 import com.gaoyun.common.ui.PrimaryElevatedButton
 import com.gaoyun.common.ui.SurfaceScaffold
@@ -40,7 +41,7 @@ fun UserRegistrationDestination(navHostController: NavHostController) {
         onEventSent = { event -> viewModel.setEvent(event) },
         onNavigationRequested = { navigationEffect ->
             when (navigationEffect) {
-                is RegisterUserScreenContract.Effect.Navigation.ToPetAdding -> navHostController.navigate("")
+                is RegisterUserScreenContract.Effect.Navigation.ToPetAdding -> navHostController.navigate(HOME_ROUTE)
                 is RegisterUserScreenContract.Effect.Navigation.NavigateBack -> navHostController.navigateUp()
             }
         },

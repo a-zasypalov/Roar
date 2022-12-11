@@ -52,10 +52,10 @@ class SetReminderComplete : KoinComponent {
     private suspend fun removeNextReminder(reminderId: String): InteractionWithReminders? {
         val uncompletedReminder = getReminder.getReminder(reminderId).firstOrNull() ?: return null
         val reminderToDelete = getReminder.getReminderByInteraction(uncompletedReminder.interactionId).firstOrNull()
-            ?.filter { it.isCompleted.not() }
-            ?.maxByOrNull { it.dateTime } ?: return null
+            ?.filter { it.isCompleted.not() && it.id != uncompletedReminder.id }
+            ?.maxByOrNull { it.dateTime }
 
-        removeReminder.removeReminder(reminderToDelete.id).firstOrNull()
+        reminderToDelete?.let { removeReminder.removeReminder(it.id).firstOrNull() }
 
         return getNewInteractionState(uncompletedReminder.interactionId)
     }

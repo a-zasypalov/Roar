@@ -2,6 +2,8 @@ package com.gaoyun.roar.presentation.interactions
 
 import com.gaoyun.roar.domain.interaction.GetInteraction
 import com.gaoyun.roar.domain.interaction.InsertInteraction
+import com.gaoyun.roar.domain.interaction.RemoveInteraction
+import com.gaoyun.roar.domain.interaction.SetInteractionIsActive
 import com.gaoyun.roar.domain.pet.GetPetUseCase
 import com.gaoyun.roar.domain.reminder.RemoveReminder
 import com.gaoyun.roar.domain.reminder.SetReminderComplete
@@ -21,6 +23,8 @@ class InteractionScreenViewModel :
     private val saveInteraction: InsertInteraction by inject()
     private val setReminderComplete: SetReminderComplete by inject()
     private val removeReminder: RemoveReminder by inject()
+    private val removeInteraction: RemoveInteraction by inject()
+    private val setInteractionIsActive: SetInteractionIsActive by inject()
 
     override fun setInitialState() = InteractionScreenContract.State(isLoading = true)
 
@@ -34,6 +38,14 @@ class InteractionScreenViewModel :
                     removeReminderFromHistory(event.reminderId)
                 } else {
                     setEffect { InteractionScreenContract.Effect.ShowRemoveReminderFromHistoryDialog(event.reminderId) }
+                }
+            }
+            is InteractionScreenContract.Event.OnActivateButtonClick -> setInteractionIsActive(event.interactionId, event.activate)
+            is InteractionScreenContract.Event.OnDeleteButtonClick -> {
+                if (event.confirmed) {
+                    removeInteraction(event.interactionId)
+                } else {
+                    setEffect { InteractionScreenContract.Effect.ShowRemoveInteractionDialog }
                 }
             }
         }
@@ -63,6 +75,19 @@ class InteractionScreenViewModel :
         removeReminder.removeReminder(reminderId).firstOrNull()
         getInteraction.getInteractionWithReminders(viewState.value.interaction?.id ?: "").collect { interaction ->
             setState { copy(interaction = interaction) }
+        }
+    }
+
+    private fun setInteractionIsActive(interactionId: String, isActive: Boolean) = scope.launch {
+        setInteractionIsActive.setInteractionIsActive(interactionId, isActive).collect { interaction ->
+            setState { copy(interaction = interaction) }
+        }
+    }
+
+    private fun removeInteraction(interactionId: String) = scope.launch {
+        removeInteraction.removeInteraction(interactionId).collect {
+            setState { copy(interaction = null) }
+            setEffect { InteractionScreenContract.Effect.Navigation.NavigateBack }
         }
     }
 }

@@ -42,7 +42,8 @@ class InteractionRepositoryImpl : InteractionRepository, KoinComponent {
     }
 
     override fun setInteractionIsActive(interactionId: String, isActive: Boolean) {
-        appDb.interactionEntityQueries.setIsActive(interactionId, isActive)
+        val interaction = getInteraction(interactionId) ?: return
+        insertInteraction(interaction.copy(isActive = isActive))
     }
 
     override fun deleteInteraction(id: String) {

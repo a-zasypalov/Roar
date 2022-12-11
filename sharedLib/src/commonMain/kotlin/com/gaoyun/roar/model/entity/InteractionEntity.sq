@@ -16,9 +16,6 @@ SELECT * FROM InteractionEntity WHERE petId = ?;
 selectById:
 SELECT * FROM InteractionEntity WHERE id = ?;
 
-setIsActive:
-INSERT OR REPLACE INTO InteractionEntity(id, templateId, petId, type, name, interactionGroup, repeatConfig, isActive, notes) VALUES (?, templateId, petId, type, name, interactionGroup, repeatConfig, ?, notes);
-
 insertOrReplace:
 INSERT OR REPLACE INTO InteractionEntity(id, templateId, petId, type, name, interactionGroup, repeatConfig, isActive, notes) VALUES (?, ?, ?, ?, ? ,?, ?, ?, ?);
 
