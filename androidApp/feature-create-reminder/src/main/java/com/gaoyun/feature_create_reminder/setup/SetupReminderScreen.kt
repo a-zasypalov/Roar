@@ -108,7 +108,11 @@ fun SetupReminderScreen(
     }
 
     SurfaceScaffold {
-        Box(contentAlignment = Alignment.BottomCenter, modifier = Modifier.statusBarsPadding()) {
+        BoxWithLoader(
+            isLoading = state.isLoading,
+            contentAlignment = Alignment.BottomCenter,
+            modifier = Modifier.statusBarsPadding()
+        ) {
             state.pet?.let { pet ->
                 avatar.value = pet.avatar
 
@@ -156,8 +160,6 @@ fun SetupReminderScreen(
                     }
                 }
             }
-
-            Loader(isLoading = state.isLoading)
         }
     }
 }

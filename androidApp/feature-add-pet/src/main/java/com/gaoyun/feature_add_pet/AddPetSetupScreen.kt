@@ -79,9 +79,11 @@ fun AddPetSetupScreen(
     }
 
     SurfaceScaffold {
-        state.pet?.let {
-            PetAddingComplete(it) { onEventSent(AddPetSetupScreenContract.Event.ContinueButtonClicked) }
-        } ?: Loader(isLoading = state.isLoading)
+        BoxWithLoader(isLoading = state.isLoading) {
+            state.pet?.let {
+                PetAddingComplete(it) { onEventSent(AddPetSetupScreenContract.Event.ContinueButtonClicked) }
+            }
+        }
     }
 }
 

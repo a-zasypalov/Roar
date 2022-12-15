@@ -1,6 +1,5 @@
 package com.gaoyun.feature_home_screen
 
-import androidx.compose.foundation.layout.Box
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -13,7 +12,7 @@ import androidx.lifecycle.Lifecycle
 import androidx.navigation.NavHostController
 import com.gaoyun.common.NavigationKeys
 import com.gaoyun.common.OnLifecycleEvent
-import com.gaoyun.common.ui.Loader
+import com.gaoyun.common.ui.BoxWithLoader
 import com.gaoyun.common.ui.RoarExtendedFloatingActionButton
 import com.gaoyun.common.ui.SurfaceScaffold
 import com.gaoyun.roar.presentation.LAUNCH_LISTEN_FOR_EFFECTS
@@ -60,7 +59,7 @@ fun HomeScreen(
     effectFlow: Flow<HomeScreenContract.Effect>,
     onEventSent: (event: HomeScreenContract.Event) -> Unit,
     onNavigationRequested: (navigationEffect: HomeScreenContract.Effect.Navigation) -> Unit,
-    viewModel: HomeScreenViewModel
+    viewModel: HomeScreenViewModel,
 ) {
     LaunchedEffect(LAUNCH_LISTEN_FOR_EFFECTS) {
         effectFlow.onEach { effect ->
@@ -78,7 +77,7 @@ fun HomeScreen(
                     contentDescription = "Add reminder",
                     text = "Reminder",
                     onClick = {
-                        if(state.pets.size > 1) {
+                        if (state.pets.size > 1) {
                             onEventSent(HomeScreenContract.Event.SetPetChooserShow(true))
                         } else {
                             onEventSent(HomeScreenContract.Event.PetChosenForReminderCreation(state.pets.firstOrNull()?.id ?: ""))
@@ -99,7 +98,7 @@ fun HomeScreen(
             }
         }
 
-        Box {
+        BoxWithLoader(isLoading = state.isLoading) {
             state.user?.let { user ->
                 if (state.pets.isNotEmpty()) {
                     HomeState(
@@ -112,8 +111,6 @@ fun HomeScreen(
                     NoPetsState(userName = user.name, viewModel::openAddPetScreen)
                 }
             } ?: NoUserState(viewModel::openRegistration)
-
-            Loader(isLoading = state.isLoading)
         }
     }
 }

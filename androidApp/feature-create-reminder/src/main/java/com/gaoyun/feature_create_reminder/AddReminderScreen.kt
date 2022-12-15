@@ -78,7 +78,7 @@ fun AddReminderScreen(
     }
 
     SurfaceScaffold {
-        Box {
+        BoxWithLoader(isLoading = state.isLoading) {
             LazyColumn {
                 item {
                     Box(modifier = Modifier.size(WindowInsets.statusBars.asPaddingValues().calculateTopPadding()))
@@ -159,7 +159,6 @@ fun AddReminderScreen(
                     }
                 }
             }
-            Loader(isLoading = state.isLoading)
         }
     }
 

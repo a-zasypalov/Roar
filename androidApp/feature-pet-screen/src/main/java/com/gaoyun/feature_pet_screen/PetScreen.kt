@@ -2,15 +2,12 @@ package com.gaoyun.feature_pet_screen
 
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -20,6 +17,7 @@ import com.gaoyun.common.NavigationKeys
 import com.gaoyun.common.OnLifecycleEvent
 import com.gaoyun.common.theme.RoarTheme
 import com.gaoyun.common.ui.*
+import com.gaoyun.feature_pet_screen.view.PetContainer
 import com.gaoyun.roar.model.domain.Gender
 import com.gaoyun.roar.model.domain.Pet
 import com.gaoyun.roar.model.domain.PetType
@@ -43,7 +41,7 @@ import kotlin.time.Duration.Companion.hours
 @Composable
 fun PetScreenDestination(
     navHostController: NavHostController,
-    petId: String
+    petId: String,
 ) {
     val viewModel: PetScreenViewModel = getViewModel()
     val state = viewModel.viewState.collectAsState().value
@@ -122,7 +120,7 @@ fun PetScreen(
             )
         }
 
-        Box {
+        BoxWithLoader(isLoading = state.isLoading) {
             state.pet?.let { pet ->
                 PetContainer(
                     pet = pet,
@@ -131,96 +129,14 @@ fun PetScreen(
                     onInteractionClick = { onEventSent(PetScreenContract.Event.InteractionClicked(it)) },
                     onDeletePetClick = { onEventSent(PetScreenContract.Event.OnDeletePetClicked) },
                     onEditPetClick = { onNavigationRequested(PetScreenContract.Effect.Navigation.ToEditPet(pet = pet)) },
-                    onInteractionCheckClicked = { reminderId, completed -> onEventSent(PetScreenContract.Event.OnInteractionCheckClicked(reminderId, completed)) }
-                )
-            }
-
-            Loader(isLoading = state.isLoading)
-        }
-    }
-}
-
-@Composable
-private fun PetContainer(
-    pet: Pet,
-    interactions: List<InteractionWithReminders>,
-    showLastReminder: Boolean,
-    onInteractionClick: (String) -> Unit,
-    onDeletePetClick: () -> Unit,
-    onEditPetClick: (String) -> Unit,
-    onInteractionCheckClicked: (String, Boolean) -> Unit
-) {
-    LazyColumn(
-        modifier = Modifier
-            .padding(start = 8.dp, end = 8.dp)
-            .fillMaxWidth()
-    ) {
-        item {
-            Box(modifier = Modifier.size(WindowInsets.statusBars.asPaddingValues().calculateTopPadding()))
-        }
-        item {
-            PetHeader(
-                pet = pet, modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(top = 32.dp, bottom = 8.dp)
-            )
-        }
-        if (interactions.isNotEmpty()) {
-            item {
-                Text(
-                    text = "Reminders",
-                    style = MaterialTheme.typography.headlineMedium,
-                    color = MaterialTheme.colorScheme.onSurface,
-                    modifier = Modifier.padding(vertical = 16.dp, horizontal = 8.dp)
+                    onInteractionCheckClicked = { reminderId, completed -> onEventSent(PetScreenContract.Event.OnInteractionCheckClicked(reminderId, completed)) },
+                    modifier = Modifier
+                        .verticalScroll(rememberScrollState())
+                        .padding(start = 8.dp, end = 8.dp)
+                        .fillMaxWidth()
                 )
             }
         }
-
-        interactions.groupBy { it.group }.toSortedMap().map {
-            item {
-                Text(
-                    text = it.key.toString(),
-                    style = MaterialTheme.typography.titleLarge,
-                    color = MaterialTheme.colorScheme.onSurface,
-                    modifier = Modifier.padding(vertical = 8.dp, horizontal = 8.dp)
-                )
-            }
-
-            items(it.value.sortedBy { v -> v.type }) { interaction ->
-                InteractionCard(interaction, showLastReminder, onInteractionClick, onInteractionCheckClicked)
-            }
-        }
-
-        item { Spacer(size = 32.dp) }
-
-        item {
-            Column(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalAlignment = Alignment.CenterHorizontally
-            ) {
-                TextButton(onClick = { onEditPetClick(pet.id) }) {
-                    Text(
-                        text = "Edit pet",
-                        color = MaterialTheme.colorScheme.primary,
-                        style = MaterialTheme.typography.titleMedium,
-                        modifier = Modifier.padding(horizontal = 32.dp, vertical = 8.dp)
-                    )
-                }
-
-                Spacer(8.dp)
-
-                TextButton(onClick = { onDeletePetClick() }) {
-                    Text(
-                        text = "Delete pet",
-                        color = MaterialTheme.colorScheme.error,
-                        style = MaterialTheme.typography.titleMedium,
-                        modifier = Modifier.padding(horizontal = 32.dp, vertical = 8.dp)
-                    )
-                }
-            }
-        }
-
-        item { Spacer(size = 132.dp) }
     }
 }
 

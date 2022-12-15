@@ -167,7 +167,7 @@ fun InteractionScreen(
             )
         }
 
-        Box {
+        BoxWithLoader(isLoading = state.isLoading) {
             state.interaction?.let { interaction ->
                 state.pet?.let { pet ->
                     val nextReminders = interaction.reminders.filter { !it.isCompleted }
@@ -325,7 +325,6 @@ fun InteractionScreen(
                 }
             }
         }
-        Loader(isLoading = state.isLoading)
     }
 }
 

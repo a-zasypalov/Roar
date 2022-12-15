@@ -45,18 +45,35 @@ fun HomeState(
             Spacer(size = 8.dp)
         }
 
-        item {
-            Text(
-                text = "Your pets",
-                style = MaterialTheme.typography.headlineLarge,
-                color = MaterialTheme.colorScheme.onSurface,
-                modifier = Modifier.padding(vertical = 16.dp, horizontal = 16.dp)
-            )
-        }
+//        if (pets.size > 1) {
+            item {
+                Text(
+                    text = "Your pets",
+                    style = MaterialTheme.typography.headlineLarge,
+                    color = MaterialTheme.colorScheme.onSurface,
+                    modifier = Modifier.padding(vertical = 16.dp, horizontal = 16.dp)
+                )
+            }
 
-        items(pets) { pet ->
-            PetCard(pet = pet, onPetCardClick = onPetCardClick)
-        }
+            items(pets) { pet ->
+                PetCard(pet = pet, onPetCardClick = onPetCardClick)
+            }
+//        } else {
+//            item {
+//                PetContainer(
+//                    pet = pets.first(),
+//                    interactions = listOf(),
+//                    showLastReminder = false,
+//                    onInteractionClick = {  },
+//                    onDeletePetClick = {  },
+//                    onEditPetClick = {  },
+//                    onInteractionCheckClicked = { _, _ -> },
+//                    modifier = Modifier
+//                        .padding(start = 8.dp, end = 8.dp)
+//                        .fillMaxWidth()
+//                )
+//            }
+//        }
     }
 }
 

@@ -30,4 +30,5 @@ android {
 
 dependencies {
     implementation(project(":androidApp:common"))
+    implementation(project(":androidApp:feature-pet-screen"))
 }
