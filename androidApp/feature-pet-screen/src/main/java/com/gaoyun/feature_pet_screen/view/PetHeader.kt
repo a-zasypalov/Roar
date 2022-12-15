@@ -1,4 +1,4 @@
-package com.gaoyun.feature_pet_screen
+package com.gaoyun.feature_pet_screen.view
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
@@ -93,7 +93,7 @@ internal fun PetHeader(
 }
 
 @Composable
-fun TextWithIconBulletPoint(icon: ImageVector, text: String) {
+private fun TextWithIconBulletPoint(icon: ImageVector, text: String) {
     Row(
         verticalAlignment = Alignment.CenterVertically,
         modifier = Modifier.padding(vertical = 4.dp)

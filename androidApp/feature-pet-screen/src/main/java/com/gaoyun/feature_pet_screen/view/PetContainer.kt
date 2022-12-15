@@ -9,8 +9,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.gaoyun.common.ui.Spacer
-import com.gaoyun.feature_pet_screen.InteractionCard
-import com.gaoyun.feature_pet_screen.PetHeader
 import com.gaoyun.roar.model.domain.Pet
 import com.gaoyun.roar.model.domain.interactions.InteractionWithReminders
 
@@ -23,13 +21,16 @@ fun PetContainer(
     onDeletePetClick: () -> Unit,
     onEditPetClick: (String) -> Unit,
     onInteractionCheckClicked: (String, Boolean) -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    isPartOfAnotherScreen: Boolean = false
 ) {
     Column(
         modifier = modifier,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Box(modifier = Modifier.size(WindowInsets.statusBars.asPaddingValues().calculateTopPadding()))
+        if(!isPartOfAnotherScreen) {
+            Box(modifier = Modifier.size(WindowInsets.statusBars.asPaddingValues().calculateTopPadding()))
+        }
 
         PetHeader(
             pet = pet, modifier = Modifier
@@ -64,7 +65,6 @@ fun PetContainer(
         }
 
         Spacer(size = 32.dp)
-
 
         TextButton(onClick = { onEditPetClick(pet.id) }) {
             Text(

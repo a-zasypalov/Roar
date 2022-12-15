@@ -103,20 +103,10 @@ fun PetScreen(
         floatingActionButtonPosition = FabPosition.End
     ) {
         if (state.deletePetDialogShow) {
-            AlertDialog(
-                onDismissRequest = { viewModel.hideDeletePetDialog() },
-                title = { Text("Are you sure?") },
-                text = { Text("Do you want to delete ${state.pet?.name}?") },
-                confirmButton = {
-                    TextButton(onClick = { onEventSent(PetScreenContract.Event.OnDeletePetConfirmed(state.pet?.id ?: "")) }) {
-                        Text("Yes")
-                    }
-                },
-                dismissButton = {
-                    TextButton(onClick = { viewModel.hideDeletePetDialog() }) {
-                        Text("Cancel")
-                    }
-                }
+            RemovePetConfirmationDialog(
+                petName = state.pet?.name.toString(),
+                onDismiss = viewModel::hideDeletePetDialog,
+                onConfirm = { onEventSent(PetScreenContract.Event.OnDeletePetConfirmed(state.pet?.id ?: "")) }
             )
         }
 

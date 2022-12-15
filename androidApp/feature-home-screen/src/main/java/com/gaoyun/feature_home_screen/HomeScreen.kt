@@ -15,6 +15,10 @@ import com.gaoyun.common.OnLifecycleEvent
 import com.gaoyun.common.ui.BoxWithLoader
 import com.gaoyun.common.ui.RoarExtendedFloatingActionButton
 import com.gaoyun.common.ui.SurfaceScaffold
+import com.gaoyun.feature_home_screen.states.HomeState
+import com.gaoyun.feature_home_screen.states.NoPetsState
+import com.gaoyun.feature_home_screen.states.NoUserState
+import com.gaoyun.feature_home_screen.view.InteractionPetChooser
 import com.gaoyun.roar.presentation.LAUNCH_LISTEN_FOR_EFFECTS
 import com.gaoyun.roar.presentation.home_screen.HomeScreenContract
 import com.gaoyun.roar.presentation.home_screen.HomeScreenViewModel

@@ -1,4 +1,4 @@
-package com.gaoyun.feature_home_screen
+package com.gaoyun.feature_home_screen.view
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable

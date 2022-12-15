@@ -65,7 +65,7 @@ class PetScreenViewModel :
                     copy(interactions = viewState.value.interactions.toMutableList().apply {
                         removeAll { item -> item.id == interaction.id }
                         add(interaction)
-                    }, showLastReminder = isComplete)
+                    }, showLastReminder = showLastReminder || isComplete)
                 }
             }
         }

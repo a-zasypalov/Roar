@@ -1,4 +1,4 @@
-package com.gaoyun.feature_home_screen
+package com.gaoyun.feature_home_screen.states
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
@@ -45,7 +45,23 @@ fun HomeState(
             Spacer(size = 8.dp)
         }
 
-//        if (pets.size > 1) {
+//        if (pets.size == 1) {
+//            item {
+//                PetContainer(
+//                    pet = pets.first(),
+//                    interactions = state.interactions,
+//                    showLastReminder = state.showLastReminder,
+//                    onInteractionClick = { onEventSent(PetScreenContract.Event.InteractionClicked(it)) },
+//                    onDeletePetClick = { onEventSent(PetScreenContract.Event.OnDeletePetClicked) },
+//                    onEditPetClick = { onNavigationRequested(PetScreenContract.Effect.Navigation.ToEditPet(pet = pet)) },
+//                    onInteractionCheckClicked = { reminderId, completed -> onEventSent(PetScreenContract.Event.OnInteractionCheckClicked(reminderId, completed)) },
+//                    modifier = Modifier
+//                        .verticalScroll(rememberScrollState())
+//                        .padding(start = 8.dp, end = 8.dp)
+//                        .fillMaxWidth()
+//                )
+//            }
+//        } else {
             item {
                 Text(
                     text = "Your pets",
@@ -58,21 +74,6 @@ fun HomeState(
             items(pets) { pet ->
                 PetCard(pet = pet, onPetCardClick = onPetCardClick)
             }
-//        } else {
-//            item {
-//                PetContainer(
-//                    pet = pets.first(),
-//                    interactions = listOf(),
-//                    showLastReminder = false,
-//                    onInteractionClick = {  },
-//                    onDeletePetClick = {  },
-//                    onEditPetClick = {  },
-//                    onInteractionCheckClicked = { _, _ -> },
-//                    modifier = Modifier
-//                        .padding(start = 8.dp, end = 8.dp)
-//                        .fillMaxWidth()
-//                )
-//            }
 //        }
     }
 }

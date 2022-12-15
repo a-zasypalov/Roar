@@ -1,4 +1,4 @@
-package com.gaoyun.feature_pet_screen
+package com.gaoyun.feature_pet_screen.view
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.Image

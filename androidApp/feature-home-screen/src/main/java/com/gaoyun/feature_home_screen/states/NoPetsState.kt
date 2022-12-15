@@ -1,4 +1,4 @@
-package com.gaoyun.feature_home_screen
+package com.gaoyun.feature_home_screen.states
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.MaterialTheme
@@ -6,13 +6,17 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.gaoyun.common.theme.RoarTheme
 import com.gaoyun.common.ui.PrimaryElevatedButton
 
 @Composable
-fun NoUserState(onRegisterButtonClick: () -> Unit) {
+fun NoPetsState(
+    userName: String,
+    onAddPetButtonClick: () -> Unit
+) {
     Column(
         modifier = Modifier
             .fillMaxWidth()
@@ -21,23 +25,24 @@ fun NoUserState(onRegisterButtonClick: () -> Unit) {
         verticalArrangement = Arrangement.Center
     ) {
         Text(
-            text = "Register to get started",
+            text = "Great, nice to meet you, ${userName}!\nNow you can add pets",
+            textAlign = TextAlign.Center,
             color = MaterialTheme.colorScheme.onSurface
         )
 
         Spacer(modifier = Modifier.size(32.dp))
 
         PrimaryElevatedButton(
-            text = "Register",
-            onClick = onRegisterButtonClick
+            text = "Add First Pet",
+            onClick = onAddPetButtonClick
         )
     }
 }
 
 @Preview
 @Composable
-fun NoUserStatePreview() {
+fun NoPetsStatePreview() {
     RoarTheme {
-        NoUserState {}
+        NoPetsState("Tester") {}
     }
 }
