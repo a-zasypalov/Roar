@@ -18,10 +18,7 @@ import com.gaoyun.common.OnLifecycleEvent
 import com.gaoyun.common.theme.RoarTheme
 import com.gaoyun.common.ui.*
 import com.gaoyun.feature_pet_screen.view.PetContainer
-import com.gaoyun.roar.model.domain.Gender
-import com.gaoyun.roar.model.domain.Pet
-import com.gaoyun.roar.model.domain.PetType
-import com.gaoyun.roar.model.domain.Reminder
+import com.gaoyun.roar.model.domain.*
 import com.gaoyun.roar.model.domain.interactions.InteractionGroup
 import com.gaoyun.roar.model.domain.interactions.InteractionType
 import com.gaoyun.roar.model.domain.interactions.InteractionWithReminders
@@ -113,8 +110,7 @@ fun PetScreen(
         BoxWithLoader(isLoading = state.isLoading) {
             state.pet?.let { pet ->
                 PetContainer(
-                    pet = pet,
-                    interactions = state.interactions,
+                    pet = pet.withInteractions(state.interactions),
                     showLastReminder = state.showLastReminder,
                     onInteractionClick = { onEventSent(PetScreenContract.Event.InteractionClicked(it)) },
                     onDeletePetClick = { onEventSent(PetScreenContract.Event.OnDeletePetClicked) },
@@ -148,18 +144,19 @@ fun PetScreenPreview() {
                     gender = Gender.MALE,
                     chipNumber = "123123456456",
                     dateCreated = Clock.System.now().toLocalDate()
-                ),
-                listOf(
-                    InteractionWithReminders(
-                        petId = "",
-                        type = InteractionType.CUSTOM,
-                        name = "Interaction Name",
-                        group = InteractionGroup.CARE,
-                        isActive = true,
-                        reminders = listOf(
-                            Reminder(
-                                interactionId = "",
-                                dateTime = Clock.System.now().plus(1.hours).toLocalDateTime(TimeZone.currentSystemDefault())
+                ).withInteractions(
+                    listOf(
+                        InteractionWithReminders(
+                            petId = "",
+                            type = InteractionType.CUSTOM,
+                            name = "Interaction Name",
+                            group = InteractionGroup.CARE,
+                            isActive = true,
+                            reminders = listOf(
+                                Reminder(
+                                    interactionId = "",
+                                    dateTime = Clock.System.now().plus(1.hours).toLocalDateTime(TimeZone.currentSystemDefault())
+                                )
                             )
                         )
                     )

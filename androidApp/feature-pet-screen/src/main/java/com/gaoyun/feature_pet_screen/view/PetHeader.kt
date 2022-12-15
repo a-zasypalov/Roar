@@ -7,7 +7,6 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
@@ -27,7 +26,7 @@ internal fun PetHeader(
     modifier: Modifier = Modifier
 ) {
     val context = LocalContext.current
-    val isSterilized = remember { if (pet.isSterilized) "sterilized" else "not sterilized" }
+    val isSterilized = if (pet.isSterilized) "sterilized" else "not sterilized"
 
     Column(
         modifier = modifier.padding(horizontal = 8.dp),
@@ -36,7 +35,8 @@ internal fun PetHeader(
 
         Row(
             modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.SpaceBetween
+            horizontalArrangement = Arrangement.SpaceBetween,
+            verticalAlignment = Alignment.CenterVertically
         ) {
             Text(
                 text = pet.name,

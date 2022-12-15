@@ -48,6 +48,8 @@ fun HomeScreenDestination(navHostController: NavHostController) {
                 is HomeScreenContract.Effect.Navigation.ToAddPet -> navHostController.navigate(NavigationKeys.Route.ADD_PET_ROUTE)
                 is HomeScreenContract.Effect.Navigation.ToPetScreen -> navHostController.navigate("${NavigationKeys.Route.PET_DETAIL}/${navigationEffect.petId}")
                 is HomeScreenContract.Effect.Navigation.ToAddReminder -> navHostController.navigate("${NavigationKeys.Route.ADD_REMINDER}/${navigationEffect.petId}")
+                is HomeScreenContract.Effect.Navigation.ToInteractionDetails -> navHostController.navigate("${NavigationKeys.Route.INTERACTION_DETAIL}/${navigationEffect.interactionId}")
+                is HomeScreenContract.Effect.Navigation.ToEditPet -> navHostController.navigate("${NavigationKeys.Route.EDIT}/${NavigationKeys.Route.PET_DETAIL}/${navigationEffect.pet.id}/${navigationEffect.pet.avatar}/${navigationEffect.pet.petType}")
                 is HomeScreenContract.Effect.Navigation.NavigateBack -> navHostController.popBackStack()
             }
         },
@@ -108,8 +110,21 @@ fun HomeScreen(
                     HomeState(
                         userName = user.name,
                         pets = state.pets,
+                        showLastReminder = state.showLastReminder,
                         onAddPetButtonClick = viewModel::openAddPetScreen,
-                        onPetCardClick = viewModel::openPetScreen
+                        onPetCardClick = viewModel::openPetScreen,
+                        onInteractionClick = { petId, interactionId -> onEventSent(HomeScreenContract.Event.InteractionClicked(petId, interactionId)) },
+                        onDeletePetClick = { pet -> onEventSent(HomeScreenContract.Event.OnDeletePetClicked(pet)) },
+                        onEditPetClick = { pet -> onNavigationRequested(HomeScreenContract.Effect.Navigation.ToEditPet(pet = pet)) },
+                        onInteractionCheckClicked = { pet, reminderId, completed ->
+                            onEventSent(
+                                HomeScreenContract.Event.OnInteractionCheckClicked(
+                                    pet,
+                                    reminderId,
+                                    completed
+                                )
+                            )
+                        },
                     )
                 } else {
                     NoPetsState(userName = user.name, viewModel::openAddPetScreen)

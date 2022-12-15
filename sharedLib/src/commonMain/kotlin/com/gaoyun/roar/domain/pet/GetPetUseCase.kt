@@ -1,6 +1,5 @@
 package com.gaoyun.roar.domain.pet
 
-import com.gaoyun.roar.model.domain.Pet
 import com.gaoyun.roar.repository.PetRepository
 import com.gaoyun.roar.util.NoPetException
 import kotlinx.coroutines.flow.flow
@@ -17,12 +16,12 @@ class GetPetUseCase : KoinComponent {
         emit(repository.getPet(petId) ?: throw NoPetException())
     }
 
-    fun getPets(petIds: List<String>): List<Pet> {
-        return petIds.mapNotNull { petId -> repository.getPet(petId) }
+    fun getPets(petIds: List<String>) = flow {
+        emit(petIds.mapNotNull { petId -> repository.getPet(petId) })
     }
 
-    fun getPetByUserId(userId: String): List<Pet> {
-        return repository.getPetsByUser(userId)
+    fun getPetByUserId(userId: String) = flow {
+        emit(repository.getPetsByUser(userId))
     }
 
 }

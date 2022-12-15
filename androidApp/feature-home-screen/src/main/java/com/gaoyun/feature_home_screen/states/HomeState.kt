@@ -20,14 +20,22 @@ import com.gaoyun.common.DateUtils.yearsFromNow
 import com.gaoyun.common.theme.RoarTheme
 import com.gaoyun.common.ui.Spacer
 import com.gaoyun.common.ui.getDrawableByName
+import com.gaoyun.feature_pet_screen.view.PetContainer
 import com.gaoyun.roar.model.domain.Pet
+import com.gaoyun.roar.model.domain.PetWithInteractions
+import com.gaoyun.roar.model.domain.withoutInteractions
 
 @Composable
 fun HomeState(
     userName: String,
-    pets: List<Pet>,
+    pets: List<PetWithInteractions>,
+    showLastReminder: Boolean,
     onAddPetButtonClick: () -> Unit,
-    onPetCardClick: (petId: String) -> Unit
+    onPetCardClick: (petId: String) -> Unit,
+    onInteractionClick: (petId: String, interactionId: String) -> Unit,
+    onDeletePetClick: (PetWithInteractions) -> Unit,
+    onEditPetClick: (PetWithInteractions) -> Unit,
+    onInteractionCheckClicked: (pet: PetWithInteractions, interactionId: String, isChecked: Boolean) -> Unit,
 ) {
     LazyColumn(
         modifier = Modifier
@@ -45,23 +53,23 @@ fun HomeState(
             Spacer(size = 8.dp)
         }
 
-//        if (pets.size == 1) {
-//            item {
-//                PetContainer(
-//                    pet = pets.first(),
-//                    interactions = state.interactions,
-//                    showLastReminder = state.showLastReminder,
-//                    onInteractionClick = { onEventSent(PetScreenContract.Event.InteractionClicked(it)) },
-//                    onDeletePetClick = { onEventSent(PetScreenContract.Event.OnDeletePetClicked) },
-//                    onEditPetClick = { onNavigationRequested(PetScreenContract.Effect.Navigation.ToEditPet(pet = pet)) },
-//                    onInteractionCheckClicked = { reminderId, completed -> onEventSent(PetScreenContract.Event.OnInteractionCheckClicked(reminderId, completed)) },
-//                    modifier = Modifier
-//                        .verticalScroll(rememberScrollState())
-//                        .padding(start = 8.dp, end = 8.dp)
-//                        .fillMaxWidth()
-//                )
-//            }
-//        } else {
+        if (pets.size == 1) {
+            item {
+                val pet = pets.first()
+                PetContainer(
+                    isPartOfAnotherScreen = true,
+                    pet = pet,
+                    showLastReminder = showLastReminder,
+                    onInteractionClick = { interactionId -> onInteractionClick(pet.id, interactionId) },
+                    onDeletePetClick = { onDeletePetClick(pet) },
+                    onEditPetClick = { onEditPetClick(pet) },
+                    onInteractionCheckClicked = { interactionId, isChecked -> onInteractionCheckClicked(pet, interactionId, isChecked) },
+                    modifier = Modifier
+                        .padding(start = 8.dp, end = 8.dp)
+                        .fillMaxWidth()
+                )
+            }
+        } else {
             item {
                 Text(
                     text = "Your pets",
@@ -72,9 +80,9 @@ fun HomeState(
             }
 
             items(pets) { pet ->
-                PetCard(pet = pet, onPetCardClick = onPetCardClick)
+                PetCard(pet = pet.withoutInteractions(), onPetCardClick = onPetCardClick)
             }
-//        }
+        }
     }
 }
 
@@ -155,6 +163,6 @@ private fun PetCard(
 @Composable
 fun HomeStatePreview() {
     RoarTheme {
-        HomeState("Tester", emptyList(), {}, {})
+        HomeState("Tester", emptyList(), false, {}, {}, {_, _ ->}, {}, {}, { _, _, _ -> })
     }
 }

@@ -21,10 +21,10 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.gaoyun.common.ui.Spacer
 import com.gaoyun.common.ui.getDrawableByName
-import com.gaoyun.roar.model.domain.Pet
+import com.gaoyun.roar.model.domain.PetWithInteractions
 
 @Composable
-fun InteractionPetChooser(pets: List<Pet>, onPetChosen: (String) -> Unit) {
+fun InteractionPetChooser(pets: List<PetWithInteractions>, onPetChosen: (String) -> Unit) {
     Card(
         elevation = CardDefaults.elevatedCardElevation(0.dp),
         shape = MaterialTheme.shapes.large,

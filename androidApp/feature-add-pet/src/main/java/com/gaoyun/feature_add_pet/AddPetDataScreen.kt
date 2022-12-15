@@ -15,8 +15,10 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.capitalize
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.TextFieldValue
+import androidx.compose.ui.text.intl.Locale
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.Lifecycle
@@ -134,7 +136,7 @@ private fun AddPetForm(
     val chipNumberState = remember { mutableStateOf(petToEdit?.chipNumber ?: "") }
 
     val petBreedState = remember { mutableStateOf(petToEdit?.breed ?: petBreeds.firstOrNull() ?: "") }
-    val petGenderState = remember { mutableStateOf(petToEdit?.gender?.toString() ?: "Male") }
+    val petGenderState = remember { mutableStateOf(petToEdit?.gender?.toString()?.capitalize(Locale.current) ?: "Male") }
 
     val petBirthdayState = remember { mutableStateOf(petToEdit?.birthday?.atStartOfDayIn(TimeZone.currentSystemDefault())?.toEpochMilliseconds()) }
     val petBirthdayStringState = remember {

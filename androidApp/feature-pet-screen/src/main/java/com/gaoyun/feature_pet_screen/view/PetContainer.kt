@@ -9,13 +9,12 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.gaoyun.common.ui.Spacer
-import com.gaoyun.roar.model.domain.Pet
-import com.gaoyun.roar.model.domain.interactions.InteractionWithReminders
+import com.gaoyun.roar.model.domain.PetWithInteractions
+import com.gaoyun.roar.model.domain.withoutInteractions
 
 @Composable
 fun PetContainer(
-    pet: Pet,
-    interactions: List<InteractionWithReminders>,
+    pet: PetWithInteractions,
     showLastReminder: Boolean,
     onInteractionClick: (String) -> Unit,
     onDeletePetClick: () -> Unit,
@@ -28,17 +27,17 @@ fun PetContainer(
         modifier = modifier,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        if(!isPartOfAnotherScreen) {
+        if (!isPartOfAnotherScreen) {
             Box(modifier = Modifier.size(WindowInsets.statusBars.asPaddingValues().calculateTopPadding()))
         }
 
         PetHeader(
-            pet = pet, modifier = Modifier
+            pet = pet.withoutInteractions(), modifier = Modifier
                 .fillMaxWidth()
-                .padding(top = 32.dp, bottom = 8.dp)
+                .padding(top = if (isPartOfAnotherScreen) 8.dp else 32.dp, bottom = 8.dp)
         )
 
-        if (interactions.isNotEmpty()) {
+        if (pet.interactions.isNotEmpty()) {
             Text(
                 text = "Reminders",
                 style = MaterialTheme.typography.headlineMedium,
@@ -49,7 +48,7 @@ fun PetContainer(
             )
         }
 
-        interactions.groupBy { it.group }.toSortedMap().map {
+        pet.interactions.groupBy { it.group }.toSortedMap().map {
             Text(
                 text = it.key.toString(),
                 style = MaterialTheme.typography.titleLarge,
