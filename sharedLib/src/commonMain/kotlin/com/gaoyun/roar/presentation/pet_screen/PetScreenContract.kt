@@ -11,9 +11,8 @@ class PetScreenContract {
     sealed class Event : ViewEvent {
         class InteractionClicked(val interactionId: String) : Event()
         object OnDeletePetClicked : Event()
-        class AddReminderButtonClicked(val petId: String?) : Event()
+        class AddReminderButtonClicked(val petId: String) : Event()
         class OnDeletePetConfirmed(val petId: String) : Event()
-        class OnEditPetClicked(val petId: String) : Event()
         class OnInteractionCheckClicked(val reminderId: String, val completed: Boolean) : Event()
     }
 
@@ -28,7 +27,8 @@ class PetScreenContract {
     sealed class Effect : ViewSideEffect {
         sealed class Navigation : Effect() {
             class ToInteractionDetails(val interactionId: String) : Navigation()
-            class ToInteractionTemplates(val petId: String?) : Navigation()
+            class ToInteractionTemplates(val petId: String) : Navigation()
+            class ToEditPet(val pet: Pet) : Navigation()
             object NavigateBack : Navigation()
         }
     }

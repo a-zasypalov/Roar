@@ -40,7 +40,7 @@ class InsertInteraction : KoinComponent {
 
     fun insertInteraction(interaction: Interaction) = flow {
         repository.insertInteraction(interaction)
-        emit(Unit)
+        emit(interaction)
     }
 
 }

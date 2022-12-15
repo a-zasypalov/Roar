@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -19,7 +20,6 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import com.gaoyun.common.NavigationKeys
 import com.gaoyun.common.theme.RoarTheme
-import com.gaoyun.common.ui.ButtonCard
 import com.gaoyun.common.ui.SurfaceScaffold
 import com.gaoyun.common.ui.getDrawableByName
 import com.gaoyun.roar.config.PetsConfig
@@ -109,7 +109,11 @@ private fun ChoosePetType(
             userScrollEnabled = false
         ) {
             items(petTypes) { type ->
-                ButtonCard {
+                Surface(
+                    tonalElevation = 8.dp,
+                    shape = RoundedCornerShape(16.dp),
+                    modifier = Modifier.padding(8.dp)
+                ) {
                     Box(
                         contentAlignment = Alignment.Center,
                         modifier = Modifier

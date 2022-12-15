@@ -21,6 +21,7 @@ import com.gaoyun.common.icon
 import com.gaoyun.common.ui.LabelledCheckBox
 import com.gaoyun.common.ui.Spacer
 import com.gaoyun.roar.model.domain.interactions.InteractionWithReminders
+import kotlinx.coroutines.*
 import kotlinx.datetime.*
 
 @Composable
@@ -42,7 +43,13 @@ fun InteractionCard(
             .fillMaxWidth(),
     ) {
         Column(modifier = Modifier
-            .clickable { onClick(interaction.id) }
+            .clickable { onClick(interaction.id)
+                MainScope().launch {
+                    delay(300)
+                    reminderIdToShow.value = null
+                    nextReminderLabel.value = null
+                }
+            }
             .padding(top = 12.dp)
         ) {
             Row(

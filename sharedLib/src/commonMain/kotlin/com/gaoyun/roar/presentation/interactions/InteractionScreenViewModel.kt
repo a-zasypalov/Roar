@@ -31,7 +31,6 @@ class InteractionScreenViewModel :
     override fun handleEvents(event: InteractionScreenContract.Event) {
         when (event) {
             is InteractionScreenContract.Event.OnSaveNotes -> saveNoteState(event.notes)
-            is InteractionScreenContract.Event.OnEditButtonClick -> {}
             is InteractionScreenContract.Event.OnReminderCompleteClick -> setReminderComplete(event.reminderId, event.isComplete)
             is InteractionScreenContract.Event.OnReminderRemoveFromHistoryClick -> {
                 if (event.confirmed) {

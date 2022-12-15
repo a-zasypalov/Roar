@@ -2,12 +2,14 @@ package com.gaoyun.roar.presentation.add_pet.data
 
 import com.gaoyun.roar.domain.pet.AddPetUseCase
 import com.gaoyun.roar.domain.pet.GetPetBreedsUseCase
+import com.gaoyun.roar.domain.pet.GetPetUseCase
 import com.gaoyun.roar.model.domain.PetType
 import com.gaoyun.roar.model.domain.toGender
 import com.gaoyun.roar.model.domain.toPetType
 import com.gaoyun.roar.presentation.BaseViewModel
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.launch
 import kotlinx.datetime.LocalDate
 import org.koin.core.component.KoinComponent
@@ -19,6 +21,7 @@ class AddPetDataScreenViewModel :
 
     private val addPetUseCase: AddPetUseCase by inject()
     private val petBreedsUseCase: GetPetBreedsUseCase by inject()
+    private val getPet: GetPetUseCase by inject()
 
     override fun setInitialState() = AddPetDataScreenContract.State(isLoading = false)
 
@@ -38,14 +41,15 @@ class AddPetDataScreenViewModel :
             }
             is AddPetDataScreenContract.Event.PetDataInit -> {
                 setState { copy(petType = event.petType.toPetType(), avatar = event.avatar) }
-                getBreeds(event.petType.toPetType())
+                getPetInfo(event.petType.toPetType(), event.petId)
             }
         }
     }
 
-    private fun getBreeds(petType: PetType) = scope.launch {
+    private fun getPetInfo(petType: PetType, petId: String?) = scope.launch {
+        val pet = petId?.let { id -> getPet.getPet(id).firstOrNull() }
         petBreedsUseCase.getBreeds(petType).collect {
-            setState { copy(breeds = it) }
+            setState { copy(breeds = it, pet = pet) }
         }
     }
 
@@ -59,22 +63,42 @@ class AddPetDataScreenViewModel :
         chipNumber: String,
         isSterilized: Boolean
     ) = scope.launch {
-        addPetUseCase.addPet(
-            petType = petType,
-            breed = breed,
-            name = name,
-            avatar = avatar,
-            birthday = birthday,
-            chipNumber = chipNumber,
-            isSterilized = isSterilized,
-            gender = gender.toGender()
-        ).catch { it.printStackTrace() }
-            .collectLatest { petId ->
-                petAddedSuccessful(petId)
-            }
+        val petToEdit = viewState.value.pet
+        if (petToEdit != null) {
+            addPetUseCase.addPet(
+                petToEdit.copy(
+                    name = name,
+                    breed = breed,
+                    avatar = avatar,
+                    birthday = birthday,
+                    gender = gender.toGender(),
+                    chipNumber = chipNumber,
+                    isSterilized = isSterilized
+                )
+            ).catch { it.printStackTrace() }
+                .collectLatest { petSavedSuccessful() }
+        } else {
+            addPetUseCase.addPet(
+                petType = petType,
+                breed = breed,
+                name = name,
+                avatar = avatar,
+                birthday = birthday,
+                chipNumber = chipNumber,
+                isSterilized = isSterilized,
+                gender = gender.toGender()
+            ).catch { it.printStackTrace() }
+                .collectLatest { petId ->
+                    petAddedSuccessful(petId)
+                }
+        }
     }
 
     private fun petAddedSuccessful(petId: String) {
         setEffect { AddPetDataScreenContract.Effect.Navigation.ToPetSetup(petId) }
+    }
+
+    private fun petSavedSuccessful() {
+        setEffect { AddPetDataScreenContract.Effect.Navigation.NavigateBack }
     }
 }

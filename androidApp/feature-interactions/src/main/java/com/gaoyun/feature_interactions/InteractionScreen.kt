@@ -15,6 +15,7 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.Lifecycle
 import androidx.navigation.NavHostController
 import com.gaoyun.common.DateUtils
+import com.gaoyun.common.NavigationKeys
 import com.gaoyun.common.OnLifecycleEvent
 import com.gaoyun.common.ui.*
 import com.gaoyun.roar.presentation.LAUNCH_LISTEN_FOR_EFFECTS
@@ -56,6 +57,7 @@ fun InteractionScreenDestination(
         onNavigationRequested = { navigationEffect ->
             when (navigationEffect) {
                 is InteractionScreenContract.Effect.Navigation.NavigateBack -> navHostController.navigateUp()
+                is InteractionScreenContract.Effect.Navigation.ToEditInteraction -> navHostController.navigate("${NavigationKeys.Route.EDIT}/${NavigationKeys.Route.ADD_REMINDER}/${navigationEffect.petId}/${navigationEffect.interaction.templateId}/${navigationEffect.interaction.id}")
             }
         },
     )
@@ -93,11 +95,20 @@ fun InteractionScreen(
 
     SurfaceScaffold(
         floatingActionButton = {
-            RoarExtendedFloatingActionButton(
-                icon = Icons.Filled.Edit,
-                contentDescription = "Edit",
-                text = "Edit",
-                onClick = { onEventSent(InteractionScreenContract.Event.OnEditButtonClick(state.interaction?.id)) })
+            state.interaction?.let { interaction ->
+                RoarExtendedFloatingActionButton(
+                    icon = Icons.Filled.Edit,
+                    contentDescription = "Edit",
+                    text = "Edit",
+                    onClick = {
+                        onNavigationRequested(
+                            InteractionScreenContract.Effect.Navigation.ToEditInteraction(
+                                petId = state.pet?.id ?: "",
+                                interaction = interaction
+                            )
+                        )
+                    })
+            }
         },
         floatingActionButtonPosition = FabPosition.End
     ) {

@@ -11,6 +11,7 @@ object NavigationKeys {
     }
 
     object Route {
+        const val EDIT = "edit"
         const val ADD_PET_SETUP = "ADD_PET_SETUP"
 
         const val HOME_ROUTE = "HOME"
@@ -24,9 +25,11 @@ object NavigationKeys {
         const val ADD_REMINDER = "ADD_REMINDER"
         const val ADD_REMINDER_ROUTE = "$ADD_REMINDER/{${Arg.PET_ID_KEY}}"
         const val SETUP_REMINDER_ROUTE = "$ADD_REMINDER/{${Arg.PET_ID_KEY}}/{${Arg.TEMPLATE_ID_KEY}}"
+        const val EDIT_REMINDER_ROUTE = "$EDIT/$ADD_REMINDER/{${Arg.PET_ID_KEY}}/{${Arg.TEMPLATE_ID_KEY}}/{${Arg.INTERACTION_ID_KEY}}"
         const val SETUP_REMINDER_COMPLETE_ROUTE = "$ADD_REMINDER/{${Arg.PET_ID_KEY}}/{${Arg.TEMPLATE_ID_KEY}}/{${Arg.AVATAR_KEY}}"
 
         const val PET_DETAIL = "PET_DETAIL"
+        const val PET_EDIT_ROUTE = "$EDIT/$PET_DETAIL/{${Arg.PET_ID_KEY}}/{${Arg.AVATAR_KEY}}/{${Arg.PET_TYPE_KEY}}"
         const val PET_DETAIL_ROUTE = "$PET_DETAIL/{${Arg.PET_ID_KEY}}"
 
         const val INTERACTION_DETAIL = "INTERACTION_DETAIL"

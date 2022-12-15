@@ -9,12 +9,11 @@ import com.gaoyun.roar.presentation.ViewState
 class InteractionScreenContract {
 
     sealed class Event : ViewEvent {
-        class OnEditButtonClick(val interactionId: String?): Event()
-        class OnActivateButtonClick(val interactionId: String, val activate: Boolean): Event()
-        class OnDeleteButtonClick(val interactionId: String, val confirmed: Boolean = false): Event()
-        class OnSaveNotes(val notes: String): Event()
-        class OnReminderCompleteClick(val reminderId: String, val isComplete: Boolean): Event()
-        class OnReminderRemoveFromHistoryClick(val reminderId: String, val confirmed: Boolean = false): Event()
+        class OnActivateButtonClick(val interactionId: String, val activate: Boolean) : Event()
+        class OnDeleteButtonClick(val interactionId: String, val confirmed: Boolean = false) : Event()
+        class OnSaveNotes(val notes: String) : Event()
+        class OnReminderCompleteClick(val reminderId: String, val isComplete: Boolean) : Event()
+        class OnReminderRemoveFromHistoryClick(val reminderId: String, val confirmed: Boolean = false) : Event()
     }
 
     data class State(
@@ -24,10 +23,11 @@ class InteractionScreenContract {
     ) : ViewState
 
     sealed class Effect : ViewSideEffect {
-        class ShowRemoveReminderFromHistoryDialog(val reminderId: String): Effect()
-        object ShowRemoveInteractionDialog: Effect()
+        class ShowRemoveReminderFromHistoryDialog(val reminderId: String) : Effect()
+        object ShowRemoveInteractionDialog : Effect()
         sealed class Navigation : Effect() {
             object NavigateBack : Navigation()
+            class ToEditInteraction(val petId: String, val interaction: InteractionWithReminders) : Navigation()
         }
     }
 }

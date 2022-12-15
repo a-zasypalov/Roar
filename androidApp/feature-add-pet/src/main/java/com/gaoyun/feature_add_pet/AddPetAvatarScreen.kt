@@ -5,8 +5,10 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.grid.*
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -22,7 +24,6 @@ import androidx.navigation.NavHostController
 import com.gaoyun.common.NavigationKeys
 import com.gaoyun.common.OnLifecycleEvent
 import com.gaoyun.common.theme.RoarTheme
-import com.gaoyun.common.ui.ButtonCard
 import com.gaoyun.common.ui.SurfaceScaffold
 import com.gaoyun.common.ui.getDrawableByName
 import com.gaoyun.roar.config.PetsConfig
@@ -117,7 +118,9 @@ private fun ChooseAvatar(
             )
         }
         items(petAvatars, key = { it.iconRes }) { avatar ->
-            ButtonCard(
+            Surface(
+                tonalElevation = 8.dp,
+                shape = RoundedCornerShape(16.dp),
                 modifier = Modifier
                     .animateItemPlacement()
                     .padding(8.dp)

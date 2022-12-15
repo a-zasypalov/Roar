@@ -11,7 +11,6 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
-import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
@@ -27,6 +26,7 @@ import com.gaoyun.common.OnLifecycleEvent
 import com.gaoyun.common.dialog.DatePicker
 import com.gaoyun.common.theme.RoarTheme
 import com.gaoyun.common.ui.*
+import com.gaoyun.roar.model.domain.Pet
 import com.gaoyun.roar.presentation.LAUNCH_LISTEN_FOR_EFFECTS
 import com.gaoyun.roar.presentation.add_pet.data.AddPetDataScreenContract
 import com.gaoyun.roar.presentation.add_pet.data.AddPetDataScreenViewModel
@@ -34,6 +34,8 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.onEach
 import kotlinx.datetime.LocalDate
+import kotlinx.datetime.TimeZone
+import kotlinx.datetime.atStartOfDayIn
 import org.koin.androidx.compose.getViewModel
 import java.time.Instant
 import java.time.ZoneId
@@ -41,7 +43,12 @@ import java.util.concurrent.TimeUnit
 
 
 @Composable
-fun AddPetDataDestination(navHostController: NavHostController, petType: String, avatar: String) {
+fun AddPetDataDestination(
+    navHostController: NavHostController,
+    petType: String,
+    avatar: String,
+    petId: String? = null
+) {
     val viewModel: AddPetDataScreenViewModel = getViewModel()
     val state = viewModel.viewState.collectAsState().value
 
@@ -58,12 +65,13 @@ fun AddPetDataDestination(navHostController: NavHostController, petType: String,
             }
         },
         petType = petType,
-        avatar = avatar
+        avatar = avatar,
+        petId = petId
     )
 
     OnLifecycleEvent { _, event ->
         if (event == Lifecycle.Event.ON_RESUME) {
-            viewModel.setEvent(AddPetDataScreenContract.Event.PetDataInit(petType, avatar))
+            viewModel.setEvent(AddPetDataScreenContract.Event.PetDataInit(petType, avatar, petId))
         }
     }
 }
@@ -76,7 +84,8 @@ private fun AddPetDataScreen(
     onEventSent: (event: AddPetDataScreenContract.Event) -> Unit,
     onNavigationRequested: (navigationEffect: AddPetDataScreenContract.Effect.Navigation) -> Unit,
     petType: String,
-    avatar: String
+    avatar: String,
+    petId: String? = null
 ) {
     LaunchedEffect(LAUNCH_LISTEN_FOR_EFFECTS) {
         effectFlow.onEach { effect ->
@@ -88,24 +97,27 @@ private fun AddPetDataScreen(
     }
 
     SurfaceScaffold {
-        AddPetForm(
-            petBreeds = state.breeds,
-            onRegisterClick = { breed, name, birthday, isSterilized, gender, chipNumber ->
-                onEventSent(
-                    AddPetDataScreenContract.Event.AddPetButtonClicked(
-                        petType = petType,
-                        breed = breed,
-                        name = name,
-                        avatar = avatar,
-                        birthday = birthday,
-                        isSterilized = isSterilized,
-                        gender = gender,
-                        chipNumber = chipNumber
+        if (petId == null || state.pet != null) {
+            AddPetForm(
+                petBreeds = state.breeds,
+                onRegisterClick = { breed, name, birthday, isSterilized, gender, chipNumber ->
+                    onEventSent(
+                        AddPetDataScreenContract.Event.AddPetButtonClicked(
+                            petType = petType,
+                            breed = breed,
+                            name = name,
+                            avatar = avatar,
+                            birthday = birthday,
+                            isSterilized = isSterilized,
+                            gender = gender,
+                            chipNumber = chipNumber
+                        )
                     )
-                )
-            },
-            avatar = avatar
-        )
+                },
+                avatar = avatar,
+                petToEdit = state.pet
+            )
+        }
     }
 }
 
@@ -113,20 +125,28 @@ private fun AddPetDataScreen(
 private fun AddPetForm(
     avatar: String,
     petBreeds: List<String>,
+    petToEdit: Pet?,
     onRegisterClick: (String, String, LocalDate, Boolean, String, String) -> Unit,
 ) {
     val activity = LocalContext.current as AppCompatActivity
 
-    val petName = rememberSaveable { mutableStateOf("") }
-    val chipNumberState = rememberSaveable { mutableStateOf("") }
+    val petName = remember { mutableStateOf(petToEdit?.name ?: "") }
+    val chipNumberState = remember { mutableStateOf(petToEdit?.chipNumber ?: "") }
 
-    val petBreedState = rememberSaveable { mutableStateOf(petBreeds.firstOrNull() ?: "") }
-    val petGenderState = rememberSaveable { mutableStateOf("Male") }
+    val petBreedState = remember { mutableStateOf(petToEdit?.breed ?: petBreeds.firstOrNull() ?: "") }
+    val petGenderState = remember { mutableStateOf(petToEdit?.gender?.toString() ?: "Male") }
 
-    val petBirthdayState = rememberSaveable { mutableStateOf<Long?>(null) }
-    val petBirthdayStringState = remember { mutableStateOf(TextFieldValue()) }
+    val petBirthdayState = remember { mutableStateOf(petToEdit?.birthday?.atStartOfDayIn(TimeZone.currentSystemDefault())?.toEpochMilliseconds()) }
+    val petBirthdayStringState = remember {
+        mutableStateOf(TextFieldValue(petBirthdayState.value?.let {
+            Instant.ofEpochMilli(it)
+                .atZone(ZoneId.systemDefault())
+                .toLocalDate()
+                .toString()
+        } ?: ""))
+    }
 
-    val petIsSterilizedState = rememberSaveable { mutableStateOf(false) }
+    val petIsSterilizedState = remember { mutableStateOf(petToEdit?.isSterilized ?: false) }
 
 
     if (petBreedState.value.isEmpty() && petBreeds.isNotEmpty()) {
@@ -280,7 +300,7 @@ private fun AddPetForm(
                 Spacer(size = 32.dp)
 
                 PrimaryElevatedButtonOnSurface(
-                    text = "Add pet",
+                    text = if (petToEdit != null) "Save" else "Add pet",
                     onClick = {
                         onRegisterClick(
                             petBreedState.value,
@@ -304,6 +324,6 @@ private fun AddPetForm(
 @Preview
 fun AddPetScreenPreview() {
     RoarTheme {
-        AddPetForm("ic_cat_15", listOf()) { _, _, _, _, _, _ -> }
+        AddPetForm("ic_cat_15", listOf(), null) { _, _, _, _, _, _ -> }
     }
 }

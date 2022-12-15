@@ -40,6 +40,7 @@ import kotlin.time.Duration.Companion.days
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 internal fun ReminderSetupForm(
+    interactionToEdit: InteractionWithReminders?,
     template: InteractionTemplate?,
     repeatConfig: InteractionRepeatConfig,
     onConfigSave: (String) -> Unit,
@@ -49,17 +50,29 @@ internal fun ReminderSetupForm(
     val bringIntoViewRequester = remember { BringIntoViewRequester() }
     val coroutineScope = rememberCoroutineScope()
 
-    val interactionGroupState = rememberSaveable { mutableStateOf(template?.group?.toString() ?: InteractionGroup.ROUTINE_STRING) }
+    val interactionGroupState = rememberSaveable {
+        mutableStateOf(
+            interactionToEdit?.group?.toString()
+                ?: template?.group?.toString()
+                ?: InteractionGroup.ROUTINE_STRING
+        )
+    }
+
     val interactionRepeatConfigState = remember { mutableStateOf(repeatConfig) }
     val interactionRepeatConfigTextState = remember { mutableStateOf(TextFieldValue(repeatConfig.toString())) }
 
-    val reminderName = rememberSaveable { mutableStateOf(template?.name ?: "") }
-    val notesState = remember { mutableStateOf("") }
+    val reminderName = rememberSaveable { mutableStateOf(interactionToEdit?.name ?: template?.name ?: "") }
+    val notesState = remember { mutableStateOf(interactionToEdit?.notes ?: "") }
 
-    val repeatEnabledState = remember { mutableStateOf(false) }
+    val repeatEnabledState = remember { mutableStateOf(interactionToEdit?.repeatConfig != null) }
     val showDialog = remember { mutableStateOf(false) }
 
-    val startsOnDate = remember { mutableStateOf(Clock.System.now().plus(1.days).toEpochMilliseconds()) }
+    val startsOnDate = remember {
+        mutableStateOf(
+            interactionToEdit?.reminders?.filter { !it.isCompleted }?.maxBy { it.dateTime }?.dateTime?.toInstant(TimeZone.currentSystemDefault())?.toEpochMilliseconds()
+                ?: Clock.System.now().plus(1.days).toEpochMilliseconds()
+        )
+    }
     val startsOnDateString = remember {
         mutableStateOf(
             TextFieldValue(
@@ -69,7 +82,12 @@ internal fun ReminderSetupForm(
         )
     }
 
-    val startsOnTime = remember { mutableStateOf(LocalTime.parse("09:00")) }
+    val startsOnTime = remember {
+        mutableStateOf(
+            interactionToEdit?.reminders?.filter { !it.isCompleted }?.maxBy { it.dateTime }?.dateTime?.time
+                ?: LocalTime.parse("09:00")
+        )
+    }
     val startsOnTimeString = remember {
         mutableStateOf(
             TextFieldValue(
@@ -159,7 +177,7 @@ internal fun ReminderSetupForm(
         ReadonlyTextField(
             value = startsOnDateString.value,
             onValueChange = { startsOnDateString.value = it },
-            label = { Text(text = "Date") },
+            label = { Text(text = if(interactionToEdit != null) "Next reminder" else "Date") },
             onClick = {
                 DatePicker.pickDate(
                     title = "Remind on/from",
@@ -238,7 +256,7 @@ internal fun ReminderSetupForm(
         Spacer(size = 48.dp)
 
         PrimaryElevatedButton(
-            text = "Create",
+            text = if(interactionToEdit != null) "Save" else "Create",
             onClick = {
                 onSaveButtonClick(
                     reminderName.value,

@@ -134,11 +134,11 @@ fun AddReminderScreen(
                     }
 
                     item {
-                        ButtonCard(
+                        Surface(
                             modifier = Modifier
                                 .padding(horizontal = 16.dp, vertical = 8.dp),
                             shape = RoundedCornerShape(16.dp),
-                            elevation = CardDefaults.cardElevation(defaultElevation = 8.dp),
+                            tonalElevation = 8.dp,
                         ) {
                             Column(
                                 modifier = Modifier
@@ -170,11 +170,11 @@ private fun TemplateItem(
     template: InteractionTemplate,
     onClick: (String) -> Unit
 ) {
-    ButtonCard(
+    Surface(
         modifier = Modifier
             .padding(horizontal = 16.dp, vertical = 8.dp),
         shape = RoundedCornerShape(16.dp),
-        elevation = CardDefaults.cardElevation(defaultElevation = 8.dp),
+        tonalElevation = 8.dp,
     ) {
         Column(
             modifier = Modifier

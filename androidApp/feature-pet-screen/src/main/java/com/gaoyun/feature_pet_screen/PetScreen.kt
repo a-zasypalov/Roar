@@ -60,13 +60,14 @@ fun PetScreenDestination(
         onEventSent = { event -> viewModel.setEvent(event) },
         onNavigationRequested = { navigationEffect ->
             when (navigationEffect) {
-                is PetScreenContract.Effect.Navigation.ToInteractionDetails -> navHostController.navigate(
-                    "${NavigationKeys.Route.INTERACTION_DETAIL}/${navigationEffect.interactionId}"
-                )
-                is PetScreenContract.Effect.Navigation.ToInteractionTemplates -> navigationEffect.petId?.let { petId ->
-                    navHostController.navigate("${NavigationKeys.Route.ADD_REMINDER}/$petId")
-                }
-                is PetScreenContract.Effect.Navigation.NavigateBack -> navHostController.navigateUp()
+                is PetScreenContract.Effect.Navigation.ToInteractionDetails ->
+                    navHostController.navigate("${NavigationKeys.Route.INTERACTION_DETAIL}/${navigationEffect.interactionId}")
+                is PetScreenContract.Effect.Navigation.ToInteractionTemplates ->
+                    navHostController.navigate("${NavigationKeys.Route.ADD_REMINDER}/${navigationEffect.petId}")
+                is PetScreenContract.Effect.Navigation.ToEditPet ->
+                    navHostController.navigate("${NavigationKeys.Route.EDIT}/${NavigationKeys.Route.PET_DETAIL}/${navigationEffect.pet.id}/${navigationEffect.pet.avatar}/${navigationEffect.pet.petType}")
+                is PetScreenContract.Effect.Navigation.NavigateBack ->
+                    navHostController.navigateUp()
             }
         },
         viewModel = viewModel
@@ -99,7 +100,7 @@ fun PetScreen(
                 icon = Icons.Filled.Add,
                 contentDescription = "Add reminder",
                 text = "Reminder",
-                onClick = { onEventSent(PetScreenContract.Event.AddReminderButtonClicked(state.pet?.id)) })
+                onClick = { onEventSent(PetScreenContract.Event.AddReminderButtonClicked(state.pet?.id ?: "")) })
         },
         floatingActionButtonPosition = FabPosition.End
     ) {
@@ -129,7 +130,7 @@ fun PetScreen(
                     showLastReminder = state.showLastReminder,
                     onInteractionClick = { onEventSent(PetScreenContract.Event.InteractionClicked(it)) },
                     onDeletePetClick = { onEventSent(PetScreenContract.Event.OnDeletePetClicked) },
-                    onEditPetClick = { onEventSent(PetScreenContract.Event.OnEditPetClicked(it)) },
+                    onEditPetClick = { onNavigationRequested(PetScreenContract.Effect.Navigation.ToEditPet(pet = pet)) },
                     onInteractionCheckClicked = { reminderId, completed -> onEventSent(PetScreenContract.Event.OnInteractionCheckClicked(reminderId, completed)) }
                 )
             }

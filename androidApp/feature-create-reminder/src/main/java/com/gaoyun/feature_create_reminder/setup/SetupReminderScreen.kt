@@ -41,14 +41,15 @@ import org.koin.androidx.compose.getViewModel
 fun SetupReminderDestination(
     navHostController: NavHostController,
     petId: String,
-    templateId: String
+    templateId: String,
+    interactionId: String? = null
 ) {
     val viewModel: SetupReminderScreenViewModel = getViewModel()
     val state = viewModel.viewState.collectAsState().value
 
     OnLifecycleEvent { _, event ->
         if (event == Lifecycle.Event.ON_CREATE) {
-            viewModel.buildScreenState(petId = petId, templateId = templateId)
+            viewModel.buildScreenState(petId = petId, templateId = templateId, interactionId = interactionId)
         }
     }
 
@@ -97,6 +98,10 @@ fun SetupReminderScreen(
                     scheduleNotification(context, effect.reminder)
                     onNavigationRequested(SetupReminderScreenContract.Effect.Navigation.ToComplete(avatar.value))
                 }
+                is SetupReminderScreenContract.Effect.ReminderSaved -> {
+                    scheduleNotification(context, effect.reminder)
+                    onNavigationRequested(SetupReminderScreenContract.Effect.Navigation.NavigateBack)
+                }
                 else -> {}
             }
         }.collect()
@@ -123,8 +128,9 @@ fun SetupReminderScreen(
                     ) {
                         Box(modifier = Modifier.padding(top = 32.dp)) {
                             ReminderSetupForm(
+                                interactionToEdit = state.interactionToEdit,
                                 template = state.template,
-                                repeatConfig = state.repeatConfig,
+                                repeatConfig = state.interactionToEdit?.repeatConfig ?: state.repeatConfig,
                                 onConfigSave = { config ->
                                     onEventSent(SetupReminderScreenContract.Event.RepeatConfigChanged(config))
                                 },
@@ -163,7 +169,7 @@ private fun ReminderSetupHeader(
 ) {
     Row(
         modifier = Modifier
-            .padding(top = 32.dp, start = 16.dp, end = 16.dp),
+            .padding(top = 32.dp, start = 12.dp, end = 12.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
         Image(

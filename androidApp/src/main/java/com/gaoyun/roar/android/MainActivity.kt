@@ -164,6 +164,22 @@ class MainActivity : AppCompatActivity() {
             }
 
             composable(
+                route = NavigationKeys.Route.PET_EDIT_ROUTE,
+                arguments = listOf(
+                    navArgument(NavigationKeys.Arg.PET_ID_KEY) { type = NavType.StringType },
+                    navArgument(NavigationKeys.Arg.PET_TYPE_KEY) { type = NavType.StringType },
+                    navArgument(NavigationKeys.Arg.AVATAR_KEY) { type = NavType.StringType },
+                )
+            ) {
+                AddPetDataDestination(
+                    navHostController = navController,
+                    petType = it.arguments?.getString(NavigationKeys.Arg.PET_TYPE_KEY) ?: "",
+                    avatar = it.arguments?.getString(NavigationKeys.Arg.AVATAR_KEY) ?: "",
+                    petId = it.arguments?.getString(NavigationKeys.Arg.PET_ID_KEY)
+                )
+            }
+
+            composable(
                 route = NavigationKeys.Route.ADD_PET_SETUP_ROUTE,
                 arguments = listOf(navArgument(NavigationKeys.Arg.PET_ID_KEY) { type = NavType.StringType })
             ) {
@@ -198,6 +214,22 @@ class MainActivity : AppCompatActivity() {
                     navController,
                     petId = it.arguments?.getString(NavigationKeys.Arg.PET_ID_KEY) ?: "",
                     templateId = it.arguments?.getString(NavigationKeys.Arg.TEMPLATE_ID_KEY) ?: "custom"
+                )
+            }
+
+            composable(
+                route = NavigationKeys.Route.EDIT_REMINDER_ROUTE,
+                arguments = listOf(
+                    navArgument(NavigationKeys.Arg.PET_ID_KEY) { type = NavType.StringType },
+                    navArgument(NavigationKeys.Arg.TEMPLATE_ID_KEY) { type = NavType.StringType },
+                    navArgument(NavigationKeys.Arg.INTERACTION_ID_KEY) { type = NavType.StringType }
+                )
+            ) {
+                SetupReminderDestination(
+                    navController,
+                    petId = it.arguments?.getString(NavigationKeys.Arg.PET_ID_KEY) ?: "",
+                    templateId = it.arguments?.getString(NavigationKeys.Arg.TEMPLATE_ID_KEY) ?: "custom",
+                    interactionId = it.arguments?.getString(NavigationKeys.Arg.INTERACTION_ID_KEY)
                 )
             }
 

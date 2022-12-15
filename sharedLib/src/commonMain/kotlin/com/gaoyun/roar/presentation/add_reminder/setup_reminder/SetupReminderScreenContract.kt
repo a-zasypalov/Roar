@@ -30,6 +30,7 @@ class SetupReminderScreenContract {
         val isLoading: Boolean = false,
         val pet: Pet? = null,
         val template: InteractionTemplate? = null,
+        val interactionToEdit: InteractionWithReminders? = null,
         val repeatConfig: InteractionRepeatConfig = InteractionRepeatConfig()
     ) : ViewState
 
@@ -38,6 +39,8 @@ class SetupReminderScreenContract {
             val reminder: Reminder,
             val interaction: Interaction
         ) : Effect()
+
+        class ReminderSaved(val reminder: Reminder) : Effect()
 
         sealed class Navigation : Effect() {
             class ToComplete(val petAvatar: String) : Navigation()
