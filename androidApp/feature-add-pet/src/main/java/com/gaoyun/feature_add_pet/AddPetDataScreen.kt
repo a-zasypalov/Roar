@@ -99,26 +99,28 @@ private fun AddPetDataScreen(
     }
 
     SurfaceScaffold {
-        if (petId == null || state.pet != null) {
-            AddPetForm(
-                petBreeds = state.breeds,
-                onRegisterClick = { breed, name, birthday, isSterilized, gender, chipNumber ->
-                    onEventSent(
-                        AddPetDataScreenContract.Event.AddPetButtonClicked(
-                            petType = petType,
-                            breed = breed,
-                            name = name,
-                            avatar = avatar,
-                            birthday = birthday,
-                            isSterilized = isSterilized,
-                            gender = gender,
-                            chipNumber = chipNumber
+        BoxWithLoader(isLoading = state.isLoading) {
+            if (petId == null || state.pet != null) {
+                AddPetForm(
+                    petBreeds = state.breeds,
+                    onRegisterClick = { breed, name, birthday, isSterilized, gender, chipNumber ->
+                        onEventSent(
+                            AddPetDataScreenContract.Event.AddPetButtonClicked(
+                                petType = petType,
+                                breed = breed,
+                                name = name,
+                                avatar = avatar,
+                                birthday = birthday,
+                                isSterilized = isSterilized,
+                                gender = gender,
+                                chipNumber = chipNumber
+                            )
                         )
-                    )
-                },
-                avatar = avatar,
-                petToEdit = state.pet
-            )
+                    },
+                    avatar = avatar,
+                    petToEdit = state.pet
+                )
+            }
         }
     }
 }

@@ -23,7 +23,7 @@ class AddPetDataScreenViewModel :
     private val petBreedsUseCase: GetPetBreedsUseCase by inject()
     private val getPet: GetPetUseCase by inject()
 
-    override fun setInitialState() = AddPetDataScreenContract.State(isLoading = false)
+    override fun setInitialState() = AddPetDataScreenContract.State(isLoading = true)
 
     override fun handleEvents(event: AddPetDataScreenContract.Event) {
         when (event) {
@@ -49,7 +49,7 @@ class AddPetDataScreenViewModel :
     private fun getPetInfo(petType: PetType, petId: String?) = scope.launch {
         val pet = petId?.let { id -> getPet.getPet(id).firstOrNull() }
         petBreedsUseCase.getBreeds(petType).collect {
-            setState { copy(breeds = it, pet = pet) }
+            setState { copy(breeds = it, pet = pet, isLoading = false) }
         }
     }
 
