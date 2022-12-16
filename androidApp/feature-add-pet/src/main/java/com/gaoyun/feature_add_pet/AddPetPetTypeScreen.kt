@@ -1,6 +1,5 @@
 package com.gaoyun.feature_add_pet
 
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.grid.GridCells
@@ -14,12 +13,12 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import com.gaoyun.common.NavigationKeys
 import com.gaoyun.common.theme.RoarTheme
+import com.gaoyun.common.ui.RoarIcon
 import com.gaoyun.common.ui.SurfaceScaffold
 import com.gaoyun.common.ui.getDrawableByName
 import com.gaoyun.roar.config.PetsConfig
@@ -120,8 +119,8 @@ private fun ChoosePetType(
                             .fillMaxSize()
                             .clickable { onPetTypeChosen(type.enumType) }
                     ) {
-                        Image(
-                            painter = painterResource(id = context.getDrawableByName(type.iconRes)),
+                        RoarIcon(
+                            icon = context.getDrawableByName(type.iconRes),
                             contentDescription = type.nameRes,
                             modifier = Modifier
                                 .size(96.dp)

@@ -71,7 +71,7 @@ fun InteractionScreen(
     effectFlow: Flow<InteractionScreenContract.Effect>,
     onEventSent: (event: InteractionScreenContract.Event) -> Unit,
     onNavigationRequested: (navigationEffect: InteractionScreenContract.Effect.Navigation) -> Unit,
-    notesState: MutableState<String?>
+    notesState: MutableState<String?>,
 ) {
     val showRemoveInteractionDialog = remember { mutableStateOf(false) }
     val showRemoveReminderFromHistoryDialog = remember { mutableStateOf(false) }
@@ -96,18 +96,20 @@ fun InteractionScreen(
     SurfaceScaffold(
         floatingActionButton = {
             state.interaction?.let { interaction ->
-                RoarExtendedFloatingActionButton(
-                    icon = Icons.Filled.Edit,
-                    contentDescription = "Edit",
-                    text = "Edit",
-                    onClick = {
-                        onNavigationRequested(
-                            InteractionScreenContract.Effect.Navigation.ToEditInteraction(
-                                petId = state.pet?.id ?: "",
-                                interaction = interaction
+                if (interaction.isActive) {
+                    RoarExtendedFloatingActionButton(
+                        icon = Icons.Filled.Edit,
+                        contentDescription = "Edit",
+                        text = "Edit",
+                        onClick = {
+                            onNavigationRequested(
+                                InteractionScreenContract.Effect.Navigation.ToEditInteraction(
+                                    petId = state.pet?.id ?: "",
+                                    interaction = interaction
+                                )
                             )
-                        )
-                    })
+                        })
+                }
             }
         },
         floatingActionButtonPosition = FabPosition.End

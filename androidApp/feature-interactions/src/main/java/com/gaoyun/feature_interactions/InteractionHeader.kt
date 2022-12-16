@@ -1,6 +1,5 @@
 package com.gaoyun.feature_interactions
 
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
@@ -11,10 +10,10 @@ import androidx.compose.runtime.MutableState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
 import com.gaoyun.common.icon
+import com.gaoyun.common.ui.RoarIcon
 import com.gaoyun.common.ui.Spacer
 import com.gaoyun.common.ui.TextFormField
 import com.gaoyun.roar.model.domain.Pet
@@ -53,12 +52,12 @@ internal fun InteractionHeader(
                     .weight(0.2f),
                 shape = CircleShape,
             ) {
-                Image(
-                    painter = painterResource(id = interaction.type.icon()),
+                RoarIcon(
+                    icon = interaction.type.icon(),
                     contentDescription = pet.name,
                     modifier = Modifier
                         .height(72.dp)
-                        .padding(all = 12.dp)
+                        .padding(all = 16.dp)
                 )
             }
         }
@@ -101,6 +100,7 @@ internal fun InteractionHeader(
                 Icon(Icons.Filled.Notes, "notes")
             },
             text = notesState.value ?: "",
+            label = "Notes",
             imeAction = ImeAction.Default,
             onChange = { notesState.value = it }
         )
