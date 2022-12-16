@@ -150,6 +150,20 @@ class MainActivity : AppCompatActivity() {
             }
 
             composable(
+                route = NavigationKeys.Route.PET_EDIT_AVATAR_ROUTE,
+                arguments = listOf(
+                    navArgument(NavigationKeys.Arg.PET_TYPE_KEY) { type = NavType.StringType },
+                    navArgument(NavigationKeys.Arg.PET_ID_KEY) { type = NavType.StringType }
+                )
+            ) {
+                AddPetAvatarDestination(
+                    navHostController = navController,
+                    petType = it.arguments?.getString(NavigationKeys.Arg.PET_TYPE_KEY) ?: "",
+                    petId = it.arguments?.getString(NavigationKeys.Arg.PET_ID_KEY)
+                )
+            }
+
+            composable(
                 route = NavigationKeys.Route.ADD_PET_DATA_ROUTE,
                 arguments = listOf(
                     navArgument(NavigationKeys.Arg.PET_TYPE_KEY) { type = NavType.StringType },

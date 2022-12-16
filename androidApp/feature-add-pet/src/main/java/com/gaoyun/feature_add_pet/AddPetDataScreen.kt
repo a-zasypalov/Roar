@@ -1,7 +1,9 @@
 package com.gaoyun.feature_add_pet
 
+import androidx.activity.compose.BackHandler
 import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -29,6 +31,7 @@ import com.gaoyun.common.dialog.DatePicker
 import com.gaoyun.common.theme.RoarTheme
 import com.gaoyun.common.ui.*
 import com.gaoyun.roar.model.domain.Pet
+import com.gaoyun.roar.model.domain.PetType
 import com.gaoyun.roar.presentation.LAUNCH_LISTEN_FOR_EFFECTS
 import com.gaoyun.roar.presentation.add_pet.data.AddPetDataScreenContract
 import com.gaoyun.roar.presentation.add_pet.data.AddPetDataScreenViewModel
@@ -63,7 +66,16 @@ fun AddPetDataDestination(
                 is AddPetDataScreenContract.Effect.Navigation.ToPetSetup -> navHostController.navigate(
                     route = "${NavigationKeys.Route.ADD_PET_SETUP}/${navigationEffect.petId}"
                 )
-                is AddPetDataScreenContract.Effect.Navigation.NavigateBack -> navHostController.navigateUp()
+                is AddPetDataScreenContract.Effect.Navigation.ToAvatarEdit -> navHostController.navigate(
+                    route = "${NavigationKeys.Route.EDIT}/${NavigationKeys.Route.AVATAR}/${NavigationKeys.Route.PET_DETAIL}/${navigationEffect.petType}/${navigationEffect.petId}"
+                )
+                is AddPetDataScreenContract.Effect.Navigation.NavigateBack -> {
+                    if (navigationEffect.confirmed || state.pet?.avatar == null || state.pet?.avatar == avatar) {
+                        navHostController.navigateUp()
+                    } else {
+                        viewModel.revertPetAvatar(state.pet?.id ?: "", avatar)
+                    }
+                }
             }
         },
         petType = petType,
@@ -98,12 +110,16 @@ private fun AddPetDataScreen(
         }.collect()
     }
 
+    BackHandler(enabled = true) {
+        onNavigationRequested(AddPetDataScreenContract.Effect.Navigation.NavigateBack(confirmed = false))
+    }
+
     SurfaceScaffold {
         BoxWithLoader(isLoading = state.isLoading) {
             if (petId == null || state.pet != null) {
                 AddPetForm(
                     petBreeds = state.breeds,
-                    onRegisterClick = { breed, name, birthday, isSterilized, gender, chipNumber ->
+                    onRegisterClick = { breed, name, birthday, isSterilized, gender, chipNumber, avatar ->
                         onEventSent(
                             AddPetDataScreenContract.Event.AddPetButtonClicked(
                                 petType = petType,
@@ -117,8 +133,9 @@ private fun AddPetDataScreen(
                             )
                         )
                     },
-                    avatar = avatar,
-                    petToEdit = state.pet
+                    avatar = state.pet?.avatar ?: avatar,
+                    petToEdit = state.pet,
+                    onAvatarEditClick = { petId, petType -> onNavigationRequested(AddPetDataScreenContract.Effect.Navigation.ToAvatarEdit(petId, petType)) }
                 )
             }
         }
@@ -130,7 +147,8 @@ private fun AddPetForm(
     avatar: String,
     petBreeds: List<String>,
     petToEdit: Pet?,
-    onRegisterClick: (String, String, LocalDate, Boolean, String, String) -> Unit,
+    onRegisterClick: (String, String, LocalDate, Boolean, String, String, String) -> Unit,
+    onAvatarEditClick: (String, PetType) -> Unit
 ) {
     val activity = LocalContext.current as AppCompatActivity
 
@@ -188,13 +206,31 @@ private fun AddPetForm(
                         .fillMaxWidth()
                         .padding(top = 32.dp, start = 24.dp, end = 24.dp)
                 ) {
-                    Image(
-                        painter = painterResource(id = activity.getDrawableByName(avatar)),
-                        contentDescription = "pet",
-                        modifier = Modifier
-                            .size(64.dp)
-                            .padding(end = 12.dp)
-                    )
+                    if (petToEdit == null) {
+                        Image(
+                            painter = painterResource(id = activity.getDrawableByName(avatar)),
+                            contentDescription = "pet",
+                            modifier = Modifier
+                                .size(64.dp)
+                                .padding(end = 12.dp, top = 8.dp)
+                        )
+                    } else {
+                        Surface(
+                            shape = RoundedCornerShape(8.dp),
+                            tonalElevation = 120.dp,
+                            modifier = Modifier
+                                .padding(end = 12.dp, top = 8.dp)
+                        ) {
+                            Image(
+                                painter = painterResource(id = activity.getDrawableByName(avatar)),
+                                contentDescription = "pet",
+                                modifier = Modifier
+                                    .size(64.dp)
+                                    .clickable { onAvatarEditClick(petToEdit.id, petToEdit.petType) }
+                                    .padding(all = 8.dp)
+                            )
+                        }
+                    }
                     TextFormField(
                         text = petName.value,
                         leadingIcon = {
@@ -312,7 +348,8 @@ private fun AddPetForm(
                             LocalDate.fromEpochDays(TimeUnit.MILLISECONDS.toDays(petBirthdayState.value ?: System.currentTimeMillis()).toInt()),
                             petIsSterilizedState.value,
                             petGenderState.value,
-                            chipNumberState.value
+                            chipNumberState.value,
+                            avatar
                         )
                     },
                 )
@@ -328,6 +365,6 @@ private fun AddPetForm(
 @Preview
 fun AddPetScreenPreview() {
     RoarTheme {
-        AddPetForm("ic_cat_15", listOf(), null) { _, _, _, _, _, _ -> }
+        AddPetForm("ic_cat_15", listOf(), null, { _, _, _, _, _, _, _ -> }, { _, _ -> })
     }
 }

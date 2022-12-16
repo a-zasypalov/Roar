@@ -12,7 +12,8 @@ class AddPetAvatarScreenContract {
     }
 
     data class State(
-        val avatars: List<PetsConfig.PetAvatarConfig>
+        val avatars: List<PetsConfig.PetAvatarConfig>,
+        val petId: String? = null,
     ) : ViewState
 
     sealed class Effect : ViewSideEffect {

@@ -33,8 +33,9 @@ class AddPetDataScreenContract {
 
     sealed class Effect : ViewSideEffect {
         sealed class Navigation : Effect() {
+            class ToAvatarEdit(val petId: String, val petType: PetType) : Navigation()
             class ToPetSetup(val petId: String) : Navigation()
-            object NavigateBack : Navigation()
+            class NavigateBack(val confirmed: Boolean = false) : Navigation()
         }
     }
 }

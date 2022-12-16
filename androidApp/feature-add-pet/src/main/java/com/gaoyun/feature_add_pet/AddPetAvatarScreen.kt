@@ -36,7 +36,7 @@ import kotlinx.coroutines.flow.onEach
 import org.koin.androidx.compose.getViewModel
 
 @Composable
-fun AddPetAvatarDestination(navHostController: NavHostController, petType: String) {
+fun AddPetAvatarDestination(navHostController: NavHostController, petType: String, petId: String? = null) {
     val viewModel: AddPetAvatarScreenViewModel = getViewModel()
     val state = viewModel.viewState.collectAsState().value
 
@@ -57,7 +57,7 @@ fun AddPetAvatarDestination(navHostController: NavHostController, petType: Strin
 
     OnLifecycleEvent { _, event ->
         if (event == Lifecycle.Event.ON_CREATE) {
-            viewModel.petTypeChosen(petType)
+            viewModel.petTypeChosen(petType, petId)
         }
     }
 }

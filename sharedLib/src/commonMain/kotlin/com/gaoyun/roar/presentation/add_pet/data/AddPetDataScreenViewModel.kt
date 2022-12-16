@@ -3,6 +3,7 @@ package com.gaoyun.roar.presentation.add_pet.data
 import com.gaoyun.roar.domain.pet.AddPetUseCase
 import com.gaoyun.roar.domain.pet.GetPetBreedsUseCase
 import com.gaoyun.roar.domain.pet.GetPetUseCase
+import com.gaoyun.roar.domain.pet.SetPetAvatar
 import com.gaoyun.roar.model.domain.PetType
 import com.gaoyun.roar.model.domain.toGender
 import com.gaoyun.roar.model.domain.toPetType
@@ -22,6 +23,7 @@ class AddPetDataScreenViewModel :
     private val addPetUseCase: AddPetUseCase by inject()
     private val petBreedsUseCase: GetPetBreedsUseCase by inject()
     private val getPet: GetPetUseCase by inject()
+    private val setPetAvatar: SetPetAvatar by inject()
 
     override fun setInitialState() = AddPetDataScreenContract.State(isLoading = true)
 
@@ -50,6 +52,12 @@ class AddPetDataScreenViewModel :
         val pet = petId?.let { id -> getPet.getPet(id).firstOrNull() }
         petBreedsUseCase.getBreeds(petType).collect {
             setState { copy(breeds = it, pet = pet, isLoading = false) }
+        }
+    }
+
+    fun revertPetAvatar(petId: String, avatar: String) = scope.launch {
+        setPetAvatar.setAvatar(petId, avatar).collect {
+            setEffect { AddPetDataScreenContract.Effect.Navigation.NavigateBack(confirmed = true) }
         }
     }
 
@@ -99,6 +107,6 @@ class AddPetDataScreenViewModel :
     }
 
     private fun petSavedSuccessful() {
-        setEffect { AddPetDataScreenContract.Effect.Navigation.NavigateBack }
+        setEffect { AddPetDataScreenContract.Effect.Navigation.NavigateBack(confirmed = true) }
     }
 }

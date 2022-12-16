@@ -48,7 +48,6 @@ class AddPetUseCase : KoinComponent {
 
     fun addPet(pet: Pet)  = flow {
         repository.insertPet(pet)
-
         emit(pet.id)
     }
 
