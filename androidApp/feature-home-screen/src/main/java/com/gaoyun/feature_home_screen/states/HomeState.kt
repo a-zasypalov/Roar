@@ -9,6 +9,8 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Pets
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
@@ -20,10 +22,9 @@ import com.gaoyun.common.DateUtils.yearsFromNow
 import com.gaoyun.common.theme.RoarTheme
 import com.gaoyun.common.ui.Spacer
 import com.gaoyun.common.ui.getDrawableByName
+import com.gaoyun.feature_pet_screen.view.InteractionCard
 import com.gaoyun.feature_pet_screen.view.PetContainer
-import com.gaoyun.roar.model.domain.Pet
 import com.gaoyun.roar.model.domain.PetWithInteractions
-import com.gaoyun.roar.model.domain.withoutInteractions
 
 @Composable
 fun HomeState(
@@ -80,8 +81,16 @@ fun HomeState(
             }
 
             items(pets) { pet ->
-                PetCard(pet = pet.withoutInteractions(), onPetCardClick = onPetCardClick)
+                PetCard(
+                    pet = pet,
+                    onPetCardClick = onPetCardClick,
+                    showLastReminder = showLastReminder,
+                    onInteractionClick = { interactionId -> onInteractionClick(pet.id, interactionId) },
+                    onInteractionCheckClicked = { interactionId, isChecked -> onInteractionCheckClicked(pet, interactionId, isChecked) }
+                )
             }
+
+            item { Spacer(size = 132.dp) }
         }
     }
 }
@@ -114,10 +123,20 @@ private fun Header(
 
 @Composable
 private fun PetCard(
-    pet: Pet,
-    onPetCardClick: (petId: String) -> Unit
+    pet: PetWithInteractions,
+    showLastReminder: Boolean,
+    onPetCardClick: (petId: String) -> Unit,
+    onInteractionClick: (String) -> Unit,
+    onInteractionCheckClicked: (String, Boolean) -> Unit,
 ) {
     val context = LocalContext.current
+    val showedInteractions = remember {
+        mutableStateOf(pet.interactions
+            .flatMap { it.reminders }
+            .filter { !it.isCompleted }
+            .sortedBy { it.dateTime }
+            .take(2))
+    }
 
     Surface(
         shape = MaterialTheme.shapes.large,
@@ -155,6 +174,21 @@ private fun PetCard(
                     )
                 }
             }
+            showedInteractions.value.map { reminder ->
+                val interaction = pet.interactions.first { it.id == reminder.interactionId }
+                InteractionCard(
+                    interaction = interaction,
+                    showLastReminder = showLastReminder,
+                    elevation = 64.dp,
+                    shape = MaterialTheme.shapes.medium,
+                    onClick = onInteractionClick,
+                    onInteractionCheckClicked = onInteractionCheckClicked,
+                    modifier = Modifier
+                        .padding(start = 16.dp, end = 16.dp, bottom = 16.dp)
+                        .fillMaxWidth()
+                )
+            }
+            Spacer(size = 0.dp)
         }
     }
 }
@@ -163,6 +197,6 @@ private fun PetCard(
 @Composable
 fun HomeStatePreview() {
     RoarTheme {
-        HomeState("Tester", emptyList(), false, {}, {}, {_, _ ->}, {}, {}, { _, _, _ -> })
+        HomeState("Tester", emptyList(), false, {}, {}, { _, _ -> }, {}, {}, { _, _, _ -> })
     }
 }

@@ -59,7 +59,17 @@ fun PetContainer(
             )
 
             it.value.sortedBy { v -> v.type }.map { interaction ->
-                InteractionCard(interaction, showLastReminder, onInteractionClick, onInteractionCheckClicked)
+                InteractionCard(
+                    interaction = interaction,
+                    showLastReminder = showLastReminder,
+                    elevation = 8.dp,
+                    shape = MaterialTheme.shapes.large,
+                    onClick = onInteractionClick,
+                    onInteractionCheckClicked = onInteractionCheckClicked,
+                    modifier = Modifier
+                        .padding(horizontal = 8.dp, vertical = 8.dp)
+                        .fillMaxWidth()
+                )
             }
         }
 

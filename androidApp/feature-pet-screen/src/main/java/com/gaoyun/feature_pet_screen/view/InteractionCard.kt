@@ -12,6 +12,8 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Shape
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.gaoyun.common.DateUtils
 import com.gaoyun.common.icon
@@ -28,19 +30,20 @@ import kotlinx.datetime.*
 fun InteractionCard(
     interaction: InteractionWithReminders,
     showLastReminder: Boolean,
+    elevation: Dp,
+    shape: Shape,
     onClick: (String) -> Unit,
-    onInteractionCheckClicked: (String, Boolean) -> Unit
+    onInteractionCheckClicked: (String, Boolean) -> Unit,
+    modifier: Modifier = Modifier,
 ) {
 
     val reminderIdToShow = remember { mutableStateOf<String?>(null) }
     val nextReminderLabel = remember { mutableStateOf<String?>(null) }
 
     Surface(
-        tonalElevation = 4.dp,
-        shape = MaterialTheme.shapes.large,
-        modifier = Modifier
-            .padding(horizontal = 8.dp, vertical = 8.dp)
-            .fillMaxWidth(),
+        tonalElevation = elevation,
+        shape = shape,
+        modifier = modifier,
     ) {
         Column(modifier = Modifier
             .clickable {
