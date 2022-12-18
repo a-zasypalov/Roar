@@ -8,15 +8,18 @@ object NavigationKeys {
         const val AVATAR_KEY = "AVATAR_KEY"
         const val TEMPLATE_ID_KEY = "TEMPLATE_ID_KEY"
         const val INTERACTION_ID_KEY = "INTERACTION_ID_KEY"
+        const val USER_ID_KEY = "USER_ID_KEY"
     }
 
     object Route {
         const val EDIT = "EDIT"
         const val AVATAR = "AVATAR"
         const val ADD_PET_SETUP = "ADD_PET_SETUP"
+        const val USER = "USER"
 
         const val HOME_ROUTE = "HOME"
         const val REGISTER_USER_ROUTE = "REGISTER_USER"
+        const val USER_ROUTE = "$HOME_ROUTE/${USER}/{${Arg.USER_ID_KEY}}"
 
         const val ADD_PET_ROUTE = "ADD_PET"
         const val ADD_PET_AVATAR_ROUTE = "$ADD_PET_ROUTE/{${Arg.PET_TYPE_KEY}}"

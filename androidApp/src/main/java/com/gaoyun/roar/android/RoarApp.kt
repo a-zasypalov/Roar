@@ -14,6 +14,7 @@ import com.gaoyun.roar.presentation.home_screen.HomeScreenViewModel
 import com.gaoyun.roar.presentation.interactions.InteractionScreenViewModel
 import com.gaoyun.roar.presentation.pet_screen.PetScreenViewModel
 import com.gaoyun.roar.presentation.user_register.RegisterUserViewModel
+import com.gaoyun.roar.presentation.user_screen.UserScreenViewModel
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger
 import org.koin.androidx.viewmodel.dsl.viewModel
@@ -36,6 +37,7 @@ class RoarApp : Application() {
 val appModule = module {
     viewModel { HomeScreenViewModel() }
     viewModel { RegisterUserViewModel() }
+    viewModel { UserScreenViewModel() }
 
     viewModel { AddPetDataScreenViewModel() }
     viewModel { AddPetPetTypeScreenViewModel() }

@@ -33,6 +33,7 @@ import com.gaoyun.feature_home_screen.HomeScreenDestination
 import com.gaoyun.feature_interactions.InteractionScreenDestination
 import com.gaoyun.feature_pet_screen.PetScreenDestination
 import com.gaoyun.feature_user_registration.UserRegistrationDestination
+import com.gaoyun.feature_user_screen.UserScreenDestination
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -270,6 +271,18 @@ class MainActivity : AppCompatActivity() {
                 InteractionScreenDestination(
                     navController,
                     interactionId = it.arguments?.getString(NavigationKeys.Arg.INTERACTION_ID_KEY) ?: "",
+                )
+            }
+
+            composable(
+                route = NavigationKeys.Route.USER_ROUTE,
+                arguments = listOf(
+                    navArgument(NavigationKeys.Arg.USER_ID_KEY) { type = NavType.StringType },
+                )
+            ) {
+                UserScreenDestination(
+                    navController,
+                    userId = it.arguments?.getString(NavigationKeys.Arg.USER_ID_KEY) ?: "",
                 )
             }
         }

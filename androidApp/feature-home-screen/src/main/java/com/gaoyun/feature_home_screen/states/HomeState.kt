@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Person
 import androidx.compose.material.icons.filled.Pets
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
@@ -25,10 +26,11 @@ import com.gaoyun.common.ui.getDrawableByName
 import com.gaoyun.feature_pet_screen.view.InteractionCard
 import com.gaoyun.feature_pet_screen.view.PetContainer
 import com.gaoyun.roar.model.domain.PetWithInteractions
+import com.gaoyun.roar.model.domain.User
 
 @Composable
 fun HomeState(
-    userName: String,
+    user: User,
     pets: List<PetWithInteractions>,
     showLastReminder: Boolean,
     onAddPetButtonClick: () -> Unit,
@@ -37,6 +39,7 @@ fun HomeState(
     onDeletePetClick: (PetWithInteractions) -> Unit,
     onEditPetClick: (PetWithInteractions) -> Unit,
     onInteractionCheckClicked: (pet: PetWithInteractions, interactionId: String, isChecked: Boolean) -> Unit,
+    onUserDetailsClick: (user: User) -> Unit
 ) {
     LazyColumn(
         modifier = Modifier
@@ -47,7 +50,11 @@ fun HomeState(
             Box(modifier = Modifier.size(WindowInsets.statusBars.asPaddingValues().calculateTopPadding()))
         }
         item {
-            Header(userName = userName, onAddPetButtonClick = onAddPetButtonClick)
+            Header(
+                userName = user.name,
+                onAddPetButtonClick = onAddPetButtonClick,
+                onUserButtonButtonClick = { onUserDetailsClick(user) },
+            )
         }
 
         item {
@@ -99,17 +106,28 @@ fun HomeState(
 private fun Header(
     userName: String,
     onAddPetButtonClick: () -> Unit,
+    onUserButtonButtonClick: () -> Unit,
 ) {
     Column(
         modifier = Modifier
             .fillMaxWidth()
             .padding(start = 16.dp, end = 16.dp, top = 32.dp)
     ) {
-        Text(
-            text = "Hey, $userName",
-            style = MaterialTheme.typography.displayMedium,
-            color = MaterialTheme.colorScheme.onSurface
-        )
+        Row(
+            horizontalArrangement = Arrangement.SpaceBetween,
+            verticalAlignment = Alignment.CenterVertically,
+            modifier = Modifier.fillMaxWidth()
+        ) {
+            Text(
+                text = "Hey, $userName",
+                style = MaterialTheme.typography.displayMedium,
+                color = MaterialTheme.colorScheme.onSurface
+            )
+
+            IconButton(onClick = onUserButtonButtonClick, modifier = Modifier.padding(top = 12.dp)) {
+                Icon(Icons.Default.Person, contentDescription = "", modifier = Modifier.fillMaxSize().padding(4.dp))
+            }
+        }
 
         Spacer(size = 8.dp)
 
@@ -197,6 +215,6 @@ private fun PetCard(
 @Composable
 fun HomeStatePreview() {
     RoarTheme {
-        HomeState("Tester", emptyList(), false, {}, {}, { _, _ -> }, {}, {}, { _, _, _ -> })
+        HomeState(User(name = "Tester"), emptyList(), false, {}, {}, { _, _ -> }, {}, {}, { _, _, _ -> }, {})
     }
 }
