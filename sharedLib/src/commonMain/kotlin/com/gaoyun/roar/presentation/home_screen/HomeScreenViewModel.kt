@@ -62,7 +62,7 @@ class HomeScreenViewModel :
         }
     }
 
-    private fun getUser() {
+    private suspend fun getUser() = scope.launch {
         try {
             val user = getUserUseCase.getCurrentUser()
             getPets(user)

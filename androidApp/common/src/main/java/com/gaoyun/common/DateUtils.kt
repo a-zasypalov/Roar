@@ -19,6 +19,7 @@ object DateUtils {
 
     fun LocalDate.yearsFromNow() = (Clock.System.now().toLocalDate() - this).years
     fun LocalDate.monthsFromNow() = (Clock.System.now().toLocalDate() - this).months % 12
+    fun LocalDate.daysFromNow() = (Clock.System.now().toLocalDate() - this).days % 365
 
 }
 

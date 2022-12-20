@@ -50,7 +50,7 @@ fun HomeScreenDestination(navHostController: NavHostController) {
                 is HomeScreenContract.Effect.Navigation.ToAddReminder -> navHostController.navigate("${NavigationKeys.Route.ADD_REMINDER}/${navigationEffect.petId}")
                 is HomeScreenContract.Effect.Navigation.ToInteractionDetails -> navHostController.navigate("${NavigationKeys.Route.INTERACTION_DETAIL}/${navigationEffect.interactionId}")
                 is HomeScreenContract.Effect.Navigation.ToEditPet -> navHostController.navigate("${NavigationKeys.Route.EDIT}/${NavigationKeys.Route.PET_DETAIL}/${navigationEffect.pet.id}/${navigationEffect.pet.avatar}/${navigationEffect.pet.petType}")
-                is HomeScreenContract.Effect.Navigation.ToUserScreen -> navHostController.navigate("${NavigationKeys.Route.HOME_ROUTE}/${NavigationKeys.Route.USER}/${navigationEffect.user.id}")
+                is HomeScreenContract.Effect.Navigation.ToUserScreen -> navHostController.navigate("${NavigationKeys.Route.HOME_ROUTE}/${NavigationKeys.Route.USER}")
                 is HomeScreenContract.Effect.Navigation.NavigateBack -> navHostController.popBackStack()
             }
         },
@@ -126,7 +126,7 @@ fun HomeScreen(
                                 )
                             )
                         },
-                        onUserDetailsClick = { userClicked -> onNavigationRequested(HomeScreenContract.Effect.Navigation.ToUserScreen(userClicked)) }
+                        onUserDetailsClick = { onNavigationRequested(HomeScreenContract.Effect.Navigation.ToUserScreen) }
                     )
                 } else {
                     NoPetsState(userName = user.name, viewModel::openAddPetScreen)

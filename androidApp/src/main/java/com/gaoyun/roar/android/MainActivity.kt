@@ -276,14 +276,8 @@ class MainActivity : AppCompatActivity() {
 
             composable(
                 route = NavigationKeys.Route.USER_ROUTE,
-                arguments = listOf(
-                    navArgument(NavigationKeys.Arg.USER_ID_KEY) { type = NavType.StringType },
-                )
             ) {
-                UserScreenDestination(
-                    navController,
-                    userId = it.arguments?.getString(NavigationKeys.Arg.USER_ID_KEY) ?: "",
-                )
+                UserScreenDestination(navController)
             }
         }
     }

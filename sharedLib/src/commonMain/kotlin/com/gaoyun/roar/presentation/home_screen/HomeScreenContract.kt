@@ -35,7 +35,7 @@ class HomeScreenContract {
             class ToPetScreen(val petId: String) : Navigation()
             class ToInteractionDetails(val interactionId: String) : Navigation()
             class ToEditPet(val pet: PetWithInteractions) : Navigation()
-            class ToUserScreen(val user: User) : Navigation()
+            object ToUserScreen : Navigation()
         }
     }
 }

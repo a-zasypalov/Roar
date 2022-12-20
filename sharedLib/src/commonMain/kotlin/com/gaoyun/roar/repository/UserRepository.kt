@@ -7,23 +7,23 @@ import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 
 interface UserRepository {
-    fun getUser(id: String): User?
-    fun insertUser(user: User)
-    fun deleteUsers()
+    suspend fun getUser(id: String): User?
+    suspend fun insertUser(user: User)
+    suspend fun deleteUsers()
 }
 
 class UserRepositoryImpl : UserRepository, KoinComponent {
     private val appDb: RoarDatabase by inject()
 
-    override fun getUser(id: String): User? {
+    override suspend fun getUser(id: String): User? {
         return appDb.userEntityQueries.selectById(id).executeAsOneOrNull()?.toDomain()
     }
 
-    override fun insertUser(user: User) {
+    override suspend fun insertUser(user: User) {
         appDb.userEntityQueries.insert(user.id, user.name)
     }
 
-    override fun deleteUsers() {
+    override suspend fun deleteUsers() {
         appDb.userEntityQueries.removeAll()
     }
 }

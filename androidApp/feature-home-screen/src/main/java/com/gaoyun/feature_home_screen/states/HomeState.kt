@@ -39,7 +39,7 @@ fun HomeState(
     onDeletePetClick: (PetWithInteractions) -> Unit,
     onEditPetClick: (PetWithInteractions) -> Unit,
     onInteractionCheckClicked: (pet: PetWithInteractions, interactionId: String, isChecked: Boolean) -> Unit,
-    onUserDetailsClick: (user: User) -> Unit
+    onUserDetailsClick: () -> Unit
 ) {
     LazyColumn(
         modifier = Modifier
@@ -53,7 +53,7 @@ fun HomeState(
             Header(
                 userName = user.name,
                 onAddPetButtonClick = onAddPetButtonClick,
-                onUserButtonButtonClick = { onUserDetailsClick(user) },
+                onUserButtonButtonClick = onUserDetailsClick,
             )
         }
 
@@ -125,7 +125,9 @@ private fun Header(
             )
 
             IconButton(onClick = onUserButtonButtonClick, modifier = Modifier.padding(top = 12.dp)) {
-                Icon(Icons.Default.Person, contentDescription = "", modifier = Modifier.fillMaxSize().padding(4.dp))
+                Icon(Icons.Default.Person, contentDescription = "", modifier = Modifier
+                    .fillMaxSize()
+                    .padding(4.dp))
             }
         }
 
