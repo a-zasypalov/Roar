@@ -6,6 +6,7 @@ import com.gaoyun.roar.model.domain.Pet
 import com.gaoyun.roar.model.domain.toPetType
 import com.gaoyun.roar.repository.PetRepository
 import com.gaoyun.roar.util.toLocalDate
+import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.flow.flow
 import kotlinx.datetime.Clock
 import kotlinx.datetime.LocalDate
@@ -27,7 +28,7 @@ class AddPetUseCase : KoinComponent {
         chipNumber: String,
         isSterilized: Boolean
     ) = flow {
-        val userId = getUserUseCase.getCurrentUser().id
+        val userId = getUserUseCase.getCurrentUser().firstOrNull()?.id ?: ""
         val pet = Pet(
             petType = petType.toPetType(),
             breed = breed,
@@ -46,7 +47,7 @@ class AddPetUseCase : KoinComponent {
         emit(pet.id)
     }
 
-    fun addPet(pet: Pet)  = flow {
+    fun addPet(pet: Pet) = flow {
         repository.insertPet(pet)
         emit(pet.id)
     }

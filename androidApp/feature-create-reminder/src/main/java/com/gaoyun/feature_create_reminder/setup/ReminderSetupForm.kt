@@ -58,7 +58,6 @@ internal fun ReminderSetupForm(
         )
     }
 
-    val interactionRepeatConfigState = remember { mutableStateOf(repeatConfig) }
     val interactionRepeatConfigTextState = remember { mutableStateOf(TextFieldValue(repeatConfig.toString())) }
 
     val reminderName = rememberSaveable { mutableStateOf(interactionToEdit?.name ?: template?.name ?: "") }
@@ -102,12 +101,11 @@ internal fun ReminderSetupForm(
 
     if (showDialog.value) {
         RepeatConfigDialog(
-            if (interactionRepeatConfigState.value.active) interactionRepeatConfigState.value else null,
+            if (repeatConfig.active) repeatConfig else null,
             setShowDialog = { showDialog.value = it },
             onConfigSave = {
                 onConfigSave(it)
                 interactionRepeatConfigTextState.value = TextFieldValue(it)
-
             })
     }
 
@@ -177,7 +175,7 @@ internal fun ReminderSetupForm(
         ReadonlyTextField(
             value = startsOnDateString.value,
             onValueChange = { startsOnDateString.value = it },
-            label = { Text(text = if(interactionToEdit != null) "Next reminder" else "Date") },
+            label = { Text(text = if (interactionToEdit != null) "Next reminder" else "Date") },
             onClick = {
                 DatePicker.pickDate(
                     title = "Remind on/from",
@@ -256,14 +254,14 @@ internal fun ReminderSetupForm(
         Spacer(size = 48.dp)
 
         PrimaryElevatedButton(
-            text = if(interactionToEdit != null) "Save" else "Create",
+            text = if (interactionToEdit != null) "Save" else "Create",
             onClick = {
                 onSaveButtonClick(
                     reminderName.value,
                     template?.type ?: InteractionType.CUSTOM,
                     interactionGroupState.value.toInteractionGroup(),
                     repeatEnabledState.value,
-                    interactionRepeatConfigState.value,
+                    repeatConfig,
                     notesState.value,
                     startsOnDate.value,
                     startsOnTime.value.hour,

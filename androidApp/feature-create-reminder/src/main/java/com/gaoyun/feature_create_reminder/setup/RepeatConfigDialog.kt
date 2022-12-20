@@ -57,23 +57,23 @@ internal fun RepeatConfigDialog(
             if (repeatConfig?.repeatsEveryPeriod.toString() == "week") {
                 val weekConfig = repeatConfig?.repeatsEveryPeriodOn?.split(",") ?: listOf()
                 mapOf(
-                    "Mon" to weekConfig.contains("Mon"),
-                    "Tue" to weekConfig.contains("Tue"),
-                    "Wed" to weekConfig.contains("Wed"),
-                    "Thu" to weekConfig.contains("Thu"),
-                    "Fri" to weekConfig.contains("Fri"),
-                    "Sat" to weekConfig.contains("Sat"),
-                    "Sun" to weekConfig.contains("Sun"),
+                    DayOfWeek.MONDAY to weekConfig.contains("1"),
+                    DayOfWeek.TUESDAY to weekConfig.contains("2"),
+                    DayOfWeek.WEDNESDAY to weekConfig.contains("3"),
+                    DayOfWeek.THURSDAY to weekConfig.contains("4"),
+                    DayOfWeek.FRIDAY to weekConfig.contains("5"),
+                    DayOfWeek.SATURDAY to weekConfig.contains("6"),
+                    DayOfWeek.SUNDAY to weekConfig.contains("7"),
                 )
             } else {
                 mapOf(
-                    "Mon" to false,
-                    "Tue" to false,
-                    "Wed" to false,
-                    "Thu" to false,
-                    "Fri" to false,
-                    "Sat" to false,
-                    "Sun" to false,
+                    DayOfWeek.MONDAY to false,
+                    DayOfWeek.TUESDAY to false,
+                    DayOfWeek.WEDNESDAY to false,
+                    DayOfWeek.THURSDAY to false,
+                    DayOfWeek.FRIDAY to false,
+                    DayOfWeek.SATURDAY to false,
+                    DayOfWeek.SUNDAY to false,
                 )
             }
         )
@@ -186,7 +186,7 @@ internal fun RepeatConfigDialog(
                                         FilterChip(
                                             selected = it.value,
                                             onClick = {
-                                                val newMap = mutableMapOf<String, Boolean>()
+                                                val newMap = mutableMapOf<DayOfWeek, Boolean>()
                                                 repeatsEveryPeriodOnWeek.value.forEach { map ->
                                                     val newValue = if (map.key == it.key) !map.value else map.value
                                                     newMap[map.key] = newValue
@@ -195,7 +195,7 @@ internal fun RepeatConfigDialog(
                                             },
                                             label = {
                                                 Text(
-                                                    it.key,
+                                                    it.key.name.take(3),
                                                     style = MaterialTheme.typography.bodyMedium,
                                                     color = MaterialTheme.colorScheme.onPrimaryContainer
                                                 )
@@ -320,8 +320,8 @@ internal fun RepeatConfigDialog(
 
                         TextButton(onClick = {
                             val repeatsEveryPeriodOn = when (repeatsEveryPeriod.value) {
-                                "week" -> repeatsEveryPeriodOnWeek.value.filter { it.value }.keys.joinToString(",")
-                                "month" -> repeatsEveryPeriodOnMothDay.value
+                                "week" -> repeatsEveryPeriodOnWeek.value.filter { it.value }.keys.map { it.isoDayNumber }.joinToString(",")
+                                "month" -> if (repeatsEveryPeriodOnMothDay.value.lowercase().contains("last")) "last" else repeatsEveryPeriodOnMothDay.value.split(" ")[1]
                                 else -> "-"
                             }
                             val ends = when (endConditionState.value) {

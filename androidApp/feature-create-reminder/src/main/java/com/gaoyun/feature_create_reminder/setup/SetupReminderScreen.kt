@@ -134,7 +134,7 @@ fun SetupReminderScreen(
                             ReminderSetupForm(
                                 interactionToEdit = state.interactionToEdit,
                                 template = state.template,
-                                repeatConfig = state.interactionToEdit?.repeatConfig ?: state.repeatConfig,
+                                repeatConfig = state.repeatConfig,
                                 onConfigSave = { config ->
                                     onEventSent(SetupReminderScreenContract.Event.RepeatConfigChanged(config))
                                 },

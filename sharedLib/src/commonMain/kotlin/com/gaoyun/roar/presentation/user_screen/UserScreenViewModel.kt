@@ -2,6 +2,7 @@ package com.gaoyun.roar.presentation.user_screen
 
 import com.gaoyun.roar.domain.user.GetCurrentUserUseCase
 import com.gaoyun.roar.presentation.BaseViewModel
+import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.launch
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
@@ -20,12 +21,13 @@ class UserScreenViewModel : BaseViewModel<UserScreenContract.Event, UserScreenCo
     }
 
     fun buildScreenState() = scope.launch {
-        try {
-            val user = getUser.getCurrentUser()
-            setState { copy(isLoading = false, user = user) }
-        } catch (e: Exception) {
-            e.printStackTrace()
-        }
+        getUser.getCurrentUser()
+            .catch {
+                it.printStackTrace()
+            }
+            .collect { user ->
+                setState { copy(isLoading = false, user = user) }
+            }
     }
 
 }

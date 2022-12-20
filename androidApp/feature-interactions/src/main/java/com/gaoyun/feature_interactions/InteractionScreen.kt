@@ -21,9 +21,11 @@ import com.gaoyun.common.ui.*
 import com.gaoyun.roar.presentation.LAUNCH_LISTEN_FOR_EFFECTS
 import com.gaoyun.roar.presentation.interactions.InteractionScreenContract
 import com.gaoyun.roar.presentation.interactions.InteractionScreenViewModel
+import com.gaoyun.roar.util.toLocalDate
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.onEach
+import kotlinx.datetime.Clock
 import kotlinx.datetime.toJavaLocalDate
 import kotlinx.datetime.toJavaLocalDateTime
 import org.koin.androidx.compose.getViewModel
@@ -210,8 +212,12 @@ fun InteractionScreen(
                                         nextReminders.map { reminder ->
                                             LabelledCheckBox(
                                                 checked = reminder.isCompleted,
-                                                label = "Next: ${
-                                                    reminder.dateTime.date.toJavaLocalDate().format(DateUtils.ddMmmmDateFormatter)
+                                                label = "${
+                                                    if (reminder.dateTime.date.year != Clock.System.now().toLocalDate().year) {
+                                                        reminder.dateTime.date.toJavaLocalDate().format(DateUtils.ddMmmmYyyyDateFormatter)
+                                                    } else {
+                                                        reminder.dateTime.date.toJavaLocalDate().format(DateUtils.ddMmmmDateFormatter)
+                                                    }
                                                 } at ${
                                                     reminder.dateTime.toJavaLocalDateTime().format(DateUtils.hhMmTimeFormatter)
                                                 }",
@@ -257,7 +263,11 @@ fun InteractionScreen(
                                             LabelledCheckBox(
                                                 checked = reminder.isCompleted,
                                                 label = "${
-                                                    reminder.dateTime.date.toJavaLocalDate().format(DateUtils.ddMmmmDateFormatter)
+                                                    if (reminder.dateTime.date.year != Clock.System.now().toLocalDate().year) {
+                                                        reminder.dateTime.date.toJavaLocalDate().format(DateUtils.ddMmmmYyyyDateFormatter)
+                                                    } else {
+                                                        reminder.dateTime.date.toJavaLocalDate().format(DateUtils.ddMmmmDateFormatter)
+                                                    }
                                                 } at ${
                                                     reminder.dateTime.toJavaLocalDateTime().format(DateUtils.hhMmTimeFormatter)
                                                 }",

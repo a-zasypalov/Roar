@@ -13,6 +13,7 @@ import com.gaoyun.roar.model.domain.withoutInteractions
 import com.gaoyun.roar.presentation.BaseViewModel
 import com.gaoyun.roar.util.NoUserException
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.launch
 import org.koin.core.component.KoinComponent
@@ -63,13 +64,14 @@ class HomeScreenViewModel :
     }
 
     private suspend fun getUser() = scope.launch {
-        try {
-            val user = getUserUseCase.getCurrentUser()
-            getPets(user)
-        } catch (noUser: NoUserException) {
-            noUser.printStackTrace()
-            setNoUserState()
-        }
+        getUserUseCase.getCurrentUser()
+            .catch {
+                it.printStackTrace()
+                if (it is NoUserException) {
+                    setNoUserState()
+                }
+            }
+            .collect { getPets(it) }
     }
 
     private fun getPets(user: User) = scope.launch {

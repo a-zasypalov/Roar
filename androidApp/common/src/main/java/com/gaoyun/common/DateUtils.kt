@@ -12,6 +12,7 @@ object DateUtils {
 
     val ddMmmDateFormatter: DateTimeFormatter = DateTimeFormatter.ofPattern("dd MMM")
     val ddMmmmDateFormatter: DateTimeFormatter = DateTimeFormatter.ofPattern("dd MMMM")
+    val ddMmmmYyyyDateFormatter: DateTimeFormatter = DateTimeFormatter.ofPattern("dd MMMM yyyy")
 
     val ddMmYyyyWithDotsDateFormatter: DateTimeFormatter = DateTimeFormatter.ofPattern("dd.MM.yyyy")
 

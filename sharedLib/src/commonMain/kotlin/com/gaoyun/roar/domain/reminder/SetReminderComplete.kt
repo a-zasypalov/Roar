@@ -1,16 +1,15 @@
 package com.gaoyun.roar.domain.reminder
 
 import com.gaoyun.roar.domain.interaction.GetInteraction
+import com.gaoyun.roar.domain.interaction.SetInteractionIsActive
+import com.gaoyun.roar.domain.repeat_config.RepeatConfigUseCase
 import com.gaoyun.roar.model.domain.interactions.InteractionWithReminders
 import com.gaoyun.roar.repository.ReminderRepository
 import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.flow.flow
-import kotlinx.datetime.TimeZone
-import kotlinx.datetime.toInstant
-import kotlinx.datetime.toLocalDateTime
+import kotlinx.datetime.atTime
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
-import kotlin.time.Duration.Companion.days
 
 class SetReminderComplete : KoinComponent {
 
@@ -19,6 +18,8 @@ class SetReminderComplete : KoinComponent {
     private val getReminder: GetReminder by inject()
     private val removeReminder: RemoveReminder by inject()
     private val insertReminder: InsertReminder by inject()
+    private val repeatConfigUseCase: RepeatConfigUseCase by inject()
+    private val setInteractionIsActive: SetInteractionIsActive by inject()
 
     fun setComplete(id: String, complete: Boolean) = flow {
         repository.setReminderCompleted(id, complete)
@@ -36,14 +37,14 @@ class SetReminderComplete : KoinComponent {
         val completedReminder = getReminder.getReminder(reminderId).firstOrNull() ?: return null
         val interaction = getInteraction.getInteraction(completedReminder.interactionId).firstOrNull() ?: return null
 
-        if (interaction.isActive) {
-            //TODO: Make RepeatConfig dependent
-            val nextReminderDateTime = completedReminder.dateTime
-                .toInstant(TimeZone.currentSystemDefault())
-                .plus(1.days)
-                .toLocalDateTime(TimeZone.currentSystemDefault())
-
-            insertReminder.insertReminder(interaction.id, nextReminderDateTime).firstOrNull() ?: return null
+        if (interaction.repeatConfig != null && interaction.isActive) {
+            repeatConfigUseCase.getNextDateAccordingToRepeatConfig(
+                repeatConfig = interaction.repeatConfig,
+                interactionId = interaction.id,
+                from = completedReminder.dateTime.date
+            )?.atTime(completedReminder.dateTime.hour, completedReminder.dateTime.minute)?.let { nextReminderDateTime ->
+                insertReminder.insertReminder(interaction.id, nextReminderDateTime).firstOrNull()
+            } ?: setInteractionIsActive.setInteractionIsActive(interaction.id, isActive = false).firstOrNull()
         }
 
         return getNewInteractionState(interaction.id)

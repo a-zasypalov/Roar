@@ -53,7 +53,7 @@ class SetupReminderScreenViewModel :
         getPetUseCase.getPet(petId).collect { pet ->
             val interaction = interactionId?.let { getInteraction.getInteractionWithReminders(it).firstOrNull() }
             if (templateId == "null") {
-                setState { copy(isLoading = false, pet = pet, interactionToEdit = interaction) }
+                setState { copy(isLoading = false, pet = pet, interactionToEdit = interaction, repeatConfig = interaction?.repeatConfig ?: InteractionRepeatConfig()) }
             } else {
                 getInteractionTemplate(pet, templateId, interaction)
             }
@@ -68,7 +68,7 @@ class SetupReminderScreenViewModel :
                         isLoading = false,
                         pet = pet,
                         template = template,
-                        repeatConfig = template.repeatConfig,
+                        repeatConfig = interaction?.repeatConfig ?: template.repeatConfig,
                         interactionToEdit = interaction
                     )
                 }

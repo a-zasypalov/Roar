@@ -21,6 +21,7 @@ import com.gaoyun.common.ui.LabelledCheckBox
 import com.gaoyun.common.ui.RoarIcon
 import com.gaoyun.common.ui.Spacer
 import com.gaoyun.roar.model.domain.interactions.InteractionWithReminders
+import com.gaoyun.roar.util.toLocalDate
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -109,7 +110,11 @@ fun InteractionCard(
                 LabelledCheckBox(
                     checked = reminderToShow.isCompleted,
                     label = "${
-                        reminderToShow.dateTime.date.toJavaLocalDate().format(DateUtils.ddMmmmDateFormatter)
+                        if (reminderToShow.dateTime.date.year != Clock.System.now().toLocalDate().year) {
+                            reminderToShow.dateTime.date.toJavaLocalDate().format(DateUtils.ddMmmmYyyyDateFormatter)
+                        } else {
+                            reminderToShow.dateTime.date.toJavaLocalDate().format(DateUtils.ddMmmmDateFormatter)
+                        }
                     } at ${
                         reminderToShow.dateTime.toJavaLocalDateTime().format(DateUtils.hhMmTimeFormatter)
                     }",
@@ -125,7 +130,11 @@ fun InteractionCard(
                     .maxByOrNull { it.dateTime }?.let { nextReminder ->
                         AnimatedVisibility(visible = showLastReminder && nextReminder.id != reminderIdToShow.value) {
                             val nextReminderText = "Next: ${
-                                nextReminder.dateTime.date.toJavaLocalDate().format(DateUtils.ddMmmmDateFormatter)
+                                if (nextReminder.dateTime.date.year != Clock.System.now().toLocalDate().year) {
+                                    nextReminder.dateTime.date.toJavaLocalDate().format(DateUtils.ddMmmmYyyyDateFormatter)
+                                } else {
+                                    nextReminder.dateTime.date.toJavaLocalDate().format(DateUtils.ddMmmmDateFormatter)
+                                }
                             } at ${
                                 nextReminder.dateTime.toJavaLocalDateTime().format(DateUtils.hhMmTimeFormatter)
                             }"
