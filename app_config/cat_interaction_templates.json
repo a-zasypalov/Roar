@@ -36,7 +36,7 @@
       "id": "5",
       "name": "nails_3m",
       "petType": "cat",
-      "type": "grooming",
+      "type": "nails",
       "interactionGroup": "care",
       "repeatConfig": "3_month_Day 1_no.0"
     },
