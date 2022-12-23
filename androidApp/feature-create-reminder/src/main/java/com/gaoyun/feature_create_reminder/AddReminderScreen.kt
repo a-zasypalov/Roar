@@ -19,6 +19,7 @@ import androidx.lifecycle.Lifecycle
 import androidx.navigation.NavHostController
 import com.gaoyun.common.NavigationKeys
 import com.gaoyun.common.OnLifecycleEvent
+import com.gaoyun.common.icon
 import com.gaoyun.common.ui.*
 import com.gaoyun.roar.model.domain.interactions.InteractionTemplate
 import com.gaoyun.roar.presentation.LAUNCH_LISTEN_FOR_EFFECTS
@@ -143,13 +144,32 @@ fun AddReminderScreen(
                             Column(
                                 modifier = Modifier
                                     .fillMaxWidth()
-                                    .clickable {
-                                        onEventSent(AddReminderScreenContract.Event.TemplateChosen(templateId = "null", petId = pet.id))
-                                    }
-                                    .padding(horizontal = 16.dp, vertical = 8.dp),
+                                    .clickable { onEventSent(AddReminderScreenContract.Event.TemplateChosen(templateId = "null", petId = pet.id)) }
+                                    .padding(horizontal = 14.dp, vertical = 8.dp),
                             ) {
-                                Text("Custom")
-                                Text("Custom reminder setup")
+                                Row(verticalAlignment = Alignment.CenterVertically) {
+                                    RoarIcon(
+                                        icon = pet.petType.icon(),
+                                        contentDescription = "reminder",
+                                        modifier = Modifier
+                                            .padding(4.dp)
+                                            .size(32.dp)
+                                    )
+                                    Spacer(size = 8.dp)
+                                    Column(modifier = Modifier.weight(1f)) {
+                                        Text(
+                                            "Custom",
+                                            style = MaterialTheme.typography.titleLarge,
+                                            color = MaterialTheme.colorScheme.onSurface
+                                        )
+
+                                        Text(
+                                            "New custom reminder",
+                                            style = MaterialTheme.typography.bodyMedium,
+                                            color = MaterialTheme.colorScheme.onSurface
+                                        )
+                                    }
+                                }
                             }
                         }
                     }
@@ -179,10 +199,32 @@ private fun TemplateItem(
             modifier = Modifier
                 .fillMaxWidth()
                 .clickable { onClick(template.id) }
-                .padding(horizontal = 16.dp, vertical = 8.dp),
+                .padding(horizontal = 14.dp, vertical = 8.dp),
         ) {
-            Text(template.name)
-            Text(template.repeatConfig.toString())
+            Row(verticalAlignment = Alignment.CenterVertically) {
+                RoarIcon(
+                    icon = template.type.icon(),
+                    contentDescription = "reminder",
+                    modifier = Modifier
+                        .padding(4.dp)
+                        .size(32.dp)
+                )
+                Spacer(size = 8.dp)
+                Column(modifier = Modifier.weight(1f)) {
+                    Text(
+                        template.name,
+                        style = MaterialTheme.typography.titleLarge,
+                        color = MaterialTheme.colorScheme.onSurface
+                    )
+
+                    val repeatText = template.repeatConfig.toString()
+                    Text(
+                        repeatText,
+                        style = MaterialTheme.typography.bodyMedium,
+                        color = MaterialTheme.colorScheme.onSurface
+                    )
+                }
+            }
         }
     }
 }
