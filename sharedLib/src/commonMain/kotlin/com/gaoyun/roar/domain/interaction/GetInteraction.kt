@@ -31,6 +31,13 @@ class GetInteraction : KoinComponent {
         emit(interactions)
     }
 
+    fun getInteractionByReminder(reminderId: String) = flow {
+        val interactionId = reminderRepository.getReminder(reminderId)?.interactionId ?: return@flow
+        val interaction = repository.getInteraction(interactionId)
+
+        emit(interaction)
+    }
+
     fun getInteractionIdsByPet(petId: String) = flow {
         val interactions = repository.getInteractionByPet(petId).map {
             it.id

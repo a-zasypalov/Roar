@@ -18,7 +18,7 @@ class NotificationDisplayer(
     fun display(
         title: String,
         content: String,
-        intent: Intent,
+        intent: Intent? = null,
         channel: NotificationChannel,
     ) {
         channelProvider.create()

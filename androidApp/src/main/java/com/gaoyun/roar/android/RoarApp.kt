@@ -63,6 +63,6 @@ val notificationsModule = module {
     single { NotificationManagerCompat.from(get()) }
     single { NotificationChannelProvider(get()) }
     single { NotificationDisplayer(get(), get(), get()) }
-    single { NotificationHandler(get()) }
+    single { NotificationHandler(get(), get(), get()) }
     worker { NotificationWorker(get(), get()) }
 }
