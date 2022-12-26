@@ -1,10 +1,5 @@
 package com.gaoyun.feature_create_reminder.setup
 
-import android.annotation.SuppressLint
-import android.app.AlarmManager
-import android.app.PendingIntent
-import android.content.Context
-import android.content.Intent
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -17,14 +12,14 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
-import androidx.core.content.ContextCompat.getSystemService
 import androidx.lifecycle.Lifecycle
 import androidx.navigation.NavHostController
 import com.gaoyun.common.NavigationKeys.Route.ADD_REMINDER
 import com.gaoyun.common.OnLifecycleEvent
 import com.gaoyun.common.ui.*
-import com.gaoyun.feature_create_reminder.notification.ReminderBroadcastReceiver
-import com.gaoyun.feature_create_reminder.notification.putReminderBroadcastReceiverArguments
+import com.gaoyun.notifications.NotificationScheduler
+import com.gaoyun.roar.model.domain.NotificationData
+import com.gaoyun.roar.model.domain.NotificationItem
 import com.gaoyun.roar.model.domain.Reminder
 import com.gaoyun.roar.model.domain.interactions.*
 import com.gaoyun.roar.presentation.LAUNCH_LISTEN_FOR_EFFECTS
@@ -35,7 +30,7 @@ import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.onEach
 import kotlinx.datetime.*
 import org.koin.androidx.compose.getViewModel
-
+import org.koin.androidx.compose.inject
 
 @Composable
 fun SetupReminderDestination(
@@ -47,6 +42,8 @@ fun SetupReminderDestination(
     val viewModel: SetupReminderScreenViewModel = getViewModel()
     val state = viewModel.viewState.collectAsState().value
 
+    val notificationScheduler: NotificationScheduler by inject()
+
     OnLifecycleEvent { _, event ->
         if (event == Lifecycle.Event.ON_CREATE) {
             viewModel.buildScreenState(petId = petId, templateId = templateId, interactionId = interactionId)
@@ -55,6 +52,7 @@ fun SetupReminderDestination(
 
     SetupReminderScreen(
         state = state,
+        notificationScheduler = notificationScheduler,
         effectFlow = viewModel.effect,
         onEventSent = { event -> viewModel.setEvent(event) },
         onNavigationRequested = { navigationEffect ->
@@ -68,38 +66,34 @@ fun SetupReminderDestination(
     )
 }
 
-@SuppressLint("MissingPermission")
-fun scheduleNotification(context: Context, reminder: Reminder) {
-    val intent = Intent(context, ReminderBroadcastReceiver::class.java)
-    intent.putReminderBroadcastReceiverArguments(
-        reminderId = reminder.id
+fun scheduleNotification(reminder: Reminder, notificationScheduler: NotificationScheduler) {
+    val data = NotificationData(
+        scheduled = reminder.dateTime,
+        item = NotificationItem.Reminder(itemId = reminder.id)
     )
-
-    val pendingIntent = PendingIntent.getBroadcast(context, 101, intent, PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE)
-    val alarmManager = getSystemService(context, AlarmManager::class.java)
-    alarmManager?.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, reminder.dateTime.toInstant(TimeZone.currentSystemDefault()).toEpochMilliseconds(), pendingIntent)
+    notificationScheduler.scheduleNotification(data)
 }
 
 @Composable
 @OptIn(ExperimentalMaterial3Api::class)
 fun SetupReminderScreen(
     state: SetupReminderScreenContract.State,
+    notificationScheduler: NotificationScheduler,
     effectFlow: Flow<SetupReminderScreenContract.Effect>,
     onEventSent: (event: SetupReminderScreenContract.Event) -> Unit,
     onNavigationRequested: (navigationEffect: SetupReminderScreenContract.Effect.Navigation) -> Unit,
 ) {
-    val context = LocalContext.current
     val avatar = remember { mutableStateOf("ic_cat") }
 
     LaunchedEffect(LAUNCH_LISTEN_FOR_EFFECTS) {
         effectFlow.onEach { effect ->
             when (effect) {
                 is SetupReminderScreenContract.Effect.ReminderCreated -> {
-                    scheduleNotification(context, effect.reminder)
+                    scheduleNotification(effect.reminder, notificationScheduler)
                     onNavigationRequested(SetupReminderScreenContract.Effect.Navigation.ToComplete(avatar.value))
                 }
                 is SetupReminderScreenContract.Effect.ReminderSaved -> {
-                    scheduleNotification(context, effect.reminder)
+                    scheduleNotification(effect.reminder, notificationScheduler)
                     onNavigationRequested(SetupReminderScreenContract.Effect.Navigation.NavigateBack)
                 }
                 else -> {}

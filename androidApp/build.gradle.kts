@@ -34,6 +34,8 @@ android {
 dependencies {
     implementation(project(":sharedLib"))
     implementation(project(":androidApp:common"))
+    implementation(project(":androidApp:notifications"))
+
     implementation(project(":androidApp:feature-home-screen"))
     implementation(project(":androidApp:feature-user-registration"))
     implementation(project(":androidApp:feature-add-pet"))

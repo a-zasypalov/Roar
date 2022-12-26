@@ -1,7 +1,9 @@
 package com.gaoyun.roar.android
 
 import android.app.Application
-import com.gaoyun.feature_create_reminder.notification.ReminderBroadcastReceiverHelper
+import androidx.core.app.NotificationManagerCompat
+import androidx.work.WorkManager
+import com.gaoyun.notifications.*
 import com.gaoyun.roar.initKoin
 import com.gaoyun.roar.presentation.add_pet.avatar.AddPetAvatarScreenViewModel
 import com.gaoyun.roar.presentation.add_pet.data.AddPetDataScreenViewModel
@@ -18,6 +20,8 @@ import com.gaoyun.roar.presentation.user_screen.UserScreenViewModel
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger
 import org.koin.androidx.viewmodel.dsl.viewModel
+import org.koin.androidx.workmanager.dsl.worker
+import org.koin.androidx.workmanager.koin.workManagerFactory
 import org.koin.core.logger.Level
 import org.koin.dsl.module
 
@@ -29,7 +33,8 @@ class RoarApp : Application() {
         initKoin {
             androidLogger(if (BuildConfig.DEBUG) Level.ERROR else Level.NONE)
             androidContext(this@RoarApp)
-            modules(appModule, broadcastModule)
+            modules(appModule, notificationsModule)
+            workManagerFactory()
         }
     }
 }
@@ -52,6 +57,12 @@ val appModule = module {
     viewModel { AddReminderCompleteScreenViewModel() }
 }
 
-val broadcastModule = module {
-    single { ReminderBroadcastReceiverHelper() }
+val notificationsModule = module {
+    single { NotificationScheduler(get(), get()) }
+    single { WorkManager.getInstance(get()) }
+    single { NotificationManagerCompat.from(get()) }
+    single { NotificationChannelProvider(get()) }
+    single { NotificationDisplayer(get(), get(), get()) }
+    single { NotificationHandler(get()) }
+    worker { NotificationWorker(get(), get()) }
 }

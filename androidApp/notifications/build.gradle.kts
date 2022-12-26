@@ -4,15 +4,23 @@ plugins {
 }
 
 android {
-    namespace = "com.gaoyun.feature_create_reminder"
+    namespace = "com.gaoyun.notifications"
     compileSdk = 33
 
     defaultConfig {
         minSdk = 26
         targetSdk = 33
+
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+        consumerProguardFiles("consumer-rules.pro")
     }
 
+    buildTypes {
+        release {
+            isMinifyEnabled = false
+            proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
+        }
+    }
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_1_8
         targetCompatibility = JavaVersion.VERSION_1_8
@@ -20,15 +28,8 @@ android {
     kotlinOptions {
         jvmTarget = "1.8"
     }
-    buildFeatures {
-        compose = true
-    }
-    composeOptions {
-        kotlinCompilerExtensionVersion = "1.3.0"
-    }
 }
 
 dependencies {
     implementation(project(":androidApp:common"))
-    implementation(project(":androidApp:notifications"))
 }

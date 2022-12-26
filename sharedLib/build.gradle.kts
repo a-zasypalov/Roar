@@ -41,8 +41,9 @@ kotlin {
                 implementation("io.ktor:ktor-client-serialization:$ktorVersion")
                 implementation("io.ktor:ktor-client-logging:$ktorVersion")
                 implementation("io.insert-koin:koin-core:$koinVersion")
-                implementation("org.jetbrains.kotlinx:kotlinx-datetime:0.3.2")
-                implementation("com.squareup.sqldelight:runtime:1.5.3")
+                implementation("androidx.work:work-runtime-ktx:2.7.1")
+                implementation("org.jetbrains.kotlinx:kotlinx-datetime:0.4.0")
+                implementation("com.squareup.sqldelight:runtime:1.5.4")
             }
         }
         val commonTest by getting {
@@ -60,8 +61,8 @@ kotlin {
             dependencies {
                 implementation("io.insert-koin:koin-android:$koinVersion")
                 implementation("io.ktor:ktor-client-okhttp:$ktorVersion")
-                implementation("com.squareup.okhttp3:logging-interceptor:4.9.1")
-                implementation("com.squareup.sqldelight:android-driver:1.5.3")
+                implementation("com.squareup.okhttp3:logging-interceptor:4.10.0")
+                implementation("com.squareup.sqldelight:android-driver:1.5.4")
 
                 val composeVersion = "1.1.1"
                 implementation("androidx.compose.ui:ui:$composeVersion")

@@ -125,9 +125,11 @@ private fun Header(
             )
 
             IconButton(onClick = onUserButtonButtonClick, modifier = Modifier.padding(top = 12.dp)) {
-                Icon(Icons.Default.Person, contentDescription = "", modifier = Modifier
-                    .fillMaxSize()
-                    .padding(4.dp))
+                Icon(
+                    Icons.Default.Person, contentDescription = "", modifier = Modifier
+                        .fillMaxSize()
+                        .padding(4.dp)
+                )
             }
         }
 
@@ -195,18 +197,19 @@ private fun PetCard(
                 }
             }
             showedInteractions.value.map { reminder ->
-                val interaction = pet.interactions.first { it.id == reminder.interactionId }
-                InteractionCard(
-                    interaction = interaction,
-                    showLastReminder = showLastReminder,
-                    elevation = 64.dp,
-                    shape = MaterialTheme.shapes.medium,
-                    onClick = onInteractionClick,
-                    onInteractionCheckClicked = onInteractionCheckClicked,
-                    modifier = Modifier
-                        .padding(start = 16.dp, end = 16.dp, bottom = 16.dp)
-                        .fillMaxWidth()
-                )
+                pet.interactions.firstOrNull { it.id == reminder.interactionId }?.let { interaction ->
+                    InteractionCard(
+                        interaction = interaction,
+                        showLastReminder = showLastReminder,
+                        elevation = 64.dp,
+                        shape = MaterialTheme.shapes.medium,
+                        onClick = onInteractionClick,
+                        onInteractionCheckClicked = onInteractionCheckClicked,
+                        modifier = Modifier
+                            .padding(start = 16.dp, end = 16.dp, bottom = 16.dp)
+                            .fillMaxWidth()
+                    )
+                }
             }
             Spacer(size = 0.dp)
         }

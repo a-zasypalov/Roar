@@ -52,18 +52,21 @@ dependencies {
     api("com.google.accompanist:accompanist-insets:0.28.0")
     api("com.google.accompanist:accompanist-systemuicontroller:0.28.0")
 
+    api("androidx.work:work-runtime-ktx:2.7.1")
+
     val koinVersion = "3.1.6"
     api("io.insert-koin:koin-android:$koinVersion")
     api("io.insert-koin:koin-android-ext:3.0.2")
     api("io.insert-koin:koin-androidx-compose:$koinVersion")
+    api("io.insert-koin:koin-androidx-workmanager:$koinVersion")
 
     api("io.coil-kt:coil:2.2.2")
     api("io.coil-kt:coil-compose:2.2.2")
 
     api("androidx.browser:browser:1.4.0")
 
-    debugApi("androidx.compose.ui:ui-tooling:1.3.1")
-    api("androidx.compose.ui:ui-tooling-preview:1.3.1")
+    debugApi("androidx.compose.ui:ui-tooling:1.3.2")
+    api("androidx.compose.ui:ui-tooling-preview:1.3.2")
 
     testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test.ext:junit:1.1.4")
