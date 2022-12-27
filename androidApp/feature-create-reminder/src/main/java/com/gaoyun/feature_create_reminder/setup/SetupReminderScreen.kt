@@ -17,10 +17,6 @@ import androidx.navigation.NavHostController
 import com.gaoyun.common.NavigationKeys.Route.ADD_REMINDER
 import com.gaoyun.common.OnLifecycleEvent
 import com.gaoyun.common.ui.*
-import com.gaoyun.notifications.NotificationScheduler
-import com.gaoyun.roar.model.domain.NotificationData
-import com.gaoyun.roar.model.domain.NotificationItem
-import com.gaoyun.roar.model.domain.Reminder
 import com.gaoyun.roar.model.domain.interactions.*
 import com.gaoyun.roar.presentation.LAUNCH_LISTEN_FOR_EFFECTS
 import com.gaoyun.roar.presentation.add_reminder.setup_reminder.SetupReminderScreenContract
@@ -30,7 +26,6 @@ import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.onEach
 import kotlinx.datetime.*
 import org.koin.androidx.compose.getViewModel
-import org.koin.androidx.compose.inject
 
 @Composable
 fun SetupReminderDestination(
@@ -42,8 +37,6 @@ fun SetupReminderDestination(
     val viewModel: SetupReminderScreenViewModel = getViewModel()
     val state = viewModel.viewState.collectAsState().value
 
-    val notificationScheduler: NotificationScheduler by inject()
-
     OnLifecycleEvent { _, event ->
         if (event == Lifecycle.Event.ON_CREATE) {
             viewModel.buildScreenState(petId = petId, templateId = templateId, interactionId = interactionId)
@@ -52,7 +45,6 @@ fun SetupReminderDestination(
 
     SetupReminderScreen(
         state = state,
-        notificationScheduler = notificationScheduler,
         effectFlow = viewModel.effect,
         onEventSent = { event -> viewModel.setEvent(event) },
         onNavigationRequested = { navigationEffect ->
@@ -66,19 +58,10 @@ fun SetupReminderDestination(
     )
 }
 
-fun scheduleNotification(reminder: Reminder, notificationScheduler: NotificationScheduler) {
-    val data = NotificationData(
-        scheduled = reminder.dateTime,
-        item = NotificationItem.Reminder(itemId = reminder.id)
-    )
-    notificationScheduler.scheduleNotification(data)
-}
-
 @Composable
 @OptIn(ExperimentalMaterial3Api::class)
 fun SetupReminderScreen(
     state: SetupReminderScreenContract.State,
-    notificationScheduler: NotificationScheduler,
     effectFlow: Flow<SetupReminderScreenContract.Effect>,
     onEventSent: (event: SetupReminderScreenContract.Event) -> Unit,
     onNavigationRequested: (navigationEffect: SetupReminderScreenContract.Effect.Navigation) -> Unit,
@@ -88,14 +71,8 @@ fun SetupReminderScreen(
     LaunchedEffect(LAUNCH_LISTEN_FOR_EFFECTS) {
         effectFlow.onEach { effect ->
             when (effect) {
-                is SetupReminderScreenContract.Effect.ReminderCreated -> {
-                    scheduleNotification(effect.reminder, notificationScheduler)
-                    onNavigationRequested(SetupReminderScreenContract.Effect.Navigation.ToComplete(avatar.value))
-                }
-                is SetupReminderScreenContract.Effect.ReminderSaved -> {
-                    scheduleNotification(effect.reminder, notificationScheduler)
-                    onNavigationRequested(SetupReminderScreenContract.Effect.Navigation.NavigateBack)
-                }
+                is SetupReminderScreenContract.Effect.ReminderCreated -> onNavigationRequested(SetupReminderScreenContract.Effect.Navigation.ToComplete(avatar.value))
+                is SetupReminderScreenContract.Effect.ReminderSaved -> onNavigationRequested(SetupReminderScreenContract.Effect.Navigation.NavigateBack)
                 else -> {}
             }
         }.collect()

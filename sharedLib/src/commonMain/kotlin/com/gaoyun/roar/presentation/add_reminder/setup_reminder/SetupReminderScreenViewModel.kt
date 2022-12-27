@@ -1,13 +1,17 @@
 package com.gaoyun.roar.presentation.add_reminder.setup_reminder
 
+import com.gaoyun.roar.domain.NotificationScheduler
 import com.gaoyun.roar.domain.interaction.GetInteraction
 import com.gaoyun.roar.domain.interaction.InsertInteraction
 import com.gaoyun.roar.domain.interaction_template.GetInteractionTemplate
 import com.gaoyun.roar.domain.pet.GetPetUseCase
 import com.gaoyun.roar.domain.reminder.InsertReminder
+import com.gaoyun.roar.model.domain.NotificationData
+import com.gaoyun.roar.model.domain.NotificationItem
 import com.gaoyun.roar.model.domain.Pet
 import com.gaoyun.roar.model.domain.interactions.*
 import com.gaoyun.roar.presentation.BaseViewModel
+import com.gaoyun.roar.util.randomUUID
 import com.gaoyun.roar.util.toLocalDate
 import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.launch
@@ -26,6 +30,7 @@ class SetupReminderScreenViewModel :
     private val insertInteraction: InsertInteraction by inject()
     private val insertReminder: InsertReminder by inject()
     private val getInteraction: GetInteraction by inject()
+    private val notificationScheduler: NotificationScheduler by inject()
 
     override fun setInitialState() = SetupReminderScreenContract.State(isLoading = true)
 
@@ -95,15 +100,23 @@ class SetupReminderScreenViewModel :
                     group = group,
                     repeatConfig = repeatConfig
                 ).withoutReminders()
-            ).collect { interaction ->
-                insertReminder.insertReminder(
-                    interactionToEdit.reminders.filter { !it.isCompleted }.maxBy { it.dateTime }.copy(dateTime = dateTime)
-                ).collect { reminder ->
-                    setEffect { SetupReminderScreenContract.Effect.ReminderSaved(reminder) }
-                }
+            ).firstOrNull() ?: return@launch
+            val reminderToInsert = interactionToEdit.reminders.filter { !it.isCompleted }.maxBy { it.dateTime }.copy(dateTime = dateTime)
+
+            val notificationData = NotificationData(
+                scheduled = reminderToInsert.dateTime,
+                item = NotificationItem.Reminder(
+                    workId = reminderToInsert.notificationJobId ?: randomUUID(),
+                    itemId = reminderToInsert.id
+                )
+            )
+            notificationScheduler.scheduleNotification(notificationData)
+
+            insertReminder.insertReminder(reminderToInsert).collect { reminder ->
+                setEffect { SetupReminderScreenContract.Effect.ReminderSaved(reminder) }
             }
         } else {
-            insertInteraction.insertInteraction(
+            val interaction = insertInteraction.insertInteraction(
                 templateId = templateId,
                 petId = petId,
                 type = type.toString(),
@@ -111,10 +124,9 @@ class SetupReminderScreenViewModel :
                 group = group.toString(),
                 repeatConfig = repeatConfig,
                 notes = notes
-            ).collect { interaction ->
-                insertReminder.insertReminder(interaction.id, dateTime).collect { reminder ->
-                    setEffect { SetupReminderScreenContract.Effect.ReminderCreated(reminder, interaction) }
-                }
+            ).firstOrNull() ?: return@launch
+            insertReminder.createReminder(interaction.id, dateTime).collect { reminder ->
+                setEffect { SetupReminderScreenContract.Effect.ReminderCreated(reminder, interaction) }
             }
         }
     }

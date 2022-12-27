@@ -17,6 +17,7 @@ import com.gaoyun.roar.domain.repeat_config.RepeatConfigUseCase
 import com.gaoyun.roar.domain.user.CheckUserExistingUseCase
 import com.gaoyun.roar.domain.user.GetCurrentUserUseCase
 import com.gaoyun.roar.domain.user.RegisterUserUseCase
+import com.gaoyun.roar.migrations.MigrationsExecutor
 import com.gaoyun.roar.model.entity.RoarDatabase
 import com.gaoyun.roar.network.InteractionTemplatesApi
 import com.gaoyun.roar.network.PetsApi
@@ -77,9 +78,9 @@ val networkModule = module {
 }
 
 val dbModule = module {
-    single {
-        RoarDatabase(get<DriverFactory>().createDriver())
-    }
+    single { get<DriverFactory>().createDriver() }
+    single { RoarDatabase(get()) }
+    single { MigrationsExecutor() }
 }
 
 val preferencesModule = module {

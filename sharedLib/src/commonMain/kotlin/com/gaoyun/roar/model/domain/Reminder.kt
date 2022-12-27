@@ -8,7 +8,8 @@ data class Reminder(
     val id: String = randomUUID(),
     val interactionId: String,
     val dateTime: LocalDateTime,
-    val isCompleted: Boolean = false
+    val isCompleted: Boolean = false,
+    val notificationJobId: String? = null
 )
 
 internal fun ReminderEntity.toDomain(): Reminder {
@@ -16,6 +17,7 @@ internal fun ReminderEntity.toDomain(): Reminder {
         id = id,
         interactionId = interactionId,
         dateTime = LocalDateTime.parse(dateTime),
-        isCompleted = isCompleted
+        isCompleted = isCompleted,
+        notificationJobId = notificationJobId
     )
 }

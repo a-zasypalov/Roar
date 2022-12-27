@@ -32,7 +32,8 @@ class ReminderRepositoryImpl : ReminderRepository, KoinComponent {
             id = reminder.id,
             interactionId = reminder.interactionId,
             dateTime = reminder.dateTime.toString(),
-            isCompleted = reminder.isCompleted
+            isCompleted = reminder.isCompleted,
+            notificationJobId = reminder.notificationJobId
         )
     }
 

@@ -4,22 +4,30 @@ import androidx.core.app.NotificationManagerCompat
 import androidx.work.ExistingWorkPolicy
 import androidx.work.OneTimeWorkRequestBuilder
 import androidx.work.WorkManager
+import com.gaoyun.roar.domain.NotificationScheduler
 import com.gaoyun.roar.model.domain.NotificationData
 import com.gaoyun.roar.notification.toInputData
 import kotlinx.datetime.toJavaLocalDateTime
 import org.koin.core.component.KoinComponent
 import java.time.LocalDateTime
 import java.time.temporal.ChronoUnit
+import java.util.*
 import java.util.concurrent.TimeUnit
 
-class NotificationScheduler(
+class NotificationSchedulerImpl(
     private val workManager: WorkManager,
     private val notificationManager: NotificationManagerCompat
-) : KoinComponent {
+) : KoinComponent, NotificationScheduler {
 
-    fun scheduleNotification(data: NotificationData) {
+    override fun scheduleNotification(data: NotificationData) {
         if (!notificationManager.areNotificationsEnabled()) return
         scheduleJob(data)
+    }
+
+    override fun cancelNotification(id: String?) {
+        id?.let {
+            workManager.cancelWorkById(UUID.fromString(it))
+        }
     }
 
     private fun scheduleJob(data: NotificationData) {

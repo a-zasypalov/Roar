@@ -1,5 +1,7 @@
 package com.gaoyun.notifications
 
+import android.media.AudioAttributes
+import android.media.RingtoneManager
 import androidx.core.app.NotificationChannelCompat
 import androidx.core.app.NotificationManagerCompat
 import kotlinx.coroutines.runBlocking
@@ -24,6 +26,14 @@ class NotificationChannelProvider(
             NotificationChannelCompat.Builder(channel.id, NotificationManagerCompat.IMPORTANCE_HIGH)
                 .setName(title)
                 .setShowBadge(false)
+                .setVibrationEnabled(true)
+                .setSound(
+                    RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION),
+                    AudioAttributes.Builder()
+                        .setContentType(AudioAttributes.CONTENT_TYPE_SONIFICATION)
+                        .setUsage(AudioAttributes.USAGE_NOTIFICATION)
+                        .build()
+                )
                 .build()
         }
         notificationManager.createNotificationChannelsCompat(channels)

@@ -1,12 +1,18 @@
 package com.gaoyun.roar.domain.reminder
 
+import com.gaoyun.roar.domain.NotificationScheduler
 import com.gaoyun.roar.domain.interaction.GetInteraction
 import com.gaoyun.roar.domain.interaction.SetInteractionIsActive
 import com.gaoyun.roar.domain.repeat_config.RepeatConfigUseCase
+import com.gaoyun.roar.model.domain.NotificationData
+import com.gaoyun.roar.model.domain.NotificationItem
+import com.gaoyun.roar.model.domain.Reminder
 import com.gaoyun.roar.model.domain.interactions.InteractionWithReminders
 import com.gaoyun.roar.repository.ReminderRepository
+import com.gaoyun.roar.util.randomUUID
 import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.flow.flow
+import kotlinx.datetime.LocalDateTime
 import kotlinx.datetime.atTime
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
@@ -20,6 +26,7 @@ class SetReminderComplete : KoinComponent {
     private val insertReminder: InsertReminder by inject()
     private val repeatConfigUseCase: RepeatConfigUseCase by inject()
     private val setInteractionIsActive: SetInteractionIsActive by inject()
+    private val notificationScheduler: NotificationScheduler by inject()
 
     fun setComplete(id: String, complete: Boolean) = flow {
         repository.setReminderCompleted(id, complete)
@@ -35,6 +42,8 @@ class SetReminderComplete : KoinComponent {
 
     private suspend fun addNextReminder(reminderId: String): InteractionWithReminders? {
         val completedReminder = getReminder.getReminder(reminderId).firstOrNull() ?: return null
+        notificationScheduler.cancelNotification(completedReminder.notificationJobId)
+
         val interaction = getInteraction.getInteraction(completedReminder.interactionId).firstOrNull() ?: return null
 
         if (interaction.repeatConfig != null && interaction.isActive) {
@@ -43,7 +52,19 @@ class SetReminderComplete : KoinComponent {
                 interactionId = interaction.id,
                 from = completedReminder.dateTime.date
             )?.atTime(completedReminder.dateTime.hour, completedReminder.dateTime.minute)?.let { nextReminderDateTime ->
-                insertReminder.insertReminder(interaction.id, nextReminderDateTime).firstOrNull()
+                val newReminderId = randomUUID()
+                val newNotificationJobId = scheduleNextReminder(
+                    dateTime = nextReminderDateTime,
+                    reminderId = newReminderId
+                )
+                val newReminder = Reminder(
+                    id = newReminderId,
+                    interactionId = interaction.id,
+                    dateTime = nextReminderDateTime,
+                    notificationJobId = newNotificationJobId
+                )
+
+                insertReminder.insertReminder(newReminder).firstOrNull()
             } ?: setInteractionIsActive.setInteractionIsActive(interaction.id, isActive = false).firstOrNull()
         }
 
@@ -58,9 +79,22 @@ class SetReminderComplete : KoinComponent {
 
         reminderToDelete?.let { removeReminder.removeReminder(it.id).firstOrNull() }
 
+        notificationScheduler.cancelNotification(reminderToDelete?.notificationJobId)
+
         return getNewInteractionState(uncompletedReminder.interactionId)
     }
 
     private suspend fun getNewInteractionState(interactionId: String) = getInteraction.getInteractionWithReminders(interactionId).firstOrNull()
 
+    private fun scheduleNextReminder(dateTime: LocalDateTime, reminderId: String): String {
+        val notificationData = NotificationData(
+            scheduled = dateTime,
+            item = NotificationItem.Reminder(
+                itemId = reminderId
+            )
+        )
+        notificationScheduler.scheduleNotification(notificationData)
+
+        return notificationData.item.workId
+    }
 }

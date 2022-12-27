@@ -2,7 +2,8 @@ CREATE TABLE ReminderEntity (
 id TEXT NOT NULL PRIMARY KEY,
 interactionId TEXT NOT NULL,
 dateTime TEXT NOT NULL,
-isCompleted INTEGER AS Boolean NOT NULL DEFAULT 0
+isCompleted INTEGER AS Boolean NOT NULL DEFAULT 0,
+notificationJobId TEXT
 );
 
 selectById:
@@ -12,7 +13,7 @@ selectByInteraction:
 SELECT * FROM ReminderEntity WHERE interactionId = ?;
 
 insertReminder:
-INSERT OR REPLACE INTO ReminderEntity(id, interactionId, dateTime, isCompleted) VALUES (?, ?, ?, ?);
+INSERT OR REPLACE INTO ReminderEntity(id, interactionId, dateTime, isCompleted, notificationJobId) VALUES (?, ?, ?, ?, ?);
 
 deleteReminderById:
 DELETE FROM ReminderEntity WHERE id = ?;

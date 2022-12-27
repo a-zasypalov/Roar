@@ -4,7 +4,9 @@ import android.app.Application
 import androidx.core.app.NotificationManagerCompat
 import androidx.work.WorkManager
 import com.gaoyun.notifications.*
+import com.gaoyun.roar.domain.NotificationScheduler
 import com.gaoyun.roar.initKoin
+import com.gaoyun.roar.migrations.MigrationsExecutor
 import com.gaoyun.roar.presentation.add_pet.avatar.AddPetAvatarScreenViewModel
 import com.gaoyun.roar.presentation.add_pet.data.AddPetDataScreenViewModel
 import com.gaoyun.roar.presentation.add_pet.setup.AddPetSetupScreenViewModel
@@ -22,10 +24,14 @@ import org.koin.android.ext.koin.androidLogger
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.androidx.workmanager.dsl.worker
 import org.koin.androidx.workmanager.koin.workManagerFactory
+import org.koin.core.component.KoinComponent
+import org.koin.core.component.inject
 import org.koin.core.logger.Level
 import org.koin.dsl.module
 
-class RoarApp : Application() {
+class RoarApp : Application(), KoinComponent {
+
+    private val migrationsExecutor: MigrationsExecutor by inject()
 
     override fun onCreate() {
         super.onCreate()
@@ -36,6 +42,8 @@ class RoarApp : Application() {
             modules(appModule, notificationsModule)
             workManagerFactory()
         }
+
+        migrationsExecutor.migrate()
     }
 }
 
@@ -58,11 +66,12 @@ val appModule = module {
 }
 
 val notificationsModule = module {
-    single { NotificationScheduler(get(), get()) }
+    single<NotificationScheduler> { NotificationSchedulerImpl(get(), get()) }
+    single<NotificationIntentProvider> { NotificationIntentProviderImpl() }
     single { WorkManager.getInstance(get()) }
     single { NotificationManagerCompat.from(get()) }
     single { NotificationChannelProvider(get()) }
     single { NotificationDisplayer(get(), get(), get()) }
-    single { NotificationHandler(get(), get(), get()) }
+    single { NotificationHandler(get(), get(), get(), get()) }
     worker { NotificationWorker(get(), get()) }
 }
