@@ -5,9 +5,7 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
 import androidx.compose.material3.*
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -15,6 +13,7 @@ import androidx.lifecycle.Lifecycle
 import androidx.navigation.NavHostController
 import com.gaoyun.common.NavigationKeys
 import com.gaoyun.common.OnLifecycleEvent
+import com.gaoyun.common.dialog.InteractionCompletionDialog
 import com.gaoyun.common.theme.RoarTheme
 import com.gaoyun.common.ui.*
 import com.gaoyun.feature_pet_screen.view.PetContainer
@@ -31,6 +30,7 @@ import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.onEach
 import kotlinx.datetime.*
 import org.koin.androidx.compose.getViewModel
+import java.time.LocalDateTime
 import kotlin.time.Duration.Companion.hours
 
 @Composable
@@ -77,6 +77,9 @@ fun PetScreen(
     onNavigationRequested: (navigationEffect: PetScreenContract.Effect.Navigation) -> Unit,
     viewModel: PetScreenViewModel
 ) {
+    val showCompleteReminderDateDialog = remember { mutableStateOf(false) }
+    val completeReminderDateDialogDate = remember { mutableStateOf<LocalDateTime>(LocalDateTime.now()) }
+    val reminderToCompleteId = remember { mutableStateOf<String?>(null) }
 
     LaunchedEffect(LAUNCH_LISTEN_FOR_EFFECTS) {
         effectFlow.onEach { effect ->
@@ -105,6 +108,36 @@ fun PetScreen(
             )
         }
 
+        if (showCompleteReminderDateDialog.value) {
+            var currentDateTime = LocalDateTime.now().withHour(completeReminderDateDialogDate.value.hour)
+            currentDateTime = currentDateTime.withMinute(completeReminderDateDialogDate.value.minute)
+
+            InteractionCompletionDialog(
+                showCompleteReminderDateDialog = showCompleteReminderDateDialog,
+                dateTime = completeReminderDateDialogDate.value,
+                onConfirmButtonClick = {
+                    showCompleteReminderDateDialog.value = false
+                    onEventSent(
+                        PetScreenContract.Event.OnInteractionCheckClicked(
+                            reminderId = reminderToCompleteId.value ?: "",
+                            completed = true,
+                            completionDateTime = currentDateTime.toKotlinLocalDateTime(),
+                        )
+                    )
+                },
+                onDismissButtonClick = {
+                    showCompleteReminderDateDialog.value = false
+                    onEventSent(
+                        PetScreenContract.Event.OnInteractionCheckClicked(
+                            reminderId = reminderToCompleteId.value ?: "",
+                            completed = true,
+                            completionDateTime = completeReminderDateDialogDate.value.toKotlinLocalDateTime(),
+                        )
+                    )
+                }
+            )
+        }
+
         BoxWithLoader(isLoading = state.isLoading) {
             state.pet?.let { pet ->
                 PetContainer(
@@ -114,13 +147,19 @@ fun PetScreen(
                     onDeletePetClick = { onEventSent(PetScreenContract.Event.OnDeletePetClicked) },
                     onEditPetClick = { onNavigationRequested(PetScreenContract.Effect.Navigation.ToEditPet(pet = pet)) },
                     onInteractionCheckClicked = { reminderId, completed, completionDateTime ->
-                        onEventSent(
-                            PetScreenContract.Event.OnInteractionCheckClicked(
-                                reminderId,
-                                completed,
-                                completionDateTime.toKotlinLocalDateTime()
+                        if (completed) {
+                            reminderToCompleteId.value = reminderId
+                            completeReminderDateDialogDate.value = completionDateTime
+                            showCompleteReminderDateDialog.value = true
+                        } else {
+                            onEventSent(
+                                PetScreenContract.Event.OnInteractionCheckClicked(
+                                    reminderId,
+                                    false,
+                                    completionDateTime.toKotlinLocalDateTime()
+                                )
                             )
-                        )
+                        }
                     },
                     modifier = Modifier
                         .verticalScroll(rememberScrollState())

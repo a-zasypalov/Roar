@@ -15,9 +15,9 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.Lifecycle
 import androidx.navigation.NavHostController
 import com.gaoyun.common.DateUtils
-import com.gaoyun.common.DateUtils.ddMmmDateFormatter
 import com.gaoyun.common.NavigationKeys
 import com.gaoyun.common.OnLifecycleEvent
+import com.gaoyun.common.dialog.InteractionCompletionDialog
 import com.gaoyun.common.ui.*
 import com.gaoyun.roar.presentation.LAUNCH_LISTEN_FOR_EFFECTS
 import com.gaoyun.roar.presentation.interactions.InteractionScreenContract
@@ -185,41 +185,31 @@ fun InteractionScreen(
         }
 
         if (showCompleteReminderDateDialog.value) {
-            val date = completeReminderDateDialogDate.value.format(ddMmmDateFormatter)
             var currentDateTime = LocalDateTime.now().withHour(completeReminderDateDialogDate.value.hour)
             currentDateTime = currentDateTime.withMinute(completeReminderDateDialogDate.value.minute)
 
-            AlertDialog(
-                onDismissRequest = { showCompleteReminderDateDialog.value = false },
-                title = { Text("When was it completed?") },
-                text = { Text("Was the interaction completed today or according its date on $date?") },
-                confirmButton = {
-                    TextButton(onClick = {
-                        showCompleteReminderDateDialog.value = false
-                        onEventSent(
-                            InteractionScreenContract.Event.OnReminderCompleteClick(
-                                reminderId = reminderToCompleteId.value ?: "",
-                                isComplete = true,
-                                completionDateTime = currentDateTime.toKotlinLocalDateTime()
-                            )
+            InteractionCompletionDialog(
+                showCompleteReminderDateDialog = showCompleteReminderDateDialog,
+                dateTime = completeReminderDateDialogDate.value,
+                onConfirmButtonClick = {
+                    showCompleteReminderDateDialog.value = false
+                    onEventSent(
+                        InteractionScreenContract.Event.OnReminderCompleteClick(
+                            reminderId = reminderToCompleteId.value ?: "",
+                            isComplete = true,
+                            completionDateTime = currentDateTime.toKotlinLocalDateTime()
                         )
-                    }) {
-                        Text("Today")
-                    }
+                    )
                 },
-                dismissButton = {
-                    TextButton(onClick = {
-                        showCompleteReminderDateDialog.value = false
-                        onEventSent(
-                            InteractionScreenContract.Event.OnReminderCompleteClick(
-                                reminderId = reminderToCompleteId.value ?: "",
-                                isComplete = true,
-                                completionDateTime = completeReminderDateDialogDate.value.toKotlinLocalDateTime()
-                            )
+                onDismissButtonClick = {
+                    showCompleteReminderDateDialog.value = false
+                    onEventSent(
+                        InteractionScreenContract.Event.OnReminderCompleteClick(
+                            reminderId = reminderToCompleteId.value ?: "",
+                            isComplete = true,
+                            completionDateTime = completeReminderDateDialogDate.value.toKotlinLocalDateTime()
                         )
-                    }) {
-                        Text("On $date")
-                    }
+                    )
                 }
             )
         }

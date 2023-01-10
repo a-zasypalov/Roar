@@ -4,14 +4,13 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FabPosition
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.*
 import androidx.compose.ui.window.Dialog
 import androidx.lifecycle.Lifecycle
 import androidx.navigation.NavHostController
 import com.gaoyun.common.NavigationKeys
 import com.gaoyun.common.OnLifecycleEvent
+import com.gaoyun.common.dialog.InteractionCompletionDialog
 import com.gaoyun.common.ui.BoxWithLoader
 import com.gaoyun.common.ui.RoarExtendedFloatingActionButton
 import com.gaoyun.common.ui.SurfaceScaffold
@@ -19,13 +18,17 @@ import com.gaoyun.feature_home_screen.states.HomeState
 import com.gaoyun.feature_home_screen.states.NoPetsState
 import com.gaoyun.feature_home_screen.states.NoUserState
 import com.gaoyun.feature_home_screen.view.InteractionPetChooser
+import com.gaoyun.roar.model.domain.PetWithInteractions
 import com.gaoyun.roar.presentation.LAUNCH_LISTEN_FOR_EFFECTS
 import com.gaoyun.roar.presentation.home_screen.HomeScreenContract
 import com.gaoyun.roar.presentation.home_screen.HomeScreenViewModel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.onEach
+import kotlinx.datetime.toJavaLocalDateTime
+import kotlinx.datetime.toKotlinLocalDateTime
 import org.koin.androidx.compose.getViewModel
+import java.time.LocalDateTime
 
 @Composable
 fun HomeScreenDestination(navHostController: NavHostController) {
@@ -54,7 +57,7 @@ fun HomeScreenDestination(navHostController: NavHostController) {
                 is HomeScreenContract.Effect.Navigation.NavigateBack -> navHostController.popBackStack()
             }
         },
-        viewModel = viewModel
+        viewModel = viewModel,
     )
 
 }
@@ -68,6 +71,11 @@ fun HomeScreen(
     onNavigationRequested: (navigationEffect: HomeScreenContract.Effect.Navigation) -> Unit,
     viewModel: HomeScreenViewModel,
 ) {
+    val showCompleteReminderDateDialog = remember { mutableStateOf(false) }
+    val completeReminderDateDialogDate = remember { mutableStateOf<LocalDateTime>(LocalDateTime.now()) }
+    val reminderToCompleteId = remember { mutableStateOf<String?>(null) }
+    val petToComplete = remember { mutableStateOf<PetWithInteractions?>(null) }
+
     LaunchedEffect(LAUNCH_LISTEN_FOR_EFFECTS) {
         effectFlow.onEach { effect ->
             when (effect) {
@@ -105,6 +113,42 @@ fun HomeScreen(
             }
         }
 
+        if (showCompleteReminderDateDialog.value) {
+            var currentDateTime = LocalDateTime.now().withHour(completeReminderDateDialogDate.value.hour)
+            currentDateTime = currentDateTime.withMinute(completeReminderDateDialogDate.value.minute)
+
+            InteractionCompletionDialog(
+                showCompleteReminderDateDialog = showCompleteReminderDateDialog,
+                dateTime = completeReminderDateDialogDate.value,
+                onConfirmButtonClick = {
+                    showCompleteReminderDateDialog.value = false
+                    petToComplete.value?.let { pet ->
+                        onEventSent(
+                            HomeScreenContract.Event.OnInteractionCheckClicked(
+                                reminderId = reminderToCompleteId.value ?: "",
+                                completed = true,
+                                completionDateTime = currentDateTime.toKotlinLocalDateTime(),
+                                pet = pet
+                            )
+                        )
+                    }
+                },
+                onDismissButtonClick = {
+                    showCompleteReminderDateDialog.value = false
+                    petToComplete.value?.let { pet ->
+                        onEventSent(
+                            HomeScreenContract.Event.OnInteractionCheckClicked(
+                                reminderId = reminderToCompleteId.value ?: "",
+                                completed = true,
+                                completionDateTime = completeReminderDateDialogDate.value.toKotlinLocalDateTime(),
+                                pet = pet
+                            )
+                        )
+                    }
+                }
+            )
+        }
+
         BoxWithLoader(isLoading = state.isLoading) {
             state.user?.let { user ->
                 if (state.pets.isNotEmpty()) {
@@ -118,14 +162,21 @@ fun HomeScreen(
                         onDeletePetClick = { pet -> onEventSent(HomeScreenContract.Event.OnDeletePetClicked(pet)) },
                         onEditPetClick = { pet -> onNavigationRequested(HomeScreenContract.Effect.Navigation.ToEditPet(pet = pet)) },
                         onInteractionCheckClicked = { pet, reminderId, completed, completionDateTime ->
-                            onEventSent(
-                                HomeScreenContract.Event.OnInteractionCheckClicked(
-                                    pet,
-                                    reminderId,
-                                    completed,
-                                    completionDateTime
+                            if (completed) {
+                                petToComplete.value = pet
+                                reminderToCompleteId.value = reminderId
+                                completeReminderDateDialogDate.value = completionDateTime.toJavaLocalDateTime()
+                                showCompleteReminderDateDialog.value = true
+                            } else {
+                                onEventSent(
+                                    HomeScreenContract.Event.OnInteractionCheckClicked(
+                                        reminderId = reminderId,
+                                        completed = false,
+                                        completionDateTime = completionDateTime,
+                                        pet = pet
+                                    )
                                 )
-                            )
+                            }
                         },
                         onUserDetailsClick = { onNavigationRequested(HomeScreenContract.Effect.Navigation.ToUserScreen) }
                     )
