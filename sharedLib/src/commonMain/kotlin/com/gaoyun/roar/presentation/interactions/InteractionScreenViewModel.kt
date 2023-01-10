@@ -11,6 +11,7 @@ import com.gaoyun.roar.model.domain.interactions.withoutReminders
 import com.gaoyun.roar.presentation.BaseViewModel
 import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.launch
+import kotlinx.datetime.LocalDateTime
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 
@@ -31,13 +32,16 @@ class InteractionScreenViewModel :
     override fun handleEvents(event: InteractionScreenContract.Event) {
         when (event) {
             is InteractionScreenContract.Event.OnSaveNotes -> saveNoteState(event.notes)
-            is InteractionScreenContract.Event.OnReminderCompleteClick -> setReminderComplete(event.reminderId, event.isComplete)
+            is InteractionScreenContract.Event.OnReminderCompleteClick -> setReminderComplete(event.reminderId, event.isComplete, event.completionDateTime)
             is InteractionScreenContract.Event.OnReminderRemoveFromHistoryClick -> {
                 if (event.confirmed) {
                     removeReminderFromHistory(event.reminderId)
                 } else {
                     setEffect { InteractionScreenContract.Effect.ShowRemoveReminderFromHistoryDialog(event.reminderId) }
                 }
+            }
+            is InteractionScreenContract.Event.OnCompleteReminderNotTodayClick -> {
+                setEffect { InteractionScreenContract.Effect.ShowCompleteReminderDialog(event.reminderId, event.date) }
             }
             is InteractionScreenContract.Event.OnActivateButtonClick -> setInteractionIsActive(event.interactionId, event.activate)
             is InteractionScreenContract.Event.OnDeleteButtonClick -> {
@@ -64,8 +68,8 @@ class InteractionScreenViewModel :
         }
     }
 
-    private fun setReminderComplete(reminderId: String, isComplete: Boolean) = scope.launch {
-        setReminderComplete.setComplete(reminderId, isComplete).collect {
+    private fun setReminderComplete(reminderId: String, isComplete: Boolean, completionDateTime: LocalDateTime) = scope.launch {
+        setReminderComplete.setComplete(reminderId, isComplete, completionDateTime).collect {
             it?.let { interaction -> setState { copy(interaction = interaction) } }
         }
     }

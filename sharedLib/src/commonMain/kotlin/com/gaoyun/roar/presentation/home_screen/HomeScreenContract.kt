@@ -5,6 +5,7 @@ import com.gaoyun.roar.model.domain.User
 import com.gaoyun.roar.presentation.ViewEvent
 import com.gaoyun.roar.presentation.ViewSideEffect
 import com.gaoyun.roar.presentation.ViewState
+import kotlinx.datetime.LocalDateTime
 
 class HomeScreenContract {
 
@@ -14,7 +15,7 @@ class HomeScreenContract {
         class InteractionClicked(val petId: String, val interactionId: String) : Event()
         class OnDeletePetClicked(val pet: PetWithInteractions) : Event()
         class OnDeletePetConfirmed(val pet: PetWithInteractions) : Event()
-        class OnInteractionCheckClicked(val pet: PetWithInteractions, val reminderId: String, val completed: Boolean) : Event()
+        class OnInteractionCheckClicked(val pet: PetWithInteractions, val reminderId: String, val completed: Boolean, val completionDateTime: LocalDateTime) : Event()
     }
 
     data class State(

@@ -16,6 +16,7 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.launch
+import kotlinx.datetime.LocalDateTime
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 
@@ -51,7 +52,7 @@ class HomeScreenViewModel :
                 delay(250)
                 removePet.removePet(event.pet.id).collect { checkUserRegistered() }
             }
-            is HomeScreenContract.Event.OnInteractionCheckClicked -> setReminderComplete(event.pet, event.reminderId, event.completed)
+            is HomeScreenContract.Event.OnInteractionCheckClicked -> setReminderComplete(event.pet, event.reminderId, event.completed, event.completionDateTime)
         }
     }
 
@@ -89,8 +90,8 @@ class HomeScreenViewModel :
         }
     }
 
-    private fun setReminderComplete(pet: PetWithInteractions, reminderId: String, isComplete: Boolean) = scope.launch {
-        setReminderComplete.setComplete(reminderId, isComplete).collect {
+    private fun setReminderComplete(pet: PetWithInteractions, reminderId: String, isComplete: Boolean, completionDateTime: LocalDateTime) = scope.launch {
+        setReminderComplete.setComplete(reminderId, isComplete, completionDateTime).collect {
             it?.let { interaction ->
                 setState {
                     copy(

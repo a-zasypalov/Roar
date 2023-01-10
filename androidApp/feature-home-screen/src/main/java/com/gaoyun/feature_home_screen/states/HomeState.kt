@@ -27,6 +27,8 @@ import com.gaoyun.feature_pet_screen.view.InteractionCard
 import com.gaoyun.feature_pet_screen.view.PetContainer
 import com.gaoyun.roar.model.domain.PetWithInteractions
 import com.gaoyun.roar.model.domain.User
+import kotlinx.datetime.LocalDateTime
+import kotlinx.datetime.toKotlinLocalDateTime
 
 @Composable
 fun HomeState(
@@ -38,7 +40,7 @@ fun HomeState(
     onInteractionClick: (petId: String, interactionId: String) -> Unit,
     onDeletePetClick: (PetWithInteractions) -> Unit,
     onEditPetClick: (PetWithInteractions) -> Unit,
-    onInteractionCheckClicked: (pet: PetWithInteractions, interactionId: String, isChecked: Boolean) -> Unit,
+    onInteractionCheckClicked: (pet: PetWithInteractions, interactionId: String, isChecked: Boolean, completionDateTime: LocalDateTime) -> Unit,
     onUserDetailsClick: () -> Unit
 ) {
     LazyColumn(
@@ -71,7 +73,7 @@ fun HomeState(
                     onInteractionClick = { interactionId -> onInteractionClick(pet.id, interactionId) },
                     onDeletePetClick = { onDeletePetClick(pet) },
                     onEditPetClick = { onEditPetClick(pet) },
-                    onInteractionCheckClicked = { interactionId, isChecked -> onInteractionCheckClicked(pet, interactionId, isChecked) },
+                    onInteractionCheckClicked = { interactionId, isChecked, completionDateTime -> onInteractionCheckClicked(pet, interactionId, isChecked, completionDateTime.toKotlinLocalDateTime()) },
                     modifier = Modifier
                         .padding(start = 8.dp, end = 8.dp)
                         .fillMaxWidth()
@@ -93,7 +95,7 @@ fun HomeState(
                     onPetCardClick = onPetCardClick,
                     showLastReminder = showLastReminder,
                     onInteractionClick = { interactionId -> onInteractionClick(pet.id, interactionId) },
-                    onInteractionCheckClicked = { interactionId, isChecked -> onInteractionCheckClicked(pet, interactionId, isChecked) }
+                    onInteractionCheckClicked = { interactionId, isChecked, completionDateTime -> onInteractionCheckClicked(pet, interactionId, isChecked, completionDateTime.toKotlinLocalDateTime()) }
                 )
             }
 
@@ -149,7 +151,7 @@ private fun PetCard(
     showLastReminder: Boolean,
     onPetCardClick: (petId: String) -> Unit,
     onInteractionClick: (String) -> Unit,
-    onInteractionCheckClicked: (String, Boolean) -> Unit,
+    onInteractionCheckClicked: (String, Boolean, java.time.LocalDateTime) -> Unit,
 ) {
     val context = LocalContext.current
     val showedInteractions = remember {
@@ -220,6 +222,6 @@ private fun PetCard(
 @Composable
 fun HomeStatePreview() {
     RoarTheme {
-        HomeState(User(name = "Tester"), emptyList(), false, {}, {}, { _, _ -> }, {}, {}, { _, _, _ -> }, {})
+        HomeState(User(name = "Tester"), emptyList(), false, {}, {}, { _, _ -> }, {}, {}, { _, _, _, _ -> }, {})
     }
 }

@@ -34,7 +34,7 @@ fun InteractionCard(
     elevation: Dp,
     shape: Shape,
     onClick: (String) -> Unit,
-    onInteractionCheckClicked: (String, Boolean) -> Unit,
+    onInteractionCheckClicked: (String, Boolean, java.time.LocalDateTime) -> Unit,
     modifier: Modifier = Modifier,
 ) {
 
@@ -122,7 +122,7 @@ fun InteractionCard(
                     verticalPadding = 16.dp,
                     horizontalPadding = 20.dp,
                     spacerSize = 16.dp,
-                    onCheckedChange = { onInteractionCheckClicked(reminderToShow.id, it) }
+                    onCheckedChange = { onInteractionCheckClicked(reminderToShow.id, it, reminderToShow.dateTime.toJavaLocalDateTime()) }
                 )
 
                 interaction.reminders

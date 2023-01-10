@@ -117,12 +117,13 @@ fun HomeScreen(
                         onInteractionClick = { petId, interactionId -> onEventSent(HomeScreenContract.Event.InteractionClicked(petId, interactionId)) },
                         onDeletePetClick = { pet -> onEventSent(HomeScreenContract.Event.OnDeletePetClicked(pet)) },
                         onEditPetClick = { pet -> onNavigationRequested(HomeScreenContract.Effect.Navigation.ToEditPet(pet = pet)) },
-                        onInteractionCheckClicked = { pet, reminderId, completed ->
+                        onInteractionCheckClicked = { pet, reminderId, completed, completionDateTime ->
                             onEventSent(
                                 HomeScreenContract.Event.OnInteractionCheckClicked(
                                     pet,
                                     reminderId,
-                                    completed
+                                    completed,
+                                    completionDateTime
                                 )
                             )
                         },

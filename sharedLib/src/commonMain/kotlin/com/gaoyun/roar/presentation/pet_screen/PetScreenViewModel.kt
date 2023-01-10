@@ -8,6 +8,7 @@ import com.gaoyun.roar.presentation.BaseViewModel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
+import kotlinx.datetime.LocalDateTime
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 
@@ -42,7 +43,7 @@ class PetScreenViewModel :
                         .collect { setEffect { it } }
                 }
             }
-            is PetScreenContract.Event.OnInteractionCheckClicked -> setReminderComplete(event.reminderId, event.completed)
+            is PetScreenContract.Event.OnInteractionCheckClicked -> setReminderComplete(event.reminderId, event.completed, event.completionDateTime)
         }
     }
 
@@ -58,8 +59,8 @@ class PetScreenViewModel :
         setState { copy(deletePetDialogShow = false) }
     }
 
-    private fun setReminderComplete(reminderId: String, isComplete: Boolean) = scope.launch {
-        setReminderComplete.setComplete(reminderId, isComplete).collect {
+    private fun setReminderComplete(reminderId: String, isComplete: Boolean, completionDateTime: LocalDateTime) = scope.launch {
+        setReminderComplete.setComplete(reminderId, isComplete, completionDateTime).collect {
             it?.let { interaction ->
                 setState {
                     copy(interactions = viewState.value.interactions.toMutableList().apply {

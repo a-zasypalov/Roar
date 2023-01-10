@@ -3,6 +3,7 @@ package com.gaoyun.roar.repository
 import com.gaoyun.roar.model.domain.Reminder
 import com.gaoyun.roar.model.domain.toDomain
 import com.gaoyun.roar.model.entity.RoarDatabase
+import kotlinx.datetime.LocalDateTime
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 
@@ -10,7 +11,7 @@ interface ReminderRepository {
     fun insertReminder(reminder: Reminder)
     fun getReminder(id: String): Reminder?
     fun getRemindersByInteraction(interactionId: String): List<Reminder>
-    fun setReminderCompleted(reminderId: String, complete: Boolean)
+    fun setReminderCompleted(reminderId: String, complete: Boolean, completionDateTime: LocalDateTime)
     fun deleteReminder(id: String)
     fun deleteReminderByInteractionId(interactionId: String)
 }
@@ -37,9 +38,9 @@ class ReminderRepositoryImpl : ReminderRepository, KoinComponent {
         )
     }
 
-    override fun setReminderCompleted(reminderId: String, complete: Boolean) {
+    override fun setReminderCompleted(reminderId: String, complete: Boolean, completionDateTime: LocalDateTime) {
         val reminder = getReminder(reminderId) ?: return
-        insertReminder(reminder.copy(isCompleted = complete))
+        insertReminder(reminder.copy(isCompleted = complete, dateTime = completionDateTime))
     }
 
     override fun deleteReminder(id: String) {

@@ -28,8 +28,8 @@ class SetReminderComplete : KoinComponent {
     private val setInteractionIsActive: SetInteractionIsActive by inject()
     private val notificationScheduler: NotificationScheduler by inject()
 
-    fun setComplete(id: String, complete: Boolean) = flow {
-        repository.setReminderCompleted(id, complete)
+    fun setComplete(id: String, complete: Boolean, completionDateTime: LocalDateTime) = flow {
+        repository.setReminderCompleted(id, complete, completionDateTime)
 
         val newInteractionState = if (complete) {
             addNextReminder(id)

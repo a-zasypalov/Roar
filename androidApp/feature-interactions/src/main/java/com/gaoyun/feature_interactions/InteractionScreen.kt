@@ -15,6 +15,7 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.Lifecycle
 import androidx.navigation.NavHostController
 import com.gaoyun.common.DateUtils
+import com.gaoyun.common.DateUtils.ddMmmDateFormatter
 import com.gaoyun.common.NavigationKeys
 import com.gaoyun.common.OnLifecycleEvent
 import com.gaoyun.common.ui.*
@@ -28,7 +29,10 @@ import kotlinx.coroutines.flow.onEach
 import kotlinx.datetime.Clock
 import kotlinx.datetime.toJavaLocalDate
 import kotlinx.datetime.toJavaLocalDateTime
+import kotlinx.datetime.toKotlinLocalDateTime
 import org.koin.androidx.compose.getViewModel
+import java.time.LocalDate
+import java.time.LocalDateTime
 
 @Composable
 fun InteractionScreenDestination(
@@ -79,6 +83,10 @@ fun InteractionScreen(
     val showRemoveReminderFromHistoryDialog = remember { mutableStateOf(false) }
     val reminderToRemoveId = remember { mutableStateOf<String?>(null) }
 
+    val showCompleteReminderDateDialog = remember { mutableStateOf(false) }
+    val completeReminderDateDialogDate = remember { mutableStateOf<LocalDateTime>(LocalDateTime.now()) }
+    val reminderToCompleteId = remember { mutableStateOf<String?>(null) }
+
     LaunchedEffect(LAUNCH_LISTEN_FOR_EFFECTS) {
         effectFlow.onEach { effect ->
             when (effect) {
@@ -89,6 +97,11 @@ fun InteractionScreen(
                 }
                 is InteractionScreenContract.Effect.ShowRemoveInteractionDialog -> {
                     showRemoveInteractionDialog.value = true
+                }
+                is InteractionScreenContract.Effect.ShowCompleteReminderDialog -> {
+                    completeReminderDateDialogDate.value = effect.date.toJavaLocalDateTime()
+                    reminderToCompleteId.value = effect.reminderId
+                    showCompleteReminderDateDialog.value = true
                 }
                 else -> {}
             }
@@ -171,6 +184,46 @@ fun InteractionScreen(
             )
         }
 
+        if (showCompleteReminderDateDialog.value) {
+            val date = completeReminderDateDialogDate.value.format(ddMmmDateFormatter)
+            var currentDateTime = LocalDateTime.now().withHour(completeReminderDateDialogDate.value.hour)
+            currentDateTime = currentDateTime.withMinute(completeReminderDateDialogDate.value.minute)
+
+            AlertDialog(
+                onDismissRequest = { showCompleteReminderDateDialog.value = false },
+                title = { Text("When was it completed?") },
+                text = { Text("Was the interaction completed today or according its date on $date?") },
+                confirmButton = {
+                    TextButton(onClick = {
+                        showCompleteReminderDateDialog.value = false
+                        onEventSent(
+                            InteractionScreenContract.Event.OnReminderCompleteClick(
+                                reminderId = reminderToCompleteId.value ?: "",
+                                isComplete = true,
+                                completionDateTime = currentDateTime.toKotlinLocalDateTime()
+                            )
+                        )
+                    }) {
+                        Text("Today")
+                    }
+                },
+                dismissButton = {
+                    TextButton(onClick = {
+                        showCompleteReminderDateDialog.value = false
+                        onEventSent(
+                            InteractionScreenContract.Event.OnReminderCompleteClick(
+                                reminderId = reminderToCompleteId.value ?: "",
+                                isComplete = true,
+                                completionDateTime = completeReminderDateDialogDate.value.toKotlinLocalDateTime()
+                            )
+                        )
+                    }) {
+                        Text("On $date")
+                    }
+                }
+            )
+        }
+
         BoxWithLoader(isLoading = state.isLoading) {
             state.interaction?.let { interaction ->
                 state.pet?.let { pet ->
@@ -226,12 +279,19 @@ fun InteractionScreen(
                                                 horizontalPadding = 20.dp,
                                                 spacerSize = 14.dp,
                                                 onCheckedChange = { isComplete ->
-                                                    onEventSent(
-                                                        InteractionScreenContract.Event.OnReminderCompleteClick(
-                                                            reminderId = reminder.id,
-                                                            isComplete = isComplete
+                                                    if (reminder.dateTime.date.toJavaLocalDate() == LocalDate.now()) {
+                                                        onEventSent(
+                                                            InteractionScreenContract.Event.OnReminderCompleteClick(
+                                                                reminderId = reminder.id,
+                                                                isComplete = isComplete,
+                                                                completionDateTime = reminder.dateTime
+                                                            )
                                                         )
-                                                    )
+                                                    } else {
+                                                        onEventSent(
+                                                            InteractionScreenContract.Event.OnCompleteReminderNotTodayClick(reminder.id, reminder.dateTime)
+                                                        )
+                                                    }
                                                 }
                                             )
                                         }
@@ -280,7 +340,8 @@ fun InteractionScreen(
                                                         onEventSent(
                                                             InteractionScreenContract.Event.OnReminderCompleteClick(
                                                                 reminderId = reminder.id,
-                                                                isComplete = isComplete
+                                                                isComplete = isComplete,
+                                                                completionDateTime = reminder.dateTime
                                                             )
                                                         )
                                                     } else {

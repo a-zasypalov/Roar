@@ -11,6 +11,7 @@ import androidx.compose.ui.unit.dp
 import com.gaoyun.common.ui.Spacer
 import com.gaoyun.roar.model.domain.PetWithInteractions
 import com.gaoyun.roar.model.domain.withoutInteractions
+import java.time.LocalDateTime
 
 @Composable
 fun PetContainer(
@@ -19,7 +20,7 @@ fun PetContainer(
     onInteractionClick: (String) -> Unit,
     onDeletePetClick: () -> Unit,
     onEditPetClick: (String) -> Unit,
-    onInteractionCheckClicked: (String, Boolean) -> Unit,
+    onInteractionCheckClicked: (String, Boolean, LocalDateTime) -> Unit,
     modifier: Modifier = Modifier,
     isPartOfAnotherScreen: Boolean = false
 ) {

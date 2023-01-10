@@ -29,9 +29,7 @@ import com.gaoyun.roar.util.toLocalDate
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.onEach
-import kotlinx.datetime.Clock
-import kotlinx.datetime.TimeZone
-import kotlinx.datetime.toLocalDateTime
+import kotlinx.datetime.*
 import org.koin.androidx.compose.getViewModel
 import kotlin.time.Duration.Companion.hours
 
@@ -115,7 +113,15 @@ fun PetScreen(
                     onInteractionClick = { onEventSent(PetScreenContract.Event.InteractionClicked(it)) },
                     onDeletePetClick = { onEventSent(PetScreenContract.Event.OnDeletePetClicked) },
                     onEditPetClick = { onNavigationRequested(PetScreenContract.Effect.Navigation.ToEditPet(pet = pet)) },
-                    onInteractionCheckClicked = { reminderId, completed -> onEventSent(PetScreenContract.Event.OnInteractionCheckClicked(reminderId, completed)) },
+                    onInteractionCheckClicked = { reminderId, completed, completionDateTime ->
+                        onEventSent(
+                            PetScreenContract.Event.OnInteractionCheckClicked(
+                                reminderId,
+                                completed,
+                                completionDateTime.toKotlinLocalDateTime()
+                            )
+                        )
+                    },
                     modifier = Modifier
                         .verticalScroll(rememberScrollState())
                         .padding(start = 8.dp, end = 8.dp)
@@ -162,7 +168,7 @@ fun PetScreenPreview() {
                     )
                 ),
                 true,
-                {}, {}, {}, { _, _ -> }
+                {}, {}, {}, { _, _, _ -> }
             )
         }
     }

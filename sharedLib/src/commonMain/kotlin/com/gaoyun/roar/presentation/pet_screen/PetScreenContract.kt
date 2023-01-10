@@ -5,6 +5,7 @@ import com.gaoyun.roar.model.domain.interactions.InteractionWithReminders
 import com.gaoyun.roar.presentation.ViewEvent
 import com.gaoyun.roar.presentation.ViewSideEffect
 import com.gaoyun.roar.presentation.ViewState
+import kotlinx.datetime.LocalDateTime
 
 class PetScreenContract {
 
@@ -13,7 +14,7 @@ class PetScreenContract {
         object OnDeletePetClicked : Event()
         class AddReminderButtonClicked(val petId: String) : Event()
         class OnDeletePetConfirmed(val petId: String) : Event()
-        class OnInteractionCheckClicked(val reminderId: String, val completed: Boolean) : Event()
+        class OnInteractionCheckClicked(val reminderId: String, val completed: Boolean, val completionDateTime: LocalDateTime) : Event()
     }
 
     data class State(

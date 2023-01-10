@@ -8,6 +8,7 @@ import com.gaoyun.roar.domain.NotificationScheduler
 import com.gaoyun.roar.model.domain.NotificationData
 import com.gaoyun.roar.notification.toInputData
 import kotlinx.datetime.toJavaLocalDateTime
+import kotlinx.datetime.toKotlinLocalDateTime
 import org.koin.core.component.KoinComponent
 import java.time.LocalDateTime
 import java.time.temporal.ChronoUnit
@@ -21,6 +22,7 @@ class NotificationSchedulerImpl(
 
     override fun scheduleNotification(data: NotificationData) {
         if (!notificationManager.areNotificationsEnabled()) return
+        if(data.scheduled < LocalDateTime.now().toKotlinLocalDateTime()) return
         scheduleJob(data)
     }
 
