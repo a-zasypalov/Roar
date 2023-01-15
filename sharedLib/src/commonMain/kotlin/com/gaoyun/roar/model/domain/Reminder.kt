@@ -3,7 +3,9 @@ package com.gaoyun.roar.model.domain
 import com.gaoyun.roar.model.entity.ReminderEntity
 import com.gaoyun.roar.util.randomUUID
 import kotlinx.datetime.LocalDateTime
+import kotlinx.serialization.Serializable
 
+@Serializable
 data class Reminder(
     val id: String = randomUUID(),
     val interactionId: String,

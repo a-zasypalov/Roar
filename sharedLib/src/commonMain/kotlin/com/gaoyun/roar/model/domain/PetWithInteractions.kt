@@ -3,8 +3,9 @@ package com.gaoyun.roar.model.domain
 import com.gaoyun.roar.model.domain.interactions.InteractionWithReminders
 import com.gaoyun.roar.util.randomUUID
 import kotlinx.datetime.LocalDate
+import kotlinx.serialization.Serializable
 
-
+@Serializable
 data class PetWithInteractions(
     val id: String = randomUUID(),
     val petType: PetType,

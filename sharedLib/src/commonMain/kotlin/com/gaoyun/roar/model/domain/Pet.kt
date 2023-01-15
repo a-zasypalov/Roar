@@ -3,8 +3,9 @@ package com.gaoyun.roar.model.domain
 import com.gaoyun.roar.model.entity.PetEntity
 import com.gaoyun.roar.util.randomUUID
 import kotlinx.datetime.LocalDate
+import kotlinx.serialization.Serializable
 
-
+@Serializable
 data class Pet(
     val id: String = randomUUID(),
     val petType: PetType,

@@ -1,5 +1,8 @@
 package com.gaoyun.roar.model.domain.interactions
 
+import kotlinx.serialization.Serializable
+
+@Serializable
 enum class InteractionType {
     DEWORMING,
     FLEES,

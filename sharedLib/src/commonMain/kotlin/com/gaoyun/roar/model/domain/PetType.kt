@@ -2,7 +2,9 @@ package com.gaoyun.roar.model.domain
 
 import com.gaoyun.roar.model.domain.PetType.Companion.CAT_STRING
 import com.gaoyun.roar.model.domain.PetType.Companion.DOG_STRING
+import kotlinx.serialization.Serializable
 
+@Serializable
 enum class PetType {
     CAT, DOG;
 

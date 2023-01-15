@@ -26,4 +26,12 @@ class RegisterUserUseCase : KoinComponent {
         prefs.setString(PreferencesKeys.CURRENT_USER_ID, newUser.id)
     }
 
+    suspend fun registerFromBackup(user: User) {
+        repository.apply {
+            deleteUsers()
+            insertUser(user)
+        }
+        prefs.setString(PreferencesKeys.CURRENT_USER_ID, user.id)
+    }
+
 }

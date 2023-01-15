@@ -3,7 +3,9 @@ package com.gaoyun.roar.model.domain.interactions
 import com.gaoyun.roar.model.domain.PetType
 import com.gaoyun.roar.model.domain.toPetType
 import com.gaoyun.roar.model.entity.InteractionTemplateEntity
+import kotlinx.serialization.Serializable
 
+@Serializable
 data class InteractionTemplate(
     val id: String,
     val petType: PetType,

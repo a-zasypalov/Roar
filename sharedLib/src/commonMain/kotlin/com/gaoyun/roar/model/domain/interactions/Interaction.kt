@@ -3,7 +3,9 @@ package com.gaoyun.roar.model.domain.interactions
 import com.gaoyun.roar.model.domain.Reminder
 import com.gaoyun.roar.model.entity.InteractionEntity
 import com.gaoyun.roar.util.randomUUID
+import kotlinx.serialization.Serializable
 
+@Serializable
 data class Interaction(
     val id: String = randomUUID(),
     val templateId: String? = null,
@@ -16,6 +18,7 @@ data class Interaction(
     val notes: String = ""
 )
 
+@Serializable
 data class InteractionWithReminders(
     val id: String = randomUUID(),
     val templateId: String? = null,

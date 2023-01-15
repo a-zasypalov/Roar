@@ -1,5 +1,7 @@
 package com.gaoyun.roar
 
+import com.gaoyun.roar.domain.backup.CreateBackupUseCase
+import com.gaoyun.roar.domain.backup.ImportBackupUseCase
 import com.gaoyun.roar.domain.interaction.GetInteraction
 import com.gaoyun.roar.domain.interaction.InsertInteraction
 import com.gaoyun.roar.domain.interaction.RemoveInteraction
@@ -69,6 +71,9 @@ val useCaseModule = module {
     single { InsertReminder() }
     single { RemoveReminder() }
     single { SetReminderComplete() }
+
+    single { CreateBackupUseCase() }
+    single { ImportBackupUseCase() }
 }
 
 val networkModule = module {

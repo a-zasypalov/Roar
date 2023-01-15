@@ -1,5 +1,8 @@
 package com.gaoyun.roar.model.domain.interactions
 
+import kotlinx.serialization.Serializable
+
+@Serializable
 data class InteractionRepeatConfig(
     val repeatsEveryNumber: Int = 1,
     val repeatsEveryPeriod: InteractionRepeatConfigEach = InteractionRepeatConfigEach.DAY,
@@ -10,6 +13,7 @@ data class InteractionRepeatConfig(
     override fun toString(): String = "${repeatsEveryNumber}_${repeatsEveryPeriod}_${repeatsEveryPeriodOn}_$ends"
 }
 
+@Serializable
 enum class InteractionRepeatConfigEach {
     YEAR, MONTH, WEEK, DAY;
 
