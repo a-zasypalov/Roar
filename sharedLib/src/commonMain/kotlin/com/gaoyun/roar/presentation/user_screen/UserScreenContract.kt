@@ -10,8 +10,8 @@ class UserScreenContract {
     sealed class Event : ViewEvent {
         object OnDeleteAccountClick : Event()
         object OnEditAccountClick : Event()
-        object OnCreateBackupClick: Event()
-        object OnUseBackupClick: Event()
+        object OnCreateBackupClick : Event()
+        data class OnUseBackup(val backupString: String, val removeOld: Boolean) : Event()
     }
 
     data class State(
@@ -20,7 +20,8 @@ class UserScreenContract {
     ) : ViewState
 
     sealed class Effect : ViewSideEffect {
-        object BackupReady: Effect()
+        object BackupReady : Effect()
+        object BackupApplied : Effect()
 
         sealed class Navigation : Effect() {
             object NavigateBack : Navigation()

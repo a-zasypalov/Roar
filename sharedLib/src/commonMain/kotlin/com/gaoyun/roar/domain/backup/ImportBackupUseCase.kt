@@ -1,8 +1,12 @@
 package com.gaoyun.roar.domain.backup
 
 import com.gaoyun.roar.domain.interaction.InsertInteraction
+import com.gaoyun.roar.domain.interaction.RemoveInteraction
 import com.gaoyun.roar.domain.pet.AddPetUseCase
+import com.gaoyun.roar.domain.pet.GetPetUseCase
+import com.gaoyun.roar.domain.pet.RemovePetUseCase
 import com.gaoyun.roar.domain.reminder.InsertReminder
+import com.gaoyun.roar.domain.user.GetCurrentUserUseCase
 import com.gaoyun.roar.domain.user.RegisterUserUseCase
 import com.gaoyun.roar.model.domain.UserWithPets
 import com.gaoyun.roar.model.domain.interactions.withoutReminders
@@ -22,9 +26,26 @@ class ImportBackupUseCase : KoinComponent {
     private val insertInteraction: InsertInteraction by inject()
     private val insertReminder: InsertReminder by inject()
 
-    fun importBackup(backupString: String) = flow {
+    private val getCurrentUserUseCase: GetCurrentUserUseCase by inject()
+    private val getPetUseCase: GetPetUseCase by inject()
+
+    private val removePetUseCase: RemovePetUseCase by inject()
+    private val removeInteraction: RemoveInteraction by inject()
+
+    fun importBackup(backupString: String, removeOld: Boolean) = flow {
         try {
             val user = Json.decodeFromString(UserWithPets.serializer(), backupString)
+
+            if (removeOld) {
+                val currentUserId = getCurrentUserUseCase.getCurrentUser().firstOrNull()?.id ?: ""
+                val petIds = getPetUseCase.getPetByUserId(currentUserId).firstOrNull() ?: listOf()
+
+                petIds.forEach {
+                    removeInteraction.removeInteractionByPet(it.id).firstOrNull()
+                    removePetUseCase.removePet(it.id).firstOrNull()
+                }
+            }
+
             registerUserUseCase.registerFromBackup(user.withoutPets())
 
             user.pets.map { pet ->

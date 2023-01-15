@@ -4,10 +4,8 @@ import com.gaoyun.roar.domain.backup.CreateBackupUseCase
 import com.gaoyun.roar.domain.backup.ImportBackupUseCase
 import com.gaoyun.roar.domain.user.GetCurrentUserUseCase
 import com.gaoyun.roar.presentation.BaseViewModel
-import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.catch
-import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
@@ -28,7 +26,7 @@ class UserScreenViewModel : BaseViewModel<UserScreenContract.Event, UserScreenCo
             is UserScreenContract.Event.OnDeleteAccountClick -> {}
             is UserScreenContract.Event.OnEditAccountClick -> {}
             is UserScreenContract.Event.OnCreateBackupClick -> createBackup()
-            is UserScreenContract.Event.OnUseBackupClick -> {}
+            is UserScreenContract.Event.OnUseBackup -> useBackup(event.backupString, event.removeOld)
         }
     }
 
@@ -46,6 +44,12 @@ class UserScreenViewModel : BaseViewModel<UserScreenContract.Event, UserScreenCo
         createBackupUseCase.createBackup().collect {
             backupState.value = it
             setEffect { UserScreenContract.Effect.BackupReady }
+        }
+    }
+
+    private fun useBackup(backupString: String, removeOld: Boolean) = scope.launch {
+        importBackupUseCase.importBackup(backupString, removeOld).collect {
+            setEffect { UserScreenContract.Effect.BackupApplied }
         }
     }
 

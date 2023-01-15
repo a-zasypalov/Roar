@@ -1,6 +1,7 @@
 package com.gaoyun.feature_user_screen
 
 import android.app.Activity.RESULT_OK
+import android.app.AlertDialog
 import android.content.Intent
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
@@ -25,10 +26,10 @@ import com.gaoyun.roar.model.domain.User
 import com.gaoyun.roar.presentation.LAUNCH_LISTEN_FOR_EFFECTS
 import com.gaoyun.roar.presentation.user_screen.UserScreenContract
 import com.gaoyun.roar.presentation.user_screen.UserScreenViewModel
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import org.koin.androidx.compose.getViewModel
-import java.io.FileDescriptor
 import java.io.FileInputStream
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
@@ -78,14 +79,36 @@ fun UserScreen(
         println("selected file URI ${it.data?.data}")
         it.data?.data?.let { uri ->
             context.contentResolver.openFileDescriptor(uri, "r")?.use { descriptor ->
-                assert(descriptor.statSize <= Int.MAX_VALUE)
-                val data = ByteArray(descriptor.statSize.toInt())
-                val fd: FileDescriptor = descriptor.fileDescriptor
-                val fileStream = FileInputStream(fd)
-                fileStream.read(data)
+                if (descriptor.statSize <= Int.MAX_VALUE) {
+                    val data = ByteArray(descriptor.statSize.toInt())
+                    FileInputStream(descriptor.fileDescriptor).use { fileStream ->
+                        fileStream.read(data)
 
-                println(data)
-                onEventSent(UserScreenContract.Event.OnUseBackupClick)
+                        AlertDialog.Builder(context)
+                            .setTitle("Replace current data?")
+                            .setMessage("We can leave current data without changes or replace it by backup completely")
+                            .setPositiveButton("Leave") { dialog, _ ->
+                                dialog.dismiss()
+                                onEventSent(
+                                    UserScreenContract.Event.OnUseBackup(
+                                        backupString = String(data),
+                                        removeOld = false
+                                    )
+                                )
+                            }
+                            .setNegativeButton("Replace") { dialog, _ ->
+                                dialog.dismiss()
+                                onEventSent(
+                                    UserScreenContract.Event.OnUseBackup(
+                                        backupString = String(data),
+                                        removeOld = true
+                                    )
+                                )
+                            }
+                            .create()
+                            .show()
+                    }
+                }
             }
         }
     }
@@ -97,6 +120,7 @@ fun UserScreen(
                     context.contentResolver.openOutputStream(uri)?.use { stream ->
                         stream.write(backupFlow.firstOrNull()?.toByteArray() ?: byteArrayOf())
                     }
+                    delay(200)
                     snackbarHostState.showSnackbar(message = "Backup saved")
                 }
             }
@@ -108,22 +132,14 @@ fun UserScreen(
             when (effect) {
                 is UserScreenContract.Effect.Navigation -> onNavigationRequested(effect)
                 is UserScreenContract.Effect.BackupReady -> coroutineScope.launch {
-                    val filename = LocalDateTime.now().format(DateTimeFormatter.ISO_DATE_TIME)
-
                     val intent = Intent(Intent.ACTION_CREATE_DOCUMENT).apply {
                         addCategory(Intent.CATEGORY_OPENABLE)
                         type = "application/json"
-                        putExtra(Intent.EXTRA_TITLE, "ROAR_Backup_$filename.json")
+                        putExtra(Intent.EXTRA_TITLE, "Roar_Backup_${LocalDateTime.now().format(DateTimeFormatter.ISO_DATE_TIME)}.json")
                     }
                     exportBackupLauncher.launch(intent)
-
-//                    val shareIntent: Intent = Intent().apply {
-//                        action = Intent.ACTION_SEND
-//                        putExtra(Intent.EXTRA_STREAM, uriToImage)
-//                        type = "image/jpeg"
-//                    }
-//                    context.startActivity(Intent.createChooser(shareIntent, null))
                 }
+                is UserScreenContract.Effect.BackupApplied -> snackbarHostState.showSnackbar(message = "Backup applied")
                 else -> {}
             }
         }.collect()
@@ -204,7 +220,10 @@ fun UserScreen(
 
                         FilledTonalButton(
                             onClick = {
-                                val intent = Intent(Intent.ACTION_OPEN_DOCUMENT).apply { addCategory(Intent.CATEGORY_OPENABLE) }
+                                val intent = Intent(Intent.ACTION_OPEN_DOCUMENT).apply {
+                                    addCategory(Intent.CATEGORY_OPENABLE)
+                                    type = "application/json"
+                                }
                                 importBackupLauncher.launch(intent)
                             },
                             modifier = Modifier
