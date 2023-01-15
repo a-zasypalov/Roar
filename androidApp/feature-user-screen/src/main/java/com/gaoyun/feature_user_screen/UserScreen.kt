@@ -1,15 +1,17 @@
 package com.gaoyun.feature_user_screen
 
+import android.app.Activity.RESULT_OK
+import android.content.Intent
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Edit
-import androidx.compose.material.icons.filled.Person
+import androidx.compose.material.icons.filled.*
 import androidx.compose.material3.*
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.Lifecycle
@@ -23,11 +25,13 @@ import com.gaoyun.roar.model.domain.User
 import com.gaoyun.roar.presentation.LAUNCH_LISTEN_FOR_EFFECTS
 import com.gaoyun.roar.presentation.user_screen.UserScreenContract
 import com.gaoyun.roar.presentation.user_screen.UserScreenViewModel
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.flow.emptyFlow
-import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.launch
 import org.koin.androidx.compose.getViewModel
+import java.io.FileDescriptor
+import java.io.FileInputStream
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
 
 @Composable
 fun UserScreenDestination(
@@ -52,6 +56,7 @@ fun UserScreenDestination(
                     navHostController.navigateUp()
             }
         },
+        backupFlow = viewModel.backupState
     )
 
 }
@@ -63,24 +68,75 @@ fun UserScreen(
     effectFlow: Flow<UserScreenContract.Effect>,
     onEventSent: (event: UserScreenContract.Event) -> Unit,
     onNavigationRequested: (navigationEffect: UserScreenContract.Effect.Navigation) -> Unit,
+    backupFlow: Flow<String>
 ) {
+    val context = LocalContext.current
+    val coroutineScope = rememberCoroutineScope()
+    val snackbarHostState = remember { SnackbarHostState() }
+
+    val importBackupLauncher = rememberLauncherForActivityResult(ActivityResultContracts.StartActivityForResult()) {
+        println("selected file URI ${it.data?.data}")
+        it.data?.data?.let { uri ->
+            context.contentResolver.openFileDescriptor(uri, "r")?.use { descriptor ->
+                assert(descriptor.statSize <= Int.MAX_VALUE)
+                val data = ByteArray(descriptor.statSize.toInt())
+                val fd: FileDescriptor = descriptor.fileDescriptor
+                val fileStream = FileInputStream(fd)
+                fileStream.read(data)
+
+                println(data)
+                onEventSent(UserScreenContract.Event.OnUseBackupClick)
+            }
+        }
+    }
+
+    val exportBackupLauncher = rememberLauncherForActivityResult(ActivityResultContracts.StartActivityForResult()) {
+        coroutineScope.launch {
+            if (it.resultCode == RESULT_OK) {
+                it.data?.data?.let { uri ->
+                    context.contentResolver.openOutputStream(uri)?.use { stream ->
+                        stream.write(backupFlow.firstOrNull()?.toByteArray() ?: byteArrayOf())
+                    }
+                    snackbarHostState.showSnackbar(message = "Backup saved")
+                }
+            }
+        }
+    }
 
     LaunchedEffect(LAUNCH_LISTEN_FOR_EFFECTS) {
         effectFlow.onEach { effect ->
             when (effect) {
                 is UserScreenContract.Effect.Navigation -> onNavigationRequested(effect)
+                is UserScreenContract.Effect.BackupReady -> coroutineScope.launch {
+                    val filename = LocalDateTime.now().format(DateTimeFormatter.ISO_DATE_TIME)
+
+                    val intent = Intent(Intent.ACTION_CREATE_DOCUMENT).apply {
+                        addCategory(Intent.CATEGORY_OPENABLE)
+                        type = "application/json"
+                        putExtra(Intent.EXTRA_TITLE, "ROAR_Backup_$filename.json")
+                    }
+                    exportBackupLauncher.launch(intent)
+
+//                    val shareIntent: Intent = Intent().apply {
+//                        action = Intent.ACTION_SEND
+//                        putExtra(Intent.EXTRA_STREAM, uriToImage)
+//                        type = "image/jpeg"
+//                    }
+//                    context.startActivity(Intent.createChooser(shareIntent, null))
+                }
                 else -> {}
             }
         }.collect()
     }
 
     SurfaceScaffold(
+        snackbarHost = { SnackbarHost(snackbarHostState) },
         floatingActionButton = {
             RoarExtendedFloatingActionButton(
                 icon = Icons.Filled.Edit,
                 contentDescription = "Edit user",
                 text = "Edit",
-                onClick = { }
+                onClick = { UserScreenContract.Event.OnEditAccountClick }
             )
         },
         floatingActionButtonPosition = FabPosition.End
@@ -109,9 +165,11 @@ fun UserScreen(
                             color = MaterialTheme.colorScheme.onSurface
                         )
 
-                        Icon(Icons.Default.Person, contentDescription = "", modifier = Modifier
-                            .size(40.dp)
-                            .padding(end = 8.dp, top = 8.dp))
+                        Icon(
+                            Icons.Default.Person, contentDescription = "", modifier = Modifier
+                                .size(40.dp)
+                                .padding(end = 8.dp, top = 8.dp)
+                        )
                     }
 
                     Spacer(size = 8.dp)
@@ -121,6 +179,43 @@ fun UserScreen(
                         style = MaterialTheme.typography.titleMedium,
                         color = MaterialTheme.colorScheme.onSurface
                     )
+
+                    Spacer(size = 32.dp)
+
+                    Text(
+                        text = "Backup",
+                        style = MaterialTheme.typography.titleLarge,
+                        color = MaterialTheme.colorScheme.onSurface
+                    )
+
+                    Spacer(size = 8.dp)
+
+                    Row(modifier = Modifier.fillMaxWidth()) {
+                        FilledTonalButton(
+                            onClick = { onEventSent(UserScreenContract.Event.OnCreateBackupClick) },
+                            modifier = Modifier
+                                .weight(1f)
+                                .padding(end = 4.dp)
+                        ) {
+                            Icon(Icons.Filled.Save, contentDescription = "")
+                            Spacer(size = 6.dp)
+                            Text("Export", style = MaterialTheme.typography.titleMedium)
+                        }
+
+                        FilledTonalButton(
+                            onClick = {
+                                val intent = Intent(Intent.ACTION_OPEN_DOCUMENT).apply { addCategory(Intent.CATEGORY_OPENABLE) }
+                                importBackupLauncher.launch(intent)
+                            },
+                            modifier = Modifier
+                                .weight(1f)
+                                .padding(start = 4.dp)
+                        ) {
+                            Icon(Icons.Filled.Download, contentDescription = "")
+                            Spacer(size = 6.dp)
+                            Text("Import", style = MaterialTheme.typography.titleMedium)
+                        }
+                    }
                 }
             }
         }
@@ -134,6 +229,7 @@ fun UserScreenPreview() {
         state = UserScreenContract.State(false, User("id", "Tester")),
         effectFlow = emptyFlow(),
         onEventSent = {},
-        onNavigationRequested = {}
+        onNavigationRequested = {},
+        backupFlow = flowOf()
     )
 }
