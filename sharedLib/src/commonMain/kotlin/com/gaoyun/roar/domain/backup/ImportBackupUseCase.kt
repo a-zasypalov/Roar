@@ -35,9 +35,9 @@ class ImportBackupUseCase : KoinComponent {
     fun importBackup(backupString: String, removeOld: Boolean) = flow {
         try {
             val user = Json.decodeFromString(UserWithPets.serializer(), backupString)
+            val currentUserId = getCurrentUserUseCase.getCurrentUser().firstOrNull()?.id ?: ""
 
             if (removeOld) {
-                val currentUserId = getCurrentUserUseCase.getCurrentUser().firstOrNull()?.id ?: ""
                 val petIds = getPetUseCase.getPetByUserId(currentUserId).firstOrNull() ?: listOf()
 
                 petIds.forEach {
@@ -46,10 +46,8 @@ class ImportBackupUseCase : KoinComponent {
                 }
             }
 
-            registerUserUseCase.registerFromBackup(user.withoutPets())
-
             user.pets.map { pet ->
-                addPetUseCase.addPet(pet.withoutInteractions()).firstOrNull()
+                addPetUseCase.addPet(pet.withoutInteractions().copy(userId = currentUserId)).firstOrNull()
                 return@map pet
             }.flatMap { pet ->
                 pet.interactions
