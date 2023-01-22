@@ -10,6 +10,7 @@ import com.gaoyun.roar.domain.interaction_template.GetInteractionTemplate
 import com.gaoyun.roar.domain.interaction_template.GetInteractionTemplatesForPetType
 import com.gaoyun.roar.domain.interaction_template.InsertInteractionTemplate
 import com.gaoyun.roar.domain.interaction_template.RemoveInteractionTemplates
+import com.gaoyun.roar.domain.onboarding.CompleteOnboardingUseCase
 import com.gaoyun.roar.domain.pet.*
 import com.gaoyun.roar.domain.reminder.GetReminder
 import com.gaoyun.roar.domain.reminder.InsertReminder
@@ -74,6 +75,7 @@ val useCaseModule = module {
 
     single { CreateBackupUseCase() }
     single { ImportBackupUseCase() }
+    single { CompleteOnboardingUseCase() }
 }
 
 val networkModule = module {

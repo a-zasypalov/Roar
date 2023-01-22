@@ -16,6 +16,7 @@ import com.gaoyun.roar.presentation.add_reminder.complete.AddReminderCompleteScr
 import com.gaoyun.roar.presentation.add_reminder.setup_reminder.SetupReminderScreenViewModel
 import com.gaoyun.roar.presentation.home_screen.HomeScreenViewModel
 import com.gaoyun.roar.presentation.interactions.InteractionScreenViewModel
+import com.gaoyun.roar.presentation.onboarding.OnboardingViewModel
 import com.gaoyun.roar.presentation.pet_screen.PetScreenViewModel
 import com.gaoyun.roar.presentation.user_register.RegisterUserViewModel
 import com.gaoyun.roar.presentation.user_screen.UserScreenViewModel
@@ -48,6 +49,7 @@ class RoarApp : Application(), KoinComponent {
 }
 
 val appModule = module {
+    viewModel { OnboardingViewModel() }
     viewModel { HomeScreenViewModel() }
     viewModel { RegisterUserViewModel() }
     viewModel { UserScreenViewModel() }

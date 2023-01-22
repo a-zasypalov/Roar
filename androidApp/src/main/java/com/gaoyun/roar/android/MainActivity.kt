@@ -35,11 +35,15 @@ import com.gaoyun.feature_onboarding.OnboardingRootScreen
 import com.gaoyun.feature_pet_screen.PetScreenDestination
 import com.gaoyun.feature_user_registration.UserRegistrationDestination
 import com.gaoyun.feature_user_screen.UserScreenDestination
+import com.gaoyun.roar.util.PreferencesKeys
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 class MainActivity : AppCompatActivity() {
+
+    private val isOnboardingComplete by lazy { this.getSharedPreferences("app_prefs", MODE_PRIVATE)
+        .getBoolean(PreferencesKeys.ONBOARDING_COMPLETE, false) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -52,7 +56,7 @@ class MainActivity : AppCompatActivity() {
 
         setContent {
             RoarTheme {
-                GlobalDestinationState()
+                GlobalDestinationState(isOnboardingComplete = isOnboardingComplete)
             }
         }
 
@@ -120,12 +124,12 @@ class MainActivity : AppCompatActivity() {
     }
 
     @Composable
-    fun GlobalDestinationState() {
+    fun GlobalDestinationState(isOnboardingComplete: Boolean) {
         val navController = rememberNavController()
 
         NavHost(
             navController = navController,
-            startDestination = NavigationKeys.Route.ONBOARDING_ROUTE,
+            startDestination = if (isOnboardingComplete) NavigationKeys.Route.HOME_ROUTE else NavigationKeys.Route.ONBOARDING_ROUTE,
         ) {
             composable(NavigationKeys.Route.ONBOARDING_ROUTE) {
                 OnboardingRootScreen(navHostController = navController)

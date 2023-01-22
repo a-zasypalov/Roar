@@ -19,10 +19,12 @@ import com.gaoyun.common.theme.RoarTheme
 import com.gaoyun.common.ui.PrimaryElevatedButton
 import com.gaoyun.common.ui.Spacer
 import com.gaoyun.common.ui.SurfaceScaffold
+import com.gaoyun.roar.presentation.onboarding.OnboardingViewModel
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.HorizontalPager
 import com.google.accompanist.pager.rememberPagerState
 import kotlinx.coroutines.launch
+import org.koin.androidx.compose.getViewModel
 
 @OptIn(ExperimentalPagerApi::class, ExperimentalMaterial3Api::class)
 @Composable
@@ -31,6 +33,8 @@ fun OnboardingRootScreen(
 ) {
     val state = rememberPagerState()
     val scope = rememberCoroutineScope()
+
+    val viewModel: OnboardingViewModel = getViewModel()
 
     SurfaceScaffold {
         Box {
@@ -73,6 +77,7 @@ fun OnboardingRootScreen(
                     PrimaryElevatedButton(
                         text = "Start",
                         onClick = {
+                            viewModel.completeOnboarding()
                             navHostController.navigate(NavigationKeys.Route.HOME_ROUTE) {
                                 popUpTo(NavigationKeys.Route.ONBOARDING_ROUTE) {
                                     inclusive = true
