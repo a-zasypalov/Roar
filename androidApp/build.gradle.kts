@@ -43,6 +43,7 @@ dependencies {
     implementation(project(":androidApp:feature-create-reminder"))
     implementation(project(":androidApp:feature-interactions"))
     implementation(project(":androidApp:feature-user-screen"))
+    implementation(project(":androidApp:feature-onboarding"))
 
     implementation("androidx.activity:activity-compose:1.6.1")
 }

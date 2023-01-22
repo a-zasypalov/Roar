@@ -183,7 +183,7 @@ fun HomeScreen(
                 } else {
                     NoPetsState(userName = user.name, viewModel::openAddPetScreen)
                 }
-            } ?: NoUserState(viewModel::openRegistration)
+            } ?: if (!state.isLoading) NoUserState(viewModel::openRegistration)
         }
     }
 }

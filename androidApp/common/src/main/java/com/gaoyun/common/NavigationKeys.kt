@@ -17,6 +17,7 @@ object NavigationKeys {
         const val ADD_PET_SETUP = "ADD_PET_SETUP"
         const val USER = "USER"
 
+        const val ONBOARDING_ROUTE = "ONBOARDING"
         const val HOME_ROUTE = "HOME"
         const val REGISTER_USER_ROUTE = "REGISTER_USER"
         const val USER_ROUTE = "$HOME_ROUTE/${USER}"
