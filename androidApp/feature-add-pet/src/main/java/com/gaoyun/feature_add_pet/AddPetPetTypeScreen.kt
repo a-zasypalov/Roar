@@ -13,10 +13,12 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import com.gaoyun.common.NavigationKeys
+import com.gaoyun.common.R
 import com.gaoyun.common.theme.RoarTheme
 import com.gaoyun.common.ui.RoarIcon
 import com.gaoyun.common.ui.SurfaceScaffold
@@ -93,7 +95,7 @@ private fun ChoosePetType(
     ) {
 
         Text(
-            text = "New pet",
+            text = stringResource(id = R.string.new_pet),
             style = MaterialTheme.typography.displayMedium,
             modifier = Modifier
                 .fillMaxWidth()

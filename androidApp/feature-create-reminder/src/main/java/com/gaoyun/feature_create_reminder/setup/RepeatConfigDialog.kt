@@ -15,6 +15,7 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.TextFieldValue
@@ -22,6 +23,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
 import com.gaoyun.common.DateUtils.ddMmmYyyyDateFormatter
+import com.gaoyun.common.R
 import com.gaoyun.common.dialog.DatePicker
 import com.gaoyun.common.ui.*
 import com.gaoyun.roar.model.domain.interactions.InteractionRepeatConfig
@@ -39,22 +41,27 @@ internal fun RepeatConfigDialog(
     val activity = LocalContext.current as AppCompatActivity
 
     val repeatsEveryNumber = rememberSaveable { mutableStateOf(repeatConfig?.repeatsEveryNumber?.toString() ?: "1") }
-    val repeatsEveryPeriod = rememberSaveable { mutableStateOf(repeatConfig?.repeatsEveryPeriod?.toString() ?: "month") }
-    val repeatsEveryPeriodsList = listOf("day", "week", "month", "year")
+    val repeatsEveryPeriod = rememberSaveable { mutableStateOf(repeatConfig?.repeatsEveryPeriod?.toString() ?: activity.getString(R.string.month)) }
+    val repeatsEveryPeriodsList = listOf(
+        stringResource(id = R.string.day),
+        stringResource(id = R.string.week),
+        stringResource(id = R.string.month),
+        stringResource(id = R.string.year)
+    )
 
     val repeatsEveryPeriodOnMothDay = rememberSaveable {
         mutableStateOf(
-            if (repeatConfig?.repeatsEveryPeriod.toString() == "month") {
-                repeatConfig?.repeatsEveryPeriodOn ?: "Day 1"
+            if (repeatConfig?.repeatsEveryPeriod.toString() == activity.getString(R.string.month)) {
+                repeatConfig?.repeatsEveryPeriodOn ?: "${activity.getString(R.string.day).replaceFirstChar { it.uppercase() }} 1"
             } else {
-                "Day 1"
+                "${activity.getString(R.string.day).replaceFirstChar { it.uppercase() }} 1"
             }
         )
     }
 
     val repeatsEveryPeriodOnWeek = remember {
         mutableStateOf(
-            if (repeatConfig?.repeatsEveryPeriod.toString() == "week") {
+            if (repeatConfig?.repeatsEveryPeriod.toString() == activity.getString(R.string.week)) {
                 val weekConfig = repeatConfig?.repeatsEveryPeriodOn?.split(",") ?: listOf()
                 mapOf(
                     DayOfWeek.MONDAY to weekConfig.contains("1"),
@@ -84,16 +91,19 @@ internal fun RepeatConfigDialog(
         mutableStateOf(
             if (endSafe.size == 2) {
                 when (endSafe[0]) {
-                    "date" -> "On date"
-                    "times" -> "After..."
-                    else -> "Never"
+                    "date" -> activity.getString(R.string.on_date)
+                    "times" -> activity.getString(R.string.after_three_dots)
+                    else -> activity.getString(R.string.never)
                 }
             } else {
-                "Never"
+                activity.getString(R.string.never)
             }
         )
     }
-    val endConditionStatesList = listOf("Never", "On date", "After...")
+    val endConditionStatesList = listOf(
+        activity.getString(R.string.never),
+        activity.getString(R.string.on_date),
+        activity.getString(R.string.after_three_dots))
 
     val endsOnDateState = remember {
         mutableStateOf(
@@ -143,7 +153,7 @@ internal fun RepeatConfigDialog(
                         .verticalScroll(rememberScrollState())
                 ) {
                     Text(
-                        text = "Repeats every",
+                        text = stringResource(id = R.string.repeats_every),
                         style = MaterialTheme.typography.displaySmall,
                         modifier = Modifier.padding(horizontal = defaultHorizontalPadding)
                     )
@@ -173,7 +183,7 @@ internal fun RepeatConfigDialog(
                     Spacer(size = 8.dp)
 
                     when (repeatsEveryPeriod.value) {
-                        "week" -> {
+                        stringResource(id = R.string.week) -> {
                             LazyRow(
                                 modifier = Modifier.fillMaxWidth(),
                                 horizontalArrangement = Arrangement.SpaceEvenly
@@ -209,12 +219,12 @@ internal fun RepeatConfigDialog(
                                 }
                             }
                         }
-                        "month" -> {
+                        stringResource(id = R.string.month) -> {
                             val days = arrayListOf<String>().apply {
                                 for (i in 1..31) {
-                                    add("Day $i")
+                                    add("${stringResource(id = R.string.day).replaceFirstChar { it.uppercase() }} $i")
                                 }
-                                add("Last Day")
+                                add(stringResource(id = R.string.last_day))
                             }
                             DropdownMenu(
                                 valueList = days,
@@ -242,7 +252,7 @@ internal fun RepeatConfigDialog(
                     DropdownMenu(
                         valueList = endConditionStatesList,
                         listState = endConditionState,
-                        label = "Ends",
+                        label = stringResource(id = R.string.ends),
                         modifier = Modifier
                             .fillMaxWidth()
                             .padding(horizontal = defaultHorizontalPadding)
@@ -251,14 +261,14 @@ internal fun RepeatConfigDialog(
                     Spacer(size = 12.dp)
 
                     when (endConditionState.value) {
-                        "On date" -> {
+                        stringResource(id = R.string.on_date) -> {
                             ReadonlyTextField(
                                 value = endsOnDateStateString.value,
                                 onValueChange = { endsOnDateStateString.value = it },
-                                label = { Text(text = "End on date") },
+                                label = { Text(text = stringResource(id = R.string.end_on_date)) },
                                 onClick = {
                                     DatePicker.pickDate(
-                                        title = "Reminder ends on",
+                                        title = activity.getString(R.string.reminder_ends_on),
                                         start = Clock.System.now().toEpochMilliseconds(),
                                         fragmentManager = activity.supportFragmentManager,
                                         selectedDateMillis = Clock.System.now().toEpochMilliseconds(),
@@ -278,7 +288,7 @@ internal fun RepeatConfigDialog(
                                     .padding(horizontal = defaultHorizontalPadding)
                             )
                         }
-                        "After..." -> {
+                        stringResource(id = R.string.after_three_dots) -> {
                             Row(
                                 verticalAlignment = Alignment.CenterVertically,
                                 modifier = Modifier
@@ -294,7 +304,7 @@ internal fun RepeatConfigDialog(
                                 )
                                 Spacer(size = 12.dp)
                                 Text(
-                                    text = "occurrences",
+                                    text = stringResource(id = R.string.occurrences),
                                     style = MaterialTheme.typography.titleMedium,
                                     modifier = Modifier.fillMaxWidth(1f)
                                 )
@@ -313,20 +323,20 @@ internal fun RepeatConfigDialog(
                         TextButton(onClick = {
                             setShowDialog(false)
                         }) {
-                            Text(text = "Cancel")
+                            Text(text = stringResource(id = R.string.cancel))
                         }
 
                         Spacer(size = 12.dp)
 
                         TextButton(onClick = {
                             val repeatsEveryPeriodOn = when (repeatsEveryPeriod.value) {
-                                "week" -> repeatsEveryPeriodOnWeek.value.filter { it.value }.keys.map { it.isoDayNumber }.joinToString(",")
-                                "month" -> if (repeatsEveryPeriodOnMothDay.value.lowercase().contains("last")) "last" else repeatsEveryPeriodOnMothDay.value.split(" ")[1]
-                                else -> "-"
+                                activity.getString(R.string.week) -> repeatsEveryPeriodOnWeek.value.filter { it.value }.keys.map { it.isoDayNumber }.joinToString(",")
+                                activity.getString(R.string.month) -> if (repeatsEveryPeriodOnMothDay.value.lowercase().contains("last")) "last" else repeatsEveryPeriodOnMothDay.value.split(" ")[1]
+                                else -> activity.getString(R.string.dash)
                             }
                             val ends = when (endConditionState.value) {
-                                "On date" -> "date.${Instant.fromEpochMilliseconds(endsOnDateState.value).toLocalDate()}"
-                                "After..." -> "times.${endsOnTimesState.value}"
+                                activity.getString(R.string.on_date) -> "date.${Instant.fromEpochMilliseconds(endsOnDateState.value).toLocalDate()}"
+                                activity.getString(R.string.after_three_dots) -> "times.${endsOnTimesState.value}"
                                 else -> "no.0"
                             }
 
@@ -336,7 +346,7 @@ internal fun RepeatConfigDialog(
                             onConfigSave(config)
                             setShowDialog(false)
                         }) {
-                            Text(text = "Done")
+                            Text(text = stringResource(id = R.string.done))
                         }
                     }
                 }

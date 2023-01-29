@@ -10,8 +10,10 @@ import androidx.compose.runtime.MutableState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
+import com.gaoyun.common.R
 import com.gaoyun.common.icon
 import com.gaoyun.common.ui.RoarIcon
 import com.gaoyun.common.ui.Spacer
@@ -82,12 +84,12 @@ internal fun InteractionHeader(
 
                 interaction.repeatConfig?.let {
                     TextWithIconBulletPoint(icon = Icons.Filled.Repeat, it.toString())
-                } ?: TextWithIconBulletPoint(icon = Icons.Filled.Repeat, "Doesn't repeat")
+                } ?: TextWithIconBulletPoint(icon = Icons.Filled.Repeat, stringResource(id = R.string.doesnt_repeat))
 
                 if (interaction.isActive) {
-                    TextWithIconBulletPoint(icon = Icons.Default.Done, "Active")
+                    TextWithIconBulletPoint(icon = Icons.Default.Done, stringResource(id = R.string.active))
                 } else {
-                    TextWithIconBulletPoint(icon = Icons.Default.Close, "Not active")
+                    TextWithIconBulletPoint(icon = Icons.Default.Close, stringResource(id = R.string.not_active))
                 }
             }
         }
@@ -97,10 +99,10 @@ internal fun InteractionHeader(
         TextFormField(
             shape = MaterialTheme.shapes.large,
             leadingIcon = {
-                Icon(Icons.Filled.Notes, "notes")
+                Icon(Icons.Filled.Notes, stringResource(id = R.string.cd_notes))
             },
             text = notesState.value ?: "",
-            label = "Notes",
+            label = stringResource(id = R.string.notes),
             imeAction = ImeAction.Default,
             onChange = { notesState.value = it }
         )

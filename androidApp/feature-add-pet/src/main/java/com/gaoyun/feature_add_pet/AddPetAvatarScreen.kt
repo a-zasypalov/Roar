@@ -17,6 +17,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.Lifecycle
@@ -34,6 +35,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.onEach
 import org.koin.androidx.compose.getViewModel
+import com.gaoyun.common.R as CommonR
 
 @Composable
 fun AddPetAvatarDestination(navHostController: NavHostController, petType: String, petId: String? = null) {
@@ -112,7 +114,7 @@ private fun ChooseAvatar(
         }
         item(span = titleSpan) {
             Text(
-                text = "Choose avatar",
+                text = stringResource(id = CommonR.string.choose_avatar),
                 style = MaterialTheme.typography.displayMedium,
                 modifier = Modifier.padding(start = 8.dp, top = 32.dp, bottom = 16.dp),
             )

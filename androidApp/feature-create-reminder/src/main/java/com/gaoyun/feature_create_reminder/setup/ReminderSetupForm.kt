@@ -24,10 +24,12 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.onFocusEvent
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
 import com.gaoyun.common.DateUtils.ddMmmYyyyDateFormatter
+import com.gaoyun.common.R
 import com.gaoyun.common.dialog.DatePicker
 import com.gaoyun.common.dialog.TimePicker
 import com.gaoyun.common.ui.*
@@ -118,11 +120,11 @@ internal fun ReminderSetupForm(
             leadingIcon = {
                 Icon(
                     Icons.Filled.TaskAlt,
-                    "Name",
+                    stringResource(id = R.string.name),
                     tint = MaterialTheme.colorScheme.onBackground
                 )
             },
-            label = "Name",
+            label = stringResource(id = R.string.name),
             onChange = {
                 reminderName.value = it
             },
@@ -136,7 +138,7 @@ internal fun ReminderSetupForm(
             DropdownMenu(
                 valueList = InteractionGroup.GROUP_LIST,
                 listState = interactionGroupState,
-                label = "Group",
+                label = stringResource(id = R.string.group),
                 leadingIcon = Icons.Filled.FormatListBulleted,
                 modifier = Modifier.padding(horizontal = 24.dp),
             )
@@ -147,10 +149,10 @@ internal fun ReminderSetupForm(
         ReadonlyTextField(
             value = startsOnTimeString.value,
             onValueChange = { startsOnTimeString.value = it },
-            label = { Text(text = "Time") },
+            label = { Text(text = stringResource(id = R.string.time)) },
             onClick = {
                 TimePicker.pickTime(
-                    title = "Remind at",
+                    title = activity.getString(R.string.remind_at),
                     fragmentManager = activity.supportFragmentManager,
                     hourAndMinutes = listOf(
                         startsOnTimeString.value.text.split(":")[0].toInt(),
@@ -175,10 +177,10 @@ internal fun ReminderSetupForm(
         ReadonlyTextField(
             value = startsOnDateString.value,
             onValueChange = { startsOnDateString.value = it },
-            label = { Text(text = if (interactionToEdit != null) "Next reminder" else "Date") },
+            label = { Text(text = if (interactionToEdit != null) stringResource(id = R.string.next_reminder) else stringResource(id = R.string.date)) },
             onClick = {
                 DatePicker.pickDate(
-                    title = "Remind on/from",
+                    title = activity.getString(R.string.remind_on_from),
                     fragmentManager = activity.supportFragmentManager,
                     selectedDateMillis = startsOnDate.value,
                     start = Clock.System.now().toEpochMilliseconds(),
@@ -203,7 +205,7 @@ internal fun ReminderSetupForm(
         LabelledCheckBox(
             checked = repeatEnabledState.value,
             onCheckedChange = { repeatEnabledState.value = it },
-            label = "Enable Repeat",
+            label = stringResource(id = R.string.enable_repeat),
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(horizontal = 8.dp),
@@ -218,12 +220,12 @@ internal fun ReminderSetupForm(
                 leadingIcon = {
                     Icon(
                         Icons.Filled.Repeat,
-                        "Repeat",
+                        stringResource(id = R.string.repeat),
                         tint = MaterialTheme.colorScheme.onBackground
                     )
                 },
                 label = {
-                    Text(text = "Repeat")
+                    Text(text = stringResource(id = R.string.repeat))
                 },
                 onClick = { showDialog.value = true },
                 modifier = Modifier.padding(horizontal = 24.dp),
@@ -235,9 +237,9 @@ internal fun ReminderSetupForm(
         TextFormField(
             text = notesState.value,
             onChange = { notesState.value = it },
-            label = "Notes",
+            label = stringResource(id = R.string.notes),
             leadingIcon = {
-                Icon(Icons.Filled.Notes, "Notes")
+                Icon(Icons.Filled.Notes, stringResource(id = R.string.notes))
             },
             imeAction = ImeAction.Done,
             modifier = Modifier
@@ -254,7 +256,7 @@ internal fun ReminderSetupForm(
         Spacer(size = 48.dp)
 
         PrimaryElevatedButton(
-            text = if (interactionToEdit != null) "Save" else "Create",
+            text = if (interactionToEdit != null) stringResource(id = R.string.save) else stringResource(id = R.string.create),
             onClick = {
                 onSaveButtonClick(
                     reminderName.value,

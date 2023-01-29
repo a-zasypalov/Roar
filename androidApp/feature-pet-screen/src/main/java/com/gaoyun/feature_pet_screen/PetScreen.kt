@@ -7,12 +7,14 @@ import androidx.compose.material.icons.filled.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.Lifecycle
 import androidx.navigation.NavHostController
 import com.gaoyun.common.NavigationKeys
 import com.gaoyun.common.OnLifecycleEvent
+import com.gaoyun.common.R
 import com.gaoyun.common.dialog.InteractionCompletionDialog
 import com.gaoyun.common.theme.RoarTheme
 import com.gaoyun.common.ui.*
@@ -94,8 +96,8 @@ fun PetScreen(
         floatingActionButton = {
             RoarExtendedFloatingActionButton(
                 icon = Icons.Filled.Add,
-                contentDescription = "Add reminder",
-                text = "Reminder",
+                contentDescription = stringResource(id = R.string.add_reminder),
+                text = stringResource(id = R.string.reminder),
                 onClick = { onEventSent(PetScreenContract.Event.AddReminderButtonClicked(state.pet?.id ?: "")) })
         },
         floatingActionButtonPosition = FabPosition.End

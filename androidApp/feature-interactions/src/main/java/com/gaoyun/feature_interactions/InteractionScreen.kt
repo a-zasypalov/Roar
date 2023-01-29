@@ -10,6 +10,7 @@ import androidx.compose.runtime.*
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.Lifecycle
@@ -17,6 +18,7 @@ import androidx.navigation.NavHostController
 import com.gaoyun.common.DateUtils
 import com.gaoyun.common.NavigationKeys
 import com.gaoyun.common.OnLifecycleEvent
+import com.gaoyun.common.R
 import com.gaoyun.common.dialog.InteractionCompletionDialog
 import com.gaoyun.common.ui.*
 import com.gaoyun.roar.presentation.LAUNCH_LISTEN_FOR_EFFECTS
@@ -114,8 +116,8 @@ fun InteractionScreen(
                 if (interaction.isActive) {
                     RoarExtendedFloatingActionButton(
                         icon = Icons.Filled.Edit,
-                        contentDescription = "Edit",
-                        text = "Edit",
+                        contentDescription = stringResource(id = R.string.edit),
+                        text = stringResource(id = R.string.edit),
                         onClick = {
                             onNavigationRequested(
                                 InteractionScreenContract.Effect.Navigation.ToEditInteraction(
@@ -135,8 +137,8 @@ fun InteractionScreen(
                     showRemoveReminderFromHistoryDialog.value = false
                     reminderToRemoveId.value = null
                 },
-                title = { Text("Are you sure?") },
-                text = { Text("Do you want to delete this reminder from history?") },
+                title = { Text(stringResource(id = R.string.are_you_sure)) },
+                text = { Text(stringResource(id = R.string.delete_reminder_from_history_confirmation_text)) },
                 confirmButton = {
                     TextButton(onClick = {
                         showRemoveReminderFromHistoryDialog.value = false
@@ -145,7 +147,7 @@ fun InteractionScreen(
                         }
                         reminderToRemoveId.value = null
                     }) {
-                        Text("Yes")
+                        Text(stringResource(id = R.string.yes))
                     }
                 },
                 dismissButton = {
@@ -153,7 +155,7 @@ fun InteractionScreen(
                         showRemoveReminderFromHistoryDialog.value = false
                         reminderToRemoveId.value = null
                     }) {
-                        Text("Cancel")
+                        Text(stringResource(id = R.string.cancel))
                     }
                 }
             )
@@ -162,8 +164,8 @@ fun InteractionScreen(
         if (showRemoveInteractionDialog.value) {
             AlertDialog(
                 onDismissRequest = { showRemoveInteractionDialog.value = false },
-                title = { Text("Are you sure?") },
-                text = { Text("Do you want to delete this interaction completely?") },
+                title = { Text(stringResource(id = R.string.are_you_sure)) },
+                text = { Text(stringResource(id = R.string.delete_reminder_completely_confirmation_text)) },
                 confirmButton = {
                     TextButton(onClick = {
                         showRemoveInteractionDialog.value = false
@@ -171,14 +173,14 @@ fun InteractionScreen(
                             onEventSent(InteractionScreenContract.Event.OnDeleteButtonClick(interactionId = interaction.id, confirmed = true))
                         }
                     }) {
-                        Text("Yes")
+                        Text(stringResource(id = R.string.yes))
                     }
                 },
                 dismissButton = {
                     TextButton(onClick = {
                         showRemoveInteractionDialog.value = false
                     }) {
-                        Text("Cancel")
+                        Text(stringResource(id = R.string.cancel))
                     }
                 }
             )
@@ -236,7 +238,7 @@ fun InteractionScreen(
                         if (nextReminders.isNotEmpty()) {
                             item {
                                 Text(
-                                    text = "Next",
+                                    text = stringResource(id = R.string.next),
                                     style = MaterialTheme.typography.headlineMedium,
                                     color = MaterialTheme.colorScheme.onSurface,
                                     modifier = Modifier.padding(vertical = 16.dp, horizontal = 8.dp)
@@ -261,7 +263,7 @@ fun InteractionScreen(
                                                     } else {
                                                         reminder.dateTime.date.toJavaLocalDate().format(DateUtils.ddMmmmDateFormatter)
                                                     }
-                                                } at ${
+                                                } ${stringResource(id = R.string.at)} ${
                                                     reminder.dateTime.toJavaLocalDateTime().format(DateUtils.hhMmTimeFormatter)
                                                 }",
                                                 modifier = Modifier.fillMaxWidth(),
@@ -293,7 +295,7 @@ fun InteractionScreen(
                         if (completeReminders.isNotEmpty()) {
                             item {
                                 Text(
-                                    text = "History",
+                                    text = stringResource(id = R.string.history),
                                     style = MaterialTheme.typography.headlineMedium,
                                     color = MaterialTheme.colorScheme.onSurface,
                                     modifier = Modifier.padding(vertical = 16.dp, horizontal = 8.dp)
@@ -318,7 +320,7 @@ fun InteractionScreen(
                                                     } else {
                                                         reminder.dateTime.date.toJavaLocalDate().format(DateUtils.ddMmmmDateFormatter)
                                                     }
-                                                } at ${
+                                                } ${stringResource(id = R.string.at)} ${
                                                     reminder.dateTime.toJavaLocalDateTime().format(DateUtils.hhMmTimeFormatter)
                                                 }",
                                                 modifier = Modifier.fillMaxWidth(),
@@ -363,7 +365,7 @@ fun InteractionScreen(
                                     )
                                 }) {
                                     Text(
-                                        text = if (interaction.isActive) "Deactivate" else "Reactivate",
+                                        text = if (interaction.isActive) stringResource(id = R.string.deactivate) else stringResource(id = R.string.reactivate),
                                         color = MaterialTheme.colorScheme.primary,
                                         style = MaterialTheme.typography.titleMedium,
                                         modifier = Modifier.padding(horizontal = 32.dp, vertical = 8.dp)
@@ -374,7 +376,7 @@ fun InteractionScreen(
 
                                 TextButton(onClick = { onEventSent(InteractionScreenContract.Event.OnDeleteButtonClick(interactionId = interaction.id)) }) {
                                     Text(
-                                        text = "Delete interaction",
+                                        text = stringResource(id = R.string.delete_interaction),
                                         color = MaterialTheme.colorScheme.error,
                                         style = MaterialTheme.typography.titleMedium,
                                         modifier = Modifier.padding(horizontal = 32.dp, vertical = 8.dp)

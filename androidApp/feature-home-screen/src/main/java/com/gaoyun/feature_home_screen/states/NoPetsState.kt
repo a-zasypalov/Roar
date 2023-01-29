@@ -6,11 +6,13 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.gaoyun.common.theme.RoarTheme
 import com.gaoyun.common.ui.PrimaryElevatedButton
+import com.gaoyun.common.R as CommonR
 
 @Composable
 fun NoPetsState(
@@ -25,7 +27,7 @@ fun NoPetsState(
         verticalArrangement = Arrangement.Center
     ) {
         Text(
-            text = "Great, nice to meet you, ${userName}!\nNow you can add pets",
+            text = stringResource(id = CommonR.string.greeting_no_pets_state, userName),
             textAlign = TextAlign.Center,
             color = MaterialTheme.colorScheme.onSurface
         )
@@ -33,7 +35,7 @@ fun NoPetsState(
         Spacer(modifier = Modifier.size(32.dp))
 
         PrimaryElevatedButton(
-            text = "Add First Pet",
+            text = stringResource(id = CommonR.string.add_first_pet),
             onClick = onAddPetButtonClick
         )
     }

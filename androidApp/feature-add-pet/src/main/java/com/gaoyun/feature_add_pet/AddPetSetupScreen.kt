@@ -12,12 +12,14 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.Lifecycle
 import androidx.navigation.NavHostController
 import com.gaoyun.common.NavigationKeys
 import com.gaoyun.common.OnLifecycleEvent
+import com.gaoyun.common.R
 import com.gaoyun.common.theme.RoarTheme
 import com.gaoyun.common.ui.*
 import com.gaoyun.roar.model.domain.Gender
@@ -108,11 +110,11 @@ private fun PetAddingComplete(
 
         Spacer(16.dp)
 
-        Text("New pet added!", style = MaterialTheme.typography.displayMedium)
+        Text(stringResource(id = R.string.new_pet_added), style = MaterialTheme.typography.displayMedium)
 
         Spacer(16.dp)
 
-        PrimaryElevatedButton(text = "Continue", onClick = onContinueButtonClicked)
+        PrimaryElevatedButton(text = stringResource(id = R.string.continue_label), onClick = onContinueButtonClicked)
     }
 
 }

@@ -14,11 +14,13 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.Lifecycle
 import androidx.navigation.NavHostController
 import com.gaoyun.common.NavigationKeys
 import com.gaoyun.common.OnLifecycleEvent
+import com.gaoyun.common.R
 import com.gaoyun.common.icon
 import com.gaoyun.common.ui.*
 import com.gaoyun.roar.model.domain.interactions.InteractionTemplate
@@ -101,7 +103,7 @@ fun AddReminderScreen(
                             Spacer(size = 10.dp)
 
                             Text(
-                                text = "Templates",
+                                text = stringResource(id = R.string.templates),
                                 style = MaterialTheme.typography.displayMedium,
                             )
                         }
@@ -128,7 +130,7 @@ fun AddReminderScreen(
 
                     item {
                         Text(
-                            text = "Custom",
+                            text = stringResource(id = R.string.custom),
                             style = MaterialTheme.typography.headlineLarge,
                             modifier = Modifier.padding(horizontal = 16.dp, vertical = 16.dp)
                         )
@@ -150,7 +152,7 @@ fun AddReminderScreen(
                                 Row(verticalAlignment = Alignment.CenterVertically) {
                                     RoarIcon(
                                         icon = pet.petType.icon(),
-                                        contentDescription = "reminder",
+                                        contentDescription = stringResource(id = R.string.reminder),
                                         modifier = Modifier
                                             .padding(4.dp)
                                             .size(32.dp)
@@ -158,13 +160,13 @@ fun AddReminderScreen(
                                     Spacer(size = 8.dp)
                                     Column(modifier = Modifier.weight(1f)) {
                                         Text(
-                                            "Custom",
+                                            stringResource(id = R.string.custom),
                                             style = MaterialTheme.typography.titleLarge,
                                             color = MaterialTheme.colorScheme.onSurface
                                         )
 
                                         Text(
-                                            "New custom reminder",
+                                            stringResource(id = R.string.new_custom_reminder),
                                             style = MaterialTheme.typography.bodyMedium,
                                             color = MaterialTheme.colorScheme.onSurface
                                         )

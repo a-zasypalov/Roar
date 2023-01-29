@@ -1,3 +1,93 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
+    <string name="choose_avatar">Choose avatar</string>
+    <string name="pets_card">Pet\'s Card</string>
+    <string name="name">Name</string>
+    <string name="breed">Breed</string>
+    <string name="male">Male</string>
+    <string name="female">Female</string>
+    <string name="gender">Gender</string>
+    <string name="birthday">Birthday</string>
+    <string name="pets_birthday">Pet\'s birthday</string>
+    <string name="chip_number">Chip Number</string>
+    <string name="pet_is_sterilized">Pet is sterilized</string>
+    <string name="save">Save</string>
+    <string name="add_pet">Add Pet</string>
+    <string name="new_pet">New Pet</string>
+    <string name="new_pet_added">New pet added!</string>
+    <string name="continue_label">Continue</string>
+    <string name="group">Group</string>
+    <string name="time">Time</string>
+    <string name="remind_at">Remind at</string>
+    <string name="next_reminder">Next reminder</string>
+    <string name="date">Date</string>
+    <string name="remind_on_from">Remind on/from</string>
+    <string name="enable_repeat">Enable Repeat</string>
+    <string name="repeat">Repeat</string>
+    <string name="notes">Notes</string>
+    <string name="create">Create</string>
+    <string name="day">day</string>
+    <string name="week">week</string>
+    <string name="month">month</string>
+    <string name="year">year</string>
+    <string name="on_date">On date</string>
+    <string name="after_three_dots">After…</string>
+    <string name="never">Never</string>
+    <string name="repeats_every">Repeats every</string>
+    <string name="last_day">Last Day</string>
+    <string name="ends">Ends</string>
+    <string name="end_on_date">End on date</string>
+    <string name="reminder_ends_on">Reminder ends on</string>
+    <string name="occurrences">occurrences</string>
+    <string name="cancel">Cancel</string>
+    <string name="dash">-</string>
+    <string name="done">Done</string>
+    <string name="reminder">Reminder</string>
+    <string name="reminder_ready">Reminder ready!</string>
+    <string name="templates">Templates</string>
+    <string name="custom">Custom</string>
+    <string name="new_custom_reminder">New custom reminder</string>
+    <string name="your_pets">Your pets</string>
+    <string name="hey">Hey, %1$s</string>
+    <string name="n_years_n_months">%1$d years %2$d months</string>
+    <string name="greeting_no_pets_state">Great, nice to meet you, %1$s!\nNow you can add pets</string>
+    <string name="add_first_pet">Add First Pet</string>
+    <string name="register_to_get_started">Register to get started</string>
+    <string name="register">Register</string>
+    <string name="for_who">For who?</string>
+    <string name="add_reminder">Add reminder</string>
+    <string name="doesnt_repeat">Doesn\'t repeat</string>
+    <string name="active">Active</string>
+    <string name="not_active">Not active</string>
+    <string name="edit">Edit</string>
+    <string name="are_you_sure">Are you sure?</string>
+    <string name="delete_reminder_from_history_confirmation_text">Do you want to delete this reminder from history?</string>
+    <string name="delete_reminder_completely_confirmation_text">Do you want to delete this reminder completely?</string>
+    <string name="yes">Yes</string>
+    <string name="next">Next</string>
+    <string name="at">at</string>
+    <string name="history">History</string>
+    <string name="deactivate">Deactivate</string>
+    <string name="reactivate">Reactivate</string>
+    <string name="delete_interaction">Delete interaction</string>
+    <string name="no_repeat">No repeat</string>
+    <string name="no_active_reminder">No active reminder</string>
+    <string name="reminders">Reminders</string>
+    <string name="edit_pet">Edit pet</string>
+    <string name="delete_pet">Delete pet</string>
+    <string name="sterilized">sterilized</string>
+    <string name="not_sterilized">not sterilized</string>
+    <string name="delete_pet_confirmation">Do you want to delete %1$s?</string>
+
+    <!--  Content descriptions  -->
+    <string name="cd_pet">pet</string>
+    <string name="cd_avatar">avatar</string>
+    <string name="cd_reminder">reminder</string>
+    <string name="cd_notes">notes</string>
+
 </resources>
+
+<!--
+import com.gaoyun.common.R as CommonR
+-->

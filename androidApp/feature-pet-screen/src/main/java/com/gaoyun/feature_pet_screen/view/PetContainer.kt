@@ -7,7 +7,9 @@ import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import com.gaoyun.common.R
 import com.gaoyun.common.ui.Spacer
 import com.gaoyun.roar.model.domain.PetWithInteractions
 import com.gaoyun.roar.model.domain.withoutInteractions
@@ -40,7 +42,7 @@ fun PetContainer(
 
         if (pet.interactions.isNotEmpty()) {
             Text(
-                text = "Reminders",
+                text = stringResource(id = R.string.reminders),
                 style = MaterialTheme.typography.headlineMedium,
                 color = MaterialTheme.colorScheme.onSurface,
                 modifier = Modifier
@@ -78,7 +80,7 @@ fun PetContainer(
 
         TextButton(onClick = { onEditPetClick(pet.id) }) {
             Text(
-                text = "Edit pet",
+                text = stringResource(id = R.string.edit_pet),
                 color = MaterialTheme.colorScheme.primary,
                 style = MaterialTheme.typography.titleMedium,
                 modifier = Modifier.padding(horizontal = 32.dp, vertical = 8.dp)
@@ -89,7 +91,7 @@ fun PetContainer(
 
         TextButton(onClick = { onDeletePetClick() }) {
             Text(
-                text = "Delete pet",
+                text = stringResource(id = R.string.delete_pet),
                 color = MaterialTheme.colorScheme.error,
                 style = MaterialTheme.typography.titleMedium,
                 modifier = Modifier.padding(horizontal = 32.dp, vertical = 8.dp)

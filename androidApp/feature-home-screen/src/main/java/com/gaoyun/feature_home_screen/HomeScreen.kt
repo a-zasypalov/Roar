@@ -5,14 +5,18 @@ import androidx.compose.material.icons.filled.Add
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FabPosition
 import androidx.compose.runtime.*
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import androidx.lifecycle.Lifecycle
 import androidx.navigation.NavHostController
 import com.gaoyun.common.NavigationKeys
 import com.gaoyun.common.OnLifecycleEvent
+import com.gaoyun.common.R
 import com.gaoyun.common.dialog.InteractionCompletionDialog
 import com.gaoyun.common.ui.BoxWithLoader
 import com.gaoyun.common.ui.RoarExtendedFloatingActionButton
+import com.gaoyun.common.ui.Spacer
 import com.gaoyun.common.ui.SurfaceScaffold
 import com.gaoyun.feature_home_screen.states.HomeState
 import com.gaoyun.feature_home_screen.states.NoPetsState
@@ -89,8 +93,8 @@ fun HomeScreen(
             if (state.pets.isNotEmpty()) {
                 RoarExtendedFloatingActionButton(
                     icon = Icons.Filled.Add,
-                    contentDescription = "Add reminder",
-                    text = "Reminder",
+                    contentDescription = stringResource(id = R.string.add_reminder),
+                    text = stringResource(id = R.string.reminder),
                     onClick = {
                         if (state.pets.size > 1) {
                             onEventSent(HomeScreenContract.Event.SetPetChooserShow(true))
@@ -183,7 +187,7 @@ fun HomeScreen(
                 } else {
                     NoPetsState(userName = user.name, viewModel::openAddPetScreen)
                 }
-            } ?: if (!state.isLoading) NoUserState(viewModel::openRegistration)
+            } ?: if (!state.isLoading) NoUserState(viewModel::openRegistration) else Spacer(size = 1.dp)
         }
     }
 }

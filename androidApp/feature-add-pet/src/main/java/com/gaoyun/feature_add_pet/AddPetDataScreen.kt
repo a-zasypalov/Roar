@@ -17,6 +17,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.capitalize
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.TextFieldValue
@@ -45,6 +46,7 @@ import org.koin.androidx.compose.getViewModel
 import java.time.Instant
 import java.time.ZoneId
 import java.util.concurrent.TimeUnit
+import com.gaoyun.common.R as CommonR
 
 
 @Composable
@@ -181,7 +183,7 @@ private fun AddPetForm(
             .fillMaxSize()
     ) {
         Text(
-            text = "Pet's Card",
+            text = stringResource(id = CommonR.string.pets_card),
             style = MaterialTheme.typography.displayMedium,
             modifier = Modifier
                 .fillMaxSize()
@@ -209,7 +211,7 @@ private fun AddPetForm(
                     if (petToEdit == null) {
                         Image(
                             painter = painterResource(id = activity.getDrawableByName(avatar)),
-                            contentDescription = "pet",
+                            contentDescription = stringResource(id = CommonR.string.cd_pet),
                             modifier = Modifier
                                 .size(64.dp)
                                 .padding(end = 12.dp, top = 8.dp)
@@ -223,7 +225,7 @@ private fun AddPetForm(
                         ) {
                             Image(
                                 painter = painterResource(id = activity.getDrawableByName(avatar)),
-                                contentDescription = "pet",
+                                contentDescription = stringResource(id = CommonR.string.cd_pet),
                                 modifier = Modifier
                                     .size(64.dp)
                                     .clickable { onAvatarEditClick(petToEdit.id, petToEdit.petType) }
@@ -236,11 +238,11 @@ private fun AddPetForm(
                         leadingIcon = {
                             Icon(
                                 Icons.Filled.Pets,
-                                "Name",
+                                stringResource(id = CommonR.string.name),
                                 tint = MaterialTheme.colorScheme.onBackground
                             )
                         },
-                        label = "Name",
+                        label = stringResource(id = CommonR.string.name),
                         onChange = {
                             petName.value = it
                         },
@@ -253,7 +255,7 @@ private fun AddPetForm(
                 DropdownMenu(
                     valueList = petBreeds,
                     listState = petBreedState,
-                    label = "Breed",
+                    label = stringResource(id = CommonR.string.breed),
                     leadingIcon = Icons.Filled.List,
                     modifier = Modifier
                         .fillMaxWidth()
@@ -263,10 +265,10 @@ private fun AddPetForm(
                 Spacer(size = 16.dp)
 
                 DropdownMenu(
-                    valueList = listOf("Male", "Female"),
+                    valueList = listOf(stringResource(id = CommonR.string.male), stringResource(id = CommonR.string.female)),
                     listState = petGenderState,
-                    label = "Gender",
-                    leadingIcon = if (petGenderState.value == "Male") Icons.Filled.Male else Icons.Filled.Female,
+                    label = stringResource(id = CommonR.string.gender),
+                    leadingIcon = if (petGenderState.value == stringResource(id = CommonR.string.male)) Icons.Filled.Male else Icons.Filled.Female,
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(horizontal = 24.dp)
@@ -280,17 +282,17 @@ private fun AddPetForm(
                     leadingIcon = {
                         Icon(
                             Icons.Filled.Cake,
-                            "Birthday",
+                            stringResource(id = CommonR.string.birthday),
                             tint = MaterialTheme.colorScheme.onBackground
                         )
                     },
                     label = {
-                        Text(text = "Birthday")
+                        Text(text = stringResource(id = CommonR.string.birthday))
                     },
                     modifier = Modifier.padding(horizontal = 24.dp),
                     onClick = {
                         DatePicker.pickDate(
-                            title = "Pet's birthday",
+                            title = activity.getString(CommonR.string.pets_birthday),
                             end = Instant.now().toEpochMilli(),
                             fragmentManager = activity.supportFragmentManager,
                             selectedDateMillis = petBirthdayState.value,
@@ -314,11 +316,11 @@ private fun AddPetForm(
                     leadingIcon = {
                         Icon(
                             Icons.Filled.Memory,
-                            "Chip Number",
+                            stringResource(id = CommonR.string.chip_number),
                             tint = MaterialTheme.colorScheme.onBackground
                         )
                     },
-                    label = "Chip Number",
+                    label = stringResource(id = CommonR.string.chip_number),
                     onChange = {
                         chipNumberState.value = it
                     },
@@ -331,7 +333,7 @@ private fun AddPetForm(
                 LabelledCheckBox(
                     checked = petIsSterilizedState.value,
                     onCheckedChange = { petIsSterilizedState.value = it },
-                    label = "Pet is sterilized",
+                    label = stringResource(id = CommonR.string.pet_is_sterilized),
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(horizontal = 8.dp)
@@ -340,7 +342,7 @@ private fun AddPetForm(
                 Spacer(size = 32.dp)
 
                 PrimaryElevatedButtonOnSurface(
-                    text = if (petToEdit != null) "Save" else "Add pet",
+                    text = if (petToEdit != null) stringResource(id = CommonR.string.save) else stringResource(id = CommonR.string.add_pet),
                     onClick = {
                         onRegisterClick(
                             petBreedState.value,

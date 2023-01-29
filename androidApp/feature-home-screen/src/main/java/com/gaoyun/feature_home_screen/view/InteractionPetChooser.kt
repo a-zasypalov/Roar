@@ -17,8 +17,10 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import com.gaoyun.common.R
 import com.gaoyun.common.ui.Spacer
 import com.gaoyun.common.ui.getDrawableByName
 import com.gaoyun.roar.model.domain.PetWithInteractions
@@ -34,7 +36,7 @@ fun InteractionPetChooser(pets: List<PetWithInteractions>, onPetChosen: (String)
                 Spacer(8.dp)
 
                 Text(
-                    text = "For who?",
+                    text = stringResource(id = R.string.for_who),
                     style = MaterialTheme.typography.displaySmall,
                     color = MaterialTheme.colorScheme.onSurface,
                     modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp),

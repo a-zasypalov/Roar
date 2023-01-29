@@ -4,6 +4,8 @@ import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.res.stringResource
+import com.gaoyun.common.R
 
 @Composable
 fun RemovePetConfirmationDialog(
@@ -13,16 +15,16 @@ fun RemovePetConfirmationDialog(
 ) {
     AlertDialog(
         onDismissRequest = onDismiss,
-        title = { Text("Are you sure?") },
-        text = { Text("Do you want to delete $petName?") },
+        title = { Text(stringResource(id = R.string.are_you_sure)) },
+        text = { Text(stringResource(id = R.string.delete_pet_confirmation, petName)) },
         confirmButton = {
             TextButton(onClick = onConfirm) {
-                Text("Yes")
+                Text(stringResource(id = R.string.yes))
             }
         },
         dismissButton = {
             TextButton(onClick = onDismiss) {
-                Text("Cancel")
+                Text(stringResource(id = R.string.cancel))
             }
         }
     )

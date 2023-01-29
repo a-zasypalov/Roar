@@ -16,10 +16,12 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.gaoyun.common.DateUtils.monthsFromNow
 import com.gaoyun.common.DateUtils.yearsFromNow
+import com.gaoyun.common.R
 import com.gaoyun.common.theme.RoarTheme
 import com.gaoyun.common.ui.Spacer
 import com.gaoyun.common.ui.getDrawableByName
@@ -82,7 +84,7 @@ fun HomeState(
         } else {
             item {
                 Text(
-                    text = "Your pets",
+                    text = stringResource(id = R.string.your_pets),
                     style = MaterialTheme.typography.headlineLarge,
                     color = MaterialTheme.colorScheme.onSurface,
                     modifier = Modifier.padding(vertical = 16.dp, horizontal = 16.dp)
@@ -121,7 +123,7 @@ private fun Header(
             modifier = Modifier.fillMaxWidth()
         ) {
             Text(
-                text = "Hey, $userName",
+                text = stringResource(id = R.string.hey, userName),
                 style = MaterialTheme.typography.displayMedium,
                 color = MaterialTheme.colorScheme.onSurface
             )
@@ -140,7 +142,7 @@ private fun Header(
         FilledTonalButton(onClick = onAddPetButtonClick) {
             Icon(Icons.Filled.Pets, contentDescription = "")
             Spacer(size = 6.dp)
-            Text("Add pet", style = MaterialTheme.typography.titleMedium)
+            Text(stringResource(id = R.string.add_pet), style = MaterialTheme.typography.titleMedium)
         }
     }
 }
@@ -192,7 +194,7 @@ private fun PetCard(
                         style = MaterialTheme.typography.headlineMedium
                     )
                     Text(
-                        text = "${pet.birthday.yearsFromNow()} years ${pet.birthday.monthsFromNow()} months",
+                        text = stringResource(id = R.string.n_years_n_months, pet.birthday.yearsFromNow(), pet.birthday.monthsFromNow()),
                         color = MaterialTheme.colorScheme.onSurface,
                         style = MaterialTheme.typography.bodyLarge
                     )

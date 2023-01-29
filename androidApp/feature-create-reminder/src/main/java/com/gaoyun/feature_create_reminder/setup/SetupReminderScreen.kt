@@ -11,6 +11,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.Lifecycle
 import androidx.navigation.NavHostController
@@ -26,6 +27,7 @@ import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.onEach
 import kotlinx.datetime.*
 import org.koin.androidx.compose.getViewModel
+import com.gaoyun.common.R as CommonR
 
 @Composable
 fun SetupReminderDestination(
@@ -154,7 +156,7 @@ private fun ReminderSetupHeader(
         Spacer(size = 10.dp)
 
         Text(
-            text = "Reminder",
+            text = stringResource(id = CommonR.string.reminder),
             style = MaterialTheme.typography.displayMedium,
         )
     }

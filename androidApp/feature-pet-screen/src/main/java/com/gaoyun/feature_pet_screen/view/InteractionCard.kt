@@ -13,9 +13,11 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Shape
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.gaoyun.common.DateUtils
+import com.gaoyun.common.R
 import com.gaoyun.common.icon
 import com.gaoyun.common.ui.LabelledCheckBox
 import com.gaoyun.common.ui.RoarIcon
@@ -63,7 +65,7 @@ fun InteractionCard(
             ) {
                 RoarIcon(
                     icon = interaction.type.icon(),
-                    contentDescription = "reminder",
+                    contentDescription = stringResource(id = R.string.cd_reminder),
                     modifier = Modifier
                         .padding(4.dp)
                         .size(32.dp)
@@ -76,7 +78,7 @@ fun InteractionCard(
                         color = MaterialTheme.colorScheme.onSurface
                     )
 
-                    val repeatText = interaction.repeatConfig?.toString() ?: "No repeat"
+                    val repeatText = interaction.repeatConfig?.toString() ?: stringResource(id = R.string.no_repeat)
                     Text(
                         repeatText,
                         style = MaterialTheme.typography.bodyMedium,
@@ -115,7 +117,7 @@ fun InteractionCard(
                         } else {
                             reminderToShow.dateTime.date.toJavaLocalDate().format(DateUtils.ddMmmmDateFormatter)
                         }
-                    } at ${
+                    } ${stringResource(id = R.string.at)} ${
                         reminderToShow.dateTime.toJavaLocalDateTime().format(DateUtils.hhMmTimeFormatter)
                     }",
                     modifier = Modifier.fillMaxWidth(),
@@ -129,13 +131,13 @@ fun InteractionCard(
                     .filter { !it.isCompleted || it.dateTime > Clock.System.now().toLocalDateTime(TimeZone.currentSystemDefault()) }
                     .maxByOrNull { it.dateTime }?.let { nextReminder ->
                         AnimatedVisibility(visible = showLastReminder && nextReminder.id != reminderIdToShow.value) {
-                            val nextReminderText = "Next: ${
+                            val nextReminderText = "${stringResource(id = R.string.next)}: ${
                                 if (nextReminder.dateTime.date.year != Clock.System.now().toLocalDate().year) {
                                     nextReminder.dateTime.date.toJavaLocalDate().format(DateUtils.ddMmmmYyyyDateFormatter)
                                 } else {
                                     nextReminder.dateTime.date.toJavaLocalDate().format(DateUtils.ddMmmmDateFormatter)
                                 }
-                            } at ${
+                            } ${stringResource(id = R.string.at)} ${
                                 nextReminder.dateTime.toJavaLocalDateTime().format(DateUtils.hhMmTimeFormatter)
                             }"
 
@@ -153,7 +155,7 @@ fun InteractionCard(
                     }
             } else {
                 Text(
-                    text = "No active reminder",
+                    text = stringResource(id = R.string.no_active_reminder),
                     style = MaterialTheme.typography.bodyLarge,
                     modifier = Modifier.padding(horizontal = 16.dp, vertical = 12.dp)
                 )

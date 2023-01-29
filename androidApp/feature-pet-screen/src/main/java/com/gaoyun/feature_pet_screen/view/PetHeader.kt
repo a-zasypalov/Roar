@@ -12,9 +12,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.gaoyun.common.DateUtils.monthsFromNow
 import com.gaoyun.common.DateUtils.yearsFromNow
+import com.gaoyun.common.R
 import com.gaoyun.common.ui.Spacer
 import com.gaoyun.common.ui.getDrawableByName
 import com.gaoyun.roar.model.domain.Gender
@@ -26,7 +28,7 @@ internal fun PetHeader(
     modifier: Modifier = Modifier
 ) {
     val context = LocalContext.current
-    val isSterilized = if (pet.isSterilized) "sterilized" else "not sterilized"
+    val isSterilized = if (pet.isSterilized) stringResource(id = R.string.sterilized) else stringResource(id = R.string.not_sterilized)
 
     Column(
         modifier = modifier.padding(horizontal = 8.dp),
