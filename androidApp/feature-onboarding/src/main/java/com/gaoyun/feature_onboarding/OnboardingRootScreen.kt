@@ -10,6 +10,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
@@ -67,7 +68,7 @@ fun OnboardingRootScreen(
                 Spacer(size = 16.dp)
                 if (state.currentPage < 2) {
                     PrimaryElevatedButton(
-                        text = "Next",
+                        text = stringResource(id = R.string.next),
                         onClick = {
                             scope.launch {
                                 state.animateScrollToPage(state.currentPage + 1)
@@ -75,7 +76,7 @@ fun OnboardingRootScreen(
                         })
                 } else {
                     PrimaryElevatedButton(
-                        text = "Start",
+                        text = stringResource(id = R.string.start),
                         onClick = {
                             viewModel.completeOnboarding()
                             navHostController.navigate(NavigationKeys.Route.HOME_ROUTE) {
@@ -114,7 +115,7 @@ fun OnboardingHelloPage() {
             )
         }
         Spacer(size = 24.dp)
-        Text(text = "Roar", style = MaterialTheme.typography.displayMedium)
+        Text(text = stringResource(id = R.string.app_name), style = MaterialTheme.typography.displayMedium)
         Text(text = "Pet's care assistant", style = MaterialTheme.typography.titleLarge)
     }
 }

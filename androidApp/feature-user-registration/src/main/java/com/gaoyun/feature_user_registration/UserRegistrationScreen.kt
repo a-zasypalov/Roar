@@ -13,11 +13,13 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalFocusManager
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import com.gaoyun.common.NavigationKeys.Route.HOME_ROUTE
+import com.gaoyun.common.R
 import com.gaoyun.common.theme.RoarTheme
 import com.gaoyun.common.ui.PrimaryElevatedButton
 import com.gaoyun.common.ui.SurfaceScaffold
@@ -96,11 +98,11 @@ fun UserRegistrationForm(
                 leadingIcon = {
                     Icon(
                         Icons.Filled.Person,
-                        "Name",
+                        stringResource(id = R.string.name),
                         tint = MaterialTheme.colorScheme.onBackground
                     )
                 },
-                label = "Name",
+                label = stringResource(id = R.string.name),
                 onChange = {
                     nameState.value = it
                 },
@@ -110,7 +112,7 @@ fun UserRegistrationForm(
         }
 
         PrimaryElevatedButton(
-            text = "Register",
+            text = stringResource(id = R.string.register),
             onClick = { onRegisterClick(nameState.value) },
             modifier = Modifier.padding(bottom = 32.dp)
         )

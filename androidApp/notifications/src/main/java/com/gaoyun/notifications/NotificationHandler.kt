@@ -19,6 +19,7 @@ class NotificationHandler(
             val interaction = getInteraction.getInteractionByReminder(notification.item.itemId).firstOrNull() ?: return false
             val pet = getPetUseCase.getPet(interaction.petId).firstOrNull() ?: return false
 
+            //TODO: Notifications content
             displayer.display(
                 title = interaction.name,
                 content = "It's time for ${pet.name} to have a ${interaction.type}",

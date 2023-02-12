@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
+    <string name="app_name">Roar</string>
     <string name="choose_avatar">Choose avatar</string>
     <string name="pets_card">Pet\'s Card</string>
     <string name="name">Name</string>
@@ -11,6 +11,7 @@
     <string name="birthday">Birthday</string>
     <string name="pets_birthday">Pet\'s birthday</string>
     <string name="chip_number">Chip Number</string>
+    <string name="chip">Chip</string>
     <string name="pet_is_sterilized">Pet is sterilized</string>
     <string name="save">Save</string>
     <string name="add_pet">Add Pet</string>
@@ -66,6 +67,7 @@
     <string name="delete_reminder_completely_confirmation_text">Do you want to delete this reminder completely?</string>
     <string name="yes">Yes</string>
     <string name="next">Next</string>
+    <string name="start">Start</string>
     <string name="at">at</string>
     <string name="history">History</string>
     <string name="deactivate">Deactivate</string>
@@ -79,6 +81,24 @@
     <string name="sterilized">sterilized</string>
     <string name="not_sterilized">not sterilized</string>
     <string name="delete_pet_confirmation">Do you want to delete %1$s?</string>
+    <string name="import_button">Import</string>
+    <string name="export_button">Export</string>
+    <string name="backup">Backup</string>
+    <string name="backup_saved">Backup saved</string>
+    <string name="replace">Replace</string>
+    <string name="leave">Leave</string>
+    <string name="replace_current_data_title">Replace current data?</string>
+    <string name="replace_current_data_description">We can leave current data without changes or replace it by backup completely</string>
+
+    <plurals name="years">
+        <item quantity="one">year</item>
+        <item quantity="many">years</item>
+    </plurals>
+
+    <plurals name="months">
+        <item quantity="one">month</item>
+        <item quantity="many">months</item>
+    </plurals>
 
     <!--  Content descriptions  -->
     <string name="cd_pet">pet</string>

@@ -13,11 +13,13 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.Lifecycle
 import androidx.navigation.NavHostController
 import com.gaoyun.common.OnLifecycleEvent
+import com.gaoyun.common.R
 import com.gaoyun.common.ui.BoxWithLoader
 import com.gaoyun.common.ui.RoarExtendedFloatingActionButton
 import com.gaoyun.common.ui.Spacer
@@ -76,7 +78,6 @@ fun UserScreen(
     val snackbarHostState = remember { SnackbarHostState() }
 
     val importBackupLauncher = rememberLauncherForActivityResult(ActivityResultContracts.StartActivityForResult()) {
-        println("selected file URI ${it.data?.data}")
         it.data?.data?.let { uri ->
             context.contentResolver.openFileDescriptor(uri, "r")?.use { descriptor ->
                 if (descriptor.statSize <= Int.MAX_VALUE) {
@@ -85,9 +86,9 @@ fun UserScreen(
                         fileStream.read(data)
 
                         AlertDialog.Builder(context)
-                            .setTitle("Replace current data?")
-                            .setMessage("We can leave current data without changes or replace it by backup completely")
-                            .setPositiveButton("Leave") { dialog, _ ->
+                            .setTitle(context.getString(R.string.replace_current_data_title))
+                            .setMessage(context.getString(R.string.replace_current_data_description))
+                            .setPositiveButton(context.getString(R.string.leave)) { dialog, _ ->
                                 dialog.dismiss()
                                 onEventSent(
                                     UserScreenContract.Event.OnUseBackup(
@@ -96,7 +97,7 @@ fun UserScreen(
                                     )
                                 )
                             }
-                            .setNegativeButton("Replace") { dialog, _ ->
+                            .setNegativeButton(context.getString(R.string.replace)) { dialog, _ ->
                                 dialog.dismiss()
                                 onEventSent(
                                     UserScreenContract.Event.OnUseBackup(
@@ -121,7 +122,7 @@ fun UserScreen(
                         stream.write(backupFlow.firstOrNull()?.toByteArray() ?: byteArrayOf())
                     }
                     delay(200)
-                    snackbarHostState.showSnackbar(message = "Backup saved")
+                    snackbarHostState.showSnackbar(message = context.getString(R.string.backup_saved))
                 }
             }
         }
@@ -151,7 +152,7 @@ fun UserScreen(
             RoarExtendedFloatingActionButton(
                 icon = Icons.Filled.Edit,
                 contentDescription = "Edit user",
-                text = "Edit",
+                text = stringResource(id = R.string.edit),
                 onClick = { UserScreenContract.Event.OnEditAccountClick }
             )
         },
@@ -199,7 +200,7 @@ fun UserScreen(
                     Spacer(size = 32.dp)
 
                     Text(
-                        text = "Backup",
+                        text = stringResource(id = R.string.backup),
                         style = MaterialTheme.typography.titleLarge,
                         color = MaterialTheme.colorScheme.onSurface
                     )
@@ -215,7 +216,7 @@ fun UserScreen(
                         ) {
                             Icon(Icons.Filled.Save, contentDescription = "")
                             Spacer(size = 6.dp)
-                            Text("Export", style = MaterialTheme.typography.titleMedium)
+                            Text(stringResource(id = R.string.export_button), style = MaterialTheme.typography.titleMedium)
                         }
 
                         FilledTonalButton(
@@ -232,7 +233,7 @@ fun UserScreen(
                         ) {
                             Icon(Icons.Filled.Download, contentDescription = "")
                             Spacer(size = 6.dp)
-                            Text("Import", style = MaterialTheme.typography.titleMedium)
+                            Text(stringResource(id = R.string.import_button), style = MaterialTheme.typography.titleMedium)
                         }
                     }
                 }

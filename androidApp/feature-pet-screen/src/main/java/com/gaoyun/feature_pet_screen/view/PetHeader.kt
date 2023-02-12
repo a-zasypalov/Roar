@@ -8,10 +8,12 @@ import androidx.compose.material.icons.filled.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.pluralStringResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.gaoyun.common.DateUtils.monthsFromNow
@@ -22,6 +24,7 @@ import com.gaoyun.common.ui.getDrawableByName
 import com.gaoyun.roar.model.domain.Gender
 import com.gaoyun.roar.model.domain.Pet
 
+@OptIn(ExperimentalComposeUiApi::class)
 @Composable
 internal fun PetHeader(
     pet: Pet,
@@ -77,17 +80,25 @@ internal fun PetHeader(
                     .fillMaxWidth()
                     .padding(horizontal = 16.dp, vertical = 8.dp),
             ) {
-                TextWithIconBulletPoint(icon = Icons.Filled.Cake, "${pet.birthday.yearsFromNow()} years ${pet.birthday.monthsFromNow()} months")
+                TextWithIconBulletPoint(
+                    icon = Icons.Filled.Cake,
+                    text = StringBuilder().apply {
+                        append(pet.birthday.yearsFromNow())
+                        append(pluralStringResource(id = R.plurals.years, count = pet.birthday.yearsFromNow()))
+                        append(pet.birthday.monthsFromNow())
+                        append(pluralStringResource(id = R.plurals.months, count = pet.birthday.monthsFromNow()))
+                    }.toString()
+                )
 
                 when (pet.gender) {
-                    Gender.MALE -> TextWithIconBulletPoint(icon = Icons.Filled.Male, "Male, $isSterilized")
-                    Gender.FEMALE -> TextWithIconBulletPoint(icon = Icons.Filled.Female, "Female, $isSterilized")
+                    Gender.MALE -> TextWithIconBulletPoint(icon = Icons.Filled.Male, "${stringResource(id = R.string.male)}, $isSterilized")
+                    Gender.FEMALE -> TextWithIconBulletPoint(icon = Icons.Filled.Female, "${stringResource(id = R.string.female)}, $isSterilized")
                 }
 
                 TextWithIconBulletPoint(icon = Icons.Filled.Pets, pet.breed)
 
                 if (pet.chipNumber.isNotEmpty()) {
-                    TextWithIconBulletPoint(icon = Icons.Filled.Memory, "Chip: ${pet.chipNumber}")
+                    TextWithIconBulletPoint(icon = Icons.Filled.Memory, "${stringResource(id = R.string.chip)}: ${pet.chipNumber}")
                 }
             }
         }
