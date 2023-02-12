@@ -93,12 +93,12 @@
 
     <plurals name="years">
         <item quantity="one">year</item>
-        <item quantity="many">years</item>
+        <item quantity="other">years</item>
     </plurals>
 
     <plurals name="months">
         <item quantity="one">month</item>
-        <item quantity="many">months</item>
+        <item quantity="other">months</item>
     </plurals>
 
     <string name="onboarding_care_assistant">Pet\'s care assistant</string>
