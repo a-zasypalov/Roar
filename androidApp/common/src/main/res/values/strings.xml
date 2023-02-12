@@ -89,6 +89,7 @@
     <string name="leave">Leave</string>
     <string name="replace_current_data_title">Replace current data?</string>
     <string name="replace_current_data_description">We can leave current data without changes or replace it by backup completely</string>
+    <string name="registration_subtitle">We just need your name</string>
 
     <plurals name="years">
         <item quantity="one">year</item>
@@ -100,11 +101,18 @@
         <item quantity="many">months</item>
     </plurals>
 
+    <string name="onboarding_care_assistant">Pet\'s care assistant</string>
+    <string name="onboarding_care_reminders">Care reminders</string>
+    <string name="onboarding_care_reminders_description">Sometimes pets aren\'t talkative about needs</string>
+    <string name="onboarding_community_project">Community project</string>
+    <string name="onboarding_community_project_description">Roar is a community-driven project</string>
+
     <!--  Content descriptions  -->
     <string name="cd_pet">pet</string>
     <string name="cd_avatar">avatar</string>
     <string name="cd_reminder">reminder</string>
     <string name="cd_notes">notes</string>
+    <string name="cd_icon">icon</string>
 
 </resources>
 

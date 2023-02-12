@@ -206,7 +206,7 @@ private fun TemplateItem(
             Row(verticalAlignment = Alignment.CenterVertically) {
                 RoarIcon(
                     icon = template.type.icon(),
-                    contentDescription = "reminder",
+                    contentDescription = stringResource(id = R.string.cd_reminder),
                     modifier = Modifier
                         .padding(4.dp)
                         .size(32.dp)

@@ -89,7 +89,7 @@ fun UserRegistrationForm(
             verticalArrangement = Arrangement.Center,
             modifier = Modifier.fillMaxHeight()
         ) {
-            Text("We just need your name")
+            Text(stringResource(id = R.string.registration_subtitle))
 
             Spacer(modifier = Modifier.size(16.dp))
 

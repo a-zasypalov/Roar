@@ -116,7 +116,7 @@ fun OnboardingHelloPage() {
         }
         Spacer(size = 24.dp)
         Text(text = stringResource(id = R.string.app_name), style = MaterialTheme.typography.displayMedium)
-        Text(text = "Pet's care assistant", style = MaterialTheme.typography.titleLarge)
+        Text(text = stringResource(id = R.string.onboarding_care_assistant), style = MaterialTheme.typography.titleLarge)
     }
 }
 
@@ -143,9 +143,9 @@ fun OnboardingCarePage() {
             )
         }
         Spacer(size = 24.dp)
-        Text(text = "Care reminders", style = MaterialTheme.typography.displaySmall)
+        Text(text = stringResource(id = R.string.onboarding_care_reminders), style = MaterialTheme.typography.displaySmall)
         Spacer(size = 4.dp)
-        Text(text = "Sometimes pets aren't talkative about needs", style = MaterialTheme.typography.titleMedium)
+        Text(text = stringResource(id = R.string.onboarding_care_reminders_description), style = MaterialTheme.typography.titleMedium)
     }
 }
 
@@ -172,9 +172,9 @@ fun OnboardingCommunityPage() {
             )
         }
         Spacer(size = 24.dp)
-        Text(text = "Community project", style = MaterialTheme.typography.displaySmall)
+        Text(text = stringResource(id = R.string.onboarding_community_project), style = MaterialTheme.typography.displaySmall)
         Spacer(size = 4.dp)
-        Text(text = "Roar is a community-driven project", style = MaterialTheme.typography.titleMedium)
+        Text(text = stringResource(id = R.string.onboarding_community_project_description), style = MaterialTheme.typography.titleMedium)
     }
 }
 
