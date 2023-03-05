@@ -58,7 +58,7 @@ class HomeScreenViewModel :
 
     fun checkUserRegistered() = scope.launch {
         if (checkUserExistingUseCase.isUserExisting().not()) {
-            setNoUserState()
+            openRegistration()
         } else {
             getUser()
         }
@@ -69,7 +69,7 @@ class HomeScreenViewModel :
             .catch {
                 it.printStackTrace()
                 if (it is NoUserException) {
-                    setNoUserState()
+                    openRegistration()
                 }
             }
             .collect { getPets(it) }
@@ -109,12 +109,10 @@ class HomeScreenViewModel :
             }
         }
     }
-
-    private fun setNoUserState() = setState { copy(user = null, isLoading = false) }
-    private fun setUserDataState(user: User) = setState { copy(user = user, isLoading = false) }
+    private fun setUserDataState(user: User) = setState { copy(user = user, pets = emptyList(), isLoading = false) }
     private fun setPetsState(user: User, pets: List<PetWithInteractions>) = setState { copy(user = user, pets = pets, isLoading = false) }
     private fun setDialogShow(show: Boolean) = setState { copy(showPetChooser = show) }
-    private fun hideDeletePetDialog() = setState { copy(deletePetDialogShow = false) }
+    fun hideDeletePetDialog() = setState { copy(deletePetDialogShow = false) }
     fun openRegistration() = setEffect { HomeScreenContract.Effect.Navigation.ToUserRegistration }
     fun openAddPetScreen() = setEffect { HomeScreenContract.Effect.Navigation.ToAddPet }
     private fun openAddReminderScreen(petId: String) = setEffect { HomeScreenContract.Effect.Navigation.ToAddReminder(petId) }

@@ -22,6 +22,7 @@ import com.gaoyun.feature_home_screen.states.HomeState
 import com.gaoyun.feature_home_screen.states.NoPetsState
 import com.gaoyun.feature_home_screen.states.NoUserState
 import com.gaoyun.feature_home_screen.view.InteractionPetChooser
+import com.gaoyun.feature_pet_screen.RemovePetConfirmationDialog
 import com.gaoyun.roar.model.domain.PetWithInteractions
 import com.gaoyun.roar.presentation.LAUNCH_LISTEN_FOR_EFFECTS
 import com.gaoyun.roar.presentation.home_screen.HomeScreenContract
@@ -153,6 +154,14 @@ fun HomeScreen(
             )
         }
 
+        if (state.deletePetDialogShow) {
+            RemovePetConfirmationDialog(
+                petName = state.pets.first().name,
+                onDismiss = viewModel::hideDeletePetDialog,
+                onConfirm = { onEventSent(HomeScreenContract.Event.OnDeletePetConfirmed(state.pets.first())) }
+            )
+        }
+
         BoxWithLoader(isLoading = state.isLoading) {
             state.user?.let { user ->
                 if (state.pets.isNotEmpty()) {
@@ -185,7 +194,10 @@ fun HomeScreen(
                         onUserDetailsClick = { onNavigationRequested(HomeScreenContract.Effect.Navigation.ToUserScreen) }
                     )
                 } else {
-                    NoPetsState(userName = user.name, viewModel::openAddPetScreen)
+                    NoPetsState(userName = user.name,
+                        onAddPetButtonClick = viewModel::openAddPetScreen,
+                        onUserDetailsClick = { onNavigationRequested(HomeScreenContract.Effect.Navigation.ToUserScreen) }
+                    )
                 }
             } ?: if (!state.isLoading) NoUserState(viewModel::openRegistration) else Spacer(size = 1.dp)
         }

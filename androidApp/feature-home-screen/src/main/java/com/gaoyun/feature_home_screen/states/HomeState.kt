@@ -5,9 +5,6 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Person
-import androidx.compose.material.icons.filled.Pets
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
@@ -24,6 +21,7 @@ import com.gaoyun.common.ext.ageText
 import com.gaoyun.common.theme.RoarTheme
 import com.gaoyun.common.ui.Spacer
 import com.gaoyun.common.ui.getDrawableByName
+import com.gaoyun.feature_home_screen.view.UserHomeHeader
 import com.gaoyun.feature_pet_screen.view.InteractionCard
 import com.gaoyun.feature_pet_screen.view.PetContainer
 import com.gaoyun.roar.model.domain.PetWithInteractions
@@ -53,7 +51,7 @@ fun HomeState(
             Box(modifier = Modifier.size(WindowInsets.statusBars.asPaddingValues().calculateTopPadding()))
         }
         item {
-            Header(
+            UserHomeHeader(
                 userName = user.name,
                 onAddPetButtonClick = onAddPetButtonClick,
                 onUserButtonButtonClick = onUserDetailsClick,
@@ -115,47 +113,6 @@ fun HomeState(
             }
 
             item { Spacer(size = 132.dp) }
-        }
-    }
-}
-
-@Composable
-private fun Header(
-    userName: String,
-    onAddPetButtonClick: () -> Unit,
-    onUserButtonButtonClick: () -> Unit,
-) {
-    Column(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(start = 16.dp, end = 16.dp, top = 32.dp)
-    ) {
-        Row(
-            horizontalArrangement = Arrangement.SpaceBetween,
-            verticalAlignment = Alignment.CenterVertically,
-            modifier = Modifier.fillMaxWidth()
-        ) {
-            Text(
-                text = stringResource(id = R.string.hey, userName),
-                style = MaterialTheme.typography.displayMedium,
-                color = MaterialTheme.colorScheme.onSurface
-            )
-
-            IconButton(onClick = onUserButtonButtonClick, modifier = Modifier.padding(top = 12.dp)) {
-                Icon(
-                    Icons.Default.Person, contentDescription = "", modifier = Modifier
-                        .fillMaxSize()
-                        .padding(4.dp)
-                )
-            }
-        }
-
-        Spacer(size = 8.dp)
-
-        FilledTonalButton(onClick = onAddPetButtonClick) {
-            Icon(Icons.Filled.Pets, contentDescription = "")
-            Spacer(size = 6.dp)
-            Text(stringResource(id = R.string.add_pet), style = MaterialTheme.typography.titleMedium)
         }
     }
 }

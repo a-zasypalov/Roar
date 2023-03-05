@@ -52,7 +52,7 @@
     <string name="new_custom_reminder">New custom reminder</string>
     <string name="your_pets">Your pets</string>
     <string name="hey">Hey, %1$s</string>
-    <string name="greeting_no_pets_state">Great, nice to meet you, %1$s!\nNow you can add pets</string>
+    <string name="import_backup_in_profile">Import backup in Profile</string>
     <string name="add_first_pet">Add First Pet</string>
     <string name="register_to_get_started">Register to get started</string>
     <string name="register">Register</string>
@@ -89,7 +89,7 @@
     <string name="leave">Leave</string>
     <string name="replace_current_data_title">Replace current data?</string>
     <string name="replace_current_data_description">We can leave current data without changes or replace it by backup completely</string>
-    <string name="registration_subtitle">We just need your name</string>
+    <string name="registration_subtitle">We need only your name</string>
 
     <plurals name="years">
         <item quantity="one">year</item>
