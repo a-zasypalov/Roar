@@ -147,14 +147,15 @@ fun UserScreen(
 
     SurfaceScaffold(
         snackbarHost = { SnackbarHost(snackbarHostState) },
-        floatingActionButton = {
-            RoarExtendedFloatingActionButton(
-                icon = Icons.Filled.Edit,
-                contentDescription = "Edit user",
-                text = stringResource(id = R.string.edit),
-                onClick = { UserScreenContract.Event.OnEditAccountClick }
-            )
-        },
+        //TODO: Edit user
+//        floatingActionButton = {
+//            RoarExtendedFloatingActionButton(
+//                icon = Icons.Filled.Edit,
+//                contentDescription = "Edit user",
+//                text = stringResource(id = R.string.edit),
+//                onClick = { UserScreenContract.Event.OnEditAccountClick }
+//            )
+//        },
         floatingActionButtonPosition = FabPosition.End
     ) {
         BoxWithLoader(isLoading = state.user == null) {
