@@ -45,6 +45,9 @@ class MainActivity : AppCompatActivity() {
     private val isOnboardingComplete by lazy { this.getSharedPreferences("app_prefs", MODE_PRIVATE)
         .getBoolean(PreferencesKeys.ONBOARDING_COMPLETE, false) }
 
+    private val isDynamicColorsActive by lazy { this.getSharedPreferences("app_prefs", MODE_PRIVATE)
+        .getBoolean(PreferencesKeys.DYNAMIC_COLORS_ACTIVE, false) }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -55,7 +58,7 @@ class MainActivity : AppCompatActivity() {
         )
 
         setContent {
-            RoarTheme {
+            RoarTheme(userPreferenceDynamicColorsIsActive = isDynamicColorsActive) {
                 GlobalDestinationState(isOnboardingComplete = isOnboardingComplete)
             }
         }

@@ -12,10 +12,12 @@ class UserScreenContract {
         object OnEditAccountClick : Event()
         object OnCreateBackupClick : Event()
         data class OnUseBackup(val backupString: String, val removeOld: Boolean) : Event()
+        data class OnDynamicColorsStateChange(val active: Boolean) : Event()
     }
 
     data class State(
         val isLoading: Boolean = false,
+        val dynamicColorActive: Boolean = false,
         val user: User? = null,
     ) : ViewState
 

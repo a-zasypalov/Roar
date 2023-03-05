@@ -5,6 +5,7 @@ import android.app.AlertDialog
 import android.content.Intent
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
@@ -20,10 +21,7 @@ import androidx.lifecycle.Lifecycle
 import androidx.navigation.NavHostController
 import com.gaoyun.common.OnLifecycleEvent
 import com.gaoyun.common.R
-import com.gaoyun.common.ui.BoxWithLoader
-import com.gaoyun.common.ui.RoarExtendedFloatingActionButton
-import com.gaoyun.common.ui.Spacer
-import com.gaoyun.common.ui.SurfaceScaffold
+import com.gaoyun.common.ui.*
 import com.gaoyun.roar.model.domain.User
 import com.gaoyun.roar.presentation.LAUNCH_LISTEN_FOR_EFFECTS
 import com.gaoyun.roar.presentation.user_screen.UserScreenContract
@@ -74,6 +72,7 @@ fun UserScreen(
     backupFlow: Flow<String>
 ) {
     val context = LocalContext.current
+    val activity = LocalContext.current as AppCompatActivity
     val coroutineScope = rememberCoroutineScope()
     val snackbarHostState = remember { SnackbarHostState() }
 
@@ -236,6 +235,19 @@ fun UserScreen(
                             Text(stringResource(id = R.string.import_button), style = MaterialTheme.typography.titleMedium)
                         }
                     }
+
+                    Spacer(size = 32.dp)
+
+                    LabelledCheckBox(
+                        checked = state.dynamicColorActive,
+                        onCheckedChange = {
+                            onEventSent(UserScreenContract.Event.OnDynamicColorsStateChange(it))
+                            activity.recreate()
+                        },
+                        label = stringResource(id = R.string.dynamic_color_switcher_title),
+                        modifier = Modifier.fillMaxWidth(),
+                        horizontalPadding = 8.dp
+                    )
                 }
             }
         }
@@ -246,7 +258,7 @@ fun UserScreen(
 @Composable
 fun UserScreenPreview() {
     UserScreen(
-        state = UserScreenContract.State(false, User("id", "Tester")),
+        state = UserScreenContract.State(isLoading = false, dynamicColorActive = false, user = User("id", "Tester")),
         effectFlow = emptyFlow(),
         onEventSent = {},
         onNavigationRequested = {},

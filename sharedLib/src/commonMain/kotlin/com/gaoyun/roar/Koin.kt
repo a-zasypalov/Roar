@@ -1,5 +1,6 @@
 package com.gaoyun.roar
 
+import com.gaoyun.roar.domain.DynamicColorsUseCase
 import com.gaoyun.roar.domain.backup.CreateBackupUseCase
 import com.gaoyun.roar.domain.backup.ImportBackupUseCase
 import com.gaoyun.roar.domain.interaction.GetInteraction
@@ -76,6 +77,7 @@ val useCaseModule = module {
     single { CreateBackupUseCase() }
     single { ImportBackupUseCase() }
     single { CompleteOnboardingUseCase() }
+    single { DynamicColorsUseCase() }
 }
 
 val networkModule = module {

@@ -1,5 +1,6 @@
 package com.gaoyun.roar.presentation.user_screen
 
+import com.gaoyun.roar.domain.DynamicColorsUseCase
 import com.gaoyun.roar.domain.backup.CreateBackupUseCase
 import com.gaoyun.roar.domain.backup.ImportBackupUseCase
 import com.gaoyun.roar.domain.user.GetCurrentUserUseCase
@@ -16,6 +17,7 @@ class UserScreenViewModel : BaseViewModel<UserScreenContract.Event, UserScreenCo
     private val getUser: GetCurrentUserUseCase by inject()
     private val createBackupUseCase: CreateBackupUseCase by inject()
     private val importBackupUseCase: ImportBackupUseCase by inject()
+    private val dynamicColorsUseCase: DynamicColorsUseCase by inject()
 
     val backupState = MutableStateFlow("")
 
@@ -27,6 +29,7 @@ class UserScreenViewModel : BaseViewModel<UserScreenContract.Event, UserScreenCo
             is UserScreenContract.Event.OnEditAccountClick -> {}
             is UserScreenContract.Event.OnCreateBackupClick -> createBackup()
             is UserScreenContract.Event.OnUseBackup -> useBackup(event.backupString, event.removeOld)
+            is UserScreenContract.Event.OnDynamicColorsStateChange -> setDynamicColor(event.active)
         }
     }
 
@@ -36,7 +39,11 @@ class UserScreenViewModel : BaseViewModel<UserScreenContract.Event, UserScreenCo
                 it.printStackTrace()
             }
             .collect { user ->
-                setState { copy(isLoading = false, user = user) }
+                setState { copy(
+                    isLoading = false,
+                    user = user,
+                    dynamicColorActive = dynamicColorsUseCase.dynamicColorsIsActive()
+                ) }
             }
     }
 
@@ -51,6 +58,11 @@ class UserScreenViewModel : BaseViewModel<UserScreenContract.Event, UserScreenCo
         importBackupUseCase.importBackup(backupString, removeOld).collect {
             setEffect { UserScreenContract.Effect.BackupApplied }
         }
+    }
+
+    private fun setDynamicColor(active: Boolean) {
+        dynamicColorsUseCase.setDynamicColors(active)
+        setState { copy(dynamicColorActive = active) }
     }
 
 }

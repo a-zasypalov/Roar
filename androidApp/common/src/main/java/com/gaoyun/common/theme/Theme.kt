@@ -66,18 +66,17 @@ private val LightColorPalette = lightColorScheme(
 
 @Composable
 fun RoarTheme(
+    userPreferenceDynamicColorsIsActive: Boolean = false,
     darkTheme: Boolean = isSystemInDarkTheme(),
     supportsDynamic: Boolean = Build.VERSION.SDK_INT >= Build.VERSION_CODES.S,
     content: @Composable () -> Unit
 ) {
-
-    val colors =
-        if (supportsDynamic) {
-            val context = LocalContext.current
-            if (darkTheme) dynamicDarkColorScheme(context) else dynamicLightColorScheme(context)
-        } else {
-            if (darkTheme) DarkColorPalette else LightColorPalette
-        }
+    val colors = if (userPreferenceDynamicColorsIsActive && supportsDynamic) {
+        val context = LocalContext.current
+        if (darkTheme) dynamicDarkColorScheme(context) else dynamicLightColorScheme(context)
+    } else {
+        if (darkTheme) DarkColorPalette else LightColorPalette
+    }
 
     MaterialTheme(
         colorScheme = colors,
