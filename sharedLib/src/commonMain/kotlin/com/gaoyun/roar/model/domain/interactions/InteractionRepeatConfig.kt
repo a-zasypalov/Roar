@@ -6,11 +6,18 @@ import kotlinx.serialization.Serializable
 data class InteractionRepeatConfig(
     val repeatsEveryNumber: Int = 1,
     val repeatsEveryPeriod: InteractionRepeatConfigEach = InteractionRepeatConfigEach.DAY,
-    val repeatsEveryPeriodOn: String = "-",
-    val ends: String = "no",
+    val repeatsEveryPeriodOn: String = REPEATS_EVERY_PERIOD_ON_EMPTY,
+    val ends: String = ENDS_NO,
     val active: Boolean = false,
 ) {
     override fun toString(): String = "${repeatsEveryNumber}_${repeatsEveryPeriod}_${repeatsEveryPeriodOn}_$ends"
+
+    companion object {
+        const val REPEATS_EVERY_PERIOD_ON_EMPTY = "-"
+        const val ENDS_NO = "no.0"
+        const val ENDS_DATE = "date"
+        const val ENDS_TIMES = "times"
+    }
 }
 
 @Serializable

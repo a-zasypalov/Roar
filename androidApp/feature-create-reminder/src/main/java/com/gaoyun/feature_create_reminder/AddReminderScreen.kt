@@ -21,6 +21,7 @@ import androidx.navigation.NavHostController
 import com.gaoyun.common.NavigationKeys
 import com.gaoyun.common.OnLifecycleEvent
 import com.gaoyun.common.R
+import com.gaoyun.common.ext.repeatConfigTextShort
 import com.gaoyun.common.icon
 import com.gaoyun.common.ui.*
 import com.gaoyun.roar.model.domain.interactions.InteractionTemplate
@@ -219,9 +220,8 @@ private fun TemplateItem(
                         color = MaterialTheme.colorScheme.onSurface
                     )
 
-                    val repeatText = template.repeatConfig.toString()
                     Text(
-                        repeatText,
+                        template.repeatConfig.repeatConfigTextShort(),
                         style = MaterialTheme.typography.bodyMedium,
                         color = MaterialTheme.colorScheme.onSurface
                     )

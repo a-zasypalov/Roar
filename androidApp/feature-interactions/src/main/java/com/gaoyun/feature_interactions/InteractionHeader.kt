@@ -14,6 +14,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
 import com.gaoyun.common.R
+import com.gaoyun.common.ext.repeatConfigTextFull
 import com.gaoyun.common.icon
 import com.gaoyun.common.ui.RoarIcon
 import com.gaoyun.common.ui.Spacer
@@ -83,7 +84,7 @@ internal fun InteractionHeader(
                 TextWithIconBulletPoint(icon = groupIcon, interaction.group.toString())
 
                 interaction.repeatConfig?.let {
-                    TextWithIconBulletPoint(icon = Icons.Filled.Repeat, it.toString())
+                    TextWithIconBulletPoint(icon = Icons.Filled.Repeat, it.repeatConfigTextFull())
                 } ?: TextWithIconBulletPoint(icon = Icons.Filled.Repeat, stringResource(id = R.string.doesnt_repeat))
 
                 if (interaction.isActive) {

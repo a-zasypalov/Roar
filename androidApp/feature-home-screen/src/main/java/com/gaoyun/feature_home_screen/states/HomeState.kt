@@ -19,9 +19,8 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.gaoyun.common.DateUtils.monthsFromNow
-import com.gaoyun.common.DateUtils.yearsFromNow
 import com.gaoyun.common.R
+import com.gaoyun.common.ext.ageText
 import com.gaoyun.common.theme.RoarTheme
 import com.gaoyun.common.ui.Spacer
 import com.gaoyun.common.ui.getDrawableByName
@@ -75,7 +74,14 @@ fun HomeState(
                     onInteractionClick = { interactionId -> onInteractionClick(pet.id, interactionId) },
                     onDeletePetClick = { onDeletePetClick(pet) },
                     onEditPetClick = { onEditPetClick(pet) },
-                    onInteractionCheckClicked = { interactionId, isChecked, completionDateTime -> onInteractionCheckClicked(pet, interactionId, isChecked, completionDateTime.toKotlinLocalDateTime()) },
+                    onInteractionCheckClicked = { interactionId, isChecked, completionDateTime ->
+                        onInteractionCheckClicked(
+                            pet,
+                            interactionId,
+                            isChecked,
+                            completionDateTime.toKotlinLocalDateTime()
+                        )
+                    },
                     modifier = Modifier
                         .padding(start = 8.dp, end = 8.dp)
                         .fillMaxWidth()
@@ -97,7 +103,14 @@ fun HomeState(
                     onPetCardClick = onPetCardClick,
                     showLastReminder = showLastReminder,
                     onInteractionClick = { interactionId -> onInteractionClick(pet.id, interactionId) },
-                    onInteractionCheckClicked = { interactionId, isChecked, completionDateTime -> onInteractionCheckClicked(pet, interactionId, isChecked, completionDateTime.toKotlinLocalDateTime()) }
+                    onInteractionCheckClicked = { interactionId, isChecked, completionDateTime ->
+                        onInteractionCheckClicked(
+                            pet,
+                            interactionId,
+                            isChecked,
+                            completionDateTime.toKotlinLocalDateTime()
+                        )
+                    }
                 )
             }
 
@@ -194,7 +207,7 @@ private fun PetCard(
                         style = MaterialTheme.typography.headlineMedium
                     )
                     Text(
-                        text = stringResource(id = R.string.n_years_n_months, pet.birthday.yearsFromNow(), pet.birthday.monthsFromNow()),
+                        text = pet.ageText(),
                         color = MaterialTheme.colorScheme.onSurface,
                         style = MaterialTheme.typography.bodyLarge
                     )

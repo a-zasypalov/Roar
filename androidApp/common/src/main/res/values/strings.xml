@@ -37,6 +37,7 @@
     <string name="never">Never</string>
     <string name="repeats_every">Repeats every</string>
     <string name="last_day">Last Day</string>
+    <string name="last_occurrence">Last occurrence</string>
     <string name="ends">Ends</string>
     <string name="end_on_date">End on date</string>
     <string name="reminder_ends_on">Reminder ends on</string>
@@ -51,7 +52,6 @@
     <string name="new_custom_reminder">New custom reminder</string>
     <string name="your_pets">Your pets</string>
     <string name="hey">Hey, %1$s</string>
-    <string name="n_years_n_months">%1$d years %2$d months</string>
     <string name="greeting_no_pets_state">Great, nice to meet you, %1$s!\nNow you can add pets</string>
     <string name="add_first_pet">Add First Pet</string>
     <string name="register_to_get_started">Register to get started</string>
@@ -101,11 +101,49 @@
         <item quantity="other">months</item>
     </plurals>
 
+    <plurals name="weeks">
+        <item quantity="one">week</item>
+        <item quantity="other">weeks</item>
+    </plurals>
+
+    <plurals name="days">
+        <item quantity="one">day</item>
+        <item quantity="other">days</item>
+    </plurals>
+
+    <plurals name="times">
+        <item quantity="one">time</item>
+        <item quantity="other">times</item>
+    </plurals>
+
+    <array name="weekdays">
+        <item>Monday</item>
+        <item>Tuesday</item>
+        <item>Wednesday</item>
+        <item>Thursday</item>
+        <item>Friday</item>
+        <item>Saturday</item>
+        <item>Sunday</item>
+    </array>
+
+    <array name="weekdays_short">
+        <item>Mon</item>
+        <item>Tue</item>
+        <item>Wed</item>
+        <item>Thu</item>
+        <item>Fri</item>
+        <item>Sat</item>
+        <item>Sun</item>
+    </array>
+
     <string name="onboarding_care_assistant">Pet\'s care assistant</string>
     <string name="onboarding_care_reminders">Care reminders</string>
     <string name="onboarding_care_reminders_description">Sometimes pets aren\'t talkative about needs</string>
     <string name="onboarding_community_project">Community project</string>
     <string name="onboarding_community_project_description">Roar is a community-driven project</string>
+
+    <string name="date_on">on</string>
+    <string name="never_ends">never ends</string>
 
     <!--  Content descriptions  -->
     <string name="cd_pet">pet</string>

@@ -32,6 +32,7 @@ import com.gaoyun.common.DateUtils.ddMmmYyyyDateFormatter
 import com.gaoyun.common.R
 import com.gaoyun.common.dialog.DatePicker
 import com.gaoyun.common.dialog.TimePicker
+import com.gaoyun.common.ext.repeatConfigTextFull
 import com.gaoyun.common.ui.*
 import com.gaoyun.roar.model.domain.interactions.*
 import com.gaoyun.roar.util.toLocalDate
@@ -59,8 +60,6 @@ internal fun ReminderSetupForm(
                 ?: InteractionGroup.ROUTINE_STRING
         )
     }
-
-    val interactionRepeatConfigTextState = remember { mutableStateOf(TextFieldValue(repeatConfig.toString())) }
 
     val reminderName = rememberSaveable { mutableStateOf(interactionToEdit?.name ?: template?.name ?: "") }
     val notesState = remember { mutableStateOf(interactionToEdit?.notes ?: "") }
@@ -107,7 +106,6 @@ internal fun ReminderSetupForm(
             setShowDialog = { showDialog.value = it },
             onConfigSave = {
                 onConfigSave(it)
-                interactionRepeatConfigTextState.value = TextFieldValue(it)
             })
     }
 
@@ -215,7 +213,7 @@ internal fun ReminderSetupForm(
 
         if (repeatEnabledState.value) {
             ReadonlyTextField(
-                value = interactionRepeatConfigTextState.value,
+                value = TextFieldValue(repeatConfig.repeatConfigTextFull()),
                 onValueChange = { },
                 leadingIcon = {
                     Icon(

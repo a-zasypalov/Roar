@@ -18,6 +18,7 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.gaoyun.common.DateUtils
 import com.gaoyun.common.R
+import com.gaoyun.common.ext.repeatConfigTextShort
 import com.gaoyun.common.icon
 import com.gaoyun.common.ui.LabelledCheckBox
 import com.gaoyun.common.ui.RoarIcon
@@ -78,9 +79,8 @@ fun InteractionCard(
                         color = MaterialTheme.colorScheme.onSurface
                     )
 
-                    val repeatText = interaction.repeatConfig?.toString() ?: stringResource(id = R.string.no_repeat)
                     Text(
-                        repeatText,
+                        interaction.repeatConfigTextShort(),
                         style = MaterialTheme.typography.bodyMedium,
                         color = MaterialTheme.colorScheme.onSurface
                     )

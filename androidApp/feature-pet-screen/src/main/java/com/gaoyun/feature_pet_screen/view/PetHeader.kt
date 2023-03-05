@@ -13,12 +13,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.res.pluralStringResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import com.gaoyun.common.DateUtils.monthsFromNow
-import com.gaoyun.common.DateUtils.yearsFromNow
 import com.gaoyun.common.R
+import com.gaoyun.common.ext.ageText
 import com.gaoyun.common.ui.Spacer
 import com.gaoyun.common.ui.getDrawableByName
 import com.gaoyun.roar.model.domain.Gender
@@ -82,12 +80,7 @@ internal fun PetHeader(
             ) {
                 TextWithIconBulletPoint(
                     icon = Icons.Filled.Cake,
-                    text = StringBuilder().apply {
-                        append(pet.birthday.yearsFromNow())
-                        append(pluralStringResource(id = R.plurals.years, count = pet.birthday.yearsFromNow()))
-                        append(pet.birthday.monthsFromNow())
-                        append(pluralStringResource(id = R.plurals.months, count = pet.birthday.monthsFromNow()))
-                    }.toString()
+                    text = pet.ageText()
                 )
 
                 when (pet.gender) {
