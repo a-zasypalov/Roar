@@ -8,6 +8,7 @@ import androidx.compose.ui.res.pluralStringResource
 import com.gaoyun.common.DateUtils.monthsFromNow
 import com.gaoyun.common.DateUtils.yearsFromNow
 import com.gaoyun.common.R
+import com.gaoyun.roar.model.domain.Gender
 import com.gaoyun.roar.model.domain.Pet
 import com.gaoyun.roar.model.domain.PetWithInteractions
 import com.gaoyun.roar.model.domain.withoutInteractions
@@ -27,3 +28,8 @@ fun Pet.ageText() = StringBuilder().apply {
     append(" ")
     append(pluralStringResource(id = R.plurals.months, count = birthday.monthsFromNow()))
 }.toString()
+
+fun Gender.toLocalizedStringId() = when(this) {
+    Gender.MALE -> R.string.male
+    Gender.FEMALE -> R.string.female
+}
