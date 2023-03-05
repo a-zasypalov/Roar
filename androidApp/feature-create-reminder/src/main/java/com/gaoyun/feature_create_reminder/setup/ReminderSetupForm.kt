@@ -33,6 +33,7 @@ import com.gaoyun.common.R
 import com.gaoyun.common.dialog.DatePicker
 import com.gaoyun.common.dialog.TimePicker
 import com.gaoyun.common.ext.repeatConfigTextFull
+import com.gaoyun.common.ext.toLocalizedStringId
 import com.gaoyun.common.ui.*
 import com.gaoyun.roar.model.domain.interactions.*
 import com.gaoyun.roar.util.toLocalDate
@@ -64,7 +65,7 @@ internal fun ReminderSetupForm(
     val reminderName = rememberSaveable { mutableStateOf(interactionToEdit?.name ?: template?.name ?: "") }
     val notesState = remember { mutableStateOf(interactionToEdit?.notes ?: "") }
 
-    val repeatEnabledState = remember { mutableStateOf(interactionToEdit?.let { it.repeatConfig != null} ?: repeatConfig.active) }
+    val repeatEnabledState = remember { mutableStateOf(interactionToEdit?.let { it.repeatConfig != null } ?: repeatConfig.active) }
     val showDialog = remember { mutableStateOf(false) }
 
     val startsOnDate = remember {
@@ -134,8 +135,10 @@ internal fun ReminderSetupForm(
 
         if (template == null) {
             DropdownMenu(
-                valueList = InteractionGroup.GROUP_LIST,
+                valueList = InteractionGroup.GROUP_LIST.map { it.toString() },
                 listState = interactionGroupState,
+                valueDisplayList = InteractionGroup.GROUP_LIST.map { it.toLocalizedStringId() },
+                listDisplayState = interactionGroupState.value.toInteractionGroup().toLocalizedStringId(),
                 label = stringResource(id = R.string.group),
                 leadingIcon = Icons.Filled.FormatListBulleted,
                 modifier = Modifier.padding(horizontal = 24.dp),

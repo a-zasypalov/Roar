@@ -1,17 +1,21 @@
 package com.gaoyun.common.ui
 
+import androidx.annotation.StringRes
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.res.stringResource
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun DropdownMenu(
     valueList: List<String>,
     listState: MutableState<String>,
+    @StringRes valueDisplayList: List<Int>?,
+    @StringRes listDisplayState: Int?,
     modifier: Modifier = Modifier,
     label: String? = null,
     leadingIcon: ImageVector? = null
@@ -25,7 +29,7 @@ fun DropdownMenu(
     ) {
         TextFormField(
             readOnly = true,
-            text = listState.value,
+            text = listDisplayState?.let { stringResource(id = it) } ?: listState.value,
             onChange = { },
             label = label,
             trailingIcon = {
@@ -49,16 +53,16 @@ fun DropdownMenu(
             onDismissRequest = { menuExpanded = false },
             modifier = Modifier.background(MaterialTheme.colorScheme.surfaceVariant)
         ) {
-            valueList.forEach { breedSelection ->
+            valueList.forEachIndexed { index, selection ->
                 DropdownMenuItem(
                     text = {
                         Text(
-                            text = breedSelection,
+                            text = valueDisplayList?.let { stringResource(id = it[index]) } ?: selection,
                             color = MaterialTheme.colorScheme.onSurfaceVariant
                         )
                     },
                     onClick = {
-                        listState.value = breedSelection
+                        listState.value = selection
                         menuExpanded = false
                     },
                 )

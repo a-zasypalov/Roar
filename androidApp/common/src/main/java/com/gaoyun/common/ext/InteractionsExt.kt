@@ -11,6 +11,8 @@ import androidx.compose.ui.text.decapitalize
 import androidx.compose.ui.text.intl.Locale
 import com.gaoyun.common.DateUtils
 import com.gaoyun.common.R
+import com.gaoyun.roar.model.domain.Gender
+import com.gaoyun.roar.model.domain.interactions.InteractionGroup
 import com.gaoyun.roar.model.domain.interactions.InteractionRepeatConfig
 import com.gaoyun.roar.model.domain.interactions.InteractionRepeatConfigEach
 import com.gaoyun.roar.model.domain.interactions.InteractionWithReminders
@@ -104,3 +106,21 @@ fun InteractionRepeatConfig.repeatConfigTextFull() =
             }
         }
     }.toString()
+
+fun InteractionGroup.toLocalizedStringId() = when (this) {
+    InteractionGroup.HEALTH -> R.string.interaction_group_health
+    InteractionGroup.CARE -> R.string.interaction_group_care
+    InteractionGroup.ROUTINE -> R.string.interaction_group_routine
+}
+
+fun Gender.toLocalizedStringId() = when(this) {
+    Gender.MALE -> R.string.male
+    Gender.FEMALE -> R.string.female
+}
+
+fun InteractionRepeatConfigEach.toLocalizedStringId() = when(this) {
+    InteractionRepeatConfigEach.YEAR -> R.string.year
+    InteractionRepeatConfigEach.MONTH -> R.string.month
+    InteractionRepeatConfigEach.WEEK -> R.string.week
+    InteractionRepeatConfigEach.DAY -> R.string.day
+}

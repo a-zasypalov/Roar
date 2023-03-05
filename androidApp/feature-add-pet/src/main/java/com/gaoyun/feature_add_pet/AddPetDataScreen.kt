@@ -29,10 +29,13 @@ import androidx.navigation.NavHostController
 import com.gaoyun.common.NavigationKeys
 import com.gaoyun.common.OnLifecycleEvent
 import com.gaoyun.common.dialog.DatePicker
+import com.gaoyun.common.ext.toLocalizedStringId
 import com.gaoyun.common.theme.RoarTheme
 import com.gaoyun.common.ui.*
+import com.gaoyun.roar.model.domain.Gender
 import com.gaoyun.roar.model.domain.Pet
 import com.gaoyun.roar.model.domain.PetType
+import com.gaoyun.roar.model.domain.toGender
 import com.gaoyun.roar.presentation.LAUNCH_LISTEN_FOR_EFFECTS
 import com.gaoyun.roar.presentation.add_pet.data.AddPetDataScreenContract
 import com.gaoyun.roar.presentation.add_pet.data.AddPetDataScreenViewModel
@@ -158,7 +161,7 @@ private fun AddPetForm(
     val chipNumberState = remember { mutableStateOf(petToEdit?.chipNumber ?: "") }
 
     val petBreedState = remember { mutableStateOf(petToEdit?.breed ?: petBreeds.firstOrNull() ?: "") }
-    val petGenderState = remember { mutableStateOf(petToEdit?.gender?.toString()?.capitalize(Locale.current) ?: "Male") }
+    val petGenderState = remember { mutableStateOf(petToEdit?.gender?.toString()?.capitalize(Locale.current) ?: Gender.MALE_STRING) }
 
     val petBirthdayState = remember { mutableStateOf(petToEdit?.birthday?.atStartOfDayIn(TimeZone.currentSystemDefault())?.toEpochMilliseconds()) }
     val petBirthdayStringState = remember {
@@ -255,6 +258,8 @@ private fun AddPetForm(
                 DropdownMenu(
                     valueList = petBreeds,
                     listState = petBreedState,
+                    valueDisplayList = null,
+                    listDisplayState = null,
                     label = stringResource(id = CommonR.string.breed),
                     leadingIcon = Icons.Filled.List,
                     modifier = Modifier
@@ -265,8 +270,10 @@ private fun AddPetForm(
                 Spacer(size = 16.dp)
 
                 DropdownMenu(
-                    valueList = listOf(stringResource(id = CommonR.string.male), stringResource(id = CommonR.string.female)),
+                    valueList = Gender.GENDER_LIST,
                     listState = petGenderState,
+                    valueDisplayList = Gender.GENDER_LIST.map { it.toGender().toLocalizedStringId() },
+                    listDisplayState = petGenderState.value.toGender().toLocalizedStringId(),
                     label = stringResource(id = CommonR.string.gender),
                     leadingIcon = if (petGenderState.value == stringResource(id = CommonR.string.male)) Icons.Filled.Male else Icons.Filled.Female,
                     modifier = Modifier

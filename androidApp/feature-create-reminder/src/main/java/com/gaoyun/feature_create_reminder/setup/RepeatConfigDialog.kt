@@ -25,8 +25,11 @@ import androidx.compose.ui.window.DialogProperties
 import com.gaoyun.common.DateUtils.ddMmmYyyyDateFormatter
 import com.gaoyun.common.R
 import com.gaoyun.common.dialog.DatePicker
+import com.gaoyun.common.ext.toLocalizedStringId
 import com.gaoyun.common.ui.*
 import com.gaoyun.roar.model.domain.interactions.InteractionRepeatConfig
+import com.gaoyun.roar.model.domain.interactions.InteractionRepeatConfigEach
+import com.gaoyun.roar.model.domain.interactions.toInteractionRepeatConfigEach
 import com.gaoyun.roar.util.toLocalDate
 import kotlinx.datetime.*
 
@@ -42,12 +45,7 @@ internal fun RepeatConfigDialog(
 
     val repeatsEveryNumber = rememberSaveable { mutableStateOf(repeatConfig?.repeatsEveryNumber?.toString() ?: "1") }
     val repeatsEveryPeriod = rememberSaveable { mutableStateOf(repeatConfig?.repeatsEveryPeriod?.toString() ?: activity.getString(R.string.month)) }
-    val repeatsEveryPeriodsList = listOf(
-        stringResource(id = R.string.day),
-        stringResource(id = R.string.week),
-        stringResource(id = R.string.month),
-        stringResource(id = R.string.year)
-    )
+    val repeatsEveryPeriodsList = InteractionRepeatConfigEach.LIST
 
     val repeatsEveryPeriodOnMothDay = rememberSaveable {
         mutableStateOf(
@@ -103,7 +101,8 @@ internal fun RepeatConfigDialog(
     val endConditionStatesList = listOf(
         activity.getString(R.string.never),
         activity.getString(R.string.on_date),
-        activity.getString(R.string.after_three_dots))
+        activity.getString(R.string.after_three_dots)
+    )
 
     val endsOnDateState = remember {
         mutableStateOf(
@@ -176,6 +175,8 @@ internal fun RepeatConfigDialog(
                         DropdownMenu(
                             valueList = repeatsEveryPeriodsList,
                             listState = repeatsEveryPeriod,
+                            valueDisplayList = repeatsEveryPeriodsList.map { it.toInteractionRepeatConfigEach().toLocalizedStringId() },
+                            listDisplayState = repeatsEveryPeriod.value.toInteractionRepeatConfigEach().toLocalizedStringId(),
                             modifier = Modifier.fillMaxWidth(1f)
                         )
                     }
@@ -183,7 +184,7 @@ internal fun RepeatConfigDialog(
                     Spacer(size = 8.dp)
 
                     when (repeatsEveryPeriod.value) {
-                        stringResource(id = R.string.week) -> {
+                        InteractionRepeatConfigEach.WEEK_STRING -> {
                             LazyRow(
                                 modifier = Modifier.fillMaxWidth(),
                                 horizontalArrangement = Arrangement.SpaceEvenly
@@ -219,7 +220,7 @@ internal fun RepeatConfigDialog(
                                 }
                             }
                         }
-                        stringResource(id = R.string.month) -> {
+                        InteractionRepeatConfigEach.MONTH_STRING -> {
                             val days = arrayListOf<String>().apply {
                                 for (i in 1..31) {
                                     add("${stringResource(id = R.string.day).replaceFirstChar { it.uppercase() }} $i")
@@ -229,6 +230,8 @@ internal fun RepeatConfigDialog(
                             DropdownMenu(
                                 valueList = days,
                                 listState = repeatsEveryPeriodOnMothDay,
+                                valueDisplayList = null,
+                                listDisplayState = null,
                                 modifier = Modifier
                                     .fillMaxWidth()
                                     .padding(horizontal = defaultHorizontalPadding)
@@ -252,6 +255,8 @@ internal fun RepeatConfigDialog(
                     DropdownMenu(
                         valueList = endConditionStatesList,
                         listState = endConditionState,
+                        valueDisplayList = null,
+                        listDisplayState = null,
                         label = stringResource(id = R.string.ends),
                         modifier = Modifier
                             .fillMaxWidth()
@@ -330,8 +335,13 @@ internal fun RepeatConfigDialog(
 
                         TextButton(onClick = {
                             val repeatsEveryPeriodOn = when (repeatsEveryPeriod.value) {
-                                activity.getString(R.string.week) -> repeatsEveryPeriodOnWeek.value.filter { it.value }.keys.map { it.isoDayNumber }.joinToString(",")
-                                activity.getString(R.string.month) -> if (repeatsEveryPeriodOnMothDay.value.lowercase().contains("last")) "last" else repeatsEveryPeriodOnMothDay.value.split(" ")[1]
+                                InteractionRepeatConfigEach.WEEK_STRING -> repeatsEveryPeriodOnWeek.value.filter { it.value }.keys.map { it.isoDayNumber }.joinToString(",")
+                                InteractionRepeatConfigEach.MONTH_STRING ->
+                                    if (repeatsEveryPeriodOnMothDay.value.lowercase().contains(activity.getString(R.string.last_day).lowercase())) {
+                                        "last"
+                                    } else {
+                                        repeatsEveryPeriodOnMothDay.value.split(" ")[1]
+                                    }
                                 else -> activity.getString(R.string.dash)
                             }
                             val ends = when (endConditionState.value) {

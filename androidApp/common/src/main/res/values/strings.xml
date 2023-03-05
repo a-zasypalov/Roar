@@ -146,6 +146,10 @@
     <string name="date_on">on</string>
     <string name="never_ends">never ends</string>
 
+    <string name="interaction_group_health">Health</string>
+    <string name="interaction_group_care">Care</string>
+    <string name="interaction_group_routine">Routine</string>
+
     <!--  Content descriptions  -->
     <string name="cd_pet">pet</string>
     <string name="cd_avatar">avatar</string>

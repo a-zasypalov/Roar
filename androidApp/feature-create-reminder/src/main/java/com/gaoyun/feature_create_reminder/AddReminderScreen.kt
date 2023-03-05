@@ -22,6 +22,7 @@ import com.gaoyun.common.NavigationKeys
 import com.gaoyun.common.OnLifecycleEvent
 import com.gaoyun.common.R
 import com.gaoyun.common.ext.repeatConfigTextShort
+import com.gaoyun.common.ext.toLocalizedStringId
 import com.gaoyun.common.icon
 import com.gaoyun.common.ui.*
 import com.gaoyun.roar.model.domain.interactions.InteractionTemplate
@@ -113,7 +114,7 @@ fun AddReminderScreen(
                     state.templates.groupBy { it.group }.forEach { (interactionGroup, templates) ->
                         item {
                             Text(
-                                text = interactionGroup.toString(),
+                                text = stringResource(id = interactionGroup.toLocalizedStringId()),
                                 style = MaterialTheme.typography.headlineLarge,
                                 modifier = Modifier.padding(horizontal = 16.dp, vertical = 16.dp)
                             )

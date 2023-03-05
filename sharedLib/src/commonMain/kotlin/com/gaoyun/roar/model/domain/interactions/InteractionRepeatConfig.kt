@@ -38,10 +38,16 @@ enum class InteractionRepeatConfigEach {
         const val MONTH_STRING = "month"
         const val WEEK_STRING = "week"
         const val DAY_STRING = "day"
+        val LIST = listOf(
+            DAY_STRING,
+            WEEK_STRING,
+            MONTH_STRING,
+            YEAR_STRING
+        )
     }
 }
 
-internal fun String.toInteractionRepeatConfigEach(): InteractionRepeatConfigEach {
+fun String.toInteractionRepeatConfigEach(): InteractionRepeatConfigEach {
     return when (this) {
         InteractionRepeatConfigEach.YEAR_STRING -> InteractionRepeatConfigEach.YEAR
         InteractionRepeatConfigEach.MONTH_STRING -> InteractionRepeatConfigEach.MONTH

@@ -22,9 +22,9 @@ enum class InteractionGroup {
         const val ROUTINE_STRING = "routine"
 
         val GROUP_LIST = listOf(
-            HEALTH_STRING,
-            CARE_STRING,
-            ROUTINE_STRING
+            HEALTH,
+            CARE,
+            ROUTINE
         )
     }
 }

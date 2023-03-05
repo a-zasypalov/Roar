@@ -15,6 +15,7 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
 import com.gaoyun.common.R
 import com.gaoyun.common.ext.repeatConfigTextFull
+import com.gaoyun.common.ext.toLocalizedStringId
 import com.gaoyun.common.icon
 import com.gaoyun.common.ui.RoarIcon
 import com.gaoyun.common.ui.Spacer
@@ -81,7 +82,7 @@ internal fun InteractionHeader(
                     InteractionGroup.CARE -> Icons.Filled.Spa
                     InteractionGroup.ROUTINE -> Icons.Filled.Pets
                 }
-                TextWithIconBulletPoint(icon = groupIcon, interaction.group.toString())
+                TextWithIconBulletPoint(icon = groupIcon, stringResource(id = interaction.group.toLocalizedStringId()))
 
                 interaction.repeatConfig?.let {
                     TextWithIconBulletPoint(icon = Icons.Filled.Repeat, it.repeatConfigTextFull())
