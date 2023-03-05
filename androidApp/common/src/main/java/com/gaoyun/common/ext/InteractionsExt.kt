@@ -69,7 +69,7 @@ fun InteractionRepeatConfig.repeatConfigTextFull() =
                 InteractionRepeatConfigEach.MONTH -> {
                     append(stringResource(id = R.string.date_on))
                     append(" ")
-                    repeatsEveryPeriodOn.toIntOrNull()?.let { dayNumber ->
+                    repeatsEveryPeriodOn.split(" ").getOrNull(1)?.toIntOrNull()?.let { dayNumber ->
                         append("$dayNumber ${stringResource(id = R.string.day)}")
                     } ?: append(stringResource(id = R.string.last_day).decapitalize(Locale.current))
                 }
