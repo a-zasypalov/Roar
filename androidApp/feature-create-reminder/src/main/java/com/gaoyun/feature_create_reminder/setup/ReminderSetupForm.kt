@@ -64,7 +64,7 @@ internal fun ReminderSetupForm(
     val reminderName = rememberSaveable { mutableStateOf(interactionToEdit?.name ?: template?.name ?: "") }
     val notesState = remember { mutableStateOf(interactionToEdit?.notes ?: "") }
 
-    val repeatEnabledState = remember { mutableStateOf(interactionToEdit?.repeatConfig != null) }
+    val repeatEnabledState = remember { mutableStateOf(interactionToEdit?.let { it.repeatConfig != null} ?: repeatConfig.active) }
     val showDialog = remember { mutableStateOf(false) }
 
     val startsOnDate = remember {

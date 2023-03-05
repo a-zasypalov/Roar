@@ -143,6 +143,9 @@ private fun ChooseAvatar(
                 }
             }
         }
+        item(span = titleSpan) {
+            Box(modifier = Modifier.size(WindowInsets.navigationBars.asPaddingValues().calculateBottomPadding()))
+        }
     }
 }
 
