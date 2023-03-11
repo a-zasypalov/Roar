@@ -14,6 +14,6 @@ class NotificationWorker(context: Context, private val params: WorkerParameters)
     override suspend fun doWork(): Result {
         val notification = params.inputData.toNotificationData()
         val result = handler.handle(notification)
-        return if(result) Result.success() else Result.failure()
+        return if (result) Result.success() else Result.failure()
     }
 }

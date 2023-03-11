@@ -17,8 +17,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.gaoyun.common.theme.RoarTheme
 import com.gaoyun.common.ui.PrimaryElevatedButton
+import com.gaoyun.common.ui.Spacer
 import com.gaoyun.common.R as CommonR
-import com.gaoyun.common.ui.Spacer as Spacer
 
 @Composable
 fun NoPetsState(
@@ -32,7 +32,9 @@ fun NoPetsState(
             .fillMaxHeight()
     ) {
         Column(
-            modifier = Modifier.fillMaxWidth().fillMaxHeight(fraction = 0.5f),
+            modifier = Modifier
+                .fillMaxWidth()
+                .fillMaxHeight(fraction = 0.5f),
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Center
         ) {
@@ -56,7 +58,9 @@ fun NoPetsState(
             Text(text = "Nice to meet you, $userName!", style = MaterialTheme.typography.titleLarge, textAlign = TextAlign.Center)
         }
         Column(
-            modifier = Modifier.fillMaxWidth().align(Alignment.BottomCenter),
+            modifier = Modifier
+                .fillMaxWidth()
+                .align(Alignment.BottomCenter),
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Center,
         ) {

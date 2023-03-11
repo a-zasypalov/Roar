@@ -22,7 +22,7 @@ class NotificationSchedulerImpl(
 
     override fun scheduleNotification(data: NotificationData) {
         if (!notificationManager.areNotificationsEnabled()) return
-        if(data.scheduled < LocalDateTime.now().toKotlinLocalDateTime()) return
+        if (data.scheduled < LocalDateTime.now().toKotlinLocalDateTime()) return
         scheduleJob(data)
     }
 

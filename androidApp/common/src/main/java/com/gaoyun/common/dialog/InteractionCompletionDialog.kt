@@ -18,7 +18,7 @@ fun InteractionCompletionDialog(
     onDismissButtonClick: () -> Unit,
     dateTime: LocalDateTime
 ) {
-    if(dateTime.toKotlinLocalDateTime().date == Clock.System.now().toLocalDate()) {
+    if (dateTime.toKotlinLocalDateTime().date == Clock.System.now().toLocalDate()) {
         onDismissButtonClick.invoke()
         return
     }

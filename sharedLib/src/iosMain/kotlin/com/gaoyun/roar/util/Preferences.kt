@@ -4,12 +4,13 @@ import platform.Foundation.NSUserDefaults
 
 actual class Preferences actual constructor(name: String?) {
 
-    private val userDefault: NSUserDefaults  = NSUserDefaults(suiteName = name)
+    private val userDefault: NSUserDefaults = NSUserDefaults(suiteName = name)
 
     //region int
     actual fun setInt(key: String, value: Int) {
         return userDefault.setInteger(value.toLong(), key)
     }
+
     actual fun getInt(key: String, defaultValue: Int): Int {
         return if (hasKey(key))
             userDefault.integerForKey(key).toInt()
@@ -27,13 +28,15 @@ actual class Preferences actual constructor(name: String?) {
     actual fun setFloat(key: String, value: Float) {
         return userDefault.setFloat(value, key)
     }
+
     actual fun getFloat(key: String, defaultValue: Float): Float {
         return if (hasKey(key))
             userDefault.floatForKey(key)
         else defaultValue
     }
+
     actual fun getFloat(key: String): Float? {
-        return if(hasKey(key)){
+        return if (hasKey(key)) {
             userDefault.floatForKey(key)
         } else {
             null
@@ -45,13 +48,15 @@ actual class Preferences actual constructor(name: String?) {
     actual fun setLong(key: String, value: Long) {
         return userDefault.setInteger(value, key)
     }
+
     actual fun getLong(key: String, defaultValue: Long): Long {
         return if (hasKey(key))
             userDefault.integerForKey(key)
         else defaultValue
     }
+
     actual fun getLong(key: String): Long? {
-        return if(hasKey(key)){
+        return if (hasKey(key)) {
             userDefault.integerForKey(key)
         } else {
             null
@@ -63,11 +68,13 @@ actual class Preferences actual constructor(name: String?) {
     actual fun setString(key: String, value: String) {
         return userDefault.setObject(value, key)
     }
+
     actual fun getString(key: String, defaultValue: String): String {
         return userDefault.stringForKey(key) ?: defaultValue
     }
+
     actual fun getString(key: String): String? {
-        return if(hasKey(key)){
+        return if (hasKey(key)) {
             userDefault.stringForKey(key) ?: ""
         } else {
             null
@@ -79,13 +86,15 @@ actual class Preferences actual constructor(name: String?) {
     actual fun setBoolean(key: String, value: Boolean) {
         return userDefault.setBool(value, key)
     }
+
     actual fun getBoolean(key: String, defaultValue: Boolean): Boolean {
         return if (hasKey(key))
             userDefault.boolForKey(key)
         else defaultValue
     }
+
     actual fun getBoolean(key: String): Boolean? {
-        return if(hasKey(key)){
+        return if (hasKey(key)) {
             userDefault.boolForKey(key)
         } else {
             null

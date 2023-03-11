@@ -12,12 +12,12 @@ import androidx.compose.ui.unit.dp
 
 @Composable
 fun DotsIndicator(
-    totalDots : Int,
-    selectedIndex : Int,
+    totalDots: Int,
+    selectedIndex: Int,
     selectedColor: Color,
     unSelectedColor: Color,
     modifier: Modifier = Modifier,
-){
+) {
 
     LazyRow(
         modifier = modifier

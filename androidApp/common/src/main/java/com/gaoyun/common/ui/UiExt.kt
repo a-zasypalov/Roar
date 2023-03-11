@@ -21,5 +21,5 @@ fun Context.getStringByName(idRes: String): Int? {
         idRes, "string",
         packageName
     )
-    return if(result != 0) result else null
+    return if (result != 0) result else null
 }

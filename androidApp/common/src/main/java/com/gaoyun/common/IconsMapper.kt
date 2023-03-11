@@ -22,7 +22,7 @@ fun InteractionGroup.icon() = when (this) {
     InteractionGroup.ROUTINE -> R.drawable.ic_grooming
 }
 
-fun PetType.icon() = when(this) {
+fun PetType.icon() = when (this) {
     PetType.CAT -> R.drawable.ic_cat
     PetType.DOG -> R.drawable.ic_dog
 }

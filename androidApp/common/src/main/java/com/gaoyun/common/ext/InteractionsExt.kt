@@ -79,7 +79,7 @@ fun InteractionRepeatConfig.repeatConfigTextFull() =
                     append(" ")
                     append(repeatsEveryPeriodOn.split(",")
                         .mapNotNull { it.toIntOrNull() }
-                        .map { stringArrayResource(id = R.array.weekdays_short)[it-1] }
+                        .map { stringArrayResource(id = R.array.weekdays_short)[it - 1] }
                         .joinToString(", ")
                     )
                 }
@@ -112,7 +112,7 @@ fun InteractionGroup.toLocalizedStringId() = when (this) {
     InteractionGroup.ROUTINE -> R.string.interaction_group_routine
 }
 
-fun InteractionRepeatConfigEach.toLocalizedStringId() = when(this) {
+fun InteractionRepeatConfigEach.toLocalizedStringId() = when (this) {
     InteractionRepeatConfigEach.YEAR -> R.string.year
     InteractionRepeatConfigEach.MONTH -> R.string.month
     InteractionRepeatConfigEach.WEEK -> R.string.week

@@ -29,7 +29,7 @@ fun Pet.ageText() = StringBuilder().apply {
     append(pluralStringResource(id = R.plurals.months, count = birthday.monthsFromNow()))
 }.toString()
 
-fun Gender.toLocalizedStringId() = when(this) {
+fun Gender.toLocalizedStringId() = when (this) {
     Gender.MALE -> R.string.male
     Gender.FEMALE -> R.string.female
 }

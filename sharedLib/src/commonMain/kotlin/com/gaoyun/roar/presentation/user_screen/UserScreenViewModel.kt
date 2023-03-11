@@ -39,11 +39,13 @@ class UserScreenViewModel : BaseViewModel<UserScreenContract.Event, UserScreenCo
                 it.printStackTrace()
             }
             .collect { user ->
-                setState { copy(
-                    isLoading = false,
-                    user = user,
-                    dynamicColorActive = dynamicColorsUseCase.dynamicColorsIsActive()
-                ) }
+                setState {
+                    copy(
+                        isLoading = false,
+                        user = user,
+                        dynamicColorActive = dynamicColorsUseCase.dynamicColorsIsActive()
+                    )
+                }
             }
     }
 

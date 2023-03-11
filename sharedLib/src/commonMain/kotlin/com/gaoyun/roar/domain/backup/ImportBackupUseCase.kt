@@ -11,7 +11,6 @@ import com.gaoyun.roar.domain.user.RegisterUserUseCase
 import com.gaoyun.roar.model.domain.UserWithPets
 import com.gaoyun.roar.model.domain.interactions.withoutReminders
 import com.gaoyun.roar.model.domain.withoutInteractions
-import com.gaoyun.roar.model.domain.withoutPets
 import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.flow.flow
 import kotlinx.serialization.SerializationException
@@ -50,7 +49,7 @@ class ImportBackupUseCase : KoinComponent {
                 addPetUseCase.addPet(pet.withoutInteractions().copy(userId = currentUserId)).firstOrNull()
                 return@map pet
             }.flatMap { pet ->
-                pet.interactions
+                pet.interactions.values.flatten()
             }.flatMap { interaction ->
                 insertInteraction.insertInteraction(interaction.withoutReminders()).firstOrNull()
                 return@flatMap interaction.reminders

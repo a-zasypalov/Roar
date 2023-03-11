@@ -50,7 +50,7 @@ private fun initAndGetAppCtxWithReflection(): Context {
 }
 
 class AppContextProvider : ContentProvider() {
-    override fun onCreate() : Boolean {
+    override fun onCreate(): Boolean {
         val context = context
         require(!(context?.canLeakMemory() ?: false)) { "The passed Context($this) would leak memory!" }
         appContext = context
@@ -61,19 +61,19 @@ class AppContextProvider : ContentProvider() {
         throw Exception("unimplemented")
     }
 
-    override fun query(uri: Uri, projection: Array<out String>?, selection: String?, selectionArgs: Array<out String>?, sortOrder: String?) : Cursor {
+    override fun query(uri: Uri, projection: Array<out String>?, selection: String?, selectionArgs: Array<out String>?, sortOrder: String?): Cursor {
         throw Exception("unimplemented")
     }
 
-    override fun update(uri: Uri, values: ContentValues?, selection: String?, selectionArgs: Array<out String>?) : Int {
+    override fun update(uri: Uri, values: ContentValues?, selection: String?, selectionArgs: Array<out String>?): Int {
         throw Exception("unimplemented")
     }
 
-    override fun delete(uri: Uri, selection: String?, selectionArgs: Array<out String>?) : Int {
+    override fun delete(uri: Uri, selection: String?, selectionArgs: Array<out String>?): Int {
         throw Exception("unimplemented")
     }
 
-    override fun getType(uri: Uri) : String {
+    override fun getType(uri: Uri): String {
         throw Exception("unimplemented")
     }
 }
