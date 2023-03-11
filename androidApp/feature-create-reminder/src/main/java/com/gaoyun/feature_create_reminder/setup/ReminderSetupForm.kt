@@ -32,6 +32,7 @@ import com.gaoyun.common.DateUtils.ddMmmYyyyDateFormatter
 import com.gaoyun.common.R
 import com.gaoyun.common.dialog.DatePicker
 import com.gaoyun.common.dialog.TimePicker
+import com.gaoyun.common.ext.getName
 import com.gaoyun.common.ext.repeatConfigTextFull
 import com.gaoyun.common.ext.toLocalizedStringId
 import com.gaoyun.common.ui.*
@@ -62,7 +63,7 @@ internal fun ReminderSetupForm(
         )
     }
 
-    val reminderName = rememberSaveable { mutableStateOf(interactionToEdit?.name ?: template?.name ?: "") }
+    val reminderName = rememberSaveable { mutableStateOf(interactionToEdit?.name ?: template?.getName(activity) ?: "") }
     val notesState = remember { mutableStateOf(interactionToEdit?.notes ?: "") }
 
     val repeatEnabledState = remember { mutableStateOf(interactionToEdit?.let { it.repeatConfig != null } ?: repeatConfig.active) }

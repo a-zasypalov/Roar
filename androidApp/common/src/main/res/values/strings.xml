@@ -48,7 +48,6 @@
     <string name="reminder">Reminder</string>
     <string name="reminder_ready">Reminder ready!</string>
     <string name="templates">Templates</string>
-    <string name="custom">Custom</string>
     <string name="new_custom_reminder">New custom reminder</string>
     <string name="your_pets">Your pets</string>
     <string name="hey">Hey, %1$s</string>
@@ -156,6 +155,17 @@
     <string name="cd_reminder">reminder</string>
     <string name="cd_notes">notes</string>
     <string name="cd_icon">icon</string>
+
+    <!--  Interaction types  -->
+    <string name="deworming">Deworming</string>
+    <string name="flees">Flees</string>
+    <string name="health_check">Health check</string>
+    <string name="vaccination">Vaccination</string>
+    <string name="nails">Nails</string>
+    <string name="grooming">Grooming</string>
+    <string name="pills">Pills</string>
+    <string name="bath">Bath</string>
+    <string name="custom">Custom</string>
 
 </resources>
 

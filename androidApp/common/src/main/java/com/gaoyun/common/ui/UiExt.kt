@@ -13,3 +13,13 @@ fun Context.getDrawableByName(idRes: String): Int {
         packageName
     )
 }
+
+@SuppressLint("DiscouragedApi")
+fun Context.getStringByName(idRes: String): Int? {
+    val resources: Resources = resources
+    val result = resources.getIdentifier(
+        idRes, "string",
+        packageName
+    )
+    return if(result != 0) result else null
+}

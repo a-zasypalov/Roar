@@ -21,6 +21,7 @@ import androidx.navigation.NavHostController
 import com.gaoyun.common.NavigationKeys
 import com.gaoyun.common.OnLifecycleEvent
 import com.gaoyun.common.R
+import com.gaoyun.common.ext.getName
 import com.gaoyun.common.ext.repeatConfigTextShort
 import com.gaoyun.common.ext.toLocalizedStringId
 import com.gaoyun.common.icon
@@ -216,7 +217,7 @@ private fun TemplateItem(
                 Spacer(size = 8.dp)
                 Column(modifier = Modifier.weight(1f)) {
                     Text(
-                        template.name,
+                        text = template.getName(LocalContext.current) ?: "",
                         style = MaterialTheme.typography.titleLarge,
                         color = MaterialTheme.colorScheme.onSurface
                     )
