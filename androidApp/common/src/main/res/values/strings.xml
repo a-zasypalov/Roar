@@ -167,6 +167,17 @@
     <string name="bath">Bath</string>
     <string name="custom">Custom</string>
 
+    <!-- Interaction names -->
+    <string name="deworming_3m">Deworming</string>
+    <string name="health_check_yearly">Annual check-up</string>
+    <string name="flees_monthly">Flees care</string>
+    <string name="grooming_6m">Grooming</string>
+    <string name="nails_3m">Nails care</string>
+    <string name="vaccine_rabies">Rabies vaccination</string>
+    <string name="vaccine_planned">Annual vaccination</string>
+    <string name="pills_prescribed">Weekly pills</string>
+    <string name="bathing_4w">Bath</string>
+
 </resources>
 
 <!--
