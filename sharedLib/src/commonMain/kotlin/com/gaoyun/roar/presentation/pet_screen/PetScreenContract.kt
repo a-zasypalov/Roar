@@ -1,6 +1,7 @@
 package com.gaoyun.roar.presentation.pet_screen
 
 import com.gaoyun.roar.model.domain.Pet
+import com.gaoyun.roar.model.domain.interactions.InteractionGroup
 import com.gaoyun.roar.model.domain.interactions.InteractionWithReminders
 import com.gaoyun.roar.presentation.ViewEvent
 import com.gaoyun.roar.presentation.ViewSideEffect
@@ -20,7 +21,7 @@ class PetScreenContract {
     data class State(
         val isLoading: Boolean = false,
         val pet: Pet? = null,
-        val interactions: List<InteractionWithReminders> = listOf(),
+        val interactions: Map<InteractionGroup, List<InteractionWithReminders>> = mapOf(),
         val deletePetDialogShow: Boolean = false,
         val showLastReminder: Boolean = false
     ) : ViewState

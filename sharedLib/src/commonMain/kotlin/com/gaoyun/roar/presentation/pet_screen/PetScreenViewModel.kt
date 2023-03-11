@@ -50,7 +50,17 @@ class PetScreenViewModel :
     fun buildScreenState(petId: String) = scope.launch {
         getPetUseCase.getPet(petId).collect { pet ->
             getInteraction.getInteractionByPet(pet.id).collect { interactions ->
-                setState { copy(pet = pet, isLoading = false, interactions = interactions) }
+                setState {
+                    copy(
+                        pet = pet,
+                        isLoading = false,
+                        interactions = interactions.groupBy { it.group }.mapValues {
+                            it.value.sortedBy { v ->
+                                v.reminders.filter { r -> !r.isCompleted }.minOf { r -> r.dateTime }
+                            }
+                        }
+                    )
+                }
             }
         }
     }
@@ -63,9 +73,11 @@ class PetScreenViewModel :
         setReminderComplete.setComplete(reminderId, isComplete, completionDateTime).collect {
             it?.let { interaction ->
                 setState {
-                    copy(interactions = viewState.value.interactions.toMutableList().apply {
-                        removeAll { item -> item.id == interaction.id }
-                        add(interaction)
+                    copy(interactions = viewState.value.interactions.toMutableMap().apply {
+                        get(interaction.group)?.toMutableList()?.let { i ->
+                            i.removeAll { item -> item.id == interaction.id }
+                            i.add(interaction)
+                        }
                     }, showLastReminder = showLastReminder || isComplete)
                 }
             }

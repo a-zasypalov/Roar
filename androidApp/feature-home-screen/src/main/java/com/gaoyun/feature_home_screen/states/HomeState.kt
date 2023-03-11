@@ -95,7 +95,7 @@ fun HomeState(
                 )
             }
 
-            items(pets) { pet ->
+            items(pets.sortedBy { it.interactions.values.flatten().minOf { i -> i.reminders.minOf { r -> r.dateTime } } }) { pet ->
                 PetCard(
                     pet = pet,
                     onPetCardClick = onPetCardClick,
@@ -127,7 +127,8 @@ private fun PetCard(
 ) {
     val context = LocalContext.current
     val showedInteractions = remember {
-        mutableStateOf(pet.interactions
+        mutableStateOf(pet.interactions.values
+            .flatten()
             .flatMap { it.reminders }
             .filter { !it.isCompleted }
             .sortedBy { it.dateTime }
@@ -171,7 +172,7 @@ private fun PetCard(
                 }
             }
             showedInteractions.value.map { reminder ->
-                pet.interactions.firstOrNull { it.id == reminder.interactionId }?.let { interaction ->
+                pet.interactions.values.flatten().firstOrNull { it.id == reminder.interactionId }?.let { interaction ->
                     InteractionCard(
                         interaction = interaction,
                         showLastReminder = showLastReminder,

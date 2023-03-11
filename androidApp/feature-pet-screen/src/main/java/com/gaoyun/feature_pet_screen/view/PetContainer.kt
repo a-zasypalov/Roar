@@ -14,6 +14,8 @@ import com.gaoyun.common.ext.toLocalizedStringId
 import com.gaoyun.common.ui.Spacer
 import com.gaoyun.roar.model.domain.PetWithInteractions
 import com.gaoyun.roar.model.domain.withoutInteractions
+import kotlinx.datetime.TimeZone
+import kotlinx.datetime.toInstant
 import java.time.LocalDateTime
 
 @Composable
@@ -52,7 +54,11 @@ fun PetContainer(
             )
         }
 
-        pet.interactions.groupBy { it.group }.toSortedMap().map {
+        pet.interactions.toSortedMap{ g1, g2 ->
+            val v1 = pet.interactions[g1]?.minOf { i -> i.reminders.minOf { r -> r.dateTime.toInstant(TimeZone.currentSystemDefault()).epochSeconds } } ?: 0
+            val v2 = pet.interactions[g2]?.minOf { i -> i.reminders.minOf { r -> r.dateTime.toInstant(TimeZone.currentSystemDefault()).epochSeconds } } ?: 0
+            (v1 - v2).toInt()
+        }.map {
             Text(
                 text = stringResource(id = it.key.toLocalizedStringId()),
                 style = MaterialTheme.typography.titleLarge,

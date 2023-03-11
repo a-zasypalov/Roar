@@ -79,7 +79,7 @@ class HomeScreenViewModel :
         val pets = (getPetUseCase.getPetByUserId(user.id).firstOrNull() ?: emptyList())
             .map { pet ->
                 pet.withInteractions(
-                    interactions = getInteractions.getInteractionByPet(pet.id).firstOrNull() ?: emptyList()
+                    interactions = getInteractions.getInteractionByPet(pet.id).firstOrNull()?.groupBy { it.group } ?: emptyMap()
                 )
             }
 
@@ -97,9 +97,11 @@ class HomeScreenViewModel :
                     copy(
                         pets = viewState.value.pets.toMutableList().map { petItem ->
                             if (petItem.id == pet.id) {
-                                val newInteractions = petItem.interactions.toMutableList().apply {
-                                    removeAll { item -> item.id == interaction.id }
-                                    add(interaction)
+                                val newInteractions = petItem.interactions.toMutableMap().apply {
+                                    get(interaction.group)?.toMutableList()?.let { i ->
+                                        i.removeAll { item -> item.id == interaction.id }
+                                        i.add(interaction)
+                                    }
                                 }
                                 petItem.withoutInteractions().withInteractions(newInteractions)
                             } else petItem
@@ -109,6 +111,7 @@ class HomeScreenViewModel :
             }
         }
     }
+
     private fun setUserDataState(user: User) = setState { copy(user = user, pets = emptyList(), isLoading = false) }
     private fun setPetsState(user: User, pets: List<PetWithInteractions>) = setState { copy(user = user, pets = pets, isLoading = false) }
     private fun setDialogShow(show: Boolean) = setState { copy(showPetChooser = show) }

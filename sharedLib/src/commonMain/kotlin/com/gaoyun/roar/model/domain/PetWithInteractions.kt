@@ -1,5 +1,6 @@
 package com.gaoyun.roar.model.domain
 
+import com.gaoyun.roar.model.domain.interactions.InteractionGroup
 import com.gaoyun.roar.model.domain.interactions.InteractionWithReminders
 import com.gaoyun.roar.util.randomUUID
 import kotlinx.datetime.LocalDate
@@ -18,10 +19,10 @@ data class PetWithInteractions(
     val gender: Gender,
     val chipNumber: String,
     val dateCreated: LocalDate,
-    val interactions: List<InteractionWithReminders>
+    val interactions: Map<InteractionGroup, List<InteractionWithReminders>>
 )
 
-fun Pet.withInteractions(interactions: List<InteractionWithReminders>) = PetWithInteractions(
+fun Pet.withInteractions(interactions: Map<InteractionGroup, List<InteractionWithReminders>>) = PetWithInteractions(
     id = id,
     petType = petType,
     breed = breed,

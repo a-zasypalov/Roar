@@ -24,7 +24,7 @@ class CreateBackupUseCase : KoinComponent {
         val pets = getPetUseCase.getPetByUserId(user.id).firstOrNull()
             ?.map {
                 val interactions = getInteraction.getInteractionByPet(it.id).firstOrNull() ?: listOf()
-                it.withInteractions(interactions)
+                it.withInteractions(interactions.groupBy { i -> i.group })
             }
             ?: listOf()
 

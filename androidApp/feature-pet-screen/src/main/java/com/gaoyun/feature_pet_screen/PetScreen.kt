@@ -192,20 +192,23 @@ fun PetScreenPreview() {
                     chipNumber = "123123456456",
                     dateCreated = Clock.System.now().toLocalDate()
                 ).withInteractions(
-                    listOf(
-                        InteractionWithReminders(
-                            petId = "",
-                            type = InteractionType.CUSTOM,
-                            name = "Interaction Name",
-                            group = InteractionGroup.CARE,
-                            isActive = true,
-                            reminders = listOf(
-                                Reminder(
-                                    interactionId = "",
-                                    dateTime = Clock.System.now().plus(1.hours).toLocalDateTime(TimeZone.currentSystemDefault())
+                    mapOf(
+                        InteractionGroup.CARE to
+                                listOf(
+                                    InteractionWithReminders(
+                                        petId = "",
+                                        type = InteractionType.CUSTOM,
+                                        name = "Interaction Name",
+                                        group = InteractionGroup.CARE,
+                                        isActive = true,
+                                        reminders = listOf(
+                                            Reminder(
+                                                interactionId = "",
+                                                dateTime = Clock.System.now().plus(1.hours).toLocalDateTime(TimeZone.currentSystemDefault())
+                                            )
+                                        )
+                                    )
                                 )
-                            )
-                        )
                     )
                 ),
                 true,
