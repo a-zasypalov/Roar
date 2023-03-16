@@ -183,7 +183,7 @@ fun UserScreen(
                         )
 
                         Icon(
-                            Icons.Default.Person, contentDescription = "", modifier = Modifier
+                            Icons.Default.Person, contentDescription = null, modifier = Modifier
                                 .size(40.dp)
                                 .padding(end = 8.dp, top = 8.dp)
                         )
@@ -214,7 +214,7 @@ fun UserScreen(
                                 .weight(1f)
                                 .padding(end = 4.dp)
                         ) {
-                            Icon(Icons.Filled.Save, contentDescription = "")
+                            Icon(Icons.Filled.Save, contentDescription = null)
                             Spacer(size = 6.dp)
                             Text(stringResource(id = R.string.export_button), style = MaterialTheme.typography.titleMedium)
                         }
@@ -231,7 +231,7 @@ fun UserScreen(
                                 .weight(1f)
                                 .padding(start = 4.dp)
                         ) {
-                            Icon(Icons.Filled.Download, contentDescription = "")
+                            Icon(Icons.Filled.Download, contentDescription = null)
                             Spacer(size = 6.dp)
                             Text(stringResource(id = R.string.import_button), style = MaterialTheme.typography.titleMedium)
                         }

@@ -26,14 +26,16 @@ import com.gaoyun.common.ui.getDrawableByName
 import com.gaoyun.feature_home_screen.view.UserHomeHeader
 import com.gaoyun.feature_pet_screen.view.InteractionCard
 import com.gaoyun.feature_pet_screen.view.PetContainer
-import com.gaoyun.roar.model.domain.PetWithInteractions
-import com.gaoyun.roar.model.domain.User
-import kotlinx.datetime.LocalDateTime
-import kotlinx.datetime.toKotlinLocalDateTime
+import com.gaoyun.roar.model.domain.*
+import com.gaoyun.roar.model.domain.interactions.InteractionGroup
+import com.gaoyun.roar.model.domain.interactions.InteractionType
+import com.gaoyun.roar.model.domain.interactions.InteractionWithReminders
+import com.gaoyun.roar.util.toLocalDate
+import kotlinx.datetime.*
+import kotlin.time.Duration.Companion.hours
 
 @Composable
 fun HomeState(
-    user: User,
     pets: List<PetWithInteractions>,
     showLastReminder: Boolean,
     onAddPetButtonClick: () -> Unit,
@@ -54,7 +56,6 @@ fun HomeState(
         }
         item {
             UserHomeHeader(
-                userName = user.name,
                 onAddPetButtonClick = onAddPetButtonClick,
                 onUserButtonButtonClick = onUserDetailsClick,
             )
@@ -91,9 +92,9 @@ fun HomeState(
             item {
                 Text(
                     text = stringResource(id = R.string.your_pets),
-                    style = MaterialTheme.typography.headlineLarge,
+                    style = MaterialTheme.typography.displayMedium,
                     color = MaterialTheme.colorScheme.onSurface,
-                    modifier = Modifier.padding(vertical = 16.dp, horizontal = 16.dp)
+                    modifier = Modifier.padding(vertical = 8.dp, horizontal = 16.dp)
                 )
             }
 
@@ -197,6 +198,38 @@ private fun PetCard(
 @Composable
 fun HomeStatePreview() {
     RoarTheme {
-        HomeState(User(name = "Tester"), emptyList(), false, {}, {}, { _, _ -> }, {}, {}, { _, _, _, _ -> }, {})
+        HomeState(listOf(
+            Pet(
+                petType = PetType.CAT,
+                breed = "Colorpoint Shorthair",
+                name = "Senior Android Developer",
+                avatar = "ic_cat_15",
+                userId = "123",
+                birthday = Clock.System.now().toLocalDate(),
+                isSterilized = false,
+                gender = Gender.MALE,
+                chipNumber = "123123456456",
+                dateCreated = Clock.System.now().toLocalDate()
+            ).withInteractions(
+                mapOf(
+                    InteractionGroup.CARE to
+                            listOf(
+                                InteractionWithReminders(
+                                    petId = "",
+                                    type = InteractionType.CUSTOM,
+                                    name = "Interaction Name",
+                                    group = InteractionGroup.CARE,
+                                    isActive = true,
+                                    reminders = listOf(
+                                        Reminder(
+                                            interactionId = "",
+                                            dateTime = Clock.System.now().plus(1.hours).toLocalDateTime(TimeZone.currentSystemDefault())
+                                        )
+                                    )
+                                )
+                            )
+                )
+            ),
+        ), false, {}, {}, { _, _ -> }, {}, {}, { _, _, _, _ -> }, {})
     }
 }

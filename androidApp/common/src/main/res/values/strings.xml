@@ -15,6 +15,7 @@
     <string name="pet_is_sterilized">Pet is sterilized</string>
     <string name="save">Save</string>
     <string name="add_pet">Add Pet</string>
+    <string name="profile">Profile</string>
     <string name="new_pet">New Pet</string>
     <string name="new_pet_added">New pet added!</string>
     <string name="continue_label">Continue</string>
@@ -49,8 +50,7 @@
     <string name="reminder_ready">Reminder ready!</string>
     <string name="templates">Templates</string>
     <string name="new_custom_reminder">New custom reminder</string>
-    <string name="your_pets">Your pets</string>
-    <string name="hey">Hey, %1$s</string>
+    <string name="your_pets">Pets</string>
     <string name="import_backup_in_profile">Import backup in Profile</string>
     <string name="add_first_pet">Add First Pet</string>
     <string name="register_to_get_started">Register to get started</string>

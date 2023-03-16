@@ -14,6 +14,7 @@ import com.gaoyun.roar.presentation.BaseViewModel
 import com.gaoyun.roar.util.NoUserException
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.launch
 import kotlinx.datetime.LocalDateTime
@@ -91,24 +92,21 @@ class HomeScreenViewModel :
     }
 
     private fun setReminderComplete(pet: PetWithInteractions, reminderId: String, isComplete: Boolean, completionDateTime: LocalDateTime) = scope.launch {
-        setReminderComplete.setComplete(reminderId, isComplete, completionDateTime).collect {
-            it?.let { interaction ->
-                setState {
-                    copy(
-                        pets = viewState.value.pets.toMutableList().map { petItem ->
-                            if (petItem.id == pet.id) {
-                                val newInteractions = petItem.interactions.toMutableMap().apply {
-                                    get(interaction.group)?.toMutableList()?.let { i ->
-                                        i.removeAll { item -> item.id == interaction.id }
-                                        i.add(interaction)
-                                    }
-                                }
-                                petItem.withoutInteractions().withInteractions(newInteractions)
-                            } else petItem
-                        }, showLastReminder = showLastReminder || isComplete
-                    )
+        setReminderComplete.setComplete(reminderId, isComplete, completionDateTime).filterNotNull().collect { interaction ->
+            val newPets = viewState.value.pets.toMutableList().map { petItem ->
+                if (petItem.id == pet.id) {
+                    val newInteractions = petItem.interactions.toMutableMap()
+                    val newList = newInteractions[interaction.group]?.toMutableList()?.apply {
+                        removeAll { item -> item.id == interaction.id }
+                        add(interaction)
+                    }
+                    newInteractions[interaction.group] = newList ?: emptyList()
+                    return@map petItem.withoutInteractions().withInteractions(newInteractions)
+                } else {
+                    return@map petItem
                 }
             }
+            setState { copy(pets = newPets, showLastReminder = showLastReminder || isComplete) }
         }
     }
 

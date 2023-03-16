@@ -37,6 +37,21 @@ fun Pet.withInteractions(interactions: Map<InteractionGroup, List<InteractionWit
     interactions = interactions,
 )
 
+fun Pet.withInteractions(interactions: List<InteractionWithReminders>?) = PetWithInteractions(
+    id = id,
+    petType = petType,
+    breed = breed,
+    name = name,
+    avatar = avatar,
+    userId = userId,
+    birthday = birthday,
+    isSterilized = isSterilized,
+    gender = gender,
+    chipNumber = chipNumber,
+    dateCreated = dateCreated,
+    interactions = interactions?.groupBy { it.group } ?: emptyMap(),
+)
+
 fun PetWithInteractions.withoutInteractions() = Pet(
     id = id,
     petType = petType,

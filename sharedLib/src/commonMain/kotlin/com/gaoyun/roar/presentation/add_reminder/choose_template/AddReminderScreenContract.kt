@@ -1,6 +1,7 @@
 package com.gaoyun.roar.presentation.add_reminder.choose_template
 
 import com.gaoyun.roar.model.domain.Pet
+import com.gaoyun.roar.model.domain.PetWithInteractions
 import com.gaoyun.roar.model.domain.interactions.InteractionTemplate
 import com.gaoyun.roar.presentation.ViewEvent
 import com.gaoyun.roar.presentation.ViewSideEffect
@@ -14,7 +15,7 @@ class AddReminderScreenContract {
 
     data class State(
         val isLoading: Boolean = false,
-        val pet: Pet? = null,
+        val pet: PetWithInteractions? = null,
         val templates: List<InteractionTemplate> = listOf()
     ) : ViewState
 

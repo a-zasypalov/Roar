@@ -166,7 +166,6 @@ fun HomeScreen(
             state.user?.let { user ->
                 if (state.pets.isNotEmpty()) {
                     HomeState(
-                        user = user,
                         pets = state.pets,
                         showLastReminder = state.showLastReminder,
                         onAddPetButtonClick = viewModel::openAddPetScreen,

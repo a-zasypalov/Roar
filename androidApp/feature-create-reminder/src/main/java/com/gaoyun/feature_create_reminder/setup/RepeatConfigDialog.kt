@@ -28,7 +28,9 @@ import com.gaoyun.common.dialog.DatePicker
 import com.gaoyun.common.ext.toLocalizedStringId
 import com.gaoyun.common.ui.*
 import com.gaoyun.roar.model.domain.interactions.InteractionRepeatConfig
+import com.gaoyun.roar.model.domain.interactions.InteractionRepeatConfig.Companion.REPEATS_EVERY_PERIOD_ON_LAST
 import com.gaoyun.roar.model.domain.interactions.InteractionRepeatConfigEach
+import com.gaoyun.roar.model.domain.interactions.InteractionRepeatConfigEach.Companion.MONTH_STRING
 import com.gaoyun.roar.model.domain.interactions.toInteractionRepeatConfigEach
 import com.gaoyun.roar.util.toLocalDate
 import kotlinx.datetime.*
@@ -47,10 +49,10 @@ internal fun RepeatConfigDialog(
     val repeatsEveryPeriod = rememberSaveable { mutableStateOf(repeatConfig?.repeatsEveryPeriod?.toString() ?: activity.getString(R.string.month)) }
     val repeatsEveryPeriodsList = InteractionRepeatConfigEach.LIST
 
-    val repeatsEveryPeriodOnMothDay = rememberSaveable {
+    val repeatsEveryPeriodOnMonthDay = rememberSaveable {
         mutableStateOf(
-            if (repeatConfig?.repeatsEveryPeriod.toString() == activity.getString(R.string.month)) {
-                repeatConfig?.repeatsEveryPeriodOn ?: "${activity.getString(R.string.day).replaceFirstChar { it.uppercase() }} 1"
+            if (repeatConfig?.repeatsEveryPeriod.toString() == MONTH_STRING) {
+                "${activity.getString(R.string.day).replaceFirstChar { it.uppercase() }} ${repeatConfig?.repeatsEveryPeriodOn ?: 1}"
             } else {
                 "${activity.getString(R.string.day).replaceFirstChar { it.uppercase() }} 1"
             }
@@ -229,7 +231,7 @@ internal fun RepeatConfigDialog(
                             }
                             DropdownMenu(
                                 valueList = days,
-                                listState = repeatsEveryPeriodOnMothDay,
+                                listState = repeatsEveryPeriodOnMonthDay,
                                 valueDisplayList = null,
                                 listDisplayState = null,
                                 modifier = Modifier
@@ -337,10 +339,10 @@ internal fun RepeatConfigDialog(
                             val repeatsEveryPeriodOn = when (repeatsEveryPeriod.value) {
                                 InteractionRepeatConfigEach.WEEK_STRING -> repeatsEveryPeriodOnWeek.value.filter { it.value }.keys.map { it.isoDayNumber }.joinToString(",")
                                 InteractionRepeatConfigEach.MONTH_STRING ->
-                                    if (repeatsEveryPeriodOnMothDay.value.lowercase().contains(activity.getString(R.string.last_day).lowercase())) {
-                                        "last"
+                                    if (repeatsEveryPeriodOnMonthDay.value.lowercase().contains(activity.getString(R.string.last_day).lowercase())) {
+                                        REPEATS_EVERY_PERIOD_ON_LAST
                                     } else {
-                                        repeatsEveryPeriodOnMothDay.value.split(" ")[1]
+                                        repeatsEveryPeriodOnMonthDay.value.split(" ")[1]
                                     }
                                 else -> activity.getString(R.string.dash)
                             }
@@ -350,8 +352,7 @@ internal fun RepeatConfigDialog(
                                 else -> "no.0"
                             }
 
-                            val config =
-                                "${repeatsEveryNumber.value}_${repeatsEveryPeriod.value}_${repeatsEveryPeriodOn}_$ends"
+                            val config = "${repeatsEveryNumber.value}_${repeatsEveryPeriod.value}_${repeatsEveryPeriodOn}_$ends"
 
                             onConfigSave(config)
                             setShowDialog(false)

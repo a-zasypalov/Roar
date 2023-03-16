@@ -6,6 +6,8 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Check
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -124,6 +126,7 @@ fun AddReminderScreen(
                         items(templates) { template ->
                             TemplateItem(
                                 template = template,
+                                isUsed = pet.interactions.values.flatten().any { it.isActive && it.templateId == template.id },
                                 onClick = { templateId ->
                                     onEventSent(AddReminderScreenContract.Event.TemplateChosen(templateId = templateId, petId = pet.id))
                                 }
@@ -192,6 +195,7 @@ fun AddReminderScreen(
 @Composable
 private fun TemplateItem(
     template: InteractionTemplate,
+    isUsed: Boolean,
     onClick: (String) -> Unit
 ) {
     Surface(
@@ -227,6 +231,10 @@ private fun TemplateItem(
                         style = MaterialTheme.typography.bodyMedium,
                         color = MaterialTheme.colorScheme.onSurface
                     )
+                }
+
+                if(isUsed) {
+                    Icon(Icons.Default.Check, contentDescription = null)
                 }
             }
         }

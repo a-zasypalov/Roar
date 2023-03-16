@@ -6,6 +6,7 @@ import com.gaoyun.roar.domain.pet.RemovePetUseCase
 import com.gaoyun.roar.domain.reminder.SetReminderComplete
 import com.gaoyun.roar.presentation.BaseViewModel
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import kotlinx.datetime.LocalDateTime
@@ -70,17 +71,14 @@ class PetScreenViewModel :
     }
 
     private fun setReminderComplete(reminderId: String, isComplete: Boolean, completionDateTime: LocalDateTime) = scope.launch {
-        setReminderComplete.setComplete(reminderId, isComplete, completionDateTime).collect {
-            it?.let { interaction ->
-                setState {
-                    copy(interactions = viewState.value.interactions.toMutableMap().apply {
-                        get(interaction.group)?.toMutableList()?.let { i ->
-                            i.removeAll { item -> item.id == interaction.id }
-                            i.add(interaction)
-                        }
-                    }, showLastReminder = showLastReminder || isComplete)
-                }
+        setReminderComplete.setComplete(reminderId, isComplete, completionDateTime).filterNotNull().collect { interaction ->
+            val newInteractions = viewState.value.interactions.toMutableMap()
+            val newList = newInteractions[interaction.group]?.toMutableList()?.apply {
+                removeAll { item -> item.id == interaction.id }
+                add(interaction)
             }
+            newInteractions[interaction.group] = newList ?: emptyList()
+            setState { copy(interactions = newInteractions, showLastReminder = showLastReminder || isComplete) }
         }
     }
 }
