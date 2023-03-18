@@ -46,6 +46,29 @@ fun HomeState(
     onInteractionCheckClicked: (pet: PetWithInteractions, interactionId: String, isChecked: Boolean, completionDateTime: LocalDateTime) -> Unit,
     onUserDetailsClick: () -> Unit
 ) {
+
+    val showedInteractions = remember {
+        mutableStateOf(
+            pets.map { pet ->
+                pet.id to pet.interactions.values
+                    .flatten()
+                    .flatMap { it.reminders }
+                    .filter { !it.isCompleted }
+                    .sortedBy { it.dateTime }
+                    .take(2)
+            }
+        )
+    }
+
+    val sortedPets = pets.sortedBy {
+        it.interactions.values.flatten()
+            .minOfOrNull { i ->
+                i.reminders
+                    .filter { r -> showedInteractions.value.flatMap { i -> i.second.map { r -> r.id } }.contains(r.id) }
+                    .minOfOrNull { r -> r.dateTime } ?: LocalDateTime(LocalDate.fromEpochDays(0), LocalTime(0, 0, 0))
+            } ?: LocalDateTime(LocalDate.fromEpochDays(0), LocalTime(0, 0, 0))
+    }
+
     LazyColumn(
         modifier = Modifier
             .fillMaxWidth()
@@ -98,9 +121,10 @@ fun HomeState(
                 )
             }
 
-            items(pets.sortedBy { it.interactions.values.flatten().minOf { i -> i.reminders.minOf { r -> r.dateTime } } }) { pet ->
+            items(sortedPets) { pet ->
                 PetCard(
                     pet = pet,
+                    showedInteractions = showedInteractions.value.first { it.first == pet.id }.second,
                     onPetCardClick = onPetCardClick,
                     showLastReminder = showLastReminder,
                     onInteractionClick = { interactionId -> onInteractionClick(pet.id, interactionId) },
@@ -123,20 +147,13 @@ fun HomeState(
 @Composable
 private fun PetCard(
     pet: PetWithInteractions,
+    showedInteractions: List<Reminder>,
     showLastReminder: Boolean,
     onPetCardClick: (petId: String) -> Unit,
     onInteractionClick: (String) -> Unit,
     onInteractionCheckClicked: (String, Boolean, java.time.LocalDateTime) -> Unit,
 ) {
     val context = LocalContext.current
-    val showedInteractions = remember {
-        mutableStateOf(pet.interactions.values
-            .flatten()
-            .flatMap { it.reminders }
-            .filter { !it.isCompleted }
-            .sortedBy { it.dateTime }
-            .take(2))
-    }
 
     Surface(
         shape = MaterialTheme.shapes.large,
@@ -174,7 +191,7 @@ private fun PetCard(
                     )
                 }
             }
-            showedInteractions.value.map { reminder ->
+            showedInteractions.map { reminder ->
                 pet.interactions.values.flatten().firstOrNull { it.id == reminder.interactionId }?.let { interaction ->
                     InteractionCard(
                         interaction = interaction,

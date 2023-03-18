@@ -275,7 +275,7 @@ private fun AddPetForm(
                     valueDisplayList = Gender.GENDER_LIST.map { it.toGender().toLocalizedStringId() },
                     listDisplayState = petGenderState.value.toGender().toLocalizedStringId(),
                     label = stringResource(id = CommonR.string.gender),
-                    leadingIcon = if (petGenderState.value == stringResource(id = CommonR.string.male)) Icons.Filled.Male else Icons.Filled.Female,
+                    leadingIcon = if (petGenderState.value == Gender.MALE_STRING) Icons.Filled.Male else Icons.Filled.Female,
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(horizontal = 24.dp)

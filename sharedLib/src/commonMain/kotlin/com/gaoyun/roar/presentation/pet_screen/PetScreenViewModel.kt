@@ -9,7 +9,9 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
+import kotlinx.datetime.LocalDate
 import kotlinx.datetime.LocalDateTime
+import kotlinx.datetime.LocalTime
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 
@@ -57,7 +59,8 @@ class PetScreenViewModel :
                         isLoading = false,
                         interactions = interactions.groupBy { it.group }.mapValues {
                             it.value.sortedBy { v ->
-                                v.reminders.filter { r -> !r.isCompleted }.minOf { r -> r.dateTime }
+                                v.reminders.filter { r -> !r.isCompleted }.minOfOrNull { r -> r.dateTime }
+                                    ?: LocalDateTime(LocalDate.fromEpochDays(0), LocalTime(0, 0, 0))
                             }
                         }
                     )

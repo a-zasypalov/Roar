@@ -55,8 +55,8 @@ fun PetContainer(
         }
 
         pet.interactions.toSortedMap { g1, g2 ->
-            val v1 = pet.interactions[g1]?.minOf { i -> i.reminders.minOf { r -> r.dateTime.toInstant(TimeZone.currentSystemDefault()).epochSeconds } } ?: 0
-            val v2 = pet.interactions[g2]?.minOf { i -> i.reminders.minOf { r -> r.dateTime.toInstant(TimeZone.currentSystemDefault()).epochSeconds } } ?: 0
+            val v1 = pet.interactions[g1]?.minOfOrNull { i -> i.reminders.minOfOrNull { r -> r.dateTime.toInstant(TimeZone.currentSystemDefault()).epochSeconds } ?: 0L } ?: 0
+            val v2 = pet.interactions[g2]?.minOfOrNull { i -> i.reminders.minOfOrNull { r -> r.dateTime.toInstant(TimeZone.currentSystemDefault()).epochSeconds } ?: 0L } ?: 0
             (v1 - v2).toInt()
         }.map {
             Text(
