@@ -124,7 +124,7 @@ fun HomeState(
             items(sortedPets) { pet ->
                 PetCard(
                     pet = pet,
-                    showedInteractions = showedInteractions.value.first { it.first == pet.id }.second,
+                    showedInteractions = showedInteractions.value.firstOrNull { it.first == pet.id }?.second ?: listOf(),
                     onPetCardClick = onPetCardClick,
                     showLastReminder = showLastReminder,
                     onInteractionClick = { interactionId -> onInteractionClick(pet.id, interactionId) },
