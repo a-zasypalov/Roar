@@ -15,6 +15,7 @@ data class InteractionRepeatConfig(
     companion object {
         const val REPEATS_EVERY_PERIOD_ON_EMPTY = "-"
         const val REPEATS_EVERY_PERIOD_ON_LAST = "last"
+        const val REPEATS_EVERY_PERIOD_ON_SAME = "same"
         const val ENDS_NO = "no.0"
         const val ENDS_DATE = "date"
         const val ENDS_TIMES = "times"

@@ -37,7 +37,10 @@
     <string name="after_three_dots">After…</string>
     <string name="never">Never</string>
     <string name="repeats_every">Repeats every</string>
-    <string name="last_day">Last Day</string>
+    <string name="the_last_day">the last day</string>
+    <string name="last_day">Last day</string>
+    <string name="the_same_day">the same day</string>
+    <string name="same_day">Same day</string>
     <string name="last_occurrence">Last occurrence</string>
     <string name="ends">Ends</string>
     <string name="end_on_date">End on date</string>

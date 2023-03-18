@@ -72,7 +72,11 @@ fun InteractionRepeatConfig.repeatConfigTextFull() =
                     append(" ")
                     repeatsEveryPeriodOn.toIntOrNull()?.let { dayNumber ->
                         append("$dayNumber ${stringResource(id = R.string.day)}")
-                    } ?: append(stringResource(id = R.string.last_day).decapitalize(Locale.current))
+                    } ?: if (repeatsEveryPeriodOn == InteractionRepeatConfig.REPEATS_EVERY_PERIOD_ON_LAST) {
+                        append(stringResource(id = R.string.the_last_day))
+                    } else if (repeatsEveryPeriodOn == InteractionRepeatConfig.REPEATS_EVERY_PERIOD_ON_SAME) {
+                        append(stringResource(id = R.string.the_same_day))
+                    }
                 }
                 InteractionRepeatConfigEach.WEEK -> {
                     append(stringResource(id = R.string.date_on))

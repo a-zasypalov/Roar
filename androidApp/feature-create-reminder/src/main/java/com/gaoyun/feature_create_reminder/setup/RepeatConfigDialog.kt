@@ -29,6 +29,7 @@ import com.gaoyun.common.ext.toLocalizedStringId
 import com.gaoyun.common.ui.*
 import com.gaoyun.roar.model.domain.interactions.InteractionRepeatConfig
 import com.gaoyun.roar.model.domain.interactions.InteractionRepeatConfig.Companion.REPEATS_EVERY_PERIOD_ON_LAST
+import com.gaoyun.roar.model.domain.interactions.InteractionRepeatConfig.Companion.REPEATS_EVERY_PERIOD_ON_SAME
 import com.gaoyun.roar.model.domain.interactions.InteractionRepeatConfigEach
 import com.gaoyun.roar.model.domain.interactions.InteractionRepeatConfigEach.Companion.MONTH_STRING
 import com.gaoyun.roar.model.domain.interactions.toInteractionRepeatConfigEach
@@ -52,7 +53,11 @@ internal fun RepeatConfigDialog(
     val repeatsEveryPeriodOnMonthDay = rememberSaveable {
         mutableStateOf(
             if (repeatConfig?.repeatsEveryPeriod.toString() == MONTH_STRING) {
-                "${activity.getString(R.string.day).replaceFirstChar { it.uppercase() }} ${repeatConfig?.repeatsEveryPeriodOn ?: 1}"
+                when (repeatConfig?.repeatsEveryPeriodOn) {
+                    REPEATS_EVERY_PERIOD_ON_SAME -> activity.getString(R.string.same_day)
+                    REPEATS_EVERY_PERIOD_ON_LAST -> activity.getString(R.string.last_day)
+                    else -> "${activity.getString(R.string.day).replaceFirstChar { it.uppercase() }} ${repeatConfig?.repeatsEveryPeriodOn ?: 1}"
+                }
             } else {
                 "${activity.getString(R.string.day).replaceFirstChar { it.uppercase() }} 1"
             }
@@ -224,6 +229,7 @@ internal fun RepeatConfigDialog(
                         }
                         InteractionRepeatConfigEach.MONTH_STRING -> {
                             val days = arrayListOf<String>().apply {
+                                add(stringResource(id = R.string.same_day))
                                 for (i in 1..31) {
                                     add("${stringResource(id = R.string.day).replaceFirstChar { it.uppercase() }} $i")
                                 }
@@ -341,6 +347,8 @@ internal fun RepeatConfigDialog(
                                 InteractionRepeatConfigEach.MONTH_STRING ->
                                     if (repeatsEveryPeriodOnMonthDay.value.lowercase().contains(activity.getString(R.string.last_day).lowercase())) {
                                         REPEATS_EVERY_PERIOD_ON_LAST
+                                    } else if (repeatsEveryPeriodOnMonthDay.value.lowercase().contains(activity.getString(R.string.same_day).lowercase())) {
+                                        REPEATS_EVERY_PERIOD_ON_SAME
                                     } else {
                                         repeatsEveryPeriodOnMonthDay.value.split(" ")[1]
                                     }

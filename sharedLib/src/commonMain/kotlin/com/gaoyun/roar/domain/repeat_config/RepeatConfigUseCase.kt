@@ -2,6 +2,10 @@ package com.gaoyun.roar.domain.repeat_config
 
 import com.gaoyun.roar.domain.interaction.GetInteraction
 import com.gaoyun.roar.model.domain.interactions.InteractionRepeatConfig
+import com.gaoyun.roar.model.domain.interactions.InteractionRepeatConfig.Companion.ENDS_DATE
+import com.gaoyun.roar.model.domain.interactions.InteractionRepeatConfig.Companion.ENDS_TIMES
+import com.gaoyun.roar.model.domain.interactions.InteractionRepeatConfig.Companion.REPEATS_EVERY_PERIOD_ON_LAST
+import com.gaoyun.roar.model.domain.interactions.InteractionRepeatConfig.Companion.REPEATS_EVERY_PERIOD_ON_SAME
 import com.gaoyun.roar.model.domain.interactions.InteractionRepeatConfigEach
 import com.gaoyun.roar.model.domain.interactions.InteractionWithReminders
 import com.gaoyun.roar.util.toLocalDate
@@ -41,13 +45,13 @@ class RepeatConfigUseCase : KoinComponent {
         if (!repeatConfig.ends.contains("no")) {
             val split = repeatConfig.ends.split(".")
             when (split[0]) {
-                "date" -> {
+                ENDS_DATE -> {
                     endsDate = LocalDate.parse(split[1])
                     if (endsDate <= Clock.System.now().toLocalDate()) {
                         return null
                     }
                 }
-                "times" -> {
+                ENDS_TIMES -> {
                     if ((split[1].toIntOrNull() ?: 0) <= interaction.reminders.size) return null
                 }
             }
@@ -78,11 +82,16 @@ class RepeatConfigUseCase : KoinComponent {
         }
 
         if (repeatConfig.repeatsEveryPeriod == InteractionRepeatConfigEach.MONTH) {
-            return if (repeatConfig.repeatsEveryPeriodOn.lowercase() == "last") {
+            return if (repeatConfig.repeatsEveryPeriodOn.lowercase() == REPEATS_EVERY_PERIOD_ON_LAST) {
                 val nextMonthSameDate = from.plus(repeatConfig.repeatsEveryNumber, unitToAdd)
                 val nextNextMonthSameDate = nextMonthSameDate.plus(1, DateTimeUnit.MONTH)
                 val numberOfDaysInNextMonth = nextMonthSameDate.daysUntil(nextNextMonthSameDate)
                 val result = LocalDate(year = nextMonthSameDate.year, month = nextMonthSameDate.month, dayOfMonth = numberOfDaysInNextMonth)
+
+                checkResult(endsDate, result)
+            } else if (repeatConfig.repeatsEveryPeriodOn.lowercase() == REPEATS_EVERY_PERIOD_ON_SAME) {
+                val nextMonthSameDate = from.plus(repeatConfig.repeatsEveryNumber, unitToAdd)
+                val result = LocalDate(year = nextMonthSameDate.year, month = nextMonthSameDate.month, dayOfMonth = nextMonthSameDate.dayOfMonth)
 
                 checkResult(endsDate, result)
             } else {
