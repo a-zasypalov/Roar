@@ -6,7 +6,7 @@
       "petType": "cat",
       "type": "deworming",
       "interactionGroup": "health",
-      "repeatConfig": "3_month_Day 1_no.0"
+      "repeatConfig": "3_month_1_no.0"
     },
     {
       "id": "2",
@@ -14,7 +14,7 @@
       "petType": "cat",
       "type": "health_check",
       "interactionGroup": "health",
-      "repeatConfig": "1_year_Day 1_no.0"
+      "repeatConfig": "1_year_1_no.0"
     },
     {
       "id": "3",
@@ -22,7 +22,7 @@
       "petType": "cat",
       "type": "flees",
       "interactionGroup": "care",
-      "repeatConfig": "1_month_Day 1_no.0"
+      "repeatConfig": "1_month_1_no.0"
     },
     {
       "id": "4",
@@ -30,7 +30,7 @@
       "petType": "cat",
       "type": "grooming",
       "interactionGroup": "care",
-      "repeatConfig": "6_month_Day 1_no.0"
+      "repeatConfig": "6_month_1_no.0"
     },
     {
       "id": "5",
@@ -38,7 +38,7 @@
       "petType": "cat",
       "type": "nails",
       "interactionGroup": "care",
-      "repeatConfig": "3_month_Day 1_no.0"
+      "repeatConfig": "3_month_1_no.0"
     },
     {
       "id": "6",
@@ -46,7 +46,7 @@
       "petType": "cat",
       "type": "vaccination",
       "interactionGroup": "health",
-      "repeatConfig": "3_year_Day 1_no.0"
+      "repeatConfig": "3_year_1_no.0"
     },
     {
       "id": "7",
@@ -54,7 +54,7 @@
       "petType": "cat",
       "type": "vaccination",
       "interactionGroup": "health",
-      "repeatConfig": "1_year_Day 1_no.0"
+      "repeatConfig": "1_year_1_no.0"
     },
     {
       "id": "8",

@@ -6,7 +6,7 @@
       "petType": "dog",
       "type": "deworming",
       "interactionGroup": "health",
-      "repeatConfig": "3_month_Day 1_no.0"
+      "repeatConfig": "3_month_1_no.0"
     },
     {
       "id": "2",
@@ -14,7 +14,7 @@
       "petType": "dog",
       "type": "health_check",
       "interactionGroup": "health",
-      "repeatConfig": "1_year_Day 1_no.0"
+      "repeatConfig": "1_year_1_no.0"
     },
     {
       "id": "3",
@@ -22,7 +22,7 @@
       "petType": "dog",
       "type": "flees",
       "interactionGroup": "care",
-      "repeatConfig": "1_month_Day 1_no.0"
+      "repeatConfig": "1_month_1_no.0"
     }
   ]
 }
