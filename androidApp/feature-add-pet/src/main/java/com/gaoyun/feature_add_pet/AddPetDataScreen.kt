@@ -196,7 +196,7 @@ private fun AddPetForm(
         SurfaceCard(
             shape = RoundedCornerShape(topStart = 24.dp, topEnd = 24.dp, bottomStart = 0.dp, bottomEnd = 0.dp),
             elevation = CardDefaults.cardElevation(defaultElevation = 8.dp),
-            modifier = Modifier.padding(horizontal = 12.dp)
+            modifier = Modifier.padding(horizontal = 6.dp)
         ) {
             Column(
                 horizontalAlignment = Alignment.CenterHorizontally,

@@ -5,6 +5,8 @@ import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.platform.LocalContext
+import com.gaoyun.common.theme.generated.DarkColorsGenerated
+import com.gaoyun.common.theme.generated.LightColorsGenerated
 
 private val DarkColorPalette = darkColorScheme(
     primary = RoarPrimaryDark,
@@ -75,13 +77,11 @@ fun RoarTheme(
         val context = LocalContext.current
         if (darkTheme) dynamicDarkColorScheme(context) else dynamicLightColorScheme(context)
     } else {
-        if (darkTheme) DarkColorPalette else LightColorPalette
+        if (darkTheme) DarkColorsGenerated else LightColorsGenerated
     }
 
     MaterialTheme(
         colorScheme = colors,
-//        typography = RoarTypography,
-//        shapes = Shapes,
         content = content
     )
 }

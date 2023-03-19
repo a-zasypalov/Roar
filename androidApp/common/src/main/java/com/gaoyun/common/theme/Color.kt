@@ -3,7 +3,7 @@ package com.gaoyun.common.theme
 import androidx.compose.ui.graphics.Color
 
 //Light colours
-val RoarOrange = Color(0xFFFF9C36)
+val RoarOrange = Color(0xFFee9338)
 val RoarPrimary = Color(0xFFDEA33E)
 val RoarOnPrimary = Color(0xFFFFFFFF)
 val RoarPrimaryContainer = Color(0xFFFFDEAA)
