@@ -1,5 +1,6 @@
 package com.gaoyun.feature_create_reminder
 
+import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -68,6 +69,8 @@ fun AddReminderCompleteScreen(
             }
         }.collect()
     }
+
+    BackHandler {}
 
     SurfaceScaffold {
         ReminderAddingComplete(petAvatar) { onEventSent(AddReminderCompleteScreenContract.Event.ContinueButtonClicked) }

@@ -85,18 +85,17 @@ fun AddReminderScreen(
         }.collect()
     }
 
-    SurfaceScaffold {
+    SurfaceScaffold(
+        backHandler = { onNavigationRequested(AddReminderScreenContract.Effect.Navigation.NavigateBack) },
+    ) {
         BoxWithLoader(isLoading = state.isLoading) {
             LazyColumn {
-                item {
-                    Box(modifier = Modifier.size(WindowInsets.statusBars.asPaddingValues().calculateTopPadding()))
-                }
                 state.pet?.let { pet ->
                     item {
                         Row(
                             modifier = Modifier
                                 .fillMaxWidth()
-                                .padding(start = 16.dp, top = 32.dp),
+                                .padding(start = 16.dp, top = 8.dp),
                             verticalAlignment = Alignment.CenterVertically
                         ) {
                             Image(
@@ -233,7 +232,7 @@ private fun TemplateItem(
                     )
                 }
 
-                if(isUsed) {
+                if (isUsed) {
                     Icon(Icons.Default.Check, contentDescription = null)
                 }
             }

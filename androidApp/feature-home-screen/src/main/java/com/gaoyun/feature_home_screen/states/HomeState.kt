@@ -92,7 +92,6 @@ fun HomeState(
             item {
                 val pet = pets.first()
                 PetContainer(
-                    isPartOfAnotherScreen = true,
                     pet = pet,
                     showLastReminder = showLastReminder,
                     onInteractionClick = { interactionId -> onInteractionClick(pet.id, interactionId) },

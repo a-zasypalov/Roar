@@ -12,6 +12,7 @@ android {
         targetSdk = 33
         versionCode = 1
         versionName = "1.0"
+        multiDexEnabled = true
     }
     buildFeatures {
         compose = true
@@ -46,4 +47,5 @@ dependencies {
     implementation(project(":androidApp:feature-onboarding"))
 
     implementation("androidx.activity:activity-compose:1.6.1")
+    implementation("androidx.multidex:multidex:2.0.1")
 }

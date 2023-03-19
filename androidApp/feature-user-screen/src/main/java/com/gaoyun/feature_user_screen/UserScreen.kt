@@ -147,6 +147,7 @@ fun UserScreen(
     }
 
     SurfaceScaffold(
+        backHandler = { onNavigationRequested(UserScreenContract.Effect.Navigation.NavigateBack) },
         snackbarHost = { SnackbarHost(snackbarHostState) },
         floatingActionButton = {
             RoarExtendedFloatingActionButton(
@@ -166,9 +167,7 @@ fun UserScreen(
                         .padding(
                             start = 16.dp,
                             end = 16.dp,
-                            top = WindowInsets.statusBars
-                                .asPaddingValues()
-                                .calculateTopPadding() + 32.dp
+                            top = 8.dp
                         )
                 ) {
                     Row(

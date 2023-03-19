@@ -100,7 +100,8 @@ fun PetScreen(
                 text = stringResource(id = R.string.reminder),
                 onClick = { onEventSent(PetScreenContract.Event.AddReminderButtonClicked(state.pet?.id ?: "")) })
         },
-        floatingActionButtonPosition = FabPosition.End
+        floatingActionButtonPosition = FabPosition.End,
+        backHandler = { onNavigationRequested(PetScreenContract.Effect.Navigation.NavigateBack) }
     ) {
         if (state.deletePetDialogShow) {
             RemovePetConfirmationDialog(

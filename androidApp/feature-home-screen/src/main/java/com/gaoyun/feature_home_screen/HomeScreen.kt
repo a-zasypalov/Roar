@@ -1,10 +1,13 @@
 package com.gaoyun.feature_home_screen
 
+import androidx.activity.compose.BackHandler
+import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FabPosition
 import androidx.compose.runtime.*
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
@@ -39,6 +42,7 @@ import java.time.LocalDateTime
 fun HomeScreenDestination(navHostController: NavHostController) {
     val viewModel: HomeScreenViewModel = getViewModel()
     val state = viewModel.viewState.collectAsState().value
+    val activity = LocalContext.current as AppCompatActivity
 
     OnLifecycleEvent { _, event ->
         if (event == Lifecycle.Event.ON_RESUME) {
@@ -59,7 +63,7 @@ fun HomeScreenDestination(navHostController: NavHostController) {
                 is HomeScreenContract.Effect.Navigation.ToInteractionDetails -> navHostController.navigate("${NavigationKeys.Route.INTERACTION_DETAIL}/${navigationEffect.interactionId}")
                 is HomeScreenContract.Effect.Navigation.ToEditPet -> navHostController.navigate("${NavigationKeys.Route.EDIT}/${NavigationKeys.Route.PET_DETAIL}/${navigationEffect.pet.id}/${navigationEffect.pet.avatar}/${navigationEffect.pet.petType}")
                 is HomeScreenContract.Effect.Navigation.ToUserScreen -> navHostController.navigate("${NavigationKeys.Route.HOME_ROUTE}/${NavigationKeys.Route.USER}")
-                is HomeScreenContract.Effect.Navigation.NavigateBack -> navHostController.popBackStack()
+                is HomeScreenContract.Effect.Navigation.NavigateBack -> activity.finish()
             }
         },
         viewModel = viewModel,
@@ -88,6 +92,8 @@ fun HomeScreen(
             }
         }.collect()
     }
+
+    BackHandler { onNavigationRequested(HomeScreenContract.Effect.Navigation.NavigateBack) }
 
     SurfaceScaffold(
         floatingActionButton = {

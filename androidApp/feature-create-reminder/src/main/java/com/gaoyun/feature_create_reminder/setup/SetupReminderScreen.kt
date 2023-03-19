@@ -80,11 +80,12 @@ fun SetupReminderScreen(
         }.collect()
     }
 
-    SurfaceScaffold {
+    SurfaceScaffold(
+        backHandler = { onNavigationRequested(SetupReminderScreenContract.Effect.Navigation.NavigateBack) },
+    ) {
         BoxWithLoader(
             isLoading = state.isLoading,
             contentAlignment = Alignment.BottomCenter,
-            modifier = Modifier.statusBarsPadding()
         ) {
             state.pet?.let { pet ->
                 avatar.value = pet.avatar
@@ -103,7 +104,7 @@ fun SetupReminderScreen(
                         elevation = CardDefaults.cardElevation(defaultElevation = 8.dp),
                         modifier = Modifier.padding(horizontal = 6.dp)
                     ) {
-                        Box(modifier = Modifier.padding(top = 32.dp)) {
+                        Box(modifier = Modifier.padding(top = 8.dp)) {
                             ReminderSetupForm(
                                 interactionToEdit = state.interactionToEdit,
                                 template = state.template,
@@ -144,7 +145,7 @@ private fun ReminderSetupHeader(
 ) {
     Row(
         modifier = Modifier
-            .padding(top = 32.dp, start = 12.dp, end = 12.dp),
+            .padding(top = 8.dp, start = 12.dp, end = 12.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
         Image(

@@ -71,7 +71,8 @@ fun EditUserScreen(
     }
 
     SurfaceScaffold(
-        floatingActionButtonPosition = FabPosition.End
+        floatingActionButtonPosition = FabPosition.End,
+        backHandler = { onNavigationRequested(EditUserScreenContract.Effect.Navigation.NavigateBack) },
     ) {
         BoxWithLoader(isLoading = state.userToEdit == null) {
             state.userToEdit?.let { user ->
@@ -85,8 +86,7 @@ fun EditUserScreen(
                         style = MaterialTheme.typography.displayMedium,
                         modifier = Modifier
                             .fillMaxSize()
-                            .statusBarsPadding()
-                            .padding(start = 10.dp, top = 32.dp, bottom = 16.dp),
+                            .padding(start = 10.dp, top = 8.dp, bottom = 16.dp),
                     )
                     EditUserForm(user) { onEventSent(EditUserScreenContract.Event.OnSaveAccountClick(it)) }
                 }

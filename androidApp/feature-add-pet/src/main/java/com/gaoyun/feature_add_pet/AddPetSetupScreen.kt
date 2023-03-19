@@ -1,5 +1,6 @@
 package com.gaoyun.feature_add_pet
 
+import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -79,6 +80,8 @@ fun AddPetSetupScreen(
             }
         }.collect()
     }
+
+    BackHandler(enabled = true) {}
 
     SurfaceScaffold {
         BoxWithLoader(isLoading = state.isLoading) {

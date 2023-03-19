@@ -119,7 +119,9 @@ private fun AddPetDataScreen(
         onNavigationRequested(AddPetDataScreenContract.Effect.Navigation.NavigateBack(confirmed = false))
     }
 
-    SurfaceScaffold {
+    SurfaceScaffold(
+        backHandler = { onNavigationRequested(AddPetDataScreenContract.Effect.Navigation.NavigateBack(confirmed = false)) }
+    ) {
         BoxWithLoader(isLoading = state.isLoading) {
             if (petId == null || state.pet != null) {
                 AddPetForm(
@@ -190,8 +192,7 @@ private fun AddPetForm(
             style = MaterialTheme.typography.displayMedium,
             modifier = Modifier
                 .fillMaxSize()
-                .statusBarsPadding()
-                .padding(start = 10.dp, top = 32.dp, bottom = 16.dp),
+                .padding(start = 10.dp, top = 8.dp, bottom = 16.dp),
         )
         SurfaceCard(
             shape = RoundedCornerShape(topStart = 24.dp, topEnd = 24.dp, bottomStart = 0.dp, bottomEnd = 0.dp),

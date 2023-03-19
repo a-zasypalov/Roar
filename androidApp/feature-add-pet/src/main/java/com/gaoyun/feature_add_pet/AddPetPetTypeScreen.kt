@@ -47,8 +47,7 @@ fun AddPetPetTypeDestination(navHostController: NavHostController) {
                 is AddPetPetTypeScreenContract.Effect.Navigation.ToPetAvatar ->
                     navHostController.navigate("${NavigationKeys.Route.ADD_PET_ROUTE}/${navigationEffect.petType}")
 
-                is AddPetPetTypeScreenContract.Effect.Navigation.NavigateBack ->
-                    navHostController.navigateUp()
+                is AddPetPetTypeScreenContract.Effect.Navigation.NavigateBack -> navHostController.navigateUp()
             }
         },
     )
@@ -72,7 +71,9 @@ fun AddPetPetTypeScreen(
         }.collect()
     }
 
-    SurfaceScaffold {
+    SurfaceScaffold(
+        backHandler = { onNavigationRequested(AddPetPetTypeScreenContract.Effect.Navigation.NavigateBack) }
+    ) {
         ChoosePetType(
             petTypes = state.petTypes,
             onPetTypeChosen = { petType -> onEventSent(AddPetPetTypeScreenContract.Event.PetTypeChosen(petType)) },
@@ -89,9 +90,7 @@ private fun ChoosePetType(
 
     Box(
         contentAlignment = Alignment.TopCenter,
-        modifier = Modifier
-            .fillMaxSize()
-            .statusBarsPadding()
+        modifier = Modifier.fillMaxSize()
     ) {
 
         Text(
@@ -99,7 +98,7 @@ private fun ChoosePetType(
             style = MaterialTheme.typography.displayMedium,
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(top = 32.dp, start = 16.dp)
+                .padding(top = 8.dp, start = 16.dp)
         )
 
         LazyVerticalGrid(

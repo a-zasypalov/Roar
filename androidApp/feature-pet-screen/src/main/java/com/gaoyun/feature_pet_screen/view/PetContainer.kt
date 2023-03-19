@@ -1,6 +1,8 @@
 package com.gaoyun.feature_pet_screen.view
 
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
@@ -27,20 +29,15 @@ fun PetContainer(
     onEditPetClick: (String) -> Unit,
     onInteractionCheckClicked: (String, Boolean, LocalDateTime) -> Unit,
     modifier: Modifier = Modifier,
-    isPartOfAnotherScreen: Boolean = false
 ) {
     Column(
         modifier = modifier,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        if (!isPartOfAnotherScreen) {
-            Box(modifier = Modifier.size(WindowInsets.statusBars.asPaddingValues().calculateTopPadding()))
-        }
-
         PetHeader(
             pet = pet.withoutInteractions(), modifier = Modifier
                 .fillMaxWidth()
-                .padding(top = if (isPartOfAnotherScreen) 8.dp else 32.dp, bottom = 8.dp)
+                .padding(top = 8.dp, bottom = 8.dp)
         )
 
         if (pet.interactions.isNotEmpty()) {

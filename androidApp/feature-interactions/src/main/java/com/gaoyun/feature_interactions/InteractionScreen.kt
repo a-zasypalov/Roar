@@ -111,6 +111,7 @@ fun InteractionScreen(
     }
 
     SurfaceScaffold(
+        backHandler = { onNavigationRequested(InteractionScreenContract.Effect.Navigation.NavigateBack) },
         floatingActionButton = {
             state.interaction?.let { interaction ->
                 if (interaction.isActive) {
@@ -224,14 +225,11 @@ fun InteractionScreen(
 
                     LazyColumn(modifier = Modifier.padding(horizontal = 8.dp)) {
                         item {
-                            Box(modifier = Modifier.size(WindowInsets.statusBars.asPaddingValues().calculateTopPadding()))
-                        }
-                        item {
                             InteractionHeader(
                                 pet = pet,
                                 interaction = interaction,
                                 notesState = notesState,
-                                modifier = Modifier.padding(top = 32.dp)
+                                modifier = Modifier.padding(top = 8.dp)
                             )
                         }
 

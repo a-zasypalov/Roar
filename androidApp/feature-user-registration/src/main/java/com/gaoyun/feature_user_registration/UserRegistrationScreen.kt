@@ -1,5 +1,6 @@
 package com.gaoyun.feature_user_registration
 
+import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
@@ -68,6 +69,7 @@ fun UserRegistrationScreen(
         }.collect()
     }
 
+    BackHandler {}
 
     SurfaceScaffold {
         UserRegistrationForm { name ->

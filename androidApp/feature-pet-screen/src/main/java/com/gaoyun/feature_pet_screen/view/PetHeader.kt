@@ -8,7 +8,6 @@ import androidx.compose.material.icons.filled.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
-import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalContext
@@ -22,7 +21,6 @@ import com.gaoyun.common.ui.getDrawableByName
 import com.gaoyun.roar.model.domain.Gender
 import com.gaoyun.roar.model.domain.Pet
 
-@OptIn(ExperimentalComposeUiApi::class)
 @Composable
 internal fun PetHeader(
     pet: Pet,

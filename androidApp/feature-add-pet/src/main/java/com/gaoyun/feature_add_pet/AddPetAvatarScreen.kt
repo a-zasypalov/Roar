@@ -83,7 +83,9 @@ fun AddPetAvatarScreen(
     }
 
 
-    SurfaceScaffold {
+    SurfaceScaffold(
+        backHandler = { onNavigationRequested(AddPetAvatarScreenContract.Effect.Navigation.NavigateBack) }
+    ) {
         ChooseAvatar(
             petAvatars = state.avatars,
             petType = petType,
@@ -110,13 +112,10 @@ private fun ChooseAvatar(
         userScrollEnabled = true
     ) {
         item(span = titleSpan) {
-            Box(modifier = Modifier.size(WindowInsets.statusBars.asPaddingValues().calculateTopPadding()))
-        }
-        item(span = titleSpan) {
             Text(
                 text = stringResource(id = CommonR.string.choose_avatar),
                 style = MaterialTheme.typography.displayMedium,
-                modifier = Modifier.padding(start = 8.dp, top = 32.dp, bottom = 16.dp),
+                modifier = Modifier.padding(start = 8.dp, top = 8.dp, bottom = 16.dp),
             )
         }
         items(petAvatars, key = { it.iconRes }) { avatar ->
