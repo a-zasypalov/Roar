@@ -95,6 +95,6 @@ class SetReminderComplete : KoinComponent {
         )
         notificationScheduler.scheduleNotification(notificationData)
 
-        return notificationData.item.workId
+        return (notificationData.item as? NotificationItem.Reminder)?.workId ?: randomUUID()
     }
 }

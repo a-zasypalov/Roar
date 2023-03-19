@@ -6,7 +6,9 @@ import androidx.work.OneTimeWorkRequestBuilder
 import androidx.work.WorkManager
 import com.gaoyun.roar.domain.NotificationScheduler
 import com.gaoyun.roar.model.domain.NotificationData
+import com.gaoyun.roar.model.domain.NotificationItem
 import com.gaoyun.roar.notification.toInputData
+import com.gaoyun.roar.util.randomUUID
 import kotlinx.datetime.toJavaLocalDateTime
 import kotlinx.datetime.toKotlinLocalDateTime
 import org.koin.core.component.KoinComponent
@@ -39,7 +41,7 @@ class NotificationSchedulerImpl(
             .setInputData(data.item.toInputData(data.scheduled))
             .build()
 
-        workManager.enqueueUniqueWork(data.item.workId, ExistingWorkPolicy.REPLACE, request)
+        workManager.enqueueUniqueWork((data.item as? NotificationItem.Reminder)?.workId ?: randomUUID(), ExistingWorkPolicy.REPLACE, request)
     }
 
 }

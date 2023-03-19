@@ -13,13 +13,17 @@ data class NotificationData(
 
 @Serializable
 sealed interface NotificationItem {
-    val workId: String
-    val itemId: String
-
     @Serializable
     @SerialName("reminder")
     data class Reminder(
-        override val workId: String = randomUUID(),
-        override val itemId: String
+        val workId: String = randomUUID(),
+        val itemId: String
+    ) : NotificationItem
+
+    @Serializable
+    @SerialName("push")
+    data class Push(
+        val title: String,
+        val message: String,
     ) : NotificationItem
 }

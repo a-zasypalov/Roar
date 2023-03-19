@@ -77,5 +77,6 @@ val notificationsModule = module {
     single { NotificationChannelProvider(get()) }
     single { NotificationDisplayer(get(), get(), get()) }
     single { NotificationHandler(get(), get(), get(), get()) }
+    single { FcmService() }
     worker { NotificationWorker(get(), get()) }
 }

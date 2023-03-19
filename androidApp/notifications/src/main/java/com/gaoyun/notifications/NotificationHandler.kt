@@ -15,22 +15,35 @@ class NotificationHandler(
 ) : KoinComponent {
 
     suspend fun handle(notification: NotificationData): Boolean {
-        if (notification.item is NotificationItem.Reminder) {
-            val interaction = getInteraction.getInteractionByReminder(notification.item.itemId).firstOrNull() ?: return false
-            val pet = getPetUseCase.getPet(interaction.petId).firstOrNull() ?: return false
+        return when (notification.item) {
+            is NotificationItem.Reminder -> {
+                val item = notification.item as NotificationItem.Reminder
+                val interaction = getInteraction.getInteractionByReminder(item.itemId).firstOrNull() ?: return false
+                val pet = getPetUseCase.getPet(interaction.petId).firstOrNull() ?: return false
 
-            //TODO: Notifications content
-            displayer.display(
-                title = interaction.name,
-                content = "It's time for ${pet.name} to have a ${interaction.type}",
-                channel = NotificationChannel.PetsReminder,
-                intent = notificationIntentProvider.getDefaultIntent()
-            )
-            return true
+                //TODO: Notifications content
+                displayer.display(
+                    title = interaction.name,
+                    content = "It's time for ${pet.name} to have a ${interaction.type}",
+                    channel = NotificationChannel.PetsReminder,
+                    intent = notificationIntentProvider.getDefaultIntent()
+                )
+                true
+            }
+            is NotificationItem.Push -> {
+                handleImmediate(notification.item as NotificationItem.Push)
+                true
+            }
         }
-
-        return false
     }
 
+    fun handleImmediate(notification: NotificationItem.Push) {
+        displayer.display(
+            title = notification.title,
+            content = notification.message,
+            channel = NotificationChannel.PetsReminder,
+            intent = notificationIntentProvider.getDefaultIntent()
+        )
+    }
 
 }

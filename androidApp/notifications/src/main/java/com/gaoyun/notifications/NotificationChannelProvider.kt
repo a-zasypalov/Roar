@@ -43,4 +43,5 @@ class NotificationChannelProvider(
 
 enum class NotificationChannel(val id: String) {
     PetsReminder("com.gaoyun.roar.petsReminder"),
+    Push("com.gaoyun.roar.push"),
 }
