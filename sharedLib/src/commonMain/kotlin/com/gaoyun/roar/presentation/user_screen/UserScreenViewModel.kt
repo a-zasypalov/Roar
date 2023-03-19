@@ -26,7 +26,7 @@ class UserScreenViewModel : BaseViewModel<UserScreenContract.Event, UserScreenCo
     override fun handleEvents(event: UserScreenContract.Event) {
         when (event) {
             is UserScreenContract.Event.OnDeleteAccountClick -> {}
-            is UserScreenContract.Event.OnEditAccountClick -> {}
+            is UserScreenContract.Event.OnEditAccountClick -> setEffect { UserScreenContract.Effect.Navigation.ToUserEdit }
             is UserScreenContract.Event.OnCreateBackupClick -> createBackup()
             is UserScreenContract.Event.OnUseBackup -> useBackup(event.backupString, event.removeOld)
             is UserScreenContract.Event.OnDynamicColorsStateChange -> setDynamicColor(event.active)

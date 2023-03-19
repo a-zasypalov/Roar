@@ -7,7 +7,7 @@ selectById:
 SELECT * FROM UserEntity WHERE id = ?;
 
 insert:
-INSERT INTO UserEntity(id, name) VALUES (?, ?);
+INSERT OR REPLACE INTO UserEntity(id, name) VALUES (?, ?);
 
 removeAll:
 DELETE FROM UserEntity;

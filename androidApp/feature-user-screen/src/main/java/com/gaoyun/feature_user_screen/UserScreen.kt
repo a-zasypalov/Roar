@@ -19,6 +19,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.Lifecycle
 import androidx.navigation.NavHostController
+import com.gaoyun.common.NavigationKeys
 import com.gaoyun.common.OnLifecycleEvent
 import com.gaoyun.common.R
 import com.gaoyun.common.ui.*
@@ -53,8 +54,8 @@ fun UserScreenDestination(
         onEventSent = { event -> viewModel.setEvent(event) },
         onNavigationRequested = { navigationEffect ->
             when (navigationEffect) {
-                is UserScreenContract.Effect.Navigation.NavigateBack ->
-                    navHostController.navigateUp()
+                is UserScreenContract.Effect.Navigation.NavigateBack -> navHostController.navigateUp()
+                is UserScreenContract.Effect.Navigation.ToUserEdit -> navHostController.navigate(NavigationKeys.Route.USER_EDIT_ROUTE)
             }
         },
         backupFlow = viewModel.backupState
@@ -147,15 +148,14 @@ fun UserScreen(
 
     SurfaceScaffold(
         snackbarHost = { SnackbarHost(snackbarHostState) },
-        //TODO: Edit user
-//        floatingActionButton = {
-//            RoarExtendedFloatingActionButton(
-//                icon = Icons.Filled.Edit,
-//                contentDescription = "Edit user",
-//                text = stringResource(id = R.string.edit),
-//                onClick = { UserScreenContract.Event.OnEditAccountClick }
-//            )
-//        },
+        floatingActionButton = {
+            RoarExtendedFloatingActionButton(
+                icon = Icons.Filled.Edit,
+                contentDescription = stringResource(id = R.string.edit_profile),
+                text = stringResource(id = R.string.edit),
+                onClick = { onEventSent(UserScreenContract.Event.OnEditAccountClick) }
+            )
+        },
         floatingActionButtonPosition = FabPosition.End
     ) {
         BoxWithLoader(isLoading = state.user == null) {

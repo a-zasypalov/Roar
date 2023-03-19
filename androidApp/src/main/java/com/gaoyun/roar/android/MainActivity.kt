@@ -34,6 +34,7 @@ import com.gaoyun.feature_interactions.InteractionScreenDestination
 import com.gaoyun.feature_onboarding.OnboardingRootScreen
 import com.gaoyun.feature_pet_screen.PetScreenDestination
 import com.gaoyun.feature_user_registration.UserRegistrationDestination
+import com.gaoyun.feature_user_screen.EditUserScreenDestination
 import com.gaoyun.feature_user_screen.UserScreenDestination
 import com.gaoyun.roar.util.PreferencesKeys
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
@@ -293,6 +294,12 @@ class MainActivity : AppCompatActivity() {
                 route = NavigationKeys.Route.USER_ROUTE,
             ) {
                 UserScreenDestination(navController)
+            }
+
+            composable(
+                route = NavigationKeys.Route.USER_EDIT_ROUTE,
+            ) {
+                EditUserScreenDestination(navController)
             }
         }
     }

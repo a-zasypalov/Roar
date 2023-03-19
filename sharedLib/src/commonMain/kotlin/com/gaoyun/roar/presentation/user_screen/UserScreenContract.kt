@@ -27,6 +27,7 @@ class UserScreenContract {
 
         sealed class Navigation : Effect() {
             object NavigateBack : Navigation()
+            object ToUserEdit : Navigation()
         }
     }
 

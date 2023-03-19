@@ -3,6 +3,7 @@
     <string name="app_name">Roar</string>
     <string name="choose_avatar">Choose avatar</string>
     <string name="pets_card">Pet\'s Card</string>
+    <string name="edit_profile">Edit profile</string>
     <string name="name">Name</string>
     <string name="breed">Breed</string>
     <string name="male">Male</string>

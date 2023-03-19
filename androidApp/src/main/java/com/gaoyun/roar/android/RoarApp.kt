@@ -18,6 +18,7 @@ import com.gaoyun.roar.presentation.home_screen.HomeScreenViewModel
 import com.gaoyun.roar.presentation.interactions.InteractionScreenViewModel
 import com.gaoyun.roar.presentation.onboarding.OnboardingViewModel
 import com.gaoyun.roar.presentation.pet_screen.PetScreenViewModel
+import com.gaoyun.roar.presentation.user_edit.EditUserScreenViewModel
 import com.gaoyun.roar.presentation.user_register.RegisterUserViewModel
 import com.gaoyun.roar.presentation.user_screen.UserScreenViewModel
 import org.koin.android.ext.koin.androidContext
@@ -53,6 +54,7 @@ val appModule = module {
     viewModel { HomeScreenViewModel() }
     viewModel { RegisterUserViewModel() }
     viewModel { UserScreenViewModel() }
+    viewModel { EditUserScreenViewModel() }
 
     viewModel { AddPetDataScreenViewModel() }
     viewModel { AddPetPetTypeScreenViewModel() }
