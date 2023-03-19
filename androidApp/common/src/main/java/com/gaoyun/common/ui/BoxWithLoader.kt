@@ -1,6 +1,10 @@
 package com.gaoyun.common.ui
 
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 
@@ -15,7 +19,15 @@ fun BoxWithLoader(
         contentAlignment = contentAlignment,
         modifier = modifier
     ) {
-        content()
+        AnimatedVisibility(
+            modifier = Modifier
+                .wrapContentSize(),
+            visible = !isLoading,
+            enter = fadeIn(),
+            exit = fadeOut()
+        ) {
+            content()
+        }
         Loader(isLoading = isLoading)
     }
 }
