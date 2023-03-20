@@ -41,6 +41,7 @@ private val MIN_DATE = LocalDateTime(LocalDate.fromEpochDays(0), LocalTime(0, 0,
 fun HomeState(
     pets: List<PetWithInteractions>,
     showLastReminder: Boolean,
+    remindersPerPet: Int,
     onAddPetButtonClick: () -> Unit,
     onPetCardClick: (petId: String) -> Unit,
     onInteractionClick: (petId: String, interactionId: String) -> Unit,
@@ -50,6 +51,7 @@ fun HomeState(
     onUserDetailsClick: () -> Unit
 ) {
 
+    val remindersPerPetState = remember { mutableStateOf(remindersPerPet) }
     val shownInteractionsState = remember {
         mutableStateOf(
             pets.map { pet ->
@@ -58,7 +60,7 @@ fun HomeState(
                     .flatMap { it.reminders }
                     .filter { !it.isCompleted }
                     .sortedBy { it.dateTime }
-                    .take(2)
+                    .take(remindersPerPetState.value)
             }
         )
     }
@@ -66,14 +68,14 @@ fun HomeState(
     val interactionsToShowUpdated = pets.map { pet -> pet.interactions.values.flatten() }
     val interactionsState = remember { mutableStateOf(pets.map { pet -> pet.interactions.values.flatten() }) }
 
-    if (interactionsState.value.flatten().size != interactionsToShowUpdated.flatten().size) {
+    if (remindersPerPetState.value != remindersPerPet || interactionsState.value.flatten().size != interactionsToShowUpdated.flatten().size) {
         shownInteractionsState.value = pets.map { pet ->
             pet.id to pet.interactions.values
                 .flatten()
                 .flatMap { it.reminders }
                 .filter { !it.isCompleted }
                 .sortedBy { it.dateTime }
-                .take(2)
+                .take(remindersPerPet)
         }
     }
 
@@ -263,6 +265,6 @@ fun HomeStatePreview() {
                             )
                 )
             ),
-        ), false, {}, {}, { _, _ -> }, {}, {}, { _, _, _, _ -> }, {})
+        ), false, 2, {}, {}, { _, _ -> }, {}, {}, { _, _, _, _ -> }, {})
     }
 }

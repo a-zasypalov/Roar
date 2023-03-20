@@ -77,6 +77,9 @@ fun UserScreen(
     val coroutineScope = rememberCoroutineScope()
     val snackbarHostState = remember { SnackbarHostState() }
 
+    val numberOfRemindersOnMainScreenState = remember { mutableStateOf(state.numberOfRemindersOnMainScreenState) }
+    numberOfRemindersOnMainScreenState.value = state.numberOfRemindersOnMainScreenState
+
     val importBackupLauncher = rememberLauncherForActivityResult(ActivityResultContracts.StartActivityForResult()) {
         it.data?.data?.let { uri ->
             context.contentResolver.openFileDescriptor(uri, "r")?.use { descriptor ->
@@ -237,6 +240,27 @@ fun UserScreen(
                     }
 
                     Spacer(size = 32.dp)
+
+                    Text(
+                        text = stringResource(id = R.string.app_settings),
+                        style = MaterialTheme.typography.titleLarge,
+                        color = MaterialTheme.colorScheme.onSurface
+                    )
+
+                    Spacer(size = 8.dp)
+
+                    DropdownMenu(
+                        valueList = listOf("0", "1", "2", "3", "4", "5"),
+                        listState = numberOfRemindersOnMainScreenState,
+                        onChange = { onEventSent(UserScreenContract.Event.OnNumberOfRemindersOnMainScreen(it.toIntOrNull() ?: 2)) },
+                        valueDisplayList = null,
+                        listDisplayState = null,
+                        label = stringResource(id = R.string.number_of_reminders_main_screen),
+                        leadingIcon = Icons.Filled.ListAlt,
+                        modifier = Modifier.fillMaxWidth()
+                    )
+
+                    Spacer(size = 8.dp)
 
                     LabelledCheckBox(
                         checked = state.dynamicColorActive,

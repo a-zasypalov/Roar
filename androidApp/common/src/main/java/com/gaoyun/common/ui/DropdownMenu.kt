@@ -14,9 +14,10 @@ import androidx.compose.ui.res.stringResource
 fun DropdownMenu(
     valueList: List<String>,
     listState: MutableState<String>,
+    modifier: Modifier = Modifier,
+    onChange: ((String) -> Unit)? = null,
     @StringRes valueDisplayList: List<Int>?,
     @StringRes listDisplayState: Int?,
-    modifier: Modifier = Modifier,
     label: String? = null,
     leadingIcon: ImageVector? = null
 ) {
@@ -62,6 +63,7 @@ fun DropdownMenu(
                         )
                     },
                     onClick = {
+                        onChange?.invoke(selection)
                         listState.value = selection
                         menuExpanded = false
                     },

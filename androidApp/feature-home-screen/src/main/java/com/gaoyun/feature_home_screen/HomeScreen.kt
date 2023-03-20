@@ -174,6 +174,7 @@ fun HomeScreen(
                     HomeState(
                         pets = state.pets,
                         showLastReminder = state.showLastReminder,
+                        remindersPerPet = state.remindersPerPet,
                         onAddPetButtonClick = viewModel::openAddPetScreen,
                         onPetCardClick = viewModel::openPetScreen,
                         onInteractionClick = { petId, interactionId -> onEventSent(HomeScreenContract.Event.InteractionClicked(petId, interactionId)) },

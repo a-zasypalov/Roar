@@ -13,11 +13,13 @@ class UserScreenContract {
         object OnCreateBackupClick : Event()
         data class OnUseBackup(val backupString: String, val removeOld: Boolean) : Event()
         data class OnDynamicColorsStateChange(val active: Boolean) : Event()
+        data class OnNumberOfRemindersOnMainScreen(val newNumber: Int) : Event()
     }
 
     data class State(
         val isLoading: Boolean = false,
         val dynamicColorActive: Boolean = false,
+        val numberOfRemindersOnMainScreenState: String = "2",
         val user: User? = null,
     ) : ViewState
 

@@ -1,6 +1,6 @@
 package com.gaoyun.roar.presentation.user_screen
 
-import com.gaoyun.roar.domain.DynamicColorsUseCase
+import com.gaoyun.roar.domain.AppPreferencesUseCase
 import com.gaoyun.roar.domain.backup.CreateBackupUseCase
 import com.gaoyun.roar.domain.backup.ImportBackupUseCase
 import com.gaoyun.roar.domain.user.GetCurrentUserUseCase
@@ -17,7 +17,7 @@ class UserScreenViewModel : BaseViewModel<UserScreenContract.Event, UserScreenCo
     private val getUser: GetCurrentUserUseCase by inject()
     private val createBackupUseCase: CreateBackupUseCase by inject()
     private val importBackupUseCase: ImportBackupUseCase by inject()
-    private val dynamicColorsUseCase: DynamicColorsUseCase by inject()
+    private val appPreferencesUseCase: AppPreferencesUseCase by inject()
 
     val backupState = MutableStateFlow("")
 
@@ -30,6 +30,7 @@ class UserScreenViewModel : BaseViewModel<UserScreenContract.Event, UserScreenCo
             is UserScreenContract.Event.OnCreateBackupClick -> createBackup()
             is UserScreenContract.Event.OnUseBackup -> useBackup(event.backupString, event.removeOld)
             is UserScreenContract.Event.OnDynamicColorsStateChange -> setDynamicColor(event.active)
+            is UserScreenContract.Event.OnNumberOfRemindersOnMainScreen -> setNumberOfRemindersOnMainScreen(event.newNumber)
         }
     }
 
@@ -43,7 +44,8 @@ class UserScreenViewModel : BaseViewModel<UserScreenContract.Event, UserScreenCo
                     copy(
                         isLoading = false,
                         user = user,
-                        dynamicColorActive = dynamicColorsUseCase.dynamicColorsIsActive()
+                        dynamicColorActive = appPreferencesUseCase.dynamicColorsIsActive(),
+                        numberOfRemindersOnMainScreenState = appPreferencesUseCase.numberOfRemindersOnMainScreen().toString(),
                     )
                 }
             }
@@ -63,8 +65,13 @@ class UserScreenViewModel : BaseViewModel<UserScreenContract.Event, UserScreenCo
     }
 
     private fun setDynamicColor(active: Boolean) {
-        dynamicColorsUseCase.setDynamicColors(active)
+        appPreferencesUseCase.setDynamicColors(active)
         setState { copy(dynamicColorActive = active) }
+    }
+
+    private fun setNumberOfRemindersOnMainScreen(number: Int) {
+        appPreferencesUseCase.setNumberOfRemindersOnMainScreen(number)
+        setState { copy(numberOfRemindersOnMainScreenState = number.toString()) }
     }
 
 }

@@ -1,5 +1,6 @@
 package com.gaoyun.roar.presentation.home_screen
 
+import com.gaoyun.roar.domain.AppPreferencesUseCase
 import com.gaoyun.roar.domain.interaction.GetInteraction
 import com.gaoyun.roar.domain.pet.GetPetUseCase
 import com.gaoyun.roar.domain.pet.RemovePetUseCase
@@ -31,6 +32,7 @@ class HomeScreenViewModel :
     private val getInteractions: GetInteraction by inject()
     private val removePet: RemovePetUseCase by inject()
     private val setReminderComplete: SetReminderComplete by inject()
+    private val appPreferencesUseCase: AppPreferencesUseCase by inject()
 
     override fun setInitialState() = HomeScreenContract.State(null, emptyList(), true)
 
@@ -85,7 +87,7 @@ class HomeScreenViewModel :
             }
 
         if (pets.isNotEmpty()) {
-            setPetsState(user, pets)
+            setPetsState(user, pets, appPreferencesUseCase.numberOfRemindersOnMainScreen())
         } else {
             setUserDataState(user)
         }
@@ -111,7 +113,10 @@ class HomeScreenViewModel :
     }
 
     private fun setUserDataState(user: User) = setState { copy(user = user, pets = emptyList(), isLoading = false) }
-    private fun setPetsState(user: User, pets: List<PetWithInteractions>) = setState { copy(user = user, pets = pets, isLoading = false) }
+    private fun setPetsState(user: User, pets: List<PetWithInteractions>, numberOfRemindersOnMainScreen: Int) = setState {
+        copy(user = user, pets = pets, remindersPerPet = numberOfRemindersOnMainScreen, isLoading = false)
+    }
+
     private fun setDialogShow(show: Boolean) = setState { copy(showPetChooser = show) }
     fun hideDeletePetDialog() = setState { copy(deletePetDialogShow = false) }
     fun openRegistration() = setEffect { HomeScreenContract.Effect.Navigation.ToUserRegistration }
