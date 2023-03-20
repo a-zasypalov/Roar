@@ -83,54 +83,49 @@ fun SetupReminderScreen(
     SurfaceScaffold(
         backHandler = { onNavigationRequested(SetupReminderScreenContract.Effect.Navigation.NavigateBack) },
     ) {
-        BoxWithLoader(
-            isLoading = state.isLoading,
-            contentAlignment = Alignment.BottomCenter,
-        ) {
+        BoxWithLoader(isLoading = state.isLoading) {
             state.pet?.let { pet ->
                 avatar.value = pet.avatar
 
-                Box(modifier = Modifier.fillMaxSize()) {
+                Box(
+                    contentAlignment = Alignment.BottomCenter,
+                    modifier = Modifier.fillMaxSize()
+                ) {
                     ReminderSetupHeader(
                         petAvatar = pet.avatar,
                         petName = pet.name,
                     )
-                }
 
-                Column {
-                    Spacer(size = 110.dp)
                     SurfaceCard(
                         shape = RoundedCornerShape(topStart = 24.dp, topEnd = 24.dp, bottomStart = 0.dp, bottomEnd = 0.dp),
                         elevation = CardDefaults.cardElevation(defaultElevation = 8.dp),
                         modifier = Modifier.padding(horizontal = 6.dp)
                     ) {
-                        Box(modifier = Modifier.padding(top = 8.dp)) {
-                            ReminderSetupForm(
-                                interactionToEdit = state.interactionToEdit,
-                                template = state.template,
-                                repeatConfig = state.repeatConfig,
-                                onConfigSave = { config ->
-                                    onEventSent(SetupReminderScreenContract.Event.RepeatConfigChanged(config))
-                                },
-                                onSaveButtonClick = { name, type, group, repeatIsEnabled, repeatConfig, notes, date, timeHours, timeMinutes ->
-                                    onEventSent(
-                                        SetupReminderScreenContract.Event.OnSaveButtonClick(
-                                            name = name,
-                                            type = type,
-                                            group = group,
-                                            repeatIsEnabled = repeatIsEnabled,
-                                            repeatConfig = repeatConfig,
-                                            notes = notes,
-                                            petId = pet.id,
-                                            templateId = state.template?.id,
-                                            date = date,
-                                            timeHours = timeHours,
-                                            timeMinutes = timeMinutes
-                                        )
+                        ReminderSetupForm(
+                            interactionToEdit = state.interactionToEdit,
+                            template = state.template,
+                            repeatConfig = state.repeatConfig,
+                            onConfigSave = { config ->
+                                onEventSent(SetupReminderScreenContract.Event.RepeatConfigChanged(config))
+                            },
+                            onSaveButtonClick = { name, type, group, repeatIsEnabled, repeatConfig, notes, date, timeHours, timeMinutes ->
+                                onEventSent(
+                                    SetupReminderScreenContract.Event.OnSaveButtonClick(
+                                        name = name,
+                                        type = type,
+                                        group = group,
+                                        repeatIsEnabled = repeatIsEnabled,
+                                        repeatConfig = repeatConfig,
+                                        notes = notes,
+                                        petId = pet.id,
+                                        templateId = state.template?.id,
+                                        date = date,
+                                        timeHours = timeHours,
+                                        timeMinutes = timeMinutes
                                     )
-                                },
-                            )
-                        }
+                                )
+                            },
+                        )
                     }
                 }
             }
@@ -143,22 +138,24 @@ private fun ReminderSetupHeader(
     petAvatar: String,
     petName: String,
 ) {
-    Row(
-        modifier = Modifier
-            .padding(top = 8.dp, start = 12.dp, end = 12.dp),
-        verticalAlignment = Alignment.CenterVertically
-    ) {
-        Image(
-            painter = painterResource(id = LocalContext.current.getDrawableByName(petAvatar)),
-            contentDescription = petName,
-            modifier = Modifier.size(48.dp)
-        )
+    Box(modifier = Modifier.fillMaxSize()) {
+        Row(
+            modifier = Modifier
+                .padding(top = 8.dp, start = 16.dp, end = 12.dp),
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Image(
+                painter = painterResource(id = LocalContext.current.getDrawableByName(petAvatar)),
+                contentDescription = petName,
+                modifier = Modifier.size(48.dp)
+            )
 
-        Spacer(size = 10.dp)
+            Spacer(size = 10.dp)
 
-        Text(
-            text = stringResource(id = CommonR.string.reminder),
-            style = MaterialTheme.typography.displayMedium,
-        )
+            Text(
+                text = stringResource(id = CommonR.string.reminder),
+                style = MaterialTheme.typography.displayMedium,
+            )
+        }
     }
 }

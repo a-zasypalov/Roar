@@ -115,6 +115,8 @@ internal fun ReminderSetupForm(
         modifier = Modifier
             .verticalScroll(rememberScrollState())
     ) {
+        Spacer(size = 8.dp)
+
         TextFormField(
             text = reminderName.value,
             leadingIcon = {
