@@ -34,6 +34,9 @@ import com.gaoyun.roar.util.toLocalDate
 import kotlinx.datetime.*
 import kotlin.time.Duration.Companion.hours
 
+private val MAX_DATE = LocalDateTime(LocalDate.fromEpochDays(Int.MAX_VALUE), LocalTime(0, 0, 0))
+private val MIN_DATE = LocalDateTime(LocalDate.fromEpochDays(0), LocalTime(0, 0, 0))
+
 @Composable
 fun HomeState(
     pets: List<PetWithInteractions>,
@@ -47,7 +50,7 @@ fun HomeState(
     onUserDetailsClick: () -> Unit
 ) {
 
-    val showedInteractions = remember {
+    val shownInteractionsState = remember {
         mutableStateOf(
             pets.map { pet ->
                 pet.id to pet.interactions.values
@@ -60,13 +63,27 @@ fun HomeState(
         )
     }
 
-    val sortedPets = pets.sortedBy {
-        it.interactions.values.flatten()
-            .minOfOrNull { i ->
-                i.reminders
-                    .filter { r -> showedInteractions.value.flatMap { i -> i.second.map { r -> r.id } }.contains(r.id) }
-                    .minOfOrNull { r -> r.dateTime } ?: LocalDateTime(LocalDate.fromEpochDays(0), LocalTime(0, 0, 0))
-            } ?: LocalDateTime(LocalDate.fromEpochDays(0), LocalTime(0, 0, 0))
+    val interactionsToShowUpdated = pets.map { pet -> pet.interactions.values.flatten() }
+    val interactionsState = remember { mutableStateOf(pets.map { pet -> pet.interactions.values.flatten() }) }
+
+    if (interactionsState.value.flatten().size != interactionsToShowUpdated.flatten().size) {
+        shownInteractionsState.value = pets.map { pet ->
+            pet.id to pet.interactions.values
+                .flatten()
+                .flatMap { it.reminders }
+                .filter { !it.isCompleted }
+                .sortedBy { it.dateTime }
+                .take(2)
+        }
+    }
+
+    val sortedPetsState = pets.sortedBy { pet ->
+        pet.interactions.values.flatten()
+            .minOfOrNull { interaction ->
+                interaction.reminders
+                    .filter { reminder -> shownInteractionsState.value.flatMap { i -> i.second.map { r -> r.id } }.contains(reminder.id) }
+                    .minOfOrNull { reminder -> reminder.dateTime } ?: MAX_DATE
+            } ?: MIN_DATE
     }
 
     LazyColumn(
@@ -120,10 +137,10 @@ fun HomeState(
                 )
             }
 
-            items(sortedPets) { pet ->
+            items(sortedPetsState) { pet ->
                 PetCard(
                     pet = pet,
-                    showedInteractions = showedInteractions.value.firstOrNull { it.first == pet.id }?.second ?: listOf(),
+                    showedInteractions = shownInteractionsState.value.firstOrNull { it.first == pet.id }?.second ?: listOf(),
                     onPetCardClick = onPetCardClick,
                     showLastReminder = showLastReminder,
                     onInteractionClick = { interactionId -> onInteractionClick(pet.id, interactionId) },

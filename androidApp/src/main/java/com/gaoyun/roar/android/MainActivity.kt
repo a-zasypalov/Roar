@@ -7,7 +7,6 @@ import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.provider.Settings
-import android.util.Log
 import android.view.WindowManager
 import androidx.activity.compose.setContent
 import androidx.activity.result.contract.ActivityResultContracts
@@ -38,9 +37,7 @@ import com.gaoyun.feature_user_registration.UserRegistrationDestination
 import com.gaoyun.feature_user_screen.EditUserScreenDestination
 import com.gaoyun.feature_user_screen.UserScreenDestination
 import com.gaoyun.roar.util.PreferencesKeys
-import com.google.android.gms.tasks.OnCompleteListener
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
-import com.google.firebase.messaging.FirebaseMessaging
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
