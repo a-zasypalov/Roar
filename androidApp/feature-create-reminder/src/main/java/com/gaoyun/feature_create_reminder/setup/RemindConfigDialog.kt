@@ -28,7 +28,7 @@ import com.gaoyun.common.ui.SurfaceCard
 import com.gaoyun.common.ui.TextFormField
 import com.gaoyun.roar.model.domain.interactions.InteractionRemindConfig
 import com.gaoyun.roar.model.domain.interactions.InteractionRemindConfigPeriod
-import com.gaoyun.roar.model.domain.interactions.toInteractionRepeatConfigEach
+import com.gaoyun.roar.model.domain.interactions.toInteractionRemindConfigPeriod
 
 @Composable
 internal fun RemindConfigDialog(
@@ -88,8 +88,8 @@ internal fun RemindConfigDialog(
                         DropdownMenu(
                             valueList = repeatsEveryPeriodsList,
                             listState = repeatsEveryPeriod,
-                            valueDisplayList = repeatsEveryPeriodsList.map { it.toInteractionRepeatConfigEach().toLocalizedStringId() },
-                            listDisplayState = repeatsEveryPeriod.value.toInteractionRepeatConfigEach().toLocalizedStringId(),
+                            valueDisplayList = repeatsEveryPeriodsList.map { it.toInteractionRemindConfigPeriod().toLocalizedStringId() },
+                            listDisplayState = repeatsEveryPeriod.value.toInteractionRemindConfigPeriod().toLocalizedStringId(),
                             modifier = Modifier.fillMaxWidth(1f)
                         )
                     }

@@ -10,6 +10,7 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
+import androidx.compose.material.icons.outlined.Notifications
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -30,6 +31,7 @@ import com.gaoyun.common.R
 import com.gaoyun.common.dialog.DatePicker
 import com.gaoyun.common.dialog.TimePicker
 import com.gaoyun.common.ext.getName
+import com.gaoyun.common.ext.remindConfigTextFull
 import com.gaoyun.common.ext.repeatConfigTextFull
 import com.gaoyun.common.ext.toLocalizedStringId
 import com.gaoyun.common.ui.*
@@ -85,8 +87,10 @@ internal fun ReminderSetupForm(
         mutableStateOf(
             TextFieldValue(
                 StringBuilder()
-                    .append(Instant.fromEpochMilliseconds(startsOnDate.value).toLocalDateTime(TimeZone.currentSystemDefault()).toJavaLocalDateTime()
-                        .format(ddMmmYyyyDateFormatter))
+                    .append(
+                        Instant.fromEpochMilliseconds(startsOnDate.value).toLocalDateTime(TimeZone.currentSystemDefault()).toJavaLocalDateTime()
+                            .format(ddMmmYyyyDateFormatter)
+                    )
                     .append(", ")
                     .append(if (startsOnTime.value.hour < 10) "0${startsOnTime.value.hour}" else "${startsOnTime.value.hour}")
                     .append(":")
@@ -104,7 +108,7 @@ internal fun ReminderSetupForm(
         )
     }
 
-    if(showRemindConfigDialog.value) {
+    if (showRemindConfigDialog.value) {
         RemindConfigDialog(
             remindConfig,
             setShowDialog = { showRemindConfigDialog.value = it },
@@ -178,10 +182,12 @@ internal fun ReminderSetupForm(
                                 startsOnTime.value = LocalTime.parse(newTime)
 
                                 startsOnDateTimeString.value = TextFieldValue(
-                                    "${Instant.fromEpochMilliseconds(newDate)
-                                        .toLocalDate()
-                                        .toJavaLocalDate()
-                                        .format(ddMmmYyyyDateFormatter)}, $hoursFormatted:$minutesFormatted"
+                                    "${
+                                        Instant.fromEpochMilliseconds(newDate)
+                                            .toLocalDate()
+                                            .toJavaLocalDate()
+                                            .format(ddMmmYyyyDateFormatter)
+                                    }, $hoursFormatted:$minutesFormatted"
                                 )
                             }
                         )
@@ -196,11 +202,11 @@ internal fun ReminderSetupForm(
         Spacer(size = 16.dp)
 
         ReadonlyTextField(
-            value = TextFieldValue(repeatConfig.repeatConfigTextFull()),
+            value = TextFieldValue(remindConfig.remindConfigTextFull()),
             onValueChange = { },
             leadingIcon = {
                 Icon(
-                    Icons.Default.Notifications,
+                    Icons.Outlined.Notifications,
                     stringResource(id = R.string.remind),
                     tint = MaterialTheme.colorScheme.onBackground
                 )

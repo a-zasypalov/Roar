@@ -11,10 +11,7 @@ import androidx.compose.ui.text.decapitalize
 import androidx.compose.ui.text.intl.Locale
 import com.gaoyun.common.DateUtils
 import com.gaoyun.common.R
-import com.gaoyun.roar.model.domain.interactions.InteractionGroup
-import com.gaoyun.roar.model.domain.interactions.InteractionRepeatConfig
-import com.gaoyun.roar.model.domain.interactions.InteractionRepeatConfigEach
-import com.gaoyun.roar.model.domain.interactions.InteractionWithReminders
+import com.gaoyun.roar.model.domain.interactions.*
 import kotlinx.datetime.LocalDate
 import kotlinx.datetime.toJavaLocalDate
 
@@ -45,6 +42,23 @@ fun InteractionRepeatConfig.repeatConfigTextShort() = StringBuilder().apply {
     )
     append(" ")
 }.toString()
+
+@Composable
+fun InteractionRemindConfig.remindConfigTextFull() =
+    StringBuilder().apply {
+        append(stringResource(id = R.string.remind))
+        append(" $remindBeforeNumber ")
+        append(
+            pluralStringResource(
+                id = when (repeatsEveryPeriod) {
+                    InteractionRemindConfigPeriod.WEEK -> R.plurals.weeks
+                    InteractionRemindConfigPeriod.DAY -> R.plurals.days
+                    InteractionRemindConfigPeriod.HOUR -> R.plurals.hours
+                }, count = remindBeforeNumber
+            )
+        )
+        append(" ${stringResource(id = R.string.before)}")
+    }.toString()
 
 @Composable
 fun InteractionRepeatConfig.repeatConfigTextFull() =
@@ -121,4 +135,10 @@ fun InteractionRepeatConfigEach.toLocalizedStringId() = when (this) {
     InteractionRepeatConfigEach.MONTH -> R.string.month
     InteractionRepeatConfigEach.WEEK -> R.string.week
     InteractionRepeatConfigEach.DAY -> R.string.day
+}
+
+fun InteractionRemindConfigPeriod.toLocalizedStringId() = when (this) {
+    InteractionRemindConfigPeriod.WEEK -> R.string.week
+    InteractionRemindConfigPeriod.DAY -> R.string.day
+    InteractionRemindConfigPeriod.HOUR -> R.string.hour
 }
