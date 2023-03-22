@@ -6,9 +6,9 @@ type TEXT NOT NULL,
 name TEXT NOT NULL,
 interactionGroup TEXT NOT NULL,
 repeatConfig TEXT,
-remindConfig TEXT,
 isActive INTEGER AS Boolean NOT NULL DEFAULT 0,
-notes TEXT NOT NULL
+notes TEXT NOT NULL,
+remindConfig TEXT
 );
 
 selectByPetId:
