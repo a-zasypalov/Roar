@@ -12,14 +12,14 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.gaoyun.common.R
 import com.gaoyun.common.ext.repeatConfigTextFull
 import com.gaoyun.common.ext.toLocalizedStringId
 import com.gaoyun.common.icon
-import com.gaoyun.common.ui.RoarIcon
-import com.gaoyun.common.ui.Spacer
-import com.gaoyun.common.ui.TextFormField
+import com.gaoyun.common.ui.*
 import com.gaoyun.roar.model.domain.Pet
 import com.gaoyun.roar.model.domain.interactions.InteractionGroup
 import com.gaoyun.roar.model.domain.interactions.InteractionWithReminders
@@ -40,10 +40,16 @@ internal fun InteractionHeader(
             modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
-            Text(
+            AutoResizeText(
                 text = interaction.name,
+                maxLines = 1,
                 style = MaterialTheme.typography.displayMedium,
                 color = MaterialTheme.colorScheme.onSurface,
+                fontSizeRange = FontSizeRange(
+                    min = 20.sp,
+                    max = MaterialTheme.typography.displayMedium.fontSize,
+                ),
+                overflow = TextOverflow.Ellipsis,
                 modifier = Modifier.weight(0.8f)
             )
 

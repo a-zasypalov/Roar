@@ -105,10 +105,14 @@ fun SetupReminderScreen(
                             interactionToEdit = state.interactionToEdit,
                             template = state.template,
                             repeatConfig = state.repeatConfig,
-                            onConfigSave = { config ->
+                            remindConfig = state.remindConfig,
+                            onRepeatConfigSave = { config ->
                                 onEventSent(SetupReminderScreenContract.Event.RepeatConfigChanged(config))
                             },
-                            onSaveButtonClick = { name, type, group, repeatIsEnabled, repeatConfig, notes, date, timeHours, timeMinutes ->
+                            onRemindConfigSave = { config ->
+                                onEventSent(SetupReminderScreenContract.Event.RemindConfigChanged(config))
+                            },
+                            onSaveButtonClick = { name, type, group, repeatIsEnabled, repeatConfig, notes, date, timeHours, timeMinutes, remindConfig ->
                                 onEventSent(
                                     SetupReminderScreenContract.Event.OnSaveButtonClick(
                                         name = name,
@@ -116,6 +120,7 @@ fun SetupReminderScreen(
                                         group = group,
                                         repeatIsEnabled = repeatIsEnabled,
                                         repeatConfig = repeatConfig,
+                                        remindConfig = remindConfig,
                                         notes = notes,
                                         petId = pet.id,
                                         templateId = state.template?.id,

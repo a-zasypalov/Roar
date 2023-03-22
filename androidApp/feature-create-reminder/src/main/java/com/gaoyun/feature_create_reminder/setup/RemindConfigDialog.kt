@@ -1,0 +1,124 @@
+package com.gaoyun.feature_create_reminder.setup
+
+import androidx.appcompat.app.AppCompatActivity
+import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.input.ImeAction
+import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.unit.dp
+import androidx.compose.ui.window.Dialog
+import androidx.compose.ui.window.DialogProperties
+import com.gaoyun.common.R
+import com.gaoyun.common.ext.toLocalizedStringId
+import com.gaoyun.common.ui.DropdownMenu
+import com.gaoyun.common.ui.Spacer
+import com.gaoyun.common.ui.SurfaceCard
+import com.gaoyun.common.ui.TextFormField
+import com.gaoyun.roar.model.domain.interactions.InteractionRemindConfig
+import com.gaoyun.roar.model.domain.interactions.InteractionRemindConfigPeriod
+import com.gaoyun.roar.model.domain.interactions.toInteractionRepeatConfigEach
+
+@Composable
+internal fun RemindConfigDialog(
+    remindConfig: InteractionRemindConfig?,
+    setShowDialog: (Boolean) -> Unit,
+    onConfigSave: (String) -> Unit
+) {
+
+    val activity = LocalContext.current as AppCompatActivity
+
+    val repeatsEveryNumber = rememberSaveable { mutableStateOf(remindConfig?.remindBeforeNumber?.toString() ?: "1") }
+    val repeatsEveryPeriod = rememberSaveable { mutableStateOf(remindConfig?.repeatsEveryPeriod?.toString() ?: activity.getString(R.string.hour)) }
+    val repeatsEveryPeriodsList = InteractionRemindConfigPeriod.LIST
+
+    val defaultHorizontalPadding = 24.dp
+
+    Dialog(
+        onDismissRequest = { setShowDialog(false) },
+        properties = DialogProperties(
+            dismissOnClickOutside = false
+        )
+    ) {
+        Box(
+            contentAlignment = Alignment.Center,
+            modifier = Modifier.fillMaxSize()
+        ) {
+            SurfaceCard(
+                shape = RoundedCornerShape(16.dp),
+                modifier = Modifier.fillMaxWidth()
+            ) {
+                Column(
+                    modifier = Modifier
+                        .padding(vertical = 16.dp)
+                        .verticalScroll(rememberScrollState())
+                ) {
+                    Text(
+                        text = stringResource(id = R.string.remind),
+                        style = MaterialTheme.typography.displaySmall,
+                        modifier = Modifier.padding(horizontal = defaultHorizontalPadding)
+                    )
+
+                    Spacer(size = 24.dp)
+
+                    Row(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(horizontal = defaultHorizontalPadding)
+                    ) {
+                        TextFormField(
+                            text = repeatsEveryNumber.value,
+                            keyboardType = KeyboardType.Decimal,
+                            onChange = { repeatsEveryNumber.value = it },
+                            modifier = Modifier.fillMaxWidth(0.25f),
+                            imeAction = ImeAction.Done,
+                        )
+                        Spacer(size = 12.dp)
+                        DropdownMenu(
+                            valueList = repeatsEveryPeriodsList,
+                            listState = repeatsEveryPeriod,
+                            valueDisplayList = repeatsEveryPeriodsList.map { it.toInteractionRepeatConfigEach().toLocalizedStringId() },
+                            listDisplayState = repeatsEveryPeriod.value.toInteractionRepeatConfigEach().toLocalizedStringId(),
+                            modifier = Modifier.fillMaxWidth(1f)
+                        )
+                    }
+
+                    Row(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(horizontal = defaultHorizontalPadding),
+                        horizontalArrangement = Arrangement.End
+                    ) {
+                        TextButton(onClick = {
+                            setShowDialog(false)
+                        }) {
+                            Text(text = stringResource(id = R.string.cancel))
+                        }
+
+                        Spacer(size = 12.dp)
+
+                        TextButton(onClick = {
+                            val config = "${repeatsEveryNumber.value}_${repeatsEveryPeriod.value}"
+
+                            onConfigSave(config)
+                            setShowDialog(false)
+                        }) {
+                            Text(text = stringResource(id = R.string.done))
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

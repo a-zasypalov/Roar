@@ -13,9 +13,13 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.gaoyun.common.R
 import com.gaoyun.common.ext.ageText
+import com.gaoyun.common.ui.AutoResizeText
+import com.gaoyun.common.ui.FontSizeRange
 import com.gaoyun.common.ui.Spacer
 import com.gaoyun.common.ui.getDrawableByName
 import com.gaoyun.roar.model.domain.Gender
@@ -39,10 +43,16 @@ internal fun PetHeader(
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically
         ) {
-            Text(
+            AutoResizeText(
                 text = pet.name,
+                maxLines = 2,
                 style = MaterialTheme.typography.displayMedium,
                 color = MaterialTheme.colorScheme.onSurface,
+                fontSizeRange = FontSizeRange(
+                    min = 20.sp,
+                    max = MaterialTheme.typography.displayMedium.fontSize,
+                ),
+                overflow = TextOverflow.Ellipsis,
                 modifier = Modifier.weight(0.8f)
             )
 

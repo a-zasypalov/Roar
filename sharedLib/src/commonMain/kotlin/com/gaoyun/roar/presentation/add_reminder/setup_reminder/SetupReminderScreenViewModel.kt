@@ -39,6 +39,9 @@ class SetupReminderScreenViewModel :
             is SetupReminderScreenContract.Event.RepeatConfigChanged -> with(event) {
                 setState { copy(repeatConfig = config.toInteractionRepeatConfig()) }
             }
+            is SetupReminderScreenContract.Event.RemindConfigChanged -> with(event) {
+                setState { copy(remindConfig = config.toInteractionRemindConfig()) }
+            }
             is SetupReminderScreenContract.Event.OnSaveButtonClick -> with(event) {
                 createOrUpdateInteraction(
                     templateId = templateId,
@@ -47,6 +50,7 @@ class SetupReminderScreenViewModel :
                     name = name,
                     type = type,
                     repeatConfig = if (repeatIsEnabled) repeatConfig else null,
+                    remindConfig = remindConfig,
                     notes = notes,
                     dateTime = Instant.fromEpochMilliseconds(date).toLocalDate().atTime(hour = timeHours, minute = timeMinutes)
                 )
@@ -87,6 +91,7 @@ class SetupReminderScreenViewModel :
         name: String,
         type: InteractionType,
         repeatConfig: InteractionRepeatConfig?,
+        remindConfig: InteractionRemindConfig?,
         notes: String,
         dateTime: LocalDateTime,
     ) = scope.launch {
@@ -98,7 +103,8 @@ class SetupReminderScreenViewModel :
                     notes = notes,
                     type = type,
                     group = group,
-                    repeatConfig = repeatConfig
+                    repeatConfig = repeatConfig,
+                    remindConfig = remindConfig
                 ).withoutReminders()
             ).firstOrNull() ?: return@launch
             val reminderToInsert = interactionToEdit.reminders.filter { !it.isCompleted }.maxBy { it.dateTime }.copy(dateTime = dateTime)
@@ -123,6 +129,7 @@ class SetupReminderScreenViewModel :
                 name = name,
                 group = group.toString(),
                 repeatConfig = repeatConfig,
+                remindConfig = remindConfig,
                 notes = notes
             ).firstOrNull() ?: return@launch
             insertReminder.createReminder(interaction.id, dateTime).collect { reminder ->

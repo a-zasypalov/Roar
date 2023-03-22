@@ -14,6 +14,7 @@ data class Interaction(
     val name: String,
     val group: InteractionGroup,
     val repeatConfig: InteractionRepeatConfig? = null,
+    val remindConfig: InteractionRemindConfig? = null,
     val isActive: Boolean,
     val notes: String = ""
 )
@@ -27,6 +28,7 @@ data class InteractionWithReminders(
     val name: String,
     val group: InteractionGroup,
     val repeatConfig: InteractionRepeatConfig? = null,
+    val remindConfig: InteractionRemindConfig? = null,
     val isActive: Boolean,
     val notes: String = "",
     val reminders: List<Reminder> = listOf()
@@ -41,6 +43,7 @@ internal fun Interaction.withReminders(reminders: List<Reminder>): InteractionWi
         name = name,
         group = group,
         repeatConfig = repeatConfig,
+        remindConfig = remindConfig,
         isActive = isActive,
         notes = notes,
         reminders = reminders
@@ -56,6 +59,7 @@ internal fun InteractionWithReminders.withoutReminders(): Interaction {
         name = name,
         group = group,
         repeatConfig = repeatConfig,
+        remindConfig = remindConfig,
         isActive = isActive,
         notes = notes,
     )
@@ -70,6 +74,7 @@ internal fun InteractionEntity.toDomain(): Interaction {
         name = name,
         group = interactionGroup.toInteractionGroup(),
         repeatConfig = repeatConfig?.toInteractionRepeatConfig(),
+        remindConfig = remindConfig?.toInteractionRemindConfig(),
         isActive = isActive,
         notes = notes
     )

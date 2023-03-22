@@ -9,10 +9,7 @@ import androidx.compose.foundation.relocation.BringIntoViewRequester
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.FormatListBulleted
-import androidx.compose.material.icons.filled.Notes
-import androidx.compose.material.icons.filled.Repeat
-import androidx.compose.material.icons.filled.TaskAlt
+import androidx.compose.material.icons.filled.*
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -48,8 +45,10 @@ internal fun ReminderSetupForm(
     interactionToEdit: InteractionWithReminders?,
     template: InteractionTemplate?,
     repeatConfig: InteractionRepeatConfig,
-    onConfigSave: (String) -> Unit,
-    onSaveButtonClick: (String, InteractionType, InteractionGroup, Boolean, InteractionRepeatConfig, String, Long, Int, Int) -> Unit,
+    remindConfig: InteractionRemindConfig,
+    onRepeatConfigSave: (String) -> Unit,
+    onRemindConfigSave: (String) -> Unit,
+    onSaveButtonClick: (String, InteractionType, InteractionGroup, Boolean, InteractionRepeatConfig, String, Long, Int, Int, InteractionRemindConfig) -> Unit,
 ) {
     val activity = LocalContext.current as AppCompatActivity
     val bringIntoViewRequester = remember { BringIntoViewRequester() }
@@ -67,7 +66,8 @@ internal fun ReminderSetupForm(
     val notesState = remember { mutableStateOf(interactionToEdit?.notes ?: "") }
 
     val repeatEnabledState = remember { mutableStateOf(interactionToEdit?.let { it.repeatConfig != null } ?: repeatConfig.active) }
-    val showDialog = remember { mutableStateOf(false) }
+    val showRepeatConfigDialog = remember { mutableStateOf(false) }
+    val showRemindConfigDialog = remember { mutableStateOf(false) }
 
     val startsOnDate = remember {
         mutableStateOf(
@@ -75,25 +75,19 @@ internal fun ReminderSetupForm(
                 ?: Clock.System.now().plus(1.days).toEpochMilliseconds()
         )
     }
-    val startsOnDateString = remember {
-        mutableStateOf(
-            TextFieldValue(
-                Instant.fromEpochMilliseconds(startsOnDate.value).toLocalDateTime(TimeZone.currentSystemDefault()).toJavaLocalDateTime()
-                    .format(ddMmmYyyyDateFormatter)
-            )
-        )
-    }
-
     val startsOnTime = remember {
         mutableStateOf(
             interactionToEdit?.reminders?.filter { !it.isCompleted }?.maxByOrNull { it.dateTime }?.dateTime?.time
                 ?: LocalTime.parse("09:00")
         )
     }
-    val startsOnTimeString = remember {
+    val startsOnDateTimeString = remember {
         mutableStateOf(
             TextFieldValue(
                 StringBuilder()
+                    .append(Instant.fromEpochMilliseconds(startsOnDate.value).toLocalDateTime(TimeZone.currentSystemDefault()).toJavaLocalDateTime()
+                        .format(ddMmmYyyyDateFormatter))
+                    .append(", ")
                     .append(if (startsOnTime.value.hour < 10) "0${startsOnTime.value.hour}" else "${startsOnTime.value.hour}")
                     .append(":")
                     .append(if (startsOnTime.value.minute < 10) "0${startsOnTime.value.minute}" else "${startsOnTime.value.minute}")
@@ -102,13 +96,20 @@ internal fun ReminderSetupForm(
         )
     }
 
-    if (showDialog.value) {
+    if (showRepeatConfigDialog.value) {
         RepeatConfigDialog(
             if (repeatConfig.active) repeatConfig else null,
-            setShowDialog = { showDialog.value = it },
-            onConfigSave = {
-                onConfigSave(it)
-            })
+            setShowDialog = { showRepeatConfigDialog.value = it },
+            onConfigSave = { onRepeatConfigSave(it) }
+        )
+    }
+
+    if(showRemindConfigDialog.value) {
+        RemindConfigDialog(
+            remindConfig,
+            setShowDialog = { showRemindConfigDialog.value = it },
+            onConfigSave = { onRemindConfigSave(it) }
+        )
     }
 
     Column(
@@ -151,23 +152,39 @@ internal fun ReminderSetupForm(
         }
 
         ReadonlyTextField(
-            value = startsOnTimeString.value,
-            onValueChange = { startsOnTimeString.value = it },
-            label = { Text(text = stringResource(id = R.string.time)) },
+            value = startsOnDateTimeString.value,
+            onValueChange = { startsOnDateTimeString.value = it },
+            label = { Text(text = if (interactionToEdit != null) stringResource(id = R.string.next_occurrence) else stringResource(id = R.string.date_time)) },
             onClick = {
-                TimePicker.pickTime(
-                    title = activity.getString(R.string.remind_at),
+                DatePicker.pickDate(
+                    title = activity.getString(R.string.remind_on_from),
                     fragmentManager = activity.supportFragmentManager,
-                    hourAndMinutes = listOf(
-                        startsOnTimeString.value.text.split(":")[0].toInt(),
-                        startsOnTimeString.value.text.split(":")[1].toInt()
-                    ),
-                    onTimePicked = { hours, minutes ->
-                        val hoursFormatted = if (hours < 10) "0$hours" else "$hours"
-                        val minutesFormatted = if (minutes < 10) "0$minutes" else "$minutes"
-                        val newTime = "$hoursFormatted:$minutesFormatted"
-                        startsOnTimeString.value = TextFieldValue(newTime)
-                        startsOnTime.value = LocalTime.parse(newTime)
+                    selectedDateMillis = startsOnDate.value,
+                    start = Clock.System.now().toEpochMilliseconds(),
+                    onDatePicked = { newDate ->
+                        TimePicker.pickTime(
+                            title = activity.getString(R.string.remind_at),
+                            fragmentManager = activity.supportFragmentManager,
+                            hourAndMinutes = listOf(
+                                startsOnTime.value.hour,
+                                startsOnTime.value.minute
+                            ),
+                            onTimePicked = { hours, minutes ->
+                                val hoursFormatted = if (hours < 10) "0$hours" else "$hours"
+                                val minutesFormatted = if (minutes < 10) "0$minutes" else "$minutes"
+                                val newTime = "$hoursFormatted:$minutesFormatted"
+
+                                startsOnDate.value = newDate
+                                startsOnTime.value = LocalTime.parse(newTime)
+
+                                startsOnDateTimeString.value = TextFieldValue(
+                                    "${Instant.fromEpochMilliseconds(newDate)
+                                        .toLocalDate()
+                                        .toJavaLocalDate()
+                                        .format(ddMmmYyyyDateFormatter)}, $hoursFormatted:$minutesFormatted"
+                                )
+                            }
+                        )
                     }
                 )
             },
@@ -179,29 +196,20 @@ internal fun ReminderSetupForm(
         Spacer(size = 16.dp)
 
         ReadonlyTextField(
-            value = startsOnDateString.value,
-            onValueChange = { startsOnDateString.value = it },
-            label = { Text(text = if (interactionToEdit != null) stringResource(id = R.string.next_reminder) else stringResource(id = R.string.date)) },
-            onClick = {
-                DatePicker.pickDate(
-                    title = activity.getString(R.string.remind_on_from),
-                    fragmentManager = activity.supportFragmentManager,
-                    selectedDateMillis = startsOnDate.value,
-                    start = Clock.System.now().toEpochMilliseconds(),
-                    onDatePicked = {
-                        startsOnDate.value = it
-                        startsOnDateString.value = TextFieldValue(
-                            Instant.fromEpochMilliseconds(it)
-                                .toLocalDate()
-                                .toJavaLocalDate()
-                                .format(ddMmmYyyyDateFormatter)
-                        )
-                    }
+            value = TextFieldValue(repeatConfig.repeatConfigTextFull()),
+            onValueChange = { },
+            leadingIcon = {
+                Icon(
+                    Icons.Default.Notifications,
+                    stringResource(id = R.string.remind),
+                    tint = MaterialTheme.colorScheme.onBackground
                 )
             },
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(horizontal = 24.dp)
+            label = {
+                Text(text = stringResource(id = R.string.remind))
+            },
+            onClick = { showRemindConfigDialog.value = true },
+            modifier = Modifier.padding(horizontal = 24.dp),
         )
 
         Spacer(size = 16.dp)
@@ -231,7 +239,7 @@ internal fun ReminderSetupForm(
                 label = {
                     Text(text = stringResource(id = R.string.repeat))
                 },
-                onClick = { showDialog.value = true },
+                onClick = { showRepeatConfigDialog.value = true },
                 modifier = Modifier.padding(horizontal = 24.dp),
             )
 
@@ -271,7 +279,8 @@ internal fun ReminderSetupForm(
                     notesState.value,
                     startsOnDate.value,
                     startsOnTime.value.hour,
-                    startsOnTime.value.minute
+                    startsOnTime.value.minute,
+                    remindConfig
                 )
             },
             modifier = Modifier

@@ -65,6 +65,17 @@ class SetReminderComplete : KoinComponent {
                 )
 
                 insertReminder.insertReminder(newReminder).firstOrNull()
+
+                val nextReminderAfterNewOne = repeatConfigUseCase.getNextDateAccordingToRepeatConfig(
+                    repeatConfig = interaction.repeatConfig,
+                    interactionId = interaction.id,
+                    from = completedReminder.dateTime.date
+                )
+                if (nextReminderAfterNewOne == null) {
+                    // Deactivate reminder since next occurrence is the last
+                    setInteractionIsActive.setInteractionIsActive(interaction.id, isActive = false).firstOrNull()
+                }
+
             } ?: setInteractionIsActive.setInteractionIsActive(interaction.id, isActive = false).firstOrNull()
         }
 

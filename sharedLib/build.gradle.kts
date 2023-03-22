@@ -23,7 +23,7 @@ kotlin {
             packageName = "com.gaoyun.roar.model.entity"
             sourceFolders = listOf("kotlin")
             dialect = "sqlite:3.24"
-            version = 2
+            version = 3
         }
     }
 

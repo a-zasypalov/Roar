@@ -11,11 +11,13 @@ class SetupReminderScreenContract {
 
     sealed class Event : ViewEvent {
         class RepeatConfigChanged(val config: String) : Event()
+        class RemindConfigChanged(val config: String) : Event()
         class OnSaveButtonClick(
             val name: String,
             val type: InteractionType,
             val repeatIsEnabled: Boolean,
             val repeatConfig: InteractionRepeatConfig,
+            val remindConfig: InteractionRemindConfig,
             val templateId: String?,
             val petId: String,
             val group: InteractionGroup,
@@ -31,7 +33,8 @@ class SetupReminderScreenContract {
         val pet: Pet? = null,
         val template: InteractionTemplate? = null,
         val interactionToEdit: InteractionWithReminders? = null,
-        val repeatConfig: InteractionRepeatConfig = InteractionRepeatConfig()
+        val repeatConfig: InteractionRepeatConfig = InteractionRepeatConfig(),
+        val remindConfig: InteractionRemindConfig = InteractionRemindConfig()
     ) : ViewState
 
     sealed class Effect : ViewSideEffect {

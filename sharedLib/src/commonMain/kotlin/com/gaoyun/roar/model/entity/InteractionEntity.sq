@@ -6,6 +6,7 @@ type TEXT NOT NULL,
 name TEXT NOT NULL,
 interactionGroup TEXT NOT NULL,
 repeatConfig TEXT,
+remindConfig TEXT,
 isActive INTEGER AS Boolean NOT NULL DEFAULT 0,
 notes TEXT NOT NULL
 );
@@ -17,7 +18,7 @@ selectById:
 SELECT * FROM InteractionEntity WHERE id = ?;
 
 insertOrReplace:
-INSERT OR REPLACE INTO InteractionEntity(id, templateId, petId, type, name, interactionGroup, repeatConfig, isActive, notes) VALUES (?, ?, ?, ?, ? ,?, ?, ?, ?);
+INSERT OR REPLACE INTO InteractionEntity(id, templateId, petId, type, name, interactionGroup, repeatConfig, remindConfig, isActive, notes) VALUES (?, ?, ?, ?, ? ,?, ?, ?, ?, ?);
 
 deleteByPetId:
 DELETE FROM InteractionEntity WHERE petId = ?;

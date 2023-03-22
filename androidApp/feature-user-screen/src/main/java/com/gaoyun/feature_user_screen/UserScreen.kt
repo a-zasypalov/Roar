@@ -15,8 +15,10 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.lifecycle.Lifecycle
 import androidx.navigation.NavHostController
 import com.gaoyun.common.NavigationKeys
@@ -178,10 +180,17 @@ fun UserScreen(
                         verticalAlignment = Alignment.CenterVertically,
                         modifier = Modifier.fillMaxWidth()
                     ) {
-                        Text(
+                        AutoResizeText(
                             text = "Hey, ${user.name}",
+                            maxLines = 2,
                             style = MaterialTheme.typography.displayMedium,
-                            color = MaterialTheme.colorScheme.onSurface
+                            color = MaterialTheme.colorScheme.onSurface,
+                            fontSizeRange = FontSizeRange(
+                                min = 20.sp,
+                                max = MaterialTheme.typography.displayMedium.fontSize,
+                            ),
+                            overflow = TextOverflow.Ellipsis,
+                            modifier = Modifier.weight(0.8f)
                         )
 
                         Icon(

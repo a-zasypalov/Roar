@@ -22,9 +22,12 @@
     <string name="continue_label">Continue</string>
     <string name="group">Group</string>
     <string name="time">Time</string>
+    <string name="remind">Remind</string>
+    <string name="before">before</string>
     <string name="remind_at">Remind at</string>
-    <string name="next_reminder">Next reminder</string>
+    <string name="next_occurrence">Next occurrence</string>
     <string name="date">Date</string>
+    <string name="date_time">Date and time</string>
     <string name="remind_on_from">Remind on/from</string>
     <string name="enable_repeat">Enable Repeat</string>
     <string name="repeat">Repeat</string>
@@ -34,6 +37,7 @@
     <string name="week">week</string>
     <string name="month">month</string>
     <string name="year">year</string>
+    <string name="hour">hour</string>
     <string name="on_date">On date</string>
     <string name="after_three_dots">After…</string>
     <string name="never">Never</string>
