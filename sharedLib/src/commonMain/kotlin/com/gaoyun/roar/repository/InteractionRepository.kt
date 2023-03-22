@@ -36,7 +36,7 @@ class InteractionRepositoryImpl : InteractionRepository, KoinComponent {
             name = interaction.name,
             interactionGroup = interaction.group.toString(),
             repeatConfig = interaction.repeatConfig?.toString(),
-            remindConfig = interaction.remindConfig?.toString(),
+            remindConfig = interaction.remindConfig.toString(),
             isActive = interaction.isActive,
             notes = interaction.notes
         )

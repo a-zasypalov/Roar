@@ -7,13 +7,13 @@ import com.gaoyun.roar.domain.repeat_config.RepeatConfigUseCase
 import com.gaoyun.roar.model.domain.NotificationData
 import com.gaoyun.roar.model.domain.NotificationItem
 import com.gaoyun.roar.model.domain.Reminder
+import com.gaoyun.roar.model.domain.interactions.InteractionRemindConfig
 import com.gaoyun.roar.model.domain.interactions.InteractionWithReminders
 import com.gaoyun.roar.repository.ReminderRepository
 import com.gaoyun.roar.util.randomUUID
 import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.flow.flow
-import kotlinx.datetime.LocalDateTime
-import kotlinx.datetime.atTime
+import kotlinx.datetime.*
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 
@@ -55,7 +55,8 @@ class SetReminderComplete : KoinComponent {
                 val newReminderId = randomUUID()
                 val newNotificationJobId = scheduleNextReminder(
                     dateTime = nextReminderDateTime,
-                    reminderId = newReminderId
+                    reminderId = newReminderId,
+                    remindConfig = interaction.remindConfig,
                 )
                 val newReminder = Reminder(
                     id = newReminderId,
@@ -97,9 +98,16 @@ class SetReminderComplete : KoinComponent {
 
     private suspend fun getNewInteractionState(interactionId: String) = getInteraction.getInteractionWithReminders(interactionId).firstOrNull()
 
-    private fun scheduleNextReminder(dateTime: LocalDateTime, reminderId: String): String {
+    private fun scheduleNextReminder(dateTime: LocalDateTime, reminderId: String, remindConfig: InteractionRemindConfig): String {
+        val notificationDateTime = dateTime
+            .toInstant(TimeZone.currentSystemDefault())
+            .minus(remindConfig.toDuration())
+            .toLocalDateTime(TimeZone.currentSystemDefault())
+
+        println("DATETIME $notificationDateTime")
+
         val notificationData = NotificationData(
-            scheduled = dateTime,
+            scheduled = notificationDateTime,
             item = NotificationItem.Reminder(
                 itemId = reminderId
             )

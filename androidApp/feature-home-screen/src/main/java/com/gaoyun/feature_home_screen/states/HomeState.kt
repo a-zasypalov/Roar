@@ -32,6 +32,7 @@ import com.gaoyun.feature_pet_screen.view.InteractionCard
 import com.gaoyun.feature_pet_screen.view.PetContainer
 import com.gaoyun.roar.model.domain.*
 import com.gaoyun.roar.model.domain.interactions.InteractionGroup
+import com.gaoyun.roar.model.domain.interactions.InteractionRemindConfig
 import com.gaoyun.roar.model.domain.interactions.InteractionType
 import com.gaoyun.roar.model.domain.interactions.InteractionWithReminders
 import com.gaoyun.roar.util.toLocalDate
@@ -265,6 +266,7 @@ fun HomeStatePreview() {
                                     name = "Interaction Name",
                                     group = InteractionGroup.CARE,
                                     isActive = true,
+                                    remindConfig = InteractionRemindConfig(),
                                     reminders = listOf(
                                         Reminder(
                                             interactionId = "",

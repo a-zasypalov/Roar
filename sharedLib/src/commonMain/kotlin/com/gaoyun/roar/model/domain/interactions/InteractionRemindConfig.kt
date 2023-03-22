@@ -1,6 +1,9 @@
 package com.gaoyun.roar.model.domain.interactions
 
 import kotlinx.serialization.Serializable
+import kotlin.time.Duration
+import kotlin.time.Duration.Companion.days
+import kotlin.time.Duration.Companion.hours
 
 @Serializable
 data class InteractionRemindConfig(
@@ -8,6 +11,14 @@ data class InteractionRemindConfig(
     val repeatsEveryPeriod: InteractionRemindConfigPeriod = InteractionRemindConfigPeriod.HOUR,
 ) {
     override fun toString(): String = "${remindBeforeNumber}_${repeatsEveryPeriod}"
+
+    fun toDuration(): Duration {
+        return when (repeatsEveryPeriod) {
+            InteractionRemindConfigPeriod.WEEK -> (remindBeforeNumber * 7).days
+            InteractionRemindConfigPeriod.DAY -> remindBeforeNumber.days
+            InteractionRemindConfigPeriod.HOUR -> remindBeforeNumber.hours
+        }
+    }
 }
 
 @Serializable

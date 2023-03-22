@@ -100,7 +100,7 @@ class SetupReminderScreenViewModel :
         name: String,
         type: InteractionType,
         repeatConfig: InteractionRepeatConfig?,
-        remindConfig: InteractionRemindConfig?,
+        remindConfig: InteractionRemindConfig,
         notes: String,
         dateTime: LocalDateTime,
     ) = scope.launch {
@@ -141,7 +141,8 @@ class SetupReminderScreenViewModel :
                 remindConfig = remindConfig,
                 notes = notes
             ).firstOrNull() ?: return@launch
-            insertReminder.createReminder(interaction.id, dateTime).collect { reminder ->
+
+            insertReminder.createReminder(interaction.id, dateTime, remindConfig).collect { reminder ->
                 setEffect { SetupReminderScreenContract.Effect.ReminderCreated(reminder, interaction) }
             }
         }

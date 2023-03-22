@@ -21,6 +21,7 @@ import com.gaoyun.common.ui.*
 import com.gaoyun.feature_pet_screen.view.PetContainer
 import com.gaoyun.roar.model.domain.*
 import com.gaoyun.roar.model.domain.interactions.InteractionGroup
+import com.gaoyun.roar.model.domain.interactions.InteractionRemindConfig
 import com.gaoyun.roar.model.domain.interactions.InteractionType
 import com.gaoyun.roar.model.domain.interactions.InteractionWithReminders
 import com.gaoyun.roar.presentation.LAUNCH_LISTEN_FOR_EFFECTS
@@ -202,6 +203,7 @@ fun PetScreenPreview() {
                                         name = "Interaction Name",
                                         group = InteractionGroup.CARE,
                                         isActive = true,
+                                        remindConfig = InteractionRemindConfig(),
                                         reminders = listOf(
                                             Reminder(
                                                 interactionId = "",
