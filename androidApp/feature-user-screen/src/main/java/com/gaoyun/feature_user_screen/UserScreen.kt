@@ -262,8 +262,6 @@ fun UserScreen(
                         valueList = listOf("0", "1", "2", "3", "4", "5"),
                         listState = numberOfRemindersOnMainScreenState,
                         onChange = { onEventSent(UserScreenContract.Event.OnNumberOfRemindersOnMainScreen(it.toIntOrNull() ?: 2)) },
-                        valueDisplayList = null,
-                        listDisplayState = null,
                         label = stringResource(id = R.string.number_of_reminders_main_screen),
                         leadingIcon = Icons.Filled.ListAlt,
                         modifier = Modifier.fillMaxWidth()

@@ -137,6 +137,12 @@ fun InteractionRepeatConfigEach.toLocalizedStringId() = when (this) {
     InteractionRepeatConfigEach.DAY -> R.string.day
 }
 
+fun InteractionRemindConfigPeriod.toLocalizedStringIdPlural() = when (this) {
+    InteractionRemindConfigPeriod.WEEK -> R.plurals.weeks_before
+    InteractionRemindConfigPeriod.DAY -> R.plurals.days_before
+    InteractionRemindConfigPeriod.HOUR -> R.plurals.hours_before
+}
+
 fun InteractionRemindConfigPeriod.toLocalizedStringId() = when (this) {
     InteractionRemindConfigPeriod.WEEK -> R.string.week
     InteractionRemindConfigPeriod.DAY -> R.string.day

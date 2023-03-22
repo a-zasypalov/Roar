@@ -22,6 +22,7 @@ import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
 import com.gaoyun.common.R
 import com.gaoyun.common.ext.toLocalizedStringId
+import com.gaoyun.common.ext.toLocalizedStringIdPlural
 import com.gaoyun.common.ui.DropdownMenu
 import com.gaoyun.common.ui.Spacer
 import com.gaoyun.common.ui.SurfaceCard
@@ -70,7 +71,7 @@ internal fun RemindConfigDialog(
                         modifier = Modifier.padding(horizontal = defaultHorizontalPadding)
                     )
 
-                    Spacer(size = 24.dp)
+                    Spacer(size = 8.dp)
 
                     Row(
                         modifier = Modifier
@@ -89,10 +90,13 @@ internal fun RemindConfigDialog(
                             valueList = repeatsEveryPeriodsList,
                             listState = repeatsEveryPeriod,
                             valueDisplayList = repeatsEveryPeriodsList.map { it.toInteractionRemindConfigPeriod().toLocalizedStringId() },
-                            listDisplayState = repeatsEveryPeriod.value.toInteractionRemindConfigPeriod().toLocalizedStringId(),
+                            listDisplayState = repeatsEveryPeriod.value.toInteractionRemindConfigPeriod().toLocalizedStringIdPlural(),
+                            listDisplayStateQuantity = repeatsEveryNumber.value.toIntOrNull() ?: 1,
                             modifier = Modifier.fillMaxWidth(1f)
                         )
                     }
+
+                    Spacer(12.dp)
 
                     Row(
                         modifier = Modifier

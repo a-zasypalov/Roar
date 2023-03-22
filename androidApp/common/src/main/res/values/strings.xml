@@ -126,6 +126,21 @@
         <item quantity="other">hours</item>
     </plurals>
 
+    <plurals name="weeks_before">
+        <item quantity="one">week before</item>
+        <item quantity="other">weeks before</item>
+    </plurals>
+
+    <plurals name="days_before">
+        <item quantity="one">day before</item>
+        <item quantity="other">days before</item>
+    </plurals>
+
+    <plurals name="hours_before">
+        <item quantity="one">hour before</item>
+        <item quantity="other">hours before</item>
+    </plurals>
+
     <plurals name="times">
         <item quantity="one">time</item>
         <item quantity="other">times</item>

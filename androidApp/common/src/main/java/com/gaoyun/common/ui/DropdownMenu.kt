@@ -1,15 +1,40 @@
+@file:OptIn(ExperimentalComposeUiApi::class, ExperimentalMaterial3Api::class)
+
 package com.gaoyun.common.ui
 
+import androidx.annotation.PluralsRes
 import androidx.annotation.StringRes
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
+import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.res.pluralStringResource
 import androidx.compose.ui.res.stringResource
 
-@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun DropdownMenu(
+    valueList: List<String>,
+    listState: MutableState<String>,
+    modifier: Modifier = Modifier,
+    onChange: ((String) -> Unit)? = null,
+    label: String? = null,
+    leadingIcon: ImageVector? = null
+) {
+    DropdownMenuInternal(
+        valueList = valueList,
+        listState = listState,
+        modifier = modifier,
+        onChange = onChange,
+        valueDisplayList = null,
+        listDisplayState = null,
+        label = label,
+        leadingIcon = leadingIcon,
+    )
+}
+
 @Composable
 fun DropdownMenu(
     valueList: List<String>,
@@ -18,6 +43,53 @@ fun DropdownMenu(
     onChange: ((String) -> Unit)? = null,
     @StringRes valueDisplayList: List<Int>?,
     @StringRes listDisplayState: Int?,
+    label: String? = null,
+    leadingIcon: ImageVector? = null
+) {
+    DropdownMenuInternal(
+        valueList = valueList,
+        listState = listState,
+        modifier = modifier,
+        onChange = onChange,
+        valueDisplayList = valueDisplayList?.map { stringResource(id = it) },
+        listDisplayState = listDisplayState?.let { stringResource(id = it) },
+        label = label,
+        leadingIcon = leadingIcon,
+    )
+}
+
+@Composable
+fun DropdownMenu(
+    valueList: List<String>,
+    listState: MutableState<String>,
+    modifier: Modifier = Modifier,
+    onChange: ((String) -> Unit)? = null,
+    @StringRes valueDisplayList: List<Int>?,
+    @PluralsRes listDisplayState: Int?,
+    listDisplayStateQuantity: Int,
+    label: String? = null,
+    leadingIcon: ImageVector? = null
+) {
+    DropdownMenuInternal(
+        valueList = valueList,
+        listState = listState,
+        modifier = modifier,
+        onChange = onChange,
+        valueDisplayList = valueDisplayList?.map { stringResource(id = it) },
+        listDisplayState = listDisplayState?.let { pluralStringResource(id = it, count = listDisplayStateQuantity) },
+        label = label,
+        leadingIcon = leadingIcon,
+    )
+}
+
+@Composable
+private fun DropdownMenuInternal(
+    valueList: List<String>,
+    listState: MutableState<String>,
+    modifier: Modifier = Modifier,
+    onChange: ((String) -> Unit)? = null,
+    valueDisplayList: List<String>?,
+    listDisplayState: String?,
     label: String? = null,
     leadingIcon: ImageVector? = null
 ) {
@@ -30,7 +102,7 @@ fun DropdownMenu(
     ) {
         TextFormField(
             readOnly = true,
-            text = listDisplayState?.let { stringResource(id = it) } ?: listState.value,
+            text = listDisplayState ?: listState.value,
             onChange = { },
             label = label,
             trailingIcon = {
@@ -58,7 +130,7 @@ fun DropdownMenu(
                 DropdownMenuItem(
                     text = {
                         Text(
-                            text = valueDisplayList?.let { stringResource(id = it[index]) } ?: selection,
+                            text = valueDisplayList?.let { it[index] } ?: selection,
                             color = MaterialTheme.colorScheme.onSurfaceVariant
                         )
                     },
