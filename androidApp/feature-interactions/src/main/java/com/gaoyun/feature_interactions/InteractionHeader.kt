@@ -43,7 +43,7 @@ internal fun InteractionHeader(
         ) {
             AutoResizeText(
                 text = interaction.name,
-                maxLines = 1,
+                maxLines = 2,
                 style = MaterialTheme.typography.displayMedium,
                 color = MaterialTheme.colorScheme.onSurface,
                 fontSizeRange = FontSizeRange(

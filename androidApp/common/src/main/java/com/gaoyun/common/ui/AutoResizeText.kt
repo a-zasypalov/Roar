@@ -36,6 +36,12 @@ fun AutoResizeText(
 ) {
     var fontSizeValue by remember { mutableStateOf(fontSizeRange.max.value) }
     var readyToDraw by remember { mutableStateOf(false) }
+    var textState by remember { mutableStateOf(text) }
+
+    if(textState != text) {
+        textState = text
+        readyToDraw = false
+    }
 
     Text(
         text = text,
