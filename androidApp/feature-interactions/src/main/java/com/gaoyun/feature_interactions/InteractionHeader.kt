@@ -16,6 +16,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.gaoyun.common.R
+import com.gaoyun.common.ext.remindConfigTextFull
 import com.gaoyun.common.ext.repeatConfigTextFull
 import com.gaoyun.common.ext.toLocalizedStringId
 import com.gaoyun.common.icon
@@ -84,15 +85,17 @@ internal fun InteractionHeader(
                     .padding(horizontal = 16.dp, vertical = 8.dp),
             ) {
                 val groupIcon = when (interaction.group) {
-                    InteractionGroup.HEALTH -> Icons.Filled.MedicalServices
-                    InteractionGroup.CARE -> Icons.Filled.Spa
-                    InteractionGroup.ROUTINE -> Icons.Filled.Pets
+                    InteractionGroup.HEALTH -> Icons.Default.MedicalServices
+                    InteractionGroup.CARE -> Icons.Default.Spa
+                    InteractionGroup.ROUTINE -> Icons.Default.Pets
                 }
                 TextWithIconBulletPoint(icon = groupIcon, stringResource(id = interaction.group.toLocalizedStringId()))
 
+                TextWithIconBulletPoint(icon = Icons.Default.Notifications, text = interaction.remindConfig.remindConfigTextFull())
+
                 interaction.repeatConfig?.let {
-                    TextWithIconBulletPoint(icon = Icons.Filled.Repeat, it.repeatConfigTextFull())
-                } ?: TextWithIconBulletPoint(icon = Icons.Filled.Repeat, stringResource(id = R.string.doesnt_repeat))
+                    TextWithIconBulletPoint(icon = Icons.Default.Repeat, it.repeatConfigTextFull())
+                } ?: TextWithIconBulletPoint(icon = Icons.Default.Repeat, stringResource(id = R.string.doesnt_repeat))
 
                 if (interaction.isActive) {
                     TextWithIconBulletPoint(icon = Icons.Default.Done, stringResource(id = R.string.active))

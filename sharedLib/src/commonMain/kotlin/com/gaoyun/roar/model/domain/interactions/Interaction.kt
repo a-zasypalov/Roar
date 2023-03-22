@@ -74,7 +74,7 @@ internal fun InteractionEntity.toDomain(): Interaction {
         name = name,
         group = interactionGroup.toInteractionGroup(),
         repeatConfig = repeatConfig?.toInteractionRepeatConfig(),
-        remindConfig = remindConfig.toInteractionRemindConfig(),
+        remindConfig = remindConfig?.toInteractionRemindConfig() ?: InteractionRemindConfig(),
         isActive = isActive,
         notes = notes
     )

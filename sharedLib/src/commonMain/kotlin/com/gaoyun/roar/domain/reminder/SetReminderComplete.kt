@@ -104,8 +104,6 @@ class SetReminderComplete : KoinComponent {
             .minus(remindConfig.toDuration())
             .toLocalDateTime(TimeZone.currentSystemDefault())
 
-        println("DATETIME $notificationDateTime")
-
         val notificationData = NotificationData(
             scheduled = notificationDateTime,
             item = NotificationItem.Reminder(

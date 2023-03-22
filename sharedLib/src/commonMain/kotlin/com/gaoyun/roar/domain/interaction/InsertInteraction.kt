@@ -17,7 +17,7 @@ class InsertInteraction : KoinComponent {
         name: String,
         group: String,
         repeatConfig: InteractionRepeatConfig?,
-        remindConfig: InteractionRemindConfig?,
+        remindConfig: InteractionRemindConfig,
         notes: String
     ) = flow {
         val newInteraction = Interaction(
