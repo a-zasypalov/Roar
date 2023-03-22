@@ -16,7 +16,7 @@ class RegisterUserUseCase : KoinComponent {
     suspend fun register(name: String) {
         val newUser = User(
             id = randomUUID(),
-            name = name
+            name = name.trim()
         )
 
         repository.apply {
