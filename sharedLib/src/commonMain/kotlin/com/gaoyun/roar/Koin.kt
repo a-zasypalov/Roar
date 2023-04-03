@@ -26,6 +26,7 @@ import com.gaoyun.roar.migrations.MigrationsExecutor
 import com.gaoyun.roar.model.entity.RoarDatabase
 import com.gaoyun.roar.network.InteractionTemplatesApi
 import com.gaoyun.roar.network.PetsApi
+import com.gaoyun.roar.network.SynchronisationApi
 import com.gaoyun.roar.repository.*
 import com.gaoyun.roar.util.DriverFactory
 import com.gaoyun.roar.util.PlatformHttpClient
@@ -86,6 +87,7 @@ val networkModule = module {
     single { PlatformHttpClient.httpClient() }
     single { InteractionTemplatesApi() }
     single { PetsApi() }
+    single { SynchronisationApi() }
 }
 
 val dbModule = module {

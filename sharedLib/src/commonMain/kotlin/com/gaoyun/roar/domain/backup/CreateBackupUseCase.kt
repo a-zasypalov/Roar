@@ -21,7 +21,7 @@ class CreateBackupUseCase : KoinComponent {
     fun createBackup() = flow {
         val user = getCurrentUserUseCase.getCurrentUser().firstOrNull() ?: return@flow
 
-        val pets = getPetUseCase.getPetByUserId(user.id).firstOrNull()
+        val pets = getPetUseCase.getPetByUserIdForBackup(user.id).firstOrNull()
             ?.map {
                 val interactions = getInteraction.getInteractionByPet(it.id).firstOrNull() ?: listOf()
                 it.withInteractions(interactions.groupBy { i -> i.group })

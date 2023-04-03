@@ -4,7 +4,10 @@ import androidx.core.app.NotificationManagerCompat
 import androidx.multidex.MultiDexApplication
 import androidx.work.WorkManager
 import com.gaoyun.notifications.*
+import com.gaoyun.notifications.sync.SynchronisationSchedulerImpl
+import com.gaoyun.notifications.sync.SynchronisationWorker
 import com.gaoyun.roar.domain.NotificationScheduler
+import com.gaoyun.roar.domain.SynchronisationScheduler
 import com.gaoyun.roar.initKoin
 import com.gaoyun.roar.migrations.MigrationsExecutor
 import com.gaoyun.roar.presentation.add_pet.avatar.AddPetAvatarScreenViewModel
@@ -71,6 +74,7 @@ val appModule = module {
 
 val notificationsModule = module {
     single<NotificationScheduler> { NotificationSchedulerImpl(get(), get()) }
+    single<SynchronisationScheduler> { SynchronisationSchedulerImpl(get()) }
     single<NotificationIntentProvider> { NotificationIntentProviderImpl() }
     single { WorkManager.getInstance(get()) }
     single { NotificationManagerCompat.from(get()) }
@@ -79,4 +83,5 @@ val notificationsModule = module {
     single { NotificationHandler(get(), get(), get(), get()) }
     single { FcmService() }
     worker { NotificationWorker(get(), get()) }
+    worker { SynchronisationWorker(get(), get()) }
 }

@@ -7,7 +7,6 @@ import com.gaoyun.roar.domain.pet.GetPetUseCase
 import com.gaoyun.roar.domain.pet.RemovePetUseCase
 import com.gaoyun.roar.domain.reminder.InsertReminder
 import com.gaoyun.roar.domain.user.GetCurrentUserUseCase
-import com.gaoyun.roar.domain.user.RegisterUserUseCase
 import com.gaoyun.roar.model.domain.UserWithPets
 import com.gaoyun.roar.model.domain.interactions.withoutReminders
 import com.gaoyun.roar.model.domain.withoutInteractions
@@ -20,7 +19,6 @@ import org.koin.core.component.inject
 
 class ImportBackupUseCase : KoinComponent {
 
-    private val registerUserUseCase: RegisterUserUseCase by inject()
     private val addPetUseCase: AddPetUseCase by inject()
     private val insertInteraction: InsertInteraction by inject()
     private val insertReminder: InsertReminder by inject()

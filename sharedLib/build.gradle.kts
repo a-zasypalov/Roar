@@ -71,6 +71,10 @@ kotlin {
 
                 implementation("androidx.lifecycle:lifecycle-runtime-ktx:$lifecycleVersion")
                 implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycleVersion")
+
+                implementation("com.google.firebase:firebase-common-ktx:20.3.2")
+                implementation("com.google.firebase:firebase-firestore-ktx:24.4.5")
+                implementation("com.google.firebase:firebase-storage-ktx:20.1.0")
             }
         }
         val androidTest by getting {
