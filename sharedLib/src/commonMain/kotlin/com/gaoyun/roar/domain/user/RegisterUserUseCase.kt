@@ -4,7 +4,6 @@ import com.gaoyun.roar.model.domain.User
 import com.gaoyun.roar.repository.UserRepository
 import com.gaoyun.roar.util.Preferences
 import com.gaoyun.roar.util.PreferencesKeys
-import com.gaoyun.roar.util.randomUUID
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 

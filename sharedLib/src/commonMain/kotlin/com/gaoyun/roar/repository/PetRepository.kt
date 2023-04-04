@@ -32,16 +32,16 @@ class PetRepositoryImpl : PetRepository, KoinComponent {
 
     override suspend fun getPetsByUser(userId: String): List<Pet> {
         var cached = getCachedPetsByUser(userId)
-        if(cached.isEmpty()) {
+        if (cached.isEmpty()) {
             syncApi.retrieveBackup {
-                if(it) cached = getCachedPetsByUser(userId)
+                if (it) cached = getCachedPetsByUser(userId)
             }
         }
 
         return cached
     }
 
-    private fun getCachedPetsByUser(userId: String): List<Pet>  {
+    private fun getCachedPetsByUser(userId: String): List<Pet> {
         return appDb.petEntityQueries.selectByUserId(userId).executeAsList().map { it.toDomain() }
     }
 

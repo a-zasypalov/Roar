@@ -82,7 +82,7 @@ fun UserRegistrationScreen(
     val signInLauncher = rememberLauncherForActivityResult(
         FirebaseAuthUIActivityResultContract()
     ) { res ->
-        if(res.resultCode == Activity.RESULT_OK) {
+        if (res.resultCode == Activity.RESULT_OK) {
             Firebase.auth.currentUser?.let { user ->
                 onEventSent(RegisterUserScreenContract.Event.RegisterButtonClick(nameState.value, user.uid))
             }

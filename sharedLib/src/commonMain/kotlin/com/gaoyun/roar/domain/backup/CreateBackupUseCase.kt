@@ -43,7 +43,7 @@ class CreateBackupUseCase : KoinComponent {
             }
             ?: listOf()
 
-        if(pets.isEmpty()) {
+        if (pets.isEmpty()) {
             emit(null)
         } else {
             val backupString = Json.encodeToString(UserWithPets.serializer(), user.withPets(pets))
