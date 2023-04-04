@@ -4,5 +4,5 @@ import org.koin.core.component.KoinComponent
 
 expect class SynchronisationApi() : KoinComponent {
     fun sendBackup(backup: String)
-    fun retrieveBackup()
+    suspend fun retrieveBackup(onFinish: ((Boolean) -> Unit)? = null)
 }

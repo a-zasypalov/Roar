@@ -13,9 +13,9 @@ class RegisterUserUseCase : KoinComponent {
     private val repository: UserRepository by inject()
     private val prefs: Preferences by inject()
 
-    suspend fun register(name: String) {
+    suspend fun register(name: String, id: String) {
         val newUser = User(
-            id = randomUUID(),
+            id = id,
             name = name.trim()
         )
 

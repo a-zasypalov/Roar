@@ -97,7 +97,7 @@ fun UserScreen(
                                 dialog.dismiss()
                                 onEventSent(
                                     UserScreenContract.Event.OnUseBackup(
-                                        backupString = String(data),
+                                        backup = data,
                                         removeOld = false
                                     )
                                 )
@@ -106,7 +106,7 @@ fun UserScreen(
                                 dialog.dismiss()
                                 onEventSent(
                                     UserScreenContract.Event.OnUseBackup(
-                                        backupString = String(data),
+                                        backup = data,
                                         removeOld = true
                                     )
                                 )

@@ -32,9 +32,12 @@ class SynchronisationWorker(context: Context, params: WorkerParameters) : Corout
     private val createBackupUseCase: CreateBackupUseCase by inject()
 
     override suspend fun doWork(): Result {
-        return createBackupUseCase.createBackup()
+        return createBackupUseCase.createBackupToSync()
             .catch { Result.failure() }
-            .map { api.sendBackup(it); Result.success() }
+            .map {
+                if (it != null) api.sendBackup(it)
+                Result.success()
+            }
             .first()
     }
 }

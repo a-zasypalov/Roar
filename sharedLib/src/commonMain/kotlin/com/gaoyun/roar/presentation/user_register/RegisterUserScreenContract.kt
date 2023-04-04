@@ -7,7 +7,7 @@ import com.gaoyun.roar.presentation.ViewState
 class RegisterUserScreenContract {
 
     sealed class Event : ViewEvent {
-        data class RegisterButtonClick(val name: String) : Event()
+        data class RegisterButtonClick(val name: String, val userId: String) : Event()
     }
 
     object State : ViewState

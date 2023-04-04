@@ -69,6 +69,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         prepareNotificationChannel()
+
         lifecycleScope.launch {
             delay(500)
             if (Build.VERSION.SDK_INT >= 33) {

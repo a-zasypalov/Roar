@@ -30,4 +30,6 @@ android {
 
 dependencies {
     implementation(project(":androidApp:common"))
+    implementation("com.firebaseui:firebase-ui-auth:7.2.0")
+    implementation("com.google.firebase:firebase-auth-ktx:21.2.0")
 }

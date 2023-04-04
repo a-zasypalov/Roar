@@ -29,9 +29,9 @@ class ImportBackupUseCase : KoinComponent {
     private val removePetUseCase: RemovePetUseCase by inject()
     private val removeInteraction: RemoveInteraction by inject()
 
-    fun importBackup(backupString: String, removeOld: Boolean) = flow {
+    fun importBackup(backup: ByteArray, removeOld: Boolean) = flow {
         try {
-            val user = Json.decodeFromString(UserWithPets.serializer(), backupString)
+            val user = Json.decodeFromString(UserWithPets.serializer(), backup.decodeToString())
             val currentUserId = getCurrentUserUseCase.getCurrentUser().firstOrNull()?.id ?: ""
 
             if (removeOld) {

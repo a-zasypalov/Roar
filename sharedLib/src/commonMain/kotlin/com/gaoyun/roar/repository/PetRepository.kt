@@ -4,6 +4,7 @@ import com.gaoyun.roar.model.domain.Pet
 import com.gaoyun.roar.model.domain.toDomain
 import com.gaoyun.roar.model.entity.RoarDatabase
 import com.gaoyun.roar.network.PetsApi
+import com.gaoyun.roar.network.SynchronisationApi
 import com.gaoyun.roar.util.DatetimeConstants
 import com.gaoyun.roar.util.Preferences
 import com.gaoyun.roar.util.PreferencesKeys
@@ -13,7 +14,7 @@ import org.koin.core.component.inject
 
 interface PetRepository {
     fun getPet(id: String): Pet?
-    fun getPetsByUser(userId: String): List<Pet>
+    suspend fun getPetsByUser(userId: String): List<Pet>
     fun insertPet(pet: Pet)
     fun deletePet(id: String)
     suspend fun getBreeds(petType: String): List<String>
@@ -23,12 +24,24 @@ class PetRepositoryImpl : PetRepository, KoinComponent {
     private val appDb: RoarDatabase by inject()
     private val api: PetsApi by inject()
     private val preferences: Preferences by inject()
+    private val syncApi: SynchronisationApi by inject()
 
     override fun getPet(id: String): Pet? {
         return appDb.petEntityQueries.selectById(id).executeAsOneOrNull()?.toDomain()
     }
 
-    override fun getPetsByUser(userId: String): List<Pet> {
+    override suspend fun getPetsByUser(userId: String): List<Pet> {
+        var cached = getCachedPetsByUser(userId)
+        if(cached.isEmpty()) {
+            syncApi.retrieveBackup {
+                if(it) cached = getCachedPetsByUser(userId)
+            }
+        }
+
+        return cached
+    }
+
+    private fun getCachedPetsByUser(userId: String): List<Pet>  {
         return appDb.petEntityQueries.selectByUserId(userId).executeAsList().map { it.toDomain() }
     }
 

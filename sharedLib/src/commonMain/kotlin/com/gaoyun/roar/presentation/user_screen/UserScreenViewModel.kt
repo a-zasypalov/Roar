@@ -28,7 +28,7 @@ class UserScreenViewModel : BaseViewModel<UserScreenContract.Event, UserScreenCo
             is UserScreenContract.Event.OnDeleteAccountClick -> {}
             is UserScreenContract.Event.OnEditAccountClick -> setEffect { UserScreenContract.Effect.Navigation.ToUserEdit }
             is UserScreenContract.Event.OnCreateBackupClick -> createBackup()
-            is UserScreenContract.Event.OnUseBackup -> useBackup(event.backupString, event.removeOld)
+            is UserScreenContract.Event.OnUseBackup -> useBackup(event.backup, event.removeOld)
             is UserScreenContract.Event.OnDynamicColorsStateChange -> setDynamicColor(event.active)
             is UserScreenContract.Event.OnNumberOfRemindersOnMainScreen -> setNumberOfRemindersOnMainScreen(event.newNumber)
         }
@@ -58,8 +58,8 @@ class UserScreenViewModel : BaseViewModel<UserScreenContract.Event, UserScreenCo
         }
     }
 
-    private fun useBackup(backupString: String, removeOld: Boolean) = scope.launch {
-        importBackupUseCase.importBackup(backupString, removeOld).collect {
+    private fun useBackup(backup: ByteArray, removeOld: Boolean) = scope.launch {
+        importBackupUseCase.importBackup(backup, removeOld).collect {
             setEffect { UserScreenContract.Effect.BackupApplied }
         }
     }

@@ -11,7 +11,26 @@ class UserScreenContract {
         object OnDeleteAccountClick : Event()
         object OnEditAccountClick : Event()
         object OnCreateBackupClick : Event()
-        data class OnUseBackup(val backupString: String, val removeOld: Boolean) : Event()
+        data class OnUseBackup(val backup: ByteArray, val removeOld: Boolean) : Event() {
+            override fun equals(other: Any?): Boolean {
+                if (this === other) return true
+                if (other == null || this::class != other::class) return false
+
+                other as OnUseBackup
+
+                if (!backup.contentEquals(other.backup)) return false
+                if (removeOld != other.removeOld) return false
+
+                return true
+            }
+
+            override fun hashCode(): Int {
+                var result = backup.contentHashCode()
+                result = 31 * result + removeOld.hashCode()
+                return result
+            }
+        }
+
         data class OnDynamicColorsStateChange(val active: Boolean) : Event()
         data class OnNumberOfRemindersOnMainScreen(val newNumber: Int) : Event()
     }

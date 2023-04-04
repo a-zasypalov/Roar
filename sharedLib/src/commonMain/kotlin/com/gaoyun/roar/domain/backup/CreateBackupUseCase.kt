@@ -33,4 +33,22 @@ class CreateBackupUseCase : KoinComponent {
         emit(backupString)
     }
 
+    fun createBackupToSync() = flow {
+        val user = getCurrentUserUseCase.getCurrentUser().firstOrNull() ?: return@flow
+
+        val pets = getPetUseCase.getPetByUserIdForBackup(user.id).firstOrNull()
+            ?.map {
+                val interactions = getInteraction.getInteractionByPet(it.id).firstOrNull() ?: listOf()
+                it.withInteractions(interactions.groupBy { i -> i.group })
+            }
+            ?: listOf()
+
+        if(pets.isEmpty()) {
+            emit(null)
+        } else {
+            val backupString = Json.encodeToString(UserWithPets.serializer(), user.withPets(pets))
+            emit(backupString)
+        }
+    }
+
 }
