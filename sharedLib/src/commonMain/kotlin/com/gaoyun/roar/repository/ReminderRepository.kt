@@ -14,7 +14,7 @@ interface ReminderRepository {
     fun getRemindersByInteraction(interactionId: String): List<Reminder>
     fun setReminderCompleted(reminderId: String, complete: Boolean, completionDateTime: LocalDateTime)
     fun deleteReminder(id: String)
-    fun deleteReminderByInteractionId(interactionId: String)
+    fun deleteReminderByInteractionId(interactionId: String, scheduleSync: Boolean = true)
 }
 
 class ReminderRepositoryImpl : ReminderRepository, KoinComponent {
@@ -52,8 +52,8 @@ class ReminderRepositoryImpl : ReminderRepository, KoinComponent {
         scheduler.scheduleSynchronisation()
     }
 
-    override fun deleteReminderByInteractionId(interactionId: String) {
+    override fun deleteReminderByInteractionId(interactionId: String, scheduleSync: Boolean) {
         appDb.reminderEntityQueries.deleteReminderByInteractionId(interactionId)
-        scheduler.scheduleSynchronisation()
+        if(scheduleSync) scheduler.scheduleSynchronisation()
     }
 }

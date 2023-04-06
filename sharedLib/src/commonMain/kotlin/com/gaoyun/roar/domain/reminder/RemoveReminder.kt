@@ -16,12 +16,12 @@ class RemoveReminder : KoinComponent {
         emit(repository.deleteReminder(id))
     }
 
-    fun removeReminderByInteraction(interactionId: String) = flow {
+    fun removeReminderByInteraction(interactionId: String, scheduleSync: Boolean = true) = flow {
         repository.getRemindersByInteraction(interactionId)
             .mapNotNull { it.notificationJobId }
             .forEach { notificationScheduler.cancelNotification(it) }
 
-        emit(repository.deleteReminderByInteractionId(interactionId))
+        emit(repository.deleteReminderByInteractionId(interactionId, scheduleSync))
     }
 
 

@@ -6,6 +6,8 @@ import com.gaoyun.roar.domain.user.GetCurrentUserUseCase
 import com.gaoyun.roar.model.domain.UserWithPets
 import com.gaoyun.roar.model.domain.withInteractions
 import com.gaoyun.roar.model.domain.withPets
+import com.gaoyun.roar.util.Preferences
+import com.gaoyun.roar.util.PreferencesKeys
 import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.flow.flow
 import kotlinx.serialization.json.Json
@@ -17,6 +19,7 @@ class CreateBackupUseCase : KoinComponent {
     private val getCurrentUserUseCase: GetCurrentUserUseCase by inject()
     private val getPetUseCase: GetPetUseCase by inject()
     private val getInteraction: GetInteraction by inject()
+    private val prefs: Preferences by inject()
 
     fun createBackup() = flow {
         val user = getCurrentUserUseCase.getCurrentUser().firstOrNull() ?: return@flow
@@ -46,7 +49,9 @@ class CreateBackupUseCase : KoinComponent {
         if (pets.isEmpty()) {
             emit(null)
         } else {
-            val backupString = Json.encodeToString(UserWithPets.serializer(), user.withPets(pets))
+            val userWithPets = user.withPets(pets)
+            prefs.setLong(PreferencesKeys.LAST_SYNCHRONISED_TIMESTAMP, userWithPets.timestamp)
+            val backupString = Json.encodeToString(UserWithPets.serializer(), userWithPets)
             emit(backupString)
         }
     }

@@ -25,4 +25,11 @@ class RemoveInteraction : KoinComponent {
         emit(repository.deletePetInteractions(petId))
     }
 
+    fun removeInteractionByPetToSync(petId: String) = flow {
+        getInteraction.getInteractionIdsByPet(petId).firstOrNull()?.forEach {
+            removeReminder.removeReminderByInteraction(it, scheduleSync = false).firstOrNull()
+        }
+        emit(repository.deletePetInteractions(petId))
+    }
+
 }

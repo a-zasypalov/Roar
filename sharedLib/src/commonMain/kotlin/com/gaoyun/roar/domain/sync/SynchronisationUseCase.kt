@@ -43,12 +43,15 @@ class SynchronisationUseCase : KoinComponent {
             val timestamp = prefs.getLong(PreferencesKeys.LAST_SYNCHRONISED_TIMESTAMP, 0L)
 
             if(timestamp < user.timestamp) {
+                prefs.setLong(PreferencesKeys.LAST_SYNCHRONISED_TIMESTAMP, user.timestamp)
+                println("Apply synced data")
+
                 val currentUserId = getCurrentUserUseCase.getCurrentUser().firstOrNull()?.id ?: ""
 
                 getPetUseCase.getPetByUserId(currentUserId)
                     .firstOrNull()
                     ?.forEach {
-                        removeInteraction.removeInteractionByPet(it.id).firstOrNull()
+                        removeInteraction.removeInteractionByPetToSync(it.id).firstOrNull()
                         removePetUseCase.removePet(it.id).firstOrNull()
                     }
 
