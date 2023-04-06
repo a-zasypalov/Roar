@@ -72,6 +72,8 @@ dependencies {
     api("com.google.firebase:firebase-crashlytics-ktx")
     api("com.google.firebase:firebase-analytics-ktx")
     api("com.google.firebase:firebase-messaging-ktx")
+    api("com.firebaseui:firebase-ui-auth:7.2.0")
+    api("com.google.firebase:firebase-auth-ktx:21.2.0")
 
     testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test.ext:junit:1.1.4")

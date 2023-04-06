@@ -5,6 +5,9 @@
     <string name="choose_avatar">Choose avatar</string>
     <string name="pets_card">Pet\'s Card</string>
     <string name="edit_profile">Edit profile</string>
+    <string name="logout">Logout</string>
+    <string name="logout_question">Logout?</string>
+    <string name="logout_description">Are you sure you want to logout?</string>
     <string name="name">Name</string>
     <string name="breed">Breed</string>
     <string name="male">Male</string>

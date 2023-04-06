@@ -19,10 +19,7 @@ import com.gaoyun.roar.domain.reminder.RemoveReminder
 import com.gaoyun.roar.domain.reminder.SetReminderComplete
 import com.gaoyun.roar.domain.repeat_config.RepeatConfigUseCase
 import com.gaoyun.roar.domain.sync.SynchronisationUseCase
-import com.gaoyun.roar.domain.user.CheckUserExistingUseCase
-import com.gaoyun.roar.domain.user.EditUserUseCase
-import com.gaoyun.roar.domain.user.GetCurrentUserUseCase
-import com.gaoyun.roar.domain.user.RegisterUserUseCase
+import com.gaoyun.roar.domain.user.*
 import com.gaoyun.roar.migrations.MigrationsExecutor
 import com.gaoyun.roar.model.entity.RoarDatabase
 import com.gaoyun.roar.network.InteractionTemplatesApi
@@ -55,6 +52,7 @@ val useCaseModule = module {
     single { GetCurrentUserUseCase() }
     single { CheckUserExistingUseCase() }
     single { EditUserUseCase() }
+    single { LogoutUseCase() }
     single { SynchronisationUseCase() }
 
     single { GetPetUseCase() }

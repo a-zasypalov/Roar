@@ -29,6 +29,8 @@ import com.gaoyun.roar.model.domain.User
 import com.gaoyun.roar.presentation.LAUNCH_LISTEN_FOR_EFFECTS
 import com.gaoyun.roar.presentation.user_screen.UserScreenContract
 import com.gaoyun.roar.presentation.user_screen.UserScreenViewModel
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.ktx.Firebase
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
@@ -146,6 +148,10 @@ fun UserScreen(
                     exportBackupLauncher.launch(intent)
                 }
                 is UserScreenContract.Effect.BackupApplied -> snackbarHostState.showSnackbar(message = "Backup applied")
+                is UserScreenContract.Effect.LoggedOut -> {
+                    Firebase.auth.signOut()
+                    onNavigationRequested(UserScreenContract.Effect.Navigation.NavigateBack)
+                }
                 else -> {}
             }
         }.collect()
@@ -279,6 +285,33 @@ fun UserScreen(
                         modifier = Modifier.fillMaxWidth(),
                         horizontalPadding = 8.dp
                     )
+
+                    Spacer(size = 32.dp)
+
+                    TextButton(
+                        onClick = {
+                            AlertDialog.Builder(context)
+                                .setTitle(context.getString(R.string.logout_question))
+                                .setMessage(context.getString(R.string.logout_description))
+                                .setPositiveButton(context.getString(R.string.logout)) { dialog, _ ->
+                                    dialog.dismiss()
+                                    onEventSent(UserScreenContract.Event.OnLogout)
+                                }
+                                .setNegativeButton(context.getString(R.string.cancel)) { dialog, _ ->
+                                    dialog.dismiss()
+                                }
+                                .create()
+                                .show()
+                        },
+                        modifier = Modifier.align(Alignment.CenterHorizontally)
+                    ) {
+                        Text(
+                            text = stringResource(id = R.string.logout),
+                            color = MaterialTheme.colorScheme.error,
+                            style = MaterialTheme.typography.titleMedium,
+                            modifier = Modifier.padding(horizontal = 32.dp, vertical = 8.dp)
+                        )
+                    }
                 }
             }
         }

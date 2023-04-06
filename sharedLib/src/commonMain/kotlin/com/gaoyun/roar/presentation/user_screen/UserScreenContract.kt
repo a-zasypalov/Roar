@@ -10,6 +10,7 @@ class UserScreenContract {
     sealed class Event : ViewEvent {
         object OnDeleteAccountClick : Event()
         object OnEditAccountClick : Event()
+        object OnLogout : Event()
         object OnCreateBackupClick : Event()
         data class OnUseBackup(val backup: ByteArray, val removeOld: Boolean) : Event() {
             override fun equals(other: Any?): Boolean {
@@ -45,6 +46,7 @@ class UserScreenContract {
     sealed class Effect : ViewSideEffect {
         object BackupReady : Effect()
         object BackupApplied : Effect()
+        object LoggedOut : Effect()
 
         sealed class Navigation : Effect() {
             object NavigateBack : Navigation()

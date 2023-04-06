@@ -4,9 +4,10 @@ import com.gaoyun.roar.domain.AppPreferencesUseCase
 import com.gaoyun.roar.domain.backup.CreateBackupUseCase
 import com.gaoyun.roar.domain.backup.ImportBackupUseCase
 import com.gaoyun.roar.domain.user.GetCurrentUserUseCase
+import com.gaoyun.roar.domain.user.LogoutUseCase
+import com.gaoyun.roar.network.SynchronisationApi
 import com.gaoyun.roar.presentation.BaseViewModel
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
@@ -18,6 +19,8 @@ class UserScreenViewModel : BaseViewModel<UserScreenContract.Event, UserScreenCo
     private val createBackupUseCase: CreateBackupUseCase by inject()
     private val importBackupUseCase: ImportBackupUseCase by inject()
     private val appPreferencesUseCase: AppPreferencesUseCase by inject()
+    private val synchronisationApi: SynchronisationApi by inject()
+    private val logoutUseCase: LogoutUseCase by inject()
 
     val backupState = MutableStateFlow("")
 
@@ -26,6 +29,7 @@ class UserScreenViewModel : BaseViewModel<UserScreenContract.Event, UserScreenCo
     override fun handleEvents(event: UserScreenContract.Event) {
         when (event) {
             is UserScreenContract.Event.OnDeleteAccountClick -> {}
+            is UserScreenContract.Event.OnLogout -> logout()
             is UserScreenContract.Event.OnEditAccountClick -> setEffect { UserScreenContract.Effect.Navigation.ToUserEdit }
             is UserScreenContract.Event.OnCreateBackupClick -> createBackup()
             is UserScreenContract.Event.OnUseBackup -> useBackup(event.backup, event.removeOld)
@@ -72,6 +76,16 @@ class UserScreenViewModel : BaseViewModel<UserScreenContract.Event, UserScreenCo
     private fun setNumberOfRemindersOnMainScreen(number: Int) {
         appPreferencesUseCase.setNumberOfRemindersOnMainScreen(number)
         setState { copy(numberOfRemindersOnMainScreenState = number.toString()) }
+    }
+
+    private fun logout() = scope.launch {
+        setState { copy(isLoading = true) }
+        createBackupUseCase.createBackupToSync()
+            .catch { it.printStackTrace() }
+            .map { if (it != null) synchronisationApi.sendBackup(it) }
+            .first()
+        logoutUseCase.logout().firstOrNull()
+        setEffect { UserScreenContract.Effect.LoggedOut }
     }
 
 }
