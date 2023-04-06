@@ -1,6 +1,6 @@
 package com.gaoyun.roar.network
 
-import com.gaoyun.roar.domain.backup.ImportBackupUseCase
+import com.gaoyun.roar.domain.sync.SynchronisationUseCase
 import com.gaoyun.roar.util.Preferences
 import com.gaoyun.roar.util.PreferencesKeys
 import com.google.firebase.ktx.Firebase
@@ -14,8 +14,8 @@ actual class SynchronisationApi : KoinComponent {
 
     private val storageRef = Firebase.storage.reference
     private val prefs: Preferences by inject()
-    private val importBackupUseCase: ImportBackupUseCase by inject()
     private val scope = MainScope()
+    private val synchronisationUseCase: SynchronisationUseCase by inject()
 
     actual fun sendBackup(backup: String) {
         prefs.getString(PreferencesKeys.CURRENT_USER_ID)?.let { userId ->
@@ -33,7 +33,7 @@ actual class SynchronisationApi : KoinComponent {
                 .addOnSuccessListener {
                     scope.launch {
                         println("Synced")
-                        importBackupUseCase.importBackup(it, removeOld = false).collect {
+                        synchronisationUseCase.sync(it).collect {
                             onFinish?.invoke(it)
                         }
                     }

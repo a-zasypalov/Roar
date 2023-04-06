@@ -1,5 +1,6 @@
 package com.gaoyun.roar.repository
 
+import com.gaoyun.roar.domain.SynchronisationScheduler
 import com.gaoyun.roar.model.domain.Reminder
 import com.gaoyun.roar.model.domain.toDomain
 import com.gaoyun.roar.model.entity.RoarDatabase
@@ -19,6 +20,7 @@ interface ReminderRepository {
 class ReminderRepositoryImpl : ReminderRepository, KoinComponent {
 
     private val appDb: RoarDatabase by inject()
+    private val scheduler: SynchronisationScheduler by inject()
 
     override fun getReminder(id: String): Reminder? {
         return appDb.reminderEntityQueries.selectById(id).executeAsOneOrNull()?.toDomain()
@@ -36,18 +38,22 @@ class ReminderRepositoryImpl : ReminderRepository, KoinComponent {
             isCompleted = reminder.isCompleted,
             notificationJobId = reminder.notificationJobId
         )
+        scheduler.scheduleSynchronisation()
     }
 
     override fun setReminderCompleted(reminderId: String, complete: Boolean, completionDateTime: LocalDateTime) {
         val reminder = getReminder(reminderId) ?: return
         insertReminder(reminder.copy(isCompleted = complete, dateTime = completionDateTime))
+        scheduler.scheduleSynchronisation()
     }
 
     override fun deleteReminder(id: String) {
         appDb.reminderEntityQueries.deleteReminderById(id)
+        scheduler.scheduleSynchronisation()
     }
 
     override fun deleteReminderByInteractionId(interactionId: String) {
         appDb.reminderEntityQueries.deleteReminderByInteractionId(interactionId)
+        scheduler.scheduleSynchronisation()
     }
 }

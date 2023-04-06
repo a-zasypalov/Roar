@@ -14,7 +14,10 @@ import com.gaoyun.common.ui.PrimaryElevatedButton
 import com.gaoyun.common.R as CommonR
 
 @Composable
-fun NoUserState(onRegisterButtonClick: () -> Unit) {
+fun NoUserState(
+    onRegisterButtonClick: () -> Unit,
+    onLoginButtonClick: () -> Unit
+) {
     Column(
         modifier = Modifier
             .fillMaxWidth()
@@ -30,8 +33,14 @@ fun NoUserState(onRegisterButtonClick: () -> Unit) {
         Spacer(modifier = Modifier.size(32.dp))
 
         PrimaryElevatedButton(
-            text = stringResource(id = CommonR.string.register),
+            text = stringResource(id = CommonR.string.register_or_login),
             onClick = onRegisterButtonClick
+        )
+        Spacer(modifier = Modifier.size(16.dp))
+
+        PrimaryElevatedButton(
+            text = stringResource(id = CommonR.string.login),
+            onClick = onLoginButtonClick
         )
     }
 }
@@ -40,6 +49,6 @@ fun NoUserState(onRegisterButtonClick: () -> Unit) {
 @Composable
 fun NoUserStatePreview() {
     RoarTheme {
-        NoUserState {}
+        NoUserState ({}, {})
     }
 }

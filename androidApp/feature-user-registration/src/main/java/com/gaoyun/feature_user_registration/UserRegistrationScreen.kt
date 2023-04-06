@@ -67,6 +67,7 @@ fun UserRegistrationScreen(
     onNavigationRequested: (navigationEffect: RegisterUserScreenContract.Effect.Navigation) -> Unit,
 ) {
     val nameState = rememberSaveable { mutableStateOf("") }
+    val defaultUsername = stringResource(id = R.string.username)
 
     LaunchedEffect(LAUNCH_LISTEN_FOR_EFFECTS) {
         effectFlow.onEach { effect ->
@@ -84,7 +85,8 @@ fun UserRegistrationScreen(
     ) { res ->
         if (res.resultCode == Activity.RESULT_OK) {
             Firebase.auth.currentUser?.let { user ->
-                onEventSent(RegisterUserScreenContract.Event.RegisterButtonClick(nameState.value, user.uid))
+                val nameToRegister = nameState.value.ifEmpty { user.displayName ?: defaultUsername }
+                onEventSent(RegisterUserScreenContract.Event.RegisterButtonClick(nameToRegister, user.uid))
             }
         }
     }
@@ -142,7 +144,7 @@ fun UserRegistrationForm(
         }
 
         PrimaryElevatedButton(
-            text = stringResource(id = R.string.register),
+            text = stringResource(id = R.string.register_or_login),
             onClick = { onRegisterClick(nameState.value) },
             modifier = Modifier.padding(bottom = 32.dp)
         )

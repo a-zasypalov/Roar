@@ -1,6 +1,5 @@
 package com.gaoyun.roar.domain.pet
 
-import com.gaoyun.roar.domain.SynchronisationScheduler
 import com.gaoyun.roar.repository.PetRepository
 import com.gaoyun.roar.util.NoPetException
 import kotlinx.coroutines.flow.flow
@@ -11,7 +10,6 @@ import kotlin.coroutines.cancellation.CancellationException
 class GetPetUseCase : KoinComponent {
 
     private val repository: PetRepository by inject()
-    private val scheduler: SynchronisationScheduler by inject()
 
     @Throws(NoPetException::class, CancellationException::class)
     fun getPet(petId: String) = flow {
@@ -23,7 +21,6 @@ class GetPetUseCase : KoinComponent {
     }
 
     fun getPetByUserId(userId: String) = flow {
-        scheduler.scheduleSynchronisation()
         emit(repository.getPetsByUser(userId))
     }
 

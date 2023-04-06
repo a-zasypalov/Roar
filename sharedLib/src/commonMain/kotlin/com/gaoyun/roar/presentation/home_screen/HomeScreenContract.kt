@@ -10,6 +10,7 @@ import kotlinx.datetime.LocalDateTime
 class HomeScreenContract {
 
     sealed class Event : ViewEvent {
+        class LoginUser(val id: String) : Event()
         class SetPetChooserShow(val show: Boolean) : Event()
         class PetChosenForReminderCreation(val petId: String) : Event()
         class InteractionClicked(val petId: String, val interactionId: String) : Event()

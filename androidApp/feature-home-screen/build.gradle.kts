@@ -31,4 +31,6 @@ android {
 dependencies {
     implementation(project(":androidApp:common"))
     implementation(project(":androidApp:feature-pet-screen"))
+    implementation("com.firebaseui:firebase-ui-auth:7.2.0")
+    implementation("com.google.firebase:firebase-auth-ktx:21.2.0")
 }

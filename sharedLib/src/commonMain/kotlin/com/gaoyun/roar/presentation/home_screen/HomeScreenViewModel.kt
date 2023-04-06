@@ -7,16 +7,19 @@ import com.gaoyun.roar.domain.pet.RemovePetUseCase
 import com.gaoyun.roar.domain.reminder.SetReminderComplete
 import com.gaoyun.roar.domain.user.CheckUserExistingUseCase
 import com.gaoyun.roar.domain.user.GetCurrentUserUseCase
+import com.gaoyun.roar.domain.user.RegisterUserUseCase
 import com.gaoyun.roar.model.domain.PetWithInteractions
 import com.gaoyun.roar.model.domain.User
 import com.gaoyun.roar.model.domain.withInteractions
 import com.gaoyun.roar.model.domain.withoutInteractions
+import com.gaoyun.roar.network.SynchronisationApi
 import com.gaoyun.roar.presentation.BaseViewModel
 import com.gaoyun.roar.util.NoUserException
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.firstOrNull
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import kotlinx.datetime.LocalDateTime
 import org.koin.core.component.KoinComponent
@@ -33,11 +36,15 @@ class HomeScreenViewModel :
     private val removePet: RemovePetUseCase by inject()
     private val setReminderComplete: SetReminderComplete by inject()
     private val appPreferencesUseCase: AppPreferencesUseCase by inject()
+    private val synchronisationApi: SynchronisationApi by inject()
+    private val registerUserUseCase: RegisterUserUseCase by inject()
+    private val syncApi: SynchronisationApi by inject()
 
     override fun setInitialState() = HomeScreenContract.State(null, emptyList(), true)
 
     override fun handleEvents(event: HomeScreenContract.Event) {
         when (event) {
+            is HomeScreenContract.Event.LoginUser -> loginUser(event.id)
             is HomeScreenContract.Event.SetPetChooserShow -> setDialogShow(event.show)
             is HomeScreenContract.Event.PetChosenForReminderCreation -> {
                 scope.launch {
@@ -67,6 +74,11 @@ class HomeScreenViewModel :
         }
     }
 
+    private fun loginUser(id: String) = scope.launch {
+        registerUserUseCase.login(id)
+        syncApi.retrieveBackup { scope.launch { getUser() } }
+    }
+
     private suspend fun getUser() = scope.launch {
         getUserUseCase.getCurrentUser()
             .catch {
@@ -74,6 +86,10 @@ class HomeScreenViewModel :
                 if (it is NoUserException) {
                     openRegistration()
                 }
+            }
+            .map { user ->
+                synchronisationApi.retrieveBackup()
+                user
             }
             .collect { getPets(it) }
     }

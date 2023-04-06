@@ -1,5 +1,6 @@
 package com.gaoyun.roar.repository
 
+import com.gaoyun.roar.domain.SynchronisationScheduler
 import com.gaoyun.roar.model.domain.interactions.Interaction
 import com.gaoyun.roar.model.domain.interactions.toDomain
 import com.gaoyun.roar.model.entity.RoarDatabase
@@ -18,6 +19,7 @@ interface InteractionRepository {
 class InteractionRepositoryImpl : InteractionRepository, KoinComponent {
 
     private val appDb: RoarDatabase by inject()
+    private val scheduler: SynchronisationScheduler by inject()
 
     override fun getInteraction(id: String): Interaction? {
         return appDb.interactionEntityQueries.selectById(id).executeAsOneOrNull()?.toDomain()
@@ -40,6 +42,7 @@ class InteractionRepositoryImpl : InteractionRepository, KoinComponent {
             isActive = interaction.isActive,
             notes = interaction.notes
         )
+        scheduler.scheduleSynchronisation()
     }
 
     override fun setInteractionIsActive(interactionId: String, isActive: Boolean) {
@@ -49,10 +52,12 @@ class InteractionRepositoryImpl : InteractionRepository, KoinComponent {
 
     override fun deleteInteraction(id: String) {
         appDb.interactionEntityQueries.deleteById(id)
+        scheduler.scheduleSynchronisation()
     }
 
     override fun deletePetInteractions(petId: String) {
         appDb.interactionEntityQueries.deleteByPetId(petId)
+        scheduler.scheduleSynchronisation()
     }
 
 }

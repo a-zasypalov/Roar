@@ -1,6 +1,8 @@
 package com.gaoyun.feature_home_screen
 
+import android.app.Activity
 import androidx.activity.compose.BackHandler
+import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
@@ -13,6 +15,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import androidx.lifecycle.Lifecycle
 import androidx.navigation.NavHostController
+import com.firebase.ui.auth.AuthUI
+import com.firebase.ui.auth.FirebaseAuthUIActivityResultContract
 import com.gaoyun.common.NavigationKeys
 import com.gaoyun.common.OnLifecycleEvent
 import com.gaoyun.common.R
@@ -30,6 +34,8 @@ import com.gaoyun.roar.model.domain.PetWithInteractions
 import com.gaoyun.roar.presentation.LAUNCH_LISTEN_FOR_EFFECTS
 import com.gaoyun.roar.presentation.home_screen.HomeScreenContract
 import com.gaoyun.roar.presentation.home_screen.HomeScreenViewModel
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.ktx.Firebase
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.onEach
@@ -168,6 +174,16 @@ fun HomeScreen(
             )
         }
 
+        val signInLauncher = rememberLauncherForActivityResult(
+            FirebaseAuthUIActivityResultContract()
+        ) { res ->
+            if (res.resultCode == Activity.RESULT_OK) {
+                Firebase.auth.currentUser?.let { user ->
+                    onEventSent(HomeScreenContract.Event.LoginUser(user.uid))
+                }
+            }
+        }
+
         BoxWithLoader(isLoading = state.isLoading) {
             state.user?.let { user ->
                 if (state.pets.isNotEmpty()) {
@@ -205,7 +221,20 @@ fun HomeScreen(
                         onUserDetailsClick = { onNavigationRequested(HomeScreenContract.Effect.Navigation.ToUserScreen) }
                     )
                 }
-            } ?: if (!state.isLoading) NoUserState(viewModel::openRegistration) else Spacer(size = 1.dp)
+            } ?: if (!state.isLoading) {
+                NoUserState(onRegisterButtonClick = viewModel::openRegistration,
+                onLoginButtonClick = {
+                    signInLauncher.launch(
+                        AuthUI.getInstance()
+                            .createSignInIntentBuilder()
+                            .setAvailableProviders(arrayListOf(AuthUI.IdpConfig.GoogleBuilder().build()))
+                            .setLogo(R.drawable.ic_tab_home)
+                            .setTheme(R.style.RoarTheme)
+                            .setIsSmartLockEnabled(false)
+                            .build()
+                    )
+                })
+            } else Spacer(size = 1.dp)
         }
     }
 }

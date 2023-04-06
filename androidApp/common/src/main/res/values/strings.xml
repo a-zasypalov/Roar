@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Roar</string>
+    <string name="username">Username</string>
     <string name="choose_avatar">Choose avatar</string>
     <string name="pets_card">Pet\'s Card</string>
     <string name="edit_profile">Edit profile</string>
@@ -62,7 +63,9 @@
     <string name="import_backup_in_profile">Import backup in Profile</string>
     <string name="add_first_pet">Add First Pet</string>
     <string name="register_to_get_started">Register to get started</string>
+    <string name="register_or_login">Register or Login</string>
     <string name="register">Register</string>
+    <string name="login">Login</string>
     <string name="for_who">For who?</string>
     <string name="add_reminder">Add reminder</string>
     <string name="doesnt_repeat">Doesn\'t repeat</string>

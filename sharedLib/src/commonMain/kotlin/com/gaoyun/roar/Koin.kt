@@ -18,6 +18,7 @@ import com.gaoyun.roar.domain.reminder.InsertReminder
 import com.gaoyun.roar.domain.reminder.RemoveReminder
 import com.gaoyun.roar.domain.reminder.SetReminderComplete
 import com.gaoyun.roar.domain.repeat_config.RepeatConfigUseCase
+import com.gaoyun.roar.domain.sync.SynchronisationUseCase
 import com.gaoyun.roar.domain.user.CheckUserExistingUseCase
 import com.gaoyun.roar.domain.user.EditUserUseCase
 import com.gaoyun.roar.domain.user.GetCurrentUserUseCase
@@ -54,6 +55,7 @@ val useCaseModule = module {
     single { GetCurrentUserUseCase() }
     single { CheckUserExistingUseCase() }
     single { EditUserUseCase() }
+    single { SynchronisationUseCase() }
 
     single { GetPetUseCase() }
     single { AddPetUseCase() }

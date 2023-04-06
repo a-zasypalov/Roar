@@ -1,5 +1,6 @@
 package com.gaoyun.roar.repository
 
+import com.gaoyun.roar.domain.SynchronisationScheduler
 import com.gaoyun.roar.model.domain.Pet
 import com.gaoyun.roar.model.domain.toDomain
 import com.gaoyun.roar.model.entity.RoarDatabase
@@ -25,6 +26,7 @@ class PetRepositoryImpl : PetRepository, KoinComponent {
     private val api: PetsApi by inject()
     private val preferences: Preferences by inject()
     private val syncApi: SynchronisationApi by inject()
+    private val scheduler: SynchronisationScheduler by inject()
 
     override fun getPet(id: String): Pet? {
         return appDb.petEntityQueries.selectById(id).executeAsOneOrNull()?.toDomain()
@@ -79,9 +81,11 @@ class PetRepositoryImpl : PetRepository, KoinComponent {
             chipNumber = pet.chipNumber,
             dateCreated = pet.dateCreated.toString()
         )
+        scheduler.scheduleSynchronisation()
     }
 
     override fun deletePet(id: String) {
         appDb.petEntityQueries.deleteById(id)
+        scheduler.scheduleSynchronisation()
     }
 }

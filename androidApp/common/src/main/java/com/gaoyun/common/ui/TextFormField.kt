@@ -28,6 +28,7 @@ fun TextFormField(
     keyBoardActions: KeyboardActions = KeyboardActions(),
     isEnabled: Boolean = true,
     readOnly: Boolean = false,
+    isError: Boolean = false,
     shape: Shape = TextFieldDefaults.outlinedShape,
     keyboardCapitalization: KeyboardCapitalization = KeyboardCapitalization.Sentences
 ) {
@@ -39,6 +40,7 @@ fun TextFormField(
         leadingIcon = leadingIcon,
         trailingIcon = trailingIcon,
         textStyle = TextStyle(fontSize = 18.sp),
+        isError = isError,
         keyboardOptions = KeyboardOptions(
             imeAction = imeAction,
             keyboardType = keyboardType,
