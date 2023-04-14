@@ -1,12 +1,11 @@
 package com.gaoyun.roar.presentation
 
-import kotlinx.coroutines.MainScope
+import kotlinx.coroutines.*
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.receiveAsFlow
-import kotlinx.coroutines.launch
 
 actual abstract class BaseViewModel<Event : ViewEvent, UiState : ViewState, Effect : ViewSideEffect> {
 
@@ -22,7 +21,7 @@ actual abstract class BaseViewModel<Event : ViewEvent, UiState : ViewState, Effe
     internal actual val _effect: Channel<Effect> = Channel()
     actual val effect = _effect.receiveAsFlow()
 
-    actual val scope = MainScope()
+    actual val scope = CoroutineScope(Dispatchers.Main + SupervisorJob())
 
     init {
         subscribeToEvents()
@@ -49,6 +48,10 @@ actual abstract class BaseViewModel<Event : ViewEvent, UiState : ViewState, Effe
     protected actual fun setEffect(builder: () -> Effect) {
         val effectValue = builder()
         scope.launch { _effect.send(effectValue) }
+    }
+
+    actual fun dispose() {
+        scope.cancel()
     }
 
 }

@@ -40,4 +40,6 @@ expect abstract class BaseViewModel<Event : ViewEvent, UiState : ViewState, Effe
 
     protected fun setEffect(builder: () -> Effect)
 
+    fun dispose()
+
 }
