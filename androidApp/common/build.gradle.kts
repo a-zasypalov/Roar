@@ -24,21 +24,21 @@ android {
         compose = true
     }
     composeOptions {
-        kotlinCompilerExtensionVersion = "1.3.0"
+        kotlinCompilerExtensionVersion = "1.4.5"
     }
 }
 
 dependencies {
     api(project(":sharedLib"))
-    api("androidx.core:core-ktx:1.9.0")
-    api("androidx.appcompat:appcompat:1.5.1")
-    api("com.google.android.material:material:1.7.0")
+    api("androidx.core:core-ktx:1.10.0")
+    api("androidx.appcompat:appcompat:1.6.1")
+    api("com.google.android.material:material:1.8.0")
     api("org.jetbrains.kotlinx:kotlinx-coroutines-core-jvm:1.6.4")
 
-    api("androidx.lifecycle:lifecycle-runtime-ktx:2.5.1")
-    api("androidx.activity:activity-compose:1.6.1")
+    api("androidx.lifecycle:lifecycle-runtime-ktx:2.6.1")
+    api("androidx.activity:activity-compose:1.7.0")
 
-    val composeVersion = "1.1.1"
+    val composeVersion = "1.4.1"
     api("androidx.compose.ui:ui:$composeVersion")
     api("androidx.compose.ui:ui-tooling-preview:$composeVersion")
     api("androidx.compose.material:material-icons-extended:$composeVersion")
@@ -48,11 +48,11 @@ dependencies {
 
     api("org.jetbrains.kotlinx:kotlinx-datetime:0.4.0")
 
-    api("com.google.accompanist:accompanist-permissions:0.28.0")
-    api("com.google.accompanist:accompanist-insets:0.28.0")
-    api("com.google.accompanist:accompanist-systemuicontroller:0.28.0")
+    api("com.google.accompanist:accompanist-permissions:0.30.1")
+    api("com.google.accompanist:accompanist-insets:0.30.1")
+    api("com.google.accompanist:accompanist-systemuicontroller:0.30.1")
 
-    api("androidx.work:work-runtime-ktx:2.7.1")
+    api("androidx.work:work-runtime-ktx:2.8.1")
 
     val koinVersion = "3.1.6"
     api("io.insert-koin:koin-android:$koinVersion")
@@ -60,22 +60,22 @@ dependencies {
     api("io.insert-koin:koin-androidx-compose:$koinVersion")
     api("io.insert-koin:koin-androidx-workmanager:$koinVersion")
 
-    api("io.coil-kt:coil:2.2.2")
-    api("io.coil-kt:coil-compose:2.2.2")
+    api("io.coil-kt:coil:2.3.0")
+    api("io.coil-kt:coil-compose:2.3.0")
 
-    api("androidx.browser:browser:1.4.0")
+    api("androidx.browser:browser:1.5.0")
 
-    debugApi("androidx.compose.ui:ui-tooling:1.3.2")
-    api("androidx.compose.ui:ui-tooling-preview:1.3.2")
+    debugApi("androidx.compose.ui:ui-tooling:1.4.1")
+    api("androidx.compose.ui:ui-tooling-preview:1.4.1")
 
     api(platform("com.google.firebase:firebase-bom:31.2.3"))
     api("com.google.firebase:firebase-crashlytics-ktx")
     api("com.google.firebase:firebase-analytics-ktx")
     api("com.google.firebase:firebase-messaging-ktx")
     api("com.firebaseui:firebase-ui-auth:7.2.0")
-    api("com.google.firebase:firebase-auth-ktx:21.2.0")
+    api("com.google.firebase:firebase-auth-ktx:21.3.0")
 
     testImplementation("junit:junit:4.13.2")
-    androidTestImplementation("androidx.test.ext:junit:1.1.4")
-    androidTestImplementation("androidx.test.espresso:espresso-core:3.5.0")
+    androidTestImplementation("androidx.test.ext:junit:1.1.5")
+    androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
 }

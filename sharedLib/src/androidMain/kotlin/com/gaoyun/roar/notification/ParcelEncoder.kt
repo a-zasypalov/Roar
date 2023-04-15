@@ -12,7 +12,7 @@ import kotlinx.serialization.modules.EmptySerializersModule
 @ExperimentalSerializationApi
 internal class ParcelEncoder(private val parcel: Parcel) : AbstractEncoder() {
 
-    override val serializersModule = EmptySerializersModule
+    override val serializersModule = EmptySerializersModule()
 
     override fun beginCollection(descriptor: SerialDescriptor, collectionSize: Int): CompositeEncoder {
         return super.beginCollection(descriptor, collectionSize).also {

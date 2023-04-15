@@ -1,33 +1,28 @@
 package com.gaoyun.roar.util
 
 import io.ktor.client.*
-import io.ktor.client.engine.okhttp.*
-import io.ktor.client.features.json.*
-import io.ktor.client.features.json.serializer.*
-import io.ktor.http.*
-import okhttp3.logging.HttpLoggingInterceptor
-import java.util.concurrent.TimeUnit
+import io.ktor.client.engine.cio.*
+import io.ktor.client.plugins.contentnegotiation.*
+import io.ktor.client.plugins.logging.*
+import io.ktor.serialization.kotlinx.json.*
 
 actual object PlatformHttpClient {
     private const val TIMEOUT_SECONDS = 60L
 
-    actual fun httpClient() =
-        HttpClient(OkHttp) {
-            install(JsonFeature) {
-                val json = kotlinx.serialization.json.Json { ignoreUnknownKeys = true }
-                acceptContentTypes = acceptContentTypes + ContentType.Any
-                serializer = KotlinxSerializer(json)
-            }
-            engine {
-                val loggingInterceptor = HttpLoggingInterceptor()
-                loggingInterceptor.level = HttpLoggingInterceptor.Level.BODY
-                addInterceptor(loggingInterceptor)
-                config {
-                    callTimeout(TIMEOUT_SECONDS, TimeUnit.SECONDS)
-                    connectTimeout(TIMEOUT_SECONDS, TimeUnit.SECONDS)
-                    readTimeout(TIMEOUT_SECONDS, TimeUnit.SECONDS)
-                    writeTimeout(TIMEOUT_SECONDS, TimeUnit.SECONDS)
-                }
+    actual fun httpClient() = HttpClient(CIO) {
+        engine {
+            maxConnectionsCount = 1000
+            endpoint {
+                connectTimeout = TIMEOUT_SECONDS
+                connectAttempts = 5
             }
         }
+        install(Logging) {
+            logger = Logger.DEFAULT
+            level = LogLevel.BODY
+        }
+        install(ContentNegotiation) {
+            json()
+        }
+    }
 }

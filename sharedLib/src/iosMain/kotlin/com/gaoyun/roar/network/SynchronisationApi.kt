@@ -7,7 +7,7 @@ actual class SynchronisationApi : KoinComponent {
     actual fun sendBackup(backup: String) {
     }
 
-    actual fun retrieveBackup() {
+    actual suspend fun retrieveBackup(onFinish: ((Boolean) -> Unit)?) {
     }
 
 }

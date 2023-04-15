@@ -20,7 +20,7 @@ android {
         compose = true
     }
     composeOptions {
-        kotlinCompilerExtensionVersion = "1.3.0"
+        kotlinCompilerExtensionVersion = "1.4.5"
     }
     packagingOptions {
         resources {
@@ -48,6 +48,6 @@ dependencies {
     implementation(project(":androidApp:feature-user-screen"))
     implementation(project(":androidApp:feature-onboarding"))
 
-    implementation("androidx.activity:activity-compose:1.6.1")
+    implementation("androidx.activity:activity-compose:1.7.0")
     implementation("androidx.multidex:multidex:2.0.1")
 }

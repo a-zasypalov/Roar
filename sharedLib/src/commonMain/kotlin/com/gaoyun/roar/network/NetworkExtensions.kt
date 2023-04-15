@@ -1,7 +1,7 @@
 package com.gaoyun.roar.network
 
 import io.ktor.client.*
-import io.ktor.client.features.*
+import io.ktor.client.plugins.ResponseException
 import io.ktor.http.*
 
 internal suspend fun <T> HttpClient.requestAndCatch(

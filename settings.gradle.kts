@@ -1,18 +1,3 @@
-pluginManagement {
-    repositories {
-        google()
-        gradlePluginPortal()
-        mavenCentral()
-    }
-}
-
-dependencyResolutionManagement {
-    repositories {
-        google()
-        mavenCentral()
-    }
-}
-
 rootProject.name = "Roar"
 include(":androidApp")
 include(":sharedLib")
@@ -26,3 +11,24 @@ include(":androidApp:feature-interactions")
 include(":androidApp:feature-user-screen")
 include(":androidApp:notifications")
 include(":androidApp:feature-onboarding")
+
+pluginManagement {
+    repositories {
+        google()
+        gradlePluginPortal()
+        mavenCentral()
+        maven("https://maven.pkg.jetbrains.space/public/p/compose/dev")
+    }
+
+    plugins {
+        id("org.jetbrains.compose") version "1.4.0" apply false
+    }
+}
+
+dependencyResolutionManagement {
+    repositories {
+        google()
+        mavenCentral()
+        maven("https://maven.pkg.jetbrains.space/public/p/compose/dev")
+    }
+}
