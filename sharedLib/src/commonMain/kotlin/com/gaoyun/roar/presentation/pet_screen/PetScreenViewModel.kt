@@ -31,21 +31,29 @@ class PetScreenViewModel :
             is PetScreenContract.Event.InteractionClicked -> setEffect {
                 PetScreenContract.Effect.Navigation.ToInteractionDetails(event.interactionId)
             }
+
             is PetScreenContract.Event.AddReminderButtonClicked -> setEffect {
                 PetScreenContract.Effect.Navigation.ToInteractionTemplates(event.petId)
             }
+
             is PetScreenContract.Event.OnDeletePetClicked -> {
                 setState { copy(deletePetDialogShow = true) }
             }
+
+            is PetScreenContract.Event.OnEditPetClick -> {
+                viewState.value.pet?.let { pet -> setEffect { PetScreenContract.Effect.Navigation.ToEditPet(pet) } }
+            }
+
             is PetScreenContract.Event.OnDeletePetConfirmed -> {
                 scope.launch {
                     hideDeletePetDialog()
                     delay(250)
                     removePet.removePet(event.petId)
-                        .map { PetScreenContract.Effect.Navigation.NavigateBack }
+                        .map { PetScreenContract.Effect.NavigateBack }
                         .collect { setEffect { it } }
                 }
             }
+
             is PetScreenContract.Event.OnInteractionCheckClicked -> setReminderComplete(event.reminderId, event.completed, event.completionDateTime)
         }
     }

@@ -11,21 +11,19 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.Lifecycle
-import androidx.navigation.NavHostController
 import com.gaoyun.common.DateUtils
-import com.gaoyun.common.NavigationKeys
 import com.gaoyun.common.OnLifecycleEvent
 import com.gaoyun.common.R
-import com.gaoyun.common.dialog.InteractionCompletionDialog
 import com.gaoyun.common.composables.*
+import com.gaoyun.common.dialog.InteractionCompletionDialog
+import com.gaoyun.roar.presentation.BackNavigationEffect
 import com.gaoyun.roar.presentation.LAUNCH_LISTEN_FOR_EFFECTS
+import com.gaoyun.roar.presentation.NavigationSideEffect
 import com.gaoyun.roar.presentation.interactions.InteractionScreenContract
 import com.gaoyun.roar.presentation.interactions.InteractionScreenViewModel
 import com.gaoyun.roar.util.toLocalDate
-import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.onEach
 import kotlinx.datetime.Clock
@@ -36,9 +34,10 @@ import org.koin.androidx.compose.getViewModel
 import java.time.LocalDate
 import java.time.LocalDateTime
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun InteractionScreenDestination(
-    navHostController: NavHostController,
+    onNavigationCall: (NavigationSideEffect) -> Unit,
     interactionId: String
 ) {
     val viewModel: InteractionScreenViewModel = getViewModel()
@@ -57,30 +56,6 @@ fun InteractionScreenDestination(
         }
     }
 
-    InteractionScreen(
-        state = state,
-        effectFlow = viewModel.effect,
-        notesState = notesState,
-        onEventSent = { event -> viewModel.setEvent(event) },
-        onNavigationRequested = { navigationEffect ->
-            when (navigationEffect) {
-                is InteractionScreenContract.Effect.Navigation.NavigateBack -> navHostController.navigateUp()
-                is InteractionScreenContract.Effect.Navigation.ToEditInteraction -> navHostController.navigate("${NavigationKeys.Route.EDIT}/${NavigationKeys.Route.ADD_REMINDER}/${navigationEffect.petId}/${navigationEffect.interaction.templateId}/${navigationEffect.interaction.id}")
-            }
-        },
-    )
-
-}
-
-@Composable
-@OptIn(ExperimentalMaterial3Api::class)
-fun InteractionScreen(
-    state: InteractionScreenContract.State,
-    effectFlow: Flow<InteractionScreenContract.Effect>,
-    onEventSent: (event: InteractionScreenContract.Event) -> Unit,
-    onNavigationRequested: (navigationEffect: InteractionScreenContract.Effect.Navigation) -> Unit,
-    notesState: MutableState<String?>,
-) {
     val showRemoveInteractionDialog = remember { mutableStateOf(false) }
     val showRemoveReminderFromHistoryDialog = remember { mutableStateOf(false) }
     val reminderToRemoveId = remember { mutableStateOf<String?>(null) }
@@ -90,28 +65,30 @@ fun InteractionScreen(
     val reminderToCompleteId = remember { mutableStateOf<String?>(null) }
 
     LaunchedEffect(LAUNCH_LISTEN_FOR_EFFECTS) {
-        effectFlow.onEach { effect ->
+        viewModel.effect.onEach { effect ->
             when (effect) {
-                is InteractionScreenContract.Effect.Navigation -> onNavigationRequested(effect)
+                is InteractionScreenContract.Effect.Navigation -> onNavigationCall(effect)
+                is InteractionScreenContract.Effect.NavigateBack -> onNavigationCall(BackNavigationEffect)
                 is InteractionScreenContract.Effect.ShowRemoveReminderFromHistoryDialog -> {
                     reminderToRemoveId.value = effect.reminderId
                     showRemoveReminderFromHistoryDialog.value = true
                 }
+
                 is InteractionScreenContract.Effect.ShowRemoveInteractionDialog -> {
                     showRemoveInteractionDialog.value = true
                 }
+
                 is InteractionScreenContract.Effect.ShowCompleteReminderDialog -> {
                     completeReminderDateDialogDate.value = effect.date.toJavaLocalDateTime()
                     reminderToCompleteId.value = effect.reminderId
                     showCompleteReminderDateDialog.value = true
                 }
-                else -> {}
             }
         }.collect()
     }
 
     SurfaceScaffold(
-        backHandler = { onNavigationRequested(InteractionScreenContract.Effect.Navigation.NavigateBack) },
+        backHandler = { onNavigationCall(BackNavigationEffect) },
         floatingActionButton = {
             state.interaction?.let { interaction ->
                 if (interaction.isActive) {
@@ -120,8 +97,8 @@ fun InteractionScreen(
                         contentDescription = stringResource(id = R.string.edit),
                         text = stringResource(id = R.string.edit),
                         onClick = {
-                            onNavigationRequested(
-                                InteractionScreenContract.Effect.Navigation.ToEditInteraction(
+                            viewModel.setEvent(
+                                InteractionScreenContract.Event.OnEditClick(
                                     petId = state.pet?.id ?: "",
                                     interaction = interaction
                                 )
@@ -144,7 +121,7 @@ fun InteractionScreen(
                     TextButton(onClick = {
                         showRemoveReminderFromHistoryDialog.value = false
                         reminderToRemoveId.value?.let {
-                            onEventSent(InteractionScreenContract.Event.OnReminderRemoveFromHistoryClick(reminderId = it, confirmed = true))
+                            viewModel.setEvent(InteractionScreenContract.Event.OnReminderRemoveFromHistoryClick(reminderId = it, confirmed = true))
                         }
                         reminderToRemoveId.value = null
                     }) {
@@ -171,7 +148,7 @@ fun InteractionScreen(
                     TextButton(onClick = {
                         showRemoveInteractionDialog.value = false
                         state.interaction?.let { interaction ->
-                            onEventSent(InteractionScreenContract.Event.OnDeleteButtonClick(interactionId = interaction.id, confirmed = true))
+                            viewModel.setEvent(InteractionScreenContract.Event.OnDeleteButtonClick(interactionId = interaction.id, confirmed = true))
                         }
                     }) {
                         Text(stringResource(id = R.string.yes))
@@ -196,7 +173,7 @@ fun InteractionScreen(
                 dateTime = completeReminderDateDialogDate.value,
                 onConfirmButtonClick = {
                     showCompleteReminderDateDialog.value = false
-                    onEventSent(
+                    viewModel.setEvent(
                         InteractionScreenContract.Event.OnReminderCompleteClick(
                             reminderId = reminderToCompleteId.value ?: "",
                             isComplete = true,
@@ -206,7 +183,7 @@ fun InteractionScreen(
                 },
                 onDismissButtonClick = {
                     showCompleteReminderDateDialog.value = false
-                    onEventSent(
+                    viewModel.setEvent(
                         InteractionScreenContract.Event.OnReminderCompleteClick(
                             reminderId = reminderToCompleteId.value ?: "",
                             isComplete = true,
@@ -270,7 +247,7 @@ fun InteractionScreen(
                                                 spacerSize = 14.dp,
                                                 onCheckedChange = { isComplete ->
                                                     if (reminder.dateTime.date.toJavaLocalDate() == LocalDate.now()) {
-                                                        onEventSent(
+                                                        viewModel.setEvent(
                                                             InteractionScreenContract.Event.OnReminderCompleteClick(
                                                                 reminderId = reminder.id,
                                                                 isComplete = isComplete,
@@ -278,7 +255,7 @@ fun InteractionScreen(
                                                             )
                                                         )
                                                     } else {
-                                                        onEventSent(
+                                                        viewModel.setEvent(
                                                             InteractionScreenContract.Event.OnCompleteReminderNotTodayClick(reminder.id, reminder.dateTime)
                                                         )
                                                     }
@@ -327,7 +304,7 @@ fun InteractionScreen(
                                                 spacerSize = 14.dp,
                                                 onCheckedChange = { isComplete ->
                                                     if (index == 0) {
-                                                        onEventSent(
+                                                        viewModel.setEvent(
                                                             InteractionScreenContract.Event.OnReminderCompleteClick(
                                                                 reminderId = reminder.id,
                                                                 isComplete = isComplete,
@@ -335,7 +312,7 @@ fun InteractionScreen(
                                                             )
                                                         )
                                                     } else {
-                                                        onEventSent(
+                                                        viewModel.setEvent(
                                                             InteractionScreenContract.Event.OnReminderRemoveFromHistoryClick(reminder.id)
                                                         )
                                                     }
@@ -355,7 +332,7 @@ fun InteractionScreen(
                                 horizontalAlignment = Alignment.CenterHorizontally
                             ) {
                                 TextButton(onClick = {
-                                    onEventSent(
+                                    viewModel.setEvent(
                                         InteractionScreenContract.Event.OnActivateButtonClick(
                                             interactionId = interaction.id,
                                             activate = !interaction.isActive
@@ -372,7 +349,7 @@ fun InteractionScreen(
 
                                 Spacer(8.dp)
 
-                                TextButton(onClick = { onEventSent(InteractionScreenContract.Event.OnDeleteButtonClick(interactionId = interaction.id)) }) {
+                                TextButton(onClick = { viewModel.setEvent(InteractionScreenContract.Event.OnDeleteButtonClick(interactionId = interaction.id)) }) {
                                     Text(
                                         text = stringResource(id = R.string.delete_interaction),
                                         color = MaterialTheme.colorScheme.error,
@@ -389,10 +366,4 @@ fun InteractionScreen(
             }
         }
     }
-}
-
-@Preview
-@Composable
-fun InteractionScreenPreview() {
-
 }

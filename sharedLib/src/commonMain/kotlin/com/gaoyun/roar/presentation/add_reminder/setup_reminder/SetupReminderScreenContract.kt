@@ -3,6 +3,7 @@ package com.gaoyun.roar.presentation.add_reminder.setup_reminder
 import com.gaoyun.roar.model.domain.Pet
 import com.gaoyun.roar.model.domain.Reminder
 import com.gaoyun.roar.model.domain.interactions.*
+import com.gaoyun.roar.presentation.NavigationSideEffect
 import com.gaoyun.roar.presentation.ViewEvent
 import com.gaoyun.roar.presentation.ViewSideEffect
 import com.gaoyun.roar.presentation.ViewState
@@ -10,6 +11,7 @@ import com.gaoyun.roar.presentation.ViewState
 class SetupReminderScreenContract {
 
     sealed class Event : ViewEvent {
+
         class RepeatConfigChanged(val config: String) : Event()
         class RemindConfigChanged(val config: String) : Event()
         class OnSaveButtonClick(
@@ -38,16 +40,9 @@ class SetupReminderScreenContract {
     ) : ViewState
 
     sealed class Effect : ViewSideEffect {
-        class ReminderCreated(
-            val reminder: Reminder,
-            val interaction: Interaction
-        ) : Effect()
-
         class ReminderSaved(val reminder: Reminder) : Effect()
-
-        sealed class Navigation : Effect() {
-            class ToComplete(val petAvatar: String) : Navigation()
-            object NavigateBack : Navigation()
+        sealed class Navigation : Effect(), NavigationSideEffect {
+            class ToComplete(val petAvatar: String, val petId: String, val templateId: String) : Navigation()
         }
     }
 }

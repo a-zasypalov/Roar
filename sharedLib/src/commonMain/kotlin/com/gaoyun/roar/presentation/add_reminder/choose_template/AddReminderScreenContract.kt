@@ -1,8 +1,8 @@
 package com.gaoyun.roar.presentation.add_reminder.choose_template
 
-import com.gaoyun.roar.model.domain.Pet
 import com.gaoyun.roar.model.domain.PetWithInteractions
 import com.gaoyun.roar.model.domain.interactions.InteractionTemplate
+import com.gaoyun.roar.presentation.NavigationSideEffect
 import com.gaoyun.roar.presentation.ViewEvent
 import com.gaoyun.roar.presentation.ViewSideEffect
 import com.gaoyun.roar.presentation.ViewState
@@ -20,9 +20,8 @@ class AddReminderScreenContract {
     ) : ViewState
 
     sealed class Effect : ViewSideEffect {
-        sealed class Navigation : Effect() {
+        sealed class Navigation : Effect(), NavigationSideEffect {
             class ToReminderSetup(val petId: String, val templateId: String) : Navigation()
-            object NavigateBack : Navigation()
         }
     }
 }

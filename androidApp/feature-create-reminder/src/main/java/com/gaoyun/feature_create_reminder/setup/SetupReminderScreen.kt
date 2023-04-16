@@ -13,25 +13,25 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.Lifecycle
-import androidx.navigation.NavHostController
-import com.gaoyun.common.NavigationKeys.Route.ADD_REMINDER
 import com.gaoyun.common.OnLifecycleEvent
 import com.gaoyun.common.composables.*
 import com.gaoyun.common.ext.getDrawableByName
 import com.gaoyun.roar.model.domain.interactions.*
+import com.gaoyun.roar.presentation.BackNavigationEffect
 import com.gaoyun.roar.presentation.LAUNCH_LISTEN_FOR_EFFECTS
+import com.gaoyun.roar.presentation.NavigationSideEffect
 import com.gaoyun.roar.presentation.add_reminder.setup_reminder.SetupReminderScreenContract
 import com.gaoyun.roar.presentation.add_reminder.setup_reminder.SetupReminderScreenViewModel
-import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.onEach
 import kotlinx.datetime.*
 import org.koin.androidx.compose.getViewModel
 import com.gaoyun.common.R as CommonR
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SetupReminderDestination(
-    navHostController: NavHostController,
+    onNavigationCall: (NavigationSideEffect) -> Unit,
     petId: String,
     templateId: String,
     interactionId: String? = null
@@ -45,44 +45,19 @@ fun SetupReminderDestination(
         }
     }
 
-    SetupReminderScreen(
-        state = state,
-        effectFlow = viewModel.effect,
-        onEventSent = { event -> viewModel.setEvent(event) },
-        onNavigationRequested = { navigationEffect ->
-            when (navigationEffect) {
-                is SetupReminderScreenContract.Effect.Navigation.ToComplete -> navHostController.navigate(
-                    "$ADD_REMINDER/$petId/$templateId/${navigationEffect.petAvatar}"
-                )
-
-                is SetupReminderScreenContract.Effect.Navigation.NavigateBack -> navHostController.navigateUp()
-            }
-        }
-    )
-}
-
-@Composable
-@OptIn(ExperimentalMaterial3Api::class)
-fun SetupReminderScreen(
-    state: SetupReminderScreenContract.State,
-    effectFlow: Flow<SetupReminderScreenContract.Effect>,
-    onEventSent: (event: SetupReminderScreenContract.Event) -> Unit,
-    onNavigationRequested: (navigationEffect: SetupReminderScreenContract.Effect.Navigation) -> Unit,
-) {
     val avatar = remember { mutableStateOf("ic_cat") }
 
     LaunchedEffect(LAUNCH_LISTEN_FOR_EFFECTS) {
-        effectFlow.onEach { effect ->
+        viewModel.effect.onEach { effect ->
             when (effect) {
-                is SetupReminderScreenContract.Effect.ReminderCreated -> onNavigationRequested(SetupReminderScreenContract.Effect.Navigation.ToComplete(avatar.value))
-                is SetupReminderScreenContract.Effect.ReminderSaved -> onNavigationRequested(SetupReminderScreenContract.Effect.Navigation.NavigateBack)
-                else -> {}
+                is SetupReminderScreenContract.Effect.Navigation -> onNavigationCall(effect)
+                is SetupReminderScreenContract.Effect.ReminderSaved -> onNavigationCall(BackNavigationEffect)
             }
         }.collect()
     }
 
     SurfaceScaffold(
-        backHandler = { onNavigationRequested(SetupReminderScreenContract.Effect.Navigation.NavigateBack) },
+        backHandler = { onNavigationCall(BackNavigationEffect) },
     ) {
         BoxWithLoader(isLoading = state.isLoading) {
             state.pet?.let { pet ->
@@ -108,13 +83,13 @@ fun SetupReminderScreen(
                             repeatConfig = state.repeatConfig,
                             remindConfig = state.remindConfig,
                             onRepeatConfigSave = { config ->
-                                onEventSent(SetupReminderScreenContract.Event.RepeatConfigChanged(config))
+                                viewModel.setEvent(SetupReminderScreenContract.Event.RepeatConfigChanged(config))
                             },
                             onRemindConfigSave = { config ->
-                                onEventSent(SetupReminderScreenContract.Event.RemindConfigChanged(config))
+                                viewModel.setEvent(SetupReminderScreenContract.Event.RemindConfigChanged(config))
                             },
                             onSaveButtonClick = { name, type, group, repeatIsEnabled, repeatConfig, notes, date, timeHours, timeMinutes, remindConfig ->
-                                onEventSent(
+                                viewModel.setEvent(
                                     SetupReminderScreenContract.Event.OnSaveButtonClick(
                                         name = name,
                                         type = type,

@@ -2,6 +2,7 @@ package com.gaoyun.roar.presentation.home_screen
 
 import com.gaoyun.roar.model.domain.PetWithInteractions
 import com.gaoyun.roar.model.domain.User
+import com.gaoyun.roar.presentation.NavigationSideEffect
 import com.gaoyun.roar.presentation.ViewEvent
 import com.gaoyun.roar.presentation.ViewSideEffect
 import com.gaoyun.roar.presentation.ViewState
@@ -17,6 +18,8 @@ class HomeScreenContract {
         class OnDeletePetClicked(val pet: PetWithInteractions) : Event()
         class OnDeletePetConfirmed(val pet: PetWithInteractions) : Event()
         class OnInteractionCheckClicked(val pet: PetWithInteractions, val reminderId: String, val completed: Boolean, val completionDateTime: LocalDateTime) : Event()
+        object ToUserScreenClicked : Event()
+        class ToEditPetClicked(val pet: PetWithInteractions) : Event()
     }
 
     data class State(
@@ -30,8 +33,8 @@ class HomeScreenContract {
     ) : ViewState
 
     sealed class Effect : ViewSideEffect {
-        sealed class Navigation : Effect() {
-            object NavigateBack : Navigation()
+        object NavigateBack : Navigation()
+        sealed class Navigation : Effect(), NavigationSideEffect {
             object ToUserRegistration : Navigation()
             object ToAddPet : Navigation()
             class ToAddReminder(val petId: String) : Navigation()

@@ -9,7 +9,14 @@ import com.gaoyun.roar.domain.reminder.InsertReminder
 import com.gaoyun.roar.model.domain.NotificationData
 import com.gaoyun.roar.model.domain.NotificationItem
 import com.gaoyun.roar.model.domain.Pet
-import com.gaoyun.roar.model.domain.interactions.*
+import com.gaoyun.roar.model.domain.interactions.InteractionGroup
+import com.gaoyun.roar.model.domain.interactions.InteractionRemindConfig
+import com.gaoyun.roar.model.domain.interactions.InteractionRepeatConfig
+import com.gaoyun.roar.model.domain.interactions.InteractionType
+import com.gaoyun.roar.model.domain.interactions.InteractionWithReminders
+import com.gaoyun.roar.model.domain.interactions.toInteractionRemindConfig
+import com.gaoyun.roar.model.domain.interactions.toInteractionRepeatConfig
+import com.gaoyun.roar.model.domain.interactions.withoutReminders
 import com.gaoyun.roar.presentation.BaseViewModel
 import com.gaoyun.roar.util.randomUUID
 import com.gaoyun.roar.util.toLocalDate
@@ -39,9 +46,11 @@ class SetupReminderScreenViewModel :
             is SetupReminderScreenContract.Event.RepeatConfigChanged -> with(event) {
                 setState { copy(repeatConfig = config.toInteractionRepeatConfig()) }
             }
+
             is SetupReminderScreenContract.Event.RemindConfigChanged -> with(event) {
                 setState { copy(remindConfig = config.toInteractionRemindConfig()) }
             }
+
             is SetupReminderScreenContract.Event.OnSaveButtonClick -> with(event) {
                 createOrUpdateInteraction(
                     templateId = templateId,
@@ -127,8 +136,8 @@ class SetupReminderScreenViewModel :
             )
             notificationScheduler.scheduleNotification(notificationData)
 
-            insertReminder.insertReminder(reminderToInsert).collect { reminder ->
-                setEffect { SetupReminderScreenContract.Effect.ReminderSaved(reminder) }
+            insertReminder.insertReminder(reminderToInsert).collect {
+                setEffect { SetupReminderScreenContract.Effect.ReminderSaved(it) }
             }
         } else {
             val interaction = insertInteraction.insertInteraction(
@@ -143,7 +152,13 @@ class SetupReminderScreenViewModel :
             ).firstOrNull() ?: return@launch
 
             insertReminder.createReminder(interaction.id, dateTime, remindConfig).collect { reminder ->
-                setEffect { SetupReminderScreenContract.Effect.ReminderCreated(reminder, interaction) }
+                setEffect {
+                    SetupReminderScreenContract.Effect.Navigation.ToComplete(
+                        petAvatar = viewState.value.pet?.avatar.toString(),
+                        petId = viewState.value.pet?.id.toString(),
+                        templateId = viewState.value.template?.id.toString()
+                    )
+                }
             }
         }
     }

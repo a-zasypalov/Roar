@@ -31,6 +31,13 @@ class InteractionScreenViewModel :
 
     override fun handleEvents(event: InteractionScreenContract.Event) {
         when (event) {
+            is InteractionScreenContract.Event.OnEditClick -> setEffect {
+                InteractionScreenContract.Effect.Navigation.ToEditInteraction(
+                    petId = event.petId,
+                    interaction = event.interaction
+                )
+            }
+
             is InteractionScreenContract.Event.OnSaveNotes -> saveNoteState(event.notes)
             is InteractionScreenContract.Event.OnReminderCompleteClick -> setReminderComplete(event.reminderId, event.isComplete, event.completionDateTime)
             is InteractionScreenContract.Event.OnReminderRemoveFromHistoryClick -> {
@@ -40,9 +47,11 @@ class InteractionScreenViewModel :
                     setEffect { InteractionScreenContract.Effect.ShowRemoveReminderFromHistoryDialog(event.reminderId) }
                 }
             }
+
             is InteractionScreenContract.Event.OnCompleteReminderNotTodayClick -> {
                 setEffect { InteractionScreenContract.Effect.ShowCompleteReminderDialog(event.reminderId, event.date) }
             }
+
             is InteractionScreenContract.Event.OnActivateButtonClick -> setInteractionIsActive(event.interactionId, event.activate)
             is InteractionScreenContract.Event.OnDeleteButtonClick -> {
                 if (event.confirmed) {
@@ -90,7 +99,7 @@ class InteractionScreenViewModel :
     private fun removeInteraction(interactionId: String) = scope.launch {
         removeInteraction.removeInteraction(interactionId).collect {
             setState { copy(interaction = null) }
-            setEffect { InteractionScreenContract.Effect.Navigation.NavigateBack }
+            setEffect { InteractionScreenContract.Effect.NavigateBack }
         }
     }
 }

@@ -162,9 +162,7 @@ class MainActivity : AppCompatActivity() {
                 OnboardingRootScreen(navHostController = navController)
             }
             composable(NavigationKeys.Route.HOME_ROUTE) {
-                HomeScreenDestination(
-                    navHostController = navController
-                )
+                HomeScreenDestination(onNavigationCall = viewModel::navigate)
             }
 
             composable(NavigationKeys.Route.REGISTER_USER_ROUTE) {
@@ -243,14 +241,17 @@ class MainActivity : AppCompatActivity() {
                 route = NavigationKeys.Route.PET_DETAIL_ROUTE,
                 arguments = listOf(navArgument(NavigationKeys.Arg.PET_ID_KEY) { type = NavType.StringType })
             ) {
-                PetScreenDestination(navController, petId = it.arguments?.getString(NavigationKeys.Arg.PET_ID_KEY) ?: "")
+                PetScreenDestination(viewModel::navigate, petId = it.arguments?.getString(NavigationKeys.Arg.PET_ID_KEY) ?: "")
             }
 
             composable(
                 route = NavigationKeys.Route.ADD_REMINDER_ROUTE,
                 arguments = listOf(navArgument(NavigationKeys.Arg.PET_ID_KEY) { type = NavType.StringType })
             ) {
-                AddReminderDestination(navController, petId = it.arguments?.getString(NavigationKeys.Arg.PET_ID_KEY) ?: "")
+                AddReminderDestination(
+                    onNavigationCall = viewModel::navigate,
+                    petId = it.arguments?.getString(NavigationKeys.Arg.PET_ID_KEY) ?: ""
+                )
             }
 
             composable(
@@ -261,7 +262,7 @@ class MainActivity : AppCompatActivity() {
                 )
             ) {
                 SetupReminderDestination(
-                    navController,
+                    onNavigationCall = viewModel::navigate,
                     petId = it.arguments?.getString(NavigationKeys.Arg.PET_ID_KEY) ?: "",
                     templateId = it.arguments?.getString(NavigationKeys.Arg.TEMPLATE_ID_KEY) ?: "custom"
                 )
@@ -276,7 +277,7 @@ class MainActivity : AppCompatActivity() {
                 )
             ) {
                 SetupReminderDestination(
-                    navController,
+                    onNavigationCall = viewModel::navigate,
                     petId = it.arguments?.getString(NavigationKeys.Arg.PET_ID_KEY) ?: "",
                     templateId = it.arguments?.getString(NavigationKeys.Arg.TEMPLATE_ID_KEY) ?: "custom",
                     interactionId = it.arguments?.getString(NavigationKeys.Arg.INTERACTION_ID_KEY)
@@ -292,7 +293,7 @@ class MainActivity : AppCompatActivity() {
                 )
             ) {
                 AddReminderCompleteDestination(
-                    navController,
+                    onNavigationCall = viewModel::navigate,
                     petAvatar = it.arguments?.getString(NavigationKeys.Arg.AVATAR_KEY) ?: "",
                 )
             }
@@ -304,7 +305,7 @@ class MainActivity : AppCompatActivity() {
                 )
             ) {
                 InteractionScreenDestination(
-                    navController,
+                    onNavigationCall = viewModel::navigate,
                     interactionId = it.arguments?.getString(NavigationKeys.Arg.INTERACTION_ID_KEY) ?: "",
                 )
             }

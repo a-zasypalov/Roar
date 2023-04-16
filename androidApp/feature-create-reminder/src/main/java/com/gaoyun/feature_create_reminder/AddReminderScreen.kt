@@ -19,8 +19,6 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.Lifecycle
-import androidx.navigation.NavHostController
-import com.gaoyun.common.NavigationKeys
 import com.gaoyun.common.OnLifecycleEvent
 import com.gaoyun.common.R
 import com.gaoyun.common.composables.*
@@ -30,17 +28,19 @@ import com.gaoyun.common.ext.repeatConfigTextShort
 import com.gaoyun.common.ext.toLocalizedStringId
 import com.gaoyun.common.icon
 import com.gaoyun.roar.model.domain.interactions.InteractionTemplate
+import com.gaoyun.roar.presentation.BackNavigationEffect
 import com.gaoyun.roar.presentation.LAUNCH_LISTEN_FOR_EFFECTS
+import com.gaoyun.roar.presentation.NavigationSideEffect
 import com.gaoyun.roar.presentation.add_reminder.choose_template.AddReminderScreenContract
 import com.gaoyun.roar.presentation.add_reminder.choose_template.AddReminderScreenViewModel
-import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.onEach
 import org.koin.androidx.compose.getViewModel
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AddReminderDestination(
-    navHostController: NavHostController,
+    onNavigationCall: (NavigationSideEffect) -> Unit,
     petId: String
 ) {
     val viewModel: AddReminderScreenViewModel = getViewModel()
@@ -52,43 +52,16 @@ fun AddReminderDestination(
         }
     }
 
-    AddReminderScreen(
-        state = state,
-        effectFlow = viewModel.effect,
-        onEventSent = { event -> viewModel.setEvent(event) },
-        onNavigationRequested = { navigationEffect ->
-            when (navigationEffect) {
-                is AddReminderScreenContract.Effect.Navigation.ToReminderSetup -> {
-                    navHostController.navigate("${NavigationKeys.Route.ADD_REMINDER}/${navigationEffect.petId}/${navigationEffect.templateId}")
-                }
-
-                is AddReminderScreenContract.Effect.Navigation.NavigateBack -> navHostController.navigateUp()
-            }
-        },
-    )
-
-}
-
-@Composable
-@OptIn(ExperimentalMaterial3Api::class)
-fun AddReminderScreen(
-    state: AddReminderScreenContract.State,
-    effectFlow: Flow<AddReminderScreenContract.Effect>,
-    onEventSent: (event: AddReminderScreenContract.Event) -> Unit,
-    onNavigationRequested: (navigationEffect: AddReminderScreenContract.Effect.Navigation) -> Unit,
-) {
-
     LaunchedEffect(LAUNCH_LISTEN_FOR_EFFECTS) {
-        effectFlow.onEach { effect ->
+        viewModel.effect.onEach { effect ->
             when (effect) {
-                is AddReminderScreenContract.Effect.Navigation -> onNavigationRequested(effect)
-                else -> {}
+                is AddReminderScreenContract.Effect.Navigation -> onNavigationCall(effect)
             }
         }.collect()
     }
 
     SurfaceScaffold(
-        backHandler = { onNavigationRequested(AddReminderScreenContract.Effect.Navigation.NavigateBack) },
+        backHandler = { onNavigationCall(BackNavigationEffect) },
     ) {
         BoxWithLoader(isLoading = state.isLoading) {
             LazyColumn {
@@ -129,7 +102,7 @@ fun AddReminderScreen(
                                 template = template,
                                 isUsed = pet.interactions.values.flatten().any { it.isActive && it.templateId == template.id },
                                 onClick = { templateId ->
-                                    onEventSent(AddReminderScreenContract.Event.TemplateChosen(templateId = templateId, petId = pet.id))
+                                    viewModel.setEvent(AddReminderScreenContract.Event.TemplateChosen(templateId = templateId, petId = pet.id))
                                 }
                             )
                         }
@@ -153,7 +126,7 @@ fun AddReminderScreen(
                             Column(
                                 modifier = Modifier
                                     .fillMaxWidth()
-                                    .clickable { onEventSent(AddReminderScreenContract.Event.TemplateChosen(templateId = "null", petId = pet.id)) }
+                                    .clickable { viewModel.setEvent(AddReminderScreenContract.Event.TemplateChosen(templateId = "null", petId = pet.id)) }
                                     .padding(horizontal = 14.dp, vertical = 8.dp),
                             ) {
                                 Row(verticalAlignment = Alignment.CenterVertically) {

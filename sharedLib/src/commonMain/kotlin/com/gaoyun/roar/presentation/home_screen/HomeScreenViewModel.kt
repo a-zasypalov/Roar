@@ -44,6 +44,8 @@ class HomeScreenViewModel :
 
     override fun handleEvents(event: HomeScreenContract.Event) {
         when (event) {
+            is HomeScreenContract.Event.ToUserScreenClicked -> setEffect { HomeScreenContract.Effect.Navigation.ToUserScreen }
+            is HomeScreenContract.Event.ToEditPetClicked -> setEffect { HomeScreenContract.Effect.Navigation.ToEditPet(event.pet) }
             is HomeScreenContract.Event.LoginUser -> loginUser(event.id)
             is HomeScreenContract.Event.SetPetChooserShow -> setDialogShow(event.show)
             is HomeScreenContract.Event.PetChosenForReminderCreation -> {
