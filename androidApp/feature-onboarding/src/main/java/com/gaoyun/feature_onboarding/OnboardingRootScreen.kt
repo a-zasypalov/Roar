@@ -14,7 +14,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
-import com.gaoyun.common.NavigationKeys
+import com.gaoyun.common.navigation.NavigationKeys
 import com.gaoyun.common.R
 import com.gaoyun.common.theme.RoarTheme
 import com.gaoyun.common.composables.PrimaryElevatedButton

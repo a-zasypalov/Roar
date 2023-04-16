@@ -2,8 +2,8 @@ package com.gaoyun.roar.android
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.gaoyun.common.AppNavigator
-import com.gaoyun.common.NavigationAction
+import com.gaoyun.common.navigation.AppNavigator
+import com.gaoyun.common.navigation.NavigationAction
 import com.gaoyun.roar.presentation.BackNavigationEffect
 import com.gaoyun.roar.presentation.NavigationSideEffect
 import kotlinx.coroutines.cancel

@@ -21,8 +21,8 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
-import com.gaoyun.common.NavigationAction
-import com.gaoyun.common.NavigationKeys
+import com.gaoyun.common.navigation.NavigationAction
+import com.gaoyun.common.navigation.NavigationKeys
 import com.gaoyun.common.theme.RoarTheme
 import com.gaoyun.feature_add_pet.AddPetAvatarDestination
 import com.gaoyun.feature_add_pet.AddPetPetTypeDestination
