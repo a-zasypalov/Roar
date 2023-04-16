@@ -12,6 +12,7 @@ import androidx.activity.compose.setContent
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.core.content.ContextCompat
 import androidx.core.view.WindowCompat
 import androidx.lifecycle.lifecycleScope
@@ -36,12 +37,18 @@ import com.gaoyun.feature_pet_screen.PetScreenDestination
 import com.gaoyun.feature_user_registration.UserRegistrationDestination
 import com.gaoyun.feature_user_screen.EditUserScreenDestination
 import com.gaoyun.feature_user_screen.UserScreenDestination
+import com.gaoyun.roar.presentation.LAUNCH_LISTEN_FOR_EFFECTS
 import com.gaoyun.roar.util.PreferencesKeys
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
+import org.koin.android.ext.android.inject
 
 class MainActivity : AppCompatActivity() {
+
+    private val viewModel: MainViewModel by inject()
 
     private val isOnboardingComplete by lazy {
         this.getSharedPreferences("app_prefs", MODE_PRIVATE)
@@ -136,6 +143,15 @@ class MainActivity : AppCompatActivity() {
     fun GlobalDestinationState(isOnboardingComplete: Boolean) {
         val navController = rememberNavController()
 
+        LaunchedEffect(LAUNCH_LISTEN_FOR_EFFECTS) {
+            viewModel.navigationEffect.onEach { destination ->
+                when (destination) {
+                    NavigationKeys.Route.BACK -> navController.navigateUp()
+                    else -> navController.navigate(destination)
+                }
+            }.collect()
+        }
+
         NavHost(
             navController = navController,
             startDestination = if (isOnboardingComplete) NavigationKeys.Route.HOME_ROUTE else NavigationKeys.Route.ONBOARDING_ROUTE,
@@ -162,8 +178,8 @@ class MainActivity : AppCompatActivity() {
                 arguments = listOf(navArgument(NavigationKeys.Arg.PET_TYPE_KEY) { type = NavType.StringType })
             ) {
                 AddPetAvatarDestination(
-                    navHostController = navController,
-                    petType = it.arguments?.getString(NavigationKeys.Arg.PET_TYPE_KEY) ?: ""
+                    petType = it.arguments?.getString(NavigationKeys.Arg.PET_TYPE_KEY) ?: "",
+                    onNavigationCall = viewModel::navigate
                 )
             }
 
@@ -175,9 +191,9 @@ class MainActivity : AppCompatActivity() {
                 )
             ) {
                 AddPetAvatarDestination(
-                    navHostController = navController,
                     petType = it.arguments?.getString(NavigationKeys.Arg.PET_TYPE_KEY) ?: "",
-                    petId = it.arguments?.getString(NavigationKeys.Arg.PET_ID_KEY)
+                    petId = it.arguments?.getString(NavigationKeys.Arg.PET_ID_KEY),
+                    onNavigationCall = viewModel::navigate
                 )
             }
 

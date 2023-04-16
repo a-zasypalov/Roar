@@ -1,5 +1,8 @@
 package com.gaoyun.common
 
+import com.gaoyun.roar.presentation.NavigationSideEffect
+import com.gaoyun.roar.presentation.add_pet.avatar.AddPetAvatarScreenContract
+
 object NavigationKeys {
 
     object Arg {
@@ -11,6 +14,8 @@ object NavigationKeys {
     }
 
     object Route {
+        const val BACK = "BACK"
+
         const val EDIT = "EDIT"
         const val AVATAR = "AVATAR"
         const val ADD_PET_SETUP = "ADD_PET_SETUP"
@@ -42,4 +47,13 @@ object NavigationKeys {
         const val INTERACTION_DETAIL_ROUTE = "$INTERACTION_DETAIL/{${Arg.INTERACTION_ID_KEY}}"
     }
 
+}
+
+object AppNavigator {
+    fun navigate(call: NavigationSideEffect) = when (call) {
+        is AddPetAvatarScreenContract.Effect.Navigation.ToPetData -> toPetData(call)
+        else -> null
+    }
+
+    private fun toPetData(call: AddPetAvatarScreenContract.Effect.Navigation.ToPetData) = "${NavigationKeys.Route.ADD_PET_ROUTE}/${call.petType}/${call.avatar}"
 }

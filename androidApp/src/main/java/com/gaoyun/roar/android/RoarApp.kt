@@ -3,7 +3,12 @@ package com.gaoyun.roar.android
 import androidx.core.app.NotificationManagerCompat
 import androidx.multidex.MultiDexApplication
 import androidx.work.WorkManager
-import com.gaoyun.notifications.*
+import com.gaoyun.notifications.NotificationChannelProvider
+import com.gaoyun.notifications.NotificationDisplayer
+import com.gaoyun.notifications.NotificationHandler
+import com.gaoyun.notifications.NotificationIntentProvider
+import com.gaoyun.notifications.NotificationSchedulerImpl
+import com.gaoyun.notifications.NotificationWorker
 import com.gaoyun.notifications.sync.SynchronisationSchedulerImpl
 import com.gaoyun.notifications.sync.SynchronisationWorker
 import com.gaoyun.roar.android.notifications.FcmService
@@ -55,6 +60,7 @@ class RoarApp : MultiDexApplication(), KoinComponent {
 }
 
 val appModule = module {
+    viewModel { MainViewModel() }
     viewModel { OnboardingViewModel() }
     viewModel { HomeScreenViewModel() }
     viewModel { RegisterUserViewModel() }

@@ -22,7 +22,7 @@ class AddPetAvatarScreenViewModel :
                 if (petId != null) {
                     savePetAvatar(petId, event.avatar)
                 } else {
-                    setEffect { AddPetAvatarScreenContract.Effect.Navigation.ToPetData(event.avatar) }
+                    setEffect { AddPetAvatarScreenContract.Effect.Navigation.ToPetData(avatar = event.avatar, petType = event.petType) }
                 }
             }
         }
@@ -34,7 +34,7 @@ class AddPetAvatarScreenViewModel :
 
     private fun savePetAvatar(petId: String, avatar: String) = scope.launch {
         setAvatar.setAvatar(petId, avatar).collect {
-            setEffect { AddPetAvatarScreenContract.Effect.Navigation.NavigateBack }
+            setEffect { AddPetAvatarScreenContract.Effect.NavigateBack }
         }
     }
 }

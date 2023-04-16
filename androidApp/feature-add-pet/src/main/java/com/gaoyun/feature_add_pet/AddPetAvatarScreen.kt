@@ -21,14 +21,14 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.Lifecycle
-import androidx.navigation.NavHostController
-import com.gaoyun.common.NavigationKeys
 import com.gaoyun.common.OnLifecycleEvent
 import com.gaoyun.common.composables.SurfaceScaffold
 import com.gaoyun.common.ext.getDrawableByName
 import com.gaoyun.common.theme.RoarTheme
 import com.gaoyun.roar.config.PetsConfig
+import com.gaoyun.roar.presentation.BackNavigationEffect
 import com.gaoyun.roar.presentation.LAUNCH_LISTEN_FOR_EFFECTS
+import com.gaoyun.roar.presentation.NavigationSideEffect
 import com.gaoyun.roar.presentation.add_pet.avatar.AddPetAvatarScreenContract
 import com.gaoyun.roar.presentation.add_pet.avatar.AddPetAvatarScreenViewModel
 import kotlinx.coroutines.flow.collect
@@ -38,7 +38,11 @@ import com.gaoyun.common.R as CommonR
 
 @Composable
 @OptIn(ExperimentalMaterial3Api::class)
-fun AddPetAvatarDestination(navHostController: NavHostController, petType: String, petId: String? = null) {
+fun AddPetAvatarDestination(
+    onNavigationCall: (NavigationSideEffect) -> Unit,
+    petType: String,
+    petId: String? = null
+) {
     val viewModel: AddPetAvatarScreenViewModel = getViewModel()
 
     OnLifecycleEvent { _, event ->
@@ -50,17 +54,15 @@ fun AddPetAvatarDestination(navHostController: NavHostController, petType: Strin
     LaunchedEffect(LAUNCH_LISTEN_FOR_EFFECTS) {
         viewModel.effect.onEach { effect ->
             when (effect) {
-                is AddPetAvatarScreenContract.Effect.Navigation.ToPetData ->
-                    navHostController.navigate("${NavigationKeys.Route.ADD_PET_ROUTE}/$petType/${effect.avatar}")
-
-                is AddPetAvatarScreenContract.Effect.Navigation.NavigateBack -> navHostController.navigateUp()
+                is AddPetAvatarScreenContract.Effect.NavigateBack -> onNavigationCall(BackNavigationEffect)
+                is AddPetAvatarScreenContract.Effect.Navigation -> onNavigationCall(effect)
             }
         }.collect()
     }
 
 
     SurfaceScaffold(
-        backHandler = { navHostController.navigateUp() }
+        backHandler = { onNavigationCall(BackNavigationEffect) }
     ) {
         PetAvatarScreen(
             avatars = viewModel.viewState.collectAsState().value.avatars,
@@ -120,7 +122,7 @@ private fun LazyGridItemScope.AvatarItem(
             contentAlignment = Alignment.Center,
             modifier = Modifier
                 .fillMaxSize()
-                .clickable { onAvatarChosen(AddPetAvatarScreenContract.Event.AvatarChosen(avatar.iconRes)) }
+                .clickable { onAvatarChosen(AddPetAvatarScreenContract.Event.AvatarChosen(avatar.iconRes, petType)) }
         ) {
             Image(
                 painter = painterResource(id = context.getDrawableByName(avatar.iconRes)),

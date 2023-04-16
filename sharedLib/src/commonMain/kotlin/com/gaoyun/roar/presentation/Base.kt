@@ -12,6 +12,8 @@ interface ViewState
 interface ViewEvent
 
 interface ViewSideEffect
+interface NavigationSideEffect: ViewSideEffect
+object BackNavigationEffect: NavigationSideEffect
 
 const val LAUNCH_LISTEN_FOR_EFFECTS = "launch-listen-to-effects"
 
