@@ -25,8 +25,8 @@ import androidx.navigation.NavHostController
 import com.gaoyun.common.NavigationKeys
 import com.gaoyun.common.OnLifecycleEvent
 import com.gaoyun.common.theme.RoarTheme
-import com.gaoyun.common.ui.SurfaceScaffold
-import com.gaoyun.common.ui.getDrawableByName
+import com.gaoyun.common.composables.SurfaceScaffold
+import com.gaoyun.common.ext.getDrawableByName
 import com.gaoyun.roar.config.PetsConfig
 import com.gaoyun.roar.presentation.LAUNCH_LISTEN_FOR_EFFECTS
 import com.gaoyun.roar.presentation.add_pet.avatar.AddPetAvatarScreenContract

@@ -20,7 +20,7 @@ import com.gaoyun.common.ext.remindConfigTextFull
 import com.gaoyun.common.ext.repeatConfigTextFull
 import com.gaoyun.common.ext.toLocalizedStringId
 import com.gaoyun.common.icon
-import com.gaoyun.common.ui.*
+import com.gaoyun.common.composables.*
 import com.gaoyun.roar.model.domain.Pet
 import com.gaoyun.roar.model.domain.interactions.InteractionGroup
 import com.gaoyun.roar.model.domain.interactions.InteractionWithReminders

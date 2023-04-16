@@ -26,9 +26,9 @@ import com.firebase.ui.auth.FirebaseAuthUIActivityResultContract
 import com.gaoyun.common.NavigationKeys.Route.HOME_ROUTE
 import com.gaoyun.common.R
 import com.gaoyun.common.theme.RoarTheme
-import com.gaoyun.common.ui.PrimaryElevatedButton
-import com.gaoyun.common.ui.SurfaceScaffold
-import com.gaoyun.common.ui.TextFormField
+import com.gaoyun.common.composables.PrimaryElevatedButton
+import com.gaoyun.common.composables.SurfaceScaffold
+import com.gaoyun.common.composables.TextFormField
 import com.gaoyun.roar.presentation.LAUNCH_LISTEN_FOR_EFFECTS
 import com.gaoyun.roar.presentation.user_register.RegisterUserScreenContract
 import com.gaoyun.roar.presentation.user_register.RegisterUserViewModel

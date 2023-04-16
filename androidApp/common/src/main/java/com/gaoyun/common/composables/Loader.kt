@@ -1,4 +1,4 @@
-package com.gaoyun.common.ui
+package com.gaoyun.common.composables
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.EnterTransition

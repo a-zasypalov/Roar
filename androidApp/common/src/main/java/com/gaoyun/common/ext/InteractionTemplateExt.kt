@@ -1,7 +1,6 @@
 package com.gaoyun.common.ext
 
 import android.content.Context
-import com.gaoyun.common.ui.getStringByName
 import com.gaoyun.roar.model.domain.interactions.InteractionTemplate
 
 fun InteractionTemplate.getName(context: Context): String? {

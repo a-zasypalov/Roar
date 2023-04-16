@@ -17,11 +17,11 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.gaoyun.common.R
+import com.gaoyun.common.composables.AutoResizeText
+import com.gaoyun.common.composables.FontSizeRange
+import com.gaoyun.common.composables.Spacer
 import com.gaoyun.common.ext.ageText
-import com.gaoyun.common.ui.AutoResizeText
-import com.gaoyun.common.ui.FontSizeRange
-import com.gaoyun.common.ui.Spacer
-import com.gaoyun.common.ui.getDrawableByName
+import com.gaoyun.common.ext.getDrawableByName
 import com.gaoyun.roar.model.domain.Gender
 import com.gaoyun.roar.model.domain.Pet
 

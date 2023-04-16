@@ -21,10 +21,10 @@ import com.gaoyun.common.NavigationKeys
 import com.gaoyun.common.OnLifecycleEvent
 import com.gaoyun.common.R
 import com.gaoyun.common.dialog.InteractionCompletionDialog
-import com.gaoyun.common.ui.BoxWithLoader
-import com.gaoyun.common.ui.RoarExtendedFloatingActionButton
-import com.gaoyun.common.ui.Spacer
-import com.gaoyun.common.ui.SurfaceScaffold
+import com.gaoyun.common.composables.BoxWithLoader
+import com.gaoyun.common.composables.RoarExtendedFAB
+import com.gaoyun.common.composables.Spacer
+import com.gaoyun.common.composables.SurfaceScaffold
 import com.gaoyun.feature_home_screen.states.HomeState
 import com.gaoyun.feature_home_screen.states.NoPetsState
 import com.gaoyun.feature_home_screen.states.NoUserState
@@ -104,7 +104,7 @@ fun HomeScreen(
     SurfaceScaffold(
         floatingActionButton = {
             if (state.pets.isNotEmpty()) {
-                RoarExtendedFloatingActionButton(
+                RoarExtendedFAB(
                     icon = Icons.Filled.Add,
                     contentDescription = stringResource(id = R.string.add_reminder),
                     text = stringResource(id = R.string.reminder),

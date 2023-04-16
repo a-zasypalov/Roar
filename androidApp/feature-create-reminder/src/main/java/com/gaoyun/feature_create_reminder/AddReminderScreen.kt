@@ -23,11 +23,12 @@ import androidx.navigation.NavHostController
 import com.gaoyun.common.NavigationKeys
 import com.gaoyun.common.OnLifecycleEvent
 import com.gaoyun.common.R
+import com.gaoyun.common.composables.*
+import com.gaoyun.common.ext.getDrawableByName
 import com.gaoyun.common.ext.getName
 import com.gaoyun.common.ext.repeatConfigTextShort
 import com.gaoyun.common.ext.toLocalizedStringId
 import com.gaoyun.common.icon
-import com.gaoyun.common.ui.*
 import com.gaoyun.roar.model.domain.interactions.InteractionTemplate
 import com.gaoyun.roar.presentation.LAUNCH_LISTEN_FOR_EFFECTS
 import com.gaoyun.roar.presentation.add_reminder.choose_template.AddReminderScreenContract
@@ -60,6 +61,7 @@ fun AddReminderDestination(
                 is AddReminderScreenContract.Effect.Navigation.ToReminderSetup -> {
                     navHostController.navigate("${NavigationKeys.Route.ADD_REMINDER}/${navigationEffect.petId}/${navigationEffect.templateId}")
                 }
+
                 is AddReminderScreenContract.Effect.Navigation.NavigateBack -> navHostController.navigateUp()
             }
         },

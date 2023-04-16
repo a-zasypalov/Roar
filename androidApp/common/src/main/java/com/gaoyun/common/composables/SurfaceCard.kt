@@ -1,4 +1,4 @@
-package com.gaoyun.common.ui
+package com.gaoyun.common.composables
 
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults

@@ -20,9 +20,9 @@ import com.gaoyun.common.DateUtils
 import com.gaoyun.common.R
 import com.gaoyun.common.ext.repeatConfigTextShort
 import com.gaoyun.common.icon
-import com.gaoyun.common.ui.LabelledCheckBox
-import com.gaoyun.common.ui.RoarIcon
-import com.gaoyun.common.ui.Spacer
+import com.gaoyun.common.composables.LabelledCheckBox
+import com.gaoyun.common.composables.RoarIcon
+import com.gaoyun.common.composables.Spacer
 import com.gaoyun.roar.model.domain.interactions.InteractionWithReminders
 import com.gaoyun.roar.util.toLocalDate
 import kotlinx.coroutines.MainScope

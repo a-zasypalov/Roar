@@ -34,7 +34,7 @@ import com.gaoyun.common.ext.getName
 import com.gaoyun.common.ext.remindConfigTextFull
 import com.gaoyun.common.ext.repeatConfigTextFull
 import com.gaoyun.common.ext.toLocalizedStringId
-import com.gaoyun.common.ui.*
+import com.gaoyun.common.composables.*
 import com.gaoyun.roar.model.domain.interactions.*
 import com.gaoyun.roar.util.toLocalDate
 import kotlinx.coroutines.launch

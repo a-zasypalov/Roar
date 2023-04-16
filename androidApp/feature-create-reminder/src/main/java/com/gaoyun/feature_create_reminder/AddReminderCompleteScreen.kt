@@ -19,8 +19,9 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import com.gaoyun.common.NavigationKeys
 import com.gaoyun.common.R
+import com.gaoyun.common.composables.*
+import com.gaoyun.common.ext.getDrawableByName
 import com.gaoyun.common.theme.RoarTheme
-import com.gaoyun.common.ui.*
 import com.gaoyun.roar.presentation.LAUNCH_LISTEN_FOR_EFFECTS
 import com.gaoyun.roar.presentation.add_reminder.complete.AddReminderCompleteScreenContract
 import com.gaoyun.roar.presentation.add_reminder.complete.AddReminderCompleteScreenViewModel

@@ -6,6 +6,8 @@ import androidx.work.WorkManager
 import com.gaoyun.notifications.*
 import com.gaoyun.notifications.sync.SynchronisationSchedulerImpl
 import com.gaoyun.notifications.sync.SynchronisationWorker
+import com.gaoyun.roar.android.notifications.FcmService
+import com.gaoyun.roar.android.notifications.NotificationIntentProviderImpl
 import com.gaoyun.roar.domain.NotificationScheduler
 import com.gaoyun.roar.domain.SynchronisationScheduler
 import com.gaoyun.roar.initKoin

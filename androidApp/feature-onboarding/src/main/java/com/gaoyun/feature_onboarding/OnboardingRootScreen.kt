@@ -17,9 +17,9 @@ import androidx.navigation.NavHostController
 import com.gaoyun.common.NavigationKeys
 import com.gaoyun.common.R
 import com.gaoyun.common.theme.RoarTheme
-import com.gaoyun.common.ui.PrimaryElevatedButton
-import com.gaoyun.common.ui.Spacer
-import com.gaoyun.common.ui.SurfaceScaffold
+import com.gaoyun.common.composables.PrimaryElevatedButton
+import com.gaoyun.common.composables.Spacer
+import com.gaoyun.common.composables.SurfaceScaffold
 import com.gaoyun.roar.presentation.onboarding.OnboardingViewModel
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.HorizontalPager

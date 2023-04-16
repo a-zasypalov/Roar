@@ -1,4 +1,4 @@
-package com.gaoyun.common.ui
+package com.gaoyun.common.composables
 
 import android.annotation.SuppressLint
 import androidx.compose.foundation.layout.*

@@ -23,10 +23,10 @@ import androidx.compose.ui.window.DialogProperties
 import com.gaoyun.common.R
 import com.gaoyun.common.ext.toLocalizedStringId
 import com.gaoyun.common.ext.toLocalizedStringIdPlural
-import com.gaoyun.common.ui.DropdownMenu
-import com.gaoyun.common.ui.Spacer
-import com.gaoyun.common.ui.SurfaceCard
-import com.gaoyun.common.ui.TextFormField
+import com.gaoyun.common.composables.DropdownMenu
+import com.gaoyun.common.composables.Spacer
+import com.gaoyun.common.composables.SurfaceCard
+import com.gaoyun.common.composables.TextFormField
 import com.gaoyun.roar.model.domain.interactions.InteractionRemindConfig
 import com.gaoyun.roar.model.domain.interactions.InteractionRemindConfigPeriod
 import com.gaoyun.roar.model.domain.interactions.toInteractionRemindConfigPeriod

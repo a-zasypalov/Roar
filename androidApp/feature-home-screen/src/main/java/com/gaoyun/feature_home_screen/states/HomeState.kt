@@ -23,10 +23,10 @@ import androidx.compose.ui.unit.sp
 import com.gaoyun.common.R
 import com.gaoyun.common.ext.ageText
 import com.gaoyun.common.theme.RoarTheme
-import com.gaoyun.common.ui.AutoResizeText
-import com.gaoyun.common.ui.FontSizeRange
-import com.gaoyun.common.ui.Spacer
-import com.gaoyun.common.ui.getDrawableByName
+import com.gaoyun.common.composables.AutoResizeText
+import com.gaoyun.common.composables.FontSizeRange
+import com.gaoyun.common.composables.Spacer
+import com.gaoyun.common.ext.getDrawableByName
 import com.gaoyun.feature_home_screen.view.UserHomeHeader
 import com.gaoyun.feature_pet_screen.view.InteractionCard
 import com.gaoyun.feature_pet_screen.view.PetContainer

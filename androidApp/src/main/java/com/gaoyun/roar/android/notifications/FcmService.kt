@@ -1,4 +1,4 @@
-package com.gaoyun.roar.android
+package com.gaoyun.roar.android.notifications
 
 import android.util.Log
 import com.gaoyun.notifications.NotificationHandler

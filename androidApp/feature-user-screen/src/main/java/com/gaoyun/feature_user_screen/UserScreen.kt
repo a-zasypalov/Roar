@@ -24,7 +24,7 @@ import androidx.navigation.NavHostController
 import com.gaoyun.common.NavigationKeys
 import com.gaoyun.common.OnLifecycleEvent
 import com.gaoyun.common.R
-import com.gaoyun.common.ui.*
+import com.gaoyun.common.composables.*
 import com.gaoyun.roar.model.domain.User
 import com.gaoyun.roar.presentation.LAUNCH_LISTEN_FOR_EFFECTS
 import com.gaoyun.roar.presentation.user_screen.UserScreenContract
@@ -161,7 +161,7 @@ fun UserScreen(
         backHandler = { onNavigationRequested(UserScreenContract.Effect.Navigation.NavigateBack) },
         snackbarHost = { SnackbarHost(snackbarHostState) },
         floatingActionButton = {
-            RoarExtendedFloatingActionButton(
+            RoarExtendedFAB(
                 icon = Icons.Filled.Edit,
                 contentDescription = stringResource(id = R.string.edit_profile),
                 text = stringResource(id = R.string.edit),

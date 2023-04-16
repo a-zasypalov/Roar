@@ -17,7 +17,7 @@ import com.gaoyun.common.OnLifecycleEvent
 import com.gaoyun.common.R
 import com.gaoyun.common.dialog.InteractionCompletionDialog
 import com.gaoyun.common.theme.RoarTheme
-import com.gaoyun.common.ui.*
+import com.gaoyun.common.composables.*
 import com.gaoyun.feature_pet_screen.view.PetContainer
 import com.gaoyun.roar.model.domain.*
 import com.gaoyun.roar.model.domain.interactions.InteractionGroup
@@ -95,7 +95,7 @@ fun PetScreen(
 
     SurfaceScaffold(
         floatingActionButton = {
-            RoarExtendedFloatingActionButton(
+            RoarExtendedFAB(
                 icon = Icons.Filled.Add,
                 contentDescription = stringResource(id = R.string.add_reminder),
                 text = stringResource(id = R.string.reminder),

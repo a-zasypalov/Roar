@@ -5,7 +5,9 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
+import androidx.compose.ui.res.stringResource
 import com.gaoyun.common.DateUtils
+import com.gaoyun.common.R
 import com.gaoyun.roar.util.toLocalDate
 import kotlinx.datetime.Clock
 import kotlinx.datetime.toKotlinLocalDateTime
@@ -22,19 +24,20 @@ fun InteractionCompletionDialog(
         onDismissButtonClick.invoke()
         return
     }
+
     val date = dateTime.format(DateUtils.ddMmmDateFormatter)
     AlertDialog(
         onDismissRequest = { showCompleteReminderDateDialog.value = false },
-        title = { Text("When was it completed?") },
-        text = { Text("Was the interaction completed today or according its date on $date?") },
+        title = { Text(stringResource(id = R.string.interaction_completion_dialog_title)) },
+        text = { Text(stringResource(id = R.string.interaction_completion_dialog_description, date)) },
         confirmButton = {
             TextButton(onClick = onConfirmButtonClick) {
-                Text("Today")
+                Text(stringResource(id = R.string.today))
             }
         },
         dismissButton = {
             TextButton(onClick = onDismissButtonClick) {
-                Text("On $date")
+                Text(stringResource(id = R.string.on_date_arg, date))
             }
         }
     )

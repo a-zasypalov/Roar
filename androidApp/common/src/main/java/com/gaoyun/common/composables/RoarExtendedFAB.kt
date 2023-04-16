@@ -1,4 +1,4 @@
-package com.gaoyun.common.ui
+package com.gaoyun.common.composables
 
 import androidx.compose.foundation.layout.Row
 import androidx.compose.material3.*
@@ -11,7 +11,7 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.unit.dp
 
 @Composable
-fun RoarExtendedFloatingActionButton(
+fun RoarExtendedFAB(
     onClick: () -> Unit,
     modifier: Modifier = Modifier,
     shape: Shape = FloatingActionButtonDefaults.extendedFabShape,

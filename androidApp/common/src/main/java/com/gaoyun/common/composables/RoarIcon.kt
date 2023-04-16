@@ -1,4 +1,4 @@
-package com.gaoyun.common.ui
+package com.gaoyun.common.composables
 
 import androidx.annotation.DrawableRes
 import androidx.compose.foundation.Image

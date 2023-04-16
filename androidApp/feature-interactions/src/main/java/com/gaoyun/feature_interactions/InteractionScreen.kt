@@ -20,7 +20,7 @@ import com.gaoyun.common.NavigationKeys
 import com.gaoyun.common.OnLifecycleEvent
 import com.gaoyun.common.R
 import com.gaoyun.common.dialog.InteractionCompletionDialog
-import com.gaoyun.common.ui.*
+import com.gaoyun.common.composables.*
 import com.gaoyun.roar.presentation.LAUNCH_LISTEN_FOR_EFFECTS
 import com.gaoyun.roar.presentation.interactions.InteractionScreenContract
 import com.gaoyun.roar.presentation.interactions.InteractionScreenViewModel
@@ -115,7 +115,7 @@ fun InteractionScreen(
         floatingActionButton = {
             state.interaction?.let { interaction ->
                 if (interaction.isActive) {
-                    RoarExtendedFloatingActionButton(
+                    RoarExtendedFAB(
                         icon = Icons.Filled.Edit,
                         contentDescription = stringResource(id = R.string.edit),
                         text = stringResource(id = R.string.edit),

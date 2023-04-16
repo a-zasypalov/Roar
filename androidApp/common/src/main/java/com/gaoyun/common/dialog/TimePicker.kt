@@ -4,7 +4,6 @@ import androidx.fragment.app.FragmentManager
 import com.google.android.material.timepicker.MaterialTimePicker
 
 object TimePicker {
-
     fun pickTime(
         title: String,
         fragmentManager: FragmentManager,
@@ -19,11 +18,11 @@ object TimePicker {
             dialogBuilder.setMinute(hourAndMinutes[1])
         }
 
-        val dialog = dialogBuilder.build()
-        dialog.addOnPositiveButtonClickListener {
-            onTimePicked(dialog.hour, dialog.minute)
+        dialogBuilder.build().apply {
+            addOnPositiveButtonClickListener {
+                onTimePicked(hour, minute)
+            }
+            show(fragmentManager, "TimePicker")
         }
-        dialog.show(fragmentManager, "TimePicker")
     }
-
 }

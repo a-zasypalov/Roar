@@ -1,4 +1,4 @@
-package com.gaoyun.common.ui
+package com.gaoyun.common.composables
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box

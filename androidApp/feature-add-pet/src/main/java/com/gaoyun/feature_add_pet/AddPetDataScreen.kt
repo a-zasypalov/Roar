@@ -28,10 +28,11 @@ import androidx.lifecycle.Lifecycle
 import androidx.navigation.NavHostController
 import com.gaoyun.common.NavigationKeys
 import com.gaoyun.common.OnLifecycleEvent
+import com.gaoyun.common.composables.*
 import com.gaoyun.common.dialog.DatePicker
+import com.gaoyun.common.ext.getDrawableByName
 import com.gaoyun.common.ext.toLocalizedStringId
 import com.gaoyun.common.theme.RoarTheme
-import com.gaoyun.common.ui.*
 import com.gaoyun.roar.model.domain.Gender
 import com.gaoyun.roar.model.domain.Pet
 import com.gaoyun.roar.model.domain.PetType
@@ -71,9 +72,11 @@ fun AddPetDataDestination(
                 is AddPetDataScreenContract.Effect.Navigation.ToPetSetup -> navHostController.navigate(
                     route = "${NavigationKeys.Route.ADD_PET_SETUP}/${navigationEffect.petId}"
                 )
+
                 is AddPetDataScreenContract.Effect.Navigation.ToAvatarEdit -> navHostController.navigate(
                     route = "${NavigationKeys.Route.EDIT}/${NavigationKeys.Route.AVATAR}/${NavigationKeys.Route.PET_DETAIL}/${navigationEffect.petType}/${navigationEffect.petId}"
                 )
+
                 is AddPetDataScreenContract.Effect.Navigation.NavigateBack -> {
                     if (navigationEffect.confirmed || state.pet?.avatar == null || state.pet?.avatar == avatar) {
                         navHostController.navigateUp()

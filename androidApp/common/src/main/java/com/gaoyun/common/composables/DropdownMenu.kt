@@ -1,6 +1,6 @@
-@file:OptIn(ExperimentalComposeUiApi::class, ExperimentalMaterial3Api::class)
+@file:OptIn(ExperimentalMaterial3Api::class)
 
-package com.gaoyun.common.ui
+package com.gaoyun.common.composables
 
 import androidx.annotation.PluralsRes
 import androidx.annotation.StringRes
@@ -8,7 +8,6 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
-import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.pluralStringResource

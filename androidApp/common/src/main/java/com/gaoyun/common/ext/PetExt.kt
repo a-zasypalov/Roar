@@ -1,9 +1,6 @@
-@file:OptIn(ExperimentalComposeUiApi::class)
-
 package com.gaoyun.common.ext
 
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.res.pluralStringResource
 import com.gaoyun.common.DateUtils.monthsFromNow
 import com.gaoyun.common.DateUtils.yearsFromNow

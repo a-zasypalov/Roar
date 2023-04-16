@@ -11,7 +11,7 @@ class PetsApi : KoinComponent {
     private val client: HttpClient by inject()
 
     internal suspend fun getPetBreedsByPetType(petType: String): PetBreedsResponse {
-        return client.requestAndCatch { get("${RoarApi.V1_ENDPOINT}/app_config/${petType.lowercase()}_breeds.json").body() }
+        return client.requestAndCatch { get("${RoarApi.GITHUB_ENDPOINT}/app_config/${petType.lowercase()}_breeds.json").body() }
     }
 
 }

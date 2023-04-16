@@ -106,6 +106,8 @@
     <string name="registration_subtitle">We need only your name</string>
     <string name="dynamic_color_switcher_title">Dynamic color</string>
     <string name="number_of_reminders_main_screen">Reminders on main screen per pet</string>
+    <string name="today">Today</string>
+    <string name="on_date_arg">On %1$s</string>
 
     <plurals name="years">
         <item quantity="one">year</item>
@@ -213,6 +215,9 @@
     <string name="vaccine_planned">Annual vaccination</string>
     <string name="pills_prescribed">Weekly pills</string>
     <string name="bathing_4w">Bath</string>
+
+    <string name="interaction_completion_dialog_title">When was it completed?</string>
+    <string name="interaction_completion_dialog_description">Was the interaction completed today or according its date on %1$s?</string>
 
 </resources>
 

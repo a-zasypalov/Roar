@@ -17,7 +17,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.gaoyun.common.R
 import com.gaoyun.common.theme.RoarTheme
-import com.gaoyun.common.ui.Spacer
+import com.gaoyun.common.composables.Spacer
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable

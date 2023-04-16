@@ -17,7 +17,8 @@ import androidx.lifecycle.Lifecycle
 import androidx.navigation.NavHostController
 import com.gaoyun.common.NavigationKeys.Route.ADD_REMINDER
 import com.gaoyun.common.OnLifecycleEvent
-import com.gaoyun.common.ui.*
+import com.gaoyun.common.composables.*
+import com.gaoyun.common.ext.getDrawableByName
 import com.gaoyun.roar.model.domain.interactions.*
 import com.gaoyun.roar.presentation.LAUNCH_LISTEN_FOR_EFFECTS
 import com.gaoyun.roar.presentation.add_reminder.setup_reminder.SetupReminderScreenContract
@@ -54,6 +55,7 @@ fun SetupReminderDestination(
                 is SetupReminderScreenContract.Effect.Navigation.ToComplete -> navHostController.navigate(
                     "$ADD_REMINDER/$petId/$templateId/${navigationEffect.petAvatar}"
                 )
+
                 is SetupReminderScreenContract.Effect.Navigation.NavigateBack -> navHostController.navigateUp()
             }
         }
