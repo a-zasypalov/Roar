@@ -53,9 +53,13 @@ actual abstract class BaseViewModel<Event : ViewEvent, UiState : ViewState, Effe
         scope.launch { _effect.send(effectValue) }
     }
 
+    override fun onCleared() {
+        super.onCleared()
+        dispose()
+    }
+
     actual fun dispose() {
         scope.cancel()
-        onCleared()
     }
 
 }

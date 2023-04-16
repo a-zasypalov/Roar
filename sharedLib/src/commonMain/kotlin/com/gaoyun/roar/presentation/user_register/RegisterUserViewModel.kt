@@ -18,7 +18,7 @@ class RegisterUserViewModel :
 
     override fun handleEvents(event: RegisterUserScreenContract.Event) {
         when (event) {
-            is RegisterUserScreenContract.Event.RegisterButtonClick -> registerUser(event.name, event.userId)
+            is RegisterUserScreenContract.Event.RegistrationSuccessful -> registerUser(event.name, event.userId)
         }
     }
 

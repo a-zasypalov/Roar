@@ -7,14 +7,13 @@ import com.gaoyun.roar.presentation.ViewState
 class RegisterUserScreenContract {
 
     sealed class Event : ViewEvent {
-        data class RegisterButtonClick(val name: String, val userId: String) : Event()
+        data class RegistrationSuccessful(val name: String, val userId: String) : Event()
     }
 
-    object State : ViewState
+    object State: ViewState
 
     sealed class Effect : ViewSideEffect {
         sealed class Navigation : Effect() {
-            object NavigateBack : Navigation()
             object ToPetAdding : Navigation()
         }
     }
