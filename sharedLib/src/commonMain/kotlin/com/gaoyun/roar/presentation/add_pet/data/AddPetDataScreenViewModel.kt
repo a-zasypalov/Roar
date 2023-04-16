@@ -52,7 +52,7 @@ class AddPetDataScreenViewModel :
             }
 
             is AddPetDataScreenContract.Event.NavigateBack -> {
-                setEffect { AddPetDataScreenContract.Effect.Navigation.NavigateBack(confirmed = false) }
+                setEffect { AddPetDataScreenContract.Effect.NavigateBack(confirmed = false) }
             }
         }
     }
@@ -66,7 +66,7 @@ class AddPetDataScreenViewModel :
 
     fun revertPetAvatar(petId: String, avatar: String) = scope.launch {
         setPetAvatar.setAvatar(petId, avatar).collect {
-            setEffect { AddPetDataScreenContract.Effect.Navigation.NavigateBack(confirmed = true) }
+            setEffect { AddPetDataScreenContract.Effect.NavigateBack(confirmed = true) }
         }
     }
 
@@ -116,6 +116,6 @@ class AddPetDataScreenViewModel :
     }
 
     private fun petSavedSuccessful() {
-        setEffect { AddPetDataScreenContract.Effect.Navigation.NavigateBack(confirmed = true) }
+        setEffect { AddPetDataScreenContract.Effect.NavigateBack(confirmed = true) }
     }
 }

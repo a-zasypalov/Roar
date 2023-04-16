@@ -2,6 +2,11 @@ package com.gaoyun.common
 
 import com.gaoyun.roar.presentation.NavigationSideEffect
 import com.gaoyun.roar.presentation.add_pet.avatar.AddPetAvatarScreenContract
+import com.gaoyun.roar.presentation.add_pet.data.AddPetDataScreenContract
+import com.gaoyun.roar.presentation.add_pet.setup.AddPetSetupScreenContract
+import com.gaoyun.roar.presentation.add_pet.type.AddPetPetTypeScreenContract
+import com.gaoyun.roar.presentation.user_register.RegisterUserScreenContract
+import com.gaoyun.roar.presentation.user_screen.UserScreenContract
 
 object NavigationKeys {
 
@@ -14,8 +19,6 @@ object NavigationKeys {
     }
 
     object Route {
-        const val BACK = "BACK"
-
         const val EDIT = "EDIT"
         const val AVATAR = "AVATAR"
         const val ADD_PET_SETUP = "ADD_PET_SETUP"
@@ -49,11 +52,43 @@ object NavigationKeys {
 
 }
 
+sealed class NavigationAction {
+    class NavigateTo(val path: String) : NavigationAction()
+    object NavigateBack : NavigationAction()
+    class PopTo(val path: String) : NavigationAction()
+
+}
+
 object AppNavigator {
     fun navigate(call: NavigationSideEffect) = when (call) {
+        is RegisterUserScreenContract.Effect.Navigation.ToPetAdding -> toPetAdding()
+        is AddPetPetTypeScreenContract.Effect.Navigation.ToPetAvatar -> toPetAvatar(call)
         is AddPetAvatarScreenContract.Effect.Navigation.ToPetData -> toPetData(call)
+        is AddPetDataScreenContract.Effect.Navigation.ToAvatarEdit -> toAvatarEdit(call)
+        is AddPetDataScreenContract.Effect.Navigation.ToPetSetup -> toPetSetup(call)
+        is AddPetSetupScreenContract.Effect.Navigation.Continue -> finishPetSetup()
+
+        is UserScreenContract.Effect.Navigation.ToUserEdit -> toUserEdit()
         else -> null
     }
 
-    private fun toPetData(call: AddPetAvatarScreenContract.Effect.Navigation.ToPetData) = "${NavigationKeys.Route.ADD_PET_ROUTE}/${call.petType}/${call.avatar}"
+    private fun toPetAdding() =
+        NavigationAction.NavigateTo(NavigationKeys.Route.HOME_ROUTE)
+    private fun toPetAvatar(effect: AddPetPetTypeScreenContract.Effect.Navigation.ToPetAvatar) =
+        NavigationAction.NavigateTo("${NavigationKeys.Route.ADD_PET_ROUTE}/${effect.petType}")
+
+    private fun toPetData(effect: AddPetAvatarScreenContract.Effect.Navigation.ToPetData) =
+        NavigationAction.NavigateTo("${NavigationKeys.Route.ADD_PET_ROUTE}/${effect.petType}/${effect.avatar}")
+
+    private fun toAvatarEdit(effect: AddPetDataScreenContract.Effect.Navigation.ToAvatarEdit) =
+        NavigationAction.NavigateTo("${NavigationKeys.Route.EDIT}/${NavigationKeys.Route.AVATAR}/${NavigationKeys.Route.PET_DETAIL}/${effect.petType}/${effect.petId}")
+
+    private fun toPetSetup(effect: AddPetDataScreenContract.Effect.Navigation.ToPetSetup) =
+        NavigationAction.NavigateTo("${NavigationKeys.Route.ADD_PET_SETUP}/${effect.petId}")
+
+    private fun finishPetSetup() = NavigationAction.PopTo(NavigationKeys.Route.ADD_PET_ROUTE)
+
+    private fun toUserEdit() = NavigationAction.NavigateTo(NavigationKeys.Route.USER_EDIT_ROUTE)
+
+
 }

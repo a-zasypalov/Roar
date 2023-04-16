@@ -13,13 +13,12 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.res.stringResource
-import androidx.navigation.NavHostController
 import com.firebase.ui.auth.AuthUI
 import com.firebase.ui.auth.FirebaseAuthUIActivityResultContract
-import com.gaoyun.common.NavigationKeys.Route.HOME_ROUTE
 import com.gaoyun.common.R
 import com.gaoyun.common.composables.SurfaceScaffold
 import com.gaoyun.roar.presentation.LAUNCH_LISTEN_FOR_EFFECTS
+import com.gaoyun.roar.presentation.NavigationSideEffect
 import com.gaoyun.roar.presentation.user_register.RegisterUserScreenContract
 import com.gaoyun.roar.presentation.user_register.RegisterUserViewModel
 import com.google.firebase.auth.ktx.auth
@@ -30,7 +29,7 @@ import org.koin.androidx.compose.getViewModel
 
 @Composable
 @OptIn(ExperimentalMaterial3Api::class)
-fun UserRegistrationDestination(navHostController: NavHostController) {
+fun UserRegistrationDestination(onNavigationCall: (NavigationSideEffect) -> Unit) {
     val viewModel: RegisterUserViewModel = getViewModel()
 
     //Block back action
@@ -39,7 +38,7 @@ fun UserRegistrationDestination(navHostController: NavHostController) {
     LaunchedEffect(LAUNCH_LISTEN_FOR_EFFECTS) {
         viewModel.effect.onEach { effect ->
             when (effect) {
-                is RegisterUserScreenContract.Effect.Navigation.ToPetAdding -> navHostController.navigate(HOME_ROUTE)
+                is RegisterUserScreenContract.Effect.Navigation -> onNavigationCall(effect)
             }
         }.collect()
     }

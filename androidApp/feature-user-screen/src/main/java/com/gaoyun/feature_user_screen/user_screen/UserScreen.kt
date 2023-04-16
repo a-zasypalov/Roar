@@ -1,4 +1,4 @@
-package com.gaoyun.feature_user_screen
+package com.gaoyun.feature_user_screen.user_screen
 
 import android.app.Activity.RESULT_OK
 import android.content.Intent
@@ -11,11 +11,12 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
-import androidx.navigation.NavHostController
-import com.gaoyun.common.NavigationKeys
 import com.gaoyun.common.R
 import com.gaoyun.common.composables.*
+import com.gaoyun.feature_user_screen.UserScreenContent
+import com.gaoyun.roar.presentation.BackNavigationEffect
 import com.gaoyun.roar.presentation.LAUNCH_LISTEN_FOR_EFFECTS
+import com.gaoyun.roar.presentation.NavigationSideEffect
 import com.gaoyun.roar.presentation.user_screen.UserScreenContract
 import com.gaoyun.roar.presentation.user_screen.UserScreenViewModel
 import com.google.firebase.auth.ktx.auth
@@ -30,7 +31,7 @@ import java.time.format.DateTimeFormatter
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun UserScreenDestination(
-    navHostController: NavHostController,
+    onNavigationCall: (NavigationSideEffect) -> Unit,
 ) {
     val viewModel: UserScreenViewModel = getViewModel()
     val state = viewModel.viewState.collectAsState().value
@@ -56,8 +57,8 @@ fun UserScreenDestination(
     LaunchedEffect(LAUNCH_LISTEN_FOR_EFFECTS) {
         viewModel.effect.onEach { effect ->
             when (effect) {
-                is UserScreenContract.Effect.Navigation.NavigateBack -> navHostController.navigateUp()
-                is UserScreenContract.Effect.Navigation.ToUserEdit -> navHostController.navigate(NavigationKeys.Route.USER_EDIT_ROUTE)
+                is UserScreenContract.Effect.Navigation -> onNavigationCall(effect)
+                is UserScreenContract.Effect.NavigateBack -> onNavigationCall(BackNavigationEffect)
                 is UserScreenContract.Effect.BackupReady -> coroutineScope.launch {
                     val intent = Intent(Intent.ACTION_CREATE_DOCUMENT).apply {
                         addCategory(Intent.CATEGORY_OPENABLE)

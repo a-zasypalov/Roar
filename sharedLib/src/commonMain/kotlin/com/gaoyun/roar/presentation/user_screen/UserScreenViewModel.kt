@@ -39,7 +39,7 @@ class UserScreenViewModel : BaseViewModel<UserScreenContract.Event, UserScreenCo
             is UserScreenContract.Event.OnUseBackup -> useBackup(event.backup, event.removeOld)
             is UserScreenContract.Event.OnDynamicColorsStateChange -> setDynamicColor(event.active)
             is UserScreenContract.Event.OnNumberOfRemindersOnMainScreen -> setNumberOfRemindersOnMainScreen(event.newNumber)
-            is UserScreenContract.Event.NavigateBack -> { setEffect { UserScreenContract.Effect.Navigation.NavigateBack } }
+            is UserScreenContract.Event.NavigateBack -> { setEffect { UserScreenContract.Effect.NavigateBack } }
         }
     }
 

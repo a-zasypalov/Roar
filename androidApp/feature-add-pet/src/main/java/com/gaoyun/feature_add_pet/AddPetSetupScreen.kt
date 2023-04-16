@@ -17,8 +17,6 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.Lifecycle
-import androidx.navigation.NavHostController
-import com.gaoyun.common.NavigationKeys
 import com.gaoyun.common.OnLifecycleEvent
 import com.gaoyun.common.R
 import com.gaoyun.common.composables.*
@@ -28,6 +26,7 @@ import com.gaoyun.roar.model.domain.Gender
 import com.gaoyun.roar.model.domain.Pet
 import com.gaoyun.roar.model.domain.PetType
 import com.gaoyun.roar.presentation.LAUNCH_LISTEN_FOR_EFFECTS
+import com.gaoyun.roar.presentation.NavigationSideEffect
 import com.gaoyun.roar.presentation.add_pet.setup.AddPetSetupScreenContract
 import com.gaoyun.roar.presentation.add_pet.setup.AddPetSetupScreenViewModel
 import com.gaoyun.roar.util.randomUUID
@@ -38,7 +37,10 @@ import org.koin.androidx.compose.getViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun AddPetSetupDestination(navHostController: NavHostController, petId: String) {
+fun AddPetSetupDestination(
+    onNavigationCall: (NavigationSideEffect) -> Unit,
+    petId: String,
+) {
     val viewModel: AddPetSetupScreenViewModel = getViewModel()
     val state = viewModel.viewState.collectAsState().value
 
@@ -51,8 +53,7 @@ fun AddPetSetupDestination(navHostController: NavHostController, petId: String) 
     LaunchedEffect(LAUNCH_LISTEN_FOR_EFFECTS) {
         viewModel.effect.onEach { effect ->
             when (effect) {
-                is AddPetSetupScreenContract.Effect.Navigation.Continue ->
-                    navHostController.popBackStack(NavigationKeys.Route.ADD_PET_ROUTE, true)
+                is AddPetSetupScreenContract.Effect.Navigation -> onNavigationCall(effect)
             }
         }.collect()
     }

@@ -21,12 +21,13 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
+import com.gaoyun.common.NavigationAction
 import com.gaoyun.common.NavigationKeys
 import com.gaoyun.common.theme.RoarTheme
 import com.gaoyun.feature_add_pet.AddPetAvatarDestination
-import com.gaoyun.feature_add_pet.AddPetDataDestination
 import com.gaoyun.feature_add_pet.AddPetPetTypeDestination
 import com.gaoyun.feature_add_pet.AddPetSetupDestination
+import com.gaoyun.feature_add_pet.pet_data.AddPetDataDestination
 import com.gaoyun.feature_create_reminder.AddReminderCompleteDestination
 import com.gaoyun.feature_create_reminder.AddReminderDestination
 import com.gaoyun.feature_create_reminder.setup.SetupReminderDestination
@@ -35,8 +36,8 @@ import com.gaoyun.feature_interactions.InteractionScreenDestination
 import com.gaoyun.feature_onboarding.OnboardingRootScreen
 import com.gaoyun.feature_pet_screen.PetScreenDestination
 import com.gaoyun.feature_user_registration.UserRegistrationDestination
-import com.gaoyun.feature_user_screen.EditUserScreenDestination
-import com.gaoyun.feature_user_screen.UserScreenDestination
+import com.gaoyun.feature_user_screen.edit_user.EditUserScreenDestination
+import com.gaoyun.feature_user_screen.user_screen.UserScreenDestination
 import com.gaoyun.roar.presentation.LAUNCH_LISTEN_FOR_EFFECTS
 import com.gaoyun.roar.util.PreferencesKeys
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
@@ -146,8 +147,9 @@ class MainActivity : AppCompatActivity() {
         LaunchedEffect(LAUNCH_LISTEN_FOR_EFFECTS) {
             viewModel.navigationEffect.onEach { destination ->
                 when (destination) {
-                    NavigationKeys.Route.BACK -> navController.navigateUp()
-                    else -> navController.navigate(destination)
+                    is NavigationAction.NavigateTo -> navController.navigate(destination.path)
+                    is NavigationAction.NavigateBack -> navController.navigateUp()
+                    is NavigationAction.PopTo -> navController.popBackStack(destination.path, true)
                 }
             }.collect()
         }
@@ -166,11 +168,11 @@ class MainActivity : AppCompatActivity() {
             }
 
             composable(NavigationKeys.Route.REGISTER_USER_ROUTE) {
-                UserRegistrationDestination(navHostController = navController)
+                UserRegistrationDestination(onNavigationCall = viewModel::navigate)
             }
 
             composable(NavigationKeys.Route.ADD_PET_ROUTE) {
-                AddPetPetTypeDestination(navHostController = navController)
+                AddPetPetTypeDestination(onNavigationCall = viewModel::navigate)
             }
 
             composable(
@@ -205,7 +207,7 @@ class MainActivity : AppCompatActivity() {
                 )
             ) {
                 AddPetDataDestination(
-                    navHostController = navController,
+                    onNavigationCall = viewModel::navigate,
                     petType = it.arguments?.getString(NavigationKeys.Arg.PET_TYPE_KEY) ?: "",
                     avatar = it.arguments?.getString(NavigationKeys.Arg.AVATAR_KEY) ?: "",
                 )
@@ -220,7 +222,7 @@ class MainActivity : AppCompatActivity() {
                 )
             ) {
                 AddPetDataDestination(
-                    navHostController = navController,
+                    onNavigationCall = viewModel::navigate,
                     petType = it.arguments?.getString(NavigationKeys.Arg.PET_TYPE_KEY) ?: "",
                     avatar = it.arguments?.getString(NavigationKeys.Arg.AVATAR_KEY) ?: "",
                     petId = it.arguments?.getString(NavigationKeys.Arg.PET_ID_KEY)
@@ -232,7 +234,7 @@ class MainActivity : AppCompatActivity() {
                 arguments = listOf(navArgument(NavigationKeys.Arg.PET_ID_KEY) { type = NavType.StringType })
             ) {
                 AddPetSetupDestination(
-                    navHostController = navController,
+                    onNavigationCall = viewModel::navigate,
                     petId = it.arguments?.getString(NavigationKeys.Arg.PET_ID_KEY) ?: ""
                 )
             }
@@ -310,13 +312,13 @@ class MainActivity : AppCompatActivity() {
             composable(
                 route = NavigationKeys.Route.USER_ROUTE,
             ) {
-                UserScreenDestination(navController)
+                UserScreenDestination(viewModel::navigate)
             }
 
             composable(
                 route = NavigationKeys.Route.USER_EDIT_ROUTE,
             ) {
-                EditUserScreenDestination(navController)
+                EditUserScreenDestination(viewModel::navigate)
             }
         }
     }

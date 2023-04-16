@@ -1,4 +1,4 @@
-package com.gaoyun.feature_user_screen
+package com.gaoyun.feature_user_screen.edit_user
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.icons.filled.*
@@ -8,10 +8,12 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import androidx.navigation.NavHostController
 import com.gaoyun.common.R
 import com.gaoyun.common.composables.*
+import com.gaoyun.feature_user_screen.EditUserForm
+import com.gaoyun.roar.presentation.BackNavigationEffect
 import com.gaoyun.roar.presentation.LAUNCH_LISTEN_FOR_EFFECTS
+import com.gaoyun.roar.presentation.NavigationSideEffect
 import com.gaoyun.roar.presentation.user_edit.EditUserScreenContract
 import com.gaoyun.roar.presentation.user_edit.EditUserScreenViewModel
 import kotlinx.coroutines.flow.*
@@ -20,7 +22,7 @@ import org.koin.androidx.compose.getViewModel
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun EditUserScreenDestination(
-    navHostController: NavHostController,
+    onNavigationCall: (NavigationSideEffect) -> Unit,
 ) {
     val viewModel: EditUserScreenViewModel = getViewModel()
     val state = viewModel.viewState.collectAsState().value
@@ -28,7 +30,7 @@ fun EditUserScreenDestination(
     LaunchedEffect(LAUNCH_LISTEN_FOR_EFFECTS) {
         viewModel.effect.onEach { effect ->
             when (effect) {
-                is EditUserScreenContract.Effect.Navigation.NavigateBack -> navHostController.navigateUp()
+                is EditUserScreenContract.Effect.NavigateBack -> onNavigationCall(BackNavigationEffect)
             }
         }.collect()
     }

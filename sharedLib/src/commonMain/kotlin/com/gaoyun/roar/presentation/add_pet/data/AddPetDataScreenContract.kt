@@ -2,6 +2,7 @@ package com.gaoyun.roar.presentation.add_pet.data
 
 import com.gaoyun.roar.model.domain.Pet
 import com.gaoyun.roar.model.domain.PetType
+import com.gaoyun.roar.presentation.NavigationSideEffect
 import com.gaoyun.roar.presentation.ViewEvent
 import com.gaoyun.roar.presentation.ViewSideEffect
 import com.gaoyun.roar.presentation.ViewState
@@ -35,10 +36,11 @@ class AddPetDataScreenContract {
     ) : ViewState
 
     sealed class Effect : ViewSideEffect {
-        sealed class Navigation : Effect() {
+        class NavigateBack(val confirmed: Boolean = false) : Navigation()
+
+        sealed class Navigation : Effect(), NavigationSideEffect {
             class ToAvatarEdit(val petId: String, val petType: PetType) : Navigation()
             class ToPetSetup(val petId: String) : Navigation()
-            class NavigateBack(val confirmed: Boolean = false) : Navigation()
         }
     }
 }

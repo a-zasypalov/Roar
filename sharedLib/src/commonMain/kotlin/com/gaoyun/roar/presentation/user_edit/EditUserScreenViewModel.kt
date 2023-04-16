@@ -24,7 +24,7 @@ class EditUserScreenViewModel : BaseViewModel<EditUserScreenContract.Event, Edit
     override fun handleEvents(event: EditUserScreenContract.Event) {
         when (event) {
             is EditUserScreenContract.Event.OnSaveAccountClick -> saveUserProfile(event.user)
-            is EditUserScreenContract.Event.NavigateBack -> setEffect { EditUserScreenContract.Effect.Navigation.NavigateBack }
+            is EditUserScreenContract.Event.NavigateBack -> setEffect { EditUserScreenContract.Effect.NavigateBack }
         }
     }
 
@@ -36,7 +36,7 @@ class EditUserScreenViewModel : BaseViewModel<EditUserScreenContract.Event, Edit
 
     private fun saveUserProfile(user: User) = scope.launch {
         editUserUseCase.update(user).collect {
-            setEffect { EditUserScreenContract.Effect.Navigation.NavigateBack }
+            setEffect { EditUserScreenContract.Effect.NavigateBack }
         }
     }
 

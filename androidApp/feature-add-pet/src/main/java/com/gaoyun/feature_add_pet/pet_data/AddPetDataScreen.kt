@@ -1,4 +1,4 @@
-package com.gaoyun.feature_add_pet
+package com.gaoyun.feature_add_pet.pet_data
 
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.layout.*
@@ -7,12 +7,11 @@ import androidx.compose.material.icons.filled.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.lifecycle.Lifecycle
-import androidx.navigation.NavHostController
-import com.gaoyun.common.NavigationKeys
 import com.gaoyun.common.OnLifecycleEvent
 import com.gaoyun.common.composables.*
-import com.gaoyun.feature_add_pet.pet_data.AddPetForm
+import com.gaoyun.roar.presentation.BackNavigationEffect
 import com.gaoyun.roar.presentation.LAUNCH_LISTEN_FOR_EFFECTS
+import com.gaoyun.roar.presentation.NavigationSideEffect
 import com.gaoyun.roar.presentation.add_pet.data.AddPetDataScreenContract
 import com.gaoyun.roar.presentation.add_pet.data.AddPetDataScreenViewModel
 import kotlinx.coroutines.flow.collect
@@ -23,7 +22,7 @@ import org.koin.androidx.compose.getViewModel
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AddPetDataDestination(
-    navHostController: NavHostController,
+    onNavigationCall: (NavigationSideEffect) -> Unit,
     petType: String,
     avatar: String,
     petId: String? = null
@@ -40,21 +39,14 @@ fun AddPetDataDestination(
     LaunchedEffect(LAUNCH_LISTEN_FOR_EFFECTS) {
         viewModel.effect.onEach { effect ->
             when (effect) {
-                is AddPetDataScreenContract.Effect.Navigation.ToPetSetup -> navHostController.navigate(
-                    route = "${NavigationKeys.Route.ADD_PET_SETUP}/${effect.petId}"
-                )
-
-                is AddPetDataScreenContract.Effect.Navigation.ToAvatarEdit -> navHostController.navigate(
-                    route = "${NavigationKeys.Route.EDIT}/${NavigationKeys.Route.AVATAR}/${NavigationKeys.Route.PET_DETAIL}/${effect.petType}/${effect.petId}"
-                )
-
-                is AddPetDataScreenContract.Effect.Navigation.NavigateBack -> {
+                is AddPetDataScreenContract.Effect.NavigateBack -> {
                     if (effect.confirmed || state.pet?.avatar == null || state.pet?.avatar == avatar) {
-                        navHostController.navigateUp()
+                        onNavigationCall(BackNavigationEffect)
                     } else {
                         viewModel.revertPetAvatar(state.pet?.id ?: "", avatar)
                     }
                 }
+                is AddPetDataScreenContract.Effect.Navigation -> onNavigationCall(effect)
             }
         }.collect()
     }

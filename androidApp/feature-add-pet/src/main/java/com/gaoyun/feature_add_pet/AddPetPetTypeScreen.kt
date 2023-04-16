@@ -16,15 +16,15 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.navigation.NavHostController
-import com.gaoyun.common.NavigationKeys
 import com.gaoyun.common.R
 import com.gaoyun.common.composables.RoarIcon
 import com.gaoyun.common.composables.SurfaceScaffold
 import com.gaoyun.common.ext.getDrawableByName
 import com.gaoyun.common.theme.RoarTheme
 import com.gaoyun.roar.config.PetsConfig
+import com.gaoyun.roar.presentation.BackNavigationEffect
 import com.gaoyun.roar.presentation.LAUNCH_LISTEN_FOR_EFFECTS
+import com.gaoyun.roar.presentation.NavigationSideEffect
 import com.gaoyun.roar.presentation.add_pet.type.AddPetPetTypeScreenContract
 import com.gaoyun.roar.presentation.add_pet.type.AddPetPetTypeScreenViewModel
 import kotlinx.coroutines.flow.collect
@@ -33,21 +33,20 @@ import org.koin.androidx.compose.getViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun AddPetPetTypeDestination(navHostController: NavHostController) {
+fun AddPetPetTypeDestination(onNavigationCall: (NavigationSideEffect) -> Unit) {
     val viewModel: AddPetPetTypeScreenViewModel = getViewModel()
     val state = viewModel.viewState.collectAsState().value
 
     LaunchedEffect(LAUNCH_LISTEN_FOR_EFFECTS) {
         viewModel.effect.onEach { effect ->
             when (effect) {
-                is AddPetPetTypeScreenContract.Effect.Navigation.ToPetAvatar ->
-                    navHostController.navigate("${NavigationKeys.Route.ADD_PET_ROUTE}/${effect.petType}")
+                is AddPetPetTypeScreenContract.Effect.Navigation -> onNavigationCall(effect)
             }
         }.collect()
     }
 
     SurfaceScaffold(
-        backHandler = { navHostController.navigateUp() }
+        backHandler = { onNavigationCall(BackNavigationEffect) }
     ) {
         ChoosePetType(
             petTypes = state.petTypes,

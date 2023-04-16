@@ -1,6 +1,7 @@
 package com.gaoyun.roar.presentation.user_screen
 
 import com.gaoyun.roar.model.domain.User
+import com.gaoyun.roar.presentation.NavigationSideEffect
 import com.gaoyun.roar.presentation.ViewEvent
 import com.gaoyun.roar.presentation.ViewSideEffect
 import com.gaoyun.roar.presentation.ViewState
@@ -47,9 +48,9 @@ class UserScreenContract {
         object BackupReady : Effect()
         object BackupApplied : Effect()
         object LoggedOut : Effect()
+        object NavigateBack : Navigation()
 
-        sealed class Navigation : Effect() {
-            object NavigateBack : Navigation()
+        sealed class Navigation : Effect(), NavigationSideEffect {
             object ToUserEdit : Navigation()
         }
     }
