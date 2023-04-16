@@ -4,6 +4,7 @@ import io.ktor.client.*
 import io.ktor.client.engine.cio.*
 import io.ktor.client.plugins.contentnegotiation.*
 import io.ktor.client.plugins.logging.*
+import io.ktor.http.ContentType
 import io.ktor.serialization.kotlinx.json.*
 
 actual object PlatformHttpClient {
@@ -13,7 +14,7 @@ actual object PlatformHttpClient {
         engine {
             maxConnectionsCount = 1000
             endpoint {
-                connectTimeout = TIMEOUT_SECONDS
+                connectTimeout = TIMEOUT_SECONDS * 1000
                 connectAttempts = 5
             }
         }
@@ -22,7 +23,7 @@ actual object PlatformHttpClient {
             level = LogLevel.BODY
         }
         install(ContentNegotiation) {
-            json()
+            json(contentType = ContentType.Any)
         }
     }
 }
