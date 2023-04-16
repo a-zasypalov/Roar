@@ -15,15 +15,20 @@ class EditUserScreenViewModel : BaseViewModel<EditUserScreenContract.Event, Edit
     private val getUser: GetCurrentUserUseCase by inject()
     private val editUserUseCase: EditUserUseCase by inject()
 
+    init {
+        buildScreenState()
+    }
+
     override fun setInitialState() = EditUserScreenContract.State(isLoading = true)
 
     override fun handleEvents(event: EditUserScreenContract.Event) {
         when (event) {
             is EditUserScreenContract.Event.OnSaveAccountClick -> saveUserProfile(event.user)
+            is EditUserScreenContract.Event.NavigateBack -> setEffect { EditUserScreenContract.Effect.Navigation.NavigateBack }
         }
     }
 
-    fun buildScreenState() = scope.launch {
+    private fun buildScreenState() = scope.launch {
         getUser.getCurrentUser()
             .catch { it.printStackTrace() }
             .collect { setState { copy(isLoading = false, userToEdit = it) } }

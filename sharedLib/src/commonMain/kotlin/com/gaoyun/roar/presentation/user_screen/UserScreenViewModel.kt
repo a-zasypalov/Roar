@@ -24,6 +24,10 @@ class UserScreenViewModel : BaseViewModel<UserScreenContract.Event, UserScreenCo
 
     val backupState = MutableStateFlow("")
 
+    init {
+        buildScreenState()
+    }
+
     override fun setInitialState() = UserScreenContract.State(isLoading = true)
 
     override fun handleEvents(event: UserScreenContract.Event) {
@@ -35,10 +39,11 @@ class UserScreenViewModel : BaseViewModel<UserScreenContract.Event, UserScreenCo
             is UserScreenContract.Event.OnUseBackup -> useBackup(event.backup, event.removeOld)
             is UserScreenContract.Event.OnDynamicColorsStateChange -> setDynamicColor(event.active)
             is UserScreenContract.Event.OnNumberOfRemindersOnMainScreen -> setNumberOfRemindersOnMainScreen(event.newNumber)
+            is UserScreenContract.Event.NavigateBack -> { setEffect { UserScreenContract.Effect.Navigation.NavigateBack } }
         }
     }
 
-    fun buildScreenState() = scope.launch {
+    private fun buildScreenState() = scope.launch {
         getUser.getCurrentUser()
             .catch {
                 it.printStackTrace()

@@ -6,7 +6,6 @@ import com.gaoyun.roar.presentation.ViewSideEffect
 import com.gaoyun.roar.presentation.ViewState
 
 class UserScreenContract {
-
     sealed class Event : ViewEvent {
         object OnDeleteAccountClick : Event()
         object OnEditAccountClick : Event()
@@ -34,6 +33,7 @@ class UserScreenContract {
 
         data class OnDynamicColorsStateChange(val active: Boolean) : Event()
         data class OnNumberOfRemindersOnMainScreen(val newNumber: Int) : Event()
+        object NavigateBack : Event()
     }
 
     data class State(
