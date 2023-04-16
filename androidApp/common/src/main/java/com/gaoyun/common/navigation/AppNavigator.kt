@@ -45,8 +45,12 @@ object AppNavigator {
         else -> null
     }
 
-    private fun toUserRegistration() = NavigationAction.NavigateTo(NavigationKeys.Route.REGISTER_USER_ROUTE)
-    private fun toAddPet() = NavigationAction.NavigateTo(NavigationKeys.Route.ADD_PET_ROUTE)
+    private fun toUserRegistration() =
+        NavigationAction.NavigateTo(NavigationKeys.Route.REGISTER_USER_ROUTE)
+
+    private fun toAddPet() =
+        NavigationAction.NavigateTo(NavigationKeys.Route.ADD_PET_ROUTE)
+
     private fun toAddReminder(effect: HomeScreenContract.Effect.Navigation.ToAddReminder) =
         NavigationAction.NavigateTo("${NavigationKeys.Route.ADD_REMINDER}/${effect.petId}")
 
@@ -62,7 +66,9 @@ object AppNavigator {
     private fun toUserScreen() =
         NavigationAction.NavigateTo("${NavigationKeys.Route.HOME_ROUTE}/${NavigationKeys.Route.USER}")
 
-    private fun toPetAdding() = NavigationAction.NavigateTo(NavigationKeys.Route.HOME_ROUTE)
+    private fun toPetAdding() =
+        NavigationAction.NavigateTo(NavigationKeys.Route.HOME_ROUTE)
+
     private fun toPetAvatar(effect: AddPetPetTypeScreenContract.Effect.Navigation.ToPetAvatar) =
         NavigationAction.NavigateTo("${NavigationKeys.Route.ADD_PET_ROUTE}/${effect.petType}")
 
@@ -75,9 +81,11 @@ object AppNavigator {
     private fun toPetSetup(effect: AddPetDataScreenContract.Effect.Navigation.ToPetSetup) =
         NavigationAction.NavigateTo("${NavigationKeys.Route.ADD_PET_SETUP}/${effect.petId}")
 
-    private fun finishPetSetup() = NavigationAction.PopTo(NavigationKeys.Route.ADD_PET_ROUTE)
+    private fun finishPetSetup() =
+        NavigationAction.PopTo(NavigationKeys.Route.ADD_PET_ROUTE)
 
-    private fun toUserEdit() = NavigationAction.NavigateTo(NavigationKeys.Route.USER_EDIT_ROUTE)
+    private fun toUserEdit() =
+        NavigationAction.NavigateTo(NavigationKeys.Route.USER_EDIT_ROUTE)
 
     private fun toInteractionDetails(effect: PetScreenContract.Effect.Navigation.ToInteractionDetails) =
         NavigationAction.NavigateTo("${NavigationKeys.Route.INTERACTION_DETAIL}/${effect.interactionId}")
@@ -97,5 +105,6 @@ object AppNavigator {
     private fun toCompleteInteractionSetup(effect: SetupReminderScreenContract.Effect.Navigation.ToComplete) =
         NavigationAction.NavigateTo("${NavigationKeys.Route.ADD_REMINDER}/${effect.petId}/${effect.templateId}/${effect.petAvatar}")
 
-    private fun completeReminderCreation() = NavigationAction.PopTo(NavigationKeys.Route.ADD_REMINDER_ROUTE)
+    private fun completeReminderCreation() =
+        NavigationAction.PopTo(NavigationKeys.Route.ADD_REMINDER_ROUTE)
 }
