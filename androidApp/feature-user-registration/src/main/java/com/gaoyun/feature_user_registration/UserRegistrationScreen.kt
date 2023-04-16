@@ -24,40 +24,22 @@ import com.gaoyun.roar.presentation.user_register.RegisterUserScreenContract
 import com.gaoyun.roar.presentation.user_register.RegisterUserViewModel
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
-import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.onEach
 import org.koin.androidx.compose.getViewModel
 
 @Composable
+@OptIn(ExperimentalMaterial3Api::class)
 fun UserRegistrationDestination(navHostController: NavHostController) {
     val viewModel: RegisterUserViewModel = getViewModel()
 
     //Block back action
     BackHandler {}
 
-    UserRegistrationScreen(
-        effectFlow = viewModel.effect,
-        onEventSent = { event -> viewModel.setEvent(event) },
-        onNavigationRequested = { navigationEffect ->
-            when (navigationEffect) {
-                is RegisterUserScreenContract.Effect.Navigation.ToPetAdding -> navHostController.navigate(HOME_ROUTE)
-            }
-        },
-    )
-}
-
-@Composable
-@OptIn(ExperimentalMaterial3Api::class)
-fun UserRegistrationScreen(
-    effectFlow: Flow<RegisterUserScreenContract.Effect>,
-    onEventSent: (event: RegisterUserScreenContract.Event) -> Unit,
-    onNavigationRequested: (navigationEffect: RegisterUserScreenContract.Effect.Navigation) -> Unit,
-) {
     LaunchedEffect(LAUNCH_LISTEN_FOR_EFFECTS) {
-        effectFlow.onEach { effect ->
+        viewModel.effect.onEach { effect ->
             when (effect) {
-                is RegisterUserScreenContract.Effect.Navigation -> onNavigationRequested(effect)
+                is RegisterUserScreenContract.Effect.Navigation.ToPetAdding -> navHostController.navigate(HOME_ROUTE)
             }
         }.collect()
     }
@@ -69,7 +51,7 @@ fun UserRegistrationScreen(
         if (res.resultCode == Activity.RESULT_OK) {
             Firebase.auth.currentUser?.let { user ->
                 val nameToRegister = nameState.ifEmpty { user.displayName ?: defaultUsername }
-                onEventSent(RegisterUserScreenContract.Event.RegistrationSuccessful(nameToRegister, user.uid))
+                viewModel.setEvent(RegisterUserScreenContract.Event.RegistrationSuccessful(nameToRegister, user.uid))
             }
         }
     }

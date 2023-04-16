@@ -24,84 +24,58 @@ import androidx.lifecycle.Lifecycle
 import androidx.navigation.NavHostController
 import com.gaoyun.common.NavigationKeys
 import com.gaoyun.common.OnLifecycleEvent
-import com.gaoyun.common.theme.RoarTheme
 import com.gaoyun.common.composables.SurfaceScaffold
 import com.gaoyun.common.ext.getDrawableByName
+import com.gaoyun.common.theme.RoarTheme
 import com.gaoyun.roar.config.PetsConfig
 import com.gaoyun.roar.presentation.LAUNCH_LISTEN_FOR_EFFECTS
 import com.gaoyun.roar.presentation.add_pet.avatar.AddPetAvatarScreenContract
 import com.gaoyun.roar.presentation.add_pet.avatar.AddPetAvatarScreenViewModel
-import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.onEach
 import org.koin.androidx.compose.getViewModel
 import com.gaoyun.common.R as CommonR
 
 @Composable
+@OptIn(ExperimentalMaterial3Api::class)
 fun AddPetAvatarDestination(navHostController: NavHostController, petType: String, petId: String? = null) {
     val viewModel: AddPetAvatarScreenViewModel = getViewModel()
-    val state = viewModel.viewState.collectAsState().value
-
-    AddPetAvatarScreen(
-        state = state,
-        effectFlow = viewModel.effect,
-        onEventSent = { event -> viewModel.setEvent(event) },
-        onNavigationRequested = { navigationEffect ->
-            when (navigationEffect) {
-                is AddPetAvatarScreenContract.Effect.Navigation.ToPetData ->
-                    navHostController.navigate("${NavigationKeys.Route.ADD_PET_ROUTE}/$petType/${navigationEffect.avatar}")
-                is AddPetAvatarScreenContract.Effect.Navigation.NavigateBack ->
-                    navHostController.navigateUp()
-            }
-        },
-        petType = petType
-    )
 
     OnLifecycleEvent { _, event ->
         if (event == Lifecycle.Event.ON_CREATE) {
             viewModel.petTypeChosen(petType, petId)
         }
     }
-}
 
-@Composable
-@OptIn(ExperimentalMaterial3Api::class)
-fun AddPetAvatarScreen(
-    state: AddPetAvatarScreenContract.State,
-    effectFlow: Flow<AddPetAvatarScreenContract.Effect>,
-    onEventSent: (event: AddPetAvatarScreenContract.Event) -> Unit,
-    onNavigationRequested: (navigationEffect: AddPetAvatarScreenContract.Effect.Navigation) -> Unit,
-    petType: String
-) {
     LaunchedEffect(LAUNCH_LISTEN_FOR_EFFECTS) {
-        effectFlow.onEach { effect ->
+        viewModel.effect.onEach { effect ->
             when (effect) {
-                is AddPetAvatarScreenContract.Effect.Navigation -> onNavigationRequested(effect)
-                else -> {}
+                is AddPetAvatarScreenContract.Effect.Navigation.ToPetData ->
+                    navHostController.navigate("${NavigationKeys.Route.ADD_PET_ROUTE}/$petType/${effect.avatar}")
+
+                is AddPetAvatarScreenContract.Effect.Navigation.NavigateBack -> navHostController.navigateUp()
             }
         }.collect()
     }
 
 
     SurfaceScaffold(
-        backHandler = { onNavigationRequested(AddPetAvatarScreenContract.Effect.Navigation.NavigateBack) }
+        backHandler = { navHostController.navigateUp() }
     ) {
-        ChooseAvatar(
-            petAvatars = state.avatars,
+        PetAvatarScreen(
+            avatars = viewModel.viewState.collectAsState().value.avatars,
             petType = petType,
-            onAvatarChosen = { avatar -> onEventSent(AddPetAvatarScreenContract.Event.AvatarChosen(avatar)) },
+            onAvatarChosen = viewModel::setEvent
         )
     }
 }
 
-@OptIn(ExperimentalFoundationApi::class)
 @Composable
-private fun ChooseAvatar(
-    petAvatars: List<PetsConfig.PetAvatarConfig>,
+fun PetAvatarScreen(
+    avatars: List<PetsConfig.PetAvatarConfig>,
     petType: String,
-    onAvatarChosen: (String) -> Unit
+    onAvatarChosen: (AddPetAvatarScreenContract.Event.AvatarChosen) -> Unit
 ) {
-    val context = LocalContext.current
     val titleSpan: (LazyGridItemSpanScope) -> GridItemSpan = { GridItemSpan(3) }
 
     LazyVerticalGrid(
@@ -118,29 +92,8 @@ private fun ChooseAvatar(
                 modifier = Modifier.padding(start = 8.dp, top = 8.dp, bottom = 16.dp),
             )
         }
-        items(petAvatars, key = { it.iconRes }) { avatar ->
-            Surface(
-                tonalElevation = 8.dp,
-                shape = RoundedCornerShape(16.dp),
-                modifier = Modifier
-                    .animateItemPlacement()
-                    .padding(8.dp)
-            ) {
-                Box(
-                    contentAlignment = Alignment.Center,
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .clickable { onAvatarChosen(avatar.iconRes) }
-                ) {
-                    Image(
-                        painter = painterResource(id = context.getDrawableByName(avatar.iconRes)),
-                        contentDescription = petType,
-                        modifier = Modifier
-                            .size(96.dp)
-                            .padding(16.dp)
-                    )
-                }
-            }
+        items(avatars, key = { it.iconRes }) {
+            AvatarItem(avatar = it, onAvatarChosen = onAvatarChosen, petType = petType)
         }
         item(span = titleSpan) {
             Box(modifier = Modifier.size(WindowInsets.navigationBars.asPaddingValues().calculateBottomPadding()))
@@ -149,9 +102,41 @@ private fun ChooseAvatar(
 }
 
 @Composable
+@OptIn(ExperimentalFoundationApi::class)
+private fun LazyGridItemScope.AvatarItem(
+    avatar: PetsConfig.PetAvatarConfig,
+    petType: String,
+    onAvatarChosen: (AddPetAvatarScreenContract.Event.AvatarChosen) -> Unit
+) {
+    val context = LocalContext.current
+    Surface(
+        tonalElevation = 8.dp,
+        shape = RoundedCornerShape(16.dp),
+        modifier = Modifier
+            .animateItemPlacement()
+            .padding(8.dp)
+    ) {
+        Box(
+            contentAlignment = Alignment.Center,
+            modifier = Modifier
+                .fillMaxSize()
+                .clickable { onAvatarChosen(AddPetAvatarScreenContract.Event.AvatarChosen(avatar.iconRes)) }
+        ) {
+            Image(
+                painter = painterResource(id = context.getDrawableByName(avatar.iconRes)),
+                contentDescription = petType,
+                modifier = Modifier
+                    .size(96.dp)
+                    .padding(16.dp)
+            )
+        }
+    }
+}
+
+@Composable
 @Preview
 fun AddPetAvatarScreenPreview() {
     RoarTheme {
-        ChooseAvatar(PetsConfig.petAvatars("cat"), "cat") {}
+        PetAvatarScreen(PetsConfig.petAvatars("cat"), "cat") {}
     }
 }

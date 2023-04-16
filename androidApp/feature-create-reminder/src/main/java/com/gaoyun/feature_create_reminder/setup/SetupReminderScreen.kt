@@ -2,7 +2,6 @@ package com.gaoyun.feature_create_reminder.setup
 
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.material.icons.filled.*
 import androidx.compose.material3.*
@@ -99,8 +98,8 @@ fun SetupReminderScreen(
                     )
 
                     SurfaceCard(
-                        shape = RoundedCornerShape(topStart = 24.dp, topEnd = 24.dp, bottomStart = 0.dp, bottomEnd = 0.dp),
-                        elevation = CardDefaults.cardElevation(defaultElevation = 8.dp),
+                        shape = surfaceCardFormShape,
+                        elevation = surfaceCardFormElevation(),
                         modifier = Modifier.padding(horizontal = 6.dp)
                     ) {
                         ReminderSetupForm(

@@ -41,9 +41,18 @@ class AddPetDataScreenViewModel :
                     gender = gender
                 )
             }
+
             is AddPetDataScreenContract.Event.PetDataInit -> {
                 setState { copy(petType = event.petType.toPetType(), avatar = event.avatar) }
                 getPetInfo(event.petType.toPetType(), event.petId)
+            }
+
+            is AddPetDataScreenContract.Event.NavigateToAvatarEdit -> {
+                setEffect { AddPetDataScreenContract.Effect.Navigation.ToAvatarEdit(event.petId, event.petType) }
+            }
+
+            is AddPetDataScreenContract.Event.NavigateBack -> {
+                setEffect { AddPetDataScreenContract.Effect.Navigation.NavigateBack(confirmed = false) }
             }
         }
     }

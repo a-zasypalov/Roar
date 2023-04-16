@@ -7,6 +7,11 @@ android {
     namespace = "com.gaoyun.feature_user_registration"
     compileSdk = 33
 
+    defaultConfig {
+        minSdk = 26
+        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+    }
+
     buildFeatures {
         compose = true
     }

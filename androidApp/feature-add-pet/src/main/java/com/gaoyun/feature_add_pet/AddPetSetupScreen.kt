@@ -31,31 +31,16 @@ import com.gaoyun.roar.presentation.LAUNCH_LISTEN_FOR_EFFECTS
 import com.gaoyun.roar.presentation.add_pet.setup.AddPetSetupScreenContract
 import com.gaoyun.roar.presentation.add_pet.setup.AddPetSetupScreenViewModel
 import com.gaoyun.roar.util.randomUUID
-import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.onEach
 import kotlinx.datetime.LocalDate
 import org.koin.androidx.compose.getViewModel
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AddPetSetupDestination(navHostController: NavHostController, petId: String) {
     val viewModel: AddPetSetupScreenViewModel = getViewModel()
     val state = viewModel.viewState.collectAsState().value
-
-    AddPetSetupScreen(
-        state = state,
-        effectFlow = viewModel.effect,
-        onEventSent = { event -> viewModel.setEvent(event) },
-        onNavigationRequested = { navigationEffect ->
-            when (navigationEffect) {
-                is AddPetSetupScreenContract.Effect.Navigation.Continue ->
-                    navHostController.popBackStack(NavigationKeys.Route.ADD_PET_ROUTE, true)
-
-                is AddPetSetupScreenContract.Effect.Navigation.NavigateBack ->
-                    navHostController.navigateUp()
-            }
-        },
-    )
 
     OnLifecycleEvent { _, event ->
         if (event == Lifecycle.Event.ON_RESUME) {
@@ -63,21 +48,11 @@ fun AddPetSetupDestination(navHostController: NavHostController, petId: String) 
         }
     }
 
-}
-
-@Composable
-@OptIn(ExperimentalMaterial3Api::class)
-fun AddPetSetupScreen(
-    state: AddPetSetupScreenContract.State,
-    effectFlow: Flow<AddPetSetupScreenContract.Effect>,
-    onEventSent: (event: AddPetSetupScreenContract.Event) -> Unit,
-    onNavigationRequested: (navigationEffect: AddPetSetupScreenContract.Effect.Navigation) -> Unit,
-) {
     LaunchedEffect(LAUNCH_LISTEN_FOR_EFFECTS) {
-        effectFlow.onEach { effect ->
+        viewModel.effect.onEach { effect ->
             when (effect) {
-                is AddPetSetupScreenContract.Effect.Navigation -> onNavigationRequested(effect)
-                else -> {}
+                is AddPetSetupScreenContract.Effect.Navigation.Continue ->
+                    navHostController.popBackStack(NavigationKeys.Route.ADD_PET_ROUTE, true)
             }
         }.collect()
     }
@@ -87,7 +62,10 @@ fun AddPetSetupScreen(
     SurfaceScaffold {
         BoxWithLoader(isLoading = state.isLoading) {
             state.pet?.let {
-                PetAddingComplete(it) { onEventSent(AddPetSetupScreenContract.Event.ContinueButtonClicked) }
+                PetAddingComplete(
+                    pet = it,
+                    onContinueButtonClicked = viewModel::setEvent
+                )
             }
         }
     }
@@ -96,7 +74,7 @@ fun AddPetSetupScreen(
 @Composable
 private fun PetAddingComplete(
     pet: Pet,
-    onContinueButtonClicked: () -> Unit
+    onContinueButtonClicked: (AddPetSetupScreenContract.Event.ContinueButtonClicked) -> Unit
 ) {
     val context = LocalContext.current
 
@@ -118,7 +96,9 @@ private fun PetAddingComplete(
 
         Spacer(16.dp)
 
-        PrimaryElevatedButton(text = stringResource(id = R.string.continue_label), onClick = onContinueButtonClicked)
+        PrimaryElevatedButton(text = stringResource(id = R.string.continue_label), onClick = {
+            onContinueButtonClicked(AddPetSetupScreenContract.Event.ContinueButtonClicked)
+        })
     }
 
 }

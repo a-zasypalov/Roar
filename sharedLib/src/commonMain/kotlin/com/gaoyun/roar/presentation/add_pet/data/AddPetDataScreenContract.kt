@@ -21,6 +21,9 @@ class AddPetDataScreenContract {
             val chipNumber: String,
             val isSterilized: Boolean
         ) : Event()
+
+        object NavigateBack : Event()
+        class NavigateToAvatarEdit(val petId: String, val petType: PetType) : Event()
     }
 
     data class State(

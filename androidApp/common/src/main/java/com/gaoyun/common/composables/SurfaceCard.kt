@@ -1,5 +1,6 @@
 package com.gaoyun.common.composables
 
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CardElevation
@@ -28,3 +29,7 @@ fun SurfaceCard(
         content()
     }
 }
+
+val surfaceCardFormShape = RoundedCornerShape(topStart = 24.dp, topEnd = 24.dp, bottomStart = 0.dp, bottomEnd = 0.dp)
+@Composable
+fun surfaceCardFormElevation() = CardDefaults.cardElevation(defaultElevation = 8.dp)

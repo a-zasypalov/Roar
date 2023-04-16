@@ -2,7 +2,6 @@ package com.gaoyun.feature_user_screen
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
@@ -100,8 +99,8 @@ private fun EditUserForm(user: User, onSaveClick: (User) -> Unit) {
     val userName = remember { mutableStateOf(user.name) }
 
     SurfaceCard(
-        shape = RoundedCornerShape(topStart = 24.dp, topEnd = 24.dp, bottomStart = 0.dp, bottomEnd = 0.dp),
-        elevation = CardDefaults.cardElevation(defaultElevation = 8.dp),
+        shape = surfaceCardFormShape,
+        elevation = surfaceCardFormElevation(),
         modifier = Modifier.padding(horizontal = 6.dp)
     ) {
         Column(

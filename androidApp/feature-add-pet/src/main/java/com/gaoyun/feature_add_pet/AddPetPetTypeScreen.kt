@@ -19,72 +19,48 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import com.gaoyun.common.NavigationKeys
 import com.gaoyun.common.R
-import com.gaoyun.common.theme.RoarTheme
 import com.gaoyun.common.composables.RoarIcon
 import com.gaoyun.common.composables.SurfaceScaffold
 import com.gaoyun.common.ext.getDrawableByName
+import com.gaoyun.common.theme.RoarTheme
 import com.gaoyun.roar.config.PetsConfig
-import com.gaoyun.roar.model.domain.PetType
 import com.gaoyun.roar.presentation.LAUNCH_LISTEN_FOR_EFFECTS
 import com.gaoyun.roar.presentation.add_pet.type.AddPetPetTypeScreenContract
 import com.gaoyun.roar.presentation.add_pet.type.AddPetPetTypeScreenViewModel
-import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.onEach
 import org.koin.androidx.compose.getViewModel
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AddPetPetTypeDestination(navHostController: NavHostController) {
     val viewModel: AddPetPetTypeScreenViewModel = getViewModel()
     val state = viewModel.viewState.collectAsState().value
 
-    AddPetPetTypeScreen(
-        state = state,
-        effectFlow = viewModel.effect,
-        onEventSent = { event -> viewModel.setEvent(event) },
-        onNavigationRequested = { navigationEffect ->
-            when (navigationEffect) {
-                is AddPetPetTypeScreenContract.Effect.Navigation.ToPetAvatar ->
-                    navHostController.navigate("${NavigationKeys.Route.ADD_PET_ROUTE}/${navigationEffect.petType}")
-
-                is AddPetPetTypeScreenContract.Effect.Navigation.NavigateBack -> navHostController.navigateUp()
-            }
-        },
-    )
-
-}
-
-@Composable
-@OptIn(ExperimentalMaterial3Api::class)
-fun AddPetPetTypeScreen(
-    state: AddPetPetTypeScreenContract.State,
-    effectFlow: Flow<AddPetPetTypeScreenContract.Effect>,
-    onEventSent: (event: AddPetPetTypeScreenContract.Event) -> Unit,
-    onNavigationRequested: (navigationEffect: AddPetPetTypeScreenContract.Effect.Navigation) -> Unit,
-) {
     LaunchedEffect(LAUNCH_LISTEN_FOR_EFFECTS) {
-        effectFlow.onEach { effect ->
+        viewModel.effect.onEach { effect ->
             when (effect) {
-                is AddPetPetTypeScreenContract.Effect.Navigation -> onNavigationRequested(effect)
-                else -> {}
+                is AddPetPetTypeScreenContract.Effect.Navigation.ToPetAvatar ->
+                    navHostController.navigate("${NavigationKeys.Route.ADD_PET_ROUTE}/${effect.petType}")
             }
         }.collect()
     }
 
     SurfaceScaffold(
-        backHandler = { onNavigationRequested(AddPetPetTypeScreenContract.Effect.Navigation.NavigateBack) }
+        backHandler = { navHostController.navigateUp() }
     ) {
         ChoosePetType(
             petTypes = state.petTypes,
-            onPetTypeChosen = { petType -> onEventSent(AddPetPetTypeScreenContract.Event.PetTypeChosen(petType)) },
+            onPetTypeChosen = viewModel::setEvent,
         )
     }
+
 }
 
 @Composable
 private fun ChoosePetType(
     petTypes: List<PetsConfig.PetTypeConfig>,
-    onPetTypeChosen: (PetType) -> Unit
+    onPetTypeChosen: (AddPetPetTypeScreenContract.Event.PetTypeChosen) -> Unit
 ) {
     val context = LocalContext.current
 
@@ -118,7 +94,7 @@ private fun ChoosePetType(
                         contentAlignment = Alignment.Center,
                         modifier = Modifier
                             .fillMaxSize()
-                            .clickable { onPetTypeChosen(type.enumType) }
+                            .clickable { onPetTypeChosen(AddPetPetTypeScreenContract.Event.PetTypeChosen(type.enumType)) }
                     ) {
                         RoarIcon(
                             icon = context.getDrawableByName(type.iconRes),
