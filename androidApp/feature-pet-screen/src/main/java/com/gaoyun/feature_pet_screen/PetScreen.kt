@@ -18,22 +18,16 @@ import com.gaoyun.common.dialog.InteractionCompletionDialog
 import com.gaoyun.common.theme.RoarTheme
 import com.gaoyun.feature_pet_screen.view.PetContainer
 import com.gaoyun.roar.model.domain.*
-import com.gaoyun.roar.model.domain.interactions.InteractionGroup
-import com.gaoyun.roar.model.domain.interactions.InteractionRemindConfig
-import com.gaoyun.roar.model.domain.interactions.InteractionType
-import com.gaoyun.roar.model.domain.interactions.InteractionWithReminders
 import com.gaoyun.roar.presentation.BackNavigationEffect
 import com.gaoyun.roar.presentation.LAUNCH_LISTEN_FOR_EFFECTS
 import com.gaoyun.roar.presentation.NavigationSideEffect
 import com.gaoyun.roar.presentation.pet_screen.PetScreenContract
 import com.gaoyun.roar.presentation.pet_screen.PetScreenViewModel
-import com.gaoyun.roar.util.toLocalDate
+import com.gaoyun.roar.util.SharedDateUtils
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.onEach
 import kotlinx.datetime.*
 import org.koin.androidx.compose.getViewModel
-import java.time.LocalDateTime
-import kotlin.time.Duration.Companion.hours
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -51,7 +45,7 @@ fun PetScreenDestination(
     }
 
     val showCompleteReminderDateDialog = remember { mutableStateOf(false) }
-    val completeReminderDateDialogDate = remember { mutableStateOf<LocalDateTime>(LocalDateTime.now()) }
+    val completeReminderDateDialogDate = remember { mutableStateOf(SharedDateUtils.currentDateTime()) }
     val reminderToCompleteId = remember { mutableStateOf<String?>(null) }
 
     LaunchedEffect(LAUNCH_LISTEN_FOR_EFFECTS) {
@@ -83,9 +77,6 @@ fun PetScreenDestination(
         }
 
         if (showCompleteReminderDateDialog.value) {
-            var currentDateTime = LocalDateTime.now().withHour(completeReminderDateDialogDate.value.hour)
-            currentDateTime = currentDateTime.withMinute(completeReminderDateDialogDate.value.minute)
-
             InteractionCompletionDialog(
                 showCompleteReminderDateDialog = showCompleteReminderDateDialog,
                 dateTime = completeReminderDateDialogDate.value,
@@ -95,7 +86,10 @@ fun PetScreenDestination(
                         PetScreenContract.Event.OnInteractionCheckClicked(
                             reminderId = reminderToCompleteId.value ?: "",
                             completed = true,
-                            completionDateTime = currentDateTime.toKotlinLocalDateTime(),
+                            completionDateTime = SharedDateUtils.currentDateAt(
+                                hour = completeReminderDateDialogDate.value.hour,
+                                minute = completeReminderDateDialogDate.value.minute,
+                            ),
                         )
                     )
                 },
@@ -105,7 +99,7 @@ fun PetScreenDestination(
                         PetScreenContract.Event.OnInteractionCheckClicked(
                             reminderId = reminderToCompleteId.value ?: "",
                             completed = true,
-                            completionDateTime = completeReminderDateDialogDate.value.toKotlinLocalDateTime(),
+                            completionDateTime = completeReminderDateDialogDate.value,
                         )
                     )
                 }
@@ -128,9 +122,9 @@ fun PetScreenDestination(
                         } else {
                             viewModel.setEvent(
                                 PetScreenContract.Event.OnInteractionCheckClicked(
-                                    reminderId,
-                                    false,
-                                    completionDateTime.toKotlinLocalDateTime()
+                                    reminderId = reminderId,
+                                    completed = false,
+                                    completionDateTime = completionDateTime
                                 )
                             )
                         }
@@ -152,42 +146,7 @@ fun PetScreenDestination(
 fun PetScreenPreview() {
     RoarTheme {
         SurfaceScaffold {
-            PetContainer(
-                Pet(
-                    petType = PetType.CAT,
-                    breed = "Colorpoint Shorthair",
-                    name = "Senior Android Developer",
-                    avatar = "ic_cat_15",
-                    userId = "123",
-                    birthday = Clock.System.now().toLocalDate(),
-                    isSterilized = false,
-                    gender = Gender.MALE,
-                    chipNumber = "123123456456",
-                    dateCreated = Clock.System.now().toLocalDate()
-                ).withInteractions(
-                    mapOf(
-                        InteractionGroup.CARE to
-                                listOf(
-                                    InteractionWithReminders(
-                                        petId = "",
-                                        type = InteractionType.CUSTOM,
-                                        name = "Interaction Name",
-                                        group = InteractionGroup.CARE,
-                                        isActive = true,
-                                        remindConfig = InteractionRemindConfig(),
-                                        reminders = listOf(
-                                            Reminder(
-                                                interactionId = "",
-                                                dateTime = Clock.System.now().plus(1.hours).toLocalDateTime(TimeZone.currentSystemDefault())
-                                            )
-                                        )
-                                    )
-                                )
-                    )
-                ),
-                true,
-                {}, {}, {}, { _, _, _ -> }
-            )
+            PetContainer(PetWithInteractions.preview(), true, {}, {}, {}, { _, _, _ -> })
         }
     }
 }

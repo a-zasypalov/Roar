@@ -3,7 +3,11 @@ package com.gaoyun.roar.model.domain.interactions
 import com.gaoyun.roar.model.domain.Reminder
 import com.gaoyun.roar.model.entity.InteractionEntity
 import com.gaoyun.roar.util.randomUUID
+import kotlinx.datetime.Clock
+import kotlinx.datetime.TimeZone
+import kotlinx.datetime.toLocalDateTime
 import kotlinx.serialization.Serializable
+import kotlin.time.Duration.Companion.hours
 
 @Serializable
 data class Interaction(
@@ -32,7 +36,24 @@ data class InteractionWithReminders(
     val isActive: Boolean,
     val notes: String = "",
     val reminders: List<Reminder> = listOf()
-)
+) {
+    companion object {
+        fun preview() = InteractionWithReminders(
+            petId = "",
+            type = InteractionType.CUSTOM,
+            name = "Interaction Name",
+            group = InteractionGroup.CARE,
+            isActive = true,
+            remindConfig = InteractionRemindConfig(),
+            reminders = listOf(
+                Reminder(
+                    interactionId = "",
+                    dateTime = Clock.System.now().plus(1.hours).toLocalDateTime(TimeZone.currentSystemDefault())
+                )
+            )
+        )
+    }
+}
 
 internal fun Interaction.withReminders(reminders: List<Reminder>): InteractionWithReminders {
     return InteractionWithReminders(

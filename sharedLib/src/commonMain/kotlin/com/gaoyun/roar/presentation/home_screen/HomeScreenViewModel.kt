@@ -10,11 +10,15 @@ import com.gaoyun.roar.domain.user.GetCurrentUserUseCase
 import com.gaoyun.roar.domain.user.RegisterUserUseCase
 import com.gaoyun.roar.model.domain.PetWithInteractions
 import com.gaoyun.roar.model.domain.User
+import com.gaoyun.roar.model.domain.interactions.withReminders
+import com.gaoyun.roar.model.domain.interactions.withoutReminders
 import com.gaoyun.roar.model.domain.withInteractions
 import com.gaoyun.roar.model.domain.withoutInteractions
 import com.gaoyun.roar.network.SynchronisationApi
 import com.gaoyun.roar.presentation.BaseViewModel
 import com.gaoyun.roar.util.NoUserException
+import com.gaoyun.roar.util.SharedDateUtils.MAX_DATE
+import com.gaoyun.roar.util.SharedDateUtils.MIN_DATE
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.filterNotNull
@@ -52,18 +56,21 @@ class HomeScreenViewModel :
                 scope.launch {
                     setDialogShow(false)
                     delay(250)
-                    openAddReminderScreen(event.petId)
+                    setEffect { HomeScreenContract.Effect.Navigation.ToAddReminder(event.petId) }
                 }
             }
+
             is HomeScreenContract.Event.InteractionClicked -> setEffect {
                 HomeScreenContract.Effect.Navigation.ToInteractionDetails(event.interactionId)
             }
+
             is HomeScreenContract.Event.OnDeletePetClicked -> setState { copy(deletePetDialogShow = true) }
             is HomeScreenContract.Event.OnDeletePetConfirmed -> scope.launch {
                 hideDeletePetDialog()
                 delay(250)
                 removePet.removePet(event.pet.id).collect { checkUserRegistered() }
             }
+
             is HomeScreenContract.Event.OnInteractionCheckClicked -> setReminderComplete(event.pet, event.reminderId, event.completed, event.completionDateTime)
         }
     }
@@ -97,17 +104,42 @@ class HomeScreenViewModel :
     }
 
     private fun getPets(user: User) = scope.launch {
+        val remindersPerPet = appPreferencesUseCase.numberOfRemindersOnMainScreen()
         val pets = (getPetUseCase.getPetByUserId(user.id).firstOrNull() ?: emptyList())
-            .map { pet ->
-                pet.withInteractions(
-                    interactions = getInteractions.getInteractionByPet(pet.id).firstOrNull()?.groupBy { it.group } ?: emptyMap()
-                )
-            }
 
-        if (pets.isNotEmpty()) {
-            setPetsState(user, pets, appPreferencesUseCase.numberOfRemindersOnMainScreen())
+        val petsState = if (pets.size > 1) {
+            pets.map { pet ->
+                val interactions = getInteractions.getInteractionByPet(pet.id).firstOrNull() ?: emptyList()
+                val reminders = interactions
+                    .flatMap { it.reminders }
+                    .filter { !it.isCompleted }
+                    .sortedBy { it.dateTime }
+                    .take(remindersPerPet)
+
+                val interactionsToShow = interactions.map { it.withoutReminders().withReminders(reminders.filter { r -> r.interactionId == it.id }) }
+                    .filter { it.reminders.isNotEmpty() }
+                    .sortedBy { it.reminders.minOfOrNull { r -> r.dateTime } ?: MAX_DATE }
+                    .groupBy { it.group }
+
+                pet.withInteractions(interactionsToShow)
+            }.sortedBy { pet ->
+                pet.interactions.values.flatten()
+                    .minOfOrNull { interaction -> interaction.reminders.minOfOrNull { reminder -> reminder.dateTime } ?: MAX_DATE } ?: MIN_DATE
+            }
         } else {
-            setUserDataState(user)
+            pets.map { pet ->
+                val interactionsToShow = (getInteractions.getInteractionByPet(pet.id).firstOrNull() ?: emptyList())
+                    .sortedBy { it.reminders.filter { r -> r.isCompleted.not() }.minOfOrNull { r -> r.dateTime } }
+                    .groupBy { it.group }
+
+                pet.withInteractions(interactionsToShow)
+            }
+        }
+
+        if (petsState.isNotEmpty()) {
+            setState { copy(user = user, pets = petsState, isLoading = false) }
+        } else {
+            setState { copy(user = user, pets = emptyList(), isLoading = false) }
         }
     }
 
@@ -130,15 +162,9 @@ class HomeScreenViewModel :
         }
     }
 
-    private fun setUserDataState(user: User) = setState { copy(user = user, pets = emptyList(), isLoading = false) }
-    private fun setPetsState(user: User, pets: List<PetWithInteractions>, numberOfRemindersOnMainScreen: Int) = setState {
-        copy(user = user, pets = pets, remindersPerPet = numberOfRemindersOnMainScreen, isLoading = false)
-    }
-
     private fun setDialogShow(show: Boolean) = setState { copy(showPetChooser = show) }
     fun hideDeletePetDialog() = setState { copy(deletePetDialogShow = false) }
     fun openRegistration() = setEffect { HomeScreenContract.Effect.Navigation.ToUserRegistration }
     fun openAddPetScreen() = setEffect { HomeScreenContract.Effect.Navigation.ToAddPet }
-    private fun openAddReminderScreen(petId: String) = setEffect { HomeScreenContract.Effect.Navigation.ToAddReminder(petId) }
     fun openPetScreen(petId: String) = setEffect { HomeScreenContract.Effect.Navigation.ToPetScreen(petId) }
 }

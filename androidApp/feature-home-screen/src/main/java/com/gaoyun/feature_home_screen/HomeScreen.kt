@@ -12,7 +12,6 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.window.Dialog
 import androidx.lifecycle.Lifecycle
 import com.firebase.ui.auth.AuthUI
 import com.firebase.ui.auth.FirebaseAuthUIActivityResultContract
@@ -33,14 +32,12 @@ import com.gaoyun.roar.presentation.LAUNCH_LISTEN_FOR_EFFECTS
 import com.gaoyun.roar.presentation.NavigationSideEffect
 import com.gaoyun.roar.presentation.home_screen.HomeScreenContract
 import com.gaoyun.roar.presentation.home_screen.HomeScreenViewModel
+import com.gaoyun.roar.util.SharedDateUtils
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.onEach
-import kotlinx.datetime.toJavaLocalDateTime
-import kotlinx.datetime.toKotlinLocalDateTime
 import org.koin.androidx.compose.getViewModel
-import java.time.LocalDateTime
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -56,7 +53,7 @@ fun HomeScreenDestination(onNavigationCall: (NavigationSideEffect) -> Unit) {
     }
 
     val showCompleteReminderDateDialog = remember { mutableStateOf(false) }
-    val completeReminderDateDialogDate = remember { mutableStateOf<LocalDateTime>(LocalDateTime.now()) }
+    val completeReminderDateDialogDate = remember { mutableStateOf(SharedDateUtils.currentDateTime()) }
     val reminderToCompleteId = remember { mutableStateOf<String?>(null) }
     val petToComplete = remember { mutableStateOf<PetWithInteractions?>(null) }
 
@@ -89,61 +86,6 @@ fun HomeScreenDestination(onNavigationCall: (NavigationSideEffect) -> Unit) {
         },
         floatingActionButtonPosition = FabPosition.End
     ) {
-        if (state.showPetChooser) {
-            Dialog(
-                onDismissRequest = { viewModel.setEvent(HomeScreenContract.Event.SetPetChooserShow(false)) }
-            ) {
-                InteractionPetChooser(
-                    pets = state.pets,
-                    onPetChosen = { viewModel.setEvent(HomeScreenContract.Event.PetChosenForReminderCreation(it)) }
-                )
-            }
-        }
-
-        if (showCompleteReminderDateDialog.value) {
-            var currentDateTime = LocalDateTime.now().withHour(completeReminderDateDialogDate.value.hour)
-            currentDateTime = currentDateTime.withMinute(completeReminderDateDialogDate.value.minute)
-
-            InteractionCompletionDialog(
-                showCompleteReminderDateDialog = showCompleteReminderDateDialog,
-                dateTime = completeReminderDateDialogDate.value,
-                onConfirmButtonClick = {
-                    showCompleteReminderDateDialog.value = false
-                    petToComplete.value?.let { pet ->
-                        viewModel.setEvent(
-                            HomeScreenContract.Event.OnInteractionCheckClicked(
-                                reminderId = reminderToCompleteId.value ?: "",
-                                completed = true,
-                                completionDateTime = currentDateTime.toKotlinLocalDateTime(),
-                                pet = pet
-                            )
-                        )
-                    }
-                },
-                onDismissButtonClick = {
-                    showCompleteReminderDateDialog.value = false
-                    petToComplete.value?.let { pet ->
-                        viewModel.setEvent(
-                            HomeScreenContract.Event.OnInteractionCheckClicked(
-                                reminderId = reminderToCompleteId.value ?: "",
-                                completed = true,
-                                completionDateTime = completeReminderDateDialogDate.value.toKotlinLocalDateTime(),
-                                pet = pet
-                            )
-                        )
-                    }
-                }
-            )
-        }
-
-        if (state.deletePetDialogShow) {
-            RemovePetConfirmationDialog(
-                petName = state.pets.first().name,
-                onDismiss = viewModel::hideDeletePetDialog,
-                onConfirm = { viewModel.setEvent(HomeScreenContract.Event.OnDeletePetConfirmed(state.pets.first())) }
-            )
-        }
-
         val signInLauncher = rememberLauncherForActivityResult(
             FirebaseAuthUIActivityResultContract()
         ) { res ->
@@ -154,23 +96,76 @@ fun HomeScreenDestination(onNavigationCall: (NavigationSideEffect) -> Unit) {
             }
         }
 
+        when {
+            state.showPetChooser -> {
+                InteractionPetChooser(
+                    pets = state.pets,
+                    onPetChosen = { viewModel.setEvent(HomeScreenContract.Event.PetChosenForReminderCreation(it)) },
+                    onDismiss = { viewModel.setEvent(HomeScreenContract.Event.SetPetChooserShow(false)) }
+                )
+            }
+
+            showCompleteReminderDateDialog.value -> {
+                InteractionCompletionDialog(
+                    showCompleteReminderDateDialog = showCompleteReminderDateDialog,
+                    dateTime = completeReminderDateDialogDate.value,
+                    onConfirmButtonClick = {
+                        showCompleteReminderDateDialog.value = false
+                        petToComplete.value?.let { pet ->
+                            viewModel.setEvent(
+                                HomeScreenContract.Event.OnInteractionCheckClicked(
+                                    reminderId = reminderToCompleteId.value ?: "",
+                                    completed = true,
+                                    completionDateTime = SharedDateUtils.currentDateAt(
+                                        hour = completeReminderDateDialogDate.value.hour,
+                                        minute = completeReminderDateDialogDate.value.minute
+                                    ),
+                                    pet = pet
+                                )
+                            )
+                        }
+                    },
+                    onDismissButtonClick = {
+                        showCompleteReminderDateDialog.value = false
+                        petToComplete.value?.let { pet ->
+                            viewModel.setEvent(
+                                HomeScreenContract.Event.OnInteractionCheckClicked(
+                                    reminderId = reminderToCompleteId.value ?: "",
+                                    completed = true,
+                                    completionDateTime = completeReminderDateDialogDate.value,
+                                    pet = pet
+                                )
+                            )
+                        }
+                    }
+                )
+            }
+
+            state.deletePetDialogShow -> {
+                RemovePetConfirmationDialog(
+                    petName = state.pets.first().name,
+                    onDismiss = viewModel::hideDeletePetDialog,
+                    onConfirm = { viewModel.setEvent(HomeScreenContract.Event.OnDeletePetConfirmed(state.pets.first())) }
+                )
+            }
+        }
+
         BoxWithLoader(isLoading = state.isLoading) {
             state.user?.let { user ->
                 if (state.pets.isNotEmpty()) {
                     HomeState(
                         pets = state.pets,
                         showLastReminder = state.showLastReminder,
-                        remindersPerPet = state.remindersPerPet,
                         onAddPetButtonClick = viewModel::openAddPetScreen,
                         onPetCardClick = viewModel::openPetScreen,
-                        onInteractionClick = { petId, interactionId -> viewModel.setEvent(HomeScreenContract.Event.InteractionClicked(petId, interactionId)) },
-                        onDeletePetClick = { pet -> viewModel.setEvent(HomeScreenContract.Event.OnDeletePetClicked(pet)) },
-                        onEditPetClick = { pet -> viewModel.setEvent(HomeScreenContract.Event.ToEditPetClicked(pet = pet)) },
+                        onInteractionClick = viewModel::setEvent,
+                        onDeletePetClick = viewModel::setEvent,
+                        onEditPetClick = viewModel::setEvent,
                         onInteractionCheckClicked = { pet, reminderId, completed, completionDateTime ->
                             if (completed) {
                                 petToComplete.value = pet
                                 reminderToCompleteId.value = reminderId
-                                completeReminderDateDialogDate.value = completionDateTime.toJavaLocalDateTime()
+                                completeReminderDateDialogDate.value = completionDateTime
                                 showCompleteReminderDateDialog.value = true
                             } else {
                                 viewModel.setEvent(

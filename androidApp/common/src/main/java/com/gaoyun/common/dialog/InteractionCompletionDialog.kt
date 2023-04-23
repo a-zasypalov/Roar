@@ -10,8 +10,8 @@ import com.gaoyun.common.DateUtils
 import com.gaoyun.common.R
 import com.gaoyun.roar.util.toLocalDate
 import kotlinx.datetime.Clock
-import kotlinx.datetime.toKotlinLocalDateTime
-import java.time.LocalDateTime
+import kotlinx.datetime.LocalDateTime
+import kotlinx.datetime.toJavaLocalDateTime
 
 @Composable
 fun InteractionCompletionDialog(
@@ -20,12 +20,12 @@ fun InteractionCompletionDialog(
     onDismissButtonClick: () -> Unit,
     dateTime: LocalDateTime
 ) {
-    if (dateTime.toKotlinLocalDateTime().date == Clock.System.now().toLocalDate()) {
+    if (dateTime.date == Clock.System.now().toLocalDate()) {
         onDismissButtonClick.invoke()
         return
     }
 
-    val date = dateTime.format(DateUtils.ddMmmDateFormatter)
+    val date = dateTime.toJavaLocalDateTime().format(DateUtils.ddMmmDateFormatter)
     AlertDialog(
         onDismissRequest = { showCompleteReminderDateDialog.value = false },
         title = { Text(stringResource(id = R.string.interaction_completion_dialog_title)) },

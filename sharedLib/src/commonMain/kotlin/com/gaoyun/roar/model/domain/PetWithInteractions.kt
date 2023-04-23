@@ -20,7 +20,11 @@ data class PetWithInteractions(
     val chipNumber: String,
     val dateCreated: LocalDate,
     val interactions: Map<InteractionGroup, List<InteractionWithReminders>>
-)
+) {
+    companion object {
+        fun preview() = Pet.preview().withInteractions(mapOf(InteractionGroup.CARE to listOf(InteractionWithReminders.preview())))
+    }
+}
 
 fun Pet.withInteractions(interactions: Map<InteractionGroup, List<InteractionWithReminders>>) = PetWithInteractions(
     id = id,

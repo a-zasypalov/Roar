@@ -20,52 +20,55 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.window.Dialog
 import com.gaoyun.common.R
 import com.gaoyun.common.composables.Spacer
 import com.gaoyun.common.ext.getDrawableByName
 import com.gaoyun.roar.model.domain.PetWithInteractions
 
 @Composable
-fun InteractionPetChooser(pets: List<PetWithInteractions>, onPetChosen: (String) -> Unit) {
-    Card(
-        elevation = CardDefaults.elevatedCardElevation(0.dp),
-        shape = MaterialTheme.shapes.large,
-    ) {
-        LazyColumn {
-            item {
-                Spacer(8.dp)
-
-                Text(
-                    text = stringResource(id = R.string.for_who),
-                    style = MaterialTheme.typography.displaySmall,
-                    color = MaterialTheme.colorScheme.onSurface,
-                    modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp),
-                    textAlign = TextAlign.Center
-                )
-            }
-            items(pets) { pet ->
-                Row(
-                    verticalAlignment = Alignment.CenterVertically,
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .clickable { onPetChosen(pet.id) }
-                        .padding(horizontal = 16.dp, vertical = 12.dp)
-                ) {
-
-                    Image(
-                        painter = painterResource(id = LocalContext.current.getDrawableByName(pet.avatar)),
-                        contentDescription = pet.name,
-                        modifier = Modifier.height(56.dp)
-                    )
-
-                    Spacer(16.dp)
+fun InteractionPetChooser(pets: List<PetWithInteractions>, onPetChosen: (String) -> Unit, onDismiss: () -> Unit) {
+    Dialog(onDismissRequest = onDismiss) {
+        Card(
+            elevation = CardDefaults.elevatedCardElevation(0.dp),
+            shape = MaterialTheme.shapes.large,
+        ) {
+            LazyColumn {
+                item {
+                    Spacer(8.dp)
 
                     Text(
-                        text = pet.name,
-                        style = MaterialTheme.typography.titleLarge,
+                        text = stringResource(id = R.string.for_who),
+                        style = MaterialTheme.typography.displaySmall,
                         color = MaterialTheme.colorScheme.onSurface,
-                        modifier = Modifier.weight(0.8f)
+                        modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp),
+                        textAlign = TextAlign.Center
                     )
+                }
+                items(pets) { pet ->
+                    Row(
+                        verticalAlignment = Alignment.CenterVertically,
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .clickable { onPetChosen(pet.id) }
+                            .padding(horizontal = 16.dp, vertical = 12.dp)
+                    ) {
+
+                        Image(
+                            painter = painterResource(id = LocalContext.current.getDrawableByName(pet.avatar)),
+                            contentDescription = pet.name,
+                            modifier = Modifier.height(56.dp)
+                        )
+
+                        Spacer(16.dp)
+
+                        Text(
+                            text = pet.name,
+                            style = MaterialTheme.typography.titleLarge,
+                            color = MaterialTheme.colorScheme.onSurface,
+                            modifier = Modifier.weight(0.8f)
+                        )
+                    }
                 }
             }
         }
