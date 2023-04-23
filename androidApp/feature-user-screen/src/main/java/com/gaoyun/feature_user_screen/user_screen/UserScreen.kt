@@ -57,8 +57,8 @@ fun UserScreenDestination(
     LaunchedEffect(LAUNCH_LISTEN_FOR_EFFECTS) {
         viewModel.effect.onEach { effect ->
             when (effect) {
-                is UserScreenContract.Effect.Navigation -> onNavigationCall(effect)
                 is UserScreenContract.Effect.NavigateBack -> onNavigationCall(BackNavigationEffect)
+                is UserScreenContract.Effect.Navigation -> onNavigationCall(effect)
                 is UserScreenContract.Effect.BackupReady -> coroutineScope.launch {
                     val intent = Intent(Intent.ACTION_CREATE_DOCUMENT).apply {
                         addCategory(Intent.CATEGORY_OPENABLE)

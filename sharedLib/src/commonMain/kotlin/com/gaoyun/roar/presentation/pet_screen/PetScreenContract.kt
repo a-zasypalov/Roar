@@ -29,7 +29,7 @@ class PetScreenContract {
     ) : ViewState
 
     sealed class Effect : ViewSideEffect {
-        object NavigateBack : Navigation()
+        object NavigateBack : Effect()
         sealed class Navigation : Effect(), NavigationSideEffect {
             class ToInteractionDetails(val interactionId: String) : Navigation()
             class ToInteractionTemplates(val petId: String) : Navigation()

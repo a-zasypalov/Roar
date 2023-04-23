@@ -48,7 +48,7 @@ class UserScreenContract {
         object BackupReady : Effect()
         object BackupApplied : Effect()
         object LoggedOut : Effect()
-        object NavigateBack : Navigation()
+        object NavigateBack : Effect()
 
         sealed class Navigation : Effect(), NavigationSideEffect {
             object ToUserEdit : Navigation()

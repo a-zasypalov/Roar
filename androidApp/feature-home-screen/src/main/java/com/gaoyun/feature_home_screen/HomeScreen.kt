@@ -63,8 +63,8 @@ fun HomeScreenDestination(onNavigationCall: (NavigationSideEffect) -> Unit) {
     LaunchedEffect(LAUNCH_LISTEN_FOR_EFFECTS) {
         viewModel.effect.onEach { effect ->
             when (effect) {
-                is HomeScreenContract.Effect.Navigation -> onNavigationCall(effect)
                 is HomeScreenContract.Effect.NavigateBack -> activity.finish()
+                is HomeScreenContract.Effect.Navigation -> onNavigationCall(effect)
             }
         }.collect()
     }

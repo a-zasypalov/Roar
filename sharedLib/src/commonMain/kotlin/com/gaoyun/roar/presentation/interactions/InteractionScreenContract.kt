@@ -30,7 +30,7 @@ class InteractionScreenContract {
         class ShowRemoveReminderFromHistoryDialog(val reminderId: String) : Effect()
         class ShowCompleteReminderDialog(val reminderId: String, val date: LocalDateTime) : Effect()
         object ShowRemoveInteractionDialog : Effect()
-        object NavigateBack : Navigation()
+        object NavigateBack : Effect()
 
         sealed class Navigation : Effect(), NavigationSideEffect {
             class ToEditInteraction(val petId: String, val interaction: InteractionWithReminders) : Navigation()

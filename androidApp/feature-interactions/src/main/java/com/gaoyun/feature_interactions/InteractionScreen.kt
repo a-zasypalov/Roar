@@ -67,8 +67,8 @@ fun InteractionScreenDestination(
     LaunchedEffect(LAUNCH_LISTEN_FOR_EFFECTS) {
         viewModel.effect.onEach { effect ->
             when (effect) {
-                is InteractionScreenContract.Effect.Navigation -> onNavigationCall(effect)
                 is InteractionScreenContract.Effect.NavigateBack -> onNavigationCall(BackNavigationEffect)
+                is InteractionScreenContract.Effect.Navigation -> onNavigationCall(effect)
                 is InteractionScreenContract.Effect.ShowRemoveReminderFromHistoryDialog -> {
                     reminderToRemoveId.value = effect.reminderId
                     showRemoveReminderFromHistoryDialog.value = true

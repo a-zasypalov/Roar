@@ -33,7 +33,7 @@ class HomeScreenContract {
     ) : ViewState
 
     sealed class Effect : ViewSideEffect {
-        object NavigateBack : Navigation()
+        object NavigateBack : Effect()
         sealed class Navigation : Effect(), NavigationSideEffect {
             object ToUserRegistration : Navigation()
             object ToAddPet : Navigation()
