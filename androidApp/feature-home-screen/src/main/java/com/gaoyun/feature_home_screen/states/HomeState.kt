@@ -65,7 +65,7 @@ fun HomeState(
                     .flatMap { it.reminders }
                     .filter { !it.isCompleted }
                     .sortedBy { it.dateTime }
-                    .take(remindersPerPetState.value)
+                    .take(if(pets.size > 1) remindersPerPetState.value else Int.MAX_VALUE)
             }
         )
     }
@@ -80,7 +80,7 @@ fun HomeState(
                 .flatMap { it.reminders }
                 .filter { !it.isCompleted }
                 .sortedBy { it.dateTime }
-                .take(remindersPerPet)
+                .take(if(pets.size > 1) remindersPerPet else Int.MAX_VALUE)
         }
     }
 
