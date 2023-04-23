@@ -8,12 +8,16 @@ import com.gaoyun.roar.model.domain.withInteractions
 import com.gaoyun.roar.model.domain.withPets
 import com.gaoyun.roar.util.Preferences
 import com.gaoyun.roar.util.PreferencesKeys
+import com.gaoyun.roar.util.PreferencesKeys.LAST_SYNCHRONISED_HASH
 import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.flow.flow
 import kotlinx.serialization.json.Json
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
+import kotlin.io.encoding.Base64
+import kotlin.io.encoding.ExperimentalEncodingApi
 
+@OptIn(ExperimentalEncodingApi::class)
 class CreateBackupUseCase : KoinComponent {
 
     private val getCurrentUserUseCase: GetCurrentUserUseCase by inject()
@@ -52,7 +56,14 @@ class CreateBackupUseCase : KoinComponent {
             val userWithPets = user.withPets(pets)
             prefs.setLong(PreferencesKeys.LAST_SYNCHRONISED_TIMESTAMP, userWithPets.timestamp)
             val backupString = Json.encodeToString(UserWithPets.serializer(), userWithPets)
-            emit(backupString)
+
+            val hash = Base64.encode(backupString.encodeToByteArray())
+            if (hash != prefs.getString(LAST_SYNCHRONISED_HASH)) {
+                prefs.setString(LAST_SYNCHRONISED_HASH, hash)
+                emit(backupString)
+            } else {
+                emit(null)
+            }
         }
     }
 

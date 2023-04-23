@@ -58,7 +58,7 @@ class MainActivity : AppCompatActivity() {
 
     private val isDynamicColorsActive by lazy {
         this.getSharedPreferences("app_prefs", MODE_PRIVATE)
-            .getBoolean(PreferencesKeys.DYNAMIC_COLORS_ACTIVE, false)
+            .getBoolean(PreferencesKeys.DYNAMIC_COLORS_ACTIVE, true)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
