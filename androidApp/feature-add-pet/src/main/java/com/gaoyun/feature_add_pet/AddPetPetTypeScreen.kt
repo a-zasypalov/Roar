@@ -85,7 +85,7 @@ private fun ChoosePetType(
         ) {
             items(petTypes) { type ->
                 Surface(
-                    tonalElevation = 8.dp,
+                    tonalElevation = 12.dp,
                     shape = RoundedCornerShape(16.dp),
                     modifier = Modifier.padding(8.dp)
                 ) {

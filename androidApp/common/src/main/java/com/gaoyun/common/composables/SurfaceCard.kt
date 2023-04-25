@@ -14,7 +14,7 @@ import androidx.compose.ui.unit.dp
 fun SurfaceCard(
     modifier: Modifier = Modifier,
     shape: Shape = CardDefaults.shape,
-    elevation: CardElevation = CardDefaults.cardElevation(defaultElevation = 2.dp),
+    elevation: CardElevation = CardDefaults.cardElevation(defaultElevation = 4.dp),
     content: @Composable () -> Unit
 ) {
     Card(
@@ -32,4 +32,4 @@ fun SurfaceCard(
 
 val surfaceCardFormShape = RoundedCornerShape(topStart = 24.dp, topEnd = 24.dp, bottomStart = 0.dp, bottomEnd = 0.dp)
 @Composable
-fun surfaceCardFormElevation() = CardDefaults.cardElevation(defaultElevation = 8.dp)
+fun surfaceCardFormElevation() = CardDefaults.cardElevation(defaultElevation = 24.dp)

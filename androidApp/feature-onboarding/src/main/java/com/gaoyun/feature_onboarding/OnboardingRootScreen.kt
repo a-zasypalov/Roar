@@ -102,7 +102,7 @@ fun OnboardingHelloPage() {
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Surface(
-            tonalElevation = 12.dp,
+            tonalElevation = 16.dp,
             modifier = Modifier
                 .clip(MaterialTheme.shapes.extraLarge)
                 .size(160.dp)
@@ -130,7 +130,7 @@ fun OnboardingCarePage() {
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Surface(
-            tonalElevation = 12.dp,
+            tonalElevation = 16.dp,
             modifier = Modifier
                 .clip(MaterialTheme.shapes.extraLarge)
                 .size(160.dp)
@@ -159,7 +159,7 @@ fun OnboardingCommunityPage() {
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Surface(
-            tonalElevation = 12.dp,
+            tonalElevation = 16.dp,
             modifier = Modifier
                 .clip(MaterialTheme.shapes.extraLarge)
                 .size(160.dp)

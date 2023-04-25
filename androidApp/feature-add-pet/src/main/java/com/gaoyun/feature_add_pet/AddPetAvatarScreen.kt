@@ -112,7 +112,7 @@ private fun LazyGridItemScope.AvatarItem(
 ) {
     val context = LocalContext.current
     Surface(
-        tonalElevation = 8.dp,
+        tonalElevation = 12.dp,
         shape = RoundedCornerShape(16.dp),
         modifier = Modifier
             .animateItemPlacement()

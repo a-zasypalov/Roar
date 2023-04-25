@@ -57,7 +57,7 @@ internal fun InteractionHeader(
             Spacer(8.dp)
 
             Surface(
-                tonalElevation = 8.dp,
+                tonalElevation = 12.dp,
                 modifier = Modifier
                     .fillMaxHeight()
                     .weight(0.2f),

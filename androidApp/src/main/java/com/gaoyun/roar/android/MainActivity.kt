@@ -11,8 +11,10 @@ import android.view.WindowManager
 import androidx.activity.compose.setContent
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
+import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.ui.unit.dp
 import androidx.core.content.ContextCompat
 import androidx.core.view.WindowCompat
 import androidx.lifecycle.lifecycleScope
@@ -72,7 +74,9 @@ class MainActivity : AppCompatActivity() {
 
         setContent {
             RoarTheme(userPreferenceDynamicColorsIsActive = isDynamicColorsActive) {
-                GlobalDestinationState(isOnboardingComplete = isOnboardingComplete)
+                Surface(tonalElevation = 2.dp) {
+                    GlobalDestinationState(isOnboardingComplete = isOnboardingComplete)
+                }
             }
         }
 

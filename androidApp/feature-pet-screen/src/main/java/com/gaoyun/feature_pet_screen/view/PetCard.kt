@@ -37,7 +37,7 @@ fun PetCard(
 
     Surface(
         shape = MaterialTheme.shapes.large,
-        tonalElevation = 8.dp,
+        tonalElevation = 16.dp,
         modifier = modifier.padding(horizontal = 16.dp, vertical = 8.dp),
     ) {
         Column(modifier = Modifier.clickable { onPetCardClick(pet.id) }) {

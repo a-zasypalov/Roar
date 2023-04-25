@@ -54,7 +54,7 @@ internal fun UserHomeHeader(
             )
 
             Surface(
-                tonalElevation = 8.dp,
+                tonalElevation = 12.dp,
                 modifier = Modifier.weight(0.38f),
                 shape = CircleShape,
                 onClick = onUserButtonButtonClick,

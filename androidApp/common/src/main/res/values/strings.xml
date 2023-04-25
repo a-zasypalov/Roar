@@ -219,6 +219,10 @@
     <string name="interaction_completion_dialog_title">When was it completed?</string>
     <string name="interaction_completion_dialog_description">Was the interaction completed today or according its date on %1$s?</string>
 
+    <!--  Notifications  -->
+    <string name="notification_title">Reminder for %1$s</string>
+    <string name="notification_content_dont_forget">Don\'t forget about %1$s</string>
+
 </resources>
 
     <!--

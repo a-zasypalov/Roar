@@ -89,7 +89,7 @@ private fun ReminderCard(
     content: @Composable () -> Unit
 ) {
     Surface(
-        tonalElevation = 4.dp,
+        tonalElevation = 8.dp,
         shape = MaterialTheme.shapes.large,
         modifier = modifier
             .padding(horizontal = 8.dp, vertical = 8.dp)

@@ -121,7 +121,7 @@ fun AddReminderDestination(
                             modifier = Modifier
                                 .padding(horizontal = 16.dp, vertical = 8.dp),
                             shape = RoundedCornerShape(16.dp),
-                            tonalElevation = 8.dp,
+                            tonalElevation = 12.dp,
                         ) {
                             Column(
                                 modifier = Modifier
@@ -176,7 +176,7 @@ private fun TemplateItem(
         modifier = Modifier
             .padding(horizontal = 16.dp, vertical = 8.dp),
         shape = RoundedCornerShape(16.dp),
-        tonalElevation = 8.dp,
+        tonalElevation = 12.dp,
     ) {
         Column(
             modifier = Modifier
