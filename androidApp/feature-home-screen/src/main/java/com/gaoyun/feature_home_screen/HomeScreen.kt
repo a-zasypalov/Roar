@@ -4,6 +4,7 @@ import android.app.Activity
 import androidx.activity.compose.BackHandler
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.appcompat.app.AppCompatActivity
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -66,6 +67,17 @@ fun HomeScreenDestination(onNavigationCall: (NavigationSideEffect) -> Unit) {
         }.collect()
     }
 
+    val verticalScroll = rememberLazyListState()
+    var fabExtended by remember { mutableStateOf(true) }
+    LaunchedEffect(verticalScroll) {
+        var prev = 0
+        snapshotFlow { verticalScroll.firstVisibleItemIndex }
+            .collect {
+                fabExtended = it <= prev
+                prev = it
+            }
+    }
+
     BackHandler { activity.finish() }
 
     SurfaceScaffold(
@@ -75,6 +87,7 @@ fun HomeScreenDestination(onNavigationCall: (NavigationSideEffect) -> Unit) {
                     icon = Icons.Filled.Add,
                     contentDescription = stringResource(id = R.string.add_reminder),
                     text = stringResource(id = R.string.reminder),
+                    extended = fabExtended,
                     onClick = {
                         if (state.pets.size > 1) {
                             viewModel.setEvent(HomeScreenContract.Event.SetPetChooserShow(true))
@@ -178,7 +191,8 @@ fun HomeScreenDestination(onNavigationCall: (NavigationSideEffect) -> Unit) {
                                 )
                             }
                         },
-                        onUserDetailsClick = { viewModel.setEvent(HomeScreenContract.Event.ToUserScreenClicked) }
+                        onUserDetailsClick = { viewModel.setEvent(HomeScreenContract.Event.ToUserScreenClicked) },
+                        state = verticalScroll
                     )
                 } else {
                     NoPetsState(userName = user.name,

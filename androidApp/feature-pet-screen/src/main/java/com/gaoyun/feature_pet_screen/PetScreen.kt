@@ -57,12 +57,24 @@ fun PetScreenDestination(
         }.collect()
     }
 
+    val verticalScroll = rememberScrollState()
+    var fabExtended by remember { mutableStateOf(true) }
+    LaunchedEffect(verticalScroll) {
+        var prev = 0
+        snapshotFlow { verticalScroll.value }
+            .collect {
+                fabExtended = it <= prev
+                prev = it
+            }
+    }
+
     SurfaceScaffold(
         floatingActionButton = {
             RoarExtendedFAB(
                 icon = Icons.Filled.Add,
                 contentDescription = stringResource(id = R.string.add_reminder),
                 text = stringResource(id = R.string.reminder),
+                extended = fabExtended,
                 onClick = { viewModel.setEvent(PetScreenContract.Event.AddReminderButtonClicked(state.pet?.id ?: "")) })
         },
         floatingActionButtonPosition = FabPosition.End,
@@ -130,7 +142,7 @@ fun PetScreenDestination(
                         }
                     },
                     modifier = Modifier
-                        .verticalScroll(rememberScrollState())
+                        .verticalScroll(verticalScroll)
                         .padding(start = 8.dp, end = 8.dp)
                         .fillMaxWidth()
                 )

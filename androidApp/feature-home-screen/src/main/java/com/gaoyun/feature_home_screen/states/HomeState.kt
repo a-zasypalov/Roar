@@ -9,7 +9,9 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.statusBars
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -41,10 +43,12 @@ fun HomeState(
     onDeletePetClick: (HomeScreenContract.Event.OnDeletePetClicked) -> Unit,
     onEditPetClick: (HomeScreenContract.Event.ToEditPetClicked) -> Unit,
     onInteractionCheckClicked: (pet: PetWithInteractions, interactionId: String, isChecked: Boolean, completionDateTime: LocalDateTime) -> Unit,
-    onUserDetailsClick: () -> Unit
+    onUserDetailsClick: () -> Unit,
+    state: LazyListState,
 ) {
 
     LazyColumn(
+        state = state,
         modifier = Modifier
             .fillMaxWidth()
             .fillMaxHeight()
@@ -127,6 +131,6 @@ fun HomeState(
 @Composable
 fun HomeStatePreview() {
     RoarTheme {
-        HomeState(listOf(PetWithInteractions.preview()), false, {}, {}, { _ -> }, {}, {}, { _, _, _, _ -> }, {})
+        HomeState(listOf(PetWithInteractions.preview()), false, {}, {}, { _ -> }, {}, {}, { _, _, _, _ -> }, {}, rememberLazyListState())
     }
 }

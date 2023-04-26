@@ -1,5 +1,6 @@
 package com.gaoyun.common.composables
 
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.layout.Row
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
@@ -18,6 +19,7 @@ fun RoarExtendedFAB(
     containerColor: Color = MaterialTheme.colorScheme.tertiaryContainer,
     contentColor: Color = contentColorFor(containerColor),
     elevation: FloatingActionButtonElevation = FloatingActionButtonDefaults.elevation(),
+    extended: Boolean = true,
     icon: ImageVector,
     contentDescription: String,
     text: String
@@ -32,8 +34,10 @@ fun RoarExtendedFAB(
     ) {
         Row(verticalAlignment = Alignment.CenterVertically) {
             Icon(imageVector = icon, contentDescription = contentDescription)
-            Spacer(size = 4.dp)
-            Text(text = text, style = MaterialTheme.typography.titleMedium)
+            AnimatedVisibility(visible = extended) {
+                Spacer(size = 4.dp)
+                Text(text = text, style = MaterialTheme.typography.titleMedium)
+            }
         }
     }
 }
