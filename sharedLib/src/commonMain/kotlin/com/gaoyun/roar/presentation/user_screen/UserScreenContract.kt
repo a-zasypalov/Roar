@@ -42,6 +42,7 @@ class UserScreenContract {
     data class State(
         val isLoading: Boolean = false,
         val dynamicColorActive: Boolean = false,
+        val activeColorTheme: ColorTheme = ColorTheme.Orange,
         val numberOfRemindersOnMainScreenState: String = "2",
         val user: User? = null,
     ) : ViewState

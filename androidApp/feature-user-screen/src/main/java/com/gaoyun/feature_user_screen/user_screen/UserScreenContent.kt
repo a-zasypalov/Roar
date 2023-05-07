@@ -3,17 +3,25 @@ package com.gaoyun.feature_user_screen.user_screen
 import android.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Check
 import androidx.compose.material.icons.filled.ListAlt
 import androidx.compose.material.icons.filled.Person
+import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.ElevatedCard
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -23,6 +31,8 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
@@ -35,8 +45,8 @@ import com.gaoyun.common.composables.BoxWithLoader
 import com.gaoyun.common.composables.DropdownMenu
 import com.gaoyun.common.composables.FontSizeRange
 import com.gaoyun.common.composables.LabelledCheckBox
-import com.gaoyun.common.composables.PrimaryTintedButton
 import com.gaoyun.common.composables.Spacer
+import com.gaoyun.common.theme.primaryColor
 import com.gaoyun.roar.model.domain.User
 import com.gaoyun.roar.presentation.user_screen.UserScreenContract
 import com.gaoyun.roar.util.ColorTheme
@@ -53,6 +63,7 @@ internal fun UserScreenContent(
 ) {
     val context = LocalContext.current
     val activity = LocalContext.current as? AppCompatActivity
+    val isDarkTheme = isSystemInDarkTheme()
 
     val numberOfRemindersOnMainScreenState = remember { mutableStateOf(state.numberOfRemindersOnMainScreenState) }
     numberOfRemindersOnMainScreenState.value = state.numberOfRemindersOnMainScreenState
@@ -156,12 +167,38 @@ internal fun UserScreenContent(
                 AnimatedVisibility(visible = !state.dynamicColorActive) {
                     LazyRow {
                         items(ColorTheme.values()) {
-                            PrimaryTintedButton(
-                                text = it.name,
-                                onClick = {
-                                    onStaticColorThemePick(UserScreenContract.Event.OnStaticColorThemePick(it))
-                                    activity?.recreate()
-                                })
+                            ElevatedCard(
+                                shape = MaterialTheme.shapes.medium,
+                                colors = CardDefaults.elevatedCardColors(
+                                    containerColor = Color.White
+                                ),
+                                modifier = Modifier
+                                    .padding(horizontal = 8.dp)
+                                    .size(72.dp)
+                            ) {
+                                Box(
+                                    modifier = Modifier
+                                        .fillMaxSize()
+                                        .clickable {
+                                            onStaticColorThemePick(UserScreenContract.Event.OnStaticColorThemePick(it))
+                                            activity?.recreate()
+                                        }
+                                        .padding(8.dp)
+                                        .clip(MaterialTheme.shapes.medium)
+                                        .background(it.primaryColor(isDarkTheme))
+                                ) {
+                                    if (state.activeColorTheme == it) {
+                                        Icon(
+                                            Icons.Default.Check,
+                                            contentDescription = null,
+                                            tint = Color.White,
+                                            modifier = Modifier
+                                                .fillMaxSize()
+                                                .padding(12.dp)
+                                        )
+                                    }
+                                }
+                            }
                         }
                     }
                 }

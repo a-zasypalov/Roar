@@ -61,6 +61,7 @@ class UserScreenViewModel : BaseViewModel<UserScreenContract.Event, UserScreenCo
                     copy(
                         isLoading = false,
                         user = user,
+                        activeColorTheme = appPreferencesUseCase.staticTheme()?.let { ColorTheme.valueOf(it) } ?: ColorTheme.Orange,
                         dynamicColorActive = appPreferencesUseCase.dynamicColorsIsActive(),
                         numberOfRemindersOnMainScreenState = appPreferencesUseCase.numberOfRemindersOnMainScreen().toString(),
                     )
@@ -88,6 +89,7 @@ class UserScreenViewModel : BaseViewModel<UserScreenContract.Event, UserScreenCo
 
     private fun staticThemeChange(theme: ColorTheme) {
         appPreferencesUseCase.setStaticTheme(theme.name)
+        setState { copy(activeColorTheme = theme) }
     }
 
     private fun setNumberOfRemindersOnMainScreen(number: Int) {
