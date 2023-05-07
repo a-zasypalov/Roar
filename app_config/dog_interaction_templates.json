@@ -1,7 +1,7 @@
 {
   "items": [
     {
-      "id": "100",
+      "id": "232b5d57-3741-4716-bee0-a29213bf9412",
       "name": "deworming_3m",
       "petType": "dog",
       "type": "deworming",
@@ -9,7 +9,7 @@
       "repeatConfig": "3_month_same_no.0"
     },
     {
-      "id": "101",
+      "id": "179681cb-134a-49ba-b995-7defededee5b",
       "name": "health_check_yearly",
       "petType": "dog",
       "type": "health_check",
@@ -17,12 +17,52 @@
       "repeatConfig": "1_year_same_no.0"
     },
     {
-      "id": "102",
+      "id": "f5125a17-31ea-4892-b66f-828eb24bab77",
       "name": "flees_monthly",
       "petType": "dog",
       "type": "flees",
       "interactionGroup": "care",
       "repeatConfig": "1_month_same_no.0"
+    },
+    {
+      "id": "e233b245-72a4-429e-8e1d-a65656dc82ba",
+      "name": "grooming_3m",
+      "petType": "dog",
+      "type": "grooming",
+      "interactionGroup": "care",
+      "repeatConfig": "3_month_same_no.0"
+    },
+    {
+      "id": "94232523-1e4b-4e97-ae68-11df7dc0d7b6",
+      "name": "nails_yearly",
+      "petType": "dog",
+      "type": "nails",
+      "interactionGroup": "care",
+      "repeatConfig": "1_year_1_no.0"
+    },
+    {
+      "id": "6d25547d-b77e-4af5-b99e-f0a3351c82be",
+      "name": "vaccine_planned",
+      "petType": "dog",
+      "type": "vaccination",
+      "interactionGroup": "health",
+      "repeatConfig": "1_year_1_no.0"
+    },
+    {
+      "id": "57a08e1d-221a-4ce5-9978-e955edb265cc",
+      "name": "pills_prescribed",
+      "petType": "dog",
+      "type": "pills",
+      "interactionGroup": "health",
+      "repeatConfig": "1_week_2,4_times.8"
+    },
+    {
+      "id": "0f8ef924-e632-451c-945b-9af5a646dac3",
+      "name": "bathing_4w",
+      "petType": "dog",
+      "type": "bath",
+      "interactionGroup": "care",
+      "repeatConfig": "4_week_6_no.0"
     }
   ]
 }

@@ -1,7 +1,7 @@
 {
   "items": [
     {
-      "id": "1",
+      "id": "e57abb21-e0f5-4f60-b562-4946666503b4",
       "name": "deworming_3m",
       "petType": "cat",
       "type": "deworming",
@@ -9,7 +9,7 @@
       "repeatConfig": "3_month_same_no.0"
     },
     {
-      "id": "2",
+      "id": "5c19ee28-d20e-47b3-9139-9233c343afdd",
       "name": "health_check_yearly",
       "petType": "cat",
       "type": "health_check",
@@ -17,7 +17,7 @@
       "repeatConfig": "1_year_1_no.0"
     },
     {
-      "id": "3",
+      "id": "b600ef87-a84d-4264-beca-2ef0d759fce5",
       "name": "flees_monthly",
       "petType": "cat",
       "type": "flees",
@@ -25,7 +25,7 @@
       "repeatConfig": "1_month_same_no.0"
     },
     {
-      "id": "4",
+      "id": "898b696a-f5ef-4ee4-a34c-0ddbcffea8b0",
       "name": "grooming_6m",
       "petType": "cat",
       "type": "grooming",
@@ -33,7 +33,7 @@
       "repeatConfig": "6_month_same_no.0"
     },
     {
-      "id": "5",
+      "id": "22b95e06-ce00-49b6-8574-8cfa3fa50d9b",
       "name": "nails_3m",
       "petType": "cat",
       "type": "nails",
@@ -41,7 +41,7 @@
       "repeatConfig": "3_month_same_no.0"
     },
     {
-      "id": "6",
+      "id": "50546330-819f-47af-88ff-cff84baf8324",
       "name": "vaccine_rabies",
       "petType": "cat",
       "type": "vaccination",
@@ -49,7 +49,7 @@
       "repeatConfig": "3_year_1_no.0"
     },
     {
-      "id": "7",
+      "id": "ffe14f6d-c1ea-4d87-9c1a-2446c7371df2",
       "name": "vaccine_planned",
       "petType": "cat",
       "type": "vaccination",
@@ -57,7 +57,7 @@
       "repeatConfig": "1_year_1_no.0"
     },
     {
-      "id": "8",
+      "id": "c7d91e5e-bab6-4946-a730-a40a08840eb8",
       "name": "pills_prescribed",
       "petType": "cat",
       "type": "pills",
@@ -65,7 +65,7 @@
       "repeatConfig": "1_week_2,4_times.8"
     },
     {
-      "id": "9",
+      "id": "f0be4f18-ba25-4638-bdf2-bfcbc2628ead",
       "name": "bathing_4w",
       "petType": "cat",
       "type": "bath",
