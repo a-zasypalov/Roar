@@ -1,13 +1,16 @@
-package com.gaoyun.feature_user_screen
+package com.gaoyun.feature_user_screen.user_screen
 
 import android.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ListAlt
 import androidx.compose.material.icons.filled.Person
@@ -32,10 +35,11 @@ import com.gaoyun.common.composables.BoxWithLoader
 import com.gaoyun.common.composables.DropdownMenu
 import com.gaoyun.common.composables.FontSizeRange
 import com.gaoyun.common.composables.LabelledCheckBox
+import com.gaoyun.common.composables.PrimaryTintedButton
 import com.gaoyun.common.composables.Spacer
-import com.gaoyun.feature_user_screen.user_screen.UserScreenBackupBlock
 import com.gaoyun.roar.model.domain.User
 import com.gaoyun.roar.presentation.user_screen.UserScreenContract
+import com.gaoyun.roar.util.ColorTheme
 
 @Composable
 internal fun UserScreenContent(
@@ -44,6 +48,7 @@ internal fun UserScreenContent(
     onUseBackup: (UserScreenContract.Event.OnUseBackup) -> Unit,
     onNumberOfRemindersOnMainScreenChange: (UserScreenContract.Event.OnNumberOfRemindersOnMainScreen) -> Unit,
     onDynamicColorsStateChange: (UserScreenContract.Event.OnDynamicColorsStateChange) -> Unit,
+    onStaticColorThemePick: (UserScreenContract.Event.OnStaticColorThemePick) -> Unit,
     onLogout: (UserScreenContract.Event.OnLogout) -> Unit
 ) {
     val context = LocalContext.current
@@ -127,6 +132,14 @@ internal fun UserScreenContent(
                     modifier = Modifier.fillMaxWidth()
                 )
 
+                Spacer(size = 32.dp)
+
+                Text(
+                    text = "Colours",
+                    style = MaterialTheme.typography.titleLarge,
+                    color = MaterialTheme.colorScheme.onSurface
+                )
+
                 Spacer(size = 8.dp)
 
                 LabelledCheckBox(
@@ -139,6 +152,19 @@ internal fun UserScreenContent(
                     modifier = Modifier.fillMaxWidth(),
                     horizontalPadding = 8.dp
                 )
+
+                AnimatedVisibility(visible = !state.dynamicColorActive) {
+                    LazyRow {
+                        items(ColorTheme.values()) {
+                            PrimaryTintedButton(
+                                text = it.name,
+                                onClick = {
+                                    onStaticColorThemePick(UserScreenContract.Event.OnStaticColorThemePick(it))
+                                    activity?.recreate()
+                                })
+                        }
+                    }
+                }
 
                 Spacer(size = 32.dp)
 
@@ -176,6 +202,6 @@ internal fun UserScreenContent(
 fun UserScreenPreview() {
     UserScreenContent(
         state = UserScreenContract.State(isLoading = false, dynamicColorActive = false, user = User("id", "Tester")),
-        {}, {}, {}, {}, {}
+        {}, {}, {}, {}, {}, {}
     )
 }

@@ -7,7 +7,12 @@ import com.gaoyun.roar.domain.user.GetCurrentUserUseCase
 import com.gaoyun.roar.domain.user.LogoutUseCase
 import com.gaoyun.roar.network.SynchronisationApi
 import com.gaoyun.roar.presentation.BaseViewModel
-import kotlinx.coroutines.flow.*
+import com.gaoyun.roar.util.ColorTheme
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.firstOrNull
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
@@ -38,8 +43,11 @@ class UserScreenViewModel : BaseViewModel<UserScreenContract.Event, UserScreenCo
             is UserScreenContract.Event.OnCreateBackupClick -> createBackup()
             is UserScreenContract.Event.OnUseBackup -> useBackup(event.backup, event.removeOld)
             is UserScreenContract.Event.OnDynamicColorsStateChange -> setDynamicColor(event.active)
+            is UserScreenContract.Event.OnStaticColorThemePick -> staticThemeChange(event.theme)
             is UserScreenContract.Event.OnNumberOfRemindersOnMainScreen -> setNumberOfRemindersOnMainScreen(event.newNumber)
-            is UserScreenContract.Event.NavigateBack -> { setEffect { UserScreenContract.Effect.NavigateBack } }
+            is UserScreenContract.Event.NavigateBack -> {
+                setEffect { UserScreenContract.Effect.NavigateBack }
+            }
         }
     }
 
@@ -76,6 +84,10 @@ class UserScreenViewModel : BaseViewModel<UserScreenContract.Event, UserScreenCo
     private fun setDynamicColor(active: Boolean) {
         appPreferencesUseCase.setDynamicColors(active)
         setState { copy(dynamicColorActive = active) }
+    }
+
+    private fun staticThemeChange(theme: ColorTheme) {
+        appPreferencesUseCase.setStaticTheme(theme.name)
     }
 
     private fun setNumberOfRemindersOnMainScreen(number: Int) {

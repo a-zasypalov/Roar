@@ -9,6 +9,11 @@ import androidx.compose.material3.dynamicLightColorScheme
 import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.platform.LocalContext
+import com.example.compose.BlueDarkColors
+import com.example.compose.BlueLightColors
+import com.gaoyun.common.theme.colors.GreenDarkColors
+import com.gaoyun.common.theme.colors.GreenLightColors
+import com.gaoyun.roar.util.ColorTheme
 
 internal val LightColorsGenerated = lightColorScheme(
     primary = md_theme_light_primary,
@@ -78,6 +83,7 @@ internal val DarkColorsGenerated = darkColorScheme(
 @Composable
 fun RoarTheme(
     userPreferenceDynamicColorsIsActive: Boolean = false,
+    colorTheme: ColorTheme = ColorTheme.Orange,
     darkTheme: Boolean = isSystemInDarkTheme(),
     supportsDynamic: Boolean = Build.VERSION.SDK_INT >= Build.VERSION_CODES.S,
     content: @Composable () -> Unit
@@ -86,7 +92,11 @@ fun RoarTheme(
         val context = LocalContext.current
         if (darkTheme) dynamicDarkColorScheme(context) else dynamicLightColorScheme(context)
     } else {
-        if (darkTheme) DarkColorsGenerated else LightColorsGenerated
+        when (colorTheme) {
+            ColorTheme.Green -> if (darkTheme) GreenDarkColors else GreenLightColors
+            ColorTheme.Blue -> if (darkTheme) BlueDarkColors else BlueLightColors
+            ColorTheme.Orange -> if (darkTheme) DarkColorsGenerated else LightColorsGenerated
+        }
     }
 
     MaterialTheme(

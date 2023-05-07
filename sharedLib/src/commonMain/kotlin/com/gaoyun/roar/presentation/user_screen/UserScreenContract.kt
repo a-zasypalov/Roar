@@ -5,6 +5,7 @@ import com.gaoyun.roar.presentation.NavigationSideEffect
 import com.gaoyun.roar.presentation.ViewEvent
 import com.gaoyun.roar.presentation.ViewSideEffect
 import com.gaoyun.roar.presentation.ViewState
+import com.gaoyun.roar.util.ColorTheme
 
 class UserScreenContract {
     sealed class Event : ViewEvent {
@@ -33,6 +34,7 @@ class UserScreenContract {
         }
 
         data class OnDynamicColorsStateChange(val active: Boolean) : Event()
+        data class OnStaticColorThemePick(val theme: ColorTheme) : Event()
         data class OnNumberOfRemindersOnMainScreen(val newNumber: Int) : Event()
         object NavigateBack : Event()
     }

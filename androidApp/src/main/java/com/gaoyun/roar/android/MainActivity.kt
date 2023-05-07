@@ -41,6 +41,7 @@ import com.gaoyun.feature_user_registration.UserRegistrationDestination
 import com.gaoyun.feature_user_screen.edit_user.EditUserScreenDestination
 import com.gaoyun.feature_user_screen.user_screen.UserScreenDestination
 import com.gaoyun.roar.presentation.LAUNCH_LISTEN_FOR_EFFECTS
+import com.gaoyun.roar.util.ColorTheme
 import com.gaoyun.roar.util.PreferencesKeys
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import kotlinx.coroutines.delay
@@ -63,6 +64,11 @@ class MainActivity : AppCompatActivity() {
             .getBoolean(PreferencesKeys.DYNAMIC_COLORS_ACTIVE, true)
     }
 
+    private val colorTheme by lazy {
+        this.getSharedPreferences("app_prefs", MODE_PRIVATE)
+            .getString(PreferencesKeys.COLOR_THEME, null)?.let { ColorTheme.valueOf(it) }
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -73,7 +79,10 @@ class MainActivity : AppCompatActivity() {
         )
 
         setContent {
-            RoarTheme(userPreferenceDynamicColorsIsActive = isDynamicColorsActive) {
+            RoarTheme(
+                userPreferenceDynamicColorsIsActive = isDynamicColorsActive,
+                colorTheme = colorTheme ?: ColorTheme.Orange
+            ) {
                 Surface(tonalElevation = 2.dp) {
                     GlobalDestinationState(isOnboardingComplete = isOnboardingComplete)
                 }

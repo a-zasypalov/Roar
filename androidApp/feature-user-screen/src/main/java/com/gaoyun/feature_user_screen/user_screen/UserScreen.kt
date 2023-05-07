@@ -13,7 +13,6 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import com.gaoyun.common.R
 import com.gaoyun.common.composables.*
-import com.gaoyun.feature_user_screen.UserScreenContent
 import com.gaoyun.roar.presentation.BackNavigationEffect
 import com.gaoyun.roar.presentation.LAUNCH_LISTEN_FOR_EFFECTS
 import com.gaoyun.roar.presentation.NavigationSideEffect
@@ -98,6 +97,7 @@ fun UserScreenDestination(
             onUseBackup = viewModel::setEvent,
             onNumberOfRemindersOnMainScreenChange = viewModel::setEvent,
             onDynamicColorsStateChange = viewModel::setEvent,
+            onStaticColorThemePick = viewModel::setEvent,
             onLogout = viewModel::setEvent,
         )
     }
