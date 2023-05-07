@@ -2,7 +2,7 @@
 <resources>
     <string name="app_name">Roar</string>
     <string name="username">Username</string>
-    <string name="choose_avatar">Choose avatar</string>
+    <string name="choose_avatar">Avatar</string>
     <string name="pets_card">Pet\'s Card</string>
     <string name="edit_profile">Edit profile</string>
     <string name="logout">Logout</string>

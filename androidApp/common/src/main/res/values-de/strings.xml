@@ -1,0 +1,230 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Brüllen</string>
+    <string name="username">Benutzername</string>
+    <string name="choose_avatar">Avatar</string>
+    <string name="pets_card">Tierkarte</string>
+    <string name="edit_profile">Profil bearbeiten</string>
+    <string name="logout">Abmelden</string>
+    <string name="logout_question">Abmelden?</string>
+    <string name="logout_description">Möchten Sie sich wirklich abmelden?</string>
+    <string name="name">Name</string>
+    <string name="breed">Rasse</string>
+    <string name="male">Männlich</string>
+    <string name="female">Weiblich</string>
+    <string name="gender">Geschlecht</string>
+    <string name="birthday">Geburtstag</string>
+    <string name="pets_birthday">Geburtstag des Tiers</string>
+    <string name="chip_number">Chip-Nummer</string>
+    <string name="chip">Chip</string>
+    <string name="pet_is_sterilized">Tier ist sterilisiert</string>
+    <string name="save">Speichern</string>
+    <string name="add_pet">+ Tier</string>
+    <string name="profile">Profil</string>
+    <string name="new_pet">Neues Tier</string>
+    <string name="new_pet_added">Neues Tier hinzugefügt!</string>
+    <string name="new_pet_added_subtitle">Lass uns die erste Erinnerung erstellen</string>
+    <string name="continue_label">Fortfahren</string>
+    <string name="skip_label">Überspringen</string>
+    <string name="group">Gruppe</string>
+    <string name="time">Zeit</string>
+    <string name="remind">Erinnern</string>
+    <string name="before">vorher</string>
+    <string name="remind_at">Erinnern an</string>
+    <string name="next_occurrence">Nächstes Vorkommen</string>
+    <string name="date">Datum</string>
+    <string name="date_time">Datum und Uhrzeit</string>
+    <string name="remind_on_from">Erinnern am / von</string>
+    <string name="enable_repeat">Wiederholung aktivieren</string>
+    <string name="repeat">Wiederholen</string>
+    <string name="notes">Notizen</string>
+    <string name="create">Erstellen</string>
+    <string name="day">Tag</string>
+    <string name="week">Woche</string>
+    <string name="month">Monat</string>
+    <string name="year">Jahr</string>
+    <string name="hour">Stunde</string>
+    <string name="on_date">Am Datum</string>
+    <string name="after_three_dots">Nach…</string>
+    <string name="never">Nie</string>
+    <string name="repeats_every">Wiederholt sich alle</string>
+    <string name="the_last_day">der letzte Tag</string>
+    <string name="last_day">Letzter Tag</string>
+    <string name="the_same_day">der gleiche Tag</string>
+    <string name="same_day">Gleicher Tag</string>
+    <string name="last_occurrence">Letztes Vorkommen</string>
+    <string name="ends">Endet</string>
+    <string name="end_on_date">Endet am Datum</string>
+    <string name="reminder_ends_on">Erinnerung endet am</string>
+    <string name="occurrences">Vorkommen</string>
+    <string name="cancel">Abbrechen</string>
+    <string name="dash">-</string>
+    <string name="done">Fertig</string>
+    <string name="reminder">Erinnerung</string>
+    <string name="reminder_ready">Erinnerung bereit!</string>
+    <string name="templates">Vorlagen</string>
+    <string name="new_custom_reminder">Neue benutzerdefinierte Erinnerung</string>
+    <string name="your_pets">Tiere</string>
+    <string name="import_backup_in_profile">Backup in Profil importieren</string>
+    <string name="add_first_pet">Erstes Tier hinzufügen</string>
+    <string name="register_to_get_started">Registrieren Sie, um zu beginnen</string>
+    <string name="register_or_login">Registrieren oder Einloggen</string>
+    <string name="register">Registrieren</string>
+    <string name="login">Einloggen</string>
+    <string name="for_who">Für wen?</string>
+    <string name="add_reminder">Erinnerung hinzufügen</string>
+    <string name="doesnt_repeat">Wiederholt sich nicht</string>
+    <string name="active">Aktiv</string>
+    <string name="not_active">Nicht aktiv</string>
+    <string name="edit">Bearbeiten</string>
+    <string name="are_you_sure">Bist du sicher?</string>
+    <string name="delete_reminder_from_history_confirmation_text">Möchten Sie diese Erinnerung aus der Historie löschen?</string>
+    <string name="delete_reminder_completely_confirmation_text">Möchten Sie diese Erinnerung vollständig löschen?</string>
+    <string name="yes">Ja</string>
+    <string name="next">Weiter</string>
+    <string name="start">Starten</string>
+    <string name="at">um</string>
+    <string name="history">Historie</string>
+    <string name="deactivate">Deaktivieren</string>
+    <string name="reactivate">Reaktivieren</string>
+    <string name="delete_interaction">Interaktion löschen</string>
+    <string name="no_repeat">Keine Wiederholung</string>
+    <string name="no_active_reminder">Keine aktive Erinnerung</string>
+    <string name="reminders">Erinnerungen</string>
+    <string name="edit_pet">Tier bearbeiten</string>
+    <string name="delete_pet">Tier löschen</string>
+    <string name="sterilized">sterilisiert</string>
+    <string name="not_sterilized">nicht sterilisiert</string>
+    <string name="delete_pet_confirmation">%1$s löschen?</string>
+    <string name="import_button">Importieren</string>
+    <string name="export_button">Exportieren</string>
+    <string name="backup">Backup</string>
+    <string name="app_settings">Einstellungen</string>
+    <string name="backup_saved">Backup gespeichert</string>
+    <string name="replace">Ersetzen</string>
+    <string name="leave">Verlassen</string>
+    <string name="replace_current_data_title">Aktuelle Daten ersetzen?</string>
+    <string name="replace_current_data_description">Wir können die aktuellen Daten ohne Änderungen belassen oder sie vollständig durch das Backup ersetzen</string>
+    <string name="registration_subtitle">Wir benötigen nur Ihren Namen</string>
+    <string name="dynamic_color_switcher_title">Dynamische Farben</string>
+    <string name="number_of_reminders_main_screen">Erinnerungen am Home pro Tier</string>
+    <string name="today">Heute</string>
+    <string name="on_date_arg">Am %1$s</string>
+    <string name="open_reminders_menu">Erinnerungsmenü öffnen</string>
+
+    <plurals name="years">
+        <item quantity="one">Jahr</item>
+        <item quantity="other">Jahre</item>
+    </plurals>
+
+    <plurals name="months">
+        <item quantity="one">Monat</item>
+        <item quantity="other">Monate</item>
+    </plurals>
+
+    <plurals name="weeks">
+        <item quantity="one">Woche</item>
+        <item quantity="other">Wochen</item>
+    </plurals>
+
+    <plurals name="days">
+        <item quantity="one">Tag</item>
+        <item quantity="other">Tage</item>
+    </plurals>
+
+    <plurals name="hours">
+        <item quantity="one">Stunde</item>
+        <item quantity="other">Stunden</item>
+    </plurals>
+
+    <plurals name="weeks_before">
+        <item quantity="one">Woche zuvor</item>
+        <item quantity="other">Wochen vorher</item>
+    </plurals>
+
+    <plurals name="days_before">
+        <item quantity="one">Tag vorher</item>
+        <item quantity="other">Tage vorher</item>
+    </plurals>
+
+    <plurals name="hours_before">
+        <item quantity="one">Stunde vorher</item>
+        <item quantity="other">Stunden vorher</item>
+    </plurals>
+
+    <plurals name="times">
+        <item quantity="one">mal</item>
+        <item quantity="other">mal</item>
+    </plurals>
+
+    <array name="weekdays">
+        <item>Montag</item>
+        <item>Dienstag</item>
+        <item>Mittwoch</item>
+        <item>Donnerstag</item>
+        <item>Freitag</item>
+        <item>Samstag</item>
+        <item>Sonntag</item>
+    </array>
+
+    <array name="weekdays_short">
+        <item>Mo</item>
+        <item>Di</item>
+        <item>Mi</item>
+        <item>Do</item>
+        <item>Fr</item>
+        <item>Sa</item>
+        <item>So</item>
+    </array>
+
+    <string name="onboarding_care_assistant">Tierbetreuer</string>
+    <string name="onboarding_care_reminders">Betreuungserinnerungen</string>
+    <string name="onboarding_care_reminders_description">Manchmal sind Tiere nicht in der Lage, ihre Bedürfnisse auszusprechen</string>
+    <string name="onboarding_community_project">Gemeinschaftsprojekt</string>
+    <string name="onboarding_community_project_description">Roar ist ein projektgetriebenes Gemeinschaftsprojekt</string>
+
+    <string name="date_on">am</string>
+    <string name="never_ends">endet nie</string>
+
+    <string name="interaction_group_health">Gesundheit</string>
+    <string name="interaction_group_care">Pflege</string>
+    <string name="interaction_group_routine">Routine</string>
+
+    <!--  Inhaltsbeschreibungen  -->
+    <string name="cd_pet">Tier</string>
+    <string name="cd_avatar">Avatar</string>
+    <string name="cd_reminder">Erinnerung</string>
+    <string name="cd_notes">Notizen</string>
+    <string name="cd_icon">Symbol</string>
+
+    <!--  Interaktionstypen  -->
+    <string name="deworming">Entwurmung</string>
+    <string name="flees">Flöhe</string>
+    <string name="health_check">Gesundheitscheck</string>
+    <string name="vaccination">Impfung</string>
+    <string name="nails">Krallen</string>
+    <string name="grooming">Pflege</string>
+    <string name="pills">Medikamente</string>
+    <string name="bath">Baden</string>
+    <string name="custom">Benutzerdefiniert</string>
+
+    <!--  Interaktionsnamen -->
+    <string name="deworming_3m">Entwurmung</string>
+    <string name="health_check_yearly">Jährlicher Gesundheitscheck</string>
+    <string name="flees_monthly">Flöhe pflegen</string>
+    <string name="grooming_6m">Pflege</string>
+    <string name="grooming_3m">Pflege</string>
+    <string name="nails_3m">Krallenpflege</string>
+    <string name="nails_yearly">Krallenpflege</string>
+    <string name="vaccine_rabies">Tollwutimpfung</string>
+    <string name="vaccine_planned">Jährliche Impfung</string>
+    <string name="pills_prescribed">Wöchentliche Medikamente</string>
+    <string name="bathing_4w">Baden</string>
+
+    <string name="interaction_completion_dialog_title">Wann wurde es abgeschlossen?</string>
+    <string name="interaction_completion_dialog_description">Wurde die Interaktion heute abgeschlossen oder gemäß ihrem Datum am %1$s?</string>
+
+    <!--  Benachrichtigungen  -->
+    <string name="notification_title">Erinnerung für %1$s</string>
+    <string name="notification_content_dont_forget">Vergessen Sie nicht %1$s</string>
+</resources>
