@@ -10,16 +10,19 @@ class AddPetSetupScreenContract {
     sealed class Event : ViewEvent {
         class PetInit(val petId: String) : Event()
         object ContinueButtonClicked : Event()
+        object OpenTemplatesButtonClicked : Event()
     }
 
     data class State(
         val pet: Pet? = null,
-        val isLoading: Boolean = false
+        val isLoading: Boolean = false,
+        val isComplete: Boolean = false
     ) : ViewState
 
     sealed class Effect : ViewSideEffect {
         sealed class Navigation : Effect(), NavigationSideEffect {
             object Continue : Navigation()
+            data class OpenTemplates(val petId: String) : Navigation()
         }
     }
 }

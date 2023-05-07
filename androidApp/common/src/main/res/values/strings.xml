@@ -23,7 +23,9 @@
     <string name="profile">Profile</string>
     <string name="new_pet">New Pet</string>
     <string name="new_pet_added">New pet added!</string>
+    <string name="new_pet_added_subtitle">Let\'s create first reminder</string>
     <string name="continue_label">Continue</string>
+    <string name="skip_label">Skip</string>
     <string name="group">Group</string>
     <string name="time">Time</string>
     <string name="remind">Remind</string>
@@ -108,6 +110,7 @@
     <string name="number_of_reminders_main_screen">Reminders on main screen per pet</string>
     <string name="today">Today</string>
     <string name="on_date_arg">On %1$s</string>
+    <string name="open_reminders_menu">Open Reminders Menu</string>
 
     <plurals name="years">
         <item quantity="one">year</item>

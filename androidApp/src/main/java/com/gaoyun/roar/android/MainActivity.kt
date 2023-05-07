@@ -162,7 +162,7 @@ class MainActivity : AppCompatActivity() {
                 when (destination) {
                     is NavigationAction.NavigateTo -> navController.navigate(destination.path)
                     is NavigationAction.NavigateBack -> navController.navigateUp()
-                    is NavigationAction.PopTo -> navController.popBackStack(destination.path, true)
+                    is NavigationAction.PopTo -> navController.popBackStack(destination.path, inclusive = destination.inclusive)
                 }
             }.collect()
         }

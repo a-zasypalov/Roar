@@ -1,8 +1,11 @@
 package com.gaoyun.common.theme
 
+import android.annotation.SuppressLint
 import android.os.Build
 import androidx.compose.foundation.isSystemInDarkTheme
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.dynamicDarkColorScheme
 import androidx.compose.material3.dynamicLightColorScheme
 import androidx.compose.runtime.Composable
@@ -37,6 +40,37 @@ fun RoarTheme(
     MaterialTheme(
         colorScheme = colors,
         content = content
+    )
+}
+
+@SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun RoarThemePreview(
+    userPreferenceDynamicColorsIsActive: Boolean = false,
+    colorTheme: ColorTheme = ColorTheme.Orange,
+    darkTheme: Boolean = isSystemInDarkTheme(),
+    supportsDynamic: Boolean = Build.VERSION.SDK_INT >= Build.VERSION_CODES.S,
+    content: @Composable () -> Unit
+) {
+    val colors = if (userPreferenceDynamicColorsIsActive && supportsDynamic) {
+        val context = LocalContext.current
+        if (darkTheme) dynamicDarkColorScheme(context) else dynamicLightColorScheme(context)
+    } else {
+        when (colorTheme) {
+            ColorTheme.Green -> if (darkTheme) GreenColor.DarkColors else GreenColor.LightColors
+            ColorTheme.Blue -> if (darkTheme) BlueColor.DarkColors else BlueColor.LightColors
+            ColorTheme.Orange -> if (darkTheme) OrangeColor.DarkColors else OrangeColor.LightColors
+        }
+    }
+
+    MaterialTheme(
+        colorScheme = colors,
+        content = {
+            Scaffold {
+                content()
+            }
+        }
     )
 }
 

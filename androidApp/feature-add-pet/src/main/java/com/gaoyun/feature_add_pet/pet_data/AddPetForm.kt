@@ -39,7 +39,7 @@ import com.gaoyun.common.composables.TextFormField
 import com.gaoyun.common.composables.surfaceCardFormElevation
 import com.gaoyun.common.composables.surfaceCardFormShape
 import com.gaoyun.common.ext.toLocalizedStringId
-import com.gaoyun.common.theme.RoarTheme
+import com.gaoyun.common.theme.RoarThemePreview
 import com.gaoyun.roar.model.domain.Gender
 import com.gaoyun.roar.model.domain.Pet
 import com.gaoyun.roar.model.domain.toGender
@@ -187,7 +187,7 @@ internal fun AddPetForm(
 @Composable
 @Preview
 fun AddPetScreenPreview() {
-    RoarTheme {
+    RoarThemePreview {
         AddPetForm("ic_cat_15", listOf(), "cat", null, { }, { })
     }
 }

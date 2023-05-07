@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -16,12 +17,13 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.lifecycle.Lifecycle
 import com.gaoyun.common.OnLifecycleEvent
 import com.gaoyun.common.R
 import com.gaoyun.common.composables.*
 import com.gaoyun.common.ext.getDrawableByName
-import com.gaoyun.common.theme.RoarTheme
+import com.gaoyun.common.theme.RoarThemePreview
 import com.gaoyun.roar.model.domain.Gender
 import com.gaoyun.roar.model.domain.Pet
 import com.gaoyun.roar.model.domain.PetType
@@ -61,11 +63,12 @@ fun AddPetSetupDestination(
     BackHandler(enabled = true) {}
 
     SurfaceScaffold {
-        BoxWithLoader(isLoading = state.isLoading) {
+        BoxWithLoader(isLoading = state.isLoading, modifier = Modifier.fillMaxSize()) {
             state.pet?.let {
                 PetAddingComplete(
                     pet = it,
-                    onContinueButtonClicked = viewModel::setEvent
+                    onContinueButtonClicked = viewModel::setEvent,
+                    onAddReminderButtonClicked = viewModel::setEvent,
                 )
             }
         }
@@ -75,14 +78,17 @@ fun AddPetSetupDestination(
 @Composable
 private fun PetAddingComplete(
     pet: Pet,
-    onContinueButtonClicked: (AddPetSetupScreenContract.Event.ContinueButtonClicked) -> Unit
+    onContinueButtonClicked: (AddPetSetupScreenContract.Event.ContinueButtonClicked) -> Unit,
+    onAddReminderButtonClicked: (AddPetSetupScreenContract.Event.OpenTemplatesButtonClicked) -> Unit
 ) {
     val context = LocalContext.current
 
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center,
-        modifier = Modifier.fillMaxSize()
+        modifier = Modifier
+            .fillMaxSize()
+            .navigationBarsPadding()
     ) {
 
         Image(
@@ -93,35 +99,69 @@ private fun PetAddingComplete(
 
         Spacer(16.dp)
 
-        Text(stringResource(id = R.string.new_pet_added), style = MaterialTheme.typography.displayMedium)
+        Text(stringResource(id = R.string.new_pet_added), style = MaterialTheme.typography.displayMedium, modifier = Modifier.padding(horizontal = 8.dp))
 
-        Spacer(16.dp)
+        Spacer(8.dp)
 
-        PrimaryElevatedButton(text = stringResource(id = R.string.continue_label), onClick = {
-            onContinueButtonClicked(AddPetSetupScreenContract.Event.ContinueButtonClicked)
-        })
+        Text(text = stringResource(id = R.string.new_pet_added_subtitle), style = MaterialTheme.typography.headlineSmall, modifier = Modifier.padding(horizontal = 8.dp))
     }
-
+    Box(
+        modifier = Modifier
+            .fillMaxWidth()
+            .statusBarsPadding()
+            .padding(end = 16.dp, top = 4.dp)
+    ) {
+        TextButton(
+            onClick = {
+                onContinueButtonClicked(AddPetSetupScreenContract.Event.ContinueButtonClicked)
+            },
+            modifier = Modifier.align(Alignment.TopEnd)
+        ) {
+            Text(
+                stringResource(id = R.string.skip_label),
+                modifier = Modifier.padding(vertical = 8.dp),
+                fontSize = 16.sp,
+            )
+        }
+    }
+    Box(
+        modifier = Modifier
+            .fillMaxSize()
+            .navigationBarsPadding()
+    ) {
+        PrimaryElevatedButton(
+            text = stringResource(id = R.string.open_reminders_menu),
+            onClick = {
+                onAddReminderButtonClicked(AddPetSetupScreenContract.Event.OpenTemplatesButtonClicked)
+            },
+            modifier = Modifier
+                .align(Alignment.BottomCenter)
+                .padding(bottom = 24.dp)
+        )
+    }
 }
 
 @Composable
 @Preview
 fun AddPetSetupScreenPreview() {
-    RoarTheme {
-        PetAddingComplete(
-            Pet(
-                randomUUID(),
-                PetType.CAT,
-                "British",
-                "Cat",
-                "ic_cat_1",
-                "1",
-                LocalDate.fromEpochDays(1),
-                false,
-                Gender.MALE,
-                "",
-                LocalDate.fromEpochDays(1)
+    RoarThemePreview {
+        Box {
+            PetAddingComplete(
+                Pet(
+                    randomUUID(),
+                    PetType.CAT,
+                    "British",
+                    "Cat",
+                    "ic_cat_1",
+                    "1",
+                    LocalDate.fromEpochDays(1),
+                    false,
+                    Gender.MALE,
+                    "",
+                    LocalDate.fromEpochDays(1)
+                ),
+                {}, {}
             )
-        ) {}
+        }
     }
 }

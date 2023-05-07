@@ -26,7 +26,7 @@ import androidx.compose.ui.unit.dp
 import com.gaoyun.common.R
 import com.gaoyun.common.composables.PrimaryElevatedButton
 import com.gaoyun.common.composables.TextFormField
-import com.gaoyun.common.theme.RoarTheme
+import com.gaoyun.common.theme.RoarThemePreview
 
 @Composable
 fun UserRegistrationForm(
@@ -73,7 +73,7 @@ fun UserRegistrationForm(
 @Composable
 @Preview
 fun UserRegistrationFormPreview() {
-    RoarTheme {
+    RoarThemePreview {
         UserRegistrationForm {}
     }
 }

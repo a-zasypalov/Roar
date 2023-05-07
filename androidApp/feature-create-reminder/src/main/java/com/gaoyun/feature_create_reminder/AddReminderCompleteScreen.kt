@@ -18,7 +18,7 @@ import androidx.compose.ui.unit.dp
 import com.gaoyun.common.R
 import com.gaoyun.common.composables.*
 import com.gaoyun.common.ext.getDrawableByName
-import com.gaoyun.common.theme.RoarTheme
+import com.gaoyun.common.theme.RoarThemePreview
 import com.gaoyun.roar.presentation.LAUNCH_LISTEN_FOR_EFFECTS
 import com.gaoyun.roar.presentation.NavigationSideEffect
 import com.gaoyun.roar.presentation.add_reminder.complete.AddReminderCompleteScreenContract
@@ -85,7 +85,7 @@ private fun ReminderAddingComplete(
 @Composable
 @Preview
 fun AddPetSetupScreenPreview() {
-    RoarTheme {
+    RoarThemePreview {
         ReminderAddingComplete("ic_cat_1") {}
     }
 }

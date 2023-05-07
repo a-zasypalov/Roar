@@ -15,7 +15,7 @@ import com.gaoyun.common.OnLifecycleEvent
 import com.gaoyun.common.R
 import com.gaoyun.common.composables.*
 import com.gaoyun.common.dialog.InteractionCompletionDialog
-import com.gaoyun.common.theme.RoarTheme
+import com.gaoyun.common.theme.RoarThemePreview
 import com.gaoyun.feature_pet_screen.view.PetContainer
 import com.gaoyun.roar.model.domain.*
 import com.gaoyun.roar.presentation.BackNavigationEffect
@@ -152,13 +152,10 @@ fun PetScreenDestination(
 
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 @Preview
 fun PetScreenPreview() {
-    RoarTheme {
-        SurfaceScaffold {
-            PetContainer(PetWithInteractions.preview(), true, {}, {}, {}, { _, _, _ -> })
-        }
+    RoarThemePreview {
+        PetContainer(PetWithInteractions.preview(), true, {}, {}, {}, { _, _, _ -> })
     }
 }

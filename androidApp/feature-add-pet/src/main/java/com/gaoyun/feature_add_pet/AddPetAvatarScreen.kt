@@ -24,7 +24,7 @@ import androidx.lifecycle.Lifecycle
 import com.gaoyun.common.OnLifecycleEvent
 import com.gaoyun.common.composables.SurfaceScaffold
 import com.gaoyun.common.ext.getDrawableByName
-import com.gaoyun.common.theme.RoarTheme
+import com.gaoyun.common.theme.RoarThemePreview
 import com.gaoyun.roar.config.PetsConfig
 import com.gaoyun.roar.presentation.BackNavigationEffect
 import com.gaoyun.roar.presentation.LAUNCH_LISTEN_FOR_EFFECTS
@@ -138,7 +138,7 @@ private fun LazyGridItemScope.AvatarItem(
 @Composable
 @Preview
 fun AddPetAvatarScreenPreview() {
-    RoarTheme {
+    RoarThemePreview {
         PetAvatarScreen(PetsConfig.petAvatars("cat"), "cat") {}
     }
 }

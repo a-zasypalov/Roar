@@ -20,12 +20,21 @@ class AddPetSetupScreenViewModel :
             is AddPetSetupScreenContract.Event.ContinueButtonClicked -> setEffect {
                 AddPetSetupScreenContract.Effect.Navigation.Continue
             }
+
+            is AddPetSetupScreenContract.Event.OpenTemplatesButtonClicked -> viewState.value.pet?.id?.let {
+                setEffect { AddPetSetupScreenContract.Effect.Navigation.OpenTemplates(it) }
+                setState { copy(isComplete = true, pet = null) }
+            }
         }
     }
 
     private fun getPet(petId: String) = scope.launch {
-        getPetUseCase.getPet(petId).collect { pet ->
-            setState { copy(pet = pet) }
+        if (viewState.value.isComplete) {
+            setEffect { AddPetSetupScreenContract.Effect.Navigation.Continue }
+        } else {
+            getPetUseCase.getPet(petId).collect { pet ->
+                setState { copy(pet = pet) }
+            }
         }
     }
 }
