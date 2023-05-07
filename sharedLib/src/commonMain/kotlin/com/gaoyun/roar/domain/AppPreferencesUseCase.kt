@@ -11,7 +11,6 @@ class AppPreferencesUseCase : KoinComponent {
 
     fun dynamicColorsIsActive() = prefs.getBoolean(PreferencesKeys.DYNAMIC_COLORS_ACTIVE, false)
     fun setDynamicColors(active: Boolean) = prefs.setBoolean(PreferencesKeys.DYNAMIC_COLORS_ACTIVE, active)
-    fun staticTheme() = prefs.getString(PreferencesKeys.COLOR_THEME)
     fun setStaticTheme(theme: String) = prefs.setString(PreferencesKeys.COLOR_THEME, theme)
     fun numberOfRemindersOnMainScreen() = prefs.getInt(PreferencesKeys.NUMBER_OF_REMINDERS_ON_MAIN_SCREEN, 2)
     fun setNumberOfRemindersOnMainScreen(newNumber: Int) = prefs.setInt(PreferencesKeys.NUMBER_OF_REMINDERS_ON_MAIN_SCREEN, newNumber)
