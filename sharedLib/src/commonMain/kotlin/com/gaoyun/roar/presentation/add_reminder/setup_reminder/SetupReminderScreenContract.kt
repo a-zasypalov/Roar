@@ -42,6 +42,7 @@ class SetupReminderScreenContract {
     sealed class Effect : ViewSideEffect {
         class ReminderSaved(val reminder: Reminder) : Effect()
         sealed class Navigation : Effect(), NavigationSideEffect {
+            object BackToTemplates : Navigation()
             class ToComplete(val petAvatar: String, val petId: String, val templateId: String) : Navigation()
         }
     }

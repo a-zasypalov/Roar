@@ -151,13 +151,17 @@ class SetupReminderScreenViewModel :
                 notes = notes
             ).firstOrNull() ?: return@launch
 
-            insertReminder.createReminder(interaction.id, dateTime, remindConfig).collect { reminder ->
+            insertReminder.createReminder(interaction.id, dateTime, remindConfig).collect { _ ->
                 setEffect {
-                    SetupReminderScreenContract.Effect.Navigation.ToComplete(
-                        petAvatar = viewState.value.pet?.avatar.toString(),
-                        petId = viewState.value.pet?.id.toString(),
-                        templateId = viewState.value.template?.id.toString()
-                    )
+                    if (type == InteractionType.CUSTOM) {
+                        SetupReminderScreenContract.Effect.Navigation.ToComplete(
+                            petAvatar = viewState.value.pet?.avatar.toString(),
+                            petId = viewState.value.pet?.id.toString(),
+                            templateId = viewState.value.template?.id.toString()
+                        )
+                    } else {
+                        SetupReminderScreenContract.Effect.Navigation.BackToTemplates
+                    }
                 }
             }
         }

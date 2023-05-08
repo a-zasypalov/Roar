@@ -40,6 +40,7 @@ object AppNavigator {
 
         is AddReminderScreenContract.Effect.Navigation.ToReminderSetup -> toReminderSetup(call)
         is SetupReminderScreenContract.Effect.Navigation.ToComplete -> toCompleteInteractionSetup(call)
+        is SetupReminderScreenContract.Effect.Navigation.BackToTemplates -> completeReminderCreation()
         is AddReminderCompleteScreenContract.Effect.Navigation.Continue -> completeReminderCreation()
 
         is InteractionScreenContract.Effect.Navigation.ToEditInteraction -> toEditInteraction(call)
@@ -107,8 +108,7 @@ object AppNavigator {
         NavigationAction.NavigateTo("${NavigationKeys.Route.ADD_REMINDER}/${effect.petId}/${effect.templateId}")
 
     private fun toCompleteInteractionSetup(effect: SetupReminderScreenContract.Effect.Navigation.ToComplete) =
-        completeReminderCreation()
-//        NavigationAction.NavigateTo("${NavigationKeys.Route.ADD_REMINDER}/${effect.petId}/${effect.templateId}/${effect.petAvatar}")
+        NavigationAction.NavigateTo("${NavigationKeys.Route.ADD_REMINDER}/${effect.petId}/${effect.templateId}/${effect.petAvatar}")
 
     private fun completeReminderCreation() =
         NavigationAction.PopTo(NavigationKeys.Route.ADD_REMINDER_ROUTE, inclusive = false)
