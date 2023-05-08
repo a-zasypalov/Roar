@@ -15,11 +15,13 @@ import androidx.compose.material.icons.filled.Male
 import androidx.compose.material.icons.filled.Memory
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -44,6 +46,7 @@ import com.gaoyun.roar.model.domain.Gender
 import com.gaoyun.roar.model.domain.Pet
 import com.gaoyun.roar.model.domain.toGender
 import com.gaoyun.roar.presentation.add_pet.data.AddPetDataScreenContract
+import kotlinx.coroutines.launch
 import kotlinx.datetime.LocalDate
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.atStartOfDayIn
@@ -55,9 +58,12 @@ internal fun AddPetForm(
     petBreeds: List<String>,
     petType: String,
     petToEdit: Pet?,
+    snackbarHostState: SnackbarHostState,
     onRegisterClick: (AddPetDataScreenContract.Event.AddPetButtonClicked) -> Unit,
     onAvatarEditClick: (AddPetDataScreenContract.Event.NavigateToAvatarEdit) -> Unit
 ) {
+    val coroutineScope = rememberCoroutineScope()
+
     val petName = remember { mutableStateOf(petToEdit?.name ?: "") }
     val petBreedState = remember { mutableStateOf(petToEdit?.breed ?: petBreeds.firstOrNull() ?: "") }
     val petGenderState = remember { mutableStateOf(petToEdit?.gender?.toString()?.capitalize(Locale.current) ?: Gender.MALE_STRING) }
@@ -162,18 +168,26 @@ internal fun AddPetForm(
                 PrimaryElevatedButtonOnSurface(
                     text = if (petToEdit != null) stringResource(id = R.string.save) else stringResource(id = R.string.add_pet),
                     onClick = {
-                        onRegisterClick(
-                            AddPetDataScreenContract.Event.AddPetButtonClicked(
-                                petType = petType,
-                                breed = petBreedState.value,
-                                name = petName.value,
-                                avatar = avatar,
-                                birthday = LocalDate.fromEpochDays(TimeUnit.MILLISECONDS.toDays(petBirthdayState.value ?: System.currentTimeMillis()).toInt()),
-                                isSterilized = petIsSterilizedState,
-                                gender = petGenderState.value,
-                                chipNumber = chipNumberState
+                        if (petName.value.isNullOrBlank()) {
+                            coroutineScope.launch {
+                                snackbarHostState.showSnackbar("Name shouldn't be empty")
+                            }
+                        } else if (petBirthdayState.value?.let { it < System.currentTimeMillis() } != true) {
+                            coroutineScope.launch { snackbarHostState.showSnackbar("Birth date isn't correct") }
+                        } else {
+                            onRegisterClick(
+                                AddPetDataScreenContract.Event.AddPetButtonClicked(
+                                    petType = petType,
+                                    breed = petBreedState.value,
+                                    name = petName.value,
+                                    avatar = avatar,
+                                    birthday = LocalDate.fromEpochDays(TimeUnit.MILLISECONDS.toDays(petBirthdayState.value ?: System.currentTimeMillis()).toInt()),
+                                    isSterilized = petIsSterilizedState,
+                                    gender = petGenderState.value,
+                                    chipNumber = chipNumberState
+                                )
                             )
-                        )
+                        }
                     },
                 )
 
@@ -188,6 +202,6 @@ internal fun AddPetForm(
 @Preview
 fun AddPetScreenPreview() {
     RoarThemePreview {
-        AddPetForm("ic_cat_15", listOf(), "cat", null, { }, { })
+        AddPetForm("ic_cat_15", listOf(), "cat", null, SnackbarHostState(), { }, { })
     }
 }

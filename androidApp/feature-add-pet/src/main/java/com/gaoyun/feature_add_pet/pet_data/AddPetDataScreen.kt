@@ -29,6 +29,7 @@ fun AddPetDataDestination(
 ) {
     val viewModel: AddPetDataScreenViewModel = getViewModel()
     val state = viewModel.viewState.collectAsState().value
+    val snackbarHostState = remember { SnackbarHostState() }
 
     OnLifecycleEvent { _, event ->
         if (event == Lifecycle.Event.ON_RESUME) {
@@ -56,7 +57,8 @@ fun AddPetDataDestination(
     }
 
     SurfaceScaffold(
-        backHandler = { viewModel.setEvent(AddPetDataScreenContract.Event.NavigateBack) }
+        backHandler = { viewModel.setEvent(AddPetDataScreenContract.Event.NavigateBack) },
+        snackbarHost = { SnackbarHost(snackbarHostState) },
     ) {
         BoxWithLoader(isLoading = state.isLoading) {
             if (petId == null || state.pet != null) {
@@ -66,6 +68,7 @@ fun AddPetDataDestination(
                     onRegisterClick = viewModel::setEvent,
                     avatar = state.pet?.avatar ?: avatar,
                     petToEdit = state.pet,
+                    snackbarHostState = snackbarHostState,
                     onAvatarEditClick = viewModel::setEvent,
                 )
             }
