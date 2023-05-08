@@ -9,7 +9,7 @@ class AppPreferencesUseCase : KoinComponent {
 
     private val prefs: Preferences by inject()
 
-    fun dynamicColorsIsActive() = prefs.getBoolean(PreferencesKeys.DYNAMIC_COLORS_ACTIVE, false)
+    fun dynamicColorsIsActive() = prefs.getBoolean(PreferencesKeys.DYNAMIC_COLORS_ACTIVE, true)
     fun setDynamicColors(active: Boolean) = prefs.setBoolean(PreferencesKeys.DYNAMIC_COLORS_ACTIVE, active)
     fun staticTheme() = prefs.getString(PreferencesKeys.COLOR_THEME)
     fun setStaticTheme(theme: String) = prefs.setString(PreferencesKeys.COLOR_THEME, theme)

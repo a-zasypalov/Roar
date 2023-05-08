@@ -1,6 +1,7 @@
 package com.gaoyun.feature_user_screen.user_screen
 
 import android.app.AlertDialog
+import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.background
@@ -65,6 +66,7 @@ internal fun UserScreenContent(
     val activity = LocalContext.current as? AppCompatActivity
     val isDarkTheme = isSystemInDarkTheme()
 
+    val supportDynamicColor = Build.VERSION.SDK_INT >= Build.VERSION_CODES.S
     val numberOfRemindersOnMainScreenState = remember { mutableStateOf(state.numberOfRemindersOnMainScreenState) }
     numberOfRemindersOnMainScreenState.value = state.numberOfRemindersOnMainScreenState
 
@@ -153,18 +155,20 @@ internal fun UserScreenContent(
 
                 Spacer(size = 8.dp)
 
-                LabelledCheckBox(
-                    checked = state.dynamicColorActive,
-                    onCheckedChange = {
-                        onDynamicColorsStateChange(UserScreenContract.Event.OnDynamicColorsStateChange(it))
-                        activity?.recreate()
-                    },
-                    label = stringResource(id = R.string.dynamic_color_switcher_title),
-                    modifier = Modifier.fillMaxWidth(),
-                    horizontalPadding = 8.dp
-                )
+                if (supportDynamicColor) {
+                    LabelledCheckBox(
+                        checked = state.dynamicColorActive,
+                        onCheckedChange = {
+                            onDynamicColorsStateChange(UserScreenContract.Event.OnDynamicColorsStateChange(it))
+                            activity?.recreate()
+                        },
+                        label = stringResource(id = R.string.dynamic_color_switcher_title),
+                        modifier = Modifier.fillMaxWidth(),
+                        horizontalPadding = 8.dp
+                    )
+                }
 
-                AnimatedVisibility(visible = !state.dynamicColorActive) {
+                AnimatedVisibility(visible = !supportDynamicColor || !state.dynamicColorActive) {
                     LazyRow {
                         items(ColorTheme.values()) {
                             ElevatedCard(
