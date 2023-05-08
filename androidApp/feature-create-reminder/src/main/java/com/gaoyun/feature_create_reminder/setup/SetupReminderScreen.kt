@@ -38,6 +38,7 @@ fun SetupReminderDestination(
 ) {
     val viewModel: SetupReminderScreenViewModel = getViewModel()
     val state = viewModel.viewState.collectAsState().value
+    val snackbarHostState = remember { SnackbarHostState() }
 
     OnLifecycleEvent { _, event ->
         if (event == Lifecycle.Event.ON_CREATE) {
@@ -58,6 +59,7 @@ fun SetupReminderDestination(
 
     SurfaceScaffold(
         backHandler = { onNavigationCall(BackNavigationEffect) },
+        snackbarHost = { SnackbarHost(snackbarHostState) },
     ) {
         BoxWithLoader(isLoading = state.isLoading) {
             state.pet?.let { pet ->
@@ -82,6 +84,7 @@ fun SetupReminderDestination(
                             template = state.template,
                             repeatConfig = state.repeatConfig,
                             remindConfig = state.remindConfig,
+                            snackbarHost = snackbarHostState,
                             onRepeatConfigSave = { config ->
                                 viewModel.setEvent(SetupReminderScreenContract.Event.RepeatConfigChanged(config))
                             },

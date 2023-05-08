@@ -5,6 +5,7 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.remember
 import androidx.lifecycle.Lifecycle
 import com.gaoyun.common.OnLifecycleEvent
 import com.gaoyun.common.composables.*

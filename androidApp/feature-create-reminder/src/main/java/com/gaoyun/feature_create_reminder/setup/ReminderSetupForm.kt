@@ -13,6 +13,7 @@ import androidx.compose.material.icons.filled.*
 import androidx.compose.material.icons.outlined.Notifications
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
@@ -48,6 +49,7 @@ internal fun ReminderSetupForm(
     template: InteractionTemplate?,
     repeatConfig: InteractionRepeatConfig,
     remindConfig: InteractionRemindConfig,
+    snackbarHost: SnackbarHostState,
     onRepeatConfigSave: (String) -> Unit,
     onRemindConfigSave: (String) -> Unit,
     onSaveButtonClick: (String, InteractionType, InteractionGroup, Boolean, InteractionRepeatConfig, String, Long, Int, Int, InteractionRemindConfig) -> Unit,
@@ -276,18 +278,22 @@ internal fun ReminderSetupForm(
         PrimaryElevatedButton(
             text = if (interactionToEdit != null) stringResource(id = R.string.save) else stringResource(id = R.string.create),
             onClick = {
-                onSaveButtonClick(
-                    reminderName.value,
-                    template?.type ?: InteractionType.CUSTOM,
-                    interactionGroupState.value.toInteractionGroup(),
-                    repeatEnabledState.value,
-                    repeatConfig,
-                    notesState.value,
-                    startsOnDate.value,
-                    startsOnTime.value.hour,
-                    startsOnTime.value.minute,
-                    remindConfig
-                )
+                if(reminderName.value.isNullOrBlank()) {
+                    coroutineScope.launch { snackbarHost.showSnackbar("Name shouldn't be empty") }
+                } else {
+                    onSaveButtonClick(
+                        reminderName.value,
+                        template?.type ?: InteractionType.CUSTOM,
+                        interactionGroupState.value.toInteractionGroup(),
+                        repeatEnabledState.value,
+                        repeatConfig,
+                        notesState.value,
+                        startsOnDate.value,
+                        startsOnTime.value.hour,
+                        startsOnTime.value.minute,
+                        remindConfig
+                    )
+                }
             },
             modifier = Modifier
                 .padding(bottom = 32.dp)
