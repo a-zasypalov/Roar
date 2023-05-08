@@ -1,10 +1,26 @@
 package com.gaoyun.feature_interactions
 
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.*
-import androidx.compose.material3.*
+import androidx.compose.material.icons.filled.Close
+import androidx.compose.material.icons.filled.Done
+import androidx.compose.material.icons.filled.MedicalServices
+import androidx.compose.material.icons.filled.Notes
+import androidx.compose.material.icons.filled.Notifications
+import androidx.compose.material.icons.filled.Pets
+import androidx.compose.material.icons.filled.Repeat
+import androidx.compose.material.icons.filled.Spa
+import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.ui.Alignment
@@ -16,11 +32,15 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.gaoyun.common.R
+import com.gaoyun.common.composables.AutoResizeText
+import com.gaoyun.common.composables.FontSizeRange
+import com.gaoyun.common.composables.RoarIcon
+import com.gaoyun.common.composables.Spacer
+import com.gaoyun.common.composables.TextFormField
 import com.gaoyun.common.ext.remindConfigTextFull
 import com.gaoyun.common.ext.repeatConfigTextFull
 import com.gaoyun.common.ext.toLocalizedStringId
 import com.gaoyun.common.icon
-import com.gaoyun.common.composables.*
 import com.gaoyun.roar.model.domain.Pet
 import com.gaoyun.roar.model.domain.interactions.InteractionGroup
 import com.gaoyun.roar.model.domain.interactions.InteractionWithReminders
@@ -57,7 +77,7 @@ internal fun InteractionHeader(
             Spacer(8.dp)
 
             Surface(
-                tonalElevation = 12.dp,
+                tonalElevation = 64.dp,
                 modifier = Modifier
                     .fillMaxHeight()
                     .weight(0.2f),
@@ -75,8 +95,8 @@ internal fun InteractionHeader(
 
         Spacer(size = 32.dp)
 
-        Card(
-            elevation = CardDefaults.elevatedCardElevation(0.dp),
+        Surface(
+            tonalElevation = 64.dp,
             shape = MaterialTheme.shapes.large,
         ) {
             Column(

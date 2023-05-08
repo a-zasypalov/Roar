@@ -69,7 +69,7 @@ fun PetContainer(
                 InteractionCard(
                     interaction = interaction,
                     showLastReminder = showLastReminder,
-                    elevation = 8.dp,
+                    elevation = 24.dp,
                     shape = MaterialTheme.shapes.large,
                     onClick = onInteractionClick,
                     onInteractionCheckClicked = onInteractionCheckClicked,

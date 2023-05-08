@@ -1,11 +1,24 @@
 package com.gaoyun.feature_pet_screen.view
 
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.*
-import androidx.compose.material3.*
+import androidx.compose.material.icons.filled.Cake
+import androidx.compose.material.icons.filled.Female
+import androidx.compose.material.icons.filled.Male
+import androidx.compose.material.icons.filled.Memory
+import androidx.compose.material.icons.filled.Pets
+import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -59,7 +72,7 @@ internal fun PetHeader(
             Spacer(8.dp)
 
             Surface(
-                tonalElevation = 12.dp,
+                tonalElevation = 64.dp,
                 modifier = Modifier
                     .fillMaxHeight()
                     .weight(0.2f),
@@ -77,8 +90,8 @@ internal fun PetHeader(
 
         Spacer(size = 32.dp)
 
-        Card(
-            elevation = CardDefaults.elevatedCardElevation(0.dp),
+        Surface(
+            tonalElevation = 64.dp,
             shape = MaterialTheme.shapes.large,
         ) {
             Column(
