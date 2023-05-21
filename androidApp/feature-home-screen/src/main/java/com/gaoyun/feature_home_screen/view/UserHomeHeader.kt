@@ -38,6 +38,7 @@ internal fun UserHomeHeader(
             FilledTonalButton(
                 onClick = onAddPetButtonClick,
                 modifier = Modifier.weight(0.38f),
+                contentPadding = PaddingValues(all = 8.dp),
             ) {
                 Icon(Icons.Filled.Pets, contentDescription = null)
                 Spacer(size = 6.dp)

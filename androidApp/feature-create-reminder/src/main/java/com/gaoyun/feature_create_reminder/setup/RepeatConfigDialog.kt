@@ -47,7 +47,7 @@ internal fun RepeatConfigDialog(
     val activity = LocalContext.current as AppCompatActivity
 
     val repeatsEveryNumber = rememberSaveable { mutableStateOf(repeatConfig?.repeatsEveryNumber?.toString() ?: "1") }
-    val repeatsEveryPeriod = rememberSaveable { mutableStateOf(repeatConfig?.repeatsEveryPeriod?.toString() ?: activity.getString(R.string.month)) }
+    val repeatsEveryPeriod = rememberSaveable { mutableStateOf(repeatConfig?.repeatsEveryPeriod?.toString() ?: "month") }
     val repeatsEveryPeriodsList = InteractionRepeatConfigEach.LIST
 
     val repeatsEveryPeriodOnMonthDay = rememberSaveable {
