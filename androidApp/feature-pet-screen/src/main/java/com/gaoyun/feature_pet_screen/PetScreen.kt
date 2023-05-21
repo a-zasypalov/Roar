@@ -63,7 +63,7 @@ fun PetScreenDestination(
         var prev = 0
         snapshotFlow { verticalScroll.value }
             .collect {
-                fabExtended = it <= prev
+                fabExtended = it*2 <= prev
                 prev = it
             }
     }
