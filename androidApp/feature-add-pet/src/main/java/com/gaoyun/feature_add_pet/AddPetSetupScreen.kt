@@ -103,7 +103,7 @@ private fun PetAddingComplete(
 
         Spacer(8.dp)
 
-        Text(text = stringResource(id = R.string.new_pet_added_subtitle), style = MaterialTheme.typography.headlineSmall, modifier = Modifier.padding(horizontal = 8.dp))
+        Text(text = stringResource(id = R.string.new_pet_added_subtitle, pet.name), style = MaterialTheme.typography.headlineSmall, modifier = Modifier.padding(horizontal = 8.dp))
     }
     Box(
         modifier = Modifier
