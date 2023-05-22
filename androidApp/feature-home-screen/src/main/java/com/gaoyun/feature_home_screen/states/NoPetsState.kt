@@ -55,7 +55,7 @@ fun NoPetsState(
             }
 
             Spacer(size = 24.dp)
-            Text(text = "Nice to meet you, $userName!", style = MaterialTheme.typography.titleLarge, textAlign = TextAlign.Center)
+            Text(text = stringResource(id = com.gaoyun.common.R.string.nice_to_meet_you, userName) , style = MaterialTheme.typography.titleLarge, textAlign = TextAlign.Center)
         }
         Column(
             modifier = Modifier

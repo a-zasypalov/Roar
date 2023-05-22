@@ -5,6 +5,7 @@
     <string name="choose_avatar">Avatar</string>
     <string name="pets_card">Tierkarte</string>
     <string name="edit_profile">Profil bearbeiten</string>
+    <string name="nice_to_meet_you">Schön, Sie kennenzulernen %1$s!</string>
     <string name="logout">Abmelden</string>
     <string name="logout_question">Abmelden?</string>
     <string name="logout_description">Möchten Sie sich wirklich abmelden?</string>
@@ -23,7 +24,7 @@
     <string name="profile">Profil</string>
     <string name="new_pet">Neues Tier</string>
     <string name="new_pet_added">Neues Tier hinzugefügt!</string>
-    <string name="new_pet_added_subtitle">Lass uns die erste Erinnerung erstellen</string>
+    <string name="new_pet_added_subtitle">Wir begrüßen %1$s</string>
     <string name="continue_label">Fortfahren</string>
     <string name="skip_label">Überspringen</string>
     <string name="group">Gruppe</string>
@@ -70,7 +71,9 @@
     <string name="register_to_get_started">Registrieren Sie, um zu beginnen</string>
     <string name="register_or_login">Registrieren oder Einloggen</string>
     <string name="register">Registrieren</string>
+    <string name="user_screen_subtitle">Danke, dass Sie bei uns waren</string>
     <string name="login">Einloggen</string>
+    <string name="colors">Farben</string>
     <string name="for_who">Für wen?</string>
     <string name="add_reminder">Erinnerung hinzufügen</string>
     <string name="doesnt_repeat">Wiederholt sich nicht</string>
@@ -82,6 +85,8 @@
     <string name="delete_reminder_completely_confirmation_text">Möchten Sie diese Erinnerung vollständig löschen?</string>
     <string name="yes">Ja</string>
     <string name="next">Weiter</string>
+    <string name="next_button">Weiter</string>
+    <string name="hey_user">Hallo %1$s</string>
     <string name="start">Starten</string>
     <string name="at">um</string>
     <string name="history">Historie</string>

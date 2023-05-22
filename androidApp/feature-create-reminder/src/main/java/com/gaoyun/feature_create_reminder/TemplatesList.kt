@@ -42,10 +42,9 @@ fun TemplatesList(
     pet: PetWithInteractions,
     templates: List<InteractionTemplate>,
     templateChosen: (AddReminderScreenContract.Event.TemplateChosen) -> Unit,
-
-    ) {
-    LazyColumn {
-
+    modifier: Modifier = Modifier
+) {
+    LazyColumn(modifier = modifier) {
         item {
             Row(
                 modifier = Modifier

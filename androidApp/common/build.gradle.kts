@@ -30,21 +30,21 @@ android {
 
 dependencies {
     api(project(":sharedLib"))
-    api("androidx.core:core-ktx:1.10.0")
+    api("androidx.core:core-ktx:1.10.1")
     api("androidx.appcompat:appcompat:1.6.1")
-    api("com.google.android.material:material:1.8.0")
-    api("org.jetbrains.kotlinx:kotlinx-coroutines-core-jvm:1.6.4")
+    api("com.google.android.material:material:1.9.0")
+    api("org.jetbrains.kotlinx:kotlinx-coroutines-core-jvm:1.7.0")
 
     api("androidx.lifecycle:lifecycle-runtime-ktx:2.6.1")
-    api("androidx.activity:activity-compose:1.7.0")
+    api("androidx.activity:activity-compose:1.7.1")
 
-    val composeVersion = "1.4.1"
+    val composeVersion = "1.4.3"
     api("androidx.compose.ui:ui:$composeVersion")
     api("androidx.compose.ui:ui-tooling-preview:$composeVersion")
     api("androidx.compose.material:material-icons-extended:$composeVersion")
     api("androidx.navigation:navigation-compose:2.5.3")
 
-    api("androidx.compose.material3:material3:1.0.1")
+    api("androidx.compose.material3:material3:1.1.0")
 
     api("org.jetbrains.kotlinx:kotlinx-datetime:0.4.0")
 
@@ -65,15 +65,15 @@ dependencies {
 
     api("androidx.browser:browser:1.5.0")
 
-    debugApi("androidx.compose.ui:ui-tooling:1.4.1")
-    api("androidx.compose.ui:ui-tooling-preview:1.4.1")
+    debugApi("androidx.compose.ui:ui-tooling:1.4.3")
+    api("androidx.compose.ui:ui-tooling-preview:1.4.3")
 
     api(platform("com.google.firebase:firebase-bom:31.2.3"))
     api("com.google.firebase:firebase-crashlytics-ktx")
     api("com.google.firebase:firebase-analytics-ktx")
     api("com.google.firebase:firebase-messaging-ktx")
     api("com.firebaseui:firebase-ui-auth:7.2.0")
-    api("com.google.firebase:firebase-auth-ktx:21.3.0")
+    api("com.google.firebase:firebase-auth-ktx:22.0.0")
 
     testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test.ext:junit:1.1.5")

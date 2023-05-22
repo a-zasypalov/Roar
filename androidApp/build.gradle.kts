@@ -48,6 +48,6 @@ dependencies {
     implementation(project(":androidApp:feature-user-screen"))
     implementation(project(":androidApp:feature-onboarding"))
 
-    implementation("androidx.activity:activity-compose:1.7.0")
+    implementation("androidx.activity:activity-compose:1.7.1")
     implementation("androidx.multidex:multidex:2.0.1")
 }

@@ -8,7 +8,7 @@ import kotlin.time.Duration.Companion.hours
 @Serializable
 data class InteractionRemindConfig(
     val remindBeforeNumber: Int = 1,
-    val repeatsEveryPeriod: InteractionRemindConfigPeriod = InteractionRemindConfigPeriod.HOUR,
+    val repeatsEveryPeriod: InteractionRemindConfigPeriod = InteractionRemindConfigPeriod.DAY,
 ) {
     override fun toString(): String = "${remindBeforeNumber}_${repeatsEveryPeriod}"
 
@@ -40,7 +40,7 @@ enum class InteractionRemindConfigPeriod {
         val LIST = listOf(
             DAY_STRING,
             WEEK_STRING,
-            HOUR_STRING,
+//            HOUR_STRING,
         )
     }
 }

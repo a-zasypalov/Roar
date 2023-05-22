@@ -87,7 +87,7 @@ internal fun UserScreenContent(
                     modifier = Modifier.fillMaxWidth()
                 ) {
                     AutoResizeText(
-                        text = "Hey, ${user.name}",
+                        text = stringResource(id = R.string.hey_user, user.name),
                         maxLines = 2,
                         style = MaterialTheme.typography.displayMedium,
                         color = MaterialTheme.colorScheme.onSurface,

@@ -68,7 +68,7 @@ fun OnboardingRootScreen(
                 Spacer(size = 16.dp)
                 if (state.currentPage < 2) {
                     PrimaryElevatedButton(
-                        text = stringResource(id = R.string.next),
+                        text = stringResource(id = R.string.next_button),
                         onClick = {
                             scope.launch {
                                 state.animateScrollToPage(state.currentPage + 1)

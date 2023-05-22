@@ -41,7 +41,7 @@ internal fun RemindConfigDialog(
     val activity = LocalContext.current as AppCompatActivity
 
     val repeatsEveryNumber = rememberSaveable { mutableStateOf(remindConfig?.remindBeforeNumber?.toString() ?: "1") }
-    val repeatsEveryPeriod = rememberSaveable { mutableStateOf(remindConfig?.repeatsEveryPeriod?.toString() ?: activity.getString(R.string.hour)) }
+    val repeatsEveryPeriod = rememberSaveable { mutableStateOf(remindConfig?.repeatsEveryPeriod?.toString() ?: activity.getString(R.string.day)) }
     val repeatsEveryPeriodsList = InteractionRemindConfigPeriod.LIST
 
     val defaultHorizontalPadding = 24.dp

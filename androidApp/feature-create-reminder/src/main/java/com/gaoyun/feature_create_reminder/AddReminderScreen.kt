@@ -5,9 +5,13 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.remember
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.unit.dp
 import androidx.lifecycle.Lifecycle
 import com.gaoyun.common.OnLifecycleEvent
+import com.gaoyun.common.R
 import com.gaoyun.common.composables.*
 import com.gaoyun.roar.presentation.BackNavigationEffect
 import com.gaoyun.roar.presentation.LAUNCH_LISTEN_FOR_EFFECTS
@@ -50,7 +54,34 @@ fun AddReminderDestination(
                     pet = it,
                     templates = state.templates,
                     templateChosen = viewModel::setEvent,
+                    modifier = Modifier
+                        .navigationBarsPadding()
+                        .padding(bottom = 56.dp)
                 )
+                Box(modifier = Modifier.fillMaxSize()) {
+                    Surface(
+                        tonalElevation = 120.dp,
+                        shadowElevation = 12.dp,
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .height(
+                                88.dp + ScaffoldDefaults.contentWindowInsets
+                                    .asPaddingValues()
+                                    .calculateBottomPadding()
+                            )
+                            .align(Alignment.BottomCenter)
+                    ) {
+                        PrimaryElevatedButtonOnSurface(
+                            text = stringResource(id = R.string.done),
+                            onClick = { onNavigationCall(BackNavigationEffect) },
+                            modifier = Modifier
+                                .align(Alignment.Center)
+                                .padding(vertical = 16.dp)
+                                .navigationBarsPadding()
+                        )
+                    }
+
+                }
             }
         }
     }

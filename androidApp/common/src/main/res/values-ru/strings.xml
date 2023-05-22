@@ -4,11 +4,15 @@
     <string name="username">Имя пользователя</string>
     <string name="choose_avatar">Аватар</string>
     <string name="pets_card">Карточка</string>
-    <string name="edit_profile">Редактировать профиль</string>
+    <string name="edit_profile">Профиль</string>
+    <string name="nice_to_meet_you">Добро пожаловать, %1$s!</string>
     <string name="logout">Выйти</string>
     <string name="logout_question">Выйти?</string>
     <string name="logout_description">Вы уверены, что хотите выйти из аккаунта?</string>
     <string name="name">Имя</string>
+    <string name="hey_user">Привет, %1$s</string>
+    <string name="user_screen_subtitle">Спасибо, что вы с нами</string>
+    <string name="colors">Цвета</string>
     <string name="breed">Порода</string>
     <string name="male">Мужской</string>
     <string name="female">Женский</string>
@@ -23,7 +27,7 @@
     <string name="profile">Профиль</string>
     <string name="new_pet">Питомец</string>
     <string name="new_pet_added">Готово!</string>
-    <string name="new_pet_added_subtitle">Создать напоминание?</string>
+    <string name="new_pet_added_subtitle">Добро пожаловать, %1$s</string>
     <string name="continue_label">Далее</string>
     <string name="skip_label">Пропустить</string>
     <string name="group">Группа</string>
@@ -82,6 +86,7 @@
     <string name="delete_reminder_completely_confirmation_text">Вы хотите удалить эти напоминания?</string>
     <string name="yes">Да</string>
     <string name="next">Следующее</string>
+    <string name="next_button">Далее</string>
     <string name="start">Начать</string>
     <string name="at">в</string>
     <string name="history">История</string>
@@ -110,7 +115,7 @@
     <string name="number_of_reminders_main_screen">Напоминаний на главном экране у питомца</string>
     <string name="today">Сегодня</string>
     <string name="on_date_arg">%1$s</string>
-    <string name="open_reminders_menu">Создать напоминание</string>
+    <string name="open_reminders_menu">Создать напоминания</string>
 
     <plurals name="years">
         <item quantity="one" tools:ignore="ImpliedQuantity">год</item>
@@ -197,9 +202,9 @@
 
     <string name="onboarding_care_assistant">Поможет в уходе за питомцем</string>
     <string name="onboarding_care_reminders">Напоминания</string>
-    <string name="onboarding_care_reminders_description">Иногда питомцы не разговорчивы</string>
+    <string name="onboarding_care_reminders_description">Питомцы бывают неразговорчивы</string>
     <string name="onboarding_community_project">Сообщество</string>
-    <string name="onboarding_community_project_description">Roar - проект с сообществом</string>
+    <string name="onboarding_community_project_description">Сделаем жизнь питомцев лучше вместе!</string>
 
     <string name="date_on">в</string>
     <string name="never_ends">не заканчивается</string>
