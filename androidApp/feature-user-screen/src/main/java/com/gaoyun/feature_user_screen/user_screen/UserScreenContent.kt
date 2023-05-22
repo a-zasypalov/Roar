@@ -22,6 +22,7 @@ import androidx.compose.material.icons.filled.Check
 import androidx.compose.material.icons.filled.ListAlt
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.Divider
 import androidx.compose.material3.ElevatedCard
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -109,7 +110,7 @@ internal fun UserScreenContent(
                 Spacer(size = 8.dp)
 
                 Text(
-                    text = "Thank you for being with us",
+                    text = stringResource(id = R.string.user_screen_subtitle),
                     style = MaterialTheme.typography.titleMedium,
                     color = MaterialTheme.colorScheme.onSurface
                 )
@@ -126,15 +127,19 @@ internal fun UserScreenContent(
 
                 UserScreenBackupBlock(onCreateBackupClick, onUseBackup)
 
-                Spacer(size = 32.dp)
+                Spacer(size = 16.dp)
+
+                Divider()
+
+                Spacer(size = 16.dp)
 
                 Text(
                     text = stringResource(id = R.string.app_settings),
-                    style = MaterialTheme.typography.titleLarge,
+                    style = MaterialTheme.typography.headlineLarge,
                     color = MaterialTheme.colorScheme.onSurface
                 )
 
-                Spacer(size = 8.dp)
+                Spacer(size = 12.dp)
 
                 DropdownMenu(
                     valueList = listOf("0", "1", "2", "3", "4", "5"),
@@ -145,15 +150,15 @@ internal fun UserScreenContent(
                     modifier = Modifier.fillMaxWidth()
                 )
 
-                Spacer(size = 32.dp)
+                Spacer(size = 24.dp)
 
                 Text(
-                    text = "Colours",
+                    text = stringResource(id = R.string.colors),
                     style = MaterialTheme.typography.titleLarge,
                     color = MaterialTheme.colorScheme.onSurface
                 )
 
-                Spacer(size = 8.dp)
+                Spacer(size = 4.dp)
 
                 if (supportDynamicColor) {
                     LabelledCheckBox(
@@ -207,7 +212,11 @@ internal fun UserScreenContent(
                     }
                 }
 
-                Spacer(size = 32.dp)
+                Spacer(size = 16.dp)
+
+                Divider()
+
+                Spacer(size = 16.dp)
 
                 TextButton(
                     onClick = {
