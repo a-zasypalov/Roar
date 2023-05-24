@@ -4,8 +4,10 @@ import com.gaoyun.roar.domain.pet.AddPetUseCase
 import com.gaoyun.roar.domain.pet.GetPetBreedsUseCase
 import com.gaoyun.roar.domain.pet.GetPetUseCase
 import com.gaoyun.roar.domain.pet.SetPetAvatar
+import com.gaoyun.roar.model.domain.LanguageCode
 import com.gaoyun.roar.model.domain.PetType
 import com.gaoyun.roar.model.domain.toGender
+import com.gaoyun.roar.model.domain.toLanguageCode
 import com.gaoyun.roar.model.domain.toPetType
 import com.gaoyun.roar.presentation.BaseViewModel
 import kotlinx.coroutines.flow.catch
@@ -44,7 +46,7 @@ class AddPetDataScreenViewModel :
 
             is AddPetDataScreenContract.Event.PetDataInit -> {
                 setState { copy(petType = event.petType.toPetType(), avatar = event.avatar) }
-                getPetInfo(event.petType.toPetType(), event.petId)
+                getPetInfo(event.petType.toPetType(), event.petId, event.localeCode.toLanguageCode())
             }
 
             is AddPetDataScreenContract.Event.NavigateToAvatarEdit -> {
@@ -57,9 +59,9 @@ class AddPetDataScreenViewModel :
         }
     }
 
-    private fun getPetInfo(petType: PetType, petId: String?) = scope.launch {
+    private fun getPetInfo(petType: PetType, petId: String?, languageCode: LanguageCode) = scope.launch {
         val pet = petId?.let { id -> getPet.getPet(id).firstOrNull() }
-        petBreedsUseCase.getBreeds(petType).collect {
+        petBreedsUseCase.getBreeds(petType, languageCode).collect {
             setState { copy(breeds = it, pet = pet, isLoading = false) }
         }
     }

@@ -1,6 +1,7 @@
 package com.gaoyun.roar.repository
 
 import com.gaoyun.roar.domain.SynchronisationScheduler
+import com.gaoyun.roar.model.domain.LanguageCode
 import com.gaoyun.roar.model.domain.Pet
 import com.gaoyun.roar.model.domain.toDomain
 import com.gaoyun.roar.model.entity.RoarDatabase
@@ -18,7 +19,7 @@ interface PetRepository {
     suspend fun getPetsByUser(userId: String): List<Pet>
     fun insertPet(pet: Pet)
     fun deletePet(id: String)
-    suspend fun getBreeds(petType: String): List<String>
+    suspend fun getBreeds(petType: String, languageCode: LanguageCode): List<String>
 }
 
 class PetRepositoryImpl : PetRepository, KoinComponent {
@@ -47,17 +48,28 @@ class PetRepositoryImpl : PetRepository, KoinComponent {
         return appDb.petEntityQueries.selectByUserId(userId).executeAsList().map { it.toDomain() }
     }
 
-    // TODO: Localisation
-    override suspend fun getBreeds(petType: String): List<String> {
+    override suspend fun getBreeds(petType: String, languageCode: LanguageCode): List<String> {
         val cachedBreeds = appDb.petBreedEntityQueries.selectByPetType(petType).executeAsList()
         val breedsLastUpdatedDateTime = preferences.getLong(PreferencesKeys.PET_BREEDS_LAST_UPDATE, 0L)
-
-        return if (cachedBreeds.isEmpty() || (breedsLastUpdatedDateTime < Clock.System.now().toEpochMilliseconds() - DatetimeConstants.DAY_MILLIS)) {
+        val petBreedsLocale = preferences.getString(PreferencesKeys.PET_BREEDS_LOCALE, LanguageCode.English.name)
+        return if (cachedBreeds.isEmpty()
+            || languageCode != LanguageCode.valueOf(petBreedsLocale)
+            || breedsLastUpdatedDateTime < Clock.System.now().toEpochMilliseconds() - DatetimeConstants.DAY_MILLIS
+        ) {
             kotlin.runCatching {
-                api.getPetBreedsByPetType(petType).breedsEn
+                api.getPetBreedsByPetType(petType).let {
+                    when (languageCode) {
+                        LanguageCode.English -> it.breedsEn
+                        LanguageCode.German -> it.breedsDe
+                        LanguageCode.Russian -> it.breedsRu
+                    }
+                }
                     .also { appDb.petBreedEntityQueries.deleteAll() }
                     .onEach { appDb.petBreedEntityQueries.insertOrReplace(petType, it) }
-                    .also { preferences.setLong(PreferencesKeys.PET_BREEDS_LAST_UPDATE, Clock.System.now().toEpochMilliseconds()) }
+                    .also {
+                        preferences.setLong(PreferencesKeys.PET_BREEDS_LAST_UPDATE, Clock.System.now().toEpochMilliseconds())
+                        preferences.setString(PreferencesKeys.PET_BREEDS_LOCALE, languageCode.name)
+                    }
             }.getOrElse {
                 it.printStackTrace()
                 cachedBreeds.map { item -> item.breed }

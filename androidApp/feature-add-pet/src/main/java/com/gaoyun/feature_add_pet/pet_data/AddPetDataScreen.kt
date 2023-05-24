@@ -6,6 +6,7 @@ import androidx.compose.material.*
 import androidx.compose.material.icons.filled.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
+import androidx.compose.ui.text.intl.Locale
 import androidx.lifecycle.Lifecycle
 import com.gaoyun.common.OnLifecycleEvent
 import com.gaoyun.common.composables.*
@@ -33,7 +34,7 @@ fun AddPetDataDestination(
 
     OnLifecycleEvent { _, event ->
         if (event == Lifecycle.Event.ON_RESUME) {
-            viewModel.setEvent(AddPetDataScreenContract.Event.PetDataInit(petType, avatar, petId))
+            viewModel.setEvent(AddPetDataScreenContract.Event.PetDataInit(petType, avatar, petId, Locale.current.language))
         }
     }
 

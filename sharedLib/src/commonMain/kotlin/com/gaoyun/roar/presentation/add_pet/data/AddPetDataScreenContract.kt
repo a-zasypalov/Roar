@@ -11,7 +11,7 @@ import kotlinx.datetime.LocalDate
 class AddPetDataScreenContract {
 
     sealed class Event : ViewEvent {
-        class PetDataInit(val petType: String, val avatar: String, val petId: String?) : Event()
+        class PetDataInit(val petType: String, val avatar: String, val petId: String?, val localeCode: String) : Event()
         class AddPetButtonClicked(
             val petType: String,
             val avatar: String,
