@@ -65,8 +65,8 @@ fun SetupReminderDestination(
             state.pet?.let { pet ->
                 avatar.value = pet.avatar
 
-                Box(
-                    contentAlignment = Alignment.BottomCenter,
+                Column(
+                    verticalArrangement = Arrangement.Bottom,// Alignment.BottomCenter,
                     modifier = Modifier.fillMaxSize()
                 ) {
                     ReminderSetupHeader(
@@ -77,7 +77,7 @@ fun SetupReminderDestination(
                     SurfaceCard(
                         shape = surfaceCardFormShape,
                         elevation = surfaceCardFormElevation(),
-                        modifier = Modifier.padding(horizontal = 6.dp)
+                        modifier = Modifier.padding(horizontal = 6.dp).padding(top = 8.dp),
                     ) {
                         ReminderSetupForm(
                             interactionToEdit = state.interactionToEdit,
@@ -122,7 +122,7 @@ private fun ReminderSetupHeader(
     petAvatar: String,
     petName: String,
 ) {
-    Box(modifier = Modifier.fillMaxSize()) {
+//    Box(modifier = Modifier.fillMaxSize()) {
         Row(
             modifier = Modifier
                 .padding(top = 8.dp, start = 16.dp, end = 12.dp),
@@ -141,5 +141,5 @@ private fun ReminderSetupHeader(
                 style = MaterialTheme.typography.displayMedium,
             )
         }
-    }
+//    }
 }

@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.relocation.BringIntoViewRequester
 import androidx.compose.foundation.rememberScrollState
@@ -121,8 +122,9 @@ internal fun ReminderSetupForm(
     Column(
         modifier = Modifier
             .verticalScroll(rememberScrollState())
+            .navigationBarsPadding()
     ) {
-        Spacer(size = 8.dp)
+        Spacer(size = 12.dp)
 
         TextFormField(
             text = reminderName.value,

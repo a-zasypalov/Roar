@@ -94,7 +94,7 @@ class SetupReminderScreenViewModel :
                         isLoading = false,
                         pet = pet,
                         template = template,
-                        repeatConfig = interaction?.repeatConfig ?: template.repeatConfig,
+                        repeatConfig = interaction?.repeatConfig ?: template?.repeatConfig ?: InteractionRepeatConfig(),
                         remindConfig = interaction?.remindConfig ?: InteractionRemindConfig(),
                         interactionToEdit = interaction
                     )

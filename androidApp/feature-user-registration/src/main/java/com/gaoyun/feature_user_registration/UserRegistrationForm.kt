@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
@@ -34,7 +35,10 @@ fun UserRegistrationForm(
 ) {
     var nameState by rememberSaveable { mutableStateOf("") }
 
-    Box(contentAlignment = Alignment.BottomCenter) {
+    Box(
+        contentAlignment = Alignment.BottomCenter,
+        modifier = Modifier.navigationBarsPadding(),
+    ) {
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Center,

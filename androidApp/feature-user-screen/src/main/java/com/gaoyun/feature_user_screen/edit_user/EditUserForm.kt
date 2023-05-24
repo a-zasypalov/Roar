@@ -3,6 +3,7 @@ package com.gaoyun.feature_user_screen
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
@@ -36,7 +37,8 @@ internal fun EditUserForm(
     val userName = remember { mutableStateOf(user.name) }
 
     SurfaceCard(
-        shape = surfaceCardFormShape, elevation = surfaceCardFormElevation(), modifier = Modifier.padding(horizontal = 6.dp)
+        shape = surfaceCardFormShape, elevation = surfaceCardFormElevation(),
+        modifier = Modifier.padding(horizontal = 6.dp)
     ) {
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
@@ -45,6 +47,7 @@ internal fun EditUserForm(
                 .fillMaxWidth()
                 .verticalScroll(rememberScrollState())
                 .padding(horizontal = 24.dp)
+                .navigationBarsPadding()
         ) {
             Spacer(size = 32.dp)
 
