@@ -37,7 +37,6 @@ import org.koin.androidx.compose.getViewModel
 import com.gaoyun.common.R as CommonR
 
 @Composable
-@OptIn(ExperimentalMaterial3Api::class)
 fun AddPetAvatarDestination(
     onNavigationCall: (NavigationSideEffect) -> Unit,
     petType: String,

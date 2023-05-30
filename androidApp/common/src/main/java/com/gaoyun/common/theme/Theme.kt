@@ -44,7 +44,6 @@ fun RoarTheme(
 }
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun RoarThemePreview(
     userPreferenceDynamicColorsIsActive: Boolean = false,

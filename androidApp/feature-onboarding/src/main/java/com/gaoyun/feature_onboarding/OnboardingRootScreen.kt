@@ -178,7 +178,6 @@ fun OnboardingCommunityPage() {
     }
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Preview
 @Composable
 fun OnboardingHelloPagePreview() {
@@ -189,7 +188,6 @@ fun OnboardingHelloPagePreview() {
     }
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Preview
 @Composable
 fun OnboardingCarePagePreview() {
@@ -200,7 +198,6 @@ fun OnboardingCarePagePreview() {
     }
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Preview
 @Composable
 fun OnboardingCommunityPagePreview() {

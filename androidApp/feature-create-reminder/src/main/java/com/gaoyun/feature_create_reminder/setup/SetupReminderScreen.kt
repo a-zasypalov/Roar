@@ -28,7 +28,6 @@ import kotlinx.datetime.*
 import org.koin.androidx.compose.getViewModel
 import com.gaoyun.common.R as CommonR
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SetupReminderDestination(
     onNavigationCall: (NavigationSideEffect) -> Unit,

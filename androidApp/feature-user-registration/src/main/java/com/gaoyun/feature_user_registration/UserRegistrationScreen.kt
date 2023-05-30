@@ -28,7 +28,6 @@ import kotlinx.coroutines.flow.onEach
 import org.koin.androidx.compose.getViewModel
 
 @Composable
-@OptIn(ExperimentalMaterial3Api::class)
 fun UserRegistrationDestination(onNavigationCall: (NavigationSideEffect) -> Unit) {
     val viewModel: RegisterUserViewModel = getViewModel()
 

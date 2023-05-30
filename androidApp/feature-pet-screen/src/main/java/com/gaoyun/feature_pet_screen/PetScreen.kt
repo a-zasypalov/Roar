@@ -29,7 +29,6 @@ import kotlinx.coroutines.flow.onEach
 import kotlinx.datetime.*
 import org.koin.androidx.compose.getViewModel
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun PetScreenDestination(
     onNavigationCall: (NavigationSideEffect) -> Unit,

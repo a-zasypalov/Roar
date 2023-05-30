@@ -38,7 +38,6 @@ import kotlinx.coroutines.flow.onEach
 import kotlinx.datetime.LocalDate
 import org.koin.androidx.compose.getViewModel
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AddPetSetupDestination(
     onNavigationCall: (NavigationSideEffect) -> Unit,

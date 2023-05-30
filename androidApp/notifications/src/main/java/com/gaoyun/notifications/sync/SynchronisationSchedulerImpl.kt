@@ -18,7 +18,7 @@ class SynchronisationSchedulerImpl(
 
     override fun scheduleSynchronisation() {
         val request = OneTimeWorkRequestBuilder<SynchronisationWorker>()
-            .setInitialDelay(10, TimeUnit.SECONDS)
+            .setInitialDelay(30, TimeUnit.SECONDS)
             .build()
 
         workManager.enqueueUniqueWork("sync", ExistingWorkPolicy.REPLACE, request)
@@ -35,7 +35,11 @@ class SynchronisationWorker(context: Context, params: WorkerParameters) : Corout
         return createBackupUseCase.createBackupToSync()
             .catch { Result.failure() }
             .map {
-                if (it != null) api.sendBackup(it)
+                try {
+                    if (it != null) api.sendBackup(it)
+                } catch (e: Exception) {
+                    e.printStackTrace()
+                }
                 Result.success()
             }
             .first()

@@ -27,7 +27,6 @@ import org.koin.androidx.compose.getViewModel
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun UserScreenDestination(
     onNavigationCall: (NavigationSideEffect) -> Unit,

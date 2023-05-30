@@ -19,7 +19,6 @@ import com.gaoyun.roar.presentation.user_edit.EditUserScreenViewModel
 import kotlinx.coroutines.flow.*
 import org.koin.androidx.compose.getViewModel
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun EditUserScreenDestination(
     onNavigationCall: (NavigationSideEffect) -> Unit,

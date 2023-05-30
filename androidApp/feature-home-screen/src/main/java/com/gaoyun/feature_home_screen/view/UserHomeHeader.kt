@@ -19,7 +19,6 @@ import com.gaoyun.common.R
 import com.gaoyun.common.theme.RoarTheme
 import com.gaoyun.common.composables.Spacer
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 internal fun UserHomeHeader(
     onAddPetButtonClick: () -> Unit,

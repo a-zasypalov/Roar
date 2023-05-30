@@ -31,7 +31,6 @@ import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.onEach
 import org.koin.androidx.compose.getViewModel
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AddPetPetTypeDestination(onNavigationCall: (NavigationSideEffect) -> Unit) {
     val viewModel: AddPetPetTypeScreenViewModel = getViewModel()
