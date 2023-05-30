@@ -7,6 +7,7 @@
     <string name="edit_profile">Edit profile</string>
     <string name="nice_to_meet_you">Nice to meet you, %1$s!</string>
     <string name="logout">Logout</string>
+    <string name="about_app_button">About app</string>
     <string name="logout_question">Logout?</string>
     <string name="logout_description">Are you sure you want to logout?</string>
     <string name="name">Name</string>

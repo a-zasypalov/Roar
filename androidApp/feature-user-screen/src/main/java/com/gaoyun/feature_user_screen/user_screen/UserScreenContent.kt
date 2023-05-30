@@ -115,18 +115,6 @@ internal fun UserScreenContent(
                     color = MaterialTheme.colorScheme.onSurface
                 )
 
-                Spacer(size = 32.dp)
-
-                Text(
-                    text = stringResource(id = R.string.backup),
-                    style = MaterialTheme.typography.titleLarge,
-                    color = MaterialTheme.colorScheme.onSurface
-                )
-
-                Spacer(size = 8.dp)
-
-                UserScreenBackupBlock(onCreateBackupClick, onUseBackup)
-
                 Spacer(size = 16.dp)
 
                 Divider()
@@ -139,7 +127,7 @@ internal fun UserScreenContent(
                     color = MaterialTheme.colorScheme.onSurface
                 )
 
-                Spacer(size = 12.dp)
+                Spacer(size = 16.dp)
 
                 DropdownMenu(
                     valueList = listOf("0", "1", "2", "3", "4", "5"),
@@ -150,7 +138,11 @@ internal fun UserScreenContent(
                     modifier = Modifier.fillMaxWidth()
                 )
 
-                Spacer(size = 24.dp)
+                Spacer(size = 16.dp)
+
+                Divider()
+
+                Spacer(size = 16.dp)
 
                 Text(
                     text = stringResource(id = R.string.colors),
@@ -217,6 +209,33 @@ internal fun UserScreenContent(
                 Divider()
 
                 Spacer(size = 16.dp)
+
+                Text(
+                    text = stringResource(id = R.string.backup),
+                    style = MaterialTheme.typography.titleLarge,
+                    color = MaterialTheme.colorScheme.onSurface
+                )
+
+                Spacer(size = 8.dp)
+
+                UserScreenBackupBlock(onCreateBackupClick, onUseBackup)
+
+                Spacer(size = 16.dp)
+
+                Divider()
+
+                Spacer(size = 16.dp)
+
+                TextButton(
+                    onClick = {},
+                    modifier = Modifier.align(Alignment.CenterHorizontally)
+                ) {
+                    Text(
+                        text = stringResource(id = R.string.about_app_button),
+                        style = MaterialTheme.typography.titleMedium,
+                        modifier = Modifier.padding(horizontal = 32.dp, vertical = 8.dp)
+                    )
+                }
 
                 TextButton(
                     onClick = {

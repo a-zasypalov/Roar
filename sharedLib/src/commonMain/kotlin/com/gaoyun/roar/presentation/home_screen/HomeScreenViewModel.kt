@@ -55,7 +55,7 @@ class HomeScreenViewModel :
             is HomeScreenContract.Event.PetChosenForReminderCreation -> {
                 scope.launch {
                     setDialogShow(false)
-                    delay(250)
+//                    delay(250)
                     setEffect { HomeScreenContract.Effect.Navigation.ToAddReminder(event.petId) }
                 }
             }
