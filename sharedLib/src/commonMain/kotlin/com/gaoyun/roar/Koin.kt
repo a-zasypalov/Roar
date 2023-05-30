@@ -12,20 +12,38 @@ import com.gaoyun.roar.domain.interaction_template.GetInteractionTemplatesForPet
 import com.gaoyun.roar.domain.interaction_template.InsertInteractionTemplate
 import com.gaoyun.roar.domain.interaction_template.RemoveInteractionTemplates
 import com.gaoyun.roar.domain.onboarding.CompleteOnboardingUseCase
-import com.gaoyun.roar.domain.pet.*
+import com.gaoyun.roar.domain.pet.AddPetUseCase
+import com.gaoyun.roar.domain.pet.GetPetBreedsUseCase
+import com.gaoyun.roar.domain.pet.GetPetUseCase
+import com.gaoyun.roar.domain.pet.RemovePetUseCase
+import com.gaoyun.roar.domain.pet.SetPetAvatar
+import com.gaoyun.roar.domain.reminder.AddNextReminder
 import com.gaoyun.roar.domain.reminder.GetReminder
 import com.gaoyun.roar.domain.reminder.InsertReminder
 import com.gaoyun.roar.domain.reminder.RemoveReminder
 import com.gaoyun.roar.domain.reminder.SetReminderComplete
 import com.gaoyun.roar.domain.repeat_config.RepeatConfigUseCase
 import com.gaoyun.roar.domain.sync.SynchronisationUseCase
-import com.gaoyun.roar.domain.user.*
+import com.gaoyun.roar.domain.user.CheckUserExistingUseCase
+import com.gaoyun.roar.domain.user.EditUserUseCase
+import com.gaoyun.roar.domain.user.GetCurrentUserUseCase
+import com.gaoyun.roar.domain.user.LogoutUseCase
+import com.gaoyun.roar.domain.user.RegisterUserUseCase
 import com.gaoyun.roar.migrations.MigrationsExecutor
 import com.gaoyun.roar.model.entity.RoarDatabase
 import com.gaoyun.roar.network.InteractionTemplatesApi
 import com.gaoyun.roar.network.PetsApi
 import com.gaoyun.roar.network.SynchronisationApi
-import com.gaoyun.roar.repository.*
+import com.gaoyun.roar.repository.InteractionRepository
+import com.gaoyun.roar.repository.InteractionRepositoryImpl
+import com.gaoyun.roar.repository.InteractionTemplateRepository
+import com.gaoyun.roar.repository.InteractionTemplateRepositoryImpl
+import com.gaoyun.roar.repository.PetRepository
+import com.gaoyun.roar.repository.PetRepositoryImpl
+import com.gaoyun.roar.repository.ReminderRepository
+import com.gaoyun.roar.repository.ReminderRepositoryImpl
+import com.gaoyun.roar.repository.UserRepository
+import com.gaoyun.roar.repository.UserRepositoryImpl
 import com.gaoyun.roar.util.DriverFactory
 import com.gaoyun.roar.util.PlatformHttpClient
 import com.gaoyun.roar.util.Preferences
@@ -76,6 +94,7 @@ val useCaseModule = module {
     single { InsertReminder() }
     single { RemoveReminder() }
     single { SetReminderComplete() }
+    single { AddNextReminder() }
 
     single { CreateBackupUseCase() }
     single { ImportBackupUseCase() }
