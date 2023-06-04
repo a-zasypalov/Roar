@@ -103,10 +103,11 @@ class HomeScreenViewModel :
     }
 
     private fun getPets(user: User) = scope.launch {
+        val screenModeFull = appPreferencesUseCase.homeScreenModeFull()
         val remindersPerPet = appPreferencesUseCase.numberOfRemindersOnMainScreen()
         val pets = (getPetUseCase.getPetByUserId(user.id).firstOrNull() ?: emptyList())
 
-        val petsState = if (pets.size > 1) {
+        val petsState = if (pets.size > 1 || screenModeFull.not()) {
             pets.map { pet ->
                 val interactions = getInteractions.getInteractionByPet(pet.id).firstOrNull() ?: emptyList()
                 val reminders = interactions
@@ -135,11 +136,10 @@ class HomeScreenViewModel :
             }
         }
 
-        val homeScreenMode = appPreferencesUseCase.homeScreenModeFull()
         if (petsState.isNotEmpty()) {
-            setState { copy(user = user, pets = petsState, isLoading = false, screenModeFull = homeScreenMode) }
+            setState { copy(user = user, pets = petsState, isLoading = false, screenModeFull = screenModeFull) }
         } else {
-            setState { copy(user = user, pets = emptyList(), isLoading = false, screenModeFull = homeScreenMode) }
+            setState { copy(user = user, pets = emptyList(), isLoading = false, screenModeFull = screenModeFull) }
         }
     }
 

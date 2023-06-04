@@ -149,7 +149,7 @@ internal fun UserScreenContent(
                     }
 
                     DropdownMenu(
-                        valueList = listOf("0", "1", "2", "3", "4", "5"),
+                        valueList = listOf("0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10"),
                         listState = numberOfRemindersOnMainScreenState,
                         onChange = { onNumberOfRemindersOnMainScreenChange(UserScreenContract.Event.OnNumberOfRemindersOnMainScreen(it.toIntOrNull() ?: 2)) },
                         label = stringResource(id = R.string.number_of_reminders_main_screen),
