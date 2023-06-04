@@ -21,8 +21,9 @@ jobs:
           DATA: ${{ secrets.GOOGLE_SERVICES_JSON }}
         run: echo $DATA | base64 -di > /home/runner/work/Roar/Roar/androidApp/google-services.json
   build:
-    needs: setup
     name: Build
+    needs: setup
+    runs-on: ubuntu-latest
     steps:
       - name: Assemble release
         run: ./gradlew assembleRelease
@@ -35,8 +36,9 @@ jobs:
           echo "ARTIFACT_PATHNAME_APK=${ARTIFACT_PATHNAME_APK}" >> $GITHUB_ENV
           echo "ARTIFACT_NAME_APK=${ARTIFACT_NAME_APK}" >> $GITHUB_ENV
   distribute:
-    needs: [ setup, build ]
     name: Upload
+    needs: [ setup, build ]
+    runs-on: ubuntu-latest
     steps:
       - name: Uploading artifact to Firebase App Distribution
         uses: wzieba/Firebase-Distribution-Github-Action@v1
