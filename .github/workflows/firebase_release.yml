@@ -1,38 +1,47 @@
-name: Build & upload to Firebase App Distribution 
+name: Build & upload to Firebase App Distribution
 
-on: 
+on:
   push:
     tags: 'firebase/*'
 
 jobs:
-  build:
+  setup:
+    name: Setup
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v1
-    - name: set up JDK
-      uses: actions/setup-java@v1
-      with:
-        java-version: '17'
-    - name: Create google-services.json
-      run: cat /home/runner/work/Roar/Roar/androidApp/google-services.json | base64
-    - name: Insert data into google-services.json
-      env:
-        DATA: ${{ secrets.GOOGLE_SERVICES_JSON }}
-      run: echo $DATA | base64 -di > /home/runner/work/Roar/Roar/androidApp/google-services.json
-    - name: build release 
-      run: ./gradlew assembleRelease
-    - name: Save name of Artifact
-      id: set-result-artifact
-      run: |
-        ARTIFACT_PATHNAME_APK=$(ls androidApp/build/outputs/apk/release/*.apk | head -n 1)
-        ARTIFACT_NAME_APK=$(basename $ARTIFACT_PATHNAME_APK)
-        echo "ARTIFACT_NAME_APK is " ${ARTIFACT_NAME_APK}
-        echo "ARTIFACT_PATHNAME_APK=${ARTIFACT_PATHNAME_APK}" >> $GITHUB_ENV
-        echo "ARTIFACT_NAME_APK=${ARTIFACT_NAME_APK}" >> $GITHUB_ENV
-    - name: upload artifact to Firebase App Distribution
-      uses: wzieba/Firebase-Distribution-Github-Action@v1
-      with:
-        appId: ${{secrets.FIREBASE_APP_ID}}
-        serviceCredentialsFileContent: ${{ secrets.CREDENTIAL_FILE_CONTENT }}
-        groups: testers
-        file: androidApp/build/outputs/apk/release/androidApp-release-unsigned.apk
+      - uses: actions/checkout@v1
+      - name: Setup JDK
+        uses: actions/setup-java@v1
+        with:
+          java-version: '17'
+      - name: Create google-services.json
+        run: cat /home/runner/work/Roar/Roar/androidApp/google-services.json | base64
+      - name: Insert google-services.json data
+        env:
+          DATA: ${{ secrets.GOOGLE_SERVICES_JSON }}
+        run: echo $DATA | base64 -di > /home/runner/work/Roar/Roar/androidApp/google-services.json
+  build:
+    - needs: setup
+      name: Build
+    - steps:
+        - name: Assemble release
+          run: ./gradlew assembleRelease
+        - name: Save artifact name
+          id: set-result-artifact
+          run: |
+            ARTIFACT_PATHNAME_APK=$(ls androidApp/build/outputs/apk/release/*.apk | head -n 1)
+            ARTIFACT_NAME_APK=$(basename $ARTIFACT_PATHNAME_APK)
+            echo "ARTIFACT_NAME_APK is " ${ARTIFACT_NAME_APK}
+            echo "ARTIFACT_PATHNAME_APK=${ARTIFACT_PATHNAME_APK}" >> $GITHUB_ENV
+            echo "ARTIFACT_NAME_APK=${ARTIFACT_NAME_APK}" >> $GITHUB_ENV
+  distribute:
+    - needs: [ setup, build ]
+      name: Upload
+    - steps:
+        - name: Uploading artifact to Firebase App Distribution
+          uses: wzieba/Firebase-Distribution-Github-Action@v1
+          with:
+            appId: ${{secrets.FIREBASE_APP_ID}}
+            serviceCredentialsFileContent: ${{ secrets.CREDENTIAL_FILE_CONTENT }}
+            groups: testers
+            file: androidApp/build/outputs/apk/release/${ARTIFACT_NAME_APK}
