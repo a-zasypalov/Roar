@@ -117,6 +117,7 @@
     <string name="today">Today</string>
     <string name="on_date_arg">On %1$s</string>
     <string name="open_reminders_menu">Open Reminders Menu</string>
+    <string name="no_breed">No breed</string>
 
     <plurals name="years">
         <item quantity="one">year</item>
@@ -233,6 +234,10 @@
     <!--  Notifications  -->
     <string name="notification_title">Reminder for %1$s</string>
     <string name="notification_content_dont_forget">Don\'t forget about %1$s</string>
+
+    <!-- About page -->
+    <string name="about_app_title">About Roar</string>
+    <string name="about_app_description">Roar App is designed to help you take better care of your furry friends. With our app, you can set reminders for important tasks such as vaccinations, medication, grooming and vet appointments.\n\nWe will be happy to receive a feedback!</string>
 
 </resources>
 

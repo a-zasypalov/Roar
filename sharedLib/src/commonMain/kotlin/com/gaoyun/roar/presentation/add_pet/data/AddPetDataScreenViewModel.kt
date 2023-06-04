@@ -46,7 +46,7 @@ class AddPetDataScreenViewModel :
 
             is AddPetDataScreenContract.Event.PetDataInit -> {
                 setState { copy(petType = event.petType.toPetType(), avatar = event.avatar) }
-                getPetInfo(event.petType.toPetType(), event.petId, event.localeCode.toLanguageCode())
+                getPetInfo(event.petType.toPetType(), event.petId, event.localeCode.toLanguageCode(), event.noBreedString)
             }
 
             is AddPetDataScreenContract.Event.NavigateToAvatarEdit -> {
@@ -59,10 +59,12 @@ class AddPetDataScreenViewModel :
         }
     }
 
-    private fun getPetInfo(petType: PetType, petId: String?, languageCode: LanguageCode) = scope.launch {
+    private fun getPetInfo(petType: PetType, petId: String?, languageCode: LanguageCode, noBreedString: String) = scope.launch {
         val pet = petId?.let { id -> getPet.getPet(id).firstOrNull() }
         petBreedsUseCase.getBreeds(petType, languageCode).collect {
-            setState { copy(breeds = it, pet = pet, isLoading = false) }
+            val breeds = it.toMutableList()
+            breeds.add(0, noBreedString)
+            setState { copy(breeds = breeds, pet = pet, isLoading = false) }
         }
     }
 

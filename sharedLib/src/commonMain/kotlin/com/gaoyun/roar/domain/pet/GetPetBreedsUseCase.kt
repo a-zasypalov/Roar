@@ -12,7 +12,7 @@ class GetPetBreedsUseCase : KoinComponent {
     private val repository: PetRepository by inject()
 
     fun getBreeds(petType: PetType, languageCode: LanguageCode) = flow {
-        emit(repository.getBreeds(petType.toString(), languageCode))
+        emit(repository.getBreeds(petType.toString(), languageCode).sorted())
     }
 
 }

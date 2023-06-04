@@ -77,7 +77,7 @@ internal fun ReminderSetupForm(
     val startsOnDate = remember {
         mutableStateOf(
             interactionToEdit?.reminders?.filter { !it.isCompleted }?.maxByOrNull { it.dateTime }?.dateTime?.toInstant(TimeZone.currentSystemDefault())?.toEpochMilliseconds()
-                ?: Clock.System.now().plus(1.days).toEpochMilliseconds()
+                ?: Clock.System.now().plus(2.days).toEpochMilliseconds()
         )
     }
     val startsOnTime = remember {

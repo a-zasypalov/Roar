@@ -116,6 +116,7 @@
     <string name="today">Heute</string>
     <string name="on_date_arg">Am %1$s</string>
     <string name="open_reminders_menu">Erinnerungsmenü öffnen</string>
+    <string name="no_breed">Keine race</string>
 
     <plurals name="years">
         <item quantity="one">Jahr</item>

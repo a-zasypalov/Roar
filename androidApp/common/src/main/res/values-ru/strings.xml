@@ -116,6 +116,7 @@
     <string name="today">Сегодня</string>
     <string name="on_date_arg">%1$s</string>
     <string name="open_reminders_menu">Создать напоминания</string>
+    <string name="no_breed">Без породы</string>
 
     <plurals name="years">
         <item quantity="one" tools:ignore="ImpliedQuantity">год</item>
