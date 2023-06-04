@@ -1,6 +1,5 @@
 {
   "breeds_en": [
-    "No breed",
     "Affenpinscher",
     "Afghan Hound",
     "African Hunting Dog",
@@ -175,7 +174,6 @@
     "Yorkshire Terrier"
   ],
   "breeds_de": [
-    "Keine Rasse",
     "Affenpinscher",
     "Afghanischer Windhund",
     "Afrikanischer Wildhund",
@@ -350,7 +348,6 @@
     "Yorkshire Terrier"
   ],
   "breeds_ru": [
-    "Нет породы",
     "Аффенпинчер",
     "Афганская борзая",
     "Африканская охотничья собака",
