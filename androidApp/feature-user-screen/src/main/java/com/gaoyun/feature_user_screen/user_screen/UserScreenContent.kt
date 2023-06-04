@@ -158,6 +158,8 @@ internal fun UserScreenContent(
                     )
                 }
 
+                Spacer(size = 16.dp)
+
                 Divider()
 
                 Spacer(size = 16.dp)
