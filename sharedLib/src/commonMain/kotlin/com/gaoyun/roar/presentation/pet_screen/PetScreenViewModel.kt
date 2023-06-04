@@ -65,12 +65,10 @@ class PetScreenViewModel :
                     copy(
                         pet = pet,
                         isLoading = false,
-                        interactions = interactions.groupBy { it.group }.mapValues {
-                            it.value.sortedBy { v ->
-                                v.reminders.filter { r -> !r.isCompleted }.minOfOrNull { r -> r.dateTime }
-                                    ?: LocalDateTime(LocalDate.fromEpochDays(0), LocalTime(0, 0, 0))
-                            }
-                        }
+                        interactions = interactions.sortedBy { v ->
+                            v.reminders.filter { r -> !r.isCompleted }.minOfOrNull { r -> r.dateTime }
+                                ?: LocalDateTime(LocalDate.fromEpochDays(0), LocalTime(0, 0, 0))
+                        }.groupBy { it.group }
                     )
                 }
             }
