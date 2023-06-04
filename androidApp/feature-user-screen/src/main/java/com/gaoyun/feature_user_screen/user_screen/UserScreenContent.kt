@@ -61,7 +61,8 @@ internal fun UserScreenContent(
     onNumberOfRemindersOnMainScreenChange: (UserScreenContract.Event.OnNumberOfRemindersOnMainScreen) -> Unit,
     onDynamicColorsStateChange: (UserScreenContract.Event.OnDynamicColorsStateChange) -> Unit,
     onStaticColorThemePick: (UserScreenContract.Event.OnStaticColorThemePick) -> Unit,
-    onLogout: (UserScreenContract.Event.OnLogout) -> Unit
+    onLogout: (UserScreenContract.Event.OnLogout) -> Unit,
+    onAboutScreenButtonClick: (UserScreenContract.Event.OnAboutScreenClick) -> Unit
 ) {
     val context = LocalContext.current
     val activity = LocalContext.current as? AppCompatActivity
@@ -227,7 +228,7 @@ internal fun UserScreenContent(
                 Spacer(size = 16.dp)
 
                 TextButton(
-                    onClick = {},
+                    onClick = {onAboutScreenButtonClick(UserScreenContract.Event.OnAboutScreenClick)},
                     modifier = Modifier.align(Alignment.CenterHorizontally)
                 ) {
                     Text(
@@ -271,6 +272,6 @@ internal fun UserScreenContent(
 fun UserScreenPreview() {
     UserScreenContent(
         state = UserScreenContract.State(isLoading = false, dynamicColorActive = false, user = User("id", "Tester")),
-        {}, {}, {}, {}, {}, {}
+        {}, {}, {}, {}, {}, {}, {}
     )
 }

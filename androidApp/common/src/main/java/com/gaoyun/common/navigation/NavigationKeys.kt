@@ -21,6 +21,7 @@ object NavigationKeys {
         const val REGISTER_USER_ROUTE = "REGISTER_USER"
         const val USER_ROUTE = "$HOME_ROUTE/$USER"
         const val USER_EDIT_ROUTE = "$HOME_ROUTE/$USER/EDIT"
+        const val ABOUT_ROUTE = "$HOME_ROUTE/$USER/ABOUT"
 
         const val ADD_PET_ROUTE = "ADD_PET"
         const val ADD_PET_AVATAR_ROUTE = "$ADD_PET_ROUTE/{${Arg.PET_TYPE_KEY}}"

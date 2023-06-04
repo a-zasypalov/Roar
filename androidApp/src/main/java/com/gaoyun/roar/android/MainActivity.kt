@@ -38,6 +38,7 @@ import com.gaoyun.feature_interactions.InteractionScreenDestination
 import com.gaoyun.feature_onboarding.OnboardingRootScreen
 import com.gaoyun.feature_pet_screen.PetScreenDestination
 import com.gaoyun.feature_user_registration.UserRegistrationDestination
+import com.gaoyun.feature_user_screen.about_screen.AboutScreenDestination
 import com.gaoyun.feature_user_screen.edit_user.EditUserScreenDestination
 import com.gaoyun.feature_user_screen.user_screen.UserScreenDestination
 import com.gaoyun.roar.presentation.LAUNCH_LISTEN_FOR_EFFECTS
@@ -323,16 +324,16 @@ class MainActivity : AppCompatActivity() {
                 )
             }
 
-            composable(
-                route = NavigationKeys.Route.USER_ROUTE,
-            ) {
+            composable(NavigationKeys.Route.USER_ROUTE) {
                 UserScreenDestination(viewModel::navigate)
             }
 
-            composable(
-                route = NavigationKeys.Route.USER_EDIT_ROUTE,
-            ) {
+            composable(NavigationKeys.Route.USER_EDIT_ROUTE) {
                 EditUserScreenDestination(viewModel::navigate)
+            }
+
+            composable(NavigationKeys.Route.ABOUT_ROUTE) {
+                AboutScreenDestination(viewModel::navigate)
             }
         }
     }

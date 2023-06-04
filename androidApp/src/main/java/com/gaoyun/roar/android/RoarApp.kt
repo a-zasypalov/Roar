@@ -17,6 +17,7 @@ import com.gaoyun.roar.domain.NotificationScheduler
 import com.gaoyun.roar.domain.SynchronisationScheduler
 import com.gaoyun.roar.initKoin
 import com.gaoyun.roar.migrations.MigrationsExecutor
+import com.gaoyun.roar.presentation.about_screen.AboutScreenViewModel
 import com.gaoyun.roar.presentation.add_pet.avatar.AddPetAvatarScreenViewModel
 import com.gaoyun.roar.presentation.add_pet.data.AddPetDataScreenViewModel
 import com.gaoyun.roar.presentation.add_pet.setup.AddPetSetupScreenViewModel
@@ -78,6 +79,8 @@ val appModule = module {
     viewModel { AddReminderScreenViewModel() }
     viewModel { SetupReminderScreenViewModel() }
     viewModel { AddReminderCompleteScreenViewModel() }
+
+    viewModel { AboutScreenViewModel() }
 }
 
 val notificationsModule = module {

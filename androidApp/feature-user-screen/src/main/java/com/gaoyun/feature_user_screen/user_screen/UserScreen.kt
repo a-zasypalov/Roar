@@ -4,15 +4,21 @@ import android.app.Activity.RESULT_OK
 import android.content.Intent
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.compose.foundation.layout.*
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.*
-import androidx.compose.material3.*
-import androidx.compose.runtime.*
+import androidx.compose.material.icons.filled.Edit
+import androidx.compose.material3.FabPosition
+import androidx.compose.material3.SnackbarHost
+import androidx.compose.material3.SnackbarHostState
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import com.gaoyun.common.R
-import com.gaoyun.common.composables.*
+import com.gaoyun.common.composables.RoarExtendedFAB
+import com.gaoyun.common.composables.SurfaceScaffold
 import com.gaoyun.roar.presentation.BackNavigationEffect
 import com.gaoyun.roar.presentation.LAUNCH_LISTEN_FOR_EFFECTS
 import com.gaoyun.roar.presentation.NavigationSideEffect
@@ -21,7 +27,9 @@ import com.gaoyun.roar.presentation.user_screen.UserScreenViewModel
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 import kotlinx.coroutines.delay
-import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.firstOrNull
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import org.koin.androidx.compose.getViewModel
 import java.time.LocalDateTime
@@ -98,6 +106,7 @@ fun UserScreenDestination(
             onDynamicColorsStateChange = viewModel::setEvent,
             onStaticColorThemePick = viewModel::setEvent,
             onLogout = viewModel::setEvent,
+            onAboutScreenButtonClick = viewModel::setEvent,
         )
     }
 }

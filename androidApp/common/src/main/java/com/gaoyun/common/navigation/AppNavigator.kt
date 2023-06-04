@@ -33,6 +33,7 @@ object AppNavigator {
         is AddPetSetupScreenContract.Effect.Navigation.OpenTemplates -> toInteractionTemplates(call)
 
         is UserScreenContract.Effect.Navigation.ToUserEdit -> toUserEdit()
+        is UserScreenContract.Effect.Navigation.ToAboutScreen -> toAboutScreen()
 
         is PetScreenContract.Effect.Navigation.ToInteractionDetails -> toInteractionDetails(call)
         is PetScreenContract.Effect.Navigation.ToInteractionTemplates -> toInteractionTemplates(call)
@@ -88,6 +89,9 @@ object AppNavigator {
 
     private fun toUserEdit() =
         NavigationAction.NavigateTo(NavigationKeys.Route.USER_EDIT_ROUTE)
+
+    private fun toAboutScreen() =
+        NavigationAction.NavigateTo(NavigationKeys.Route.ABOUT_ROUTE)
 
     private fun toInteractionDetails(effect: PetScreenContract.Effect.Navigation.ToInteractionDetails) =
         NavigationAction.NavigateTo("${NavigationKeys.Route.INTERACTION_DETAIL}/${effect.interactionId}")
