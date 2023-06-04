@@ -36,4 +36,4 @@ jobs:
           appId: ${{secrets.FIREBASE_APP_ID}}
           serviceCredentialsFileContent: ${{ secrets.CREDENTIAL_FILE_CONTENT }}
           groups: testers
-          file: androidApp/build/outputs/apk/release/${ARTIFACT_NAME_APK}
+          file: androidApp/build/outputs/apk/release/androidApp-release-unsigned.apk
