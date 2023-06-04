@@ -12,7 +12,7 @@ jobs:
     - name: set up JDK
       uses: actions/setup-java@v1
       with:
-        java-version: '11'
+        java-version: '17'
     - name: Create google-services.json
       run: cat /home/runner/work/Roar/Roar/androidApp/google-services.json | base64
     - name: Insert data into google-services.json
