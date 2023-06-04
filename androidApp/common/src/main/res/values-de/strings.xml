@@ -233,4 +233,9 @@
     <!--  Benachrichtigungen  -->
     <string name="notification_title">Erinnerung für %1$s</string>
     <string name="notification_content_dont_forget">Vergessen Sie nicht %1$s</string>
+
+    <string name="about_app_button">Über die App</string>
+    <string name="home_screen_mode_switcher_title">Vollständigen Haustierbildschirm anzeigen</string>
+    <string name="about_app_title">Über Roar</string>
+    <string name="about_app_description">Die Roar-App wurde entwickelt, um Ihnen bei der besseren Pflege Ihrer pelzigen Freunde zu helfen. Mit unserer App können Sie Erinnerungen für wichtige Aufgaben wie Impfungen, Medikamente, Pflege und Tierarzttermine einstellen.\n\nWir freuen uns über Ihr Feedback!</string>
 </resources>

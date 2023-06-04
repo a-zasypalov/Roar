@@ -250,4 +250,9 @@
     <!--  Notifications  -->
     <string name="notification_title">Напоминание о %1$s</string>
     <string name="notification_content_dont_forget">Не забудьте про %1$s</string>
+
+    <string name="about_app_button">О приложении</string>
+    <string name="home_screen_mode_switcher_title">Развернутый вид на домащнем экране</string>
+    <string name="about_app_title">О Roar</string>
+    <string name="about_app_description">Приложение Roar разработано, чтобы помогать вам заботиться о ваших пушистых друзьях. С нашим приложением вы можете установить напоминания для важных задач, таких как прививки, прием лекарств или визит к ветеринару.\n\nМы будем рады получить обратную связь!</string>
 </resources>
