@@ -21,27 +21,27 @@ jobs:
           DATA: ${{ secrets.GOOGLE_SERVICES_JSON }}
         run: echo $DATA | base64 -di > /home/runner/work/Roar/Roar/androidApp/google-services.json
   build:
-    - needs: setup
-      name: Build
-    - steps:
-        - name: Assemble release
-          run: ./gradlew assembleRelease
-        - name: Save artifact name
-          id: set-result-artifact
-          run: |
-            ARTIFACT_PATHNAME_APK=$(ls androidApp/build/outputs/apk/release/*.apk | head -n 1)
-            ARTIFACT_NAME_APK=$(basename $ARTIFACT_PATHNAME_APK)
-            echo "ARTIFACT_NAME_APK is " ${ARTIFACT_NAME_APK}
-            echo "ARTIFACT_PATHNAME_APK=${ARTIFACT_PATHNAME_APK}" >> $GITHUB_ENV
-            echo "ARTIFACT_NAME_APK=${ARTIFACT_NAME_APK}" >> $GITHUB_ENV
+    needs: setup
+    name: Build
+    steps:
+      - name: Assemble release
+        run: ./gradlew assembleRelease
+      - name: Save artifact name
+        id: set-result-artifact
+        run: |
+          ARTIFACT_PATHNAME_APK=$(ls androidApp/build/outputs/apk/release/*.apk | head -n 1)
+          ARTIFACT_NAME_APK=$(basename $ARTIFACT_PATHNAME_APK)
+          echo "ARTIFACT_NAME_APK is " ${ARTIFACT_NAME_APK}
+          echo "ARTIFACT_PATHNAME_APK=${ARTIFACT_PATHNAME_APK}" >> $GITHUB_ENV
+          echo "ARTIFACT_NAME_APK=${ARTIFACT_NAME_APK}" >> $GITHUB_ENV
   distribute:
-    - needs: [ setup, build ]
-      name: Upload
-    - steps:
-        - name: Uploading artifact to Firebase App Distribution
-          uses: wzieba/Firebase-Distribution-Github-Action@v1
-          with:
-            appId: ${{secrets.FIREBASE_APP_ID}}
-            serviceCredentialsFileContent: ${{ secrets.CREDENTIAL_FILE_CONTENT }}
-            groups: testers
-            file: androidApp/build/outputs/apk/release/${ARTIFACT_NAME_APK}
+    needs: [ setup, build ]
+    name: Upload
+    steps:
+      - name: Uploading artifact to Firebase App Distribution
+        uses: wzieba/Firebase-Distribution-Github-Action@v1
+        with:
+          appId: ${{secrets.FIREBASE_APP_ID}}
+          serviceCredentialsFileContent: ${{ secrets.CREDENTIAL_FILE_CONTENT }}
+          groups: testers
+          file: androidApp/build/outputs/apk/release/${ARTIFACT_NAME_APK}
