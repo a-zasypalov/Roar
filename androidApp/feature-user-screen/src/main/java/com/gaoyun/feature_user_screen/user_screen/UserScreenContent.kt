@@ -60,6 +60,7 @@ internal fun UserScreenContent(
     onUseBackup: (UserScreenContract.Event.OnUseBackup) -> Unit,
     onNumberOfRemindersOnMainScreenChange: (UserScreenContract.Event.OnNumberOfRemindersOnMainScreen) -> Unit,
     onDynamicColorsStateChange: (UserScreenContract.Event.OnDynamicColorsStateChange) -> Unit,
+    onHomeScreenModeChange: (UserScreenContract.Event.OnHomeScreenModeChange) -> Unit,
     onStaticColorThemePick: (UserScreenContract.Event.OnStaticColorThemePick) -> Unit,
     onLogout: (UserScreenContract.Event.OnLogout) -> Unit,
     onAboutScreenButtonClick: (UserScreenContract.Event.OnAboutScreenClick) -> Unit
@@ -130,16 +131,32 @@ internal fun UserScreenContent(
 
                 Spacer(size = 16.dp)
 
-                DropdownMenu(
-                    valueList = listOf("0", "1", "2", "3", "4", "5"),
-                    listState = numberOfRemindersOnMainScreenState,
-                    onChange = { onNumberOfRemindersOnMainScreenChange(UserScreenContract.Event.OnNumberOfRemindersOnMainScreen(it.toIntOrNull() ?: 2)) },
-                    label = stringResource(id = R.string.number_of_reminders_main_screen),
-                    leadingIcon = Icons.Filled.ListAlt,
-                    modifier = Modifier.fillMaxWidth()
-                )
+                if (state.numberOfPets == 1) {
+                    LabelledCheckBox(
+                        checked = state.screenModeFull,
+                        onCheckedChange = {
+                            onHomeScreenModeChange(UserScreenContract.Event.OnHomeScreenModeChange(it))
+                        },
+                        label = stringResource(id = R.string.home_screen_mode_switcher_title),
+                        modifier = Modifier.fillMaxWidth(),
+                        horizontalPadding = 8.dp
+                    )
+                }
 
-                Spacer(size = 16.dp)
+                if ((state.numberOfPets == 1 && !state.screenModeFull) || state.numberOfPets > 1) {
+                    if (state.numberOfPets == 1) {
+                        Spacer(size = 16.dp)
+                    }
+
+                    DropdownMenu(
+                        valueList = listOf("0", "1", "2", "3", "4", "5"),
+                        listState = numberOfRemindersOnMainScreenState,
+                        onChange = { onNumberOfRemindersOnMainScreenChange(UserScreenContract.Event.OnNumberOfRemindersOnMainScreen(it.toIntOrNull() ?: 2)) },
+                        label = stringResource(id = R.string.number_of_reminders_main_screen),
+                        leadingIcon = Icons.Filled.ListAlt,
+                        modifier = Modifier.fillMaxWidth()
+                    )
+                }
 
                 Divider()
 
@@ -228,7 +245,7 @@ internal fun UserScreenContent(
                 Spacer(size = 16.dp)
 
                 TextButton(
-                    onClick = {onAboutScreenButtonClick(UserScreenContract.Event.OnAboutScreenClick)},
+                    onClick = { onAboutScreenButtonClick(UserScreenContract.Event.OnAboutScreenClick) },
                     modifier = Modifier.align(Alignment.CenterHorizontally)
                 ) {
                     Text(
@@ -272,6 +289,6 @@ internal fun UserScreenContent(
 fun UserScreenPreview() {
     UserScreenContent(
         state = UserScreenContract.State(isLoading = false, dynamicColorActive = false, user = User("id", "Tester")),
-        {}, {}, {}, {}, {}, {}, {}
+        {}, {}, {}, {}, {}, {}, {}, {}
     )
 }

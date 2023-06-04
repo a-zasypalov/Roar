@@ -3,6 +3,7 @@ package com.gaoyun.roar.presentation.user_screen
 import com.gaoyun.roar.domain.AppPreferencesUseCase
 import com.gaoyun.roar.domain.backup.CreateBackupUseCase
 import com.gaoyun.roar.domain.backup.ImportBackupUseCase
+import com.gaoyun.roar.domain.pet.GetPetUseCase
 import com.gaoyun.roar.domain.user.GetCurrentUserUseCase
 import com.gaoyun.roar.domain.user.LogoutUseCase
 import com.gaoyun.roar.network.SynchronisationApi
@@ -26,6 +27,7 @@ class UserScreenViewModel : BaseViewModel<UserScreenContract.Event, UserScreenCo
     private val appPreferencesUseCase: AppPreferencesUseCase by inject()
     private val synchronisationApi: SynchronisationApi by inject()
     private val logoutUseCase: LogoutUseCase by inject()
+    private val getPetUseCase: GetPetUseCase by inject()
 
     val backupState = MutableStateFlow("")
 
@@ -45,6 +47,7 @@ class UserScreenViewModel : BaseViewModel<UserScreenContract.Event, UserScreenCo
             is UserScreenContract.Event.OnDynamicColorsStateChange -> setDynamicColor(event.active)
             is UserScreenContract.Event.OnStaticColorThemePick -> staticThemeChange(event.theme)
             is UserScreenContract.Event.OnNumberOfRemindersOnMainScreen -> setNumberOfRemindersOnMainScreen(event.newNumber)
+            is UserScreenContract.Event.OnHomeScreenModeChange -> switchHomeScreenMode()
             is UserScreenContract.Event.OnAboutScreenClick -> setEffect { UserScreenContract.Effect.Navigation.ToAboutScreen }
             is UserScreenContract.Event.NavigateBack -> {
                 setEffect { UserScreenContract.Effect.NavigateBack }
@@ -58,13 +61,16 @@ class UserScreenViewModel : BaseViewModel<UserScreenContract.Event, UserScreenCo
                 it.printStackTrace()
             }
             .collect { user ->
+                val numberOfPets = getPetUseCase.getPetByUserId(user.id).firstOrNull()?.size ?: 1
                 setState {
                     copy(
                         isLoading = false,
                         user = user,
                         activeColorTheme = appPreferencesUseCase.staticTheme()?.let { ColorTheme.valueOf(it) } ?: ColorTheme.Orange,
                         dynamicColorActive = appPreferencesUseCase.dynamicColorsIsActive(),
+                        screenModeFull = appPreferencesUseCase.homeScreenModeFull(),
                         numberOfRemindersOnMainScreenState = appPreferencesUseCase.numberOfRemindersOnMainScreen().toString(),
+                        numberOfPets = numberOfPets
                     )
                 }
             }
@@ -91,6 +97,11 @@ class UserScreenViewModel : BaseViewModel<UserScreenContract.Event, UserScreenCo
     private fun staticThemeChange(theme: ColorTheme) {
         appPreferencesUseCase.setStaticTheme(theme.name)
         setState { copy(activeColorTheme = theme) }
+    }
+
+    private fun switchHomeScreenMode() {
+        appPreferencesUseCase.switchHomeScreenMode()
+        setState { copy(screenModeFull = !screenModeFull) }
     }
 
     private fun setNumberOfRemindersOnMainScreen(number: Int) {

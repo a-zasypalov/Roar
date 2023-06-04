@@ -29,6 +29,7 @@ class HomeScreenContract {
         val showPetChooser: Boolean = false,
         val deletePetDialogShow: Boolean = false,
         val showLastReminder: Boolean = false,
+        val screenModeFull: Boolean = true,
     ) : ViewState
 
     sealed class Effect : ViewSideEffect {

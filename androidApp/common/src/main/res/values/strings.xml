@@ -113,6 +113,7 @@
     <string name="replace_current_data_description">We can leave current data without changes or replace it by backup completely</string>
     <string name="registration_subtitle">We need only your name</string>
     <string name="dynamic_color_switcher_title">Dynamic color</string>
+    <string name="home_screen_mode_switcher_title">Show full pet screen</string>
     <string name="number_of_reminders_main_screen">Reminders on main screen per pet</string>
     <string name="today">Today</string>
     <string name="on_date_arg">On %1$s</string>

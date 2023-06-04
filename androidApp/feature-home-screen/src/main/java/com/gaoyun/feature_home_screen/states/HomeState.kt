@@ -35,6 +35,7 @@ import kotlinx.datetime.LocalDateTime
 
 @Composable
 fun HomeState(
+    screenModeFull: Boolean,
     pets: List<PetWithInteractions>,
     showLastReminder: Boolean,
     onAddPetButtonClick: () -> Unit,
@@ -67,7 +68,7 @@ fun HomeState(
             Spacer(size = 8.dp)
         }
 
-        if (pets.size == 1) {
+        if (pets.size == 1 && screenModeFull) {
             item {
                 val pet = pets.first()
                 PetContainer(
@@ -90,19 +91,21 @@ fun HomeState(
                 )
             }
         } else {
-            item {
-                AutoResizeText(
-                    text = stringResource(id = R.string.your_pets),
-                    maxLines = 1,
-                    style = MaterialTheme.typography.displayMedium,
-                    color = MaterialTheme.colorScheme.onSurface,
-                    fontSizeRange = FontSizeRange(
-                        min = 20.sp,
-                        max = MaterialTheme.typography.displayMedium.fontSize,
-                    ),
-                    overflow = TextOverflow.Ellipsis,
-                    modifier = Modifier.padding(vertical = 8.dp, horizontal = 16.dp)
-                )
+            if (pets.size > 1) {
+                item {
+                    AutoResizeText(
+                        text = stringResource(id = R.string.your_pets),
+                        maxLines = 1,
+                        style = MaterialTheme.typography.displayMedium,
+                        color = MaterialTheme.colorScheme.onSurface,
+                        fontSizeRange = FontSizeRange(
+                            min = 20.sp,
+                            max = MaterialTheme.typography.displayMedium.fontSize,
+                        ),
+                        overflow = TextOverflow.Ellipsis,
+                        modifier = Modifier.padding(vertical = 8.dp, horizontal = 16.dp)
+                    )
+                }
             }
 
             items(pets) { pet ->
@@ -131,6 +134,6 @@ fun HomeState(
 @Composable
 fun HomeStatePreview() {
     RoarTheme {
-        HomeState(listOf(PetWithInteractions.preview()), false, {}, {}, { _ -> }, {}, {}, { _, _, _, _ -> }, {}, rememberLazyListState())
+        HomeState(true, listOf(PetWithInteractions.preview()), false, {}, {}, { _ -> }, {}, {}, { _, _, _, _ -> }, {}, rememberLazyListState())
     }
 }

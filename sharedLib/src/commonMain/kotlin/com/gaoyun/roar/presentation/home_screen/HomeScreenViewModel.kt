@@ -55,7 +55,6 @@ class HomeScreenViewModel :
             is HomeScreenContract.Event.PetChosenForReminderCreation -> {
                 scope.launch {
                     setDialogShow(false)
-//                    delay(250)
                     setEffect { HomeScreenContract.Effect.Navigation.ToAddReminder(event.petId) }
                 }
             }
@@ -136,10 +135,11 @@ class HomeScreenViewModel :
             }
         }
 
+        val homeScreenMode = appPreferencesUseCase.homeScreenModeFull()
         if (petsState.isNotEmpty()) {
-            setState { copy(user = user, pets = petsState, isLoading = false) }
+            setState { copy(user = user, pets = petsState, isLoading = false, screenModeFull = homeScreenMode) }
         } else {
-            setState { copy(user = user, pets = emptyList(), isLoading = false) }
+            setState { copy(user = user, pets = emptyList(), isLoading = false, screenModeFull = homeScreenMode) }
         }
     }
 

@@ -107,6 +107,7 @@ fun UserScreenDestination(
             onStaticColorThemePick = viewModel::setEvent,
             onLogout = viewModel::setEvent,
             onAboutScreenButtonClick = viewModel::setEvent,
+            onHomeScreenModeChange = viewModel::setEvent,
         )
     }
 }

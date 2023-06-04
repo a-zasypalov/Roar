@@ -35,6 +35,7 @@ class UserScreenContract {
         }
 
         data class OnDynamicColorsStateChange(val active: Boolean) : Event()
+        data class OnHomeScreenModeChange(val full: Boolean) : Event()
         data class OnStaticColorThemePick(val theme: ColorTheme) : Event()
         data class OnNumberOfRemindersOnMainScreen(val newNumber: Int) : Event()
         object NavigateBack : Event()
@@ -43,8 +44,10 @@ class UserScreenContract {
     data class State(
         val isLoading: Boolean = false,
         val dynamicColorActive: Boolean = false,
+        val screenModeFull: Boolean = true,
         val activeColorTheme: ColorTheme = ColorTheme.Orange,
         val numberOfRemindersOnMainScreenState: String = "2",
+        val numberOfPets: Int = 1,
         val user: User? = null,
     ) : ViewState
 
