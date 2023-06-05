@@ -6,6 +6,7 @@ import com.gaoyun.roar.model.domain.NotificationItem
 import com.gaoyun.roar.model.domain.Reminder
 import com.gaoyun.roar.model.domain.interactions.InteractionRemindConfig
 import com.gaoyun.roar.repository.ReminderRepository
+import com.gaoyun.roar.util.randomUUID
 import kotlinx.coroutines.flow.flow
 import kotlinx.datetime.LocalDateTime
 import kotlinx.datetime.TimeZone
@@ -20,9 +21,12 @@ class InsertReminder : KoinComponent {
     private val notificationScheduler: NotificationScheduler by inject()
 
     fun createReminder(interactionId: String, dateTime: LocalDateTime, remindConfig: InteractionRemindConfig) = flow {
+        val notificationJobId = randomUUID()
+
         val newReminder = Reminder(
             interactionId = interactionId,
             dateTime = dateTime,
+            notificationJobId = notificationJobId,
         )
 
         repository.insertReminder(newReminder)
@@ -34,7 +38,7 @@ class InsertReminder : KoinComponent {
 
         val data = NotificationData(
             scheduled = notificationDateTime,
-            item = NotificationItem.Reminder(itemId = newReminder.id)
+            item = NotificationItem.Reminder(itemId = newReminder.id, workId = notificationJobId)
         )
         notificationScheduler.scheduleNotification(data)
 

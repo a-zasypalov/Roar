@@ -91,7 +91,7 @@ val notificationsModule = module {
     single { NotificationManagerCompat.from(get()) }
     single { NotificationChannelProvider(get()) }
     single { NotificationDisplayer(get(), get(), get()) }
-    single { NotificationHandler(get(), get(), get(), get(), get()) }
+    single { NotificationHandler(get(), get(), get(), get(), get(), get()) }
     single { FcmService() }
     worker { NotificationWorker(get(), get()) }
     worker { SynchronisationWorker(get(), get()) }
