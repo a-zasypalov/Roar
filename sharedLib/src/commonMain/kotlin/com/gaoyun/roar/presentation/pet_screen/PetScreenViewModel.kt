@@ -12,17 +12,13 @@ import kotlinx.coroutines.launch
 import kotlinx.datetime.LocalDate
 import kotlinx.datetime.LocalDateTime
 import kotlinx.datetime.LocalTime
-import org.koin.core.component.KoinComponent
-import org.koin.core.component.inject
 
-class PetScreenViewModel :
-    BaseViewModel<PetScreenContract.Event, PetScreenContract.State, PetScreenContract.Effect>(),
-    KoinComponent {
-
-    private val getPetUseCase: GetPetUseCase by inject()
-    private val getInteraction: GetInteraction by inject()
-    private val removePet: RemovePetUseCase by inject()
-    private val setReminderComplete: SetReminderComplete by inject()
+class PetScreenViewModel(
+    private val getPetUseCase: GetPetUseCase,
+    private val getInteraction: GetInteraction,
+    private val removePet: RemovePetUseCase,
+    private val setReminderComplete: SetReminderComplete,
+) : BaseViewModel<PetScreenContract.Event, PetScreenContract.State, PetScreenContract.Effect>() {
 
     override fun setInitialState() = PetScreenContract.State(isLoading = true)
 

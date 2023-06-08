@@ -3,13 +3,11 @@ package com.gaoyun.roar.domain.reminder
 import com.gaoyun.roar.domain.NotificationScheduler
 import com.gaoyun.roar.repository.ReminderRepository
 import kotlinx.coroutines.flow.flow
-import org.koin.core.component.KoinComponent
-import org.koin.core.component.inject
 
-class RemoveReminder : KoinComponent {
-
-    private val repository: ReminderRepository by inject()
-    private val notificationScheduler: NotificationScheduler by inject()
+class RemoveReminder(
+    private val repository: ReminderRepository,
+    private val notificationScheduler: NotificationScheduler,
+) {
 
     fun removeReminder(id: String) = flow {
         repository.getReminder(id)?.notificationJobId?.let { notificationScheduler.cancelNotification(it) }

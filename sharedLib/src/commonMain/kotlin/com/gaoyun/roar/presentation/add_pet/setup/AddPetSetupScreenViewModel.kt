@@ -3,14 +3,10 @@ package com.gaoyun.roar.presentation.add_pet.setup
 import com.gaoyun.roar.domain.pet.GetPetUseCase
 import com.gaoyun.roar.presentation.BaseViewModel
 import kotlinx.coroutines.launch
-import org.koin.core.component.KoinComponent
-import org.koin.core.component.inject
 
-class AddPetSetupScreenViewModel :
-    BaseViewModel<AddPetSetupScreenContract.Event, AddPetSetupScreenContract.State, AddPetSetupScreenContract.Effect>(),
-    KoinComponent {
-
-    private val getPetUseCase: GetPetUseCase by inject()
+class AddPetSetupScreenViewModel(
+    private val getPetUseCase: GetPetUseCase,
+) : BaseViewModel<AddPetSetupScreenContract.Event, AddPetSetupScreenContract.State, AddPetSetupScreenContract.Effect>() {
 
     override fun setInitialState() = AddPetSetupScreenContract.State(isLoading = false)
 

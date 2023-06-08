@@ -14,20 +14,16 @@ import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.flow.flow
 import kotlinx.serialization.SerializationException
 import kotlinx.serialization.json.Json
-import org.koin.core.component.KoinComponent
-import org.koin.core.component.inject
 
-class ImportBackupUseCase : KoinComponent {
-
-    private val addPetUseCase: AddPetUseCase by inject()
-    private val insertInteraction: InsertInteraction by inject()
-    private val insertReminder: InsertReminder by inject()
-
-    private val getCurrentUserUseCase: GetCurrentUserUseCase by inject()
-    private val getPetUseCase: GetPetUseCase by inject()
-
-    private val removePetUseCase: RemovePetUseCase by inject()
-    private val removeInteraction: RemoveInteraction by inject()
+class ImportBackupUseCase(
+    private val addPetUseCase: AddPetUseCase,
+    private val insertInteraction: InsertInteraction,
+    private val insertReminder: InsertReminder,
+    private val getCurrentUserUseCase: GetCurrentUserUseCase,
+    private val getPetUseCase: GetPetUseCase,
+    private val removePetUseCase: RemovePetUseCase,
+    private val removeInteraction: RemoveInteraction,
+) {
 
     fun importBackup(backup: ByteArray, removeOld: Boolean) = flow {
         try {

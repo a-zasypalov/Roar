@@ -6,14 +6,13 @@ import android.content.Context
 import android.content.Intent
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
-import org.koin.core.component.KoinComponent
 import kotlin.random.Random
 
 class NotificationDisplayer(
     private val channelProvider: NotificationChannelProvider,
     private val context: Context,
     private val notificationManager: NotificationManagerCompat,
-) : KoinComponent {
+) {
 
     @SuppressLint("MissingPermission")
     fun display(

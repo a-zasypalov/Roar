@@ -1,11 +1,9 @@
 package com.gaoyun.roar.presentation.add_reminder.complete
 
 import com.gaoyun.roar.presentation.BaseViewModel
-import org.koin.core.component.KoinComponent
 
 class AddReminderCompleteScreenViewModel :
-    BaseViewModel<AddReminderCompleteScreenContract.Event, AddReminderCompleteScreenContract.State, AddReminderCompleteScreenContract.Effect>(),
-    KoinComponent {
+    BaseViewModel<AddReminderCompleteScreenContract.Event, AddReminderCompleteScreenContract.State, AddReminderCompleteScreenContract.Effect>() {
 
     override fun setInitialState() = AddReminderCompleteScreenContract.State(isLoading = false)
 

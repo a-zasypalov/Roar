@@ -8,14 +8,12 @@ import kotlinx.coroutines.flow.flow
 import kotlinx.datetime.Clock
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.toLocalDateTime
-import org.koin.core.component.KoinComponent
-import org.koin.core.component.inject
 
-class SetInteractionIsActive : KoinComponent {
-
-    private val repository: InteractionRepository by inject()
-    private val reminderRepository: ReminderRepository by inject()
-    private val addNextReminder: AddNextReminder by inject()
+class ActivateInteraction(
+    private val repository: InteractionRepository,
+    private val reminderRepository: ReminderRepository,
+    private val addNextReminder: AddNextReminder,
+) {
 
     fun setInteractionIsActive(id: String, isActive: Boolean) = flow {
         repository.setInteractionIsActive(id, isActive)

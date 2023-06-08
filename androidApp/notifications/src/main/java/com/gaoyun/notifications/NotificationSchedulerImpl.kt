@@ -11,16 +11,15 @@ import com.gaoyun.roar.notification.toInputData
 import com.gaoyun.roar.util.randomUUID
 import kotlinx.datetime.toJavaLocalDateTime
 import kotlinx.datetime.toKotlinLocalDateTime
-import org.koin.core.component.KoinComponent
 import java.time.LocalDateTime
 import java.time.temporal.ChronoUnit
-import java.util.*
+import java.util.UUID
 import java.util.concurrent.TimeUnit
 
 class NotificationSchedulerImpl(
     private val workManager: WorkManager,
     private val notificationManager: NotificationManagerCompat
-) : KoinComponent, NotificationScheduler {
+) : NotificationScheduler {
 
     override fun scheduleNotification(data: NotificationData) {
         if (!notificationManager.areNotificationsEnabled()) return

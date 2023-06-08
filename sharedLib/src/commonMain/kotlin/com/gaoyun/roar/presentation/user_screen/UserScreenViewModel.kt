@@ -15,19 +15,16 @@ import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
-import org.koin.core.component.KoinComponent
-import org.koin.core.component.inject
 
-class UserScreenViewModel : BaseViewModel<UserScreenContract.Event, UserScreenContract.State, UserScreenContract.Effect>(),
-    KoinComponent {
-
-    private val getUser: GetCurrentUserUseCase by inject()
-    private val createBackupUseCase: CreateBackupUseCase by inject()
-    private val importBackupUseCase: ImportBackupUseCase by inject()
-    private val appPreferencesUseCase: AppPreferencesUseCase by inject()
-    private val synchronisationApi: SynchronisationApi by inject()
-    private val logoutUseCase: LogoutUseCase by inject()
-    private val getPetUseCase: GetPetUseCase by inject()
+class UserScreenViewModel(
+    private val getUser: GetCurrentUserUseCase,
+    private val createBackupUseCase: CreateBackupUseCase,
+    private val importBackupUseCase: ImportBackupUseCase,
+    private val appPreferencesUseCase: AppPreferencesUseCase,
+    private val synchronisationApi: SynchronisationApi,
+    private val logoutUseCase: LogoutUseCase,
+    private val getPetUseCase: GetPetUseCase,
+) : BaseViewModel<UserScreenContract.Event, UserScreenContract.State, UserScreenContract.Effect>() {
 
     val backupState = MutableStateFlow("")
 

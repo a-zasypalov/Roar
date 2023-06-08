@@ -4,15 +4,11 @@ import com.gaoyun.roar.domain.user.RegisterUserUseCase
 import com.gaoyun.roar.network.SynchronisationApi
 import com.gaoyun.roar.presentation.BaseViewModel
 import kotlinx.coroutines.launch
-import org.koin.core.component.KoinComponent
-import org.koin.core.component.inject
 
-class RegisterUserViewModel :
-    BaseViewModel<RegisterUserScreenContract.Event, RegisterUserScreenContract.State, RegisterUserScreenContract.Effect>(),
-    KoinComponent {
-
-    private val registerUserUseCase: RegisterUserUseCase by inject()
-    private val syncApi: SynchronisationApi by inject()
+class RegisterUserViewModel(
+    private val registerUserUseCase: RegisterUserUseCase,
+    private val syncApi: SynchronisationApi,
+) : BaseViewModel<RegisterUserScreenContract.Event, RegisterUserScreenContract.State, RegisterUserScreenContract.Effect>() {
 
     override fun setInitialState() = RegisterUserScreenContract.State
 

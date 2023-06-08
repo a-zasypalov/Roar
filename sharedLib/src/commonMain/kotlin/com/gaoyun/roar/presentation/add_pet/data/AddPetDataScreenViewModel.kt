@@ -15,17 +15,13 @@ import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.launch
 import kotlinx.datetime.LocalDate
-import org.koin.core.component.KoinComponent
-import org.koin.core.component.inject
 
-class AddPetDataScreenViewModel :
-    BaseViewModel<AddPetDataScreenContract.Event, AddPetDataScreenContract.State, AddPetDataScreenContract.Effect>(),
-    KoinComponent {
-
-    private val addPetUseCase: AddPetUseCase by inject()
-    private val petBreedsUseCase: GetPetBreedsUseCase by inject()
-    private val getPet: GetPetUseCase by inject()
-    private val setPetAvatar: SetPetAvatar by inject()
+class AddPetDataScreenViewModel(
+    private val addPetUseCase: AddPetUseCase,
+    private val petBreedsUseCase: GetPetBreedsUseCase,
+    private val getPet: GetPetUseCase,
+    private val setPetAvatar: SetPetAvatar,
+) : BaseViewModel<AddPetDataScreenContract.Event, AddPetDataScreenContract.State, AddPetDataScreenContract.Effect>() {
 
     override fun setInitialState() = AddPetDataScreenContract.State(isLoading = true)
 

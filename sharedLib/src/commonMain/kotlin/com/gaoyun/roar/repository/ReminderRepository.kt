@@ -5,8 +5,6 @@ import com.gaoyun.roar.model.domain.Reminder
 import com.gaoyun.roar.model.domain.toDomain
 import com.gaoyun.roar.model.entity.RoarDatabase
 import kotlinx.datetime.LocalDateTime
-import org.koin.core.component.KoinComponent
-import org.koin.core.component.inject
 
 interface ReminderRepository {
     fun insertReminder(reminder: Reminder)
@@ -17,10 +15,10 @@ interface ReminderRepository {
     fun deleteReminderByInteractionId(interactionId: String, scheduleSync: Boolean = true)
 }
 
-class ReminderRepositoryImpl : ReminderRepository, KoinComponent {
-
-    private val appDb: RoarDatabase by inject()
-    private val scheduler: SynchronisationScheduler by inject()
+class ReminderRepositoryImpl(
+    private val appDb: RoarDatabase,
+    private val scheduler: SynchronisationScheduler,
+) : ReminderRepository {
 
     override fun getReminder(id: String): Reminder? {
         return appDb.reminderEntityQueries.selectById(id).executeAsOneOrNull()?.toDomain()
@@ -54,6 +52,6 @@ class ReminderRepositoryImpl : ReminderRepository, KoinComponent {
 
     override fun deleteReminderByInteractionId(interactionId: String, scheduleSync: Boolean) {
         appDb.reminderEntityQueries.deleteReminderByInteractionId(interactionId)
-        if(scheduleSync) scheduler.scheduleSynchronisation()
+        if (scheduleSync) scheduler.scheduleSynchronisation()
     }
 }

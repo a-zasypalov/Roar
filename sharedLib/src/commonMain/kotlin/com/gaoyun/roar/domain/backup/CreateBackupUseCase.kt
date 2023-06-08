@@ -12,18 +12,16 @@ import com.gaoyun.roar.util.PreferencesKeys.LAST_SYNCHRONISED_HASH
 import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.flow.flow
 import kotlinx.serialization.json.Json
-import org.koin.core.component.KoinComponent
-import org.koin.core.component.inject
 import kotlin.io.encoding.Base64
 import kotlin.io.encoding.ExperimentalEncodingApi
 
 @OptIn(ExperimentalEncodingApi::class)
-class CreateBackupUseCase : KoinComponent {
-
-    private val getCurrentUserUseCase: GetCurrentUserUseCase by inject()
-    private val getPetUseCase: GetPetUseCase by inject()
-    private val getInteraction: GetInteraction by inject()
-    private val prefs: Preferences by inject()
+class CreateBackupUseCase(
+    private val getCurrentUserUseCase: GetCurrentUserUseCase,
+    private val getPetUseCase: GetPetUseCase,
+    private val getInteraction: GetInteraction,
+    private val prefs: Preferences,
+) {
 
     fun createBackup() = flow {
         val user = getCurrentUserUseCase.getCurrentUser().firstOrNull() ?: return@flow

@@ -10,13 +10,11 @@ import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.flow.flow
 import kotlinx.datetime.Clock
 import kotlinx.datetime.LocalDate
-import org.koin.core.component.KoinComponent
-import org.koin.core.component.inject
 
-class AddPetUseCase : KoinComponent {
-
-    private val repository: PetRepository by inject()
-    private val getUserUseCase: GetCurrentUserUseCase by inject()
+class AddPetUseCase(
+    private val repository: PetRepository,
+    private val getUserUseCase: GetCurrentUserUseCase,
+) {
 
     fun addPet(
         petType: String,

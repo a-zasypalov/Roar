@@ -19,9 +19,9 @@ actual class DriverFactory {
 actual fun platformModule(): Module = module {
     single { DriverFactory() }
 
-    factory { HomeScreenViewModel() }
-    factory { AddPetDataScreenViewModel() }
-    factory { AddReminderScreenViewModel() }
-    factory { RegisterUserViewModel() }
+    factory { HomeScreenViewModel(get(), get(), get(), get(), get(), get(), get(), get(), get(), get()) }
+    factory { AddPetDataScreenViewModel(get(), get(), get(), get()) }
+    factory { AddReminderScreenViewModel(get(), get(), get()) }
+    factory { RegisterUserViewModel(get(), get()) }
 
 }

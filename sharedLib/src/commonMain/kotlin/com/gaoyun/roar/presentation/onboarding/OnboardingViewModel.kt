@@ -2,12 +2,10 @@ package com.gaoyun.roar.presentation.onboarding
 
 import com.gaoyun.roar.domain.onboarding.CompleteOnboardingUseCase
 import com.gaoyun.roar.presentation.BaseViewModel
-import org.koin.core.component.KoinComponent
-import org.koin.core.component.inject
 
-class OnboardingViewModel : BaseViewModel<OnboardingScreenContract.Event, OnboardingScreenContract.State, OnboardingScreenContract.Effect>(), KoinComponent {
-
-    private val completeOnboardingUseCase: CompleteOnboardingUseCase by inject()
+class OnboardingViewModel(
+    private val completeOnboardingUseCase: CompleteOnboardingUseCase,
+) : BaseViewModel<OnboardingScreenContract.Event, OnboardingScreenContract.State, OnboardingScreenContract.Effect>() {
 
     override fun setInitialState() = OnboardingScreenContract.State
 

@@ -4,14 +4,12 @@ import com.gaoyun.roar.domain.reminder.RemoveReminder
 import com.gaoyun.roar.repository.InteractionRepository
 import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.flow.flow
-import org.koin.core.component.KoinComponent
-import org.koin.core.component.inject
 
-class RemoveInteraction : KoinComponent {
-
-    private val repository: InteractionRepository by inject()
-    private val removeReminder: RemoveReminder by inject()
-    private val getInteraction: GetInteraction by inject()
+class RemoveInteraction(
+    private val repository: InteractionRepository,
+    private val removeReminder: RemoveReminder,
+    private val getInteraction: GetInteraction,
+) {
 
     fun removeInteraction(id: String) = flow {
         removeReminder.removeReminderByInteraction(id).firstOrNull()

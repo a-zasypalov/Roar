@@ -5,11 +5,10 @@ import android.media.RingtoneManager
 import androidx.core.app.NotificationChannelCompat
 import androidx.core.app.NotificationManagerCompat
 import kotlinx.coroutines.runBlocking
-import org.koin.core.component.KoinComponent
 
 class NotificationChannelProvider(
     private val notificationManager: NotificationManagerCompat
-) : KoinComponent {
+) {
 
     private var created = false
 

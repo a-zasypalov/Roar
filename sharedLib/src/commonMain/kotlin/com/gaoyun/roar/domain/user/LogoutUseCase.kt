@@ -9,19 +9,15 @@ import com.gaoyun.roar.util.PreferencesKeys
 import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.flow.flow
 import kotlinx.serialization.SerializationException
-import org.koin.core.component.KoinComponent
-import org.koin.core.component.inject
 
-class LogoutUseCase : KoinComponent {
-
-    private val getCurrentUserUseCase: GetCurrentUserUseCase by inject()
-    private val getPetUseCase: GetPetUseCase by inject()
-
-    private val removePetUseCase: RemovePetUseCase by inject()
-    private val removeInteraction: RemoveInteraction by inject()
-
-    private val userRepository: UserRepository by inject()
-    private val prefs: Preferences by inject()
+class LogoutUseCase(
+    private val getCurrentUserUseCase: GetCurrentUserUseCase,
+    private val getPetUseCase: GetPetUseCase,
+    private val removePetUseCase: RemovePetUseCase,
+    private val removeInteraction: RemoveInteraction,
+    private val userRepository: UserRepository,
+    private val prefs: Preferences,
+) {
 
     fun logout() = flow {
         try {

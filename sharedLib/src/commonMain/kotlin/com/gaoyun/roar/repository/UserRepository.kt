@@ -4,8 +4,6 @@ import com.gaoyun.roar.domain.SynchronisationScheduler
 import com.gaoyun.roar.model.domain.User
 import com.gaoyun.roar.model.domain.toDomain
 import com.gaoyun.roar.model.entity.RoarDatabase
-import org.koin.core.component.KoinComponent
-import org.koin.core.component.inject
 
 interface UserRepository {
     suspend fun getUser(id: String): User?
@@ -13,9 +11,10 @@ interface UserRepository {
     suspend fun deleteUsers()
 }
 
-class UserRepositoryImpl : UserRepository, KoinComponent {
-    private val appDb: RoarDatabase by inject()
-    private val scheduler: SynchronisationScheduler by inject()
+class UserRepositoryImpl(
+    private val appDb: RoarDatabase,
+    private val scheduler: SynchronisationScheduler,
+) : UserRepository {
 
     override suspend fun getUser(id: String): User? {
         return appDb.userEntityQueries.selectById(id).executeAsOneOrNull()?.toDomain()

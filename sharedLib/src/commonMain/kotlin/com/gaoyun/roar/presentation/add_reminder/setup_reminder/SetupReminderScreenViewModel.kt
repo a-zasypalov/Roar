@@ -25,19 +25,15 @@ import kotlinx.coroutines.launch
 import kotlinx.datetime.Instant
 import kotlinx.datetime.LocalDateTime
 import kotlinx.datetime.atTime
-import org.koin.core.component.KoinComponent
-import org.koin.core.component.inject
 
-class SetupReminderScreenViewModel :
-    BaseViewModel<SetupReminderScreenContract.Event, SetupReminderScreenContract.State, SetupReminderScreenContract.Effect>(),
-    KoinComponent {
-
-    private val getInteractionTemplateUseCase: GetInteractionTemplate by inject()
-    private val getPetUseCase: GetPetUseCase by inject()
-    private val insertInteraction: InsertInteraction by inject()
-    private val insertReminder: InsertReminder by inject()
-    private val getInteraction: GetInteraction by inject()
-    private val notificationScheduler: NotificationScheduler by inject()
+class SetupReminderScreenViewModel(
+    private val getInteractionTemplateUseCase: GetInteractionTemplate,
+    private val getPetUseCase: GetPetUseCase,
+    private val insertInteraction: InsertInteraction,
+    private val insertReminder: InsertReminder,
+    private val getInteraction: GetInteraction,
+    private val notificationScheduler: NotificationScheduler,
+) : BaseViewModel<SetupReminderScreenContract.Event, SetupReminderScreenContract.State, SetupReminderScreenContract.Effect>() {
 
     override fun setInitialState() = SetupReminderScreenContract.State(isLoading = true)
 

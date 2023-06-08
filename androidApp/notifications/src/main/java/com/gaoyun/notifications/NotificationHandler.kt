@@ -7,7 +7,6 @@ import com.gaoyun.roar.domain.reminder.GetReminder
 import com.gaoyun.roar.model.domain.NotificationData
 import com.gaoyun.roar.model.domain.NotificationItem
 import kotlinx.coroutines.flow.firstOrNull
-import org.koin.core.component.KoinComponent
 import com.gaoyun.common.R as CommonR
 
 class NotificationHandler(
@@ -17,7 +16,7 @@ class NotificationHandler(
     private val getPetUseCase: GetPetUseCase,
     private val notificationIntentProvider: NotificationIntentProvider,
     private val context: Context,
-) : KoinComponent {
+) {
 
     suspend fun handle(notification: NotificationData): Boolean {
         return when (notification.item) {
@@ -38,6 +37,7 @@ class NotificationHandler(
 
                 true
             }
+
             is NotificationItem.Push -> {
                 handleImmediate(notification.item as NotificationItem.Push)
                 true

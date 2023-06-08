@@ -7,17 +7,15 @@ import com.gaoyun.roar.repository.ReminderRepository
 import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.flow.flow
 import kotlinx.datetime.LocalDateTime
-import org.koin.core.component.KoinComponent
-import org.koin.core.component.inject
 
-class SetReminderComplete : KoinComponent {
-
-    private val repository: ReminderRepository by inject()
-    private val getInteraction: GetInteraction by inject()
-    private val getReminder: GetReminder by inject()
-    private val removeReminder: RemoveReminder by inject()
-    private val notificationScheduler: NotificationScheduler by inject()
-    private val addNextReminder: AddNextReminder by inject()
+class SetReminderComplete(
+    private val getInteraction: GetInteraction,
+    private val getReminder: GetReminder,
+    private val removeReminder: RemoveReminder,
+    private val addNextReminder: AddNextReminder,
+    private val notificationScheduler: NotificationScheduler,
+    private val repository: ReminderRepository,
+) {
 
     fun setComplete(id: String, complete: Boolean, completionDateTime: LocalDateTime) = flow {
         repository.setReminderCompleted(id, complete, completionDateTime)

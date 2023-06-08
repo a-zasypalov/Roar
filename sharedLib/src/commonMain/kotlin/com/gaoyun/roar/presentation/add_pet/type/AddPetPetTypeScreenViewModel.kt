@@ -2,11 +2,9 @@ package com.gaoyun.roar.presentation.add_pet.type
 
 import com.gaoyun.roar.config.PetsConfig
 import com.gaoyun.roar.presentation.BaseViewModel
-import org.koin.core.component.KoinComponent
 
 class AddPetPetTypeScreenViewModel :
-    BaseViewModel<AddPetPetTypeScreenContract.Event, AddPetPetTypeScreenContract.State, AddPetPetTypeScreenContract.Effect>(),
-    KoinComponent {
+    BaseViewModel<AddPetPetTypeScreenContract.Event, AddPetPetTypeScreenContract.State, AddPetPetTypeScreenContract.Effect>() {
 
     override fun setInitialState() = AddPetPetTypeScreenContract.State(petTypes = PetsConfig.petTypes)
 

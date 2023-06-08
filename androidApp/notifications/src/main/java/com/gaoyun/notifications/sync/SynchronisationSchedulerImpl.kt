@@ -1,20 +1,22 @@
 package com.gaoyun.notifications.sync
 
 import android.content.Context
-import androidx.work.*
+import androidx.work.CoroutineWorker
+import androidx.work.ExistingWorkPolicy
+import androidx.work.OneTimeWorkRequestBuilder
+import androidx.work.WorkManager
+import androidx.work.WorkerParameters
 import com.gaoyun.roar.domain.SynchronisationScheduler
 import com.gaoyun.roar.domain.backup.CreateBackupUseCase
 import com.gaoyun.roar.network.SynchronisationApi
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
-import org.koin.core.component.KoinComponent
-import org.koin.core.component.inject
 import java.util.concurrent.TimeUnit
 
 class SynchronisationSchedulerImpl(
     private val workManager: WorkManager,
-) : KoinComponent, SynchronisationScheduler {
+) : SynchronisationScheduler {
 
     override fun scheduleSynchronisation() {
         val request = OneTimeWorkRequestBuilder<SynchronisationWorker>()
@@ -26,10 +28,12 @@ class SynchronisationSchedulerImpl(
 
 }
 
-class SynchronisationWorker(context: Context, params: WorkerParameters) : CoroutineWorker(context, params), KoinComponent {
-
-    private val api: SynchronisationApi by inject()
-    private val createBackupUseCase: CreateBackupUseCase by inject()
+class SynchronisationWorker(
+    context: Context,
+    params: WorkerParameters,
+    private val createBackupUseCase: CreateBackupUseCase,
+    private val api: SynchronisationApi,
+) : CoroutineWorker(context, params) {
 
     override suspend fun doWork(): Result {
         return createBackupUseCase.createBackupToSync()

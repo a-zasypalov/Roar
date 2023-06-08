@@ -12,13 +12,11 @@ import kotlinx.datetime.LocalDateTime
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.toInstant
 import kotlinx.datetime.toLocalDateTime
-import org.koin.core.component.KoinComponent
-import org.koin.core.component.inject
 
-class InsertReminder : KoinComponent {
-
-    private val repository: ReminderRepository by inject()
-    private val notificationScheduler: NotificationScheduler by inject()
+class InsertReminder(
+    private val repository: ReminderRepository,
+    private val notificationScheduler: NotificationScheduler,
+) {
 
     fun createReminder(interactionId: String, dateTime: LocalDateTime, remindConfig: InteractionRemindConfig) = flow {
         val notificationJobId = randomUUID()

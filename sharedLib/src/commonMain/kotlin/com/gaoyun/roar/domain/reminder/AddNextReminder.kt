@@ -1,8 +1,8 @@
 package com.gaoyun.roar.domain.reminder
 
 import com.gaoyun.roar.domain.NotificationScheduler
+import com.gaoyun.roar.domain.interaction.DeactivateInteraction
 import com.gaoyun.roar.domain.interaction.GetInteraction
-import com.gaoyun.roar.domain.interaction.SetInteractionIsActive
 import com.gaoyun.roar.domain.repeat_config.RepeatConfigUseCase
 import com.gaoyun.roar.model.domain.NotificationData
 import com.gaoyun.roar.model.domain.NotificationItem
@@ -16,17 +16,15 @@ import kotlinx.datetime.TimeZone
 import kotlinx.datetime.atTime
 import kotlinx.datetime.toInstant
 import kotlinx.datetime.toLocalDateTime
-import org.koin.core.component.KoinComponent
-import org.koin.core.component.inject
 
-class AddNextReminder : KoinComponent {
-    private val getInteraction: GetInteraction by inject()
-    private val getReminder: GetReminder by inject()
-    private val insertReminder: InsertReminder by inject()
-    private val repeatConfigUseCase: RepeatConfigUseCase by inject()
-    private val setInteractionIsActive: SetInteractionIsActive by inject()
-    private val notificationScheduler: NotificationScheduler by inject()
-
+class AddNextReminder(
+    private val insertReminder: InsertReminder,
+    private val repeatConfigUseCase: RepeatConfigUseCase,
+    private val deactivateInteraction: DeactivateInteraction,
+    private val notificationScheduler: NotificationScheduler,
+    private val getInteraction: GetInteraction,
+    private val getReminder: GetReminder,
+) {
 
     suspend fun addNextReminder(reminderId: String): InteractionWithReminders? {
         val completedReminder = getReminder.getReminder(reminderId).firstOrNull() ?: return null
@@ -62,10 +60,10 @@ class AddNextReminder : KoinComponent {
                 )
                 if (nextReminderAfterNewOne == null) {
                     // Deactivate reminder since next occurrence is the last
-                    setInteractionIsActive.setInteractionIsActive(interaction.id, isActive = false).firstOrNull()
+                    deactivateInteraction.deactivate(interaction.id).firstOrNull()
                 }
 
-            } ?: setInteractionIsActive.setInteractionIsActive(interaction.id, isActive = false).firstOrNull()
+            } ?: deactivateInteraction.deactivate(interaction.id).firstOrNull()
         }
 
         return getNewInteractionState(interaction.id)

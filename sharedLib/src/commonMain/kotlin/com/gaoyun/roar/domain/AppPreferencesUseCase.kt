@@ -3,12 +3,8 @@ package com.gaoyun.roar.domain
 import com.gaoyun.roar.util.Preferences
 import com.gaoyun.roar.util.PreferencesKeys
 import com.gaoyun.roar.util.PreferencesKeys.HOME_SCREEN_MODE_FULL
-import org.koin.core.component.KoinComponent
-import org.koin.core.component.inject
 
-class AppPreferencesUseCase : KoinComponent {
-
-    private val prefs: Preferences by inject()
+class AppPreferencesUseCase(private val prefs: Preferences) {
 
     fun dynamicColorsIsActive() = prefs.getBoolean(PreferencesKeys.DYNAMIC_COLORS_ACTIVE, true)
     fun setDynamicColors(active: Boolean) = prefs.setBoolean(PreferencesKeys.DYNAMIC_COLORS_ACTIVE, active)

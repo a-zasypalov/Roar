@@ -7,14 +7,12 @@ import com.gaoyun.roar.util.Preferences
 import com.gaoyun.roar.util.PreferencesKeys
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
-import org.koin.core.component.KoinComponent
-import org.koin.core.component.inject
 import kotlin.coroutines.cancellation.CancellationException
 
-class GetCurrentUserUseCase : KoinComponent {
-
-    private val repository: UserRepository by inject()
-    private val prefs: Preferences by inject()
+class GetCurrentUserUseCase(
+    private val repository: UserRepository,
+    private val prefs: Preferences,
+) {
 
     @Throws(NoUserException::class, CancellationException::class)
     suspend fun getCurrentUser(): Flow<User> = flow {

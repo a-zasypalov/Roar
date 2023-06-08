@@ -11,8 +11,6 @@ import com.gaoyun.roar.util.DatetimeConstants
 import com.gaoyun.roar.util.Preferences
 import com.gaoyun.roar.util.PreferencesKeys
 import kotlinx.datetime.Clock
-import org.koin.core.component.KoinComponent
-import org.koin.core.component.inject
 
 interface PetRepository {
     fun getPet(id: String): Pet?
@@ -22,12 +20,13 @@ interface PetRepository {
     suspend fun getBreeds(petType: String, languageCode: LanguageCode): List<String>
 }
 
-class PetRepositoryImpl : PetRepository, KoinComponent {
-    private val appDb: RoarDatabase by inject()
-    private val api: PetsApi by inject()
-    private val preferences: Preferences by inject()
-    private val syncApi: SynchronisationApi by inject()
-    private val scheduler: SynchronisationScheduler by inject()
+class PetRepositoryImpl(
+    private val appDb: RoarDatabase,
+    private val api: PetsApi,
+    private val preferences: Preferences,
+    private val syncApi: SynchronisationApi,
+    private val scheduler: SynchronisationScheduler,
+) : PetRepository {
 
     override fun getPet(id: String): Pet? {
         return appDb.petEntityQueries.selectById(id).executeAsOneOrNull()?.toDomain()

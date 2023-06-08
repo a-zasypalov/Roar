@@ -10,13 +10,18 @@ import com.gaoyun.roar.model.domain.interactions.InteractionRepeatConfigEach
 import com.gaoyun.roar.model.domain.interactions.InteractionWithReminders
 import com.gaoyun.roar.util.toLocalDate
 import kotlinx.coroutines.flow.firstOrNull
-import kotlinx.datetime.*
-import org.koin.core.component.KoinComponent
-import org.koin.core.component.inject
+import kotlinx.datetime.Clock
+import kotlinx.datetime.DateTimeUnit
+import kotlinx.datetime.DayOfWeek
+import kotlinx.datetime.LocalDate
+import kotlinx.datetime.daysUntil
+import kotlinx.datetime.isoDayNumber
+import kotlinx.datetime.minus
+import kotlinx.datetime.plus
 
-class RepeatConfigUseCase : KoinComponent {
-
-    private val getInteraction: GetInteraction by inject()
+class RepeatConfigUseCase(
+    private val getInteraction: GetInteraction,
+) {
 
     suspend fun getNextDateAccordingToRepeatConfig(
         interactionId: String,
@@ -51,6 +56,7 @@ class RepeatConfigUseCase : KoinComponent {
                         return null
                     }
                 }
+
                 ENDS_TIMES -> {
                     if ((split[1].toIntOrNull() ?: 0) <= interaction.reminders.size) return null
                 }

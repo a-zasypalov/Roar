@@ -3,7 +3,7 @@ package com.gaoyun.roar.presentation.interactions
 import com.gaoyun.roar.domain.interaction.GetInteraction
 import com.gaoyun.roar.domain.interaction.InsertInteraction
 import com.gaoyun.roar.domain.interaction.RemoveInteraction
-import com.gaoyun.roar.domain.interaction.SetInteractionIsActive
+import com.gaoyun.roar.domain.interaction.ActivateInteraction
 import com.gaoyun.roar.domain.pet.GetPetUseCase
 import com.gaoyun.roar.domain.reminder.RemoveReminder
 import com.gaoyun.roar.domain.reminder.SetReminderComplete
@@ -12,20 +12,16 @@ import com.gaoyun.roar.presentation.BaseViewModel
 import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.launch
 import kotlinx.datetime.LocalDateTime
-import org.koin.core.component.KoinComponent
-import org.koin.core.component.inject
 
-class InteractionScreenViewModel :
-    BaseViewModel<InteractionScreenContract.Event, InteractionScreenContract.State, InteractionScreenContract.Effect>(),
-    KoinComponent {
-
-    private val getPetUseCase: GetPetUseCase by inject()
-    private val getInteraction: GetInteraction by inject()
-    private val saveInteraction: InsertInteraction by inject()
-    private val setReminderComplete: SetReminderComplete by inject()
-    private val removeReminder: RemoveReminder by inject()
-    private val removeInteraction: RemoveInteraction by inject()
-    private val setInteractionIsActive: SetInteractionIsActive by inject()
+class InteractionScreenViewModel(
+    private val getPetUseCase: GetPetUseCase,
+    private val getInteraction: GetInteraction,
+    private val saveInteraction: InsertInteraction,
+    private val setReminderComplete: SetReminderComplete,
+    private val removeReminder: RemoveReminder,
+    private val removeInteraction: RemoveInteraction,
+    private val activateInteraction: ActivateInteraction,
+) : BaseViewModel<InteractionScreenContract.Event, InteractionScreenContract.State, InteractionScreenContract.Effect>() {
 
     override fun setInitialState() = InteractionScreenContract.State(isLoading = true)
 
@@ -91,7 +87,7 @@ class InteractionScreenViewModel :
     }
 
     private fun setInteractionIsActive(interactionId: String, isActive: Boolean) = scope.launch {
-        setInteractionIsActive.setInteractionIsActive(interactionId, isActive).collect { interaction ->
+        activateInteraction.setInteractionIsActive(interactionId, isActive).collect { interaction ->
             setState { copy(interaction = interaction) }
         }
     }

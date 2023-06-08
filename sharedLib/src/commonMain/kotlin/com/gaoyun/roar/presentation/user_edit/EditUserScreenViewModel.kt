@@ -6,14 +6,11 @@ import com.gaoyun.roar.model.domain.User
 import com.gaoyun.roar.presentation.BaseViewModel
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.launch
-import org.koin.core.component.KoinComponent
-import org.koin.core.component.inject
 
-class EditUserScreenViewModel : BaseViewModel<EditUserScreenContract.Event, EditUserScreenContract.State, EditUserScreenContract.Effect>(),
-    KoinComponent {
-
-    private val getUser: GetCurrentUserUseCase by inject()
-    private val editUserUseCase: EditUserUseCase by inject()
+class EditUserScreenViewModel(
+    private val getUser: GetCurrentUserUseCase,
+    private val editUserUseCase: EditUserUseCase,
+) : BaseViewModel<EditUserScreenContract.Event, EditUserScreenContract.State, EditUserScreenContract.Effect>() {
 
     init {
         buildScreenState()

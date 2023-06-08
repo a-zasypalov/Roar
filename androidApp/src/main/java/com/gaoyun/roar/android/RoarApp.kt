@@ -62,22 +62,22 @@ class RoarApp : MultiDexApplication(), KoinComponent {
 
 val appModule = module {
     viewModel { MainViewModel() }
-    viewModel { OnboardingViewModel() }
-    viewModel { HomeScreenViewModel() }
-    viewModel { RegisterUserViewModel() }
-    viewModel { UserScreenViewModel() }
-    viewModel { EditUserScreenViewModel() }
+    viewModel { OnboardingViewModel(get()) }
+    viewModel { HomeScreenViewModel(get(), get(), get(), get(), get(), get(), get(), get(), get(), get()) }
+    viewModel { RegisterUserViewModel(get(), get()) }
+    viewModel { UserScreenViewModel(get(), get(), get(), get(), get(), get(), get()) }
+    viewModel { EditUserScreenViewModel(get(), get()) }
 
-    viewModel { AddPetDataScreenViewModel() }
+    viewModel { AddPetDataScreenViewModel(get(), get(), get(), get()) }
     viewModel { AddPetPetTypeScreenViewModel() }
-    viewModel { AddPetAvatarScreenViewModel() }
-    viewModel { AddPetSetupScreenViewModel() }
+    viewModel { AddPetAvatarScreenViewModel(get()) }
+    viewModel { AddPetSetupScreenViewModel(get()) }
 
-    viewModel { PetScreenViewModel() }
-    viewModel { InteractionScreenViewModel() }
+    viewModel { PetScreenViewModel(get(), get(), get(), get()) }
+    viewModel { InteractionScreenViewModel(get(), get(), get(), get(), get(), get(), get()) }
 
-    viewModel { AddReminderScreenViewModel() }
-    viewModel { SetupReminderScreenViewModel() }
+    viewModel { AddReminderScreenViewModel(get(), get(), get()) }
+    viewModel { SetupReminderScreenViewModel(get(), get(), get(), get(), get(), get()) }
     viewModel { AddReminderCompleteScreenViewModel() }
 
     viewModel { AboutScreenViewModel() }
@@ -86,13 +86,13 @@ val appModule = module {
 val notificationsModule = module {
     single<NotificationScheduler> { NotificationSchedulerImpl(get(), get()) }
     single<SynchronisationScheduler> { SynchronisationSchedulerImpl(get()) }
-    single<NotificationIntentProvider> { NotificationIntentProviderImpl() }
+    single<NotificationIntentProvider> { NotificationIntentProviderImpl(get()) }
     single { WorkManager.getInstance(get()) }
     single { NotificationManagerCompat.from(get()) }
     single { NotificationChannelProvider(get()) }
     single { NotificationDisplayer(get(), get(), get()) }
     single { NotificationHandler(get(), get(), get(), get(), get(), get()) }
-    single { FcmService() }
-    worker { NotificationWorker(get(), get()) }
-    worker { SynchronisationWorker(get(), get()) }
+    single { FcmService(get()) }
+    worker { NotificationWorker(get(), get(), get()) }
+    worker { SynchronisationWorker(get(), get(), get(), get()) }
 }

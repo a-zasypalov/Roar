@@ -9,8 +9,6 @@ import com.gaoyun.roar.util.DatetimeConstants.DAY_MILLIS
 import com.gaoyun.roar.util.Preferences
 import com.gaoyun.roar.util.PreferencesKeys.INTERACTION_TEMPLATES_LAST_UPDATE
 import kotlinx.datetime.Clock
-import org.koin.core.component.KoinComponent
-import org.koin.core.component.inject
 
 interface InteractionTemplateRepository {
     suspend fun getInteractionTemplatesForPetType(type: String): List<InteractionTemplate>
@@ -19,11 +17,11 @@ interface InteractionTemplateRepository {
     fun deleteAllTemplates()
 }
 
-class InteractionTemplateRepositoryImpl : InteractionTemplateRepository, KoinComponent {
-
-    private val appDb: RoarDatabase by inject()
-    private val api: InteractionTemplatesApi by inject()
-    private val preferences: Preferences by inject()
+class InteractionTemplateRepositoryImpl(
+    private val appDb: RoarDatabase,
+    private val api: InteractionTemplatesApi,
+    private val preferences: Preferences,
+) : InteractionTemplateRepository {
 
     override suspend fun getInteractionTemplatesForPetType(type: String): List<InteractionTemplate> {
         val cachedTemplates = appDb.interactionTemplateEntityQueries.selectByPetType(type).executeAsList().map { it.toDomain() }

@@ -4,14 +4,10 @@ import com.gaoyun.roar.config.PetsConfig
 import com.gaoyun.roar.domain.pet.SetPetAvatar
 import com.gaoyun.roar.presentation.BaseViewModel
 import kotlinx.coroutines.launch
-import org.koin.core.component.KoinComponent
-import org.koin.core.component.inject
 
-class AddPetAvatarScreenViewModel :
-    BaseViewModel<AddPetAvatarScreenContract.Event, AddPetAvatarScreenContract.State, AddPetAvatarScreenContract.Effect>(),
-    KoinComponent {
-
-    private val setAvatar: SetPetAvatar by inject()
+class AddPetAvatarScreenViewModel(
+    private val setAvatar: SetPetAvatar,
+) : BaseViewModel<AddPetAvatarScreenContract.Event, AddPetAvatarScreenContract.State, AddPetAvatarScreenContract.Effect>() {
 
     override fun setInitialState() = AddPetAvatarScreenContract.State(avatars = listOf())
 

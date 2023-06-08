@@ -1,14 +1,16 @@
 package com.gaoyun.roar.domain.interaction
 
-import com.gaoyun.roar.model.domain.interactions.*
+import com.gaoyun.roar.model.domain.interactions.Interaction
+import com.gaoyun.roar.model.domain.interactions.InteractionRemindConfig
+import com.gaoyun.roar.model.domain.interactions.InteractionRepeatConfig
+import com.gaoyun.roar.model.domain.interactions.toInteractionGroup
+import com.gaoyun.roar.model.domain.interactions.toInteractionType
 import com.gaoyun.roar.repository.InteractionRepository
 import kotlinx.coroutines.flow.flow
-import org.koin.core.component.KoinComponent
-import org.koin.core.component.inject
 
-class InsertInteraction : KoinComponent {
-
-    private val repository: InteractionRepository by inject()
+class InsertInteraction(
+    private val repository: InteractionRepository,
+) {
 
     fun insertInteraction(
         templateId: String?,

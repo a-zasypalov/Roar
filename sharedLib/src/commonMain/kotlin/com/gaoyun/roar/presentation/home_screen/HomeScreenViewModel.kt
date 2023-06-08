@@ -26,23 +26,19 @@ import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import kotlinx.datetime.LocalDateTime
-import org.koin.core.component.KoinComponent
-import org.koin.core.component.inject
 
-class HomeScreenViewModel :
-    BaseViewModel<HomeScreenContract.Event, HomeScreenContract.State, HomeScreenContract.Effect>(),
-    KoinComponent {
-
-    private val checkUserExistingUseCase: CheckUserExistingUseCase by inject()
-    private val getUserUseCase: GetCurrentUserUseCase by inject()
-    private val getPetUseCase: GetPetUseCase by inject()
-    private val getInteractions: GetInteraction by inject()
-    private val removePet: RemovePetUseCase by inject()
-    private val setReminderComplete: SetReminderComplete by inject()
-    private val appPreferencesUseCase: AppPreferencesUseCase by inject()
-    private val synchronisationApi: SynchronisationApi by inject()
-    private val registerUserUseCase: RegisterUserUseCase by inject()
-    private val syncApi: SynchronisationApi by inject()
+class HomeScreenViewModel(
+    private val checkUserExistingUseCase: CheckUserExistingUseCase,
+    private val getUserUseCase: GetCurrentUserUseCase,
+    private val getPetUseCase: GetPetUseCase,
+    private val getInteractions: GetInteraction,
+    private val removePet: RemovePetUseCase,
+    private val setReminderComplete: SetReminderComplete,
+    private val appPreferencesUseCase: AppPreferencesUseCase,
+    private val synchronisationApi: SynchronisationApi,
+    private val registerUserUseCase: RegisterUserUseCase,
+    private val syncApi: SynchronisationApi,
+) : BaseViewModel<HomeScreenContract.Event, HomeScreenContract.State, HomeScreenContract.Effect>() {
 
     override fun setInitialState() = HomeScreenContract.State(null, emptyList(), true)
 

@@ -6,7 +6,8 @@ import com.gaoyun.roar.domain.backup.ImportBackupUseCase
 import com.gaoyun.roar.domain.interaction.GetInteraction
 import com.gaoyun.roar.domain.interaction.InsertInteraction
 import com.gaoyun.roar.domain.interaction.RemoveInteraction
-import com.gaoyun.roar.domain.interaction.SetInteractionIsActive
+import com.gaoyun.roar.domain.interaction.ActivateInteraction
+import com.gaoyun.roar.domain.interaction.DeactivateInteraction
 import com.gaoyun.roar.domain.interaction_template.GetInteractionTemplate
 import com.gaoyun.roar.domain.interaction_template.GetInteractionTemplatesForPetType
 import com.gaoyun.roar.domain.interaction_template.InsertInteractionTemplate
@@ -58,54 +59,55 @@ fun initKoin(appDeclaration: KoinAppDeclaration = {}) = startKoin {
 }
 
 val repositoryModule = module {
-    single<UserRepository> { UserRepositoryImpl() }
-    single<PetRepository> { PetRepositoryImpl() }
-    single<InteractionTemplateRepository> { InteractionTemplateRepositoryImpl() }
-    single<InteractionRepository> { InteractionRepositoryImpl() }
-    single<ReminderRepository> { ReminderRepositoryImpl() }
+    single<UserRepository> { UserRepositoryImpl(get(), get()) }
+    single<PetRepository> { PetRepositoryImpl(get(), get(), get(), get(), get()) }
+    single<InteractionTemplateRepository> { InteractionTemplateRepositoryImpl(get(), get(), get()) }
+    single<InteractionRepository> { InteractionRepositoryImpl(get(), get()) }
+    single<ReminderRepository> { ReminderRepositoryImpl(get(), get()) }
 }
 
 val useCaseModule = module {
-    single { RegisterUserUseCase() }
-    single { GetCurrentUserUseCase() }
-    single { CheckUserExistingUseCase() }
-    single { EditUserUseCase() }
-    single { LogoutUseCase() }
-    single { SynchronisationUseCase() }
+    single { RegisterUserUseCase(get(), get()) }
+    single { GetCurrentUserUseCase(get(), get()) }
+    single { CheckUserExistingUseCase(get()) }
+    single { EditUserUseCase(get()) }
+    single { LogoutUseCase(get(), get(), get(), get(), get(), get()) }
+    single { SynchronisationUseCase(get(), get(), get(), get(), get(), get(), get(), get(), get()) }
 
-    single { GetPetUseCase() }
-    single { AddPetUseCase() }
-    single { GetPetBreedsUseCase() }
-    single { SetPetAvatar() }
-    single { RemovePetUseCase() }
+    single { GetPetUseCase(get()) }
+    single { AddPetUseCase(get(), get()) }
+    single { GetPetBreedsUseCase(get()) }
+    single { SetPetAvatar(get()) }
+    single { RemovePetUseCase(get(), get()) }
 
-    single { GetInteractionTemplatesForPetType() }
-    single { GetInteractionTemplate() }
-    single { InsertInteractionTemplate() }
-    single { RemoveInteractionTemplates() }
+    single { GetInteractionTemplatesForPetType(get()) }
+    single { GetInteractionTemplate(get()) }
+    single { InsertInteractionTemplate(get()) }
+    single { RemoveInteractionTemplates(get()) }
 
-    single { GetInteraction() }
-    single { InsertInteraction() }
-    single { RemoveInteraction() }
-    single { SetInteractionIsActive() }
-    single { RepeatConfigUseCase() }
+    single { GetInteraction(get(), get()) }
+    single { InsertInteraction(get()) }
+    single { RemoveInteraction(get(), get(), get()) }
+    single { ActivateInteraction(get(), get(), get()) }
+    single { RepeatConfigUseCase(get()) }
 
-    single { GetReminder() }
-    single { InsertReminder() }
-    single { RemoveReminder() }
-    single { SetReminderComplete() }
-    single { AddNextReminder() }
+    single { GetReminder(get()) }
+    single { InsertReminder(get(), get()) }
+    single { RemoveReminder(get(), get()) }
+    single { SetReminderComplete(get(), get(), get(), get(), get(), get()) }
+    single { AddNextReminder(get(), get(), get(), get(), get(), get()) }
+    single { DeactivateInteraction(get(), get()) }
 
-    single { CreateBackupUseCase() }
-    single { ImportBackupUseCase() }
-    single { CompleteOnboardingUseCase() }
-    single { AppPreferencesUseCase() }
+    single { CreateBackupUseCase(get(), get(), get(), get()) }
+    single { ImportBackupUseCase(get(), get(), get(), get(), get(), get(), get()) }
+    single { CompleteOnboardingUseCase(get()) }
+    single { AppPreferencesUseCase(get()) }
 }
 
 val networkModule = module {
     single { PlatformHttpClient.httpClient() }
-    single { InteractionTemplatesApi() }
-    single { PetsApi() }
+    single { InteractionTemplatesApi(get()) }
+    single { PetsApi(get()) }
     single { SynchronisationApi() }
 }
 
