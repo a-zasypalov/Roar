@@ -238,6 +238,8 @@
 
     <!-- About page -->
     <string name="about_app_title">About Roar</string>
+    <string name="terms_and_conditions_button">Terms and Conditions</string>
+    <string name="privacy_policy">Privacy Policy</string>
     <string name="about_app_description">Roar App is an Open Source pet care app I created in my free time with the goal of providing assistance in managing your pets needs. With this app, you can easily keep track of important tasks such as vaccinations, medications, grooming, vet visits and more.\n\nThis app is designed with simplicity in mind. Hopefully, Roar can become a valuable tool for pet owners who are looking for an organized and efficient way to manage pets daily requirements.\n\nArtem.</string>
 
 </resources>

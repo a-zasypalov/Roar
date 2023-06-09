@@ -19,6 +19,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
@@ -73,6 +74,10 @@ fun AboutScreenDestination(
 @Composable
 fun AboutScreenContent() {
     val scrollState = rememberScrollState()
+    val uriHandler = LocalUriHandler.current
+
+    val termsAndConditionsUrl = stringResource(id = R.string.url_terms_and_conditions)
+    val privacyPolicyUrl = stringResource(id = R.string.url_privacy_policy)
 
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -116,6 +121,33 @@ fun AboutScreenContent() {
         Spacer(size = 32.dp)
 
         LinksBlock()
+
+        Spacer(size = 32.dp)
+
+        TextButton(
+            onClick = { uriHandler.openUri(termsAndConditionsUrl) },
+            modifier = Modifier.align(Alignment.CenterHorizontally)
+        ) {
+            Text(
+                text = stringResource(id = R.string.terms_and_conditions_button),
+                style = MaterialTheme.typography.titleMedium,
+                modifier = Modifier.padding(horizontal = 32.dp)
+            )
+        }
+
+        TextButton(
+            onClick = { uriHandler.openUri(privacyPolicyUrl) },
+            modifier = Modifier.align(Alignment.CenterHorizontally)
+        ) {
+            Text(
+                text = stringResource(id = R.string.privacy_policy),
+                style = MaterialTheme.typography.titleMedium,
+                modifier = Modifier.padding(horizontal = 32.dp)
+            )
+        }
+
+        Spacer(size = 64.dp)
+
     }
 }
 

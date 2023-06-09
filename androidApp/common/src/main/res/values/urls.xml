@@ -4,4 +4,6 @@
     <string name="url_telegram" translatable="false">http://t.me/roar_app</string>
     <string name="url_web" translatable="false">https://gaoyun.notion.site/Roar-Mobile-App-aeb353e15720433485855bc422ff2e2b?pvs=4</string>
     <string name="url_email" translatable="false">roar.mobile.app@gmail.com</string>
+    <string name="url_terms_and_conditions" translatable="false">https://gaoyun.notion.site/Terms-and-Conditions-a7ec3b8d861447be93e8eb892f447012?pvs=4</string>
+    <string name="url_privacy_policy" translatable="false">https://gaoyun.notion.site/Privacy-Policy-af2d66bd094c4c169334896ed5b63401?pvs=4</string>
 </resources>
