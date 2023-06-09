@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="url_twitter" translatable="false">https://twitter.com/roar_mobile_app</string>
+    <string name="url_telegram" translatable="false">http://t.me/roar_app</string>
+    <string name="url_web" translatable="false">https://gaoyun.notion.site/Roar-Mobile-App-aeb353e15720433485855bc422ff2e2b?pvs=4</string>
+    <string name="url_email" translatable="false">roar.mobile.app@gmail.com</string>
+</resources>

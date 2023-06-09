@@ -237,5 +237,5 @@
     <string name="about_app_button">Über die App</string>
     <string name="home_screen_mode_switcher_title">Vollständigen Haustierbildschirm anzeigen</string>
     <string name="about_app_title">Über Roar</string>
-    <string name="about_app_description">Die Roar-App wurde entwickelt, um Ihnen bei der besseren Pflege Ihrer pelzigen Freunde zu helfen. Mit unserer App können Sie Erinnerungen für wichtige Aufgaben wie Impfungen, Medikamente, Pflege und Tierarzttermine einstellen.\n\nWir freuen uns über Ihr Feedback!</string>
+    <string name="about_app_description">Roar App ist eine Open-Source-App für die Haustierpflege, die ich in meiner Freizeit mit dem Ziel entwickelt habe, Sie bei der Verwaltung der Bedürfnisse Ihrer Haustiere zu unterstützen. Mit dieser App können Sie wichtige Aufgaben wie Impfungen, Medikamente, Pflege, Tierarztbesuche und vieles mehr leicht nachverfolgen.\n\nIch hoffe, dass Roar ein wertvolles Werkzeug für Haustierbesitzer werden kann, die nach einer organisierten und effizienten Möglichkeit suchen, die täglichen Anforderungen ihrer Haustiere zu verwalten.\n\nArtem.</string>
 </resources>
