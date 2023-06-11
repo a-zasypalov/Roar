@@ -30,13 +30,13 @@ import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
 import com.gaoyun.common.DateUtils.ddMmmYyyyDateFormatter
 import com.gaoyun.common.R
+import com.gaoyun.common.composables.*
 import com.gaoyun.common.dialog.DatePicker
 import com.gaoyun.common.dialog.TimePicker
 import com.gaoyun.common.ext.getName
 import com.gaoyun.common.ext.remindConfigTextFull
 import com.gaoyun.common.ext.repeatConfigTextFull
 import com.gaoyun.common.ext.toLocalizedStringId
-import com.gaoyun.common.composables.*
 import com.gaoyun.roar.model.domain.interactions.*
 import com.gaoyun.roar.util.toLocalDate
 import kotlinx.coroutines.launch
@@ -170,31 +170,32 @@ internal fun ReminderSetupForm(
                     selectedDateMillis = startsOnDate.value,
                     start = Clock.System.now().toEpochMilliseconds(),
                     onDatePicked = { newDate ->
-                        TimePicker.pickTime(
-                            title = activity.getString(R.string.remind_at),
-                            fragmentManager = activity.supportFragmentManager,
-                            hourAndMinutes = listOf(
-                                startsOnTime.value.hour,
-                                startsOnTime.value.minute
-                            ),
-                            onTimePicked = { hours, minutes ->
-                                val hoursFormatted = if (hours < 10) "0$hours" else "$hours"
-                                val minutesFormatted = if (minutes < 10) "0$minutes" else "$minutes"
-                                val newTime = "$hoursFormatted:$minutesFormatted"
+                        TimePicker
+                            .pickTime(
+                                title = activity.getString(R.string.remind_at),
+                                activity = activity,
+                                hourAndMinutes = listOf(
+                                    startsOnTime.value.hour,
+                                    startsOnTime.value.minute
+                                ),
+                                onTimePicked = { hours, minutes ->
+                                    val hoursFormatted = if (hours < 10) "0$hours" else "$hours"
+                                    val minutesFormatted = if (minutes < 10) "0$minutes" else "$minutes"
+                                    val newTime = "$hoursFormatted:$minutesFormatted"
 
-                                startsOnDate.value = newDate
-                                startsOnTime.value = LocalTime.parse(newTime)
+                                    startsOnDate.value = newDate
+                                    startsOnTime.value = LocalTime.parse(newTime)
 
-                                startsOnDateTimeString.value = TextFieldValue(
-                                    "${
-                                        Instant.fromEpochMilliseconds(newDate)
-                                            .toLocalDate()
-                                            .toJavaLocalDate()
-                                            .format(ddMmmYyyyDateFormatter)
-                                    }, $hoursFormatted:$minutesFormatted"
-                                )
-                            }
-                        )
+                                    startsOnDateTimeString.value = TextFieldValue(
+                                        "${
+                                            Instant.fromEpochMilliseconds(newDate)
+                                                .toLocalDate()
+                                                .toJavaLocalDate()
+                                                .format(ddMmmYyyyDateFormatter)
+                                        }, $hoursFormatted:$minutesFormatted"
+                                    )
+                                }
+                            )
                     }
                 )
             },
@@ -280,7 +281,7 @@ internal fun ReminderSetupForm(
         PrimaryElevatedButton(
             text = if (interactionToEdit != null) stringResource(id = R.string.save) else stringResource(id = R.string.create),
             onClick = {
-                if(reminderName.value.isNullOrBlank()) {
+                if (reminderName.value.isBlank()) {
                     coroutineScope.launch { snackbarHost.showSnackbar("Name shouldn't be empty") }
                 } else {
                     onSaveButtonClick(
