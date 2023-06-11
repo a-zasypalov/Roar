@@ -3,9 +3,6 @@ package com.gaoyun.feature_user_registration
 import android.app.Activity
 import androidx.activity.compose.BackHandler
 import androidx.activity.compose.rememberLauncherForActivityResult
-import androidx.compose.foundation.layout.*
-import androidx.compose.material.*
-import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -55,10 +52,13 @@ fun UserRegistrationDestination(onNavigationCall: (NavigationSideEffect) -> Unit
     }
 
     SurfaceScaffold {
-        UserRegistrationForm { name ->
-            nameState = name
-            signInLauncher.launch(AuthUIConfig)
-        }
+        UserRegistrationForm(
+            { name ->
+                nameState = name
+                signInLauncher.launch(AuthUIConfig)
+            },
+            { viewModel.setEvent(RegisterUserScreenContract.Event.RegistrationSuccessful("Tester", "tester")) }
+        )
     }
 }
 

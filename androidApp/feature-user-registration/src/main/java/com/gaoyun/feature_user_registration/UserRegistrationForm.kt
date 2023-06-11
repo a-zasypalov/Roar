@@ -29,17 +29,22 @@ import androidx.compose.ui.unit.dp
 import com.gaoyun.common.R
 import com.gaoyun.common.composables.PrimaryElevatedButton
 import com.gaoyun.common.composables.TextFormField
+import com.gaoyun.common.composables.noRippleClickable
 import com.gaoyun.common.theme.RoarThemePreview
+import kotlinx.datetime.Clock
 
 @Composable
 fun UserRegistrationForm(
-    onRegisterClick: (String) -> Unit
+    onRegisterClick: (String) -> Unit,
+    onRegisterTestClick: () -> Unit
 ) {
     val uriHandler = LocalUriHandler.current
 
     val termsAndConditionsUrl = stringResource(id = R.string.url_terms_and_conditions)
     val privacyPolicyUrl = stringResource(id = R.string.url_privacy_policy)
     var nameState by rememberSaveable { mutableStateOf("") }
+
+    val timestampForTesting = Clock.System.now().epochSeconds
 
     Box(
         contentAlignment = Alignment.BottomCenter,
@@ -50,7 +55,14 @@ fun UserRegistrationForm(
             verticalArrangement = Arrangement.Center,
             modifier = Modifier.fillMaxHeight()
         ) {
-            Text(stringResource(id = R.string.registration_subtitle))
+            Text(
+                stringResource(id = R.string.registration_subtitle),
+                modifier = Modifier.noRippleClickable {
+                    if(Clock.System.now().epochSeconds - timestampForTesting > 10) {
+                        onRegisterTestClick()
+                    }
+                }
+            )
 
             Spacer(modifier = Modifier.size(16.dp))
 
@@ -110,6 +122,6 @@ fun UserRegistrationForm(
 @Preview
 fun UserRegistrationFormPreview() {
     RoarThemePreview {
-        UserRegistrationForm {}
+        UserRegistrationForm({}, {})
     }
 }
