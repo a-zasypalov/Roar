@@ -111,7 +111,6 @@
     <string name="leave">Оставить</string>
     <string name="replace_current_data_title">Заменить текущие данные?</string>
     <string name="replace_current_data_description">Мы можем оставить текущие данные без изменений или полностью заменить их резервной копией</string>
-    <string name="registration_subtitle">Как к вам обращаться?</string>
     <string name="dynamic_color_switcher_title">Динамический цвет</string>
     <string name="number_of_reminders_main_screen">Напоминаний на главном экране у питомца</string>
     <string name="today">Сегодня</string>

@@ -28,10 +28,6 @@ class UserScreenViewModel(
 
     val backupState = MutableStateFlow("")
 
-    init {
-        buildScreenState()
-    }
-
     override fun setInitialState() = UserScreenContract.State(isLoading = true)
 
     override fun handleEvents(event: UserScreenContract.Event) {
@@ -52,7 +48,7 @@ class UserScreenViewModel(
         }
     }
 
-    private fun buildScreenState() = scope.launch {
+    fun buildScreenState() = scope.launch {
         getUser.getCurrentUser()
             .catch {
                 it.printStackTrace()

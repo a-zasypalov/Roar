@@ -21,6 +21,8 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Check
 import androidx.compose.material.icons.filled.ListAlt
@@ -74,6 +76,7 @@ internal fun UserScreenContent(
     val context = LocalContext.current
     val activity = LocalContext.current as? AppCompatActivity
     val isDarkTheme = isSystemInDarkTheme()
+    val scrollState = rememberScrollState()
 
     val supportDynamicColor = Build.VERSION.SDK_INT >= Build.VERSION_CODES.S
     val numberOfRemindersOnMainScreenState = remember { mutableStateOf(state.numberOfRemindersOnMainScreenState) }
@@ -84,6 +87,7 @@ internal fun UserScreenContent(
             Column(
                 modifier = Modifier
                     .fillMaxWidth()
+                    .verticalScroll(scrollState)
                     .padding(
                         start = 16.dp,
                         end = 16.dp,
@@ -358,6 +362,8 @@ internal fun UserScreenContent(
                         modifier = Modifier.padding(horizontal = 32.dp, vertical = 8.dp)
                     )
                 }
+
+                Spacer(size = 96.dp)
             }
         }
     }

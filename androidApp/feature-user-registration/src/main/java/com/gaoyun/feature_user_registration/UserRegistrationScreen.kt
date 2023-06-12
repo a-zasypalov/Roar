@@ -5,10 +5,6 @@ import androidx.activity.compose.BackHandler
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.saveable.rememberSaveable
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.res.stringResource
 import com.firebase.ui.auth.AuthUI
 import com.firebase.ui.auth.FirebaseAuthUIActivityResultContract
@@ -40,12 +36,11 @@ fun UserRegistrationDestination(onNavigationCall: (NavigationSideEffect) -> Unit
     }
 
     val defaultUsername = stringResource(id = R.string.username)
-    var nameState by rememberSaveable { mutableStateOf("") }
 
     val signInLauncher = rememberLauncherForActivityResult(FirebaseAuthUIActivityResultContract()) { res ->
         if (res.resultCode == Activity.RESULT_OK) {
             Firebase.auth.currentUser?.let { user ->
-                val nameToRegister = nameState.ifEmpty { user.displayName ?: defaultUsername }
+                val nameToRegister = user.displayName ?: defaultUsername
                 viewModel.setEvent(RegisterUserScreenContract.Event.RegistrationSuccessful(nameToRegister, user.uid))
             }
         }
@@ -53,10 +48,7 @@ fun UserRegistrationDestination(onNavigationCall: (NavigationSideEffect) -> Unit
 
     SurfaceScaffold {
         UserRegistrationForm(
-            { name ->
-                nameState = name
-                signInLauncher.launch(AuthUIConfig)
-            },
+            { signInLauncher.launch(AuthUIConfig) },
             { viewModel.setEvent(RegisterUserScreenContract.Event.RegistrationSuccessful("Tester", "tester")) }
         )
     }

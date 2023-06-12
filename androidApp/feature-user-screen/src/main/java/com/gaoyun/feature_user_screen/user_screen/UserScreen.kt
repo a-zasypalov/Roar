@@ -16,6 +16,8 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
+import androidx.lifecycle.Lifecycle
+import com.gaoyun.common.OnLifecycleEvent
 import com.gaoyun.common.R
 import com.gaoyun.common.composables.RoarExtendedFAB
 import com.gaoyun.common.composables.SurfaceScaffold
@@ -57,6 +59,12 @@ fun UserScreenDestination(
                     snackbarHostState.showSnackbar(message = context.getString(R.string.backup_saved))
                 }
             }
+        }
+    }
+
+    OnLifecycleEvent { _, event ->
+        if (event == Lifecycle.Event.ON_RESUME) {
+            viewModel.buildScreenState()
         }
     }
 

@@ -49,7 +49,7 @@ class SynchronisationUseCase(
                         removePetUseCase.removePet(it.id).firstOrNull()
                     }
 
-                editUserUseCase.update(user.withoutPets())
+                editUserUseCase.update(user.withoutPets()).firstOrNull()
 
                 user.pets.map { pet ->
                     addPetUseCase.addPet(pet.withoutInteractions().copy(userId = currentUserId)).firstOrNull()

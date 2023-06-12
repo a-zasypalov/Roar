@@ -111,7 +111,6 @@
     <string name="leave">Verlassen</string>
     <string name="replace_current_data_title">Aktuelle Daten ersetzen?</string>
     <string name="replace_current_data_description">Wir können die aktuellen Daten ohne Änderungen belassen oder sie vollständig durch das Backup ersetzen</string>
-    <string name="registration_subtitle">Wir benötigen nur Ihren Namen</string>
     <string name="dynamic_color_switcher_title">Dynamische Farben</string>
     <string name="number_of_reminders_main_screen">Erinnerungen am Home pro Tier</string>
     <string name="today">Heute</string>

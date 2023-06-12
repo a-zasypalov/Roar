@@ -1,93 +1,95 @@
 package com.gaoyun.feature_user_registration
 
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.asPaddingValues
 import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Person
-import androidx.compose.material3.Icon
+import androidx.compose.foundation.layout.statusBars
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.saveable.rememberSaveable
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.platform.LocalUriHandler
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.input.ImeAction
+import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.tooling.preview.Devices
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.gaoyun.common.R
 import com.gaoyun.common.composables.PrimaryElevatedButton
-import com.gaoyun.common.composables.TextFormField
-import com.gaoyun.common.composables.noRippleClickable
 import com.gaoyun.common.theme.RoarThemePreview
 import kotlinx.datetime.Clock
 
 @Composable
 fun UserRegistrationForm(
-    onRegisterClick: (String) -> Unit,
+    onRegisterClick: () -> Unit,
     onRegisterTestClick: () -> Unit
 ) {
     val uriHandler = LocalUriHandler.current
 
     val termsAndConditionsUrl = stringResource(id = R.string.url_terms_and_conditions)
     val privacyPolicyUrl = stringResource(id = R.string.url_privacy_policy)
-    var nameState by rememberSaveable { mutableStateOf("") }
 
     val timestampForTesting = Clock.System.now().epochSeconds
 
-    Box(
-        contentAlignment = Alignment.BottomCenter,
-        modifier = Modifier.navigationBarsPadding(),
-    ) {
+    Box(modifier = Modifier.navigationBarsPadding()) {
         Column(
+            modifier = Modifier.fillMaxWidth(),
             horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.Center,
-            modifier = Modifier.fillMaxHeight()
         ) {
+            Box(modifier = Modifier.size(WindowInsets.statusBars.asPaddingValues().calculateTopPadding() + 48.dp))
+
+            Surface(
+                tonalElevation = 16.dp,
+                modifier = Modifier
+                    .clip(MaterialTheme.shapes.extraLarge)
+                    .size(160.dp)
+            ) {
+                Image(
+                    painter = painterResource(id = R.drawable.ic_tab_home),
+                    contentDescription = "icon",
+                    modifier = Modifier.padding(16.dp),
+                    colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.inverseSurface)
+                )
+            }
+
+            com.gaoyun.common.composables.Spacer(size = 24.dp)
             Text(
-                stringResource(id = R.string.registration_subtitle),
-                modifier = Modifier.noRippleClickable {
-                    if(Clock.System.now().epochSeconds - timestampForTesting > 10) {
+                text = stringResource(id = R.string.app_name),
+                style = MaterialTheme.typography.titleLarge,
+                textAlign = TextAlign.Center,
+                modifier = Modifier.clickable {
+                    if (Clock.System.now().epochSeconds - timestampForTesting > 10) {
                         onRegisterTestClick()
                     }
                 }
             )
-
-            Spacer(modifier = Modifier.size(16.dp))
-
-            TextFormField(
-                text = nameState,
-                leadingIcon = {
-                    Icon(
-                        Icons.Filled.Person,
-                        stringResource(id = R.string.name),
-                        tint = MaterialTheme.colorScheme.onBackground
-                    )
-                },
-                label = stringResource(id = R.string.name),
-                onChange = {
-                    nameState = it
-                },
-                imeAction = ImeAction.Done,
-                modifier = Modifier.padding(horizontal = 24.dp)
-            )
         }
 
-        Column {
+        Column(
+            verticalArrangement = Arrangement.Bottom,
+            horizontalAlignment = Alignment.CenterHorizontally,
+            modifier = Modifier
+                .fillMaxHeight()
+                .align(Alignment.BottomCenter)
+        ) {
             PrimaryElevatedButton(
                 text = stringResource(id = R.string.register_or_login),
-                onClick = { onRegisterClick(nameState) },
+                onClick = { onRegisterClick() },
                 modifier = Modifier.padding(bottom = 16.dp)
             )
 
@@ -119,7 +121,7 @@ fun UserRegistrationForm(
 }
 
 @Composable
-@Preview
+@Preview(device = Devices.PIXEL)
 fun UserRegistrationFormPreview() {
     RoarThemePreview {
         UserRegistrationForm({}, {})
