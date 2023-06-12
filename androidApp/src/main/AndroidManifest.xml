@@ -10,17 +10,16 @@
         android:supportsRtl="true"
         android:theme="@style/RoarTheme"
         android:label="Roar"
+        android:windowSoftInputMode="adjustResize"
         android:icon="@mipmap/ic_launcher"
         android:usesCleartextTraffic="true"
         android:name=".RoarApp">
+
         <activity
             android:name=".MainActivity"
-            android:theme="@style/RoarTheme"
-            android:windowSoftInputMode="adjustResize"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
 
@@ -43,5 +42,31 @@
         <meta-data
             android:name="com.google.firebase.messaging.default_notification_icon"
             android:resource="@drawable/ic_tab_home" />
+
+        <activity-alias
+            android:label="@string/app_name"
+            android:icon="@mipmap/ic_launcher"
+            android:name=".ROAR.AMBER"
+            android:enabled="true"
+            android:exported="true"
+            android:targetActivity=".MainActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity-alias>
+
+        <activity-alias
+            android:label="@string/app_name"
+            android:icon="@mipmap/ic_launcher_paw"
+            android:name=".PAW.AMBER"
+            android:enabled="false"
+            android:exported="true"
+            android:targetActivity=".MainActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity-alias>
     </application>
 </manifest> 

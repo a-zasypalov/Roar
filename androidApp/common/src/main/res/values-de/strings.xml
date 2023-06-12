@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Brüllen</string>
+    <string name="app_name">Roar</string>
+    <string name="app_icon">App icon</string>
     <string name="username">Benutzername</string>
     <string name="choose_avatar">Avatar</string>
     <string name="pets_card">Tierkarte</string>

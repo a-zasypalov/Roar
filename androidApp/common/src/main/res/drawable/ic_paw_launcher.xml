@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:gravity="center"
+        android:top="16dp"
+        android:start="16dp"
+        android:end="16dp"
+        android:bottom="16dp"
+        android:width="48dp"
+        android:height="48dp">
+        <bitmap android:src="@mipmap/ic_launcher_paw_foreground" />
+    </item>
+
+</layer-list>

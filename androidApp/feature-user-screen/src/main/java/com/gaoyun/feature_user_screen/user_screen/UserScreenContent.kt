@@ -1,9 +1,13 @@
 package com.gaoyun.feature_user_screen.user_screen
 
+import android.app.Activity
 import android.app.AlertDialog
+import android.content.ComponentName
+import android.content.pm.PackageManager
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.isSystemInDarkTheme
@@ -35,7 +39,9 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
@@ -231,6 +237,77 @@ internal fun UserScreenContent(
                 Spacer(size = 16.dp)
 
                 Text(
+                    text = stringResource(id = R.string.app_icon),
+                    style = MaterialTheme.typography.titleLarge,
+                    color = MaterialTheme.colorScheme.onSurface
+                )
+
+                Spacer(size = 16.dp)
+
+                LazyRow {
+                    item {
+                        ElevatedCard(
+                            shape = MaterialTheme.shapes.medium,
+                            colors = CardDefaults.elevatedCardColors(
+                                containerColor = Color.White
+                            ),
+                            modifier = Modifier
+                                .padding(horizontal = 8.dp)
+                                .size(72.dp)
+                        ) {
+                            Box(
+                                modifier = Modifier
+                                    .fillMaxSize()
+                                    .clickable {
+                                        activity?.deactivateComponent(PAW_ICON)
+                                        activity?.activateComponent(ROAR_ICON)
+                                    }
+                                    .clip(MaterialTheme.shapes.medium)
+                            ) {
+                                Image(
+                                    painterResource(id = R.mipmap.ic_launcher_foreground),
+                                    contentDescription = null,
+                                    contentScale = ContentScale.FillWidth,
+                                )
+                            }
+                        }
+                    }
+                    item {
+                        ElevatedCard(
+                            shape = MaterialTheme.shapes.medium,
+                            colors = CardDefaults.elevatedCardColors(
+                                containerColor = Color.White
+                            ),
+                            modifier = Modifier
+                                .padding(horizontal = 8.dp)
+                                .size(72.dp)
+                        ) {
+                            Box(
+                                modifier = Modifier
+                                    .fillMaxSize()
+                                    .clickable {
+                                        activity?.deactivateComponent(ROAR_ICON)
+                                        activity?.activateComponent(PAW_ICON)
+                                    }
+                                    .clip(MaterialTheme.shapes.medium)
+                            ) {
+                                Image(
+                                    painterResource(id = R.mipmap.ic_launcher_paw_foreground),
+                                    contentDescription = null,
+                                    contentScale = ContentScale.FillWidth,
+                                )
+                            }
+                        }
+                    }
+                }
+
+                Spacer(size = 16.dp)
+
+                Divider()
+
+                Spacer(size = 16.dp)
+
+                Text(
                     text = stringResource(id = R.string.backup),
                     style = MaterialTheme.typography.titleLarge,
                     color = MaterialTheme.colorScheme.onSurface
@@ -285,6 +362,23 @@ internal fun UserScreenContent(
         }
     }
 }
+
+private fun Activity.activateComponent(name: String) {
+    packageManager.setComponentEnabledSetting(
+        ComponentName(this, name),
+        PackageManager.COMPONENT_ENABLED_STATE_ENABLED, PackageManager.DONT_KILL_APP
+    )
+}
+
+private fun Activity.deactivateComponent(name: String) {
+    packageManager.setComponentEnabledSetting(
+        ComponentName(this, name),
+        PackageManager.COMPONENT_ENABLED_STATE_DISABLED, PackageManager.DONT_KILL_APP
+    )
+}
+
+const val ROAR_ICON = "com.gaoyun.roar.android.ROAR.AMBER"
+const val PAW_ICON = "com.gaoyun.roar.android.PAW.AMBER"
 
 @Preview
 @Composable
