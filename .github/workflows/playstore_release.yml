@@ -49,5 +49,3 @@ jobs:
           packageName: com.gaoyun.roar.android
           releaseFiles: ${{steps.sign_aab.outputs.signedReleaseFile}}
           track: internal
-          status: inProgress
-          inAppUpdatePriority: 2
