@@ -22,24 +22,6 @@ jobs:
         env:
           DATA: ${{ secrets.GOOGLE_SERVICES_JSON }}
         run: echo $DATA | base64 -di > /home/runner/work/Roar/Roar/androidApp/google-services.json
-      - name: Assemble release
-        run: ./gradlew assembleRelease
-
-      - name: Sign APK
-        id: sign_apk
-        uses: r0adkll/sign-android-release@v1
-        with:
-          releaseDirectory: app/build/outputs/apk/release
-          signingKeyBase64: ${{ secrets.SIGNING_KEY }}
-          alias: ${{ secrets.ALIAS }}
-          keyStorePassword: ${{ secrets.KEYSTOREPASSWORD }}
-          keyPassword: ${{ secrets.KEYSTOREPASSWORD }}
-
-      - name: Make artifact
-        uses: actions/upload-artifact@v2
-        with:
-          name: app-release-signed
-          path: ${{steps.sign_apk.outputs.signedReleaseFile}}
 
       - name: Build AAB
         run: bash ./gradlew bundleRelease
@@ -48,7 +30,7 @@ jobs:
         id: sign_aab
         uses: r0adkll/sign-android-release@v1
         with:
-          releaseDirectory: app/build/outputs/bundle/release
+          releaseDirectory: androidApp/release
           signingKeyBase64: ${{ secrets.SIGNINGKEYBASE64 }}
           alias: ${{ secrets.ALIAS }}
           keyStorePassword: ${{ secrets.KEYSTOREPASSWORD }}
