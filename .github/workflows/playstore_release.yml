@@ -8,7 +8,7 @@ on:
 
 jobs:
   setup:
-    name: Build and Upload to Firebase
+    name: Build and Upload to Play Store
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v1
@@ -30,7 +30,7 @@ jobs:
         id: sign_aab
         uses: r0adkll/sign-android-release@v1
         with:
-          releaseDirectory: androidApp/release
+          releaseDirectory: androidApp/build/outputs/bundle/release
           signingKeyBase64: ${{ secrets.SIGNINGKEYBASE64 }}
           alias: ${{ secrets.ALIAS }}
           keyStorePassword: ${{ secrets.KEYSTOREPASSWORD }}
