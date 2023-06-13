@@ -2,9 +2,7 @@ name: Build & upload to Play Console
 
 on:
   push:
-    branches:
-      - master
-#    tags: 'release/*'
+    tags: 'release/*'
 
 jobs:
   setup:
