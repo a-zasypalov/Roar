@@ -51,4 +51,3 @@ jobs:
           track: internal
           status: inProgress
           inAppUpdatePriority: 2
-          userFraction: 1.0
