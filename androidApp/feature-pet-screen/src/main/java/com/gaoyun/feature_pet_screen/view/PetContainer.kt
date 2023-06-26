@@ -64,6 +64,7 @@ fun PetContainer(
                     interaction = interaction,
                     showLastReminder = showLastReminder,
                     elevation = 24.dp,
+                    shadowElevation = 2.dp,
                     shape = MaterialTheme.shapes.large,
                     onClick = onInteractionClick,
                     onInteractionCheckClicked = onInteractionCheckClicked,

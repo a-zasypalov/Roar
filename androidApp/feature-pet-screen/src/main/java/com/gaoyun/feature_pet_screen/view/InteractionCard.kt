@@ -48,6 +48,7 @@ fun InteractionCard(
     onClick: (String) -> Unit,
     onInteractionCheckClicked: (String, Boolean, LocalDateTime) -> Unit,
     modifier: Modifier = Modifier,
+    shadowElevation: Dp = 0.dp,
 ) {
 
     val reminderIdToShow = remember { mutableStateOf<String?>(null) }
@@ -55,6 +56,7 @@ fun InteractionCard(
 
     Surface(
         tonalElevation = elevation,
+        shadowElevation = shadowElevation,
         shape = shape,
         modifier = modifier,
     ) {

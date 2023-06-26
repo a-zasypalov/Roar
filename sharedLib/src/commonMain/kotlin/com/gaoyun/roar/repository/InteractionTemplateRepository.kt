@@ -28,10 +28,14 @@ class InteractionTemplateRepositoryImpl(
         val templatesLastUpdatedDateTime = preferences.getLong(INTERACTION_TEMPLATES_LAST_UPDATE, 0L)
 
         return if (cachedTemplates.isEmpty() || (templatesLastUpdatedDateTime < Clock.System.now().toEpochMilliseconds() - DAY_MILLIS)) {
-            api.getInteractionTemplatesByPetType(type).items
-                .map { template -> template.toDomain() }
-                .onEach { template -> insertInteractionTemplate(template) }
-                .also { preferences.setLong(INTERACTION_TEMPLATES_LAST_UPDATE, Clock.System.now().toEpochMilliseconds()) }
+            try {
+                api.getInteractionTemplatesByPetType(type).items
+                    .map { template -> template.toDomain() }
+                    .onEach { template -> insertInteractionTemplate(template) }
+                    .also { preferences.setLong(INTERACTION_TEMPLATES_LAST_UPDATE, Clock.System.now().toEpochMilliseconds()) }
+            } catch(e: Exception) {
+                cachedTemplates
+            }
         } else {
             cachedTemplates
         }

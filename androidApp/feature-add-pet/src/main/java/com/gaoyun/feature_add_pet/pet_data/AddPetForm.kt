@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
@@ -98,6 +99,7 @@ internal fun AddPetForm(
                 modifier = Modifier
                     .fillMaxWidth()
                     .verticalScroll(rememberScrollState())
+                    .navigationBarsPadding()
             ) {
                 PetDataFormHeader(avatar, petToEdit, petName, onAvatarEditClick)
 
@@ -191,7 +193,7 @@ internal fun AddPetForm(
                     },
                 )
 
-                Spacer(size = 32.dp)
+                Spacer(size = 16.dp)
 
             }
         }
