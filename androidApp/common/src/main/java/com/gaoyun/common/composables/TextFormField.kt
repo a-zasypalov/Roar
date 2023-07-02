@@ -29,7 +29,7 @@ fun TextFormField(
     isEnabled: Boolean = true,
     readOnly: Boolean = false,
     isError: Boolean = false,
-    shape: Shape = TextFieldDefaults.outlinedShape,
+    shape: Shape = OutlinedTextFieldDefaults.shape,
     keyboardCapitalization: KeyboardCapitalization = KeyboardCapitalization.Sentences
 ) {
     OutlinedTextField(
@@ -49,7 +49,7 @@ fun TextFormField(
         keyboardActions = keyBoardActions,
         enabled = isEnabled,
         shape = shape,
-        colors = TextFieldDefaults.outlinedTextFieldColors(
+        colors = OutlinedTextFieldDefaults.colors(
             focusedBorderColor = MaterialTheme.colorScheme.onSurface,
             unfocusedBorderColor = MaterialTheme.colorScheme.onSurface,
             focusedLabelColor = MaterialTheme.colorScheme.onSurface,

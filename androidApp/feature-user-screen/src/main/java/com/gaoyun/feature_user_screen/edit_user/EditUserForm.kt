@@ -1,4 +1,4 @@
-package com.gaoyun.feature_user_screen
+package com.gaoyun.feature_user_screen.edit_user
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
