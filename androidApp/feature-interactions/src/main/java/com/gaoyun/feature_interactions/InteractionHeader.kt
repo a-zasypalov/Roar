@@ -59,7 +59,8 @@ internal fun InteractionHeader(
 
         Row(
             modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.SpaceBetween
+            horizontalArrangement = Arrangement.SpaceBetween,
+            verticalAlignment = Alignment.CenterVertically,
         ) {
             AutoResizeText(
                 text = interaction.name,
@@ -93,7 +94,7 @@ internal fun InteractionHeader(
             }
         }
 
-        Spacer(size = 32.dp)
+        Spacer(size = 16.dp)
 
         Surface(
             tonalElevation = 64.dp,

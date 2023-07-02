@@ -18,6 +18,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.gaoyun.common.DateUtils
@@ -86,7 +87,7 @@ fun InteractionCard(
                 Column(modifier = Modifier.weight(1f)) {
                     Text(
                         interaction.name,
-                        style = MaterialTheme.typography.titleLarge,
+                        style = MaterialTheme.typography.headlineSmall.copy(fontWeight = FontWeight.Normal),
                         color = MaterialTheme.colorScheme.onSurface
                     )
 

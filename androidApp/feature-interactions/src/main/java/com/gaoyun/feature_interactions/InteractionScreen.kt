@@ -207,8 +207,7 @@ fun InteractionScreenDestination(
                             item {
                                 Text(
                                     text = stringResource(id = R.string.next),
-                                    style = MaterialTheme.typography.headlineMedium,
-                                    color = MaterialTheme.colorScheme.onSurface,
+                                    style = MaterialTheme.typography.headlineSmall,                                    color = MaterialTheme.colorScheme.onSurface,
                                     modifier = Modifier.padding(vertical = 16.dp, horizontal = 8.dp)
                                 )
                             }
@@ -226,7 +225,7 @@ fun InteractionScreenDestination(
                             item {
                                 Text(
                                     text = stringResource(id = R.string.history),
-                                    style = MaterialTheme.typography.headlineMedium,
+                                    style = MaterialTheme.typography.headlineSmall,
                                     color = MaterialTheme.colorScheme.onSurface,
                                     modifier = Modifier.padding(vertical = 16.dp, horizontal = 8.dp)
                                 )

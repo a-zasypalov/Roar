@@ -41,18 +41,18 @@ fun PetContainer(
         if (pet.interactions.isNotEmpty()) {
             Text(
                 text = stringResource(id = R.string.reminders),
-                style = MaterialTheme.typography.headlineMedium,
+                style = MaterialTheme.typography.headlineLarge,
                 color = MaterialTheme.colorScheme.onSurface,
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(vertical = 16.dp, horizontal = 8.dp)
+                    .padding(top = 4.dp, bottom = 4.dp, start = 8.dp, end = 8.dp)
             )
         }
 
         pet.interactions.map {
             Text(
                 text = stringResource(id = it.key.toLocalizedStringId()),
-                style = MaterialTheme.typography.titleLarge,
+                style = MaterialTheme.typography.headlineSmall,
                 color = MaterialTheme.colorScheme.onSurface,
                 modifier = Modifier
                     .fillMaxWidth()

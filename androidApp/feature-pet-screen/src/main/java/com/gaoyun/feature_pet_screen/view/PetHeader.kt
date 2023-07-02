@@ -88,7 +88,7 @@ internal fun PetHeader(
             }
         }
 
-        Spacer(size = 32.dp)
+        Spacer(size = 16.dp)
 
         Surface(
             tonalElevation = 64.dp,
