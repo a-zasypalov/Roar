@@ -1,3 +1,5 @@
+@file:Suppress("UnstableApiUsage")
+
 plugins {
     id("com.android.application")
     id("com.google.gms.google-services")
@@ -6,14 +8,22 @@ plugins {
 }
 
 android {
+
+    val versionMajor = 0
+    val versionMinor = 1
+    val versionPatch = 0
+
+    val versionCodeValue = versionMajor * 10000 + versionMinor * 100 + versionPatch
+    val versionNameValue = "${versionMajor}.${versionMinor}.${versionPatch}"
+
     namespace = "com.gaoyun.roar.android"
     compileSdk = 33
     defaultConfig {
         applicationId = "com.gaoyun.roar.android"
         minSdk = 26
         targetSdk = 33
-        versionCode = 9
-        versionName = "0.0.9"
+        versionCode = versionCodeValue
+        versionName = versionNameValue
         multiDexEnabled = true
     }
     buildFeatures {
@@ -48,6 +58,6 @@ dependencies {
     implementation(project(":androidApp:feature-user-screen"))
     implementation(project(":androidApp:feature-onboarding"))
 
-    implementation("androidx.activity:activity-compose:1.7.1")
+    implementation("androidx.activity:activity-compose:1.7.2")
     implementation("androidx.multidex:multidex:2.0.1")
 }
