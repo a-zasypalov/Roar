@@ -248,8 +248,8 @@
     <string name="interaction_completion_dialog_description">Какую дату считать датой выполнения: сегодня или по расписанию %1$s?</string>
 
     <!--  Notifications  -->
-    <string name="notification_title">Напоминание о %1$s</string>
-    <string name="notification_content_dont_forget">Не забудьте про %1$s</string>
+    <string name="notification_title">%1$s</string>
+    <string name="notification_content_dont_forget">%1$s %2$s</string>
 
     <string name="about_app_button">О приложении</string>
     <string name="home_screen_mode_switcher_title">Развернутый вид на домащнем экране</string>

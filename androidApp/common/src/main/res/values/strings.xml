@@ -188,8 +188,8 @@
     <string name="onboarding_care_assistant">Pet\'s care assistant</string>
     <string name="onboarding_care_reminders">Care reminders</string>
     <string name="onboarding_care_reminders_description">Sometimes pets aren\'t talkative about needs</string>
-    <string name="onboarding_community_project">Community project</string>
-    <string name="onboarding_community_project_description">Roar is a community-driven project</string>
+    <string name="onboarding_community_project">Community</string>
+    <string name="onboarding_community_project_description">Let\'s make life better for pets together!</string>
 
     <string name="date_on">on</string>
     <string name="never_ends">never ends</string>
@@ -234,7 +234,7 @@
 
     <!--  Notifications  -->
     <string name="notification_title">Reminder for %1$s</string>
-    <string name="notification_content_dont_forget">Don\'t forget about %1$s</string>
+    <string name="notification_content_dont_forget">%1$s %2$s</string>
 
     <!-- About page -->
     <string name="about_app_title">About Roar</string>
