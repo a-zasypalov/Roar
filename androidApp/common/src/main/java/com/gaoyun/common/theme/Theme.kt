@@ -11,6 +11,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.unit.dp
 import com.gaoyun.common.theme.colors.BlueColor
 import com.gaoyun.common.theme.colors.GreenColor
 import com.gaoyun.common.theme.colors.OrangeColor
@@ -95,4 +96,15 @@ fun ColorTheme.primaryColor(darkTheme: Boolean) = when (this) {
     ColorTheme.Green -> if (darkTheme) GreenColor.DarkColors.primary else GreenColor.LightColors.primary
     ColorTheme.Blue -> if (darkTheme) BlueColor.DarkColors.primary else BlueColor.LightColors.primary
     ColorTheme.Orange -> if (darkTheme) OrangeColor.DarkColors.primary else OrangeColor.LightColors.primary
+}
+
+object RoarTheme {
+
+    val BACKGROUND_SURFACE_ELEVATION = 0.dp
+    val IMAGE_ITEM_ELEVATION = 16.dp
+    val CLICKABLE_ITEM_ELEVATION = 16.dp
+    val PET_CARD_ELEVATION = 16.dp
+    val CONTENT_CARD_ELEVATION = 12.dp
+    val INFORMATION_CARD_ELEVATION = 64.dp
+
 }

@@ -2,6 +2,7 @@ package com.gaoyun.roar.presentation.home_screen
 
 import com.gaoyun.roar.model.domain.PetWithInteractions
 import com.gaoyun.roar.model.domain.User
+import com.gaoyun.roar.model.domain.interactions.InteractionWithReminders
 import com.gaoyun.roar.presentation.NavigationSideEffect
 import com.gaoyun.roar.presentation.ViewEvent
 import com.gaoyun.roar.presentation.ViewSideEffect
@@ -25,10 +26,10 @@ class HomeScreenContract {
     data class State(
         val user: User? = null,
         val pets: List<PetWithInteractions> = emptyList(),
+        val inactiveInteractions: List<InteractionWithReminders> = listOf(),
         val isLoading: Boolean = false,
         val showPetChooser: Boolean = false,
         val deletePetDialogShow: Boolean = false,
-        val showLastReminder: Boolean = false,
         val screenModeFull: Boolean = true,
     ) : ViewState
 

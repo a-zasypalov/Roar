@@ -1,12 +1,18 @@
 package com.gaoyun.feature_add_pet
 
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.*
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -20,6 +26,7 @@ import com.gaoyun.common.R
 import com.gaoyun.common.composables.RoarIcon
 import com.gaoyun.common.composables.SurfaceScaffold
 import com.gaoyun.common.ext.getDrawableByName
+import com.gaoyun.common.theme.RoarTheme
 import com.gaoyun.common.theme.RoarThemePreview
 import com.gaoyun.roar.config.PetsConfig
 import com.gaoyun.roar.presentation.BackNavigationEffect
@@ -85,7 +92,7 @@ private fun ChoosePetType(
             items(petTypes) { type ->
                 Surface(
                     shadowElevation = 2.dp,
-                    tonalElevation = 12.dp,
+                    tonalElevation = RoarTheme.CONTENT_CARD_ELEVATION,
                     shape = RoundedCornerShape(16.dp),
                     modifier = Modifier.padding(8.dp)
                 ) {

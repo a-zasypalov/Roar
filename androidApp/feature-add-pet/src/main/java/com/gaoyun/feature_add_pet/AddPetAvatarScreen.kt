@@ -6,7 +6,6 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.grid.*
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -24,6 +23,7 @@ import androidx.lifecycle.Lifecycle
 import com.gaoyun.common.OnLifecycleEvent
 import com.gaoyun.common.composables.SurfaceScaffold
 import com.gaoyun.common.ext.getDrawableByName
+import com.gaoyun.common.theme.RoarTheme
 import com.gaoyun.common.theme.RoarThemePreview
 import com.gaoyun.roar.config.PetsConfig
 import com.gaoyun.roar.presentation.BackNavigationEffect
@@ -112,7 +112,7 @@ private fun LazyGridItemScope.AvatarItem(
     val context = LocalContext.current
     Surface(
         shadowElevation = 2.dp,
-        tonalElevation = 12.dp,
+        tonalElevation = RoarTheme.CONTENT_CARD_ELEVATION,
         shape = RoundedCornerShape(16.dp),
         modifier = Modifier
             .animateItemPlacement()

@@ -101,7 +101,7 @@ fun AboutScreenContent() {
         Spacer(size = 32.dp)
 
         Surface(
-            tonalElevation = 16.dp,
+            tonalElevation = RoarTheme.IMAGE_ITEM_ELEVATION,
             modifier = Modifier
                 .clip(MaterialTheme.shapes.extraLarge)
                 .size(120.dp)
@@ -185,7 +185,7 @@ private fun LinkItem(icon: ImageVector, modifier: Modifier = Modifier) {
 @Composable
 private fun LinkItem(icon: Painter, modifier: Modifier = Modifier) {
     Surface(
-        tonalElevation = 16.dp,
+        tonalElevation = RoarTheme.CLICKABLE_ITEM_ELEVATION,
         modifier = modifier.clip(MaterialTheme.shapes.medium)
     ) {
         Icon(

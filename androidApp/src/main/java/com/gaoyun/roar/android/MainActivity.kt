@@ -14,7 +14,6 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.ui.unit.dp
 import androidx.core.content.ContextCompat
 import androidx.core.view.WindowCompat
 import androidx.lifecycle.lifecycleScope
@@ -84,7 +83,7 @@ class MainActivity : AppCompatActivity() {
                 userPreferenceDynamicColorsIsActive = isDynamicColorsActive,
                 colorTheme = colorTheme ?: ColorTheme.Orange
             ) {
-                Surface(tonalElevation = 2.dp) {
+                Surface(tonalElevation = RoarTheme.BACKGROUND_SURFACE_ELEVATION) {
                     GlobalDestinationState(isOnboardingComplete = isOnboardingComplete)
                 }
             }
@@ -130,27 +129,27 @@ class MainActivity : AppCompatActivity() {
 
     private fun showSettingDialog() {
         MaterialAlertDialogBuilder(this)
-            .setTitle("Notification Permission")
-            .setMessage("Notification permission is required, Please allow notification permission from setting")
-            .setPositiveButton("Ok") { _, _ ->
+            .setTitle(com.gaoyun.common.R.string.notification_title)
+            .setMessage(com.gaoyun.common.R.string.notification_permission_dialog_text)
+            .setPositiveButton(com.gaoyun.common.R.string.ok) { _, _ ->
                 val intent = Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS)
                 intent.data = Uri.parse("package:$packageName")
                 startActivity(intent)
             }
-            .setNegativeButton("Cancel", null)
+            .setNegativeButton(com.gaoyun.common.R.string.cancel, null)
             .show()
     }
 
     private fun showNotificationPermissionRationale() {
         MaterialAlertDialogBuilder(this)
-            .setTitle("Alert")
-            .setMessage("Notification permission is required, to show notification")
-            .setPositiveButton("Ok") { _, _ ->
+            .setTitle(com.gaoyun.common.R.string.alert)
+            .setMessage(com.gaoyun.common.R.string.notification_permission_rationale_dialog_text)
+            .setPositiveButton(com.gaoyun.common.R.string.ok) { _, _ ->
                 if (Build.VERSION.SDK_INT >= 33) {
                     notificationPermissionLauncher.launch(android.Manifest.permission.POST_NOTIFICATIONS)
                 }
             }
-            .setNegativeButton("Cancel", null)
+            .setNegativeButton(com.gaoyun.common.R.string.cancel, null)
             .show()
     }
 

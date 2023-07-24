@@ -41,6 +41,7 @@ import com.gaoyun.common.ext.remindConfigTextFull
 import com.gaoyun.common.ext.repeatConfigTextFull
 import com.gaoyun.common.ext.toLocalizedStringId
 import com.gaoyun.common.icon
+import com.gaoyun.common.theme.RoarTheme
 import com.gaoyun.roar.model.domain.Pet
 import com.gaoyun.roar.model.domain.interactions.InteractionGroup
 import com.gaoyun.roar.model.domain.interactions.InteractionWithReminders
@@ -78,7 +79,7 @@ internal fun InteractionHeader(
             Spacer(8.dp)
 
             Surface(
-                tonalElevation = 64.dp,
+                tonalElevation = RoarTheme.INFORMATION_CARD_ELEVATION,
                 modifier = Modifier
                     .fillMaxHeight()
                     .weight(0.2f),
@@ -97,7 +98,7 @@ internal fun InteractionHeader(
         Spacer(size = 16.dp)
 
         Surface(
-            tonalElevation = 64.dp,
+            tonalElevation = RoarTheme.INFORMATION_CARD_ELEVATION,
             shape = MaterialTheme.shapes.large,
         ) {
             Column(
