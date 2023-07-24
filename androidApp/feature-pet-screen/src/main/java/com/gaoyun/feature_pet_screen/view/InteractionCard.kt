@@ -29,7 +29,7 @@ import com.gaoyun.common.composables.Spacer
 import com.gaoyun.common.ext.repeatConfigTextShort
 import com.gaoyun.common.icon
 import com.gaoyun.roar.model.domain.interactions.InteractionWithReminders
-import com.gaoyun.roar.util.toLocalDate
+import com.gaoyun.roar.util.SharedDateUtils
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -43,7 +43,6 @@ import kotlinx.datetime.toLocalDateTime
 @Composable
 fun InteractionCard(
     interaction: InteractionWithReminders,
-    showLastReminder: Boolean,
     elevation: Dp,
     shape: Shape,
     onClick: (String) -> Unit,
@@ -52,7 +51,11 @@ fun InteractionCard(
     shadowElevation: Dp = 0.dp,
 ) {
 
-    val reminderIdToShow = remember { mutableStateOf<String?>(null) }
+    val reminderToShow = if (interaction.reminders.any { it.isCompleted }) {
+        interaction.reminders.filter { it.isCompleted }.maxByOrNull { it.dateTime }
+    } else {
+        interaction.reminders.filter { !it.isCompleted }.minByOrNull { it.dateTime }
+    }
     val nextReminderLabel = remember { mutableStateOf<String?>(null) }
 
     Surface(
@@ -66,7 +69,6 @@ fun InteractionCard(
                 onClick(interaction.id)
                 MainScope().launch {
                     delay(300)
-                    reminderIdToShow.value = null
                     nextReminderLabel.value = null
                 }
             }
@@ -101,30 +103,11 @@ fun InteractionCard(
 
             Spacer(size = 8.dp)
 
-            val reminderToShow = if (reminderIdToShow.value != null) {
-                var reminder = interaction.reminders.firstOrNull { it.id == reminderIdToShow.value }
-                if (reminder == null || interaction.reminders.sortedByDescending { it.dateTime }.indexOf(reminder) > 1) {
-                    reminder = interaction.reminders
-                        .filter { !it.isCompleted || it.dateTime > Clock.System.now().toLocalDateTime(TimeZone.currentSystemDefault()) }
-                        .maxByOrNull { it.dateTime }
-                        .also {
-                            reminderIdToShow.value = it?.id
-                            nextReminderLabel.value = null
-                        }
-                }
-                reminder
-            } else {
-                interaction.reminders
-                    .filter { !it.isCompleted || it.dateTime > Clock.System.now().toLocalDateTime(TimeZone.currentSystemDefault()) }
-                    .maxByOrNull { it.dateTime }
-                    .also { reminderIdToShow.value = it?.id }
-            }
-
             if (reminderToShow != null) {
                 LabelledCheckBox(
                     checked = reminderToShow.isCompleted,
                     label = "${
-                        if (reminderToShow.dateTime.date.year != Clock.System.now().toLocalDate().year) {
+                        if (reminderToShow.dateTime.date.year != SharedDateUtils.currentYear()) {
                             reminderToShow.dateTime.date.toJavaLocalDate().format(DateUtils.ddMmmmYyyyDateFormatter)
                         } else {
                             reminderToShow.dateTime.date.toJavaLocalDate().format(DateUtils.ddMmmmDateFormatter)
@@ -142,9 +125,9 @@ fun InteractionCard(
                 interaction.reminders
                     .filter { !it.isCompleted || it.dateTime > Clock.System.now().toLocalDateTime(TimeZone.currentSystemDefault()) }
                     .maxByOrNull { it.dateTime }?.let { nextReminder ->
-                        AnimatedVisibility(visible = showLastReminder && nextReminder.id != reminderIdToShow.value) {
+                        AnimatedVisibility(visible = interaction.reminders.size > 1) {
                             val nextReminderText = "${stringResource(id = R.string.next)}: ${
-                                if (nextReminder.dateTime.date.year != Clock.System.now().toLocalDate().year) {
+                                if (nextReminder.dateTime.date.year != SharedDateUtils.currentYear()) {
                                     nextReminder.dateTime.date.toJavaLocalDate().format(DateUtils.ddMmmmYyyyDateFormatter)
                                 } else {
                                     nextReminder.dateTime.date.toJavaLocalDate().format(DateUtils.ddMmmmDateFormatter)

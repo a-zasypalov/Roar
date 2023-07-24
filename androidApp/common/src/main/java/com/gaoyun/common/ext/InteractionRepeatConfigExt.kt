@@ -52,9 +52,9 @@ fun InteractionRepeatConfig.repeatConfigTextFull() =
             )
         )
         if (repeatsEveryPeriodOn != InteractionRepeatConfig.REPEATS_EVERY_PERIOD_ON_EMPTY) {
-            append(" ")
             when (repeatsEveryPeriod) {
                 InteractionRepeatConfigEach.MONTH -> {
+                    append(" ")
                     append(stringResource(id = R.string.date_on))
                     append(" ")
                     repeatsEveryPeriodOn.toIntOrNull()?.let { dayNumber ->
@@ -66,6 +66,7 @@ fun InteractionRepeatConfig.repeatConfigTextFull() =
                     }
                 }
                 InteractionRepeatConfigEach.WEEK -> {
+                    append(" ")
                     append(stringResource(id = R.string.date_on))
                     append(" ")
                     append(repeatsEveryPeriodOn.split(",")

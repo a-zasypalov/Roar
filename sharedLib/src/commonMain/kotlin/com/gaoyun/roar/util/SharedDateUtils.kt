@@ -6,6 +6,7 @@ import kotlinx.datetime.LocalDateTime
 import kotlinx.datetime.LocalTime
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.atTime
+import kotlinx.datetime.minus
 import kotlinx.datetime.toLocalDateTime
 
 object SharedDateUtils {
@@ -15,4 +16,10 @@ object SharedDateUtils {
     fun currentDateAt(hour: Int, minute: Int) = Clock.System.now().toLocalDate().atTime(hour = hour, minute = minute)
     fun currentDate() = Clock.System.now().toLocalDate()
     fun currentDateTime() = Clock.System.now().toLocalDateTime(TimeZone.currentSystemDefault())
+
+    fun currentYear() = currentDate().year
+
+    fun LocalDate.yearsFromNow() = (Clock.System.now().toLocalDate() - this).years
+    fun LocalDate.monthsFromNow() = (Clock.System.now().toLocalDate() - this).months % 12
+    fun LocalDate.daysFromNow() = (Clock.System.now().toLocalDate() - this).days % 365
 }

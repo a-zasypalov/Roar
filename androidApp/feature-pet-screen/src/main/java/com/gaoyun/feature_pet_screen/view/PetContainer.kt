@@ -14,6 +14,7 @@ import androidx.compose.ui.unit.dp
 import com.gaoyun.common.R
 import com.gaoyun.common.composables.Spacer
 import com.gaoyun.common.ext.toLocalizedStringId
+import com.gaoyun.common.theme.RoarTheme
 import com.gaoyun.roar.model.domain.PetWithInteractions
 import com.gaoyun.roar.model.domain.interactions.InteractionWithReminders
 import com.gaoyun.roar.model.domain.withoutInteractions
@@ -63,7 +64,7 @@ fun PetContainer(
             it.value.map { interaction ->
                 InteractionCard(
                     interaction = interaction,
-                    elevation = 24.dp,
+                    elevation = RoarTheme.INTERACTION_CARD_ELEVATION,
                     shadowElevation = 2.dp,
                     shape = MaterialTheme.shapes.large,
                     onClick = onInteractionClick,
@@ -91,8 +92,8 @@ fun PetContainer(
         inactiveInteractions.map { interaction ->
             InactiveInteractionCard(
                 interaction = interaction,
-                elevation = 24.dp,
-                shadowElevation = 2.dp,
+                elevation = RoarTheme.INACTIVE_INTERACTION_CARD_ELEVATION,
+                shadowElevation = 0.dp,
                 shape = MaterialTheme.shapes.large,
                 onClick = onInteractionClick,
                 modifier = Modifier

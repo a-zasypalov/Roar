@@ -3,6 +3,7 @@ package com.gaoyun.common.theme
 import android.annotation.SuppressLint
 import android.os.Build
 import androidx.compose.foundation.isSystemInDarkTheme
+import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.dynamicDarkColorScheme
@@ -100,11 +101,14 @@ fun ColorTheme.primaryColor(darkTheme: Boolean) = when (this) {
 
 object RoarTheme {
 
-    val BACKGROUND_SURFACE_ELEVATION = 0.dp
+    val BACKGROUND_SURFACE_ELEVATION = 2.dp
+
     val IMAGE_ITEM_ELEVATION = 16.dp
     val CLICKABLE_ITEM_ELEVATION = 16.dp
     val PET_CARD_ELEVATION = 16.dp
     val CONTENT_CARD_ELEVATION = 12.dp
+    val INTERACTION_CARD_ELEVATION = 24.dp
+    val INACTIVE_INTERACTION_CARD_ELEVATION = BACKGROUND_SURFACE_ELEVATION + 6.dp
     val INFORMATION_CARD_ELEVATION = 64.dp
 
 }

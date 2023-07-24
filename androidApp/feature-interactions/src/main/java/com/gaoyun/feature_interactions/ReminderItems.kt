@@ -13,11 +13,10 @@ import androidx.compose.ui.unit.dp
 import com.gaoyun.common.DateUtils
 import com.gaoyun.common.R
 import com.gaoyun.common.composables.LabelledCheckBox
+import com.gaoyun.common.theme.RoarTheme
 import com.gaoyun.roar.model.domain.Reminder
 import com.gaoyun.roar.presentation.interactions.InteractionScreenContract
 import com.gaoyun.roar.util.SharedDateUtils
-import com.gaoyun.roar.util.toLocalDate
-import kotlinx.datetime.Clock
 import kotlinx.datetime.toJavaLocalDate
 import kotlinx.datetime.toJavaLocalDateTime
 
@@ -89,7 +88,7 @@ private fun ReminderCard(
     content: @Composable () -> Unit
 ) {
     Surface(
-        tonalElevation = 24.dp,
+        tonalElevation = RoarTheme.INTERACTION_CARD_ELEVATION,
         shape = MaterialTheme.shapes.large,
         modifier = modifier
             .padding(horizontal = 8.dp, vertical = 8.dp)
@@ -106,7 +105,7 @@ private fun ReminderItem(
     LabelledCheckBox(
         checked = reminder.isCompleted,
         label = "${
-            if (reminder.dateTime.date.year != Clock.System.now().toLocalDate().year) {
+            if (reminder.dateTime.date.year != SharedDateUtils.currentYear()) {
                 reminder.dateTime.date.toJavaLocalDate().format(DateUtils.ddMmmmYyyyDateFormatter)
             } else {
                 reminder.dateTime.date.toJavaLocalDate().format(DateUtils.ddMmmmDateFormatter)
