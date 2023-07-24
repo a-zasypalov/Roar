@@ -29,6 +29,7 @@ import com.gaoyun.feature_home_screen.view.UserHomeHeader
 import com.gaoyun.feature_pet_screen.view.PetCard
 import com.gaoyun.feature_pet_screen.view.PetContainer
 import com.gaoyun.roar.model.domain.PetWithInteractions
+import com.gaoyun.roar.model.domain.interactions.InteractionWithReminders
 import com.gaoyun.roar.presentation.home_screen.HomeScreenContract
 import kotlinx.datetime.LocalDateTime
 
@@ -37,7 +38,7 @@ import kotlinx.datetime.LocalDateTime
 fun HomeState(
     screenModeFull: Boolean,
     pets: List<PetWithInteractions>,
-    showLastReminder: Boolean,
+    inactiveInteractions: List<InteractionWithReminders>,
     onAddPetButtonClick: () -> Unit,
     onPetCardClick: (petId: String) -> Unit,
     onInteractionClick: (HomeScreenContract.Event.InteractionClicked) -> Unit,
@@ -73,7 +74,7 @@ fun HomeState(
                 val pet = pets.first()
                 PetContainer(
                     pet = pet,
-                    showLastReminder = showLastReminder,
+                    inactiveInteractions = inactiveInteractions,
                     onInteractionClick = { interactionId -> onInteractionClick(HomeScreenContract.Event.InteractionClicked(petId = pet.id, interactionId = interactionId)) },
                     onDeletePetClick = { onDeletePetClick(HomeScreenContract.Event.OnDeletePetClicked(pet = pet)) },
                     onEditPetClick = { onEditPetClick(HomeScreenContract.Event.ToEditPetClicked(pet = pet)) },
@@ -112,7 +113,6 @@ fun HomeState(
                 PetCard(
                     pet = pet,
                     onPetCardClick = onPetCardClick,
-                    showLastReminder = showLastReminder,
                     onInteractionClick = { interactionId -> onInteractionClick(HomeScreenContract.Event.InteractionClicked(petId = pet.id, interactionId = interactionId)) },
                     onInteractionCheckClicked = { interactionId, isChecked, completionDateTime ->
                         onInteractionCheckClicked(
@@ -134,6 +134,6 @@ fun HomeState(
 @Composable
 fun HomeStatePreview() {
     RoarTheme {
-        HomeState(true, listOf(PetWithInteractions.preview()), false, {}, {}, { _ -> }, {}, {}, { _, _, _, _ -> }, {}, rememberLazyListState())
+        HomeState(true, listOf(PetWithInteractions.preview()), listOf(), {}, {}, { _ -> }, {}, {}, { _, _, _, _ -> }, {}, rememberLazyListState())
     }
 }

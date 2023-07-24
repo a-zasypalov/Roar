@@ -15,13 +15,14 @@ import com.gaoyun.common.R
 import com.gaoyun.common.composables.Spacer
 import com.gaoyun.common.ext.toLocalizedStringId
 import com.gaoyun.roar.model.domain.PetWithInteractions
+import com.gaoyun.roar.model.domain.interactions.InteractionWithReminders
 import com.gaoyun.roar.model.domain.withoutInteractions
 import kotlinx.datetime.LocalDateTime
 
 @Composable
 fun PetContainer(
     pet: PetWithInteractions,
-    showLastReminder: Boolean,
+    inactiveInteractions: List<InteractionWithReminders>,
     onInteractionClick: (String) -> Unit,
     onDeletePetClick: () -> Unit,
     onEditPetClick: (String) -> Unit,
@@ -62,7 +63,6 @@ fun PetContainer(
             it.value.map { interaction ->
                 InteractionCard(
                     interaction = interaction,
-                    showLastReminder = showLastReminder,
                     elevation = 24.dp,
                     shadowElevation = 2.dp,
                     shape = MaterialTheme.shapes.large,
@@ -73,6 +73,32 @@ fun PetContainer(
                         .fillMaxWidth()
                 )
             }
+        }
+
+        Spacer(size = 32.dp)
+
+        if (inactiveInteractions.isNotEmpty()) {
+            Text(
+                text = stringResource(id = R.string.inactive_reminders_title),
+                style = MaterialTheme.typography.headlineLarge,
+                color = MaterialTheme.colorScheme.onSurface,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(top = 4.dp, bottom = 4.dp, start = 8.dp, end = 8.dp)
+            )
+        }
+
+        inactiveInteractions.map { interaction ->
+            InactiveInteractionCard(
+                interaction = interaction,
+                elevation = 24.dp,
+                shadowElevation = 2.dp,
+                shape = MaterialTheme.shapes.large,
+                onClick = onInteractionClick,
+                modifier = Modifier
+                    .padding(horizontal = 8.dp, vertical = 8.dp)
+                    .fillMaxWidth()
+            )
         }
 
         Spacer(size = 32.dp)
