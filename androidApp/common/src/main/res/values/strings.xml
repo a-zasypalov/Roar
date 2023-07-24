@@ -60,6 +60,11 @@
     <string name="reminder_ends_on">Reminder ends on</string>
     <string name="occurrences">occurrences</string>
     <string name="cancel">Cancel</string>
+    <string name="notification_permission_dialog_title">Notification Permission</string>
+    <string name="notification_permission_dialog_text">Notification permission is required, Please allow notification permission from setting</string>
+    <string name="notification_permission_rationale_dialog_text">Notification permission is required, to show notification</string>
+    <string name="ok">OK</string>
+    <string name="alert">Alert</string>
     <string name="dash">-</string>
     <string name="done">Done</string>
     <string name="reminder">Reminder</string>
@@ -96,6 +101,9 @@
     <string name="delete_interaction">Delete interaction</string>
     <string name="no_repeat">No repeat</string>
     <string name="no_active_reminder">No active reminder</string>
+    <string name="inactive_reminders_title">Inactive</string>
+    <string name="last_occurrence_on"></string>
+    <string name="n_occurrences">%1$d occurrences, last was %2$s</string>
     <string name="reminders">Reminders</string>
     <string name="edit_pet">Edit pet</string>
     <string name="delete_pet">Delete pet</string>

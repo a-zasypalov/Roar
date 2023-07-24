@@ -10,6 +10,7 @@ import com.gaoyun.roar.domain.user.GetCurrentUserUseCase
 import com.gaoyun.roar.domain.user.RegisterUserUseCase
 import com.gaoyun.roar.model.domain.PetWithInteractions
 import com.gaoyun.roar.model.domain.User
+import com.gaoyun.roar.model.domain.interactions.InteractionWithReminders
 import com.gaoyun.roar.model.domain.interactions.withReminders
 import com.gaoyun.roar.model.domain.interactions.withoutReminders
 import com.gaoyun.roar.model.domain.withInteractions
@@ -25,7 +26,9 @@ import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
+import kotlinx.datetime.LocalDate
 import kotlinx.datetime.LocalDateTime
+import kotlinx.datetime.LocalTime
 
 class HomeScreenViewModel(
     private val checkUserExistingUseCase: CheckUserExistingUseCase,
@@ -40,7 +43,7 @@ class HomeScreenViewModel(
     private val syncApi: SynchronisationApi,
 ) : BaseViewModel<HomeScreenContract.Event, HomeScreenContract.State, HomeScreenContract.Effect>() {
 
-    override fun setInitialState() = HomeScreenContract.State(null, emptyList(), true)
+    override fun setInitialState() = HomeScreenContract.State(null, emptyList(), listOf(), true)
 
     override fun handleEvents(event: HomeScreenContract.Event) {
         when (event) {
@@ -102,6 +105,7 @@ class HomeScreenViewModel(
         val screenModeFull = appPreferencesUseCase.homeScreenModeFull()
         val remindersPerPet = appPreferencesUseCase.numberOfRemindersOnMainScreen()
         val pets = (getPetUseCase.getPetByUserId(user.id).firstOrNull() ?: emptyList())
+        var inactiveInteractions = listOf<InteractionWithReminders>()
 
         val petsState = if (pets.size > 1 || screenModeFull.not()) {
             pets.map { pet ->
@@ -112,10 +116,9 @@ class HomeScreenViewModel(
                     .sortedBy { it.dateTime }
                     .take(remindersPerPet)
 
-                val interactionsToShow = interactions.map { it.withoutReminders().withReminders(reminders.filter { r -> r.interactionId == it.id }) }
+                val interactionsToShow = interactions.map { it.withReminders(reminders.filter { r -> r.interactionId == it.id }) }
                     .filter { it.reminders.isNotEmpty() }
                     .sortedBy { it.reminders.minOfOrNull { r -> r.dateTime } ?: MAX_DATE }
-                    .groupBy { it.group }
 
                 pet.withInteractions(interactionsToShow)
             }.sortedBy { pet ->
@@ -125,15 +128,29 @@ class HomeScreenViewModel(
         } else {
             pets.map { pet ->
                 val interactionsToShow = (getInteractions.getInteractionByPet(pet.id).firstOrNull() ?: emptyList())
-                    .sortedBy { it.reminders.filter { r -> r.isCompleted.not() }.minOfOrNull { r -> r.dateTime } }
+                    .filter { it.reminders.any { r -> !r.isCompleted } }
+                    .map {
+                        it.withReminders(it.reminders.toMutableList().filter { !it.isCompleted })
+                    }
+                    .sortedBy { v ->
+                        v.reminders.filter { r -> !r.isCompleted }.minOfOrNull { r -> r.dateTime }
+                            ?: LocalDateTime(LocalDate.fromEpochDays(0), LocalTime(0, 0, 0))
+                    }
                     .groupBy { it.group }
+
+                inactiveInteractions = (getInteractions.getInteractionByPet(pet.id).firstOrNull() ?: emptyList())
+                    .filter { it.reminders.all { r -> r.isCompleted } }
+                    .sortedByDescending { v ->
+                        v.reminders.maxOfOrNull { r -> r.dateTime }
+                            ?: LocalDateTime(LocalDate.fromEpochDays(0), LocalTime(0, 0, 0))
+                    }
 
                 pet.withInteractions(interactionsToShow)
             }
         }
 
         if (petsState.isNotEmpty()) {
-            setState { copy(user = user, pets = petsState, isLoading = false, screenModeFull = screenModeFull) }
+            setState { copy(user = user, pets = petsState, inactiveInteractions = inactiveInteractions, isLoading = false, screenModeFull = screenModeFull) }
         } else {
             setState { copy(user = user, pets = emptyList(), isLoading = false, screenModeFull = screenModeFull) }
         }
@@ -145,8 +162,10 @@ class HomeScreenViewModel(
                 if (petItem.id == pet.id) {
                     val newInteractions = petItem.interactions.toMutableMap()
                     val newList = newInteractions[interaction.group]?.toMutableList()?.apply {
-                        removeAll { item -> item.id == interaction.id }
-                        add(interaction)
+                        indexOfFirst { item -> item.id == interaction.id }.takeIf { it > -1 }?.let { index ->
+                            val interactionToShow = if (isComplete) interaction else interaction.withReminders(interaction.reminders.filter { !it.isCompleted })
+                            set(index, interactionToShow)
+                        }
                     }
                     newInteractions[interaction.group] = newList ?: emptyList()
                     return@map petItem.withoutInteractions().withInteractions(newInteractions)
@@ -154,7 +173,7 @@ class HomeScreenViewModel(
                     return@map petItem
                 }
             }
-            setState { copy(pets = newPets, showLastReminder = showLastReminder || isComplete) }
+            setState { copy(pets = newPets) }
         }
     }
 

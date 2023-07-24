@@ -101,7 +101,7 @@ fun ColorTheme.primaryColor(darkTheme: Boolean) = when (this) {
 
 object RoarTheme {
 
-    val BACKGROUND_SURFACE_ELEVATION = 2.dp
+    val BACKGROUND_SURFACE_ELEVATION = 1.dp
 
     val IMAGE_ITEM_ELEVATION = 16.dp
     val CLICKABLE_ITEM_ELEVATION = 16.dp
