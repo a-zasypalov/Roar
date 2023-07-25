@@ -37,7 +37,7 @@ fun PetContainer(
         PetHeader(
             pet = pet.withoutInteractions(), modifier = Modifier
                 .fillMaxWidth()
-                .padding(top = 8.dp, bottom = 8.dp)
+                .padding(top = 8.dp, bottom = 32.dp)
         )
 
         if (pet.interactions.isNotEmpty()) {

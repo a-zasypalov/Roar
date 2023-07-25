@@ -54,6 +54,8 @@ class MainActivity : AppCompatActivity() {
 
     private val viewModel: MainViewModel by inject()
 
+    private val appUpdater = AppUpdater(this)
+
     private val isOnboardingComplete by lazy {
         this.getSharedPreferences("app_prefs", MODE_PRIVATE)
             .getBoolean(PreferencesKeys.ONBOARDING_COMPLETE, false)
@@ -151,6 +153,11 @@ class MainActivity : AppCompatActivity() {
             }
             .setNegativeButton(com.gaoyun.common.R.string.cancel, null)
             .show()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        appUpdater.checkAppUpdate()
     }
 
     @Composable

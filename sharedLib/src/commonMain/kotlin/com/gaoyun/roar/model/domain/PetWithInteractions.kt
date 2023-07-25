@@ -70,3 +70,5 @@ fun PetWithInteractions.withoutInteractions() = Pet(
     dateCreated = dateCreated,
 )
 
+fun PetWithInteractions.withInteractions(interactions: Map<InteractionGroup, List<InteractionWithReminders>>) = this.copy(interactions = interactions)
+

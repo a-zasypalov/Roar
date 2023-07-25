@@ -3,11 +3,12 @@ package com.gaoyun.roar
 import com.gaoyun.roar.domain.AppPreferencesUseCase
 import com.gaoyun.roar.domain.backup.CreateBackupUseCase
 import com.gaoyun.roar.domain.backup.ImportBackupUseCase
-import com.gaoyun.roar.domain.interaction.GetInteraction
-import com.gaoyun.roar.domain.interaction.InsertInteraction
-import com.gaoyun.roar.domain.interaction.RemoveInteraction
 import com.gaoyun.roar.domain.interaction.ActivateInteraction
 import com.gaoyun.roar.domain.interaction.DeactivateInteraction
+import com.gaoyun.roar.domain.interaction.GetInteraction
+import com.gaoyun.roar.domain.interaction.InsertInteraction
+import com.gaoyun.roar.domain.interaction.InteractionsListBuilder
+import com.gaoyun.roar.domain.interaction.RemoveInteraction
 import com.gaoyun.roar.domain.interaction_template.GetInteractionTemplate
 import com.gaoyun.roar.domain.interaction_template.GetInteractionTemplatesForPetType
 import com.gaoyun.roar.domain.interaction_template.InsertInteractionTemplate
@@ -102,6 +103,8 @@ val useCaseModule = module {
     single { ImportBackupUseCase(get(), get(), get(), get(), get(), get(), get()) }
     single { CompleteOnboardingUseCase(get()) }
     single { AppPreferencesUseCase(get()) }
+
+    single { InteractionsListBuilder(get(), get(), get()) }
 }
 
 val networkModule = module {

@@ -63,7 +63,7 @@ class RoarApp : MultiDexApplication(), KoinComponent {
 val appModule = module {
     viewModel { MainViewModel() }
     viewModel { OnboardingViewModel(get()) }
-    viewModel { HomeScreenViewModel(get(), get(), get(), get(), get(), get(), get(), get(), get(), get()) }
+    viewModel { HomeScreenViewModel(get(), get(), get(), get(), get(), get(), get(), get(), get()) }
     viewModel { RegisterUserViewModel(get(), get()) }
     viewModel { UserScreenViewModel(get(), get(), get(), get(), get(), get(), get()) }
     viewModel { EditUserScreenViewModel(get(), get()) }
@@ -73,7 +73,7 @@ val appModule = module {
     viewModel { AddPetAvatarScreenViewModel(get()) }
     viewModel { AddPetSetupScreenViewModel(get()) }
 
-    viewModel { PetScreenViewModel(get(), get(), get(), get()) }
+    viewModel { PetScreenViewModel(get(), get(), get(), get(), get()) }
     viewModel { InteractionScreenViewModel(get(), get(), get(), get(), get(), get(), get()) }
 
     viewModel { AddReminderScreenViewModel(get(), get(), get()) }

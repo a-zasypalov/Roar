@@ -102,7 +102,6 @@
     <string name="no_repeat">No repeat</string>
     <string name="no_active_reminder">No active reminder</string>
     <string name="inactive_reminders_title">Inactive</string>
-    <string name="last_occurrence_on"></string>
     <string name="n_occurrences">%1$d occurrences, last was %2$s</string>
     <string name="reminders">Reminders</string>
     <string name="edit_pet">Edit pet</string>

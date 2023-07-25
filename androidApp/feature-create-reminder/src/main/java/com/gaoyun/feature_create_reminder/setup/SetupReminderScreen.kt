@@ -1,22 +1,38 @@
 package com.gaoyun.feature_create_reminder.setup
 
-import androidx.compose.foundation.*
-import androidx.compose.foundation.layout.*
-import androidx.compose.material.*
-import androidx.compose.material.icons.filled.*
-import androidx.compose.material3.*
-import androidx.compose.runtime.*
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.SnackbarHost
+import androidx.compose.material3.SnackbarHostState
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.lifecycle.Lifecycle
 import com.gaoyun.common.OnLifecycleEvent
-import com.gaoyun.common.composables.*
+import com.gaoyun.common.composables.AutoResizeText
+import com.gaoyun.common.composables.BoxWithLoader
+import com.gaoyun.common.composables.FontSizeRange
+import com.gaoyun.common.composables.Spacer
+import com.gaoyun.common.composables.SurfaceCard
+import com.gaoyun.common.composables.SurfaceScaffold
+import com.gaoyun.common.composables.surfaceCardFormElevation
+import com.gaoyun.common.composables.surfaceCardFormShape
 import com.gaoyun.common.ext.getDrawableByName
-import com.gaoyun.roar.model.domain.interactions.*
 import com.gaoyun.roar.presentation.BackNavigationEffect
 import com.gaoyun.roar.presentation.LAUNCH_LISTEN_FOR_EFFECTS
 import com.gaoyun.roar.presentation.NavigationSideEffect
@@ -24,7 +40,6 @@ import com.gaoyun.roar.presentation.add_reminder.setup_reminder.SetupReminderScr
 import com.gaoyun.roar.presentation.add_reminder.setup_reminder.SetupReminderScreenViewModel
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.onEach
-import kotlinx.datetime.*
 import org.koin.androidx.compose.getViewModel
 import com.gaoyun.common.R as CommonR
 
@@ -65,7 +80,7 @@ fun SetupReminderDestination(
                 avatar.value = pet.avatar
 
                 Column(
-                    verticalArrangement = Arrangement.Bottom,// Alignment.BottomCenter,
+                    verticalArrangement = Arrangement.Bottom,
                     modifier = Modifier.fillMaxSize()
                 ) {
                     ReminderSetupHeader(
@@ -76,7 +91,9 @@ fun SetupReminderDestination(
                     SurfaceCard(
                         shape = surfaceCardFormShape,
                         elevation = surfaceCardFormElevation(),
-                        modifier = Modifier.padding(horizontal = 6.dp).padding(top = 8.dp),
+                        modifier = Modifier
+                            .padding(horizontal = 6.dp)
+                            .padding(top = 8.dp),
                     ) {
                         ReminderSetupForm(
                             interactionToEdit = state.interactionToEdit,
@@ -121,24 +138,26 @@ private fun ReminderSetupHeader(
     petAvatar: String,
     petName: String,
 ) {
-//    Box(modifier = Modifier.fillMaxSize()) {
-        Row(
-            modifier = Modifier
-                .padding(top = 8.dp, start = 16.dp, end = 12.dp),
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            Image(
-                painter = painterResource(id = LocalContext.current.getDrawableByName(petAvatar)),
-                contentDescription = petName,
-                modifier = Modifier.size(48.dp)
-            )
+    Row(
+        modifier = Modifier
+            .padding(top = 8.dp, start = 16.dp, end = 12.dp),
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        Image(
+            painter = painterResource(id = LocalContext.current.getDrawableByName(petAvatar)),
+            contentDescription = petName,
+            modifier = Modifier.size(48.dp)
+        )
 
-            Spacer(size = 10.dp)
+        Spacer(size = 10.dp)
 
-            Text(
-                text = stringResource(id = CommonR.string.reminder),
-                style = MaterialTheme.typography.displayMedium,
-            )
-        }
-//    }
+        AutoResizeText(
+            text = stringResource(id = CommonR.string.reminder),
+            fontSizeRange = FontSizeRange(
+                min = 20.sp,
+                max = MaterialTheme.typography.displayMedium.fontSize,
+            ),
+            style = MaterialTheme.typography.displayMedium,
+        )
+    }
 }

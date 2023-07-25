@@ -33,6 +33,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Devices
 import androidx.compose.ui.tooling.preview.Preview
@@ -131,6 +132,7 @@ fun AboutScreenContent() {
             Text(
                 text = stringResource(id = R.string.terms_and_conditions_button),
                 style = MaterialTheme.typography.titleMedium,
+                textAlign = TextAlign.Center,
                 modifier = Modifier.padding(horizontal = 32.dp)
             )
         }
@@ -142,7 +144,8 @@ fun AboutScreenContent() {
             Text(
                 text = stringResource(id = R.string.privacy_policy),
                 style = MaterialTheme.typography.titleMedium,
-                modifier = Modifier.padding(horizontal = 32.dp)
+                textAlign = TextAlign.Center,
+                modifier = Modifier.padding(horizontal = 32.dp),
             )
         }
 
