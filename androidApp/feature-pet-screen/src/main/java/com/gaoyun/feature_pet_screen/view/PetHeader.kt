@@ -35,6 +35,7 @@ import com.gaoyun.common.composables.FontSizeRange
 import com.gaoyun.common.composables.Spacer
 import com.gaoyun.common.ext.ageText
 import com.gaoyun.common.ext.getDrawableByName
+import com.gaoyun.common.theme.RoarTheme
 import com.gaoyun.roar.model.domain.Gender
 import com.gaoyun.roar.model.domain.Pet
 
@@ -72,7 +73,7 @@ internal fun PetHeader(
             Spacer(8.dp)
 
             Surface(
-                tonalElevation = 64.dp,
+                tonalElevation = RoarTheme.INFORMATION_CARD_ELEVATION,
                 modifier = Modifier
                     .fillMaxHeight()
                     .weight(0.2f),
@@ -91,7 +92,7 @@ internal fun PetHeader(
         Spacer(size = 16.dp)
 
         Surface(
-            tonalElevation = 64.dp,
+            tonalElevation = RoarTheme.INFORMATION_CARD_ELEVATION,
             shape = MaterialTheme.shapes.large,
         ) {
             Column(

@@ -24,7 +24,10 @@ import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.launch
 import kotlinx.datetime.Instant
 import kotlinx.datetime.LocalDateTime
+import kotlinx.datetime.TimeZone
 import kotlinx.datetime.atTime
+import kotlinx.datetime.toInstant
+import kotlinx.datetime.toLocalDateTime
 
 class SetupReminderScreenViewModel(
     private val getInteractionTemplateUseCase: GetInteractionTemplate,
@@ -123,8 +126,13 @@ class SetupReminderScreenViewModel(
             ).firstOrNull() ?: return@launch
             val reminderToInsert = interactionToEdit.reminders.filter { !it.isCompleted }.maxBy { it.dateTime }.copy(dateTime = dateTime)
 
+            val notificationDateTime = dateTime
+                .toInstant(TimeZone.currentSystemDefault())
+                .minus(remindConfig.toDuration())
+                .toLocalDateTime(TimeZone.currentSystemDefault())
+
             val notificationData = NotificationData(
-                scheduled = reminderToInsert.dateTime,
+                scheduled = notificationDateTime,
                 item = NotificationItem.Reminder(
                     workId = reminderToInsert.notificationJobId ?: randomUUID(),
                     itemId = reminderToInsert.id

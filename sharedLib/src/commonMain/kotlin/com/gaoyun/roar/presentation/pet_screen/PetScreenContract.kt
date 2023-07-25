@@ -24,8 +24,8 @@ class PetScreenContract {
         val isLoading: Boolean = false,
         val pet: Pet? = null,
         val interactions: Map<InteractionGroup, List<InteractionWithReminders>> = mapOf(),
+        val inactiveInteractions: List<InteractionWithReminders> = listOf(),
         val deletePetDialogShow: Boolean = false,
-        val showLastReminder: Boolean = false
     ) : ViewState
 
     sealed class Effect : ViewSideEffect {

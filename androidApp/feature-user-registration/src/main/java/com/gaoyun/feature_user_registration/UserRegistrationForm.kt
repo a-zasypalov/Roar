@@ -31,6 +31,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.gaoyun.common.R
 import com.gaoyun.common.composables.PrimaryElevatedButton
+import com.gaoyun.common.theme.RoarTheme
 import com.gaoyun.common.theme.RoarThemePreview
 import kotlinx.datetime.Clock
 
@@ -54,7 +55,7 @@ fun UserRegistrationForm(
             Box(modifier = Modifier.size(WindowInsets.statusBars.asPaddingValues().calculateTopPadding() + 48.dp))
 
             Surface(
-                tonalElevation = 16.dp,
+                tonalElevation = RoarTheme.IMAGE_ITEM_ELEVATION,
                 modifier = Modifier
                     .clip(MaterialTheme.shapes.extraLarge)
                     .size(160.dp)

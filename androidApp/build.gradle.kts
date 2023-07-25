@@ -60,4 +60,7 @@ dependencies {
 
     implementation("androidx.activity:activity-compose:1.7.2")
     implementation("androidx.multidex:multidex:2.0.1")
+
+    implementation("com.google.android.play:app-update:2.1.0")
+    implementation("com.google.android.play:app-update-ktx:2.1.0")
 }

@@ -174,7 +174,7 @@ fun HomeScreenDestination(onNavigationCall: (NavigationSideEffect) -> Unit) {
                     HomeState(
                         screenModeFull = state.screenModeFull,
                         pets = state.pets,
-                        showLastReminder = state.showLastReminder,
+                        inactiveInteractions = state.inactiveInteractions,
                         onAddPetButtonClick = viewModel::openAddPetScreen,
                         onPetCardClick = viewModel::openPetScreen,
                         onInteractionClick = viewModel::setEvent,

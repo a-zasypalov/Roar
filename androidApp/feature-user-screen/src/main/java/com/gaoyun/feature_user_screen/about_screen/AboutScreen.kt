@@ -33,6 +33,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Devices
 import androidx.compose.ui.tooling.preview.Preview
@@ -101,7 +102,7 @@ fun AboutScreenContent() {
         Spacer(size = 32.dp)
 
         Surface(
-            tonalElevation = 16.dp,
+            tonalElevation = RoarTheme.IMAGE_ITEM_ELEVATION,
             modifier = Modifier
                 .clip(MaterialTheme.shapes.extraLarge)
                 .size(120.dp)
@@ -131,6 +132,7 @@ fun AboutScreenContent() {
             Text(
                 text = stringResource(id = R.string.terms_and_conditions_button),
                 style = MaterialTheme.typography.titleMedium,
+                textAlign = TextAlign.Center,
                 modifier = Modifier.padding(horizontal = 32.dp)
             )
         }
@@ -142,7 +144,8 @@ fun AboutScreenContent() {
             Text(
                 text = stringResource(id = R.string.privacy_policy),
                 style = MaterialTheme.typography.titleMedium,
-                modifier = Modifier.padding(horizontal = 32.dp)
+                textAlign = TextAlign.Center,
+                modifier = Modifier.padding(horizontal = 32.dp),
             )
         }
 
@@ -185,7 +188,7 @@ private fun LinkItem(icon: ImageVector, modifier: Modifier = Modifier) {
 @Composable
 private fun LinkItem(icon: Painter, modifier: Modifier = Modifier) {
     Surface(
-        tonalElevation = 16.dp,
+        tonalElevation = RoarTheme.CLICKABLE_ITEM_ELEVATION,
         modifier = modifier.clip(MaterialTheme.shapes.medium)
     ) {
         Icon(

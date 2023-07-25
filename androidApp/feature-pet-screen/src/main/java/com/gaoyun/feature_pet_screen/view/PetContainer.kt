@@ -14,14 +14,16 @@ import androidx.compose.ui.unit.dp
 import com.gaoyun.common.R
 import com.gaoyun.common.composables.Spacer
 import com.gaoyun.common.ext.toLocalizedStringId
+import com.gaoyun.common.theme.RoarTheme
 import com.gaoyun.roar.model.domain.PetWithInteractions
+import com.gaoyun.roar.model.domain.interactions.InteractionWithReminders
 import com.gaoyun.roar.model.domain.withoutInteractions
 import kotlinx.datetime.LocalDateTime
 
 @Composable
 fun PetContainer(
     pet: PetWithInteractions,
-    showLastReminder: Boolean,
+    inactiveInteractions: List<InteractionWithReminders>,
     onInteractionClick: (String) -> Unit,
     onDeletePetClick: () -> Unit,
     onEditPetClick: (String) -> Unit,
@@ -35,7 +37,7 @@ fun PetContainer(
         PetHeader(
             pet = pet.withoutInteractions(), modifier = Modifier
                 .fillMaxWidth()
-                .padding(top = 8.dp, bottom = 8.dp)
+                .padding(top = 8.dp, bottom = 32.dp)
         )
 
         if (pet.interactions.isNotEmpty()) {
@@ -62,8 +64,7 @@ fun PetContainer(
             it.value.map { interaction ->
                 InteractionCard(
                     interaction = interaction,
-                    showLastReminder = showLastReminder,
-                    elevation = 24.dp,
+                    elevation = RoarTheme.INTERACTION_CARD_ELEVATION,
                     shadowElevation = 2.dp,
                     shape = MaterialTheme.shapes.large,
                     onClick = onInteractionClick,
@@ -73,6 +74,32 @@ fun PetContainer(
                         .fillMaxWidth()
                 )
             }
+        }
+
+        Spacer(size = 32.dp)
+
+        if (inactiveInteractions.isNotEmpty()) {
+            Text(
+                text = stringResource(id = R.string.inactive_reminders_title),
+                style = MaterialTheme.typography.headlineLarge,
+                color = MaterialTheme.colorScheme.onSurface,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(top = 4.dp, bottom = 4.dp, start = 8.dp, end = 8.dp)
+            )
+        }
+
+        inactiveInteractions.map { interaction ->
+            InactiveInteractionCard(
+                interaction = interaction,
+                elevation = RoarTheme.INACTIVE_INTERACTION_CARD_ELEVATION,
+                shadowElevation = 0.dp,
+                shape = MaterialTheme.shapes.large,
+                onClick = onInteractionClick,
+                modifier = Modifier
+                    .padding(horizontal = 8.dp, vertical = 8.dp)
+                    .fillMaxWidth()
+            )
         }
 
         Spacer(size = 32.dp)

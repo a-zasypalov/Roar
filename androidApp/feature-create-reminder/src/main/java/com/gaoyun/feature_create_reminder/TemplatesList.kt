@@ -32,6 +32,7 @@ import com.gaoyun.common.ext.getName
 import com.gaoyun.common.ext.repeatConfigTextShort
 import com.gaoyun.common.ext.toLocalizedStringId
 import com.gaoyun.common.icon
+import com.gaoyun.common.theme.RoarTheme
 import com.gaoyun.common.theme.RoarThemePreview
 import com.gaoyun.roar.model.domain.PetWithInteractions
 import com.gaoyun.roar.model.domain.interactions.InteractionTemplate
@@ -100,7 +101,7 @@ fun TemplatesList(
                 modifier = Modifier
                     .padding(horizontal = 16.dp, vertical = 8.dp),
                 shape = RoundedCornerShape(16.dp),
-                tonalElevation = 12.dp,
+                tonalElevation = RoarTheme.CONTENT_CARD_ELEVATION,
             ) {
                 Column(
                     modifier = Modifier
@@ -151,7 +152,7 @@ fun TemplateItem(
         modifier = Modifier
             .padding(horizontal = 16.dp, vertical = 8.dp),
         shape = RoundedCornerShape(16.dp),
-        tonalElevation = 12.dp,
+        tonalElevation = RoarTheme.CONTENT_CARD_ELEVATION,
     ) {
         Column(
             modifier = Modifier

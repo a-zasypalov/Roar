@@ -30,6 +30,7 @@ fun SurfaceCard(
     }
 }
 
-val surfaceCardFormShape = RoundedCornerShape(topStart = 24.dp, topEnd = 24.dp, bottomStart = 0.dp, bottomEnd = 0.dp)
 @Composable
 fun surfaceCardFormElevation() = CardDefaults.cardElevation(defaultElevation = 24.dp)
+
+val surfaceCardFormShape = RoundedCornerShape(topStart = 24.dp, topEnd = 24.dp, bottomStart = 0.dp, bottomEnd = 0.dp)

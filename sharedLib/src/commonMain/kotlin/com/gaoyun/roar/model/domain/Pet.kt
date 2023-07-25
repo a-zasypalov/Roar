@@ -1,6 +1,7 @@
 package com.gaoyun.roar.model.domain
 
 import com.gaoyun.roar.model.entity.PetEntity
+import com.gaoyun.roar.util.SharedDateUtils
 import com.gaoyun.roar.util.randomUUID
 import com.gaoyun.roar.util.toLocalDate
 import kotlinx.datetime.Clock
@@ -28,7 +29,7 @@ data class Pet(
             name = "Senior Android Developer",
             avatar = "ic_cat_15",
             userId = "123",
-            birthday = Clock.System.now().toLocalDate(),
+            birthday = SharedDateUtils.currentDate(),
             isSterilized = false,
             gender = Gender.MALE,
             chipNumber = "123123456456",

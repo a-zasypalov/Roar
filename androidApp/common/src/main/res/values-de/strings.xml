@@ -117,6 +117,13 @@
     <string name="on_date_arg">Am %1$s</string>
     <string name="open_reminders_menu">Erinnerungsmenü öffnen</string>
     <string name="no_breed">Keine race</string>
+    <string name="notification_permission_dialog_title">Benachrichtigungsberechtigung</string>
+    <string name="notification_permission_dialog_text">Benachrichtigungsberechtigung ist erforderlich, bitte erlauben Sie die Benachrichtigungsberechtigung in den Einstellungen</string>
+    <string name="notification_permission_rationale_dialog_text">Benachrichtigungsberechtigung ist erforderlich, um Benachrichtigungen anzuzeigen</string>
+    <string name="ok">OK</string>
+    <string name="alert">Alarm</string>
+    <string name="inactive_reminders_title">Inaktiv</string>
+    <string name="n_occurrences">%1$d Vorkommen, letztes war %2$s</string>
 
     <plurals name="years">
         <item quantity="one">Jahr</item>
@@ -186,8 +193,8 @@
     <string name="onboarding_care_assistant">Tierbetreuer</string>
     <string name="onboarding_care_reminders">Betreuungserinnerungen</string>
     <string name="onboarding_care_reminders_description">Manchmal sind Tiere nicht in der Lage, ihre Bedürfnisse auszusprechen</string>
-    <string name="onboarding_community_project">Gemeinschaftsprojekt</string>
-    <string name="onboarding_community_project_description">Roar ist ein projektgetriebenes Gemeinschaftsprojekt</string>
+    <string name="onboarding_community_project">Gemeinschaft</string>
+    <string name="onboarding_community_project_description">Gemeinsam das Leben von Haustieren verbessern!</string>
 
     <string name="date_on">am</string>
     <string name="never_ends">endet nie</string>
@@ -232,7 +239,7 @@
 
     <!--  Benachrichtigungen  -->
     <string name="notification_title">Erinnerung für %1$s</string>
-    <string name="notification_content_dont_forget">Vergessen Sie nicht %1$s</string>
+    <string name="notification_content_dont_forget">%1$s %2$s</string>
 
     <string name="about_app_button">Über die App</string>
     <string name="home_screen_mode_switcher_title">Vollständigen Haustierbildschirm anzeigen</string>

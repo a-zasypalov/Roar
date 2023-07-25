@@ -1,12 +1,14 @@
 package com.gaoyun.notifications
 
 import android.content.Context
+import com.gaoyun.common.DateUtils
 import com.gaoyun.roar.domain.interaction.GetInteraction
 import com.gaoyun.roar.domain.pet.GetPetUseCase
 import com.gaoyun.roar.domain.reminder.GetReminder
 import com.gaoyun.roar.model.domain.NotificationData
 import com.gaoyun.roar.model.domain.NotificationItem
 import kotlinx.coroutines.flow.firstOrNull
+import kotlinx.datetime.toJavaLocalDateTime
 import com.gaoyun.common.R as CommonR
 
 class NotificationHandler(
@@ -22,14 +24,19 @@ class NotificationHandler(
         return when (notification.item) {
             is NotificationItem.Reminder -> {
                 val item = notification.item as NotificationItem.Reminder
+                val reminder = getReminder.getReminder(item.itemId).firstOrNull() ?: return false
                 val interaction = getInteraction.getInteractionByReminder(item.itemId).firstOrNull() ?: return false
                 val pet = getPetUseCase.getPet(interaction.petId).firstOrNull() ?: return false
 
-                val reminderIsCompleted = getReminder.getReminder(item.itemId).firstOrNull()?.isCompleted ?: return false
+                val reminderIsCompleted = reminder.isCompleted
                 if (reminderIsCompleted.not()) {
                     displayer.display(
                         title = context.getString(CommonR.string.notification_title, pet.name),
-                        content = context.getString(CommonR.string.notification_content_dont_forget, interaction.name.lowercase()),
+                        content = context.getString(
+                            CommonR.string.notification_content_dont_forget,
+                            interaction.name,
+                            reminder.dateTime.toJavaLocalDateTime().format(DateUtils.ddMmmmDateFormatter)
+                        ),
                         channel = NotificationChannel.PetsReminder,
                         intent = notificationIntentProvider.getDefaultIntent()
                     )

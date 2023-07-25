@@ -83,8 +83,17 @@
     <string name="not_active">Не активно</string>
     <string name="edit">Редактировать</string>
     <string name="are_you_sure">Вы уверены?</string>
+    <string name="inactive_reminders_title">Неактивные</string>
+    <string name="n_occurrences">%1$d повторений, последнее %2$s</string>
     <string name="delete_reminder_from_history_confirmation_text">Вы хотите удалить это напоминание из истории?</string>
     <string name="delete_reminder_completely_confirmation_text">Вы хотите удалить эти напоминания?</string>
+
+    <string name="notification_permission_dialog_title">Уведомления</string>
+    <string name="notification_permission_dialog_text">Для работы напоминаний в приложении необходимо разрешение. Пожалуйста, включите его в настройках</string>
+    <string name="notification_permission_rationale_dialog_text">Разрешение на показ уведомлений необходимо для отправки напоминаний</string>
+    <string name="ok">OK</string>
+    <string name="alert">Внимание</string>
+
     <string name="yes">Да</string>
     <string name="next">Следующее</string>
     <string name="next_button">Далее</string>
@@ -248,8 +257,8 @@
     <string name="interaction_completion_dialog_description">Какую дату считать датой выполнения: сегодня или по расписанию %1$s?</string>
 
     <!--  Notifications  -->
-    <string name="notification_title">Напоминание о %1$s</string>
-    <string name="notification_content_dont_forget">Не забудьте про %1$s</string>
+    <string name="notification_title">%1$s</string>
+    <string name="notification_content_dont_forget">%1$s %2$s</string>
 
     <string name="about_app_button">О приложении</string>
     <string name="home_screen_mode_switcher_title">Развернутый вид на домащнем экране</string>

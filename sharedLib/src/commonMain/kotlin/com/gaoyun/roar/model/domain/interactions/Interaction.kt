@@ -86,6 +86,8 @@ internal fun InteractionWithReminders.withoutReminders(): Interaction {
     )
 }
 
+internal fun InteractionWithReminders.withReminders(reminders: List<Reminder>) = this.copy(reminders = reminders)
+
 internal fun InteractionEntity.toDomain(): Interaction {
     return Interaction(
         id = id,

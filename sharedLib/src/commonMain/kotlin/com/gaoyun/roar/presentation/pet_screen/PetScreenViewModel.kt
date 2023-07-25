@@ -1,6 +1,7 @@
 package com.gaoyun.roar.presentation.pet_screen
 
 import com.gaoyun.roar.domain.interaction.GetInteraction
+import com.gaoyun.roar.domain.interaction.InteractionsListBuilder
 import com.gaoyun.roar.domain.pet.GetPetUseCase
 import com.gaoyun.roar.domain.pet.RemovePetUseCase
 import com.gaoyun.roar.domain.reminder.SetReminderComplete
@@ -9,15 +10,14 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
-import kotlinx.datetime.LocalDate
 import kotlinx.datetime.LocalDateTime
-import kotlinx.datetime.LocalTime
 
 class PetScreenViewModel(
     private val getPetUseCase: GetPetUseCase,
     private val getInteraction: GetInteraction,
     private val removePet: RemovePetUseCase,
     private val setReminderComplete: SetReminderComplete,
+    private val interactionsListBuilder: InteractionsListBuilder,
 ) : BaseViewModel<PetScreenContract.Event, PetScreenContract.State, PetScreenContract.Effect>() {
 
     override fun setInitialState() = PetScreenContract.State(isLoading = true)
@@ -61,10 +61,8 @@ class PetScreenViewModel(
                     copy(
                         pet = pet,
                         isLoading = false,
-                        interactions = interactions.sortedBy { v ->
-                            v.reminders.filter { r -> !r.isCompleted }.minOfOrNull { r -> r.dateTime }
-                                ?: LocalDateTime(LocalDate.fromEpochDays(0), LocalTime(0, 0, 0))
-                        }.groupBy { it.group }
+                        interactions = interactionsListBuilder.buildInitialInteractionsListForPet(interactions),
+                        inactiveInteractions = interactionsListBuilder.buildInactiveInteractionsList(interactions)
                     )
                 }
             }
@@ -77,13 +75,7 @@ class PetScreenViewModel(
 
     private fun setReminderComplete(reminderId: String, isComplete: Boolean, completionDateTime: LocalDateTime) = scope.launch {
         setReminderComplete.setComplete(reminderId, isComplete, completionDateTime).filterNotNull().collect { interaction ->
-            val newInteractions = viewState.value.interactions.toMutableMap()
-            val newList = newInteractions[interaction.group]?.toMutableList()?.apply {
-                removeAll { item -> item.id == interaction.id }
-                add(interaction)
-            }
-            newInteractions[interaction.group] = newList ?: emptyList()
-            setState { copy(interactions = newInteractions, showLastReminder = showLastReminder || isComplete) }
+            setState { copy(interactions = interactionsListBuilder.buildListOnCompletingReminder(viewState.value.interactions, interaction, isComplete)) }
         }
     }
 }

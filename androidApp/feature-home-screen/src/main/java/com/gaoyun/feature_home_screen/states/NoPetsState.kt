@@ -1,7 +1,16 @@
 package com.gaoyun.feature_home_screen.states
 
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.asPaddingValues
+import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.statusBars
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -15,9 +24,9 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.gaoyun.common.theme.RoarTheme
 import com.gaoyun.common.composables.PrimaryElevatedButton
 import com.gaoyun.common.composables.Spacer
+import com.gaoyun.common.theme.RoarTheme
 import com.gaoyun.common.R as CommonR
 
 @Composable
@@ -41,7 +50,7 @@ fun NoPetsState(
             Box(modifier = Modifier.size(WindowInsets.statusBars.asPaddingValues().calculateTopPadding()))
 
             Surface(
-                tonalElevation = 16.dp,
+                tonalElevation = RoarTheme.IMAGE_ITEM_ELEVATION,
                 modifier = Modifier
                     .clip(MaterialTheme.shapes.extraLarge)
                     .size(160.dp)
@@ -55,7 +64,7 @@ fun NoPetsState(
             }
 
             Spacer(size = 24.dp)
-            Text(text = stringResource(id = com.gaoyun.common.R.string.nice_to_meet_you, userName) , style = MaterialTheme.typography.titleLarge, textAlign = TextAlign.Center)
+            Text(text = stringResource(id = com.gaoyun.common.R.string.nice_to_meet_you, userName), style = MaterialTheme.typography.titleLarge, textAlign = TextAlign.Center)
         }
         Column(
             modifier = Modifier

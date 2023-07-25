@@ -1,11 +1,20 @@
 package com.gaoyun.feature_pet_screen
 
-import androidx.compose.foundation.*
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.*
-import androidx.compose.material3.*
-import androidx.compose.runtime.*
+import androidx.compose.material.icons.filled.Add
+import androidx.compose.material3.FabPosition
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
+import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
@@ -13,11 +22,14 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.Lifecycle
 import com.gaoyun.common.OnLifecycleEvent
 import com.gaoyun.common.R
-import com.gaoyun.common.composables.*
+import com.gaoyun.common.composables.BoxWithLoader
+import com.gaoyun.common.composables.RoarExtendedFAB
+import com.gaoyun.common.composables.SurfaceScaffold
 import com.gaoyun.common.dialog.InteractionCompletionDialog
 import com.gaoyun.common.theme.RoarThemePreview
 import com.gaoyun.feature_pet_screen.view.PetContainer
-import com.gaoyun.roar.model.domain.*
+import com.gaoyun.roar.model.domain.PetWithInteractions
+import com.gaoyun.roar.model.domain.withInteractions
 import com.gaoyun.roar.presentation.BackNavigationEffect
 import com.gaoyun.roar.presentation.LAUNCH_LISTEN_FOR_EFFECTS
 import com.gaoyun.roar.presentation.NavigationSideEffect
@@ -26,7 +38,6 @@ import com.gaoyun.roar.presentation.pet_screen.PetScreenViewModel
 import com.gaoyun.roar.util.SharedDateUtils
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.onEach
-import kotlinx.datetime.*
 import org.koin.androidx.compose.getViewModel
 
 @Composable
@@ -62,7 +73,7 @@ fun PetScreenDestination(
         var prev = 0
         snapshotFlow { verticalScroll.value }
             .collect {
-                fabExtended = it*2 <= prev
+                fabExtended = it * 2 <= prev
                 prev = it
             }
     }
@@ -121,7 +132,7 @@ fun PetScreenDestination(
             state.pet?.let { pet ->
                 PetContainer(
                     pet = pet.withInteractions(state.interactions),
-                    showLastReminder = state.showLastReminder,
+                    inactiveInteractions = state.inactiveInteractions,
                     onInteractionClick = { viewModel.setEvent(PetScreenContract.Event.InteractionClicked(it)) },
                     onDeletePetClick = { viewModel.setEvent(PetScreenContract.Event.OnDeletePetClicked) },
                     onEditPetClick = { viewModel.setEvent(PetScreenContract.Event.OnEditPetClick) },
@@ -155,6 +166,6 @@ fun PetScreenDestination(
 @Preview
 fun PetScreenPreview() {
     RoarThemePreview {
-        PetContainer(PetWithInteractions.preview(), true, {}, {}, {}, { _, _, _ -> })
+        PetContainer(PetWithInteractions.preview(), listOf(), {}, {}, {}, { _, _, _ -> })
     }
 }

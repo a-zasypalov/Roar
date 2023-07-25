@@ -8,6 +8,7 @@ import androidx.compose.runtime.MutableState
 import androidx.compose.ui.res.stringResource
 import com.gaoyun.common.DateUtils
 import com.gaoyun.common.R
+import com.gaoyun.roar.util.SharedDateUtils
 import com.gaoyun.roar.util.toLocalDate
 import kotlinx.datetime.Clock
 import kotlinx.datetime.LocalDateTime
@@ -25,7 +26,12 @@ fun InteractionCompletionDialog(
         return
     }
 
-    val date = dateTime.toJavaLocalDateTime().format(DateUtils.ddMmmDateFormatter)
+    val date = if(dateTime.date.year == SharedDateUtils.currentYear()) {
+        dateTime.toJavaLocalDateTime().format(DateUtils.ddMmmDateFormatter)
+    } else {
+        dateTime.toJavaLocalDateTime().format(DateUtils.ddMmmYyyyDateFormatter)
+    }
+
     AlertDialog(
         onDismissRequest = { showCompleteReminderDateDialog.value = false },
         title = { Text(stringResource(id = R.string.interaction_completion_dialog_title)) },

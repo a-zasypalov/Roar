@@ -21,13 +21,14 @@ import androidx.compose.ui.unit.dp
 import com.gaoyun.common.composables.Spacer
 import com.gaoyun.common.ext.ageText
 import com.gaoyun.common.ext.getDrawableByName
+import com.gaoyun.common.theme.RoarTheme
 import com.gaoyun.roar.model.domain.PetWithInteractions
+import com.gaoyun.roar.util.SharedDateUtils
 import kotlinx.datetime.LocalDateTime
 
 @Composable
 fun PetCard(
     pet: PetWithInteractions,
-    showLastReminder: Boolean,
     modifier: Modifier = Modifier,
     onPetCardClick: (petId: String) -> Unit,
     onInteractionClick: (String) -> Unit,
@@ -37,7 +38,7 @@ fun PetCard(
 
     Surface(
         shape = MaterialTheme.shapes.large,
-        tonalElevation = 16.dp,
+        tonalElevation = RoarTheme.PET_CARD_ELEVATION,
         shadowElevation = 2.dp,
         modifier = modifier.padding(horizontal = 16.dp, vertical = 8.dp),
     ) {
@@ -71,10 +72,9 @@ fun PetCard(
                     )
                 }
             }
-            pet.interactions.values.flatten().map { interaction ->
+            pet.interactions.values.flatten().sortedBy { it.reminders.minOfOrNull { r -> r.dateTime } ?: SharedDateUtils.MAX_DATE }.map { interaction ->
                 InteractionCard(
                     interaction = interaction,
-                    showLastReminder = showLastReminder,
                     elevation = 64.dp,
                     shape = MaterialTheme.shapes.medium,
                     onClick = onInteractionClick,
