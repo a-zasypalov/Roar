@@ -54,8 +54,6 @@ class MainActivity : AppCompatActivity() {
 
     private val viewModel: MainViewModel by inject()
 
-    private val appUpdater = AppUpdater(this)
-
     private val isOnboardingComplete by lazy {
         this.getSharedPreferences("app_prefs", MODE_PRIVATE)
             .getBoolean(PreferencesKeys.ONBOARDING_COMPLETE, false)
@@ -131,7 +129,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun showSettingDialog() {
         MaterialAlertDialogBuilder(this)
-            .setTitle(com.gaoyun.common.R.string.notification_title)
+            .setTitle(com.gaoyun.common.R.string.alert)
             .setMessage(com.gaoyun.common.R.string.notification_permission_dialog_text)
             .setPositiveButton(com.gaoyun.common.R.string.ok) { _, _ ->
                 val intent = Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS)
@@ -157,7 +155,7 @@ class MainActivity : AppCompatActivity() {
 
     override fun onResume() {
         super.onResume()
-        appUpdater.checkAppUpdate()
+        AppUpdater.checkAppUpdate(this)
     }
 
     @Composable
