@@ -1,6 +1,8 @@
 package com.gaoyun.feature_home_screen.states
 
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.asPaddingValues
 import androidx.compose.foundation.layout.fillMaxHeight
@@ -34,6 +36,7 @@ import com.gaoyun.roar.presentation.home_screen.HomeScreenContract
 import kotlinx.datetime.LocalDateTime
 
 
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun HomeState(
     screenModeFull: Boolean,
@@ -49,49 +52,57 @@ fun HomeState(
     state: LazyListState,
 ) {
 
-    LazyColumn(
-        state = state,
-        modifier = Modifier
-            .fillMaxWidth()
-            .fillMaxHeight()
-    ) {
-        item {
+    if (pets.size == 1 && screenModeFull) {
+        val pet = pets.first()
+        Column {
             Box(modifier = Modifier.size(WindowInsets.statusBars.asPaddingValues().calculateTopPadding()))
-        }
-        item {
+
             UserHomeHeader(
                 onAddPetButtonClick = onAddPetButtonClick,
                 onUserButtonButtonClick = onUserDetailsClick,
             )
-        }
 
-        item {
             Spacer(size = 8.dp)
-        }
 
-        if (pets.size == 1 && screenModeFull) {
+            PetContainer(
+                pet = pet,
+                inactiveInteractions = inactiveInteractions,
+                onInteractionClick = { interactionId -> onInteractionClick(HomeScreenContract.Event.InteractionClicked(petId = pet.id, interactionId = interactionId)) },
+                onDeletePetClick = { onDeletePetClick(HomeScreenContract.Event.OnDeletePetClicked(pet = pet)) },
+                onEditPetClick = { onEditPetClick(HomeScreenContract.Event.ToEditPetClicked(pet = pet)) },
+                onInteractionCheckClicked = { interactionId, isChecked, completionDateTime ->
+                    onInteractionCheckClicked(
+                        pet,
+                        interactionId,
+                        isChecked,
+                        completionDateTime
+                    )
+                },
+                modifier = Modifier
+                    .padding(start = 8.dp, end = 8.dp)
+                    .fillMaxWidth()
+            )
+        }
+    } else {
+        LazyColumn(
+            state = state,
+            modifier = Modifier
+                .fillMaxWidth()
+                .fillMaxHeight()
+        ) {
             item {
-                val pet = pets.first()
-                PetContainer(
-                    pet = pet,
-                    inactiveInteractions = inactiveInteractions,
-                    onInteractionClick = { interactionId -> onInteractionClick(HomeScreenContract.Event.InteractionClicked(petId = pet.id, interactionId = interactionId)) },
-                    onDeletePetClick = { onDeletePetClick(HomeScreenContract.Event.OnDeletePetClicked(pet = pet)) },
-                    onEditPetClick = { onEditPetClick(HomeScreenContract.Event.ToEditPetClicked(pet = pet)) },
-                    onInteractionCheckClicked = { interactionId, isChecked, completionDateTime ->
-                        onInteractionCheckClicked(
-                            pet,
-                            interactionId,
-                            isChecked,
-                            completionDateTime
-                        )
-                    },
-                    modifier = Modifier
-                        .padding(start = 8.dp, end = 8.dp)
-                        .fillMaxWidth()
+                Box(modifier = Modifier.size(WindowInsets.statusBars.asPaddingValues().calculateTopPadding()))
+            }
+            item {
+                UserHomeHeader(
+                    onAddPetButtonClick = onAddPetButtonClick,
+                    onUserButtonButtonClick = onUserDetailsClick,
                 )
             }
-        } else {
+
+            item {
+                Spacer(size = 8.dp)
+            }
             if (pets.size > 1) {
                 item {
                     AutoResizeText(
@@ -109,7 +120,7 @@ fun HomeState(
                 }
             }
 
-            items(pets) { pet ->
+            items(pets, key = { it.id }) { pet ->
                 PetCard(
                     pet = pet,
                     onPetCardClick = onPetCardClick,
@@ -122,6 +133,7 @@ fun HomeState(
                             completionDateTime
                         )
                     },
+                    modifier = Modifier.animateItemPlacement()
                 )
             }
 

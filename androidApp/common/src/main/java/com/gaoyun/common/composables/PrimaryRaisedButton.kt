@@ -1,5 +1,6 @@
 package com.gaoyun.common.composables
 
+import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.ButtonDefaults
@@ -17,6 +18,25 @@ fun PrimaryElevatedButton(
     onClick: () -> Unit,
     modifier: Modifier = Modifier
 ) {
+    PrimaryElevatedButton(
+        onClick = onClick,
+        modifier = modifier,
+        content = {
+            Text(
+                text,
+                modifier = Modifier.padding(vertical = 8.dp),
+                fontSize = 16.sp,
+            )
+        }
+    )
+}
+
+@Composable
+fun PrimaryElevatedButton(
+    onClick: () -> Unit,
+    content: @Composable RowScope.() -> Unit,
+    modifier: Modifier = Modifier
+) {
     ElevatedButton(
         onClick = onClick,
         elevation = ButtonDefaults.elevatedButtonElevation(
@@ -27,16 +47,11 @@ fun PrimaryElevatedButton(
             containerColor = MaterialTheme.colorScheme.primaryContainer,
             contentColor = MaterialTheme.colorScheme.onPrimaryContainer
         ),
+        content = content,
         modifier = modifier
             .fillMaxWidth()
             .padding(horizontal = 24.dp)
-    ) {
-        Text(
-            text,
-            modifier = Modifier.padding(vertical = 8.dp),
-            fontSize = 16.sp,
-        )
-    }
+    )
 }
 
 @Composable

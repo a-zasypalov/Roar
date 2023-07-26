@@ -1,11 +1,21 @@
 package com.gaoyun.feature_interactions
 
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Edit
-import androidx.compose.material3.*
-import androidx.compose.runtime.*
+import androidx.compose.material3.AlertDialog
+import androidx.compose.material3.FabPosition
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -14,7 +24,10 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.Lifecycle
 import com.gaoyun.common.OnLifecycleEvent
 import com.gaoyun.common.R
-import com.gaoyun.common.composables.*
+import com.gaoyun.common.composables.BoxWithLoader
+import com.gaoyun.common.composables.RoarExtendedFAB
+import com.gaoyun.common.composables.Spacer
+import com.gaoyun.common.composables.SurfaceScaffold
 import com.gaoyun.common.dialog.InteractionCompletionDialog
 import com.gaoyun.roar.presentation.BackNavigationEffect
 import com.gaoyun.roar.presentation.LAUNCH_LISTEN_FOR_EFFECTS
@@ -207,7 +220,8 @@ fun InteractionScreenDestination(
                             item {
                                 Text(
                                     text = stringResource(id = R.string.next),
-                                    style = MaterialTheme.typography.headlineSmall,                                    color = MaterialTheme.colorScheme.onSurface,
+                                    style = MaterialTheme.typography.headlineSmall,
+                                    color = MaterialTheme.colorScheme.onSurface,
                                     modifier = Modifier.padding(vertical = 16.dp, horizontal = 8.dp)
                                 )
                             }

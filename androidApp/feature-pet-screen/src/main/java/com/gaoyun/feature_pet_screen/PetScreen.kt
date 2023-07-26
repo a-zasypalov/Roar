@@ -3,7 +3,6 @@ package com.gaoyun.feature_pet_screen
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material3.FabPosition
@@ -152,7 +151,7 @@ fun PetScreenDestination(
                         }
                     },
                     modifier = Modifier
-                        .verticalScroll(verticalScroll)
+//                        .verticalScroll(verticalScroll)
                         .padding(start = 8.dp, end = 8.dp)
                         .fillMaxWidth()
                 )

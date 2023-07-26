@@ -1,5 +1,6 @@
 package com.gaoyun.feature_pet_screen.view
 
+import androidx.compose.animation.animateContentSize
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -72,6 +73,7 @@ fun PetCard(
                     )
                 }
             }
+
             pet.interactions.values.flatten().sortedBy { it.reminders.minOfOrNull { r -> r.dateTime } ?: SharedDateUtils.MAX_DATE }.map { interaction ->
                 InteractionCard(
                     interaction = interaction,
@@ -82,6 +84,7 @@ fun PetCard(
                     modifier = Modifier
                         .padding(start = 16.dp, end = 16.dp, bottom = 16.dp)
                         .fillMaxWidth()
+                        .animateContentSize()
                 )
             }
             Spacer(size = 0.dp)

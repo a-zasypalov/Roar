@@ -1,5 +1,10 @@
 package com.gaoyun.common.composables
 
+import androidx.compose.animation.AnimatedContent
+import androidx.compose.animation.ExperimentalAnimationApi
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.with
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Row
@@ -19,6 +24,7 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
+@OptIn(ExperimentalAnimationApi::class)
 @Composable
 fun LabelledCheckBox(
     checked: Boolean,
@@ -47,10 +53,16 @@ fun LabelledCheckBox(
 
         Spacer(Modifier.size(spacerSize))
 
-        Text(
-            text = label,
-            fontSize = 18.sp,
-            color = MaterialTheme.colorScheme.onSurface
-        )
+        AnimatedContent(
+            targetState = label,
+            transitionSpec = { fadeIn() with fadeOut() },
+            label = "LabelledCheckBoxAnimation"
+        ) { targetLabel ->
+            Text(
+                text = targetLabel,
+                fontSize = 18.sp,
+                color = MaterialTheme.colorScheme.onSurface
+            )
+        }
     }
 }
