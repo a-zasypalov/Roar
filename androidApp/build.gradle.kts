@@ -9,9 +9,9 @@ plugins {
 
 android {
 
-    val versionMajor = 0
-    val versionMinor = 1
-    val versionPatch = 5
+    val versionMajor = 1
+    val versionMinor = 0
+    val versionPatch = 0
 
     val versionCodeValue = versionMajor * 10000 + versionMinor * 100 + versionPatch
     val versionNameValue = "${versionMajor}.${versionMinor}.${versionPatch}"
