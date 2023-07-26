@@ -2,7 +2,6 @@ package com.gaoyun.roar.android
 
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
-import com.google.android.material.snackbar.Snackbar
 import com.google.android.play.core.appupdate.AppUpdateInfo
 import com.google.android.play.core.appupdate.AppUpdateManagerFactory
 import com.google.android.play.core.appupdate.AppUpdateOptions
@@ -19,11 +18,6 @@ class AppUpdater(private val context: AppCompatActivity) {
     fun checkAppUpdate() {
         appUpdateManager.appUpdateInfo.addOnSuccessListener { appUpdateInfo ->
             val availability = appUpdateInfo.updateAvailability()
-            Snackbar.make(
-                context.window.decorView.rootView,
-                "Update availability: $availability",
-                Snackbar.LENGTH_LONG
-            ).show()
             if (availability == UpdateAvailability.UPDATE_AVAILABLE) {
                 when {
                     appUpdateInfo.isImmediateUpdateAllowed -> startUpdate(appUpdateInfo, AppUpdateType.IMMEDIATE)
