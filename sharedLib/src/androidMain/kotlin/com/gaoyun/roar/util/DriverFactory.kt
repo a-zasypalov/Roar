@@ -4,7 +4,6 @@ import android.content.Context
 import com.gaoyun.roar.model.entity.RoarDatabase
 import com.squareup.sqldelight.android.AndroidSqliteDriver
 import com.squareup.sqldelight.db.SqlDriver
-import org.koin.core.module.Module
 import org.koin.dsl.module
 
 actual class DriverFactory(private val context: Context) {
@@ -13,6 +12,6 @@ actual class DriverFactory(private val context: Context) {
     }
 }
 
-actual fun platformModule(): Module = module {
+actual fun platformModule() = module {
     single { DriverFactory(get()) }
 }

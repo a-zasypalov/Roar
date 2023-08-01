@@ -29,9 +29,9 @@ kotlin {
         linkSqlite = true
     }
 
-    val coroutinesVersion = "1.6.4"
-    val serializationVersion = "1.5.0"
-    val ktorVersion = "2.2.4"
+    val coroutinesVersion = "1.7.3"
+    val serializationVersion = "1.5.1"
+    val ktorVersion = "2.3.2"
     val koinVersion = "3.1.6"
     val lifecycleVersion = "2.6.1"
 
@@ -73,20 +73,20 @@ kotlin {
         val androidMain by getting {
             dependencies {
                 implementation("io.insert-koin:koin-android:$koinVersion")
-                implementation("com.squareup.okhttp3:logging-interceptor:4.10.0")
+                implementation("com.squareup.okhttp3:logging-interceptor:4.11.0")
                 implementation("com.squareup.sqldelight:android-driver:1.5.5")
                 implementation("androidx.work:work-runtime-ktx:2.8.1")
 
 
-                val composeVersion = "1.4.1"
+                val composeVersion = "1.4.3"
                 implementation("androidx.compose.ui:ui:$composeVersion")
                 implementation("androidx.compose.material:material:$composeVersion")
 
                 implementation("androidx.lifecycle:lifecycle-runtime-ktx:$lifecycleVersion")
                 implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycleVersion")
 
-                implementation("com.google.firebase:firebase-common-ktx:20.3.2")
-                implementation("com.google.firebase:firebase-storage-ktx:20.2.0")
+                implementation("com.google.firebase:firebase-common-ktx:20.3.3")
+                implementation("com.google.firebase:firebase-storage-ktx:20.2.1")
             }
         }
 //        val androidTest by getting {

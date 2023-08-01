@@ -54,6 +54,10 @@ import org.koin.core.context.startKoin
 import org.koin.dsl.KoinAppDeclaration
 import org.koin.dsl.module
 
+fun initKoin() = startKoin {
+    modules(platformModule(), repositoryModule, useCaseModule, dbModule, networkModule, preferencesModule)
+}
+
 fun initKoin(appDeclaration: KoinAppDeclaration = {}) = startKoin {
     appDeclaration()
     modules(platformModule(), repositoryModule, useCaseModule, dbModule, networkModule, preferencesModule)

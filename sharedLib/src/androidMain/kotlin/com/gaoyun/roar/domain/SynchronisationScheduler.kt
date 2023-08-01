@@ -1,4 +1,4 @@
-package com.gaoyun.notifications.sync
+package com.gaoyun.roar.domain
 
 import android.content.Context
 import androidx.work.CoroutineWorker
@@ -6,17 +6,18 @@ import androidx.work.ExistingWorkPolicy
 import androidx.work.OneTimeWorkRequestBuilder
 import androidx.work.WorkManager
 import androidx.work.WorkerParameters
-import com.gaoyun.roar.domain.SynchronisationScheduler
 import com.gaoyun.roar.domain.backup.CreateBackupUseCase
 import com.gaoyun.roar.network.SynchronisationApi
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
+import org.koin.core.component.KoinComponent
+import org.koin.core.component.inject
 import java.util.concurrent.TimeUnit
 
-class SynchronisationSchedulerImpl(
-    private val workManager: WorkManager,
-) : SynchronisationScheduler {
+class SynchronisationSchedulerImpl : SynchronisationScheduler, KoinComponent {
+
+    private val workManager: WorkManager by inject()
 
     override fun scheduleSynchronisation() {
         val request = OneTimeWorkRequestBuilder<SynchronisationWorker>()
@@ -25,7 +26,6 @@ class SynchronisationSchedulerImpl(
 
         workManager.enqueueUniqueWork("sync", ExistingWorkPolicy.REPLACE, request)
     }
-
 }
 
 class SynchronisationWorker(

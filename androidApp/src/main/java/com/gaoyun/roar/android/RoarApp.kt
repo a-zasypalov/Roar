@@ -9,12 +9,12 @@ import com.gaoyun.notifications.NotificationHandler
 import com.gaoyun.notifications.NotificationIntentProvider
 import com.gaoyun.notifications.NotificationSchedulerImpl
 import com.gaoyun.notifications.NotificationWorker
-import com.gaoyun.notifications.sync.SynchronisationSchedulerImpl
-import com.gaoyun.notifications.sync.SynchronisationWorker
 import com.gaoyun.roar.android.notifications.FcmService
 import com.gaoyun.roar.android.notifications.NotificationIntentProviderImpl
 import com.gaoyun.roar.domain.NotificationScheduler
 import com.gaoyun.roar.domain.SynchronisationScheduler
+import com.gaoyun.roar.domain.SynchronisationSchedulerImpl
+import com.gaoyun.roar.domain.SynchronisationWorker
 import com.gaoyun.roar.initKoin
 import com.gaoyun.roar.migrations.MigrationsExecutor
 import com.gaoyun.roar.presentation.about_screen.AboutScreenViewModel
@@ -85,7 +85,7 @@ val appModule = module {
 
 val notificationsModule = module {
     single<NotificationScheduler> { NotificationSchedulerImpl(get(), get()) }
-    single<SynchronisationScheduler> { SynchronisationSchedulerImpl(get()) }
+    single<SynchronisationScheduler> { SynchronisationSchedulerImpl() }
     single<NotificationIntentProvider> { NotificationIntentProviderImpl(get()) }
     single { WorkManager.getInstance(get()) }
     single { NotificationManagerCompat.from(get()) }

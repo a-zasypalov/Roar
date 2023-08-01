@@ -15,7 +15,6 @@ object PreferencesKeys {
     const val LAST_UPDATE_CHECK_DATETIME = "LAST_UPDATE_CHECK_DATETIME"
 }
 
-@Suppress("NO_ACTUAL_FOR_EXPECT")
 expect class Preferences(name: String? = null) {
 
     fun setInt(key: String, value: Int)

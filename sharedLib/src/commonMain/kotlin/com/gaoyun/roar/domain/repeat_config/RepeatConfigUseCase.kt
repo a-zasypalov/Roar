@@ -81,7 +81,7 @@ class RepeatConfigUseCase(
                 val result = from.plus(betweenDays, DateTimeUnit.DAY)
                 checkResult(endsDate, result)
             } else {
-                val betweenDays = from.dayOfWeek.isoDayNumber - daysOfWeek.min().isoDayNumber
+                val betweenDays = from.dayOfWeek.isoDayNumber - (daysOfWeek.minOrNull()?.isoDayNumber ?: from.dayOfWeek.isoDayNumber)
                 val result = from.plus(repeatConfig.repeatsEveryNumber, unitToAdd).minus(betweenDays, DateTimeUnit.DAY)
                 checkResult(endsDate, result)
             }

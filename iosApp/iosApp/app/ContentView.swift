@@ -2,14 +2,9 @@ import SwiftUI
 import sharedLib
 
 struct ContentView: View {
-    let vm = HomeScreenViewModel()
-    
     var body: some View {
-        Text("Hey")
-    }
-    
-    func testF() {
-        print(vm)
+        // TODO: Naigation wrapper
+        AuthScreenView()
     }
 }
 
