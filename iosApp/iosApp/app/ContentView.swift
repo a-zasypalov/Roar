@@ -4,7 +4,7 @@ import sharedLib
 struct ContentView: View {
     var body: some View {
         // TODO: Naigation wrapper
-        AuthScreenView()
+        OnboardingScreenView()
     }
 }
 

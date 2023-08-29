@@ -10,9 +10,11 @@
 		058557BB273AAA24004C7B11 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 058557BA273AAA24004C7B11 /* Assets.xcassets */; };
 		058557D9273AAEEB004C7B11 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 058557D8273AAEEB004C7B11 /* Preview Assets.xcassets */; };
 		109DAE302A790C5A00A738D9 /* AuthScreenState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 109DAE2F2A790C5A00A738D9 /* AuthScreenState.swift */; };
-		109DAE322A79125600A738D9 /* AuthScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 109DAE312A79125600A738D9 /* AuthScreen.swift */; };
+		109DAE322A79125600A738D9 /* AuthScreenView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 109DAE312A79125600A738D9 /* AuthScreenView.swift */; };
 		10E946FA29EA90E60015D8A8 /* sharedLib.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 10E946F929EA90E60015D8A8 /* sharedLib.framework */; };
 		10E946FB29EA90E60015D8A8 /* sharedLib.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 10E946F929EA90E60015D8A8 /* sharedLib.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		10FC63192A9E7124000D265F /* OnboardingScreenState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10FC63182A9E7124000D265F /* OnboardingScreenState.swift */; };
+		10FC631B2A9E7133000D265F /* OnboardingScreenView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10FC631A2A9E7133000D265F /* OnboardingScreenView.swift */; };
 		2152FB042600AC8F00CF470E /* iOSApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2152FB032600AC8F00CF470E /* iOSApp.swift */; };
 		7555FF83242A565900829871 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7555FF82242A565900829871 /* ContentView.swift */; };
 /* End PBXBuildFile section */
@@ -35,8 +37,10 @@
 		058557BA273AAA24004C7B11 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		058557D8273AAEEB004C7B11 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		109DAE2F2A790C5A00A738D9 /* AuthScreenState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthScreenState.swift; sourceTree = "<group>"; };
-		109DAE312A79125600A738D9 /* AuthScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthScreen.swift; sourceTree = "<group>"; };
+		109DAE312A79125600A738D9 /* AuthScreenView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthScreenView.swift; sourceTree = "<group>"; };
 		10E946F929EA90E60015D8A8 /* sharedLib.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = sharedLib.framework; path = ../sharedLib/build/bin/iosSimulatorArm64/debugFramework/sharedLib.framework; sourceTree = "<group>"; };
+		10FC63182A9E7124000D265F /* OnboardingScreenState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingScreenState.swift; sourceTree = "<group>"; };
+		10FC631A2A9E7133000D265F /* OnboardingScreenView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingScreenView.swift; sourceTree = "<group>"; };
 		2152FB032600AC8F00CF470E /* iOSApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = iOSApp.swift; sourceTree = "<group>"; };
 		7555FF7B242A565900829871 /* Roar.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Roar.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		7555FF82242A565900829871 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -75,6 +79,7 @@
 		109DAE2D2A790AB000A738D9 /* features */ = {
 			isa = PBXGroup;
 			children = (
+				10FC63172A9E710B000D265F /* onboarding */,
 				109DAE2E2A790C3700A738D9 /* auth */,
 			);
 			path = features;
@@ -84,9 +89,18 @@
 			isa = PBXGroup;
 			children = (
 				109DAE2F2A790C5A00A738D9 /* AuthScreenState.swift */,
-				109DAE312A79125600A738D9 /* AuthScreen.swift */,
+				109DAE312A79125600A738D9 /* AuthScreenView.swift */,
 			);
 			path = auth;
+			sourceTree = "<group>";
+		};
+		10FC63172A9E710B000D265F /* onboarding */ = {
+			isa = PBXGroup;
+			children = (
+				10FC63182A9E7124000D265F /* OnboardingScreenState.swift */,
+				10FC631A2A9E7133000D265F /* OnboardingScreenView.swift */,
+			);
+			path = onboarding;
 			sourceTree = "<group>";
 		};
 		7555FF72242A565900829871 = {
@@ -219,9 +233,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				2152FB042600AC8F00CF470E /* iOSApp.swift in Sources */,
-				109DAE322A79125600A738D9 /* AuthScreen.swift in Sources */,
+				109DAE322A79125600A738D9 /* AuthScreenView.swift in Sources */,
+				10FC631B2A9E7133000D265F /* OnboardingScreenView.swift in Sources */,
 				109DAE302A790C5A00A738D9 /* AuthScreenState.swift in Sources */,
 				7555FF83242A565900829871 /* ContentView.swift in Sources */,
+				10FC63192A9E7124000D265F /* OnboardingScreenState.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -358,6 +374,7 @@
 				INFOPLIST_FILE = iosApp/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = Roar;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.lifestyle";
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -390,6 +407,7 @@
 				INFOPLIST_FILE = iosApp/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = Roar;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.lifestyle";
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
