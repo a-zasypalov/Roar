@@ -1,7 +1,10 @@
 package com.gaoyun.roar.util
 
+import com.gaoyun.roar.domain.NotificationScheduler
+import com.gaoyun.roar.domain.NotificationSchedulerImpl
 import com.gaoyun.roar.domain.SynchronisationScheduler
 import com.gaoyun.roar.domain.SynchronisationSchedulerImpl
+import com.gaoyun.roar.domain.onboarding.CompleteOnboardingUseCase
 import com.gaoyun.roar.model.entity.RoarDatabase
 import com.gaoyun.roar.presentation.about_screen.AboutScreenViewModel
 import com.gaoyun.roar.presentation.add_pet.avatar.AddPetAvatarScreenViewModel
@@ -33,6 +36,7 @@ actual class DriverFactory {
 actual fun platformModule() = module {
     single { DriverFactory() }
     single<SynchronisationScheduler> { SynchronisationSchedulerImpl() }
+    single<NotificationScheduler> { NotificationSchedulerImpl() }
 
     single { OnboardingViewModel(get()) }
     single { HomeScreenViewModel(get(), get(), get(), get(), get(), get(), get(), get(), get()) }
@@ -75,4 +79,8 @@ object ViewModelProvider : KoinComponent {
     fun addReminderCompleteScreenViewModel() = get<AddReminderCompleteScreenViewModel>()
 
     fun aboutScreenViewModel() = get<AboutScreenViewModel>()
+}
+
+object UseCaseProvider: KoinComponent {
+    fun completeOnboardingUseCase() = get<CompleteOnboardingUseCase>()
 }

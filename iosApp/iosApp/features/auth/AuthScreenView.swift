@@ -5,11 +5,32 @@ struct AuthScreenView: View {
     
     @ObservedObject var state: AuthScreenState
     
-    init() {
-        state = AuthScreenState()
+    init(authCallback: @escaping () -> Void) {
+        state = AuthScreenState(authCallback: authCallback)
     }
     
     var body: some View {
-        Text("Hey")
+        VStack {
+            Text("Authorization Screen")
+                .padding()
+            
+            Spacer()
+            
+            Button(action: { state.signIn() }) {
+                Text("Sign up with Google")
+                    .frame(maxWidth: .infinity)
+                    .padding()
+                
+            }
+            .padding()
+            .buttonStyle(.borderedProminent)
+        }
+        .navigationBarBackButtonHidden()
+    }
+}
+
+struct AuthScreenView_Previews: PreviewProvider {
+    static var previews: some View {
+        AuthScreenView(authCallback: {})
     }
 }

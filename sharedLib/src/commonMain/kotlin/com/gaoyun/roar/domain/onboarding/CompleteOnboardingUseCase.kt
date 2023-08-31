@@ -9,4 +9,6 @@ class CompleteOnboardingUseCase(private val prefs: Preferences) {
         prefs.setBoolean(PreferencesKeys.ONBOARDING_COMPLETE, true)
     }
 
+    fun onboardingIsComplete() = prefs.getBoolean(PreferencesKeys.ONBOARDING_COMPLETE, false)
+
 }

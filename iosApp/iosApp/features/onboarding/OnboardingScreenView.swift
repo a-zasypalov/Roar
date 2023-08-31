@@ -7,42 +7,51 @@ struct OnboardingScreenView: View {
     
     @ObservedObject var state: OnboardingScreenState
     @State private var selectedTab = 1
+    let authCallback: () -> Void
     
-    init() {
+    init(authCallback: @escaping () -> Void) {
         state = OnboardingScreenState()
+        self.authCallback = authCallback
     }
     
     var body: some View {
-        VStack {
-            TabView(selection: $selectedTab) {
-                OnboardingPageView(title: "Roar", subtitle: "Pet's care project")
-                    .tag(1)
-                
-                OnboardingPageView(title: "Care reminders", subtitle: "Sometimes pets aren't talkative about their needs")
-                    .tag(2)
-                
-                OnboardingPageView(title: "Community", subtitle: "Let's make life better for pets together!")
-                    .tag(3)
-            }
-            .tabViewStyle(.page)
-            .indexViewStyle(.page(backgroundDisplayMode: .always))
-            .animation(.easeInOut, value: selectedTab)
-            .transition(.slide)
-            
-            Button(action: {
-                if selectedTab == TABS_NUMBER {
-                    //next screen
-                } else {
-                    selectedTab+=1
+        NavigationView {
+            VStack {
+                TabView(selection: $selectedTab) {
+                    OnboardingPageView(title: "Roar", subtitle: "Pet's care project")
+                        .tag(1)
+                    
+                    OnboardingPageView(title: "Care reminders", subtitle: "Sometimes pets aren't talkative about their needs")
+                        .tag(2)
+                    
+                    OnboardingPageView(title: "Community", subtitle: "Let's make life better for pets together!")
+                        .tag(3)
                 }
-            }) {
-                Text("Continue")
-                    .frame(maxWidth: .infinity)
-                    .padding()
+                .tabViewStyle(.page)
+                .indexViewStyle(.page(backgroundDisplayMode: .always))
+                .animation(.easeInOut, value: selectedTab)
+                .transition(.slide)
                 
+                if selectedTab == TABS_NUMBER {
+                    NavigationLink(destination: AuthScreenView(authCallback: authCallback)){
+                        Text("Start")
+                            .frame(maxWidth: .infinity)
+                            .padding()
+                            .navigationBarBackButtonHidden()
+                    }
+                    .padding()
+                    .buttonStyle(.borderedProminent)
+                } else {
+                    Button(action: { selectedTab+=1 }) {
+                        Text("Continue")
+                            .frame(maxWidth: .infinity)
+                            .padding()
+                        
+                    }
+                    .padding()
+                    .buttonStyle(.borderedProminent)
+                }
             }
-            .padding()
-            .buttonStyle(.borderedProminent)
         }
     }
 }
@@ -67,6 +76,6 @@ struct OnboardingPageView: View {
 
 struct OnboardingScreenView_Previews: PreviewProvider {
     static var previews: some View {
-        OnboardingScreenView()
+        OnboardingScreenView(authCallback: {})
     }
 }

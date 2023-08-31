@@ -2,9 +2,10 @@ import SwiftUI
 import sharedLib
 
 struct ContentView: View {
+        
     var body: some View {
         // TODO: Naigation wrapper
-        OnboardingScreenView()
+        HomeScreenView()
     }
 }
 
