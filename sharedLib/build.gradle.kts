@@ -15,6 +15,7 @@ kotlin {
     ).forEach {
         it.binaries.framework {
             baseName = "sharedLib"
+            isStatic = true
         }
     }
 
@@ -50,6 +51,7 @@ kotlin {
                 implementation("io.insert-koin:koin-core:$koinVersion")
                 implementation("org.jetbrains.kotlinx:kotlinx-datetime:0.4.0")
                 implementation("com.squareup.sqldelight:runtime:1.5.5")
+                implementation("dev.gitlive:firebase-storage:1.10.0")
             }
         }
         val commonTest by getting {

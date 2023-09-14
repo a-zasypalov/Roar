@@ -1,8 +1,7 @@
-import SwiftUI
 import sharedLib
+import SwiftUI
 
 struct AuthScreenView: View {
-    
     @ObservedObject var state: AuthScreenState
     
     init(authCallback: @escaping () -> Void) {

@@ -1,8 +1,7 @@
-import SwiftUI
 import sharedLib
+import SwiftUI
 
 struct HomeScreenView: View {
-    
     @ObservedObject var viewState: HomeScreenState
     
     init() {
@@ -12,11 +11,13 @@ struct HomeScreenView: View {
     
     var body: some View {
         NavigationView {
-            if(viewState.screenState.isLoading) {
+            if viewState.screenState.isLoading {
                 ProgressView()
             } else if let user = viewState.screenState.user {
-                if(viewState.screenState.pets.isEmpty) {
+                if viewState.screenState.pets.isEmpty {
                     HomeScreenNoPetsView(user: user)
+                } else {
+                    HomeScreenPetsListView(user: user, pets: viewState.screenState.pets)
                 }
             } else {
                 ProgressView()

@@ -1,7 +1,6 @@
 import SwiftUI
 
 struct AddPetSetupView: View {
-    
     @Binding var path: [AddPetFlowScreens]
 
     var body: some View {

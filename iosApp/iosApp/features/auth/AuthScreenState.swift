@@ -1,17 +1,16 @@
-import Foundation
-import sharedLib
-import GoogleSignIn
 import Firebase
+import Foundation
+import GoogleSignIn
+import sharedLib
 
 class AuthScreenState: ObservableObject {
-    
     let viewModel = ViewModelProvider().registerUserViewModel()
     
     @Published private var state: RegisterUserScreenContract.State
     
     init(authCallback: @escaping () -> Void) {
         viewModel.observeEffect { effect in
-            if(effect is RegisterUserScreenContract.EffectNavigationToPetAdding) {
+            if effect is RegisterUserScreenContract.EffectNavigationToPetAdding {
                 authCallback()
             }
         }
@@ -53,7 +52,7 @@ class AuthScreenState: ObservableObject {
         
         let credential = GoogleAuthProvider.credential(withIDToken: idToken, accessToken: accessToken)
         
-        Auth.auth().signIn(with: credential) { (authData, error) in
+        Auth.auth().signIn(with: credential) { authData, error in
             if let error = error {
                 print(error.localizedDescription)
             } else {
@@ -61,7 +60,7 @@ class AuthScreenState: ObservableObject {
                 
                 self.viewModel.setEvent(
                     event: RegisterUserScreenContract.EventRegistrationSuccessful(
-                        name: user.displayName ?? "User", //TODO: Localize default username
+                        name: user.displayName ?? "User", // TODO: Localize default username
                         userId: user.uid
                     )
                 )
@@ -72,5 +71,4 @@ class AuthScreenState: ObservableObject {
     deinit {
         viewModel.dispose()
     }
-    
 }

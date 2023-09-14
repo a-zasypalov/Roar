@@ -1,8 +1,7 @@
-import SwiftUI
 import sharedLib
+import SwiftUI
 
 struct OnboardingScreenView: View {
-    
     let TABS_NUMBER = 3
     
     @ObservedObject var state: OnboardingScreenState
@@ -33,7 +32,7 @@ struct OnboardingScreenView: View {
                 .transition(.slide)
                 
                 if selectedTab == TABS_NUMBER {
-                    NavigationLink(destination: AuthScreenView(authCallback: authCallback)){
+                    NavigationLink(destination: AuthScreenView(authCallback: authCallback)) {
                         Text("Start")
                             .mainActionButtonStyle()
                             .navigationBarBackButtonHidden()
@@ -42,7 +41,7 @@ struct OnboardingScreenView: View {
                     .buttonStyle(.borderedProminent)
                     .onAppear(perform: { state.completeOnboarding() })
                 } else {
-                    Button(action: { selectedTab+=1 }) {
+                    Button(action: { selectedTab += 1 }) {
                         Text("Continue")
                             .mainActionButtonStyle()
                     }
@@ -55,7 +54,6 @@ struct OnboardingScreenView: View {
 }
 
 struct OnboardingPageView: View {
-    
     let title: String
     let subtitle: String
     
@@ -69,7 +67,6 @@ struct OnboardingPageView: View {
                 .multilineTextAlignment(.center)
         }
     }
-    
 }
 
 struct OnboardingScreenView_Previews: PreviewProvider {

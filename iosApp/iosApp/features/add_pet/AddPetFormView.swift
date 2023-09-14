@@ -1,7 +1,6 @@
 import SwiftUI
 
 struct AddPetFormView: View {
-    
     @Binding var path: [AddPetFlowScreens]
 
     var body: some View {
@@ -10,5 +9,5 @@ struct AddPetFormView: View {
                 Text("Finish")
             }
         }.navigationTitle("Pet data")
-    }    
+    }
 }

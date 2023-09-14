@@ -1,7 +1,6 @@
 import SwiftUI
 
 struct AddPetFlowView: View {
-    
     @Binding var addPetPath: [AddPetFlowScreens]
     
     var body: some View {
@@ -17,5 +16,4 @@ struct AddPetFlowView: View {
             }
         }
     }
-    
 }
