@@ -8,15 +8,14 @@ class HomeScreenState: ObservableObject {
     let viewModel = ViewModelProvider().homeScreenViewModel()
     let completeOnboardingUseCase = UseCaseProvider().completeOnboardingUseCase()
     
-    @Published var state: HomeScreenContract.State
+    @Published var screenState: HomeScreenContract.State
     @Published var presentAuthorization: Bool = false
     @Published var presentOnboarding: Bool = false
-    
 
     init() {
-        state = viewModel.setInitialState()
+        screenState = viewModel.setInitialState()
         viewModel.observeViewState { state in
-            self.state = state
+            self.screenState = state
         }
         viewModel.observeEffect { effect in
             if effect == HomeScreenContract.EffectNavigationToUserRegistration() {
@@ -30,6 +29,8 @@ class HomeScreenState: ObservableObject {
     }
     
     func checkUserRegistered() {
+        self.presentAuthorization = false
+        self.presentOnboarding = false
         viewModel.checkUserRegistered()
     }
 

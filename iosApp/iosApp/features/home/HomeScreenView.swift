@@ -3,33 +3,31 @@ import sharedLib
 
 struct HomeScreenView: View {
     
-    @ObservedObject var state: HomeScreenState
+    @ObservedObject var viewState: HomeScreenState
     
     init() {
-        state = HomeScreenState()
-        state.checkUserRegistered()
+        viewState = HomeScreenState()
+        viewState.checkUserRegistered()
     }
     
     var body: some View {
-        HStack {
-            if(state.state.isLoading) {
+        NavigationView {
+            if(viewState.screenState.isLoading) {
                 ProgressView()
-            } else if let user = state.state.user {
-                Text("Hey, \(user.name).\nYou have \(state.state.pets.count) pets!")
+            } else if let user = viewState.screenState.user {
+                if(viewState.screenState.pets.isEmpty) {
+                    HomeScreenNoPetsView(user: user)
+                }
             } else {
                 ProgressView()
             }
-        }.popover(isPresented: $state.presentOnboarding) {
-            OnboardingScreenView(authCallback: {
-                state.presentOnboarding = false
-                state.checkUserRegistered()
-            }).interactiveDismissDisabled()
+        }.popover(isPresented: $viewState.presentOnboarding) {
+            OnboardingScreenView(authCallback: viewState.checkUserRegistered)
+                .interactiveDismissDisabled()
         }
-        .popover(isPresented: $state.presentAuthorization) {
-            AuthScreenView(authCallback: {
-                state.presentAuthorization = false
-                state.checkUserRegistered()
-            }).interactiveDismissDisabled()
+        .popover(isPresented: $viewState.presentAuthorization) {
+            AuthScreenView(authCallback: viewState.checkUserRegistered)
+                .interactiveDismissDisabled()
         }
     }
 }
