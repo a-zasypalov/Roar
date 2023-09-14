@@ -8,13 +8,12 @@ class AuthScreenState: ObservableObject {
     let viewModel = ViewModelProvider().registerUserViewModel()
     
     @Published private var state: RegisterUserScreenContract.State
-    let authCallback: () -> Void
     
     init(authCallback: @escaping () -> Void) {
-        self.authCallback = authCallback
-        
         viewModel.observeEffect { effect in
-            
+            if(effect is RegisterUserScreenContract.EffectNavigationToPetAdding) {
+                authCallback()
+            }
         }
         
         state = viewModel.setInitialState()
@@ -54,11 +53,18 @@ class AuthScreenState: ObservableObject {
         
         let credential = GoogleAuthProvider.credential(withIDToken: idToken, accessToken: accessToken)
         
-        Auth.auth().signIn(with: credential) { (_, error) in
+        Auth.auth().signIn(with: credential) { (authData, error) in
             if let error = error {
                 print(error.localizedDescription)
             } else {
-                self.authCallback()
+                guard let user = authData?.user else { return }
+                
+                self.viewModel.setEvent(
+                    event: RegisterUserScreenContract.EventRegistrationSuccessful(
+                        name: user.displayName ?? "User", //TODO: Localize default username
+                        userId: user.uid
+                    )
+                )
             }
         }
     }

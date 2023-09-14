@@ -35,18 +35,16 @@ struct OnboardingScreenView: View {
                 if selectedTab == TABS_NUMBER {
                     NavigationLink(destination: AuthScreenView(authCallback: authCallback)){
                         Text("Start")
-                            .frame(maxWidth: .infinity)
-                            .padding()
+                            .mainActionButtonStyle()
                             .navigationBarBackButtonHidden()
                     }
                     .padding()
                     .buttonStyle(.borderedProminent)
+                    .onAppear(perform: { state.completeOnboarding() })
                 } else {
                     Button(action: { selectedTab+=1 }) {
                         Text("Continue")
-                            .frame(maxWidth: .infinity)
-                            .padding()
-                        
+                            .mainActionButtonStyle()
                     }
                     .padding()
                     .buttonStyle(.borderedProminent)

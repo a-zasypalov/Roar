@@ -18,9 +18,7 @@ struct AuthScreenView: View {
             
             Button(action: { state.signIn() }) {
                 Text("Sign up with Google")
-                    .frame(maxWidth: .infinity)
-                    .padding()
-                
+                    .mainActionButtonStyle()
             }
             .padding()
             .buttonStyle(.borderedProminent)

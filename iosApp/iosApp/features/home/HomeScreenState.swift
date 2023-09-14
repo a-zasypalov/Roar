@@ -1,5 +1,7 @@
 import Foundation
 import sharedLib
+import GoogleSignIn
+import Firebase
 
 class HomeScreenState: ObservableObject {
     
@@ -7,7 +9,8 @@ class HomeScreenState: ObservableObject {
     let completeOnboardingUseCase = UseCaseProvider().completeOnboardingUseCase()
     
     @Published var state: HomeScreenContract.State
-    @Published var presentOnboarding = false
+    @Published var presentAuthorization: Bool = false
+    @Published var presentOnboarding: Bool = false
     
 
     init() {
@@ -15,14 +18,18 @@ class HomeScreenState: ObservableObject {
         viewModel.observeViewState { state in
             self.state = state
         }
+        viewModel.observeEffect { effect in
+            if effect == HomeScreenContract.EffectNavigationToUserRegistration() {
+                if(self.completeOnboardingUseCase.onboardingIsComplete()) {
+                    self.presentAuthorization = true
+                } else {
+                    self.presentOnboarding = true
+                }
+            }
+        }
     }
     
     func checkUserRegistered() {
-        viewModel.observeEffect { effect in
-            if effect == HomeScreenContract.EffectNavigationToUserRegistration() {
-                self.presentOnboarding = !self.completeOnboardingUseCase.onboardingIsComplete()
-            }
-        }
         viewModel.checkUserRegistered()
     }
 

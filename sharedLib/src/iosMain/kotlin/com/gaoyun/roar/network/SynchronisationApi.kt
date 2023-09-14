@@ -8,6 +8,7 @@ actual class SynchronisationApi : KoinComponent {
     }
 
     actual suspend fun retrieveBackup(onFinish: ((Boolean) -> Unit)?) {
+        onFinish?.invoke(false)
     }
 
 }
