@@ -1,9 +1,9 @@
 import SwiftUI
 
 struct CardIconButton: View {
-    let tapAction: () -> Void
     let image: String
     let iconSize: CardIconButtonSize
+    let tapAction: () -> Void
     
     var body: some View {
         let size: CGFloat = switch iconSize {

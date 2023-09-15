@@ -1,26 +1,25 @@
+import sharedLib
 import SwiftUI
 
 struct AddPetTypeView: View {
-    @Binding var path: [AddPetFlowScreens]
+    let onTypeChosen: (PetType) -> Void
 
     var body: some View {
         HStack {
             Spacer()
-            
+
             CardIconButton(
-                tapAction: {  path.append(.avatar) },
                 image: "ic_cat",
                 iconSize: .medium
-            )
-            
+            ) { onTypeChosen(PetType.cat) }
+
             Spacer()
-            
+
             CardIconButton(
-                tapAction: {  path.append(.avatar) },
                 image: "ic_dog",
                 iconSize: .medium
-            )
-            
+            ) { onTypeChosen(PetType.dog) }
+
             Spacer()
         }
         .navigationLargeTitle(title: "Who is it?")
@@ -31,6 +30,6 @@ struct AddPetTypeView: View {
 
 struct AddPetType_Previews: PreviewProvider {
     static var previews: some View {
-        AddPetTypeView(path: .constant([]))
+        AddPetTypeView(onTypeChosen: { _ in })
     }
 }
