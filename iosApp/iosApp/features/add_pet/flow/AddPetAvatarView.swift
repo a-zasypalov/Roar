@@ -8,6 +8,8 @@ struct AddPetAvatarView: View {
             Button(action: { path.append(.form) }) {
                 Text("Next")
             }
-        }.navigationTitle("Avatar")
+        }
+        .navigationTitle("Avatar")
+        .navigationBarTitleDisplayMode(.large)
     }
 }

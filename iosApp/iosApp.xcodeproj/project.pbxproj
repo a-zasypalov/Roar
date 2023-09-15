@@ -125,6 +125,17 @@
 			path = "Preview Content";
 			sourceTree = "<group>";
 		};
+		1041B1992AB3776700E4534E /* flow */ = {
+			isa = PBXGroup;
+			children = (
+				108CF7DF2AB345DD00A133A3 /* AddPetTypeView.swift */,
+				108CF7E12AB3466000A133A3 /* AddPetAvatarView.swift */,
+				108CF7E32AB3469A00A133A3 /* AddPetFormView.swift */,
+				108CF7E52AB3471200A133A3 /* AddPetSetupView.swift */,
+			);
+			path = flow;
+			sourceTree = "<group>";
+		};
 		104A70012AA0C8E400A63F63 /* home */ = {
 			isa = PBXGroup;
 			children = (
@@ -147,12 +158,9 @@
 		108CF7DE2AB345AC00A133A3 /* add_pet */ = {
 			isa = PBXGroup;
 			children = (
-				108CF7DF2AB345DD00A133A3 /* AddPetTypeView.swift */,
-				108CF7E12AB3466000A133A3 /* AddPetAvatarView.swift */,
-				108CF7E32AB3469A00A133A3 /* AddPetFormView.swift */,
-				108CF7E52AB3471200A133A3 /* AddPetSetupView.swift */,
 				108CF7E72AB3515500A133A3 /* AddPetFlowView.swift */,
 				1041B1972AB374D200E4534E /* AddPetFlowScreens.swift */,
+				1041B1992AB3776700E4534E /* flow */,
 			);
 			path = add_pet;
 			sourceTree = "<group>";

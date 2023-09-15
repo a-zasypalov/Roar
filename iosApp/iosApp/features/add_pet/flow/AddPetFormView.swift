@@ -8,6 +8,8 @@ struct AddPetFormView: View {
             Button(action: { path.append(.setup) }) {
                 Text("Finish")
             }
-        }.navigationTitle("Pet data")
+        }
+        .navigationTitle("Pet data")
+        .navigationBarTitleDisplayMode(.large)
     }
 }

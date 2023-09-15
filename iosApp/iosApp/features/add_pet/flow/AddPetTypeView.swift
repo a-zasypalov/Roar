@@ -5,9 +5,12 @@ struct AddPetTypeView: View {
 
     var body: some View {
         HStack {
+            
             Button(action: { path.append(.avatar) }) {
                 Text("Next")
             }
-        }.navigationTitle("Who is it?")
+        }
+        .navigationTitle("Who is it?")
+        .navigationBarTitleDisplayMode(.large)
     }
 }

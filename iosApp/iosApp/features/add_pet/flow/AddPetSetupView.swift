@@ -8,6 +8,8 @@ struct AddPetSetupView: View {
             Button(action: { path.removeAll() }) {
                 Text("Finish")
             }
-        }.navigationTitle("YaY!")
+        }
+        .navigationTitle("YaY!")
+        .navigationBarTitleDisplayMode(.large)
     }
 }
