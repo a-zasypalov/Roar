@@ -2,24 +2,23 @@ import sharedLib
 import SwiftUI
 
 struct AddPetAvatarView: View {
-    let petType: PetType
+    @Binding var petType: PetType
     let onAvatarChosen: (String) -> Void
 
     let columns = [
-        GridItem(.flexible()),
-        GridItem(.flexible()),
-        GridItem(.flexible()),
+        GridItem(.flexible(), spacing: 16),
+        GridItem(.flexible(), spacing: 16),
+        GridItem(.flexible(), spacing: 16),
     ]
 
     var body: some View {
         ScrollView {
-            LazyVGrid(columns: columns, alignment: .center, spacing: 8) {
+            LazyVGrid(columns: columns, alignment: .center, spacing: 16) {
                 ForEach(1 ..< 51) { index in
                     let avatarName = "ic_\(petType.name.lowercased())_\(index)"
 
-                    CardIconButton(image: avatarName, iconSize: .small) {
-                        onAvatarChosen(avatarName)
-                    }
+                    CardIconButton(image: avatarName, iconSize: .auto)
+                        { onAvatarChosen(avatarName) }
                 }
             }
             .padding()
@@ -30,8 +29,6 @@ struct AddPetAvatarView: View {
     }
 }
 
-struct AddPetAvatarView_Previews: PreviewProvider {
-    static var previews: some View {
-        AddPetAvatarView(petType: .cat) { _ in }
-    }
+#Preview {
+    AddPetAvatarView(petType: .constant(.cat)) { _ in }
 }

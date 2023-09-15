@@ -17,11 +17,11 @@ struct AddPetFlowView: View {
                     self.petType = petType
                     addPetPath.append(.avatar)
                 }
-            case .avatar: AddPetAvatarView(petType: petType) { avatar in
+            case .avatar: AddPetAvatarView(petType: $petType) { avatar in
                     self.avatar = avatar
-                addPetPath.append(.form)
+                    addPetPath.append(.form)
                 }
-            case .form: AddPetFormView(path: $addPetPath)
+            case .form: AddPetFormView(petType: $petType, petAvatar: $avatar) {}
             case .setup: AddPetSetupView(path: $addPetPath)
             }
         }

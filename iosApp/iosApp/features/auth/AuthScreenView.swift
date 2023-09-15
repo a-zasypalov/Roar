@@ -26,8 +26,6 @@ struct AuthScreenView: View {
     }
 }
 
-struct AuthScreenView_Previews: PreviewProvider {
-    static var previews: some View {
-        AuthScreenView(authCallback: {})
-    }
+#Preview {
+    AuthScreenView(authCallback: {})
 }

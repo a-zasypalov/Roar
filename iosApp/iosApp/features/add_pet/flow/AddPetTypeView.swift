@@ -28,8 +28,6 @@ struct AddPetTypeView: View {
     }
 }
 
-struct AddPetType_Previews: PreviewProvider {
-    static var previews: some View {
-        AddPetTypeView(onTypeChosen: { _ in })
-    }
+#Preview {
+    AddPetTypeView(onTypeChosen: { _ in })
 }

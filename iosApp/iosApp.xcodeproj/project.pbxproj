@@ -12,6 +12,7 @@
 		1041B1982AB374D200E4534E /* AddPetFlowScreens.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1041B1972AB374D200E4534E /* AddPetFlowScreens.swift */; };
 		1041B19B2AB4694200E4534E /* CardIconButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1041B19A2AB4694200E4534E /* CardIconButton.swift */; };
 		1041B19D2AB46A9A00E4534E /* ViewExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1041B19C2AB46A9A00E4534E /* ViewExtensions.swift */; };
+		1041B19F2AB4A83000E4534E /* ViewAlignment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1041B19E2AB4A83000E4534E /* ViewAlignment.swift */; };
 		104A70032AA0C90E00A63F63 /* HomeScreenView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 104A70022AA0C90E00A63F63 /* HomeScreenView.swift */; };
 		104A70052AA0CD5E00A63F63 /* HomeScreenState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 104A70042AA0CD5E00A63F63 /* HomeScreenState.swift */; };
 		104A70082AA0DFAA00A63F63 /* FirebaseAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = 104A70072AA0DFAA00A63F63 /* FirebaseAnalytics */; };
@@ -70,6 +71,7 @@
 		1041B1972AB374D200E4534E /* AddPetFlowScreens.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddPetFlowScreens.swift; sourceTree = "<group>"; };
 		1041B19A2AB4694200E4534E /* CardIconButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardIconButton.swift; sourceTree = "<group>"; };
 		1041B19C2AB46A9A00E4534E /* ViewExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewExtensions.swift; sourceTree = "<group>"; };
+		1041B19E2AB4A83000E4534E /* ViewAlignment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewAlignment.swift; sourceTree = "<group>"; };
 		104A70022AA0C90E00A63F63 /* HomeScreenView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeScreenView.swift; sourceTree = "<group>"; };
 		104A70042AA0CD5E00A63F63 /* HomeScreenState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeScreenState.swift; sourceTree = "<group>"; };
 		104A702A2AA0E02000A63F63 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
@@ -157,6 +159,7 @@
 				108CF7DA2AB3023C00A133A3 /* MainActionButton.swift */,
 				1041B19A2AB4694200E4534E /* CardIconButton.swift */,
 				1041B19C2AB46A9A00E4534E /* ViewExtensions.swift */,
+				1041B19E2AB4A83000E4534E /* ViewAlignment.swift */,
 			);
 			path = design;
 			sourceTree = "<group>";
@@ -364,6 +367,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1041B19F2AB4A83000E4534E /* ViewAlignment.swift in Sources */,
 				108CF7E62AB3471200A133A3 /* AddPetSetupView.swift in Sources */,
 				2152FB042600AC8F00CF470E /* iOSApp.swift in Sources */,
 				108CF7E22AB3466000A133A3 /* AddPetAvatarView.swift in Sources */,
@@ -440,7 +444,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 14.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -495,7 +499,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 14.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
