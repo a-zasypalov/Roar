@@ -10,6 +10,8 @@
 		058557BB273AAA24004C7B11 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 058557BA273AAA24004C7B11 /* Assets.xcassets */; };
 		058557D9273AAEEB004C7B11 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 058557D8273AAEEB004C7B11 /* Preview Assets.xcassets */; };
 		1041B1982AB374D200E4534E /* AddPetFlowScreens.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1041B1972AB374D200E4534E /* AddPetFlowScreens.swift */; };
+		1041B19B2AB4694200E4534E /* CardIconButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1041B19A2AB4694200E4534E /* CardIconButton.swift */; };
+		1041B19D2AB46A9A00E4534E /* ViewExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1041B19C2AB46A9A00E4534E /* ViewExtensions.swift */; };
 		104A70032AA0C90E00A63F63 /* HomeScreenView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 104A70022AA0C90E00A63F63 /* HomeScreenView.swift */; };
 		104A70052AA0CD5E00A63F63 /* HomeScreenState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 104A70042AA0CD5E00A63F63 /* HomeScreenState.swift */; };
 		104A70082AA0DFAA00A63F63 /* FirebaseAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = 104A70072AA0DFAA00A63F63 /* FirebaseAnalytics */; };
@@ -66,6 +68,8 @@
 		058557BA273AAA24004C7B11 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		058557D8273AAEEB004C7B11 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		1041B1972AB374D200E4534E /* AddPetFlowScreens.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddPetFlowScreens.swift; sourceTree = "<group>"; };
+		1041B19A2AB4694200E4534E /* CardIconButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardIconButton.swift; sourceTree = "<group>"; };
+		1041B19C2AB46A9A00E4534E /* ViewExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewExtensions.swift; sourceTree = "<group>"; };
 		104A70022AA0C90E00A63F63 /* HomeScreenView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeScreenView.swift; sourceTree = "<group>"; };
 		104A70042AA0CD5E00A63F63 /* HomeScreenState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeScreenState.swift; sourceTree = "<group>"; };
 		104A702A2AA0E02000A63F63 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
@@ -151,6 +155,8 @@
 			isa = PBXGroup;
 			children = (
 				108CF7DA2AB3023C00A133A3 /* MainActionButton.swift */,
+				1041B19A2AB4694200E4534E /* CardIconButton.swift */,
+				1041B19C2AB46A9A00E4534E /* ViewExtensions.swift */,
 			);
 			path = design;
 			sourceTree = "<group>";
@@ -368,6 +374,8 @@
 				108CF7E42AB3469A00A133A3 /* AddPetFormView.swift in Sources */,
 				108CF7DB2AB3023C00A133A3 /* MainActionButton.swift in Sources */,
 				109DAE302A790C5A00A738D9 /* AuthScreenState.swift in Sources */,
+				1041B19B2AB4694200E4534E /* CardIconButton.swift in Sources */,
+				1041B19D2AB46A9A00E4534E /* ViewExtensions.swift in Sources */,
 				1041B1982AB374D200E4534E /* AddPetFlowScreens.swift in Sources */,
 				7555FF83242A565900829871 /* ContentView.swift in Sources */,
 				108CF7DD2AB3421500A133A3 /* HomeScreenNoPetsView.swift in Sources */,
@@ -511,7 +519,7 @@
 				INFOPLIST_FILE = iosApp/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = Roar;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.lifestyle";
-				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -544,7 +552,7 @@
 				INFOPLIST_FILE = iosApp/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = Roar;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.lifestyle";
-				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

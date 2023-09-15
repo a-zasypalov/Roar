@@ -5,12 +5,32 @@ struct AddPetTypeView: View {
 
     var body: some View {
         HStack {
+            Spacer()
             
-            Button(action: { path.append(.avatar) }) {
-                Text("Next")
-            }
+            CardIconButton(
+                tapAction: {  path.append(.avatar) },
+                image: "ic_cat",
+                iconSize: .medium
+            )
+            
+            Spacer()
+            
+            CardIconButton(
+                tapAction: {  path.append(.avatar) },
+                image: "ic_dog",
+                iconSize: .medium
+            )
+            
+            Spacer()
         }
-        .navigationTitle("Who is it?")
-        .navigationBarTitleDisplayMode(.large)
+        .navigationLargeTitle(title: "Who is it?")
+        .expanded()
+        .screenBackground(color: Color(.systemGroupedBackground))
+    }
+}
+
+struct AddPetType_Previews: PreviewProvider {
+    static var previews: some View {
+        AddPetTypeView(path: .constant([]))
     }
 }

@@ -13,6 +13,7 @@ struct iOSApp: App {
         WindowGroup {
             // TODO: Naigation wrapper
             ContentView()
+                .background(Color(UIColor.systemGroupedBackground))
         }
     }
 }

@@ -11,17 +11,18 @@ struct HomeScreenView: View {
     
     var body: some View {
         NavigationView {
-            if viewState.screenState.isLoading {
-                ProgressView()
-            } else if let user = viewState.screenState.user {
-                if viewState.screenState.pets.isEmpty {
-                    HomeScreenNoPetsView(user: user)
-                } else {
-                    HomeScreenPetsListView(user: user, pets: viewState.screenState.pets)
-                }
-            } else {
-                ProgressView()
-            }
+            HomeScreenNoPetsView(user: User(id: "", name: "Tester"))
+//            if viewState.screenState.isLoading {
+//                ProgressView()
+//            } else if let user = viewState.screenState.user {
+//                if viewState.screenState.pets.isEmpty {
+//                    HomeScreenNoPetsView(user: user)
+//                } else {
+//                    HomeScreenPetsListView(user: user, pets: viewState.screenState.pets)
+//                }
+//            } else {
+//                ProgressView()
+//            }
         }.popover(isPresented: $viewState.presentOnboarding) {
             OnboardingScreenView(authCallback: viewState.checkUserRegistered)
                 .interactiveDismissDisabled()
