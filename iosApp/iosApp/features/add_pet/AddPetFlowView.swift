@@ -2,32 +2,32 @@ import sharedLib
 import SwiftUI
 
 struct AddPetFlowView: View {
-    @Binding var addPetPath: [AddPetFlowScreens]
+    @Binding var navStack: [MainNavStackScreens]
 
     @State var petName = ""
     @State var petType = PetType.cat
     @State var avatar = "ic_cat"
 
     var body: some View {
-        NavigationLink(value: AddPetFlowScreens.type) {
-            Text("Add Pet")
+        NavigationLink(value: MainNavStackScreens.addPetFlowType) {
+            Image(systemName: "plus")
         }
-        .navigationDestination(for: AddPetFlowScreens.self) { screen in
+        .navigationDestination(for: MainNavStackScreens.self) { screen in
             switch screen {
-            case .type: AddPetTypeView { petType in
+            case .addPetFlowType: AddPetTypeView { petType in
                     self.petType = petType
-                    addPetPath.append(.avatar)
+                    navStack.append(.addPetFlowAvatar)
                 }
-            case .avatar: AddPetAvatarView(petType: $petType) { avatar in
+            case .addPetFlowAvatar: AddPetAvatarView(petType: $petType) { avatar in
                     self.avatar = avatar
-                    addPetPath.append(.form)
+                    navStack.append(.addPetFlowForm)
                 }
-            case .form: AddPetFormView(petType: $petType, petAvatar: $avatar) { name in
+            case .addPetFlowForm: AddPetFormView(petType: $petType, petAvatar: $avatar) { name in
                     self.petName = name
-                    addPetPath.append(.setup)
+                    navStack.append(.addPetFlowSetup)
                 }
-            case .setup: AddPetSetupView(petName: $petName, petAvatar: $avatar) {
-                    addPetPath.removeAll()
+            case .addPetFlowSetup: AddPetSetupView(petName: $petName, petAvatar: $avatar) {
+                    navStack.removeAll()
                 }
             }
         }

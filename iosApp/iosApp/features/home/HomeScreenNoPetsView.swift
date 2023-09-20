@@ -3,15 +3,15 @@ import SwiftUI
 
 struct HomeScreenNoPetsView: View {
     let user: User
-    @State private var addPetPath: [AddPetFlowScreens] = []
+    @Binding var navStack: [MainNavStackScreens]
 
     var body: some View {
-        NavigationStack(path: $addPetPath) {
+        NavigationStack(path: $navStack) {
             Spacer()
             Text("Hey, \(user.name). Let's add the first pet!")
             Spacer()
 
-            AddPetFlowView(addPetPath: $addPetPath)
+            AddPetFlowView(navStack: $navStack)
         }
     }
 }

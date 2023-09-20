@@ -80,5 +80,7 @@ struct AddPetFormView: View {
 }
 
 #Preview {
-    AddPetFormView(petType: .constant(.cat), petAvatar: .constant("ic_cat_48")) { _ in }
+    NavigationView {
+        AddPetFormView(petType: .constant(.cat), petAvatar: .constant("ic_cat_48")) { _ in }
+    }
 }
