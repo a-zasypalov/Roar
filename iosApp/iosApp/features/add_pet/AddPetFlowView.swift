@@ -4,6 +4,7 @@ import SwiftUI
 struct AddPetFlowView: View {
     @Binding var addPetPath: [AddPetFlowScreens]
 
+    @State var petName = ""
     @State var petType = PetType.cat
     @State var avatar = "ic_cat"
 
@@ -21,8 +22,13 @@ struct AddPetFlowView: View {
                     self.avatar = avatar
                     addPetPath.append(.form)
                 }
-            case .form: AddPetFormView(petType: $petType, petAvatar: $avatar) {}
-            case .setup: AddPetSetupView(path: $addPetPath)
+            case .form: AddPetFormView(petType: $petType, petAvatar: $avatar) { name in
+                    self.petName = name
+                    addPetPath.append(.setup)
+                }
+            case .setup: AddPetSetupView(petName: $petName, petAvatar: $avatar) {
+                    addPetPath.removeAll()
+                }
             }
         }
     }

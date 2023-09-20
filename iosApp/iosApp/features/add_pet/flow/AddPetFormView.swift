@@ -4,7 +4,7 @@ import SwiftUI
 struct AddPetFormView: View {
     @Binding var petType: PetType
     @Binding var petAvatar: String
-    let onPetCreated: () -> Void
+    let onPetCreated: (String) -> Void
 
     @State private var name = ""
     @State private var chipNumber = ""
@@ -66,7 +66,7 @@ struct AddPetFormView: View {
             }
         }
         .safeAreaInset(edge: .bottom) {
-            Button(action: {}) {
+            Button(action: {onPetCreated(name)}) {
                 Text("Add pet")
                     .mainActionButtonStyle()
             }
@@ -80,5 +80,5 @@ struct AddPetFormView: View {
 }
 
 #Preview {
-    AddPetFormView(petType: .constant(.cat), petAvatar: .constant("ic_cat_48")) {}
+    AddPetFormView(petType: .constant(.cat), petAvatar: .constant("ic_cat_48")) { _ in }
 }
