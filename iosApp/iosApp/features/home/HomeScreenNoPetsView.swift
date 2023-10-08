@@ -11,7 +11,7 @@ struct HomeScreenNoPetsView: View {
             Text("Hey, \(user.name). Let's add the first pet!")
             Spacer()
 
-            AddPetFlowView(navStack: $navStack)
+            AddPetFlowView(navStack: navStack)
         }
     }
 }

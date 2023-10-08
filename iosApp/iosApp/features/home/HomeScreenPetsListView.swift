@@ -39,12 +39,15 @@ struct HomeScreenPetsListView: View {
                 }
                 .padding(.vertical)
             }
+            .onTapGesture {
+                navStack.append(.petScreen)
+            }
         }
         .listStyle(.insetGrouped)
         .navigationLargeTitle(title: "Roar")
         .toolbar {
             ToolbarItemGroup(placement: .primaryAction) {
-                AddPetFlowView(navStack: $navStack)
+                AddPetFlowView(navStack: navStack)
                 Button(action: {}) {
                     Image(systemName: "person.circle")
                 }

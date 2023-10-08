@@ -2,17 +2,29 @@ import sharedLib
 import SwiftUI
 
 struct AddPetFlowView: View {
-    @Binding var navStack: [MainNavStackScreens]
+    @Binding var navStack: [MainNavStackScreens.AddPetFlow]
 
-    @State var petName = ""
-    @State var petType = PetType.cat
-    @State var avatar = "ic_cat"
+    @State private var petName = ""
+    @State private var petType = PetType.cat
+    @State private var avatar = "ic_cat"
+
+    init(
+        navStack: [MainNavStackScreens],
+        petName: String = "",
+        petType: PetType = PetType.cat,
+        avatar: String = "ic_cat"
+    ) {
+        self.navStack = navStack
+        self.petName = petName
+        self.petType = petType
+        self.avatar = avatar
+    }
 
     var body: some View {
-        NavigationLink(value: MainNavStackScreens.addPetFlowType) {
+        NavigationLink(value: MainNavStackScreens.AddPetFlow.addPetFlowType) {
             Image(systemName: "plus")
         }
-        .navigationDestination(for: MainNavStackScreens.self) { screen in
+        .navigationDestination(for: MainNavStackScreens.AddPetFlow.self) { screen in
             switch screen {
             case .addPetFlowType: AddPetTypeView { petType in
                     self.petType = petType

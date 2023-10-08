@@ -1,7 +1,10 @@
 enum MainNavStackScreens {
-    // Add pet flow
-    case addPetFlowType
-    case addPetFlowAvatar
-    case addPetFlowForm
-    case addPetFlowSetup
+    enum AddPetFlow {
+        // Add pet flow
+        case addPetFlowType
+        case addPetFlowAvatar
+        case addPetFlowForm
+        case addPetFlowSetup
+    }
+    case petScreen
 }

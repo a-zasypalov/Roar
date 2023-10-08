@@ -35,6 +35,8 @@
 		104A702B2AA0E02100A63F63 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 104A702A2AA0E02000A63F63 /* GoogleService-Info.plist */; };
 		105A8EDC2ABB9301009A1892 /* Date.swift in Sources */ = {isa = PBXBuildFile; fileRef = 105A8EDB2ABB9301009A1892 /* Date.swift */; };
 		105A8EDE2ABB9354009A1892 /* SwiftTypeConvertible.swift in Sources */ = {isa = PBXBuildFile; fileRef = 105A8EDD2ABB9354009A1892 /* SwiftTypeConvertible.swift */; };
+		107B513A2AC9EBEA008448BD /* PetScreenView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 107B51392AC9EBEA008448BD /* PetScreenView.swift */; };
+		107B513C2AC9EBF4008448BD /* PetScreenState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 107B513B2AC9EBF4008448BD /* PetScreenState.swift */; };
 		108CF7DB2AB3023C00A133A3 /* MainActionButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 108CF7DA2AB3023C00A133A3 /* MainActionButton.swift */; };
 		108CF7DD2AB3421500A133A3 /* HomeScreenNoPetsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 108CF7DC2AB3421500A133A3 /* HomeScreenNoPetsView.swift */; };
 		108CF7E02AB345DD00A133A3 /* AddPetTypeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 108CF7DF2AB345DD00A133A3 /* AddPetTypeView.swift */; };
@@ -45,6 +47,7 @@
 		108CF7EA2AB36EC200A133A3 /* HomeScreenPetsListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 108CF7E92AB36EC200A133A3 /* HomeScreenPetsListView.swift */; };
 		109DAE302A790C5A00A738D9 /* AuthScreenState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 109DAE2F2A790C5A00A738D9 /* AuthScreenState.swift */; };
 		109DAE322A79125600A738D9 /* AuthScreenView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 109DAE312A79125600A738D9 /* AuthScreenView.swift */; };
+		10B061BE2AC6AD170052C690 /* DeferredLoadingIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10B061BD2AC6AD170052C690 /* DeferredLoadingIndicator.swift */; };
 		10E946FA29EA90E60015D8A8 /* sharedLib.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 10E946F929EA90E60015D8A8 /* sharedLib.framework */; };
 		10E946FB29EA90E60015D8A8 /* sharedLib.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 10E946F929EA90E60015D8A8 /* sharedLib.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		10FC63192A9E7124000D265F /* OnboardingScreenState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10FC63182A9E7124000D265F /* OnboardingScreenState.swift */; };
@@ -79,6 +82,8 @@
 		104A702A2AA0E02000A63F63 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		105A8EDB2ABB9301009A1892 /* Date.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Date.swift; sourceTree = "<group>"; };
 		105A8EDD2ABB9354009A1892 /* SwiftTypeConvertible.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftTypeConvertible.swift; sourceTree = "<group>"; };
+		107B51392AC9EBEA008448BD /* PetScreenView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PetScreenView.swift; sourceTree = "<group>"; };
+		107B513B2AC9EBF4008448BD /* PetScreenState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PetScreenState.swift; sourceTree = "<group>"; };
 		108CF7DA2AB3023C00A133A3 /* MainActionButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainActionButton.swift; sourceTree = "<group>"; };
 		108CF7DC2AB3421500A133A3 /* HomeScreenNoPetsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeScreenNoPetsView.swift; sourceTree = "<group>"; };
 		108CF7DF2AB345DD00A133A3 /* AddPetTypeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddPetTypeView.swift; sourceTree = "<group>"; };
@@ -89,6 +94,7 @@
 		108CF7E92AB36EC200A133A3 /* HomeScreenPetsListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeScreenPetsListView.swift; sourceTree = "<group>"; };
 		109DAE2F2A790C5A00A738D9 /* AuthScreenState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthScreenState.swift; sourceTree = "<group>"; };
 		109DAE312A79125600A738D9 /* AuthScreenView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthScreenView.swift; sourceTree = "<group>"; };
+		10B061BD2AC6AD170052C690 /* DeferredLoadingIndicator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeferredLoadingIndicator.swift; sourceTree = "<group>"; };
 		10E946F929EA90E60015D8A8 /* sharedLib.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = sharedLib.framework; path = ../sharedLib/build/bin/iosSimulatorArm64/debugFramework/sharedLib.framework; sourceTree = "<group>"; };
 		10FC63182A9E7124000D265F /* OnboardingScreenState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingScreenState.swift; sourceTree = "<group>"; };
 		10FC631A2A9E7133000D265F /* OnboardingScreenView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingScreenView.swift; sourceTree = "<group>"; };
@@ -162,8 +168,18 @@
 			children = (
 				105A8EDB2ABB9301009A1892 /* Date.swift */,
 				105A8EDD2ABB9354009A1892 /* SwiftTypeConvertible.swift */,
+				10B061BD2AC6AD170052C690 /* DeferredLoadingIndicator.swift */,
 			);
 			path = utils;
+			sourceTree = "<group>";
+		};
+		107B51382AC9EB4E008448BD /* pet */ = {
+			isa = PBXGroup;
+			children = (
+				107B51392AC9EBEA008448BD /* PetScreenView.swift */,
+				107B513B2AC9EBF4008448BD /* PetScreenState.swift */,
+			);
+			path = pet;
 			sourceTree = "<group>";
 		};
 		108CF7D92AB3021700A133A3 /* design */ = {
@@ -202,6 +218,7 @@
 				10FC63172A9E710B000D265F /* onboarding */,
 				109DAE2E2A790C3700A738D9 /* auth */,
 				104A70012AA0C8E400A63F63 /* home */,
+				107B51382AC9EB4E008448BD /* pet */,
 				108CF7DE2AB345AC00A133A3 /* add_pet */,
 			);
 			path = features;
@@ -383,6 +400,8 @@
 			files = (
 				1041B19F2AB4A83000E4534E /* ViewAlignment.swift in Sources */,
 				108CF7E62AB3471200A133A3 /* AddPetSetupView.swift in Sources */,
+				107B513A2AC9EBEA008448BD /* PetScreenView.swift in Sources */,
+				107B513C2AC9EBF4008448BD /* PetScreenState.swift in Sources */,
 				2152FB042600AC8F00CF470E /* iOSApp.swift in Sources */,
 				108CF7E22AB3466000A133A3 /* AddPetAvatarView.swift in Sources */,
 				108CF7EA2AB36EC200A133A3 /* HomeScreenPetsListView.swift in Sources */,
@@ -397,6 +416,7 @@
 				1041B1982AB374D200E4534E /* MainNavStackScreens.swift in Sources */,
 				7555FF83242A565900829871 /* ContentView.swift in Sources */,
 				105A8EDE2ABB9354009A1892 /* SwiftTypeConvertible.swift in Sources */,
+				10B061BE2AC6AD170052C690 /* DeferredLoadingIndicator.swift in Sources */,
 				108CF7DD2AB3421500A133A3 /* HomeScreenNoPetsView.swift in Sources */,
 				105A8EDC2ABB9301009A1892 /* Date.swift in Sources */,
 				108CF7E82AB3515500A133A3 /* AddPetFlowView.swift in Sources */,
