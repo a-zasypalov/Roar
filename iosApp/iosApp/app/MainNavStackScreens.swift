@@ -1,10 +1,10 @@
-enum MainNavStackScreens {
-    enum AddPetFlow {
-        // Add pet flow
-        case addPetFlowType
-        case addPetFlowAvatar
-        case addPetFlowForm
-        case addPetFlowSetup
-    }
-    case petScreen
+import sharedLib
+
+enum MainNavStackScreens: Hashable {
+    case petScreen(pet: PetWithInteractions)
+    
+    case addPetFlowType
+    case addPetFlowAvatar
+    case addPetFlowForm
+    case addPetFlowSetup
 }

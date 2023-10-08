@@ -3,21 +3,29 @@ import SwiftUI
 
 struct PetScreenView: View {
     @ObservedObject var viewState: PetScreenState
-    @State private var navStack: [MainNavStackScreens] = []
+    @Binding private var navStack: [MainNavStackScreens]
     @State private var pet: PetWithInteractions
     
-    init() {
+    init(navStack: Binding<[MainNavStackScreens]>, pet: PetWithInteractions) {
         viewState = PetScreenState()
+        self.pet = pet
+        self._navStack = navStack
     }
     
     var body: some View {
-        NavigationStack(path: $navStack) {
-          ProgressView()
-        }.popover(isPresented: $viewState.presentEditPet) {
-           
+        NavigationView {
+            Button(action: {
+                navStack.append(.addPetFlowType)
+            }) {
+                Text("Test pet")
+            }
         }
-        .confirmationDialog("", isPresented: $viewState.presentDeletePetDialog) {
-            
-        }
+        .navigationLargeTitle(title: pet.name)
+//        .popover(isPresented: $viewState.presentEditPet) {
+//           
+//        }
+//        .confirmationDialog("", isPresented: $viewState.presentDeletePetDialog) {
+//            
+//        }
     }
 }

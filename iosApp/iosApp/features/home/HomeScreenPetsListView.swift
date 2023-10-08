@@ -5,6 +5,10 @@ struct HomeScreenPetsListView: View {
     let user: User
     let pets: [PetWithInteractions]
     @Binding var navStack: [MainNavStackScreens]
+    
+    @State private var petName = ""
+    @State private var petType = PetType.cat
+    @State private var avatar = "ic_cat"
 
     var body: some View {
         List(pets, id: \.id) { pet in
@@ -16,21 +20,21 @@ struct HomeScreenPetsListView: View {
                             .scaledToFit()
                             .frame(maxHeight: 64)
                             .padding(.trailing, 6)
-                        
+
                         VStack(alignment: .leading) {
                             Text(pet.name)
                                 .font(.title)
                                 .fontWeight(.bold)
-                            
+
                             Text(pet.birthday.toSwift().formatted(date: .long, time: .omitted))
                                 .font(.body)
                         }
                         .fixedSize()
                     }
-                    
+
                     Divider()
                         .padding(.top, 8)
-                    
+
                     RemindersListRowView(isCompleted: false)
                     Divider()
                     RemindersListRowView(isCompleted: false)
@@ -40,20 +44,40 @@ struct HomeScreenPetsListView: View {
                 .padding(.vertical)
             }
             .onTapGesture {
-                navStack.append(.petScreen)
+                navStack.append(.petScreen(pet: pet))
             }
         }
         .listStyle(.insetGrouped)
-        .navigationLargeTitle(title: "Roar")
         .toolbar {
             ToolbarItemGroup(placement: .primaryAction) {
-                AddPetFlowView(navStack: navStack)
+                AddPetFlowView(navStack: $navStack)
                 Button(action: {}) {
                     Image(systemName: "person.circle")
                 }
             }
         }
+        .navigationLargeTitle(title: "Roar")
         .screenBackground(color: Color(.systemGroupedBackground))
+        .navigationDestination(for: MainNavStackScreens.self) { screen in
+            switch screen {
+            case .petScreen(let pet): PetScreenView(navStack: $navStack, pet: pet)
+            case .addPetFlowType: AddPetTypeView { petType in
+                    self.petType = petType
+                    navStack.append(.addPetFlowAvatar)
+                }
+            case .addPetFlowAvatar: AddPetAvatarView(petType: $petType) { avatar in
+                    self.avatar = avatar
+                    navStack.append(.addPetFlowForm)
+                }
+            case .addPetFlowForm: AddPetFormView(petType: $petType, petAvatar: $avatar) { name in
+                    self.petName = name
+                    navStack.append(.addPetFlowSetup)
+                }
+            case .addPetFlowSetup: AddPetSetupView(petName: $petName, petAvatar: $avatar) {
+                    navStack.removeAll()
+                }
+            }
+        }
     }
 }
 

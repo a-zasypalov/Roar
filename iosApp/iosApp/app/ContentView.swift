@@ -4,7 +4,9 @@ import SwiftUI
 struct ContentView: View {
     var body: some View {
         // TODO: Naigation wrapper
-        HomeScreenView()
+        NavigationStack {
+            HomeScreenView()
+        }
     }
 }
 
