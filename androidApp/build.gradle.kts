@@ -17,11 +17,11 @@ android {
     val versionNameValue = "${versionMajor}.${versionMinor}.${versionPatch}"
 
     namespace = "com.gaoyun.roar.android"
-    compileSdk = 33
+    compileSdk = 34
     defaultConfig {
         applicationId = "com.gaoyun.roar.android"
         minSdk = 26
-        targetSdk = 33
+        targetSdk = 34
         versionCode = versionCodeValue
         versionName = versionNameValue
         multiDexEnabled = true
@@ -58,7 +58,7 @@ dependencies {
     implementation(project(":androidApp:feature-user-screen"))
     implementation(project(":androidApp:feature-onboarding"))
 
-    implementation("androidx.activity:activity-compose:1.7.2")
+    implementation("androidx.activity:activity-compose:1.8.0")
     implementation("androidx.multidex:multidex:2.0.1")
 
     implementation("com.google.android.play:app-update:2.1.0")
