@@ -1,8 +1,7 @@
 import SwiftUI
 
 struct AddPetSetupView: View {
-    @Binding var petName: String
-    @Binding var petAvatar: String
+    var petId: String
     let onSetupFinish: () -> Void
 
     var body: some View {
@@ -11,7 +10,7 @@ struct AddPetSetupView: View {
             Spacer()
 
             VStack {
-                Image(petAvatar)
+                Image("ic_cat")
                     .resizable()
                     .scaledToFit()
                     .frame(height: 120)
@@ -25,7 +24,7 @@ struct AddPetSetupView: View {
                 .font(.largeTitle)
                 .padding(.top)
 
-            Text("We are welcoming \(petName)")
+            Text("We are welcoming \(petId)")
 
             Spacer()
 
@@ -44,5 +43,5 @@ struct AddPetSetupView: View {
 }
 
 #Preview {
-    AddPetSetupView(petName: .constant("Varya"), petAvatar: .constant("ic_cat")) {}
+    AddPetSetupView(petId: "123") {}
 }

@@ -3,19 +3,19 @@ import SwiftUI
 
 struct PetScreenView: View {
     @ObservedObject var viewState: PetScreenState
-    @Binding private var navStack: [MainNavStackScreens]
+//    @Binding private var navStack: [MainNavStackScreens]
     @State private var pet: PetWithInteractions
     
-    init(navStack: Binding<[MainNavStackScreens]>, pet: PetWithInteractions) {
+    init(pet: PetWithInteractions) {
         viewState = PetScreenState()
         self.pet = pet
-        self._navStack = navStack
+//        self._navStack = navStack
     }
     
     var body: some View {
         NavigationView {
             Button(action: {
-                navStack.append(.addPetFlowType)
+//                navStack.append(.addPetFlowType)
             }) {
                 Text("Test pet")
             }

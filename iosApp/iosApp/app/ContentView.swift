@@ -2,10 +2,11 @@ import sharedLib
 import SwiftUI
 
 struct ContentView: View {
+    @State var navStack = NavigationPath()
+
     var body: some View {
-        // TODO: Naigation wrapper
-        NavigationStack {
-            HomeScreenView()
+        NavigationStack(path: $navStack) {
+            HomeScreenView(navStack: $navStack)
         }
     }
 }

@@ -2,7 +2,7 @@ import sharedLib
 import SwiftUI
 
 struct AddPetAvatarView: View {
-    @Binding var petType: PetType
+    var petType: PetType
     let onAvatarChosen: (String) -> Void
 
     let columns = [
@@ -30,5 +30,5 @@ struct AddPetAvatarView: View {
 }
 
 #Preview {
-    AddPetAvatarView(petType: .constant(.cat)) { _ in }
+    AddPetAvatarView(petType: .cat) { _ in }
 }

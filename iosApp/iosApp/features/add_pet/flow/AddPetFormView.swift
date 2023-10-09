@@ -2,9 +2,9 @@ import sharedLib
 import SwiftUI
 
 struct AddPetFormView: View {
-    @Binding var petType: PetType
-    @Binding var petAvatar: String
-    let onPetCreated: (String) -> Void
+    var petType: PetType
+    var petAvatar: String
+    let onCreatePetButtonClicked: (AddPetDataScreenContract.EventAddPetButtonClicked) -> Void
 
     @State private var name = ""
     @State private var chipNumber = ""
@@ -66,7 +66,20 @@ struct AddPetFormView: View {
             }
         }
         .safeAreaInset(edge: .bottom) {
-            Button(action: {onPetCreated(name)}) {
+            Button(action: {
+                let event = AddPetDataScreenContract.EventAddPetButtonClicked(
+                    petType: petType.name,
+                    avatar: petAvatar,
+                    breed: selectedBreed,
+                    name: name,
+                    birthday: birthDate.toShared(),
+                    gender: selectedGender,
+                    chipNumber: chipNumber,
+                    isSterilized: petIsSterilized
+                )
+                
+                onCreatePetButtonClicked(event)
+            }) {
                 Text("Add pet")
                     .mainActionButtonStyle()
             }
@@ -81,6 +94,6 @@ struct AddPetFormView: View {
 
 #Preview {
     NavigationView {
-        AddPetFormView(petType: .constant(.cat), petAvatar: .constant("ic_cat_48")) { _ in }
+        AddPetFormView(petType: .cat, petAvatar: "ic_cat_48") { _ in }
     }
 }

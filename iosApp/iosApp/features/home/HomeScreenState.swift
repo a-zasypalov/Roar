@@ -30,7 +30,7 @@ class HomeScreenState: ObservableObject {
     func checkUserRegistered() {
         presentAuthorization = false
         presentOnboarding = false
-//        viewModel.checkUserRegistered()
+        viewModel.checkUserRegistered()
     }
 
     deinit {

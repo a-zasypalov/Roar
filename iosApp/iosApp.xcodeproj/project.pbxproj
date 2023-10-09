@@ -33,6 +33,7 @@
 		104A70272AA0DFCF00A63F63 /* GoogleSignIn in Frameworks */ = {isa = PBXBuildFile; productRef = 104A70262AA0DFCF00A63F63 /* GoogleSignIn */; };
 		104A70292AA0DFCF00A63F63 /* GoogleSignInSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 104A70282AA0DFCF00A63F63 /* GoogleSignInSwift */; };
 		104A702B2AA0E02100A63F63 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 104A702A2AA0E02000A63F63 /* GoogleService-Info.plist */; };
+		10548F742AD41A28000DB11F /* AddPetFlowState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10548F732AD41A28000DB11F /* AddPetFlowState.swift */; };
 		105A8EDC2ABB9301009A1892 /* Date.swift in Sources */ = {isa = PBXBuildFile; fileRef = 105A8EDB2ABB9301009A1892 /* Date.swift */; };
 		105A8EDE2ABB9354009A1892 /* SwiftTypeConvertible.swift in Sources */ = {isa = PBXBuildFile; fileRef = 105A8EDD2ABB9354009A1892 /* SwiftTypeConvertible.swift */; };
 		107B513A2AC9EBEA008448BD /* PetScreenView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 107B51392AC9EBEA008448BD /* PetScreenView.swift */; };
@@ -80,6 +81,7 @@
 		104A70022AA0C90E00A63F63 /* HomeScreenView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeScreenView.swift; sourceTree = "<group>"; };
 		104A70042AA0CD5E00A63F63 /* HomeScreenState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeScreenState.swift; sourceTree = "<group>"; };
 		104A702A2AA0E02000A63F63 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		10548F732AD41A28000DB11F /* AddPetFlowState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddPetFlowState.swift; sourceTree = "<group>"; };
 		105A8EDB2ABB9301009A1892 /* Date.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Date.swift; sourceTree = "<group>"; };
 		105A8EDD2ABB9354009A1892 /* SwiftTypeConvertible.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftTypeConvertible.swift; sourceTree = "<group>"; };
 		107B51392AC9EBEA008448BD /* PetScreenView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PetScreenView.swift; sourceTree = "<group>"; };
@@ -198,6 +200,7 @@
 			children = (
 				108CF7E72AB3515500A133A3 /* AddPetFlowView.swift */,
 				1041B1992AB3776700E4534E /* flow */,
+				10548F732AD41A28000DB11F /* AddPetFlowState.swift */,
 			);
 			path = add_pet;
 			sourceTree = "<group>";
@@ -419,6 +422,7 @@
 				10B061BE2AC6AD170052C690 /* DeferredLoadingIndicator.swift in Sources */,
 				108CF7DD2AB3421500A133A3 /* HomeScreenNoPetsView.swift in Sources */,
 				105A8EDC2ABB9301009A1892 /* Date.swift in Sources */,
+				10548F742AD41A28000DB11F /* AddPetFlowState.swift in Sources */,
 				108CF7E82AB3515500A133A3 /* AddPetFlowView.swift in Sources */,
 				104A70032AA0C90E00A63F63 /* HomeScreenView.swift in Sources */,
 				10FC63192A9E7124000D265F /* OnboardingScreenState.swift in Sources */,

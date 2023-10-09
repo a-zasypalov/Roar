@@ -2,37 +2,38 @@ import sharedLib
 import SwiftUI
 
 struct AddPetFlowView: View {
-    @Binding var navStack: [MainNavStackScreens]
+    @Binding var navStack: NavigationPath
+    @ViewBuilder let label: () -> any View
 
-    @State private var petName = ""
-    @State private var petType = PetType.cat
-    @State private var avatar = "ic_cat"
+    let viewModel: AddPetFlowState
+
+    init(navStack: Binding<NavigationPath>, label: @escaping () -> any View) {
+        viewModel = AddPetFlowState(navStack: navStack)
+        self._navStack = navStack
+        self.label = label
+    }
 
     var body: some View {
         Button(action: {
-            navStack.append(.addPetFlowType)
+            navStack.append(AddPetFlowScreens.addPetFlowType)
         }) {
-            Image(systemName: "plus")
+            AnyView(label())
         }
-//        .navigationDestination(for: MainNavStackScreens.self) { screen in
-//            switch screen {
-//            case .addPetFlowType: AddPetTypeView { petType in
-//                    self.petType = petType
-//                    navStack.append(.addPetFlowAvatar)
-//                }
-//            case .addPetFlowAvatar: AddPetAvatarView(petType: $petType) { avatar in
-//                    self.avatar = avatar
-//                    navStack.append(.addPetFlowForm)
-//                }
-//            case .addPetFlowForm: AddPetFormView(petType: $petType, petAvatar: $avatar) { name in
-//                    self.petName = name
-//                    navStack.append(.addPetFlowSetup)
-//                }
-//            case .addPetFlowSetup: AddPetSetupView(petName: $petName, petAvatar: $avatar) {
-//                    navStack.removeAll()
-//                }
-//            default: ProgressView()
-//            }
-//        }
+        .navigationDestination(for: AddPetFlowScreens.self) { screen in
+            switch screen {
+            case .addPetFlowType: AddPetTypeView { petType in
+                    navStack.append(AddPetFlowScreens.addPetFlowAvatar(type: petType))
+                }
+            case .addPetFlowAvatar(let petType): AddPetAvatarView(petType: petType) { avatar in
+                    navStack.append(AddPetFlowScreens.addPetFlowForm(type: petType, avatar: avatar))
+                }
+            case .addPetFlowForm(let petType, let avatar): AddPetFormView(petType: petType, petAvatar: avatar) { event in
+                    viewModel.createNewPet(event: event)
+                }
+            case .addPetFlowSetup(let petId): AddPetSetupView(petId: petId) {
+                    navStack.removeLast(4)
+                }
+            }
+        }
     }
 }

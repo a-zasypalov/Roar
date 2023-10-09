@@ -1,10 +1,12 @@
 import sharedLib
 
-enum MainNavStackScreens: Hashable {
-    case petScreen(pet: PetWithInteractions)
-    
+enum AddPetFlowScreens: Hashable {
     case addPetFlowType
-    case addPetFlowAvatar
-    case addPetFlowForm
-    case addPetFlowSetup
+    case addPetFlowAvatar(type: PetType)
+    case addPetFlowForm(type: PetType, avatar: String)
+    case addPetFlowSetup(petId: String)
+}
+
+struct PetScreen: Hashable {
+    let pet: PetWithInteractions
 }

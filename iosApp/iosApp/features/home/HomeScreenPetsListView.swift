@@ -4,11 +4,9 @@ import SwiftUI
 struct HomeScreenPetsListView: View {
     let user: User
     let pets: [PetWithInteractions]
-    @Binding var navStack: [MainNavStackScreens]
-    
-    @State private var petName = ""
-    @State private var petType = PetType.cat
-    @State private var avatar = "ic_cat"
+    @Binding var navStack: NavigationPath
+
+    @State var userProfileOpen = false
 
     var body: some View {
         List(pets, id: \.id) { pet in
@@ -34,55 +32,41 @@ struct HomeScreenPetsListView: View {
 
                     Divider()
                         .padding(.top, 8)
-
-                    RemindersListRowView(isCompleted: false)
-                    Divider()
-                    RemindersListRowView(isCompleted: false)
-                    Divider()
-                    RemindersListRowView(isCompleted: false)
+                                        
+                    ForEach(pet.interactions.values.flatMap { i in i }, id: \.self) { key in
+                        RemindersListRowView(isCompleted: false, name: "Reminder")
+//                        if key != pet.interactions.last.key {
+                            Divider()
+//                        }
+                    }
                 }
                 .padding(.vertical)
             }
             .onTapGesture {
-                navStack.append(.petScreen(pet: pet))
+                navStack.append(PetScreen(pet: pet))
             }
         }
         .listStyle(.insetGrouped)
         .toolbar {
             ToolbarItemGroup(placement: .primaryAction) {
-                AddPetFlowView(navStack: $navStack)
-                Button(action: {}) {
+                AddPetFlowView(navStack: $navStack) {
+                    Image(systemName: "plus")
+                }
+
+                Button(action: { userProfileOpen.toggle() }) {
                     Image(systemName: "person.circle")
                 }
             }
         }
         .navigationLargeTitle(title: "Roar")
         .screenBackground(color: Color(.systemGroupedBackground))
-        .navigationDestination(for: MainNavStackScreens.self) { screen in
-            switch screen {
-            case .petScreen(let pet): PetScreenView(navStack: $navStack, pet: pet)
-            case .addPetFlowType: AddPetTypeView { petType in
-                    self.petType = petType
-                    navStack.append(.addPetFlowAvatar)
-                }
-            case .addPetFlowAvatar: AddPetAvatarView(petType: $petType) { avatar in
-                    self.avatar = avatar
-                    navStack.append(.addPetFlowForm)
-                }
-            case .addPetFlowForm: AddPetFormView(petType: $petType, petAvatar: $avatar) { name in
-                    self.petName = name
-                    navStack.append(.addPetFlowSetup)
-                }
-            case .addPetFlowSetup: AddPetSetupView(petName: $petName, petAvatar: $avatar) {
-                    navStack.removeAll()
-                }
-            }
-        }
+        .popover(isPresented: $userProfileOpen) {}
     }
 }
 
 struct RemindersListRowView: View {
     @State var isCompleted: Bool
+    let name: String
 
     var body: some View {
         HStack(alignment: .center) {
@@ -91,7 +75,7 @@ struct RemindersListRowView: View {
                 : "circle")
                 .imageScale(.large)
                 .foregroundColor(.accentColor)
-            Text("Reminder")
+            Text(name)
                 .font(.body)
                 .expandedH()
         }
@@ -112,7 +96,7 @@ struct RemindersListRowView: View {
                 PetWithInteractions(id: "", petType: .cat, breed: "No breed", name: "Test cat", avatar: "ic_cat", userId: "123", birthday: Kotlinx_datetimeLocalDate(year: 2020, month: Kotlinx_datetimeMonth.august, dayOfMonth: 1), isSterilized: false, gender: .female, chipNumber: "", dateCreated: Kotlinx_datetimeLocalDate(year: 2020, month: Kotlinx_datetimeMonth.august, dayOfMonth: 1), interactions: [:]),
                 PetWithInteractions(id: "", petType: .cat, breed: "No breed", name: "Test cat", avatar: "ic_cat", userId: "123", birthday: Kotlinx_datetimeLocalDate(year: 2020, month: Kotlinx_datetimeMonth.august, dayOfMonth: 1), isSterilized: false, gender: .female, chipNumber: "", dateCreated: Kotlinx_datetimeLocalDate(year: 2020, month: Kotlinx_datetimeMonth.august, dayOfMonth: 1), interactions: [:])
             ],
-            navStack: .constant([])
+            navStack: .constant(NavigationPath())
         )
     }
 }
