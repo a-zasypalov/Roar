@@ -7,4 +7,10 @@ extension Text {
             .padding(.horizontal)
             .padding(.vertical, 12)
     }
+
+    func floatingActionButtonStyle() -> some View {
+        fontWeight(.medium)
+            .padding(.horizontal)
+            .padding(.vertical, 12)
+    }
 }

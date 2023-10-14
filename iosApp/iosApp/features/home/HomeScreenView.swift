@@ -12,8 +12,6 @@ struct HomeScreenView: View {
 
     var body: some View {
         Group {
-            //            previewWithPets()
-            //            previewWithoutPets()
             if viewState.screenState.isLoading {
                 ProgressView()
             } else if let user = viewState.screenState.user {
@@ -22,7 +20,7 @@ struct HomeScreenView: View {
                 } else {
                     HomeScreenPetsListView(user: user, pets: viewState.screenState.pets, navStack: $navStack)
                         .navigationDestination(for: PetScreen.self) { link in
-                            PetScreenView(pet: link.pet)
+                            PetScreenView(pet: link.pet, navStack: $navStack)
                         }
                 }
             } else {
@@ -40,19 +38,5 @@ struct HomeScreenView: View {
             AuthScreenView(authCallback: viewState.checkUserRegistered)
                 .interactiveDismissDisabled()
         }
-    }
-}
-
-extension HomeScreenView {
-    func previewWithPets() -> HomeScreenPetsListView {
-        return HomeScreenPetsListView(user: User(id: "", name: "Tester"), pets: [
-            PetWithInteractions(id: "11", petType: .cat, breed: "No breed", name: "Test cat1", avatar: "ic_cat_3", userId: "123", birthday: Kotlinx_datetimeLocalDate(year: 2020, month: Kotlinx_datetimeMonth.august, dayOfMonth: 1), isSterilized: false, gender: .female, chipNumber: "11", dateCreated: Kotlinx_datetimeLocalDate(year: 2020, month: Kotlinx_datetimeMonth.august, dayOfMonth: 1), interactions: [:]),
-            PetWithInteractions(id: "12", petType: .cat, breed: "No breed", name: "Test cat2", avatar: "ic_cat_35", userId: "123", birthday: Kotlinx_datetimeLocalDate(year: 2020, month: Kotlinx_datetimeMonth.august, dayOfMonth: 1), isSterilized: false, gender: .female, chipNumber: "12", dateCreated: Kotlinx_datetimeLocalDate(year: 2020, month: Kotlinx_datetimeMonth.august, dayOfMonth: 1), interactions: [:]),
-            PetWithInteractions(id: "13", petType: .cat, breed: "No breed", name: "Test cat3", avatar: "ic_cat_48", userId: "123", birthday: Kotlinx_datetimeLocalDate(year: 2020, month: Kotlinx_datetimeMonth.august, dayOfMonth: 1), isSterilized: false, gender: .female, chipNumber: "13", dateCreated: Kotlinx_datetimeLocalDate(year: 2020, month: Kotlinx_datetimeMonth.august, dayOfMonth: 1), interactions: [:])
-        ], navStack: $navStack)
-    }
-
-    func previewWithoutPets() -> HomeScreenNoPetsView {
-        return HomeScreenNoPetsView(user: User(id: "", name: "Tester"), navStack: $navStack)
     }
 }

@@ -38,6 +38,7 @@
 		105A8EDE2ABB9354009A1892 /* SwiftTypeConvertible.swift in Sources */ = {isa = PBXBuildFile; fileRef = 105A8EDD2ABB9354009A1892 /* SwiftTypeConvertible.swift */; };
 		107B513A2AC9EBEA008448BD /* PetScreenView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 107B51392AC9EBEA008448BD /* PetScreenView.swift */; };
 		107B513C2AC9EBF4008448BD /* PetScreenState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 107B513B2AC9EBF4008448BD /* PetScreenState.swift */; };
+		1088A2BA2ADB32E10021EEA5 /* CardBackground.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1088A2B92ADB32E10021EEA5 /* CardBackground.swift */; };
 		108CF7DB2AB3023C00A133A3 /* MainActionButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 108CF7DA2AB3023C00A133A3 /* MainActionButton.swift */; };
 		108CF7DD2AB3421500A133A3 /* HomeScreenNoPetsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 108CF7DC2AB3421500A133A3 /* HomeScreenNoPetsView.swift */; };
 		108CF7E02AB345DD00A133A3 /* AddPetTypeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 108CF7DF2AB345DD00A133A3 /* AddPetTypeView.swift */; };
@@ -86,6 +87,7 @@
 		105A8EDD2ABB9354009A1892 /* SwiftTypeConvertible.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftTypeConvertible.swift; sourceTree = "<group>"; };
 		107B51392AC9EBEA008448BD /* PetScreenView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PetScreenView.swift; sourceTree = "<group>"; };
 		107B513B2AC9EBF4008448BD /* PetScreenState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PetScreenState.swift; sourceTree = "<group>"; };
+		1088A2B92ADB32E10021EEA5 /* CardBackground.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardBackground.swift; sourceTree = "<group>"; };
 		108CF7DA2AB3023C00A133A3 /* MainActionButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainActionButton.swift; sourceTree = "<group>"; };
 		108CF7DC2AB3421500A133A3 /* HomeScreenNoPetsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeScreenNoPetsView.swift; sourceTree = "<group>"; };
 		108CF7DF2AB345DD00A133A3 /* AddPetTypeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddPetTypeView.swift; sourceTree = "<group>"; };
@@ -191,6 +193,7 @@
 				1041B19A2AB4694200E4534E /* CardIconButton.swift */,
 				1041B19C2AB46A9A00E4534E /* ViewExtensions.swift */,
 				1041B19E2AB4A83000E4534E /* ViewAlignment.swift */,
+				1088A2B92ADB32E10021EEA5 /* CardBackground.swift */,
 			);
 			path = design;
 			sourceTree = "<group>";
@@ -419,6 +422,7 @@
 				1041B1982AB374D200E4534E /* MainNavStackScreens.swift in Sources */,
 				7555FF83242A565900829871 /* ContentView.swift in Sources */,
 				105A8EDE2ABB9354009A1892 /* SwiftTypeConvertible.swift in Sources */,
+				1088A2BA2ADB32E10021EEA5 /* CardBackground.swift in Sources */,
 				10B061BE2AC6AD170052C690 /* DeferredLoadingIndicator.swift in Sources */,
 				108CF7DD2AB3421500A133A3 /* HomeScreenNoPetsView.swift in Sources */,
 				105A8EDC2ABB9301009A1892 /* Date.swift in Sources */,
