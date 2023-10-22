@@ -12,6 +12,7 @@
 		100C1BD22AE58C910026A768 /* InteractionScreenState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 100C1BD12AE58C910026A768 /* InteractionScreenState.swift */; };
 		100C1BD42AE58CA50026A768 /* InteractionScreenView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 100C1BD32AE58CA50026A768 /* InteractionScreenView.swift */; };
 		100C1BD82AE591630026A768 /* ProcessInfoExt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 100C1BD72AE591630026A768 /* ProcessInfoExt.swift */; };
+		100C1BDA2AE5ACAE0026A768 /* InteractionTypeExt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 100C1BD92AE5ACAE0026A768 /* InteractionTypeExt.swift */; };
 		1041B1982AB374D200E4534E /* MainNavStackScreens.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1041B1972AB374D200E4534E /* MainNavStackScreens.swift */; };
 		1041B19B2AB4694200E4534E /* CardIconButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1041B19A2AB4694200E4534E /* CardIconButton.swift */; };
 		1041B19D2AB46A9A00E4534E /* ViewExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1041B19C2AB46A9A00E4534E /* ViewExtensions.swift */; };
@@ -81,6 +82,7 @@
 		100C1BD12AE58C910026A768 /* InteractionScreenState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InteractionScreenState.swift; sourceTree = "<group>"; };
 		100C1BD32AE58CA50026A768 /* InteractionScreenView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InteractionScreenView.swift; sourceTree = "<group>"; };
 		100C1BD72AE591630026A768 /* ProcessInfoExt.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProcessInfoExt.swift; sourceTree = "<group>"; };
+		100C1BD92AE5ACAE0026A768 /* InteractionTypeExt.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InteractionTypeExt.swift; sourceTree = "<group>"; };
 		1041B1972AB374D200E4534E /* MainNavStackScreens.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainNavStackScreens.swift; sourceTree = "<group>"; };
 		1041B19A2AB4694200E4534E /* CardIconButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardIconButton.swift; sourceTree = "<group>"; };
 		1041B19C2AB46A9A00E4534E /* ViewExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewExtensions.swift; sourceTree = "<group>"; };
@@ -189,6 +191,7 @@
 				105A8EDD2ABB9354009A1892 /* SwiftTypeConvertible.swift */,
 				10B061BD2AC6AD170052C690 /* DeferredLoadingIndicator.swift */,
 				100C1BD72AE591630026A768 /* ProcessInfoExt.swift */,
+				100C1BD92AE5ACAE0026A768 /* InteractionTypeExt.swift */,
 			);
 			path = utils;
 			sourceTree = "<group>";
@@ -434,6 +437,7 @@
 				108CF7E42AB3469A00A133A3 /* AddPetFormView.swift in Sources */,
 				108CF7DB2AB3023C00A133A3 /* MainActionButton.swift in Sources */,
 				100C1BD22AE58C910026A768 /* InteractionScreenState.swift in Sources */,
+				100C1BDA2AE5ACAE0026A768 /* InteractionTypeExt.swift in Sources */,
 				109DAE302A790C5A00A738D9 /* AuthScreenState.swift in Sources */,
 				1041B19B2AB4694200E4534E /* CardIconButton.swift in Sources */,
 				1041B19D2AB46A9A00E4534E /* ViewExtensions.swift in Sources */,

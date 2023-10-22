@@ -14,7 +14,7 @@ struct InteractionScreenView: View {
                 HStack(alignment: .center) {
                     VStack(alignment: .leading, spacing: 8.0) {
                         HStack {
-                            Image("drops")
+                            Image(viewState.interactionPreview.type.imageName())
                                 .resizable()
                                 .scaledToFit()
                                 .frame(width: 30, height: 25)
@@ -112,7 +112,7 @@ struct InteractionScreenView: View {
                         .align(.leading)
                         .expandedH()
                         .padding()
-                    
+
                     ForEach(Array(historyReminders), id: \.self) { reminder in
                         Section {
                             HStack(alignment: .center) {
@@ -131,7 +131,7 @@ struct InteractionScreenView: View {
                         }
                     }
                 }
-                
+
                 Button("Delete reminder", role: .destructive) {
                     viewState.presentDeleteInteractionDialog.toggle()
                 }
