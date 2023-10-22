@@ -22,6 +22,9 @@ struct HomeScreenView: View {
                         .navigationDestination(for: PetScreen.self) { link in
                             PetScreenView(pet: link.pet, navStack: $navStack)
                         }
+                        .navigationDestination(for: InteractionScreen.self) { link in
+                            InteractionScreenView(interaction: link.interaction, navStack: $navStack)
+                        }
                 }
             } else {
                 ProgressView()

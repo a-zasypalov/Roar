@@ -31,11 +31,17 @@ class PetScreenState: ObservableObject {
             }
         }
         
-        viewModel.buildScreenState(petId: pet.id)
+        if isNotPreview {
+            viewModel.buildScreenState(petId: pet.id)
+        }
     }
     
     func deletePet() {
         viewModel.setEvent(event: PetScreenContract.EventOnDeletePetConfirmed(petId: petPreview.id))
+    }
+    
+    func openInteraction(interaction: InteractionWithReminders) {
+        navStack.append(InteractionScreen(interaction: interaction))
     }
 
     deinit {

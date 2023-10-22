@@ -10,3 +10,7 @@ enum AddPetFlowScreens: Hashable {
 struct PetScreen: Hashable {
     let pet: PetWithInteractions
 }
+
+struct InteractionScreen: Hashable {
+    let interaction: InteractionWithReminders
+}

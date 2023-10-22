@@ -9,6 +9,9 @@
 /* Begin PBXBuildFile section */
 		058557BB273AAA24004C7B11 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 058557BA273AAA24004C7B11 /* Assets.xcassets */; };
 		058557D9273AAEEB004C7B11 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 058557D8273AAEEB004C7B11 /* Preview Assets.xcassets */; };
+		100C1BD22AE58C910026A768 /* InteractionScreenState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 100C1BD12AE58C910026A768 /* InteractionScreenState.swift */; };
+		100C1BD42AE58CA50026A768 /* InteractionScreenView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 100C1BD32AE58CA50026A768 /* InteractionScreenView.swift */; };
+		100C1BD82AE591630026A768 /* ProcessInfoExt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 100C1BD72AE591630026A768 /* ProcessInfoExt.swift */; };
 		1041B1982AB374D200E4534E /* MainNavStackScreens.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1041B1972AB374D200E4534E /* MainNavStackScreens.swift */; };
 		1041B19B2AB4694200E4534E /* CardIconButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1041B19A2AB4694200E4534E /* CardIconButton.swift */; };
 		1041B19D2AB46A9A00E4534E /* ViewExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1041B19C2AB46A9A00E4534E /* ViewExtensions.swift */; };
@@ -75,6 +78,9 @@
 /* Begin PBXFileReference section */
 		058557BA273AAA24004C7B11 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		058557D8273AAEEB004C7B11 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		100C1BD12AE58C910026A768 /* InteractionScreenState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InteractionScreenState.swift; sourceTree = "<group>"; };
+		100C1BD32AE58CA50026A768 /* InteractionScreenView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InteractionScreenView.swift; sourceTree = "<group>"; };
+		100C1BD72AE591630026A768 /* ProcessInfoExt.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProcessInfoExt.swift; sourceTree = "<group>"; };
 		1041B1972AB374D200E4534E /* MainNavStackScreens.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainNavStackScreens.swift; sourceTree = "<group>"; };
 		1041B19A2AB4694200E4534E /* CardIconButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardIconButton.swift; sourceTree = "<group>"; };
 		1041B19C2AB46A9A00E4534E /* ViewExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewExtensions.swift; sourceTree = "<group>"; };
@@ -145,6 +151,15 @@
 			path = "Preview Content";
 			sourceTree = "<group>";
 		};
+		100C1BD02AE58C700026A768 /* interaction */ = {
+			isa = PBXGroup;
+			children = (
+				100C1BD12AE58C910026A768 /* InteractionScreenState.swift */,
+				100C1BD32AE58CA50026A768 /* InteractionScreenView.swift */,
+			);
+			path = interaction;
+			sourceTree = "<group>";
+		};
 		1041B1992AB3776700E4534E /* flow */ = {
 			isa = PBXGroup;
 			children = (
@@ -173,6 +188,7 @@
 				105A8EDB2ABB9301009A1892 /* Date.swift */,
 				105A8EDD2ABB9354009A1892 /* SwiftTypeConvertible.swift */,
 				10B061BD2AC6AD170052C690 /* DeferredLoadingIndicator.swift */,
+				100C1BD72AE591630026A768 /* ProcessInfoExt.swift */,
 			);
 			path = utils;
 			sourceTree = "<group>";
@@ -226,6 +242,7 @@
 				104A70012AA0C8E400A63F63 /* home */,
 				107B51382AC9EB4E008448BD /* pet */,
 				108CF7DE2AB345AC00A133A3 /* add_pet */,
+				100C1BD02AE58C700026A768 /* interaction */,
 			);
 			path = features;
 			sourceTree = "<group>";
@@ -416,10 +433,12 @@
 				10FC631B2A9E7133000D265F /* OnboardingScreenView.swift in Sources */,
 				108CF7E42AB3469A00A133A3 /* AddPetFormView.swift in Sources */,
 				108CF7DB2AB3023C00A133A3 /* MainActionButton.swift in Sources */,
+				100C1BD22AE58C910026A768 /* InteractionScreenState.swift in Sources */,
 				109DAE302A790C5A00A738D9 /* AuthScreenState.swift in Sources */,
 				1041B19B2AB4694200E4534E /* CardIconButton.swift in Sources */,
 				1041B19D2AB46A9A00E4534E /* ViewExtensions.swift in Sources */,
 				1041B1982AB374D200E4534E /* MainNavStackScreens.swift in Sources */,
+				100C1BD82AE591630026A768 /* ProcessInfoExt.swift in Sources */,
 				7555FF83242A565900829871 /* ContentView.swift in Sources */,
 				105A8EDE2ABB9354009A1892 /* SwiftTypeConvertible.swift in Sources */,
 				1088A2BA2ADB32E10021EEA5 /* CardBackground.swift in Sources */,
@@ -428,6 +447,7 @@
 				105A8EDC2ABB9301009A1892 /* Date.swift in Sources */,
 				10548F742AD41A28000DB11F /* AddPetFlowState.swift in Sources */,
 				108CF7E82AB3515500A133A3 /* AddPetFlowView.swift in Sources */,
+				100C1BD42AE58CA50026A768 /* InteractionScreenView.swift in Sources */,
 				104A70032AA0C90E00A63F63 /* HomeScreenView.swift in Sources */,
 				10FC63192A9E7124000D265F /* OnboardingScreenState.swift in Sources */,
 				108CF7E02AB345DD00A133A3 /* AddPetTypeView.swift in Sources */,

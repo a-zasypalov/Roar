@@ -103,8 +103,7 @@ struct PetScreenView: View {
                             
                             Section(header: Text(key.name).padding(.horizontal)) {
                                 let interactions = viewState.screenState.interactions[key]
-                                
-                                //.sorted(by: {$0.reminders.min(by: {$0.dateTime.toSwift() < $1.dateTime.toSwift()}) < $1.reminders.min(by: {$0.dateTime.toSwift() < $1.dateTime.toSwift()})})
+//                                    .sorted(by: {$0.reminders.min(by: {$0.dateTime.toSwift() < $1.dateTime.toSwift()}) < $1.reminders.min(by: {$0.dateTime.toSwift() < $1.dateTime.toSwift()})})
                                 
                                 
                                 ForEach(interactions ?? [], id: \.self) { interaction in
@@ -121,6 +120,9 @@ struct PetScreenView: View {
                                     .expandedH()
                                     .cardBackground()
                                     .padding(.horizontal)
+                                    .onTapGesture {
+                                        viewState.openInteraction(interaction: interaction)
+                                    }
                                 }
                             }
                         }
