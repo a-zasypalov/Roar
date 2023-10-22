@@ -10,8 +10,8 @@ import kotlinx.datetime.minus
 import kotlinx.datetime.toLocalDateTime
 
 object SharedDateUtils {
-    val MAX_DATE = LocalDateTime(LocalDate.fromEpochDays(Int.MAX_VALUE), LocalTime(0, 0, 0))
-    val MIN_DATE = LocalDateTime(LocalDate.fromEpochDays(0), LocalTime(0, 0, 0))
+    val MAX_DATE = LocalDateTime(LocalDate(3970, 1, 1), LocalTime(0, 0, 0))
+    val MIN_DATE = LocalDateTime(LocalDate(1970, 1, 1), LocalTime(0, 0, 0))
 
     fun currentDateAt(hour: Int, minute: Int) = Clock.System.now().toLocalDate().atTime(hour = hour, minute = minute)
     fun currentDate() = Clock.System.now().toLocalDate()

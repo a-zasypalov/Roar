@@ -1,15 +1,18 @@
-import SwiftUI
 import sharedLib
+import SwiftUI
 
 struct ContentView: View {
+    @State var navStack = NavigationPath()
+
     var body: some View {
-        // TODO: Naigation wrapper
-        AuthScreenView()
+        NavigationStack(path: $navStack) {
+            HomeScreenView(navStack: $navStack)
+        }
     }
 }
 
 struct ContentView_Previews: PreviewProvider {
-	static var previews: some View {
-		ContentView()
-	}
+    static var previews: some View {
+        ContentView()
+    }
 }

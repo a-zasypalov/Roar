@@ -3,7 +3,6 @@ plugins {
     id("com.android.library")
     kotlin("plugin.serialization")
     id("com.squareup.sqldelight")
-//    id("org.jetbrains.compose")
 }
 
 kotlin {
@@ -16,6 +15,7 @@ kotlin {
     ).forEach {
         it.binaries.framework {
             baseName = "sharedLib"
+            isStatic = true
         }
     }
 
@@ -51,12 +51,7 @@ kotlin {
                 implementation("io.insert-koin:koin-core:$koinVersion")
                 implementation("org.jetbrains.kotlinx:kotlinx-datetime:0.4.0")
                 implementation("com.squareup.sqldelight:runtime:1.5.5")
-
-//                implementation(compose.runtime)
-//                implementation(compose.foundation)
-//                implementation(compose.material)
-//                @OptIn(org.jetbrains.compose.ExperimentalComposeLibrary::class)
-//                implementation(compose.components.resources)
+                implementation("dev.gitlive:firebase-storage:1.10.0")
             }
         }
         val commonTest by getting {
