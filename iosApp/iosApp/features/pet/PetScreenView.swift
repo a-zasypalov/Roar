@@ -105,7 +105,6 @@ struct PetScreenView: View {
                                 let interactions = viewState.screenState.interactions[key]
 //                                    .sorted(by: {$0.reminders.min(by: {$0.dateTime.toSwift() < $1.dateTime.toSwift()}) < $1.reminders.min(by: {$0.dateTime.toSwift() < $1.dateTime.toSwift()})})
                                 
-                                
                                 ForEach(interactions ?? [], id: \.self) { interaction in
                                     HStack(alignment: .center) {
                                         Image(systemName: "circle")
@@ -140,7 +139,7 @@ struct PetScreenView: View {
             
             HStack(alignment: .bottom) {
                 Spacer()
-                Button(action: {}) {
+                AddInteractionFlowView(navStack: $viewState.navStack, petId: viewState.petPreview.id) {
                     Text("Add Reminder")
                         .floatingActionButtonStyle()
                 }

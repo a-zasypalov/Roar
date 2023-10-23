@@ -14,3 +14,8 @@ struct PetScreen: Hashable {
 struct InteractionScreen: Hashable {
     let interaction: InteractionWithReminders
 }
+
+enum AddInteractionFlowScreens: Hashable {
+    case interactionTemplates(petId: String)
+    case interactionForm(templateId: String)
+}

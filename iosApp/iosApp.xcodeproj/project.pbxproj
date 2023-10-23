@@ -13,6 +13,8 @@
 		100C1BD42AE58CA50026A768 /* InteractionScreenView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 100C1BD32AE58CA50026A768 /* InteractionScreenView.swift */; };
 		100C1BD82AE591630026A768 /* ProcessInfoExt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 100C1BD72AE591630026A768 /* ProcessInfoExt.swift */; };
 		100C1BDA2AE5ACAE0026A768 /* InteractionTypeExt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 100C1BD92AE5ACAE0026A768 /* InteractionTypeExt.swift */; };
+		100C1BDD2AE7079C0026A768 /* AddInteractionFlowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 100C1BDC2AE7079C0026A768 /* AddInteractionFlowView.swift */; };
+		100C1BE12AE709E00026A768 /* TemplatesListScreenView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 100C1BE02AE709E00026A768 /* TemplatesListScreenView.swift */; };
 		1041B1982AB374D200E4534E /* MainNavStackScreens.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1041B1972AB374D200E4534E /* MainNavStackScreens.swift */; };
 		1041B19B2AB4694200E4534E /* CardIconButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1041B19A2AB4694200E4534E /* CardIconButton.swift */; };
 		1041B19D2AB46A9A00E4534E /* ViewExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1041B19C2AB46A9A00E4534E /* ViewExtensions.swift */; };
@@ -83,6 +85,8 @@
 		100C1BD32AE58CA50026A768 /* InteractionScreenView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InteractionScreenView.swift; sourceTree = "<group>"; };
 		100C1BD72AE591630026A768 /* ProcessInfoExt.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProcessInfoExt.swift; sourceTree = "<group>"; };
 		100C1BD92AE5ACAE0026A768 /* InteractionTypeExt.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InteractionTypeExt.swift; sourceTree = "<group>"; };
+		100C1BDC2AE7079C0026A768 /* AddInteractionFlowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddInteractionFlowView.swift; sourceTree = "<group>"; };
+		100C1BE02AE709E00026A768 /* TemplatesListScreenView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TemplatesListScreenView.swift; sourceTree = "<group>"; };
 		1041B1972AB374D200E4534E /* MainNavStackScreens.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainNavStackScreens.swift; sourceTree = "<group>"; };
 		1041B19A2AB4694200E4534E /* CardIconButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardIconButton.swift; sourceTree = "<group>"; };
 		1041B19C2AB46A9A00E4534E /* ViewExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewExtensions.swift; sourceTree = "<group>"; };
@@ -165,8 +169,18 @@
 		100C1BDB2AE6FBF10026A768 /* add_interaction */ = {
 			isa = PBXGroup;
 			children = (
+				100C1BDF2AE709C80026A768 /* templates */,
+				100C1BDC2AE7079C0026A768 /* AddInteractionFlowView.swift */,
 			);
 			path = add_interaction;
+			sourceTree = "<group>";
+		};
+		100C1BDF2AE709C80026A768 /* templates */ = {
+			isa = PBXGroup;
+			children = (
+				100C1BE02AE709E00026A768 /* TemplatesListScreenView.swift */,
+			);
+			path = templates;
 			sourceTree = "<group>";
 		};
 		1041B1992AB3776700E4534E /* flow */ = {
@@ -436,6 +450,7 @@
 				108CF7E62AB3471200A133A3 /* AddPetSetupView.swift in Sources */,
 				107B513A2AC9EBEA008448BD /* PetScreenView.swift in Sources */,
 				107B513C2AC9EBF4008448BD /* PetScreenState.swift in Sources */,
+				100C1BE12AE709E00026A768 /* TemplatesListScreenView.swift in Sources */,
 				2152FB042600AC8F00CF470E /* iOSApp.swift in Sources */,
 				108CF7E22AB3466000A133A3 /* AddPetAvatarView.swift in Sources */,
 				108CF7EA2AB36EC200A133A3 /* HomeScreenPetsListView.swift in Sources */,
@@ -451,6 +466,7 @@
 				1041B19D2AB46A9A00E4534E /* ViewExtensions.swift in Sources */,
 				1041B1982AB374D200E4534E /* MainNavStackScreens.swift in Sources */,
 				100C1BD82AE591630026A768 /* ProcessInfoExt.swift in Sources */,
+				100C1BDD2AE7079C0026A768 /* AddInteractionFlowView.swift in Sources */,
 				7555FF83242A565900829871 /* ContentView.swift in Sources */,
 				105A8EDE2ABB9354009A1892 /* SwiftTypeConvertible.swift in Sources */,
 				1088A2BA2ADB32E10021EEA5 /* CardBackground.swift in Sources */,
