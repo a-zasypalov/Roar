@@ -5,11 +5,11 @@ struct AddPetFlowView: View {
     @Binding var navStack: NavigationPath
     @ViewBuilder let label: () -> any View
 
-    let viewModel: AddPetFlowState
+    @ObservedObject var viewModel: AddPetFlowState
 
     init(navStack: Binding<NavigationPath>, label: @escaping () -> any View) {
         viewModel = AddPetFlowState(navStack: navStack)
-        self._navStack = navStack
+        _navStack = navStack
         self.label = label
     }
 
@@ -22,12 +22,13 @@ struct AddPetFlowView: View {
         .navigationDestination(for: AddPetFlowScreens.self) { screen in
             switch screen {
             case .addPetFlowType: AddPetTypeView { petType in
+                    viewModel.initPetForm(petType: petType.name, localeCode: Locale.current.language.languageCode?.identifier ?? "en", noBreedString: "No breed")
                     navStack.append(AddPetFlowScreens.addPetFlowAvatar(type: petType))
                 }
             case .addPetFlowAvatar(let petType): AddPetAvatarView(petType: petType) { avatar in
                     navStack.append(AddPetFlowScreens.addPetFlowForm(type: petType, avatar: avatar))
                 }
-            case .addPetFlowForm(let petType, let avatar): AddPetFormView(petType: petType, petAvatar: avatar) { event in
+            case .addPetFlowForm(let petType, let avatar): AddPetFormView(petType: petType, petAvatar: avatar, breeds: viewModel.screenState.breeds) { event in
                     viewModel.createNewPet(event: event)
                 }
             case .addPetFlowSetup(let petId): AddPetSetupView(petId: petId) {

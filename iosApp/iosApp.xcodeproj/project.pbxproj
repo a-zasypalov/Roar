@@ -162,6 +162,13 @@
 			path = interaction;
 			sourceTree = "<group>";
 		};
+		100C1BDB2AE6FBF10026A768 /* add_interaction */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = add_interaction;
+			sourceTree = "<group>";
+		};
 		1041B1992AB3776700E4534E /* flow */ = {
 			isa = PBXGroup;
 			children = (
@@ -291,6 +298,7 @@
 				105A8EDA2ABB92F9009A1892 /* utils */,
 				108CF7D92AB3021700A133A3 /* design */,
 				109DAE2D2A790AB000A738D9 /* features */,
+				100C1BDB2AE6FBF10026A768 /* add_interaction */,
 				109DAE2C2A790A8A00A738D9 /* app */,
 				058557BA273AAA24004C7B11 /* Assets.xcassets */,
 				7555FF8C242A565B00829871 /* Info.plist */,

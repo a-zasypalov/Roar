@@ -3,6 +3,7 @@ import SwiftUI
 
 struct InteractionScreenView: View {
     @ObservedObject var viewState: InteractionScreenState
+    @Environment(\.colorScheme) var colorScheme
 
     init(interaction: InteractionWithReminders, navStack: Binding<NavigationPath>) {
         viewState = InteractionScreenState(interaction: interaction, navStack: navStack)
@@ -15,9 +16,12 @@ struct InteractionScreenView: View {
                     VStack(alignment: .leading, spacing: 8.0) {
                         HStack {
                             Image(viewState.interactionPreview.type.imageName())
+                                .renderingMode(.template)
                                 .resizable()
                                 .scaledToFit()
                                 .frame(width: 30, height: 25)
+                                .foregroundColor(colorScheme == .dark ? .white : .black)
+                                
                             Text(viewState.interactionPreview.group.name.localizedLowercase.capitalized)
                                 .padding(.leading, 8)
                         }
@@ -50,7 +54,8 @@ struct InteractionScreenView: View {
                             Image(systemName: "repeat")
                                 .resizable()
                                 .scaledToFit()
-                                .frame(width: 30, height: 25)
+                                .frame(width: 24, height: 25)
+                                .padding(.horizontal, 3)
                             Text("Repeats every 3 months on the same day, never ends")
                                 .padding(.leading, 8)
                         }

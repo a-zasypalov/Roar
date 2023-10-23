@@ -4,17 +4,30 @@ import SwiftUI
 struct AddPetFormView: View {
     var petType: PetType
     var petAvatar: String
+    @State var breeds: [String]
     let onCreatePetButtonClicked: (AddPetDataScreenContract.EventAddPetButtonClicked) -> Void
 
     @State private var name = ""
     @State private var chipNumber = ""
-    @State private var breeds = ["No breed", "British Shorthair", "Siberian"]
     @State private var selectedBreed = "No breed"
     @State private var genders = ["Male", "Female"]
     @State private var selectedGender = "Male"
     @State private var petIsSterilized = false
     @State private var birthDate = Date.now
-
+    
+    init(
+        petType: PetType,
+        petAvatar: String,
+        breeds: [String],
+        onCreatePetButtonClicked: @escaping (AddPetDataScreenContract.EventAddPetButtonClicked) -> Void
+    ) {
+        self.petType = petType
+        self.petAvatar = petAvatar
+        self._breeds = State(initialValue: breeds)
+        self.onCreatePetButtonClicked = onCreatePetButtonClicked
+        self.selectedBreed = breeds.first ?? "No Breed"
+    }
+    
     var body: some View {
         VStack {
             Form {
@@ -94,6 +107,6 @@ struct AddPetFormView: View {
 
 #Preview {
     NavigationView {
-        AddPetFormView(petType: .cat, petAvatar: "ic_cat_48") { _ in }
+        AddPetFormView(petType: .cat, petAvatar: "ic_cat_48", breeds: []) { _ in }
     }
 }

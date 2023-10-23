@@ -23,6 +23,11 @@ class AddPetFlowState: ObservableObject {
             }
         }
     }
+    
+    func initPetForm(petType: String, localeCode: String, noBreedString: String) {
+        viewModel.setEvent(event: AddPetDataScreenContract.EventPetDataInit(
+            petType: petType, avatar: "ic_cat_1", petId: nil, localeCode: localeCode, noBreedString: noBreedString))
+    }
 
     func createNewPet(event: AddPetDataScreenContract.EventAddPetButtonClicked) {
         viewModel.handleEvents(event: event)
