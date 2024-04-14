@@ -27,9 +27,9 @@ import com.gaoyun.common.OnLifecycleEvent
 import com.gaoyun.common.composables.AutoResizeText
 import com.gaoyun.common.composables.BoxWithLoader
 import com.gaoyun.common.composables.FontSizeRange
-import com.gaoyun.common.composables.Spacer
+import com.gaoyun.roar.ui.Spacer
 import com.gaoyun.common.composables.SurfaceCard
-import com.gaoyun.common.composables.SurfaceScaffold
+import com.gaoyun.roar.ui.SurfaceScaffold
 import com.gaoyun.common.composables.surfaceCardFormElevation
 import com.gaoyun.common.composables.surfaceCardFormShape
 import com.gaoyun.common.ext.getDrawableByName

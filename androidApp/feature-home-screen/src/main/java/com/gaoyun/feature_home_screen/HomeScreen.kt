@@ -26,8 +26,8 @@ import com.gaoyun.common.OnLifecycleEvent
 import com.gaoyun.common.R
 import com.gaoyun.common.composables.BoxWithLoader
 import com.gaoyun.common.composables.RoarExtendedFAB
-import com.gaoyun.common.composables.Spacer
-import com.gaoyun.common.composables.SurfaceScaffold
+import com.gaoyun.roar.ui.Spacer
+import com.gaoyun.roar.ui.SurfaceScaffold
 import com.gaoyun.common.dialog.InteractionCompletionDialog
 import com.gaoyun.feature_home_screen.states.HomeState
 import com.gaoyun.feature_home_screen.states.NoPetsState

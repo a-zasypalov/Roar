@@ -37,7 +37,7 @@ import com.gaoyun.feature_create_reminder.AddReminderDestination
 import com.gaoyun.feature_create_reminder.setup.SetupReminderDestination
 import com.gaoyun.feature_home_screen.HomeScreenDestination
 import com.gaoyun.feature_interactions.InteractionScreenDestination
-import com.gaoyun.feature_onboarding.OnboardingRootScreen
+import com.gaoyun.roar.ui.features.onboarding.OnboardingRootScreen
 import com.gaoyun.feature_pet_screen.PetScreenDestination
 import com.gaoyun.feature_user_registration.UserRegistrationDestination
 import com.gaoyun.feature_user_screen.about_screen.AboutScreenDestination
@@ -200,7 +200,7 @@ class MainActivity : AppCompatActivity() {
             startDestination = if (isOnboardingComplete) NavigationKeys.Route.HOME_ROUTE else NavigationKeys.Route.ONBOARDING_ROUTE,
         ) {
             composable(NavigationKeys.Route.ONBOARDING_ROUTE) {
-                OnboardingRootScreen(navHostController = navController)
+//                OnboardingRootScreen(navHostController = navController)
             }
             composable(NavigationKeys.Route.HOME_ROUTE) {
                 HomeScreenDestination(onNavigationCall = viewModel::navigate)

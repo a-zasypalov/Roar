@@ -19,7 +19,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
-import com.gaoyun.common.composables.Spacer
+import com.gaoyun.roar.ui.Spacer
 import com.gaoyun.common.ext.ageText
 import com.gaoyun.common.ext.getDrawableByName
 import com.gaoyun.roar.model.domain.PetWithInteractions

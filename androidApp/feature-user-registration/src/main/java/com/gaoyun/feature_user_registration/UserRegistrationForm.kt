@@ -77,7 +77,7 @@ fun UserRegistrationForm(
                 )
             }
 
-            com.gaoyun.common.composables.Spacer(size = 24.dp)
+            com.gaoyun.roar.ui.Spacer(size = 24.dp)
             Text(
                 text = stringResource(id = R.string.app_name),
                 style = MaterialTheme.typography.titleLarge,
@@ -154,7 +154,7 @@ fun UserRegistrationForm(
                 )
             }
 
-            com.gaoyun.common.composables.Spacer(size = 8.dp)
+            com.gaoyun.roar.ui.Spacer(size = 8.dp)
         }
     }
 }

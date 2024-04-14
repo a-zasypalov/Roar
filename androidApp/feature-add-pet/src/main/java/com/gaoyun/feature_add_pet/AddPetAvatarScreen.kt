@@ -32,7 +32,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.Lifecycle
 import com.gaoyun.common.OnLifecycleEvent
-import com.gaoyun.common.composables.SurfaceScaffold
+import com.gaoyun.roar.ui.SurfaceScaffold
 import com.gaoyun.common.ext.getDrawableByName
 import com.gaoyun.roar.config.PetsConfig
 import com.gaoyun.roar.presentation.BackNavigationEffect

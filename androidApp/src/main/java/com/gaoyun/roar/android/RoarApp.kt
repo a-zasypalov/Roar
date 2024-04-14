@@ -62,7 +62,6 @@ class RoarApp : MultiDexApplication(), KoinComponent {
 }
 
 val appModule = module {
-    viewModel { OnboardingViewModel(get()) }
     viewModel { HomeScreenViewModel(get(), get(), get(), get(), get(), get(), get(), get(), get()) }
     viewModel { RegisterUserViewModel(get(), get()) }
     viewModel { UserScreenViewModel(get(), get(), get(), get(), get(), get(), get()) }

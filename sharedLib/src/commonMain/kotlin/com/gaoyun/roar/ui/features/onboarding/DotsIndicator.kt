@@ -1,4 +1,4 @@
-package com.gaoyun.feature_onboarding
+package com.gaoyun.roar.ui.features.onboarding
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*

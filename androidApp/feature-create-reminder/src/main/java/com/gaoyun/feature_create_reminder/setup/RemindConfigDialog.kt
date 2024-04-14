@@ -24,7 +24,7 @@ import com.gaoyun.common.R
 import com.gaoyun.common.ext.toLocalizedStringId
 import com.gaoyun.common.ext.toLocalizedStringIdPlural
 import com.gaoyun.common.composables.DropdownMenu
-import com.gaoyun.common.composables.Spacer
+import com.gaoyun.roar.ui.Spacer
 import com.gaoyun.common.composables.SurfaceCard
 import com.gaoyun.common.composables.TextFormField
 import com.gaoyun.roar.model.domain.interactions.InteractionRemindConfig

@@ -164,7 +164,7 @@ internal fun RepeatConfigDialog(
                         modifier = Modifier.padding(horizontal = defaultHorizontalPadding)
                     )
 
-                    Spacer(size = 24.dp)
+                    com.gaoyun.roar.ui.Spacer(size = 24.dp)
 
                     Row(
                         modifier = Modifier
@@ -178,7 +178,7 @@ internal fun RepeatConfigDialog(
                             modifier = Modifier.fillMaxWidth(0.25f),
                             imeAction = ImeAction.Done,
                         )
-                        Spacer(size = 12.dp)
+                        com.gaoyun.roar.ui.Spacer(size = 12.dp)
                         DropdownMenu(
                             valueList = repeatsEveryPeriodsList,
                             listState = repeatsEveryPeriod,
@@ -188,7 +188,7 @@ internal fun RepeatConfigDialog(
                         )
                     }
 
-                    Spacer(size = 8.dp)
+                    com.gaoyun.roar.ui.Spacer(size = 8.dp)
 
                     when (repeatsEveryPeriod.value) {
                         InteractionRepeatConfigEach.WEEK_STRING -> {
@@ -197,7 +197,7 @@ internal fun RepeatConfigDialog(
                                 horizontalArrangement = Arrangement.SpaceEvenly
                             ) {
                                 item {
-                                    Spacer(size = 20.dp)
+                                    com.gaoyun.roar.ui.Spacer(size = 20.dp)
                                 }
                                 repeatsEveryPeriodOnWeek.value.forEach {
                                     item {
@@ -223,7 +223,7 @@ internal fun RepeatConfigDialog(
                                     }
                                 }
                                 item {
-                                    Spacer(size = 20.dp)
+                                    com.gaoyun.roar.ui.Spacer(size = 20.dp)
                                 }
                             }
                         }
@@ -244,11 +244,11 @@ internal fun RepeatConfigDialog(
                                     .fillMaxWidth()
                                     .padding(horizontal = defaultHorizontalPadding)
                             )
-                            Spacer(size = 8.dp)
+                            com.gaoyun.roar.ui.Spacer(size = 8.dp)
                         }
                     }
 
-                    Spacer(size = 8.dp)
+                    com.gaoyun.roar.ui.Spacer(size = 8.dp)
 
                     Box(
                         modifier = Modifier
@@ -258,7 +258,7 @@ internal fun RepeatConfigDialog(
                             .background(MaterialTheme.colorScheme.outline)
                     )
 
-                    Spacer(size = 16.dp)
+                    com.gaoyun.roar.ui.Spacer(size = 16.dp)
 
                     DropdownMenu(
                         valueList = endConditionStatesList,
@@ -271,7 +271,7 @@ internal fun RepeatConfigDialog(
                             .padding(horizontal = defaultHorizontalPadding)
                     )
 
-                    Spacer(size = 12.dp)
+                    com.gaoyun.roar.ui.Spacer(size = 12.dp)
 
                     when (endConditionState.value) {
                         stringResource(id = R.string.on_date) -> {
@@ -315,7 +315,7 @@ internal fun RepeatConfigDialog(
                                     modifier = Modifier.fillMaxWidth(0.25f),
                                     imeAction = ImeAction.Done,
                                 )
-                                Spacer(size = 12.dp)
+                                com.gaoyun.roar.ui.Spacer(size = 12.dp)
                                 Text(
                                     text = stringResource(id = R.string.occurrences),
                                     style = MaterialTheme.typography.titleMedium,
@@ -325,7 +325,7 @@ internal fun RepeatConfigDialog(
                         }
                     }
 
-                    Spacer(size = 12.dp)
+                    com.gaoyun.roar.ui.Spacer(size = 12.dp)
 
                     Row(
                         modifier = Modifier
@@ -339,7 +339,7 @@ internal fun RepeatConfigDialog(
                             Text(text = stringResource(id = R.string.cancel))
                         }
 
-                        Spacer(size = 12.dp)
+                        com.gaoyun.roar.ui.Spacer(size = 12.dp)
 
                         TextButton(onClick = {
                             val repeatsEveryPeriodOn = when (repeatsEveryPeriod.value) {

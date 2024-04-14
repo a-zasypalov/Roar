@@ -12,7 +12,7 @@ import androidx.compose.ui.text.intl.Locale
 import androidx.lifecycle.Lifecycle
 import com.gaoyun.common.OnLifecycleEvent
 import com.gaoyun.common.composables.BoxWithLoader
-import com.gaoyun.common.composables.SurfaceScaffold
+import com.gaoyun.roar.ui.SurfaceScaffold
 import com.gaoyun.roar.presentation.BackNavigationEffect
 import com.gaoyun.roar.presentation.LAUNCH_LISTEN_FOR_EFFECTS
 import com.gaoyun.roar.presentation.NavigationSideEffect

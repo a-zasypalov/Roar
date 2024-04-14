@@ -23,7 +23,7 @@ import com.gaoyun.common.OnLifecycleEvent
 import com.gaoyun.common.R
 import com.gaoyun.common.composables.BoxWithLoader
 import com.gaoyun.common.composables.RoarExtendedFAB
-import com.gaoyun.common.composables.SurfaceScaffold
+import com.gaoyun.roar.ui.SurfaceScaffold
 import com.gaoyun.common.dialog.InteractionCompletionDialog
 import com.gaoyun.feature_pet_screen.view.PetContainer
 import com.gaoyun.roar.model.domain.PetWithInteractions

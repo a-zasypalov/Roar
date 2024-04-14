@@ -1,5 +1,6 @@
-package com.gaoyun.feature_onboarding
+package com.gaoyun.roar.ui.features.onboarding
 
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -12,6 +13,8 @@ import androidx.compose.foundation.layout.navigationBars
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.systemBars
+import androidx.compose.foundation.pager.HorizontalPager
+import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
@@ -22,39 +25,34 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.ColorFilter
-import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.navigation.NavHostController
-import com.gaoyun.common.R
-import com.gaoyun.common.composables.PrimaryElevatedButton
-import com.gaoyun.common.composables.Spacer
-import com.gaoyun.common.composables.SurfaceScaffold
-import com.gaoyun.roar.ui.navigation.NavigationKeys
 import com.gaoyun.roar.presentation.onboarding.OnboardingViewModel
+import com.gaoyun.roar.ui.PrimaryElevatedButton
+import com.gaoyun.roar.ui.Spacer
+import com.gaoyun.roar.ui.SurfaceScaffold
+import com.gaoyun.roar.ui.navigation.NavigationKeys
 import com.gaoyun.roar.ui.theme.RoarTheme
-import com.gaoyun.roar.ui.theme.RoarThemePreview
-import com.google.accompanist.pager.ExperimentalPagerApi
-import com.google.accompanist.pager.HorizontalPager
-import com.google.accompanist.pager.rememberPagerState
 import kotlinx.coroutines.launch
-import org.koin.androidx.compose.getViewModel
+import moe.tlaster.precompose.koin.koinViewModel
+import moe.tlaster.precompose.navigation.NavOptions
+import moe.tlaster.precompose.navigation.Navigator
+import moe.tlaster.precompose.navigation.PopUpTo
+import org.jetbrains.compose.resources.ExperimentalResourceApi
+import org.jetbrains.compose.resources.painterResource
 
-@OptIn(ExperimentalPagerApi::class)
+@OptIn(ExperimentalFoundationApi::class, ExperimentalMaterial3Api::class)
 @Composable
 fun OnboardingRootScreen(
-    navHostController: NavHostController,
+    navHostController: Navigator,
 ) {
-    val state = rememberPagerState()
+    val state = rememberPagerState(pageCount = { return@rememberPagerState 3 })
     val scope = rememberCoroutineScope()
 
-    val viewModel: OnboardingViewModel = getViewModel()
+    val viewModel = koinViewModel(vmClass = OnboardingViewModel::class)
 
     SurfaceScaffold {
         Box {
             HorizontalPager(
-                count = 3,
                 state = state,
                 modifier = Modifier
                     .padding(WindowInsets.systemBars.asPaddingValues())
@@ -82,7 +80,7 @@ fun OnboardingRootScreen(
                 Spacer(size = 16.dp)
                 if (state.currentPage < 2) {
                     PrimaryElevatedButton(
-                        text = stringResource(id = R.string.next_button),
+                        text = "Next", //stringResource(id = R.string.next_button),
                         onClick = {
                             scope.launch {
                                 state.animateScrollToPage(state.currentPage + 1)
@@ -90,14 +88,17 @@ fun OnboardingRootScreen(
                         })
                 } else {
                     PrimaryElevatedButton(
-                        text = stringResource(id = R.string.start),
+                        text = "Start", //stringResource(id = R.string.start),
                         onClick = {
                             viewModel.completeOnboarding()
-                            navHostController.navigate(NavigationKeys.Route.HOME_ROUTE) {
-                                popUpTo(NavigationKeys.Route.ONBOARDING_ROUTE) {
-                                    inclusive = true
-                                }
-                            }
+                            navHostController.navigate(
+                                NavigationKeys.Route.HOME_ROUTE, NavOptions(
+                                    popUpTo = PopUpTo(
+                                        route = NavigationKeys.Route.ONBOARDING_ROUTE,
+                                        inclusive = true
+                                    )
+                                )
+                            )
                         })
                 }
                 Spacer(
@@ -108,6 +109,7 @@ fun OnboardingRootScreen(
     }
 }
 
+@OptIn(ExperimentalResourceApi::class)
 @Composable
 fun OnboardingHelloPage() {
     Column(
@@ -124,7 +126,7 @@ fun OnboardingHelloPage() {
                 .size(160.dp)
         ) {
             Image(
-                painter = painterResource(id = R.drawable.ic_tab_home),
+                painter = painterResource(res = ""), //(id = R.drawable.ic_tab_home),
                 contentDescription = "icon",
                 modifier = Modifier.padding(16.dp),
                 colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.inverseSurface)
@@ -132,16 +134,17 @@ fun OnboardingHelloPage() {
         }
         Spacer(size = 24.dp)
         Text(
-            text = stringResource(id = R.string.app_name),
+            text = "Roar", //stringResource(id = R.string.app_name),
             style = MaterialTheme.typography.displayMedium
         )
         Text(
-            text = stringResource(id = R.string.onboarding_care_assistant),
+            text = "Pet's care assistant", //stringResource(id = R.string.onboarding_care_assistant),
             style = MaterialTheme.typography.titleLarge
         )
     }
 }
 
+@OptIn(ExperimentalResourceApi::class)
 @Composable
 fun OnboardingCarePage() {
     Column(
@@ -158,7 +161,7 @@ fun OnboardingCarePage() {
                 .size(160.dp)
         ) {
             Image(
-                painter = painterResource(id = R.drawable.ic_care_filled),
+                painter = painterResource(res = ""), //painterResource(id = R.drawable.ic_care_filled),
                 contentDescription = "icon",
                 modifier = Modifier.padding(24.dp),
                 colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.inverseSurface)
@@ -166,17 +169,18 @@ fun OnboardingCarePage() {
         }
         Spacer(size = 24.dp)
         Text(
-            text = stringResource(id = R.string.onboarding_care_reminders),
+            text = "Care reminders", //stringResource(id = R.string.onboarding_care_reminders),
             style = MaterialTheme.typography.displaySmall
         )
         Spacer(size = 4.dp)
         Text(
-            text = stringResource(id = R.string.onboarding_care_reminders_description),
+            text = "Sometimes pets aren't talkative about their needs", //stringResource(id = R.string.onboarding_care_reminders_description),
             style = MaterialTheme.typography.titleMedium
         )
     }
 }
 
+@OptIn(ExperimentalResourceApi::class)
 @Composable
 fun OnboardingCommunityPage() {
     Column(
@@ -193,7 +197,7 @@ fun OnboardingCommunityPage() {
                 .size(160.dp)
         ) {
             Image(
-                painter = painterResource(id = R.drawable.ic_community),
+                painter = painterResource(res = ""), //painterResource(id = R.drawable.ic_community),
                 contentDescription = "icon",
                 modifier = Modifier.padding(24.dp),
                 colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.inverseSurface)
@@ -201,43 +205,13 @@ fun OnboardingCommunityPage() {
         }
         Spacer(size = 24.dp)
         Text(
-            text = stringResource(id = R.string.onboarding_community_project),
+            text = "Community", //stringResource(id = R.string.onboarding_community_project),
             style = MaterialTheme.typography.displaySmall
         )
         Spacer(size = 4.dp)
         Text(
-            text = stringResource(id = R.string.onboarding_community_project_description),
+            text = "Let's make life better for pets together!", //stringResource(id = R.string.onboarding_community_project_description),
             style = MaterialTheme.typography.titleMedium
         )
-    }
-}
-
-@Preview
-@Composable
-fun OnboardingHelloPagePreview() {
-    RoarThemePreview {
-        SurfaceScaffold {
-            OnboardingHelloPage()
-        }
-    }
-}
-
-@Preview
-@Composable
-fun OnboardingCarePagePreview() {
-    RoarThemePreview {
-        SurfaceScaffold {
-            OnboardingCarePage()
-        }
-    }
-}
-
-@Preview
-@Composable
-fun OnboardingCommunityPagePreview() {
-    RoarThemePreview {
-        SurfaceScaffold {
-            OnboardingCommunityPage()
-        }
     }
 }

@@ -9,7 +9,7 @@ import androidx.compose.ui.res.stringResource
 import com.firebase.ui.auth.AuthUI
 import com.firebase.ui.auth.FirebaseAuthUIActivityResultContract
 import com.gaoyun.common.R
-import com.gaoyun.common.composables.SurfaceScaffold
+import com.gaoyun.roar.ui.SurfaceScaffold
 import com.gaoyun.roar.presentation.LAUNCH_LISTEN_FOR_EFFECTS
 import com.gaoyun.roar.presentation.NavigationSideEffect
 import com.gaoyun.roar.presentation.user_register.RegisterUserScreenContract

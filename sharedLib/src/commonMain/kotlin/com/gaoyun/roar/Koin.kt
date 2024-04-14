@@ -36,6 +36,7 @@ import com.gaoyun.roar.model.entity.RoarDatabase
 import com.gaoyun.roar.network.InteractionTemplatesApi
 import com.gaoyun.roar.network.PetsApi
 import com.gaoyun.roar.network.SynchronisationApi
+import com.gaoyun.roar.presentation.onboarding.OnboardingViewModel
 import com.gaoyun.roar.repository.InteractionRepository
 import com.gaoyun.roar.repository.InteractionRepositoryImpl
 import com.gaoyun.roar.repository.InteractionTemplateRepository
@@ -73,7 +74,8 @@ val repositoryModule = module {
 }
 
 val useCaseModule = module {
-    single { ::AppViewModel } //TODO: Refactor like this
+    single { ::AppViewModel } //TODO: Refactor
+    single { ::OnboardingViewModel }
 
     single { RegisterUserUseCase(get(), get()) }
     single { GetCurrentUserUseCase(get(), get()) }

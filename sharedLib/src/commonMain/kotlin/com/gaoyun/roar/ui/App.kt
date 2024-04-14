@@ -5,6 +5,7 @@ import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import com.gaoyun.roar.presentation.LAUNCH_LISTEN_FOR_EFFECTS
+import com.gaoyun.roar.ui.features.onboarding.OnboardingRootScreen
 import com.gaoyun.roar.ui.navigation.NavigationAction
 import com.gaoyun.roar.ui.navigation.NavigationKeys
 import com.gaoyun.roar.ui.theme.RoarTheme
@@ -60,7 +61,7 @@ fun GlobalDestinationState(isOnboardingComplete: Boolean) {
         initialRoute = initialRoute
     ) {
         scene(NavigationKeys.Route.ONBOARDING_ROUTE) {
-//            OnboardingRootScreen(navHostController = navController)
+            OnboardingRootScreen(navHostController = navigator)
         }
     }
 }

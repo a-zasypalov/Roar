@@ -20,7 +20,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.gaoyun.common.R
-import com.gaoyun.common.composables.Spacer
+import com.gaoyun.roar.ui.Spacer
 import com.gaoyun.roar.presentation.user_screen.UserScreenContract
 import java.io.FileInputStream
 

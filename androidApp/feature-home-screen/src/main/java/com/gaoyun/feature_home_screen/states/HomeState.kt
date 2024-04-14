@@ -25,7 +25,7 @@ import androidx.compose.ui.unit.sp
 import com.gaoyun.common.R
 import com.gaoyun.common.composables.AutoResizeText
 import com.gaoyun.common.composables.FontSizeRange
-import com.gaoyun.common.composables.Spacer
+import com.gaoyun.roar.ui.Spacer
 import com.gaoyun.feature_home_screen.view.UserHomeHeader
 import com.gaoyun.feature_pet_screen.view.PetCard
 import com.gaoyun.feature_pet_screen.view.PetContainer

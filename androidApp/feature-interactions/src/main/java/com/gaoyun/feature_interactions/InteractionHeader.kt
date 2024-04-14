@@ -35,7 +35,7 @@ import com.gaoyun.common.R
 import com.gaoyun.common.composables.AutoResizeText
 import com.gaoyun.common.composables.FontSizeRange
 import com.gaoyun.common.composables.RoarIcon
-import com.gaoyun.common.composables.Spacer
+import com.gaoyun.roar.ui.Spacer
 import com.gaoyun.common.composables.TextFormField
 import com.gaoyun.common.ext.remindConfigTextFull
 import com.gaoyun.common.ext.repeatConfigTextFull
