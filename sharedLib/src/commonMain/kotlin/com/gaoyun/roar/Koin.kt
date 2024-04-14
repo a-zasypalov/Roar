@@ -53,6 +53,7 @@ import com.gaoyun.roar.util.PlatformHttpClient
 import com.gaoyun.roar.util.Preferences
 import com.gaoyun.roar.util.platformModule
 import org.koin.core.context.startKoin
+import org.koin.core.module.dsl.singleOf
 import org.koin.dsl.KoinAppDeclaration
 import org.koin.dsl.module
 
@@ -74,8 +75,8 @@ val repositoryModule = module {
 }
 
 val useCaseModule = module {
-    single { ::AppViewModel } //TODO: Refactor
-    single { ::OnboardingViewModel }
+    single { AppViewModel() } //TODO: Refactor to ::AppViewModel
+    single { OnboardingViewModel(get()) }
 
     single { RegisterUserUseCase(get(), get()) }
     single { GetCurrentUserUseCase(get(), get()) }
@@ -104,7 +105,7 @@ val useCaseModule = module {
     single { GetReminder(get()) }
     single { InsertReminder(get(), get()) }
     single { RemoveReminder(get(), get()) }
-    single { ::SetReminderComplete }
+    single { SetReminderComplete(get(), get(), get(), get(), get(), get()) }
     single { AddNextReminder(get(), get(), get(), get(), get(), get()) }
     single { DeactivateInteraction(get(), get()) }
 

@@ -54,7 +54,7 @@ dependencies {
 
     api("androidx.work:work-runtime-ktx:2.8.1")
 
-    val koinVersion = "3.1.6"
+    val koinVersion = "3.5.6"
     api("io.insert-koin:koin-android:$koinVersion")
     api("io.insert-koin:koin-android-ext:3.0.2")
     api("io.insert-koin:koin-androidx-compose:$koinVersion")

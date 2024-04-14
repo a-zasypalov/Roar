@@ -10,6 +10,7 @@ import com.gaoyun.roar.ui.navigation.NavigationAction
 import com.gaoyun.roar.ui.navigation.NavigationKeys
 import com.gaoyun.roar.ui.theme.RoarTheme
 import kotlinx.coroutines.flow.onEach
+import moe.tlaster.precompose.PreComposeApp
 import moe.tlaster.precompose.koin.koinViewModel
 import moe.tlaster.precompose.navigation.NavHost
 import moe.tlaster.precompose.navigation.PopUpTo
@@ -20,9 +21,11 @@ fun App(
     colors: ColorScheme,
     isOnboardingComplete: Boolean,
 ) {
-    RoarTheme(colors) {
-        Surface(tonalElevation = RoarTheme.BACKGROUND_SURFACE_ELEVATION) {
-            GlobalDestinationState(isOnboardingComplete = isOnboardingComplete)
+    PreComposeApp {
+        RoarTheme(colors) {
+            Surface(tonalElevation = RoarTheme.BACKGROUND_SURFACE_ELEVATION) {
+                GlobalDestinationState(isOnboardingComplete = isOnboardingComplete)
+            }
         }
     }
 }

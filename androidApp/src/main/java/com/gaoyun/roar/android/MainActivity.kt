@@ -44,6 +44,7 @@ import com.gaoyun.feature_user_screen.about_screen.AboutScreenDestination
 import com.gaoyun.feature_user_screen.edit_user.EditUserScreenDestination
 import com.gaoyun.feature_user_screen.user_screen.UserScreenDestination
 import com.gaoyun.roar.presentation.LAUNCH_LISTEN_FOR_EFFECTS
+import com.gaoyun.roar.ui.App
 import com.gaoyun.roar.ui.theme.RoarTheme
 import com.gaoyun.roar.ui.theme.colors.BlueColor
 import com.gaoyun.roar.ui.theme.colors.GreenColor
@@ -101,11 +102,13 @@ class MainActivity : AppCompatActivity() {
                 }
             }
 
-            RoarTheme(colors) {
-                Surface(tonalElevation = RoarTheme.BACKGROUND_SURFACE_ELEVATION) {
-                    GlobalDestinationState(isOnboardingComplete = isOnboardingComplete)
-                }
-            }
+            App(colors, isOnboardingComplete)
+
+//            RoarTheme(colors) {
+//                Surface(tonalElevation = RoarTheme.BACKGROUND_SURFACE_ELEVATION) {
+//                    GlobalDestinationState(isOnboardingComplete = isOnboardingComplete)
+//                }
+//            }
         }
 
         prepareNotificationChannel()

@@ -32,7 +32,7 @@ kotlin {
     val coroutinesVersion = "1.8.0"
     val serializationVersion = "1.6.3"
     val ktorVersion = "2.3.10"
-    val koinVersion = "3.1.6"
+    val koinVersion = "3.5.6"
     val lifecycleVersion = "2.7.0"
     val precomposeVersion = "1.6.0"
 

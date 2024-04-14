@@ -125,12 +125,12 @@ fun OnboardingHelloPage() {
                 .clip(MaterialTheme.shapes.extraLarge)
                 .size(160.dp)
         ) {
-            Image(
-                painter = painterResource(res = ""), //(id = R.drawable.ic_tab_home),
-                contentDescription = "icon",
-                modifier = Modifier.padding(16.dp),
-                colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.inverseSurface)
-            )
+//            Image(
+//                painter = painterResource(res = ""), //(id = R.drawable.ic_tab_home),
+//                contentDescription = "icon",
+//                modifier = Modifier.padding(16.dp),
+//                colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.inverseSurface)
+//            )
         }
         Spacer(size = 24.dp)
         Text(
@@ -160,12 +160,12 @@ fun OnboardingCarePage() {
                 .clip(MaterialTheme.shapes.extraLarge)
                 .size(160.dp)
         ) {
-            Image(
-                painter = painterResource(res = ""), //painterResource(id = R.drawable.ic_care_filled),
-                contentDescription = "icon",
-                modifier = Modifier.padding(24.dp),
-                colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.inverseSurface)
-            )
+//            Image(
+//                painter = painterResource(res = ""), //painterResource(id = R.drawable.ic_care_filled),
+//                contentDescription = "icon",
+//                modifier = Modifier.padding(24.dp),
+//                colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.inverseSurface)
+//            )
         }
         Spacer(size = 24.dp)
         Text(
@@ -196,12 +196,12 @@ fun OnboardingCommunityPage() {
                 .clip(MaterialTheme.shapes.extraLarge)
                 .size(160.dp)
         ) {
-            Image(
-                painter = painterResource(res = ""), //painterResource(id = R.drawable.ic_community),
-                contentDescription = "icon",
-                modifier = Modifier.padding(24.dp),
-                colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.inverseSurface)
-            )
+//            Image(
+//                painter = painterResource(res = ""), //painterResource(id = R.drawable.ic_community),
+//                contentDescription = "icon",
+//                modifier = Modifier.padding(24.dp),
+//                colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.inverseSurface)
+//            )
         }
         Spacer(size = 24.dp)
         Text(
