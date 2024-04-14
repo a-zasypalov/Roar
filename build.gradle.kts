@@ -8,7 +8,7 @@ plugins {
 
 buildscript {
 
-    val kotlinVersion by extra("1.8.20")
+    val kotlinVersion by extra("1.9.22")
 
     repositories {
         google()
