@@ -11,9 +11,13 @@ import android.view.WindowManager
 import androidx.activity.compose.setContent
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material3.Surface
+import androidx.compose.material3.dynamicDarkColorScheme
+import androidx.compose.material3.dynamicLightColorScheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.ui.platform.LocalContext
 import androidx.core.content.ContextCompat
 import androidx.core.view.WindowCompat
 import androidx.lifecycle.lifecycleScope
@@ -22,9 +26,8 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
-import com.gaoyun.common.navigation.NavigationAction
-import com.gaoyun.common.navigation.NavigationKeys
-import com.gaoyun.common.theme.RoarTheme
+import com.gaoyun.roar.ui.navigation.NavigationAction
+import com.gaoyun.roar.ui.navigation.NavigationKeys
 import com.gaoyun.feature_add_pet.AddPetAvatarDestination
 import com.gaoyun.feature_add_pet.AddPetPetTypeDestination
 import com.gaoyun.feature_add_pet.AddPetSetupDestination
@@ -41,6 +44,10 @@ import com.gaoyun.feature_user_screen.about_screen.AboutScreenDestination
 import com.gaoyun.feature_user_screen.edit_user.EditUserScreenDestination
 import com.gaoyun.feature_user_screen.user_screen.UserScreenDestination
 import com.gaoyun.roar.presentation.LAUNCH_LISTEN_FOR_EFFECTS
+import com.gaoyun.roar.ui.theme.RoarTheme
+import com.gaoyun.roar.ui.theme.colors.BlueColor
+import com.gaoyun.roar.ui.theme.colors.GreenColor
+import com.gaoyun.roar.ui.theme.colors.OrangeColor
 import com.gaoyun.roar.util.ColorTheme
 import com.gaoyun.roar.util.PreferencesKeys
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
@@ -78,11 +85,23 @@ class MainActivity : AppCompatActivity() {
             WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS
         )
 
+        val supportsDynamic = Build.VERSION.SDK_INT >= Build.VERSION_CODES.S
+
         setContent {
-            RoarTheme(
-                userPreferenceDynamicColorsIsActive = isDynamicColorsActive,
-                colorTheme = colorTheme ?: ColorTheme.Orange
-            ) {
+            val darkTheme = isSystemInDarkTheme()
+            val colors = if (isDynamicColorsActive && supportsDynamic) {
+                val context = LocalContext.current
+                if (darkTheme) dynamicDarkColorScheme(context) else dynamicLightColorScheme(context)
+            } else {
+                when (colorTheme) {
+                    ColorTheme.Green -> if (darkTheme) GreenColor.DarkColors else GreenColor.LightColors
+                    ColorTheme.Blue -> if (darkTheme) BlueColor.DarkColors else BlueColor.LightColors
+                    ColorTheme.Orange -> if (darkTheme) OrangeColor.DarkColors else OrangeColor.LightColors
+                    else -> if (darkTheme) OrangeColor.DarkColors else OrangeColor.LightColors
+                }
+            }
+
+            RoarTheme(colors) {
                 Surface(tonalElevation = RoarTheme.BACKGROUND_SURFACE_ELEVATION) {
                     GlobalDestinationState(isOnboardingComplete = isOnboardingComplete)
                 }
@@ -115,17 +134,18 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private val notificationPermissionLauncher = registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted ->
-        if (!isGranted) {
-            if (Build.VERSION.SDK_INT >= 33) {
-                if (shouldShowRequestPermissionRationale(android.Manifest.permission.POST_NOTIFICATIONS)) {
-                    showNotificationPermissionRationale()
-                } else {
-                    showSettingDialog()
+    private val notificationPermissionLauncher =
+        registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted ->
+            if (!isGranted) {
+                if (Build.VERSION.SDK_INT >= 33) {
+                    if (shouldShowRequestPermissionRationale(android.Manifest.permission.POST_NOTIFICATIONS)) {
+                        showNotificationPermissionRationale()
+                    } else {
+                        showSettingDialog()
+                    }
                 }
             }
         }
-    }
 
     private fun showSettingDialog() {
         MaterialAlertDialogBuilder(this)
@@ -167,7 +187,10 @@ class MainActivity : AppCompatActivity() {
                 when (destination) {
                     is NavigationAction.NavigateTo -> navController.navigate(destination.path)
                     is NavigationAction.NavigateBack -> navController.navigateUp()
-                    is NavigationAction.PopTo -> navController.popBackStack(destination.path, inclusive = destination.inclusive)
+                    is NavigationAction.PopTo -> navController.popBackStack(
+                        destination.path,
+                        inclusive = destination.inclusive
+                    )
                 }
             }.collect()
         }
@@ -193,7 +216,9 @@ class MainActivity : AppCompatActivity() {
 
             composable(
                 route = NavigationKeys.Route.ADD_PET_AVATAR_ROUTE,
-                arguments = listOf(navArgument(NavigationKeys.Arg.PET_TYPE_KEY) { type = NavType.StringType })
+                arguments = listOf(navArgument(NavigationKeys.Arg.PET_TYPE_KEY) {
+                    type = NavType.StringType
+                })
             ) {
                 AddPetAvatarDestination(
                     petType = it.arguments?.getString(NavigationKeys.Arg.PET_TYPE_KEY) ?: "",
@@ -247,7 +272,9 @@ class MainActivity : AppCompatActivity() {
 
             composable(
                 route = NavigationKeys.Route.ADD_PET_SETUP_ROUTE,
-                arguments = listOf(navArgument(NavigationKeys.Arg.PET_ID_KEY) { type = NavType.StringType })
+                arguments = listOf(navArgument(NavigationKeys.Arg.PET_ID_KEY) {
+                    type = NavType.StringType
+                })
             ) {
                 AddPetSetupDestination(
                     onNavigationCall = viewModel::navigate,
@@ -257,14 +284,21 @@ class MainActivity : AppCompatActivity() {
 
             composable(
                 route = NavigationKeys.Route.PET_DETAIL_ROUTE,
-                arguments = listOf(navArgument(NavigationKeys.Arg.PET_ID_KEY) { type = NavType.StringType })
+                arguments = listOf(navArgument(NavigationKeys.Arg.PET_ID_KEY) {
+                    type = NavType.StringType
+                })
             ) {
-                PetScreenDestination(viewModel::navigate, petId = it.arguments?.getString(NavigationKeys.Arg.PET_ID_KEY) ?: "")
+                PetScreenDestination(
+                    viewModel::navigate,
+                    petId = it.arguments?.getString(NavigationKeys.Arg.PET_ID_KEY) ?: ""
+                )
             }
 
             composable(
                 route = NavigationKeys.Route.ADD_REMINDER_ROUTE,
-                arguments = listOf(navArgument(NavigationKeys.Arg.PET_ID_KEY) { type = NavType.StringType })
+                arguments = listOf(navArgument(NavigationKeys.Arg.PET_ID_KEY) {
+                    type = NavType.StringType
+                })
             ) {
                 AddReminderDestination(
                     onNavigationCall = viewModel::navigate,
@@ -282,7 +316,8 @@ class MainActivity : AppCompatActivity() {
                 SetupReminderDestination(
                     onNavigationCall = viewModel::navigate,
                     petId = it.arguments?.getString(NavigationKeys.Arg.PET_ID_KEY) ?: "",
-                    templateId = it.arguments?.getString(NavigationKeys.Arg.TEMPLATE_ID_KEY) ?: "custom"
+                    templateId = it.arguments?.getString(NavigationKeys.Arg.TEMPLATE_ID_KEY)
+                        ?: "custom"
                 )
             }
 
@@ -297,7 +332,8 @@ class MainActivity : AppCompatActivity() {
                 SetupReminderDestination(
                     onNavigationCall = viewModel::navigate,
                     petId = it.arguments?.getString(NavigationKeys.Arg.PET_ID_KEY) ?: "",
-                    templateId = it.arguments?.getString(NavigationKeys.Arg.TEMPLATE_ID_KEY) ?: "custom",
+                    templateId = it.arguments?.getString(NavigationKeys.Arg.TEMPLATE_ID_KEY)
+                        ?: "custom",
                     interactionId = it.arguments?.getString(NavigationKeys.Arg.INTERACTION_ID_KEY)
                 )
             }
@@ -319,12 +355,15 @@ class MainActivity : AppCompatActivity() {
             composable(
                 route = NavigationKeys.Route.INTERACTION_DETAIL_ROUTE,
                 arguments = listOf(
-                    navArgument(NavigationKeys.Arg.INTERACTION_ID_KEY) { type = NavType.StringType },
+                    navArgument(NavigationKeys.Arg.INTERACTION_ID_KEY) {
+                        type = NavType.StringType
+                    },
                 )
             ) {
                 InteractionScreenDestination(
                     onNavigationCall = viewModel::navigate,
-                    interactionId = it.arguments?.getString(NavigationKeys.Arg.INTERACTION_ID_KEY) ?: "",
+                    interactionId = it.arguments?.getString(NavigationKeys.Arg.INTERACTION_ID_KEY)
+                        ?: "",
                 )
             }
 

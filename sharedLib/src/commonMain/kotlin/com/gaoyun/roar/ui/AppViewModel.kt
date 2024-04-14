@@ -1,22 +1,18 @@
-package com.gaoyun.roar.android
+package com.gaoyun.roar.ui
 
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
-import com.gaoyun.roar.ui.navigation.AppNavigator
-import com.gaoyun.roar.ui.navigation.NavigationAction
 import com.gaoyun.roar.presentation.BackNavigationEffect
 import com.gaoyun.roar.presentation.NavigationSideEffect
+import com.gaoyun.roar.ui.navigation.AppNavigator
+import com.gaoyun.roar.ui.navigation.NavigationAction
 import kotlinx.coroutines.cancel
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
+import moe.tlaster.precompose.viewmodel.ViewModel
+import moe.tlaster.precompose.viewmodel.viewModelScope
 
-@Deprecated(
-    message = "Use multiplatform variant",
-    replaceWith = ReplaceWith("AppViewModel")
-)
-class MainViewModel : ViewModel() {
+class AppViewModel : ViewModel() {
 
     private val _event: MutableSharedFlow<NavigationSideEffect> = MutableSharedFlow()
     private val _effect: Channel<NavigationAction> = Channel()

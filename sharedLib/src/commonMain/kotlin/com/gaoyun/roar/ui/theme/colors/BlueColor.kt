@@ -1,4 +1,4 @@
-package com.gaoyun.common.theme.colors
+package com.gaoyun.roar.ui.theme.colors
 
 import androidx.compose.material3.darkColorScheme
 import androidx.compose.material3.lightColorScheme
@@ -70,7 +70,7 @@ object BlueColor {
 
     private val seed = Color(0xFFC7D7FF)
 
-    internal val LightColors = lightColorScheme(
+    val LightColors = lightColorScheme(
         primary = md_theme_light_primary,
         onPrimary = md_theme_light_onPrimary,
         primaryContainer = md_theme_light_primaryContainer,
@@ -103,7 +103,7 @@ object BlueColor {
     )
 
 
-    internal val DarkColors = darkColorScheme(
+    val DarkColors = darkColorScheme(
         primary = md_theme_dark_primary,
         onPrimary = md_theme_dark_onPrimary,
         primaryContainer = md_theme_dark_primaryContainer,

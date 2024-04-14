@@ -32,11 +32,11 @@ import com.gaoyun.common.ext.getName
 import com.gaoyun.common.ext.repeatConfigTextShort
 import com.gaoyun.common.ext.toLocalizedStringId
 import com.gaoyun.common.icon
-import com.gaoyun.common.theme.RoarTheme
-import com.gaoyun.common.theme.RoarThemePreview
 import com.gaoyun.roar.model.domain.PetWithInteractions
 import com.gaoyun.roar.model.domain.interactions.InteractionTemplate
 import com.gaoyun.roar.presentation.add_reminder.choose_template.AddReminderScreenContract
+import com.gaoyun.roar.ui.theme.RoarTheme
+import com.gaoyun.roar.ui.theme.RoarThemePreview
 
 @Composable
 fun TemplatesList(
@@ -80,9 +80,15 @@ fun TemplatesList(
             items(templates) { template ->
                 TemplateItem(
                     template = template,
-                    isUsed = pet.interactions.values.flatten().any { it.isActive && it.templateId == template.id },
+                    isUsed = pet.interactions.values.flatten()
+                        .any { it.isActive && it.templateId == template.id },
                     onClick = { templateId ->
-                        templateChosen(AddReminderScreenContract.Event.TemplateChosen(templateId = templateId, petId = pet.id))
+                        templateChosen(
+                            AddReminderScreenContract.Event.TemplateChosen(
+                                templateId = templateId,
+                                petId = pet.id
+                            )
+                        )
                     }
                 )
             }
@@ -106,7 +112,14 @@ fun TemplatesList(
                 Column(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .clickable { templateChosen(AddReminderScreenContract.Event.TemplateChosen(templateId = "null", petId = pet.id)) }
+                        .clickable {
+                            templateChosen(
+                                AddReminderScreenContract.Event.TemplateChosen(
+                                    templateId = "null",
+                                    petId = pet.id
+                                )
+                            )
+                        }
                         .padding(horizontal = 14.dp, vertical = 8.dp),
                 ) {
                     Row(verticalAlignment = Alignment.CenterVertically) {

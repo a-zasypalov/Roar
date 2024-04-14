@@ -24,8 +24,8 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.ListAlt
 import androidx.compose.material.icons.filled.Check
-import androidx.compose.material.icons.filled.ListAlt
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Divider
@@ -57,9 +57,9 @@ import com.gaoyun.common.composables.DropdownMenu
 import com.gaoyun.common.composables.FontSizeRange
 import com.gaoyun.common.composables.LabelledCheckBox
 import com.gaoyun.common.composables.Spacer
-import com.gaoyun.common.theme.primaryColor
 import com.gaoyun.roar.model.domain.User
 import com.gaoyun.roar.presentation.user_screen.UserScreenContract
+import com.gaoyun.roar.ui.theme.primaryColor
 import com.gaoyun.roar.util.ColorTheme
 
 @Composable
@@ -80,7 +80,8 @@ internal fun UserScreenContent(
     val scrollState = rememberScrollState()
 
     val supportDynamicColor = Build.VERSION.SDK_INT >= Build.VERSION_CODES.S
-    val numberOfRemindersOnMainScreenState = remember { mutableStateOf(state.numberOfRemindersOnMainScreenState) }
+    val numberOfRemindersOnMainScreenState =
+        remember { mutableStateOf(state.numberOfRemindersOnMainScreenState) }
     numberOfRemindersOnMainScreenState.value = state.numberOfRemindersOnMainScreenState
 
     BoxWithLoader(isLoading = state.user == null) {
@@ -146,7 +147,11 @@ internal fun UserScreenContent(
                     LabelledCheckBox(
                         checked = state.screenModeFull,
                         onCheckedChange = {
-                            onHomeScreenModeChange(UserScreenContract.Event.OnHomeScreenModeChange(it))
+                            onHomeScreenModeChange(
+                                UserScreenContract.Event.OnHomeScreenModeChange(
+                                    it
+                                )
+                            )
                         },
                         label = stringResource(id = R.string.home_screen_mode_switcher_title),
                         modifier = Modifier.fillMaxWidth(),
@@ -162,9 +167,15 @@ internal fun UserScreenContent(
                     DropdownMenu(
                         valueList = listOf("0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10"),
                         listState = numberOfRemindersOnMainScreenState,
-                        onChange = { onNumberOfRemindersOnMainScreenChange(UserScreenContract.Event.OnNumberOfRemindersOnMainScreen(it.toIntOrNull() ?: 2)) },
+                        onChange = {
+                            onNumberOfRemindersOnMainScreenChange(
+                                UserScreenContract.Event.OnNumberOfRemindersOnMainScreen(
+                                    it.toIntOrNull() ?: 2
+                                )
+                            )
+                        },
                         label = stringResource(id = R.string.number_of_reminders_main_screen),
-                        leadingIcon = Icons.Filled.ListAlt,
+                        leadingIcon = Icons.AutoMirrored.Filled.ListAlt,
                         modifier = Modifier.fillMaxWidth()
                     )
                 }
@@ -187,7 +198,11 @@ internal fun UserScreenContent(
                     LabelledCheckBox(
                         checked = state.dynamicColorActive,
                         onCheckedChange = {
-                            onDynamicColorsStateChange(UserScreenContract.Event.OnDynamicColorsStateChange(it))
+                            onDynamicColorsStateChange(
+                                UserScreenContract.Event.OnDynamicColorsStateChange(
+                                    it
+                                )
+                            )
                             activity?.recreate()
                         },
                         label = stringResource(id = R.string.dynamic_color_switcher_title),
@@ -212,7 +227,11 @@ internal fun UserScreenContent(
                                     modifier = Modifier
                                         .fillMaxSize()
                                         .clickable {
-                                            onStaticColorThemePick(UserScreenContract.Event.OnStaticColorThemePick(it))
+                                            onStaticColorThemePick(
+                                                UserScreenContract.Event.OnStaticColorThemePick(
+                                                    it
+                                                )
+                                            )
                                             activity?.recreate()
                                         }
                                         .padding(8.dp)
@@ -391,7 +410,11 @@ const val PAW_ICON = "com.gaoyun.roar.android.PAW.AMBER"
 @Composable
 fun UserScreenPreview() {
     UserScreenContent(
-        state = UserScreenContract.State(isLoading = false, dynamicColorActive = false, user = User("id", "Tester")),
+        state = UserScreenContract.State(
+            isLoading = false,
+            dynamicColorActive = false,
+            user = User("id", "Tester")
+        ),
         {}, {}, {}, {}, {}, {}, {}, {}
     )
 }

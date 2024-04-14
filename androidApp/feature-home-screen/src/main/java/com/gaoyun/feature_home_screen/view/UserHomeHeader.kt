@@ -27,7 +27,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.gaoyun.common.R
 import com.gaoyun.common.composables.Spacer
-import com.gaoyun.common.theme.RoarTheme
+import com.gaoyun.roar.ui.theme.RoarTheme
+import com.gaoyun.roar.ui.theme.RoarThemePreview
 
 @Composable
 internal fun UserHomeHeader(
@@ -51,7 +52,10 @@ internal fun UserHomeHeader(
             ) {
                 Icon(Icons.Filled.Pets, contentDescription = null)
                 Spacer(size = 6.dp)
-                Text(stringResource(id = R.string.add_pet), style = MaterialTheme.typography.titleMedium)
+                Text(
+                    stringResource(id = R.string.add_pet),
+                    style = MaterialTheme.typography.titleMedium
+                )
             }
 
             Image(
@@ -76,7 +80,10 @@ internal fun UserHomeHeader(
                 ) {
                     Icon(Icons.Filled.Person, contentDescription = null)
                     Spacer(size = 6.dp)
-                    Text(stringResource(R.string.profile), style = MaterialTheme.typography.titleMedium)
+                    Text(
+                        stringResource(R.string.profile),
+                        style = MaterialTheme.typography.titleMedium
+                    )
                 }
             }
         }
@@ -90,7 +97,7 @@ internal fun UserHomeHeader(
 @Preview
 @Composable
 fun UserHomeHeaderPreview() {
-    RoarTheme {
+    RoarThemePreview {
         UserHomeHeader({}, {})
     }
 }

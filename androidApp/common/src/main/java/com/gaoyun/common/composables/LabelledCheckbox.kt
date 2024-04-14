@@ -4,7 +4,7 @@ import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
-import androidx.compose.animation.with
+import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Row
@@ -55,7 +55,7 @@ fun LabelledCheckBox(
 
         AnimatedContent(
             targetState = label,
-            transitionSpec = { fadeIn() with fadeOut() },
+            transitionSpec = { fadeIn() togetherWith fadeOut() },
             label = "LabelledCheckBoxAnimation"
         ) { targetLabel ->
             Text(

@@ -10,8 +10,8 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.List
 import androidx.compose.material.icons.filled.Female
-import androidx.compose.material.icons.filled.List
 import androidx.compose.material.icons.filled.Male
 import androidx.compose.material.icons.filled.Memory
 import androidx.compose.material3.Icon
@@ -42,11 +42,11 @@ import com.gaoyun.common.composables.TextFormField
 import com.gaoyun.common.composables.surfaceCardFormElevation
 import com.gaoyun.common.composables.surfaceCardFormShape
 import com.gaoyun.common.ext.toLocalizedStringId
-import com.gaoyun.common.theme.RoarThemePreview
 import com.gaoyun.roar.model.domain.Gender
 import com.gaoyun.roar.model.domain.Pet
 import com.gaoyun.roar.model.domain.toGender
 import com.gaoyun.roar.presentation.add_pet.data.AddPetDataScreenContract
+import com.gaoyun.roar.ui.theme.RoarThemePreview
 import kotlinx.coroutines.launch
 import kotlinx.datetime.LocalDate
 import kotlinx.datetime.TimeZone
@@ -66,9 +66,19 @@ internal fun AddPetForm(
     val coroutineScope = rememberCoroutineScope()
 
     val petName = remember { mutableStateOf(petToEdit?.name ?: "") }
-    val petBreedState = remember { mutableStateOf(petToEdit?.breed ?: petBreeds.firstOrNull() ?: "") }
-    val petGenderState = remember { mutableStateOf(petToEdit?.gender?.toString()?.capitalize(Locale.current) ?: Gender.MALE_STRING) }
-    val petBirthdayState = remember { mutableStateOf(petToEdit?.birthday?.atStartOfDayIn(TimeZone.currentSystemDefault())?.toEpochMilliseconds()) }
+    val petBreedState =
+        remember { mutableStateOf(petToEdit?.breed ?: petBreeds.firstOrNull() ?: "") }
+    val petGenderState = remember {
+        mutableStateOf(
+            petToEdit?.gender?.toString()?.capitalize(Locale.current) ?: Gender.MALE_STRING
+        )
+    }
+    val petBirthdayState = remember {
+        mutableStateOf(
+            petToEdit?.birthday?.atStartOfDayIn(TimeZone.currentSystemDefault())
+                ?.toEpochMilliseconds()
+        )
+    }
     var chipNumberState by remember { mutableStateOf(petToEdit?.chipNumber ?: "") }
     var petIsSterilizedState by remember { mutableStateOf(petToEdit?.isSterilized ?: false) }
 
@@ -111,7 +121,7 @@ internal fun AddPetForm(
                     valueDisplayList = null,
                     listDisplayState = null,
                     label = stringResource(id = R.string.breed),
-                    leadingIcon = Icons.Filled.List,
+                    leadingIcon = Icons.AutoMirrored.Filled.List,
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(horizontal = 24.dp)
@@ -122,7 +132,9 @@ internal fun AddPetForm(
                 DropdownMenu(
                     valueList = Gender.GENDER_LIST,
                     listState = petGenderState,
-                    valueDisplayList = Gender.GENDER_LIST.map { it.toGender().toLocalizedStringId() },
+                    valueDisplayList = Gender.GENDER_LIST.map {
+                        it.toGender().toLocalizedStringId()
+                    },
                     listDisplayState = petGenderState.value.toGender().toLocalizedStringId(),
                     label = stringResource(id = R.string.gender),
                     leadingIcon = if (petGenderState.value == Gender.MALE_STRING) Icons.Filled.Male else Icons.Filled.Female,
@@ -168,9 +180,11 @@ internal fun AddPetForm(
                 Spacer(size = 32.dp)
 
                 PrimaryElevatedButtonOnSurface(
-                    text = if (petToEdit != null) stringResource(id = R.string.save) else stringResource(id = R.string.add_pet),
+                    text = if (petToEdit != null) stringResource(id = R.string.save) else stringResource(
+                        id = R.string.add_pet
+                    ),
                     onClick = {
-                        if (petName.value.isNullOrBlank()) {
+                        if (petName.value.isBlank()) {
                             coroutineScope.launch {
                                 snackbarHostState.showSnackbar("Name shouldn't be empty")
                             }
@@ -183,7 +197,11 @@ internal fun AddPetForm(
                                     breed = petBreedState.value,
                                     name = petName.value,
                                     avatar = avatar,
-                                    birthday = LocalDate.fromEpochDays(TimeUnit.MILLISECONDS.toDays(petBirthdayState.value ?: System.currentTimeMillis()).toInt()),
+                                    birthday = LocalDate.fromEpochDays(
+                                        TimeUnit.MILLISECONDS.toDays(
+                                            petBirthdayState.value ?: System.currentTimeMillis()
+                                        ).toInt()
+                                    ),
                                     isSterilized = petIsSterilizedState,
                                     gender = petGenderState.value,
                                     chipNumber = chipNumberState

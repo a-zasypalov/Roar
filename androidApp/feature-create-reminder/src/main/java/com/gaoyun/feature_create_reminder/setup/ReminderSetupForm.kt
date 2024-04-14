@@ -10,7 +10,10 @@ import androidx.compose.foundation.relocation.BringIntoViewRequester
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.*
+import androidx.compose.material.icons.automirrored.filled.FormatListBulleted
+import androidx.compose.material.icons.automirrored.filled.Notes
+import androidx.compose.material.icons.filled.Repeat
+import androidx.compose.material.icons.filled.TaskAlt
 import androidx.compose.material.icons.outlined.Notifications
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -30,17 +33,35 @@ import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
 import com.gaoyun.common.DateUtils.ddMmmYyyyDateFormatter
 import com.gaoyun.common.R
-import com.gaoyun.common.composables.*
+import com.gaoyun.common.composables.DropdownMenu
+import com.gaoyun.common.composables.LabelledCheckBox
+import com.gaoyun.common.composables.PrimaryElevatedButton
+import com.gaoyun.common.composables.ReadonlyTextField
+import com.gaoyun.common.composables.Spacer
+import com.gaoyun.common.composables.TextFormField
 import com.gaoyun.common.dialog.DatePicker
 import com.gaoyun.common.dialog.TimePicker
 import com.gaoyun.common.ext.getName
 import com.gaoyun.common.ext.remindConfigTextFull
 import com.gaoyun.common.ext.repeatConfigTextFull
 import com.gaoyun.common.ext.toLocalizedStringId
-import com.gaoyun.roar.model.domain.interactions.*
+import com.gaoyun.roar.model.domain.interactions.InteractionGroup
+import com.gaoyun.roar.model.domain.interactions.InteractionRemindConfig
+import com.gaoyun.roar.model.domain.interactions.InteractionRepeatConfig
+import com.gaoyun.roar.model.domain.interactions.InteractionTemplate
+import com.gaoyun.roar.model.domain.interactions.InteractionType
+import com.gaoyun.roar.model.domain.interactions.InteractionWithReminders
+import com.gaoyun.roar.model.domain.interactions.toInteractionGroup
 import com.gaoyun.roar.util.toLocalDate
 import kotlinx.coroutines.launch
-import kotlinx.datetime.*
+import kotlinx.datetime.Clock
+import kotlinx.datetime.Instant
+import kotlinx.datetime.LocalTime
+import kotlinx.datetime.TimeZone
+import kotlinx.datetime.toInstant
+import kotlinx.datetime.toJavaLocalDate
+import kotlinx.datetime.toJavaLocalDateTime
+import kotlinx.datetime.toLocalDateTime
 import kotlin.time.Duration.Companion.days
 
 @OptIn(ExperimentalFoundationApi::class)
@@ -67,22 +88,31 @@ internal fun ReminderSetupForm(
         )
     }
 
-    val reminderName = rememberSaveable { mutableStateOf(interactionToEdit?.name ?: template?.getName(activity) ?: "") }
+    val reminderName = rememberSaveable {
+        mutableStateOf(
+            interactionToEdit?.name ?: template?.getName(activity) ?: ""
+        )
+    }
     val notesState = remember { mutableStateOf(interactionToEdit?.notes ?: "") }
 
-    val repeatEnabledState = remember { mutableStateOf(interactionToEdit?.let { it.repeatConfig != null } ?: repeatConfig.active) }
+    val repeatEnabledState = remember {
+        mutableStateOf(interactionToEdit?.let { it.repeatConfig != null } ?: repeatConfig.active)
+    }
     val showRepeatConfigDialog = remember { mutableStateOf(false) }
     val showRemindConfigDialog = remember { mutableStateOf(false) }
 
     val startsOnDate = remember {
         mutableStateOf(
-            interactionToEdit?.reminders?.filter { !it.isCompleted }?.maxByOrNull { it.dateTime }?.dateTime?.toInstant(TimeZone.currentSystemDefault())?.toEpochMilliseconds()
+            interactionToEdit?.reminders?.filter { !it.isCompleted }
+                ?.maxByOrNull { it.dateTime }?.dateTime?.toInstant(TimeZone.currentSystemDefault())
+                ?.toEpochMilliseconds()
                 ?: Clock.System.now().plus(2.days).toEpochMilliseconds()
         )
     }
     val startsOnTime = remember {
         mutableStateOf(
-            interactionToEdit?.reminders?.filter { !it.isCompleted }?.maxByOrNull { it.dateTime }?.dateTime?.time
+            interactionToEdit?.reminders?.filter { !it.isCompleted }
+                ?.maxByOrNull { it.dateTime }?.dateTime?.time
                 ?: LocalTime.parse("09:00")
         )
     }
@@ -91,7 +121,8 @@ internal fun ReminderSetupForm(
             TextFieldValue(
                 StringBuilder()
                     .append(
-                        Instant.fromEpochMilliseconds(startsOnDate.value).toLocalDateTime(TimeZone.currentSystemDefault()).toJavaLocalDateTime()
+                        Instant.fromEpochMilliseconds(startsOnDate.value)
+                            .toLocalDateTime(TimeZone.currentSystemDefault()).toJavaLocalDateTime()
                             .format(ddMmmYyyyDateFormatter)
                     )
                     .append(", ")
@@ -150,9 +181,10 @@ internal fun ReminderSetupForm(
                 valueList = InteractionGroup.GROUP_LIST.map { it.toString() },
                 listState = interactionGroupState,
                 valueDisplayList = InteractionGroup.GROUP_LIST.map { it.toLocalizedStringId() },
-                listDisplayState = interactionGroupState.value.toInteractionGroup().toLocalizedStringId(),
+                listDisplayState = interactionGroupState.value.toInteractionGroup()
+                    .toLocalizedStringId(),
                 label = stringResource(id = R.string.group),
-                leadingIcon = Icons.Filled.FormatListBulleted,
+                leadingIcon = Icons.AutoMirrored.Filled.FormatListBulleted,
                 modifier = Modifier.padding(horizontal = 24.dp),
             )
 
@@ -162,7 +194,13 @@ internal fun ReminderSetupForm(
         ReadonlyTextField(
             value = startsOnDateTimeString.value,
             onValueChange = { startsOnDateTimeString.value = it },
-            label = { Text(text = if (interactionToEdit != null) stringResource(id = R.string.next_occurrence) else stringResource(id = R.string.date_time)) },
+            label = {
+                Text(
+                    text = if (interactionToEdit != null) stringResource(id = R.string.next_occurrence) else stringResource(
+                        id = R.string.date_time
+                    )
+                )
+            },
             onClick = {
                 DatePicker.pickDate(
                     title = activity.getString(R.string.remind_on_from),
@@ -180,7 +218,8 @@ internal fun ReminderSetupForm(
                                 ),
                                 onTimePicked = { hours, minutes ->
                                     val hoursFormatted = if (hours < 10) "0$hours" else "$hours"
-                                    val minutesFormatted = if (minutes < 10) "0$minutes" else "$minutes"
+                                    val minutesFormatted =
+                                        if (minutes < 10) "0$minutes" else "$minutes"
                                     val newTime = "$hoursFormatted:$minutesFormatted"
 
                                     startsOnDate.value = newDate
@@ -262,7 +301,7 @@ internal fun ReminderSetupForm(
             onChange = { notesState.value = it },
             label = stringResource(id = R.string.notes),
             leadingIcon = {
-                Icon(Icons.Filled.Notes, stringResource(id = R.string.notes))
+                Icon(Icons.AutoMirrored.Filled.Notes, stringResource(id = R.string.notes))
             },
             imeAction = ImeAction.Done,
             modifier = Modifier
@@ -279,7 +318,9 @@ internal fun ReminderSetupForm(
         Spacer(size = 48.dp)
 
         PrimaryElevatedButton(
-            text = if (interactionToEdit != null) stringResource(id = R.string.save) else stringResource(id = R.string.create),
+            text = if (interactionToEdit != null) stringResource(id = R.string.save) else stringResource(
+                id = R.string.create
+            ),
             onClick = {
                 if (reminderName.value.isBlank()) {
                     coroutineScope.launch { snackbarHost.showSnackbar("Name shouldn't be empty") }

@@ -41,12 +41,13 @@ import androidx.compose.ui.unit.dp
 import com.gaoyun.common.R
 import com.gaoyun.common.composables.Spacer
 import com.gaoyun.common.composables.SurfaceScaffold
-import com.gaoyun.common.theme.RoarTheme
 import com.gaoyun.roar.presentation.BackNavigationEffect
 import com.gaoyun.roar.presentation.LAUNCH_LISTEN_FOR_EFFECTS
 import com.gaoyun.roar.presentation.NavigationSideEffect
 import com.gaoyun.roar.presentation.about_screen.AboutScreenContract
 import com.gaoyun.roar.presentation.about_screen.AboutScreenViewModel
+import com.gaoyun.roar.ui.theme.RoarTheme
+import com.gaoyun.roar.ui.theme.RoarThemePreview
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.onEach
 import org.koin.androidx.compose.getViewModel
@@ -117,7 +118,10 @@ fun AboutScreenContent() {
 
         Spacer(size = 32.dp)
 
-        Text(text = stringResource(id = R.string.about_app_description), style = MaterialTheme.typography.titleMedium)
+        Text(
+            text = stringResource(id = R.string.about_app_description),
+            style = MaterialTheme.typography.titleMedium
+        )
 
         Spacer(size = 32.dp)
 
@@ -167,11 +171,17 @@ private fun LinksBlock() {
     val subject = stringResource(id = R.string.app_name)
 
     Row {
-        LinkItem(painterResource(id = R.drawable.ic_telegram), Modifier.clickable { uriHandler.openUri(telegramUrl) })
+        LinkItem(
+            painterResource(id = R.drawable.ic_telegram),
+            Modifier.clickable { uriHandler.openUri(telegramUrl) })
         Spacer(size = 24.dp)
-        LinkItem(Icons.Default.Mail, Modifier.clickable { context.sendMail(to = email, subject = subject) })
+        LinkItem(
+            Icons.Default.Mail,
+            Modifier.clickable { context.sendMail(to = email, subject = subject) })
         Spacer(size = 24.dp)
-        LinkItem(painterResource(id = R.drawable.ic_twitter), Modifier.clickable { uriHandler.openUri(twitterUrl) })
+        LinkItem(
+            painterResource(id = R.drawable.ic_twitter),
+            Modifier.clickable { uriHandler.openUri(twitterUrl) })
         Spacer(size = 24.dp)
         LinkItem(Icons.Default.Language, Modifier.clickable { uriHandler.openUri(webUrl) })
     }
@@ -218,7 +228,7 @@ fun Context.sendMail(to: String, subject: String) {
 @Composable
 @Preview(device = Devices.PIXEL)
 fun AboutScreenPreview() {
-    RoarTheme {
+    RoarThemePreview {
         SurfaceScaffold {
             AboutScreenContent()
         }

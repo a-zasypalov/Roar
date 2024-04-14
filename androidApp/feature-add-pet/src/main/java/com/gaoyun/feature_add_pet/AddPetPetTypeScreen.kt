@@ -26,14 +26,14 @@ import com.gaoyun.common.R
 import com.gaoyun.common.composables.RoarIcon
 import com.gaoyun.common.composables.SurfaceScaffold
 import com.gaoyun.common.ext.getDrawableByName
-import com.gaoyun.common.theme.RoarTheme
-import com.gaoyun.common.theme.RoarThemePreview
 import com.gaoyun.roar.config.PetsConfig
 import com.gaoyun.roar.presentation.BackNavigationEffect
 import com.gaoyun.roar.presentation.LAUNCH_LISTEN_FOR_EFFECTS
 import com.gaoyun.roar.presentation.NavigationSideEffect
 import com.gaoyun.roar.presentation.add_pet.type.AddPetPetTypeScreenContract
 import com.gaoyun.roar.presentation.add_pet.type.AddPetPetTypeScreenViewModel
+import com.gaoyun.roar.ui.theme.RoarTheme
+import com.gaoyun.roar.ui.theme.RoarThemePreview
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.onEach
 import org.koin.androidx.compose.getViewModel
@@ -100,7 +100,13 @@ private fun ChoosePetType(
                         contentAlignment = Alignment.Center,
                         modifier = Modifier
                             .fillMaxSize()
-                            .clickable { onPetTypeChosen(AddPetPetTypeScreenContract.Event.PetTypeChosen(type.enumType)) }
+                            .clickable {
+                                onPetTypeChosen(
+                                    AddPetPetTypeScreenContract.Event.PetTypeChosen(
+                                        type.enumType
+                                    )
+                                )
+                            }
                     ) {
                         RoarIcon(
                             icon = context.getDrawableByName(type.iconRes),

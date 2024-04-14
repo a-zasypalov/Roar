@@ -16,10 +16,10 @@ import androidx.compose.ui.unit.dp
 import com.gaoyun.common.R
 import com.gaoyun.common.composables.Spacer
 import com.gaoyun.common.ext.toLocalizedStringId
-import com.gaoyun.common.theme.RoarTheme
 import com.gaoyun.roar.model.domain.PetWithInteractions
 import com.gaoyun.roar.model.domain.interactions.InteractionWithReminders
 import com.gaoyun.roar.model.domain.withoutInteractions
+import com.gaoyun.roar.ui.theme.RoarTheme
 import kotlinx.datetime.LocalDateTime
 
 @OptIn(ExperimentalFoundationApi::class)

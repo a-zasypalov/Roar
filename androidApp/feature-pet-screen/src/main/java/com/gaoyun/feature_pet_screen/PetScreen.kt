@@ -25,7 +25,6 @@ import com.gaoyun.common.composables.BoxWithLoader
 import com.gaoyun.common.composables.RoarExtendedFAB
 import com.gaoyun.common.composables.SurfaceScaffold
 import com.gaoyun.common.dialog.InteractionCompletionDialog
-import com.gaoyun.common.theme.RoarThemePreview
 import com.gaoyun.feature_pet_screen.view.PetContainer
 import com.gaoyun.roar.model.domain.PetWithInteractions
 import com.gaoyun.roar.model.domain.withInteractions
@@ -34,6 +33,7 @@ import com.gaoyun.roar.presentation.LAUNCH_LISTEN_FOR_EFFECTS
 import com.gaoyun.roar.presentation.NavigationSideEffect
 import com.gaoyun.roar.presentation.pet_screen.PetScreenContract
 import com.gaoyun.roar.presentation.pet_screen.PetScreenViewModel
+import com.gaoyun.roar.ui.theme.RoarThemePreview
 import com.gaoyun.roar.util.SharedDateUtils
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.onEach
@@ -54,7 +54,8 @@ fun PetScreenDestination(
     }
 
     val showCompleteReminderDateDialog = remember { mutableStateOf(false) }
-    val completeReminderDateDialogDate = remember { mutableStateOf(SharedDateUtils.currentDateTime()) }
+    val completeReminderDateDialogDate =
+        remember { mutableStateOf(SharedDateUtils.currentDateTime()) }
     val reminderToCompleteId = remember { mutableStateOf<String?>(null) }
 
     LaunchedEffect(LAUNCH_LISTEN_FOR_EFFECTS) {
@@ -84,7 +85,13 @@ fun PetScreenDestination(
                 contentDescription = stringResource(id = R.string.add_reminder),
                 text = stringResource(id = R.string.reminder),
                 extended = fabExtended,
-                onClick = { viewModel.setEvent(PetScreenContract.Event.AddReminderButtonClicked(state.pet?.id ?: "")) })
+                onClick = {
+                    viewModel.setEvent(
+                        PetScreenContract.Event.AddReminderButtonClicked(
+                            state.pet?.id ?: ""
+                        )
+                    )
+                })
         },
         floatingActionButtonPosition = FabPosition.End,
         backHandler = { onNavigationCall(BackNavigationEffect) }
@@ -93,7 +100,13 @@ fun PetScreenDestination(
             RemovePetConfirmationDialog(
                 petName = state.pet?.name.toString(),
                 onDismiss = viewModel::hideDeletePetDialog,
-                onConfirm = { viewModel.setEvent(PetScreenContract.Event.OnDeletePetConfirmed(state.pet?.id ?: "")) }
+                onConfirm = {
+                    viewModel.setEvent(
+                        PetScreenContract.Event.OnDeletePetConfirmed(
+                            state.pet?.id ?: ""
+                        )
+                    )
+                }
             )
         }
 
@@ -132,7 +145,13 @@ fun PetScreenDestination(
                 PetContainer(
                     pet = pet.withInteractions(state.interactions),
                     inactiveInteractions = state.inactiveInteractions,
-                    onInteractionClick = { viewModel.setEvent(PetScreenContract.Event.InteractionClicked(it)) },
+                    onInteractionClick = {
+                        viewModel.setEvent(
+                            PetScreenContract.Event.InteractionClicked(
+                                it
+                            )
+                        )
+                    },
                     onDeletePetClick = { viewModel.setEvent(PetScreenContract.Event.OnDeletePetClicked) },
                     onEditPetClick = { viewModel.setEvent(PetScreenContract.Event.OnEditPetClick) },
                     onInteractionCheckClicked = { reminderId, completed, completionDateTime ->

@@ -9,10 +9,10 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.Notes
 import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.Done
 import androidx.compose.material.icons.filled.MedicalServices
-import androidx.compose.material.icons.filled.Notes
 import androidx.compose.material.icons.filled.Notifications
 import androidx.compose.material.icons.filled.Pets
 import androidx.compose.material.icons.filled.Repeat
@@ -41,10 +41,10 @@ import com.gaoyun.common.ext.remindConfigTextFull
 import com.gaoyun.common.ext.repeatConfigTextFull
 import com.gaoyun.common.ext.toLocalizedStringId
 import com.gaoyun.common.icon
-import com.gaoyun.common.theme.RoarTheme
 import com.gaoyun.roar.model.domain.Pet
 import com.gaoyun.roar.model.domain.interactions.InteractionGroup
 import com.gaoyun.roar.model.domain.interactions.InteractionWithReminders
+import com.gaoyun.roar.ui.theme.RoarTheme
 
 @Composable
 internal fun InteractionHeader(
@@ -111,18 +111,33 @@ internal fun InteractionHeader(
                     InteractionGroup.CARE -> Icons.Default.Spa
                     InteractionGroup.ROUTINE -> Icons.Default.Pets
                 }
-                TextWithIconBulletPoint(icon = groupIcon, stringResource(id = interaction.group.toLocalizedStringId()))
+                TextWithIconBulletPoint(
+                    icon = groupIcon,
+                    stringResource(id = interaction.group.toLocalizedStringId())
+                )
 
-                TextWithIconBulletPoint(icon = Icons.Default.Notifications, text = interaction.remindConfig.remindConfigTextFull())
+                TextWithIconBulletPoint(
+                    icon = Icons.Default.Notifications,
+                    text = interaction.remindConfig.remindConfigTextFull()
+                )
 
                 interaction.repeatConfig?.let {
                     TextWithIconBulletPoint(icon = Icons.Default.Repeat, it.repeatConfigTextFull())
-                } ?: TextWithIconBulletPoint(icon = Icons.Default.Repeat, stringResource(id = R.string.doesnt_repeat))
+                } ?: TextWithIconBulletPoint(
+                    icon = Icons.Default.Repeat,
+                    stringResource(id = R.string.doesnt_repeat)
+                )
 
                 if (interaction.isActive) {
-                    TextWithIconBulletPoint(icon = Icons.Default.Done, stringResource(id = R.string.active))
+                    TextWithIconBulletPoint(
+                        icon = Icons.Default.Done,
+                        stringResource(id = R.string.active)
+                    )
                 } else {
-                    TextWithIconBulletPoint(icon = Icons.Default.Close, stringResource(id = R.string.not_active))
+                    TextWithIconBulletPoint(
+                        icon = Icons.Default.Close,
+                        stringResource(id = R.string.not_active)
+                    )
                 }
             }
         }
@@ -132,7 +147,7 @@ internal fun InteractionHeader(
         TextFormField(
             shape = MaterialTheme.shapes.large,
             leadingIcon = {
-                Icon(Icons.Filled.Notes, stringResource(id = R.string.cd_notes))
+                Icon(Icons.AutoMirrored.Filled.Notes, stringResource(id = R.string.cd_notes))
             },
             text = notesState.value ?: "",
             label = stringResource(id = R.string.notes),

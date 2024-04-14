@@ -2,8 +2,10 @@ package com.gaoyun.feature_create_reminder
 
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.layout.*
-import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.size
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -16,13 +18,15 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.gaoyun.common.R
-import com.gaoyun.common.composables.*
+import com.gaoyun.common.composables.PrimaryElevatedButton
+import com.gaoyun.common.composables.Spacer
+import com.gaoyun.common.composables.SurfaceScaffold
 import com.gaoyun.common.ext.getDrawableByName
-import com.gaoyun.common.theme.RoarThemePreview
 import com.gaoyun.roar.presentation.LAUNCH_LISTEN_FOR_EFFECTS
 import com.gaoyun.roar.presentation.NavigationSideEffect
 import com.gaoyun.roar.presentation.add_reminder.complete.AddReminderCompleteScreenContract
 import com.gaoyun.roar.presentation.add_reminder.complete.AddReminderCompleteScreenViewModel
+import com.gaoyun.roar.ui.theme.RoarThemePreview
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.onEach
 import org.koin.androidx.compose.getViewModel
@@ -72,11 +76,17 @@ private fun ReminderAddingComplete(
 
         Spacer(16.dp)
 
-        Text(stringResource(id = R.string.reminder_ready), style = MaterialTheme.typography.displayMedium)
+        Text(
+            stringResource(id = R.string.reminder_ready),
+            style = MaterialTheme.typography.displayMedium
+        )
 
         Spacer(16.dp)
 
-        PrimaryElevatedButton(text = stringResource(id = R.string.continue_label), onClick = onContinueButtonClicked)
+        PrimaryElevatedButton(
+            text = stringResource(id = R.string.continue_label),
+            onClick = onContinueButtonClicked
+        )
     }
 
 }

@@ -46,6 +46,7 @@ import com.gaoyun.roar.repository.ReminderRepository
 import com.gaoyun.roar.repository.ReminderRepositoryImpl
 import com.gaoyun.roar.repository.UserRepository
 import com.gaoyun.roar.repository.UserRepositoryImpl
+import com.gaoyun.roar.ui.AppViewModel
 import com.gaoyun.roar.util.DriverFactory
 import com.gaoyun.roar.util.PlatformHttpClient
 import com.gaoyun.roar.util.Preferences
@@ -72,6 +73,8 @@ val repositoryModule = module {
 }
 
 val useCaseModule = module {
+    single { ::AppViewModel } //TODO: Refactor like this
+
     single { RegisterUserUseCase(get(), get()) }
     single { GetCurrentUserUseCase(get(), get()) }
     single { CheckUserExistingUseCase(get()) }
@@ -99,7 +102,7 @@ val useCaseModule = module {
     single { GetReminder(get()) }
     single { InsertReminder(get(), get()) }
     single { RemoveReminder(get(), get()) }
-    single { SetReminderComplete(get(), get(), get(), get(), get(), get()) }
+    single { ::SetReminderComplete }
     single { AddNextReminder(get(), get(), get(), get(), get(), get()) }
     single { DeactivateInteraction(get(), get()) }
 

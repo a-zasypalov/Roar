@@ -22,8 +22,8 @@ import androidx.compose.ui.unit.dp
 import com.gaoyun.common.composables.Spacer
 import com.gaoyun.common.ext.ageText
 import com.gaoyun.common.ext.getDrawableByName
-import com.gaoyun.common.theme.RoarTheme
 import com.gaoyun.roar.model.domain.PetWithInteractions
+import com.gaoyun.roar.ui.theme.RoarTheme
 import com.gaoyun.roar.util.SharedDateUtils
 import kotlinx.datetime.LocalDateTime
 
@@ -74,7 +74,9 @@ fun PetCard(
                 }
             }
 
-            pet.interactions.values.flatten().sortedBy { it.reminders.minOfOrNull { r -> r.dateTime } ?: SharedDateUtils.MAX_DATE }.map { interaction ->
+            pet.interactions.values.flatten().sortedBy {
+                it.reminders.minOfOrNull { r -> r.dateTime } ?: SharedDateUtils.MAX_DATE
+            }.map { interaction ->
                 InteractionCard(
                     interaction = interaction,
                     elevation = 64.dp,

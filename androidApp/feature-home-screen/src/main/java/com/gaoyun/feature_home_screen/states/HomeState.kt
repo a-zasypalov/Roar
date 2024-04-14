@@ -26,13 +26,13 @@ import com.gaoyun.common.R
 import com.gaoyun.common.composables.AutoResizeText
 import com.gaoyun.common.composables.FontSizeRange
 import com.gaoyun.common.composables.Spacer
-import com.gaoyun.common.theme.RoarTheme
 import com.gaoyun.feature_home_screen.view.UserHomeHeader
 import com.gaoyun.feature_pet_screen.view.PetCard
 import com.gaoyun.feature_pet_screen.view.PetContainer
 import com.gaoyun.roar.model.domain.PetWithInteractions
 import com.gaoyun.roar.model.domain.interactions.InteractionWithReminders
 import com.gaoyun.roar.presentation.home_screen.HomeScreenContract
+import com.gaoyun.roar.ui.theme.RoarThemePreview
 import kotlinx.datetime.LocalDateTime
 
 
@@ -55,7 +55,11 @@ fun HomeState(
     if (pets.size == 1 && screenModeFull) {
         val pet = pets.first()
         Column {
-            Box(modifier = Modifier.size(WindowInsets.statusBars.asPaddingValues().calculateTopPadding()))
+            Box(
+                modifier = Modifier.size(
+                    WindowInsets.statusBars.asPaddingValues().calculateTopPadding()
+                )
+            )
 
             UserHomeHeader(
                 onAddPetButtonClick = onAddPetButtonClick,
@@ -67,8 +71,21 @@ fun HomeState(
             PetContainer(
                 pet = pet,
                 inactiveInteractions = inactiveInteractions,
-                onInteractionClick = { interactionId -> onInteractionClick(HomeScreenContract.Event.InteractionClicked(petId = pet.id, interactionId = interactionId)) },
-                onDeletePetClick = { onDeletePetClick(HomeScreenContract.Event.OnDeletePetClicked(pet = pet)) },
+                onInteractionClick = { interactionId ->
+                    onInteractionClick(
+                        HomeScreenContract.Event.InteractionClicked(
+                            petId = pet.id,
+                            interactionId = interactionId
+                        )
+                    )
+                },
+                onDeletePetClick = {
+                    onDeletePetClick(
+                        HomeScreenContract.Event.OnDeletePetClicked(
+                            pet = pet
+                        )
+                    )
+                },
                 onEditPetClick = { onEditPetClick(HomeScreenContract.Event.ToEditPetClicked(pet = pet)) },
                 onInteractionCheckClicked = { interactionId, isChecked, completionDateTime ->
                     onInteractionCheckClicked(
@@ -91,7 +108,11 @@ fun HomeState(
                 .fillMaxHeight()
         ) {
             item {
-                Box(modifier = Modifier.size(WindowInsets.statusBars.asPaddingValues().calculateTopPadding()))
+                Box(
+                    modifier = Modifier.size(
+                        WindowInsets.statusBars.asPaddingValues().calculateTopPadding()
+                    )
+                )
             }
             item {
                 UserHomeHeader(
@@ -124,7 +145,14 @@ fun HomeState(
                 PetCard(
                     pet = pet,
                     onPetCardClick = onPetCardClick,
-                    onInteractionClick = { interactionId -> onInteractionClick(HomeScreenContract.Event.InteractionClicked(petId = pet.id, interactionId = interactionId)) },
+                    onInteractionClick = { interactionId ->
+                        onInteractionClick(
+                            HomeScreenContract.Event.InteractionClicked(
+                                petId = pet.id,
+                                interactionId = interactionId
+                            )
+                        )
+                    },
                     onInteractionCheckClicked = { interactionId, isChecked, completionDateTime ->
                         onInteractionCheckClicked(
                             pet,
@@ -145,7 +173,19 @@ fun HomeState(
 @Preview
 @Composable
 fun HomeStatePreview() {
-    RoarTheme {
-        HomeState(true, listOf(PetWithInteractions.preview()), listOf(), {}, {}, { _ -> }, {}, {}, { _, _, _, _ -> }, {}, rememberLazyListState())
+    RoarThemePreview {
+        HomeState(
+            true,
+            listOf(PetWithInteractions.preview()),
+            listOf(),
+            {},
+            {},
+            { _ -> },
+            {},
+            {},
+            { _, _, _, _ -> },
+            {},
+            rememberLazyListState()
+        )
     }
 }

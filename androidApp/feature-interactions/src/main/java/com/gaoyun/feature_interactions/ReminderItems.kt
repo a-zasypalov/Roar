@@ -13,9 +13,9 @@ import androidx.compose.ui.unit.dp
 import com.gaoyun.common.DateUtils
 import com.gaoyun.common.R
 import com.gaoyun.common.composables.LabelledCheckBox
-import com.gaoyun.common.theme.RoarTheme
 import com.gaoyun.roar.model.domain.Reminder
 import com.gaoyun.roar.presentation.interactions.InteractionScreenContract
+import com.gaoyun.roar.ui.theme.RoarTheme
 import com.gaoyun.roar.util.SharedDateUtils
 import kotlinx.datetime.toJavaLocalDate
 import kotlinx.datetime.toJavaLocalDateTime
@@ -42,7 +42,10 @@ fun ReminderItems(
                             )
                         } else {
                             onCompleteReminderNotTodayClick(
-                                InteractionScreenContract.Event.OnCompleteReminderNotTodayClick(reminder.id, reminder.dateTime)
+                                InteractionScreenContract.Event.OnCompleteReminderNotTodayClick(
+                                    reminder.id,
+                                    reminder.dateTime
+                                )
                             )
                         }
                     }
@@ -73,7 +76,11 @@ fun CompleteReminderItems(
                                 )
                             )
                         } else {
-                            onReminderRemoveFromHistoryClick(InteractionScreenContract.Event.OnReminderRemoveFromHistoryClick(reminder.id))
+                            onReminderRemoveFromHistoryClick(
+                                InteractionScreenContract.Event.OnReminderRemoveFromHistoryClick(
+                                    reminder.id
+                                )
+                            )
                         }
                     }
                 )

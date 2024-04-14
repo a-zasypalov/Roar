@@ -36,8 +36,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.gaoyun.common.R
-import com.gaoyun.common.theme.RoarTheme
-import com.gaoyun.common.theme.RoarThemePreview
+import com.gaoyun.roar.ui.theme.RoarTheme
+import com.gaoyun.roar.ui.theme.RoarThemePreview
 import kotlinx.datetime.Clock
 
 @Composable
@@ -57,7 +57,11 @@ fun UserRegistrationForm(
             modifier = Modifier.fillMaxWidth(),
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
-            Box(modifier = Modifier.size(WindowInsets.statusBars.asPaddingValues().calculateTopPadding() + 48.dp))
+            Box(
+                modifier = Modifier.size(
+                    WindowInsets.statusBars.asPaddingValues().calculateTopPadding() + 48.dp
+                )
+            )
 
             Surface(
                 tonalElevation = RoarTheme.IMAGE_ITEM_ELEVATION,

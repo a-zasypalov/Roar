@@ -1,4 +1,4 @@
-package com.gaoyun.common.navigation
+package com.gaoyun.roar.ui.navigation
 
 sealed class NavigationAction {
     class NavigateTo(val path: String) : NavigationAction()

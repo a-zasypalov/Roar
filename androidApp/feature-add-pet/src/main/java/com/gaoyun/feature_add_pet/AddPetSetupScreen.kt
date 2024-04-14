@@ -2,7 +2,15 @@ package com.gaoyun.feature_add_pet
 
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.navigationBarsPadding
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
@@ -22,9 +30,11 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.Lifecycle
 import com.gaoyun.common.OnLifecycleEvent
 import com.gaoyun.common.R
-import com.gaoyun.common.composables.*
+import com.gaoyun.common.composables.BoxWithLoader
+import com.gaoyun.common.composables.PrimaryElevatedButton
+import com.gaoyun.common.composables.Spacer
+import com.gaoyun.common.composables.SurfaceScaffold
 import com.gaoyun.common.ext.getDrawableByName
-import com.gaoyun.common.theme.RoarThemePreview
 import com.gaoyun.roar.model.domain.Gender
 import com.gaoyun.roar.model.domain.Pet
 import com.gaoyun.roar.model.domain.PetType
@@ -32,6 +42,7 @@ import com.gaoyun.roar.presentation.LAUNCH_LISTEN_FOR_EFFECTS
 import com.gaoyun.roar.presentation.NavigationSideEffect
 import com.gaoyun.roar.presentation.add_pet.setup.AddPetSetupScreenContract
 import com.gaoyun.roar.presentation.add_pet.setup.AddPetSetupScreenViewModel
+import com.gaoyun.roar.ui.theme.RoarThemePreview
 import com.gaoyun.roar.util.randomUUID
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.onEach
@@ -99,7 +110,11 @@ private fun PetAddingComplete(
 
         Spacer(16.dp)
 
-        Text(stringResource(id = R.string.new_pet_added), style = MaterialTheme.typography.displayMedium, modifier = Modifier.padding(horizontal = 8.dp))
+        Text(
+            stringResource(id = R.string.new_pet_added),
+            style = MaterialTheme.typography.displayMedium,
+            modifier = Modifier.padding(horizontal = 8.dp)
+        )
 
         Spacer(8.dp)
 

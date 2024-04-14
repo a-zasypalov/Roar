@@ -3,8 +3,19 @@ package com.gaoyun.feature_add_pet
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.lazy.grid.*
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.asPaddingValues
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.navigationBars
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.GridItemSpan
+import androidx.compose.foundation.lazy.grid.LazyGridItemScope
+import androidx.compose.foundation.lazy.grid.LazyGridItemSpanScope
+import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
@@ -23,14 +34,14 @@ import androidx.lifecycle.Lifecycle
 import com.gaoyun.common.OnLifecycleEvent
 import com.gaoyun.common.composables.SurfaceScaffold
 import com.gaoyun.common.ext.getDrawableByName
-import com.gaoyun.common.theme.RoarTheme
-import com.gaoyun.common.theme.RoarThemePreview
 import com.gaoyun.roar.config.PetsConfig
 import com.gaoyun.roar.presentation.BackNavigationEffect
 import com.gaoyun.roar.presentation.LAUNCH_LISTEN_FOR_EFFECTS
 import com.gaoyun.roar.presentation.NavigationSideEffect
 import com.gaoyun.roar.presentation.add_pet.avatar.AddPetAvatarScreenContract
 import com.gaoyun.roar.presentation.add_pet.avatar.AddPetAvatarScreenViewModel
+import com.gaoyun.roar.ui.theme.RoarTheme
+import com.gaoyun.roar.ui.theme.RoarThemePreview
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.onEach
 import org.koin.androidx.compose.getViewModel
@@ -53,7 +64,10 @@ fun AddPetAvatarDestination(
     LaunchedEffect(LAUNCH_LISTEN_FOR_EFFECTS) {
         viewModel.effect.onEach { effect ->
             when (effect) {
-                is AddPetAvatarScreenContract.Effect.NavigateBack -> onNavigationCall(BackNavigationEffect)
+                is AddPetAvatarScreenContract.Effect.NavigateBack -> onNavigationCall(
+                    BackNavigationEffect
+                )
+
                 is AddPetAvatarScreenContract.Effect.Navigation -> onNavigationCall(effect)
             }
         }.collect()
@@ -97,7 +111,11 @@ fun PetAvatarScreen(
             AvatarItem(avatar = it, onAvatarChosen = onAvatarChosen, petType = petType)
         }
         item(span = titleSpan) {
-            Box(modifier = Modifier.size(WindowInsets.navigationBars.asPaddingValues().calculateBottomPadding()))
+            Box(
+                modifier = Modifier.size(
+                    WindowInsets.navigationBars.asPaddingValues().calculateBottomPadding()
+                )
+            )
         }
     }
 }
@@ -122,7 +140,14 @@ private fun LazyGridItemScope.AvatarItem(
             contentAlignment = Alignment.Center,
             modifier = Modifier
                 .fillMaxSize()
-                .clickable { onAvatarChosen(AddPetAvatarScreenContract.Event.AvatarChosen(avatar.iconRes, petType)) }
+                .clickable {
+                    onAvatarChosen(
+                        AddPetAvatarScreenContract.Event.AvatarChosen(
+                            avatar.iconRes,
+                            petType
+                        )
+                    )
+                }
         ) {
             Image(
                 painter = painterResource(id = context.getDrawableByName(avatar.iconRes)),

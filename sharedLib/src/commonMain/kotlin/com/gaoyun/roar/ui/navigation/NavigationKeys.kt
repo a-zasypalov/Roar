@@ -1,4 +1,4 @@
-package com.gaoyun.common.navigation
+package com.gaoyun.roar.ui.navigation
 
 object NavigationKeys {
 

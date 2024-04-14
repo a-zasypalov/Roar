@@ -26,7 +26,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.gaoyun.common.composables.PrimaryElevatedButton
 import com.gaoyun.common.composables.Spacer
-import com.gaoyun.common.theme.RoarTheme
+import com.gaoyun.roar.ui.theme.RoarTheme
+import com.gaoyun.roar.ui.theme.RoarThemePreview
 import com.gaoyun.common.R as CommonR
 
 @Composable
@@ -47,7 +48,11 @@ fun NoPetsState(
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Center
         ) {
-            Box(modifier = Modifier.size(WindowInsets.statusBars.asPaddingValues().calculateTopPadding()))
+            Box(
+                modifier = Modifier.size(
+                    WindowInsets.statusBars.asPaddingValues().calculateTopPadding()
+                )
+            )
 
             Surface(
                 tonalElevation = RoarTheme.IMAGE_ITEM_ELEVATION,
@@ -64,7 +69,11 @@ fun NoPetsState(
             }
 
             Spacer(size = 24.dp)
-            Text(text = stringResource(id = com.gaoyun.common.R.string.nice_to_meet_you, userName), style = MaterialTheme.typography.titleLarge, textAlign = TextAlign.Center)
+            Text(
+                text = stringResource(id = com.gaoyun.common.R.string.nice_to_meet_you, userName),
+                style = MaterialTheme.typography.titleLarge,
+                textAlign = TextAlign.Center
+            )
         }
         Column(
             modifier = Modifier
@@ -94,7 +103,7 @@ fun NoPetsState(
 @Preview
 @Composable
 fun NoPetsStatePreview() {
-    RoarTheme {
+    RoarThemePreview {
         NoPetsState("Tester", {}, {})
     }
 }

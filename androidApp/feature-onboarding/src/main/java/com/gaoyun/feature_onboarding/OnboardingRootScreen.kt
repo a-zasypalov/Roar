@@ -31,16 +31,17 @@ import com.gaoyun.common.R
 import com.gaoyun.common.composables.PrimaryElevatedButton
 import com.gaoyun.common.composables.Spacer
 import com.gaoyun.common.composables.SurfaceScaffold
-import com.gaoyun.common.navigation.NavigationKeys
-import com.gaoyun.common.theme.RoarTheme
+import com.gaoyun.roar.ui.navigation.NavigationKeys
 import com.gaoyun.roar.presentation.onboarding.OnboardingViewModel
+import com.gaoyun.roar.ui.theme.RoarTheme
+import com.gaoyun.roar.ui.theme.RoarThemePreview
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.HorizontalPager
 import com.google.accompanist.pager.rememberPagerState
 import kotlinx.coroutines.launch
 import org.koin.androidx.compose.getViewModel
 
-@OptIn(ExperimentalPagerApi::class, ExperimentalMaterial3Api::class)
+@OptIn(ExperimentalPagerApi::class)
 @Composable
 fun OnboardingRootScreen(
     navHostController: NavHostController,
@@ -99,7 +100,9 @@ fun OnboardingRootScreen(
                             }
                         })
                 }
-                Spacer(size = WindowInsets.navigationBars.asPaddingValues().calculateBottomPadding())
+                Spacer(
+                    size = WindowInsets.navigationBars.asPaddingValues().calculateBottomPadding()
+                )
             }
         }
     }
@@ -128,8 +131,14 @@ fun OnboardingHelloPage() {
             )
         }
         Spacer(size = 24.dp)
-        Text(text = stringResource(id = R.string.app_name), style = MaterialTheme.typography.displayMedium)
-        Text(text = stringResource(id = R.string.onboarding_care_assistant), style = MaterialTheme.typography.titleLarge)
+        Text(
+            text = stringResource(id = R.string.app_name),
+            style = MaterialTheme.typography.displayMedium
+        )
+        Text(
+            text = stringResource(id = R.string.onboarding_care_assistant),
+            style = MaterialTheme.typography.titleLarge
+        )
     }
 }
 
@@ -156,9 +165,15 @@ fun OnboardingCarePage() {
             )
         }
         Spacer(size = 24.dp)
-        Text(text = stringResource(id = R.string.onboarding_care_reminders), style = MaterialTheme.typography.displaySmall)
+        Text(
+            text = stringResource(id = R.string.onboarding_care_reminders),
+            style = MaterialTheme.typography.displaySmall
+        )
         Spacer(size = 4.dp)
-        Text(text = stringResource(id = R.string.onboarding_care_reminders_description), style = MaterialTheme.typography.titleMedium)
+        Text(
+            text = stringResource(id = R.string.onboarding_care_reminders_description),
+            style = MaterialTheme.typography.titleMedium
+        )
     }
 }
 
@@ -185,16 +200,22 @@ fun OnboardingCommunityPage() {
             )
         }
         Spacer(size = 24.dp)
-        Text(text = stringResource(id = R.string.onboarding_community_project), style = MaterialTheme.typography.displaySmall)
+        Text(
+            text = stringResource(id = R.string.onboarding_community_project),
+            style = MaterialTheme.typography.displaySmall
+        )
         Spacer(size = 4.dp)
-        Text(text = stringResource(id = R.string.onboarding_community_project_description), style = MaterialTheme.typography.titleMedium)
+        Text(
+            text = stringResource(id = R.string.onboarding_community_project_description),
+            style = MaterialTheme.typography.titleMedium
+        )
     }
 }
 
 @Preview
 @Composable
 fun OnboardingHelloPagePreview() {
-    RoarTheme {
+    RoarThemePreview {
         SurfaceScaffold {
             OnboardingHelloPage()
         }
@@ -204,7 +225,7 @@ fun OnboardingHelloPagePreview() {
 @Preview
 @Composable
 fun OnboardingCarePagePreview() {
-    RoarTheme {
+    RoarThemePreview {
         SurfaceScaffold {
             OnboardingCarePage()
         }
@@ -214,7 +235,7 @@ fun OnboardingCarePagePreview() {
 @Preview
 @Composable
 fun OnboardingCommunityPagePreview() {
-    RoarTheme {
+    RoarThemePreview {
         SurfaceScaffold {
             OnboardingCommunityPage()
         }

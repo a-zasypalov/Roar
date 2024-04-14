@@ -3,7 +3,7 @@ plugins {
     id("com.android.library")
     kotlin("plugin.serialization")
     id("com.squareup.sqldelight")
-//    id("org.jetbrains.compose")
+    id("org.jetbrains.compose")
 }
 
 kotlin {
@@ -29,11 +29,12 @@ kotlin {
         linkSqlite = true
     }
 
-    val coroutinesVersion = "1.7.3"
-    val serializationVersion = "1.5.1"
-    val ktorVersion = "2.3.2"
+    val coroutinesVersion = "1.8.0"
+    val serializationVersion = "1.6.3"
+    val ktorVersion = "2.3.10"
     val koinVersion = "3.1.6"
-    val lifecycleVersion = "2.6.1"
+    val lifecycleVersion = "2.7.0"
+    val precomposeVersion = "1.6.0"
 
     sourceSets {
         val commonMain by getting {
@@ -49,14 +50,18 @@ kotlin {
                 implementation("io.ktor:ktor-serialization-kotlinx-json:$ktorVersion")
 
                 implementation("io.insert-koin:koin-core:$koinVersion")
-                implementation("org.jetbrains.kotlinx:kotlinx-datetime:0.4.0")
+                implementation("org.jetbrains.kotlinx:kotlinx-datetime:0.5.0")
                 implementation("com.squareup.sqldelight:runtime:1.5.5")
 
-//                implementation(compose.runtime)
-//                implementation(compose.foundation)
-//                implementation(compose.material)
-//                @OptIn(org.jetbrains.compose.ExperimentalComposeLibrary::class)
-//                implementation(compose.components.resources)
+                implementation(compose.runtime)
+                implementation(compose.foundation)
+                implementation(compose.material3)
+                @OptIn(org.jetbrains.compose.ExperimentalComposeLibrary::class)
+                implementation(compose.components.resources)
+
+                implementation("moe.tlaster:precompose:$precomposeVersion")
+                implementation("moe.tlaster:precompose-viewmodel:$precomposeVersion")
+                implementation("moe.tlaster:precompose-koin:$precomposeVersion")
             }
         }
         val commonTest by getting {
@@ -73,20 +78,20 @@ kotlin {
         val androidMain by getting {
             dependencies {
                 implementation("io.insert-koin:koin-android:$koinVersion")
-                implementation("com.squareup.okhttp3:logging-interceptor:4.11.0")
+                implementation("com.squareup.okhttp3:logging-interceptor:4.12.0")
                 implementation("com.squareup.sqldelight:android-driver:1.5.5")
-                implementation("androidx.work:work-runtime-ktx:2.8.1")
+                implementation("androidx.work:work-runtime-ktx:2.9.0")
 
 
-                val composeVersion = "1.4.3"
+                val composeVersion = "1.6.5"
                 implementation("androidx.compose.ui:ui:$composeVersion")
                 implementation("androidx.compose.material:material:$composeVersion")
 
                 implementation("androidx.lifecycle:lifecycle-runtime-ktx:$lifecycleVersion")
                 implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycleVersion")
 
-                implementation("com.google.firebase:firebase-common-ktx:20.3.3")
-                implementation("com.google.firebase:firebase-storage-ktx:20.2.1")
+                implementation("com.google.firebase:firebase-common-ktx:20.4.3")
+                implementation("com.google.firebase:firebase-storage-ktx:20.3.0")
             }
         }
 //        val androidTest by getting {
@@ -121,9 +126,9 @@ kotlin {
 
 android {
     namespace = "com.gaoyun.roar"
-    compileSdk = 33
+    compileSdk = 34
     defaultConfig {
         minSdk = 26
-        targetSdk = 33
+//        targetSdk = 33
     }
 }

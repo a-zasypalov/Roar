@@ -1,4 +1,4 @@
-package com.gaoyun.common.navigation
+package com.gaoyun.roar.ui.navigation
 
 import com.gaoyun.roar.presentation.NavigationSideEffect
 import com.gaoyun.roar.presentation.add_pet.avatar.AddPetAvatarScreenContract

@@ -35,9 +35,9 @@ import com.gaoyun.common.composables.FontSizeRange
 import com.gaoyun.common.composables.Spacer
 import com.gaoyun.common.ext.ageText
 import com.gaoyun.common.ext.getDrawableByName
-import com.gaoyun.common.theme.RoarTheme
 import com.gaoyun.roar.model.domain.Gender
 import com.gaoyun.roar.model.domain.Pet
+import com.gaoyun.roar.ui.theme.RoarTheme
 
 @Composable
 internal fun PetHeader(
@@ -45,7 +45,8 @@ internal fun PetHeader(
     modifier: Modifier = Modifier
 ) {
     val context = LocalContext.current
-    val isSterilized = if (pet.isSterilized) stringResource(id = R.string.sterilized) else stringResource(id = R.string.not_sterilized)
+    val isSterilized =
+        if (pet.isSterilized) stringResource(id = R.string.sterilized) else stringResource(id = R.string.not_sterilized)
 
     Column(
         modifier = modifier.padding(horizontal = 8.dp),
@@ -106,14 +107,24 @@ internal fun PetHeader(
                 )
 
                 when (pet.gender) {
-                    Gender.MALE -> TextWithIconBulletPoint(icon = Icons.Filled.Male, "${stringResource(id = R.string.male)}, $isSterilized")
-                    Gender.FEMALE -> TextWithIconBulletPoint(icon = Icons.Filled.Female, "${stringResource(id = R.string.female)}, $isSterilized")
+                    Gender.MALE -> TextWithIconBulletPoint(
+                        icon = Icons.Filled.Male,
+                        "${stringResource(id = R.string.male)}, $isSterilized"
+                    )
+
+                    Gender.FEMALE -> TextWithIconBulletPoint(
+                        icon = Icons.Filled.Female,
+                        "${stringResource(id = R.string.female)}, $isSterilized"
+                    )
                 }
 
                 TextWithIconBulletPoint(icon = Icons.Filled.Pets, pet.breed)
 
                 if (pet.chipNumber.isNotEmpty()) {
-                    TextWithIconBulletPoint(icon = Icons.Filled.Memory, "${stringResource(id = R.string.chip)}: ${pet.chipNumber}")
+                    TextWithIconBulletPoint(
+                        icon = Icons.Filled.Memory,
+                        "${stringResource(id = R.string.chip)}: ${pet.chipNumber}"
+                    )
                 }
             }
         }
