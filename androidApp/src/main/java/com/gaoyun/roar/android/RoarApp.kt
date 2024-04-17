@@ -33,6 +33,7 @@ import com.gaoyun.roar.presentation.user_edit.EditUserScreenViewModel
 import com.gaoyun.roar.presentation.user_register.RegisterUserViewModel
 import com.gaoyun.roar.presentation.user_screen.UserScreenViewModel
 import com.gaoyun.roar.ui.AppViewModel
+import com.gaoyun.roar.ui.features.registration.RegistrationLauncher
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger
 import org.koin.androidx.viewmodel.dsl.viewModel
@@ -62,8 +63,9 @@ class RoarApp : MultiDexApplication(), KoinComponent {
 }
 
 val appModule = module {
+    single<RegistrationLauncher> { RegistrationLauncherAndroid }
+
     viewModel { HomeScreenViewModel(get(), get(), get(), get(), get(), get(), get(), get(), get()) }
-    viewModel { RegisterUserViewModel(get(), get()) }
     viewModel { UserScreenViewModel(get(), get(), get(), get(), get(), get(), get()) }
     viewModel { EditUserScreenViewModel(get(), get()) }
 

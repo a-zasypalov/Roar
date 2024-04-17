@@ -5,7 +5,7 @@ plugins {
 
 android {
     namespace = "com.gaoyun.feature_user_registration"
-    compileSdk = 33
+    compileSdk = 34
 
     defaultConfig {
         minSdk = 26
@@ -16,7 +16,7 @@ android {
         compose = true
     }
     composeOptions {
-        kotlinCompilerExtensionVersion = "1.4.5"
+        kotlinCompilerExtensionVersion = "1.5.11"
     }
 }
 

@@ -37,6 +37,7 @@ import com.gaoyun.roar.network.InteractionTemplatesApi
 import com.gaoyun.roar.network.PetsApi
 import com.gaoyun.roar.network.SynchronisationApi
 import com.gaoyun.roar.presentation.onboarding.OnboardingViewModel
+import com.gaoyun.roar.presentation.user_register.RegisterUserViewModel
 import com.gaoyun.roar.repository.InteractionRepository
 import com.gaoyun.roar.repository.InteractionRepositoryImpl
 import com.gaoyun.roar.repository.InteractionTemplateRepository
@@ -77,6 +78,7 @@ val repositoryModule = module {
 val useCaseModule = module {
     single { AppViewModel() } //TODO: Refactor to ::AppViewModel
     single { OnboardingViewModel(get()) }
+    single { RegisterUserViewModel(get(), get(), get()) }
 
     single { RegisterUserUseCase(get(), get()) }
     single { GetCurrentUserUseCase(get(), get()) }

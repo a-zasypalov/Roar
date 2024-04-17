@@ -36,7 +36,7 @@ actual fun platformModule() = module {
 
     single { OnboardingViewModel(get()) }
     single { HomeScreenViewModel(get(), get(), get(), get(), get(), get(), get(), get(), get()) }
-    single { RegisterUserViewModel(get(), get()) }
+    single { RegisterUserViewModel(get(), get(), get()) }
     single { UserScreenViewModel(get(), get(), get(), get(), get(), get(), get()) }
     single { EditUserScreenViewModel(get(), get()) }
 

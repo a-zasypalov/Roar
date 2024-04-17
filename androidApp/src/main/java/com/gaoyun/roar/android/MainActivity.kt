@@ -12,7 +12,6 @@ import androidx.activity.compose.setContent
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.foundation.isSystemInDarkTheme
-import androidx.compose.material3.Surface
 import androidx.compose.material3.dynamicDarkColorScheme
 import androidx.compose.material3.dynamicLightColorScheme
 import androidx.compose.runtime.Composable
@@ -37,15 +36,13 @@ import com.gaoyun.feature_create_reminder.AddReminderDestination
 import com.gaoyun.feature_create_reminder.setup.SetupReminderDestination
 import com.gaoyun.feature_home_screen.HomeScreenDestination
 import com.gaoyun.feature_interactions.InteractionScreenDestination
-import com.gaoyun.roar.ui.features.onboarding.OnboardingRootScreen
 import com.gaoyun.feature_pet_screen.PetScreenDestination
-import com.gaoyun.feature_user_registration.UserRegistrationDestination
+import com.gaoyun.roar.ui.features.registration.UserRegistrationDestination
 import com.gaoyun.feature_user_screen.about_screen.AboutScreenDestination
 import com.gaoyun.feature_user_screen.edit_user.EditUserScreenDestination
 import com.gaoyun.feature_user_screen.user_screen.UserScreenDestination
 import com.gaoyun.roar.presentation.LAUNCH_LISTEN_FOR_EFFECTS
 import com.gaoyun.roar.ui.App
-import com.gaoyun.roar.ui.theme.RoarTheme
 import com.gaoyun.roar.ui.theme.colors.BlueColor
 import com.gaoyun.roar.ui.theme.colors.GreenColor
 import com.gaoyun.roar.ui.theme.colors.OrangeColor
@@ -210,7 +207,7 @@ class MainActivity : AppCompatActivity() {
             }
 
             composable(NavigationKeys.Route.REGISTER_USER_ROUTE) {
-                UserRegistrationDestination(onNavigationCall = viewModel::navigate)
+//                UserRegistrationDestination(onNavigationCall = viewModel::navigate)
             }
 
             composable(NavigationKeys.Route.ADD_PET_ROUTE) {

@@ -1,6 +1,5 @@
-package com.gaoyun.feature_user_registration
+package com.gaoyun.roar.ui.features.registration
 
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -26,18 +25,11 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.platform.LocalUriHandler
-import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Devices
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.gaoyun.common.R
 import com.gaoyun.roar.ui.theme.RoarTheme
-import com.gaoyun.roar.ui.theme.RoarThemePreview
 import kotlinx.datetime.Clock
 
 @Composable
@@ -47,8 +39,8 @@ fun UserRegistrationForm(
 ) {
     val uriHandler = LocalUriHandler.current
 
-    val termsAndConditionsUrl = stringResource(id = R.string.url_terms_and_conditions)
-    val privacyPolicyUrl = stringResource(id = R.string.url_privacy_policy)
+    val termsAndConditionsUrl = "Terms and conditions" //stringResource(id = R.string.url_terms_and_conditions)
+    val privacyPolicyUrl = "Privacy Policy" //stringResource(id = R.string.url_privacy_policy)
 
     val timestampForTesting = Clock.System.now().epochSeconds
 
@@ -69,17 +61,17 @@ fun UserRegistrationForm(
                     .clip(MaterialTheme.shapes.extraLarge)
                     .size(160.dp)
             ) {
-                Image(
-                    painter = painterResource(id = R.drawable.ic_tab_home),
-                    contentDescription = "icon",
-                    modifier = Modifier.padding(16.dp),
-                    colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.inverseSurface)
-                )
+//                Image(
+//                    painter = painterResource(id = R.drawable.ic_tab_home),
+//                    contentDescription = "icon",
+//                    modifier = Modifier.padding(16.dp),
+//                    colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.inverseSurface)
+//                )
             }
 
             com.gaoyun.roar.ui.Spacer(size = 24.dp)
             Text(
-                text = stringResource(id = R.string.app_name),
+                text = "Roar", //stringResource(id = R.string.app_name),
                 style = MaterialTheme.typography.titleLarge,
                 textAlign = TextAlign.Center,
                 modifier = Modifier.clickable {
@@ -113,15 +105,15 @@ fun UserRegistrationForm(
                     .fillMaxWidth()
                     .padding(horizontal = 24.dp)
             ) {
-                Image(
-                    painter = painterResource(id = R.drawable.btn_google),
-                    contentDescription = null,
-                    modifier = Modifier
-                        .weight(2f)
-                        .padding(start = 8.dp, top = 4.dp, bottom = 4.dp)
-                )
+//                Image(
+//                    painter = painterResource(id = R.drawable.btn_google),
+//                    contentDescription = null,
+//                    modifier = Modifier
+//                        .weight(2f)
+//                        .padding(start = 8.dp, top = 4.dp, bottom = 4.dp)
+//                )
                 Text(
-                    stringResource(id = R.string.register_or_login),
+                    "Register or Login", //stringResource(id = R.string.register_or_login),
                     modifier = Modifier
                         .padding(vertical = 8.dp)
                         .weight(8f)
@@ -137,7 +129,7 @@ fun UserRegistrationForm(
                 modifier = Modifier.align(Alignment.CenterHorizontally)
             ) {
                 Text(
-                    text = stringResource(id = R.string.terms_and_conditions_button),
+                    text = "Terms and Conditions", //stringResource(id = R.string.terms_and_conditions_button),
                     style = MaterialTheme.typography.titleSmall,
                     modifier = Modifier.padding(horizontal = 32.dp)
                 )
@@ -148,7 +140,7 @@ fun UserRegistrationForm(
                 modifier = Modifier.align(Alignment.CenterHorizontally)
             ) {
                 Text(
-                    text = stringResource(id = R.string.privacy_policy),
+                    text = "Privacy policy", //stringResource(id = R.string.privacy_policy),
                     style = MaterialTheme.typography.titleSmall,
                     modifier = Modifier.padding(horizontal = 32.dp)
                 )
@@ -159,10 +151,10 @@ fun UserRegistrationForm(
     }
 }
 
-@Composable
-@Preview(device = Devices.PIXEL)
-fun UserRegistrationFormPreview() {
-    RoarThemePreview {
-        UserRegistrationForm({}, {})
-    }
-}
+//@Composable
+//@Preview(device = Devices.PIXEL)
+//fun UserRegistrationFormPreview() {
+//    RoarThemePreview {
+//        UserRegistrationForm({}, {})
+//    }
+//}

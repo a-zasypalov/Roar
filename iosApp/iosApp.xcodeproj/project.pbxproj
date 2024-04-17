@@ -9,8 +9,6 @@
 /* Begin PBXBuildFile section */
 		058557BB273AAA24004C7B11 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 058557BA273AAA24004C7B11 /* Assets.xcassets */; };
 		058557D9273AAEEB004C7B11 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 058557D8273AAEEB004C7B11 /* Preview Assets.xcassets */; };
-		109DAE302A790C5A00A738D9 /* AuthScreenState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 109DAE2F2A790C5A00A738D9 /* AuthScreenState.swift */; };
-		109DAE322A79125600A738D9 /* AuthScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 109DAE312A79125600A738D9 /* AuthScreen.swift */; };
 		10E946FA29EA90E60015D8A8 /* sharedLib.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 10E946F929EA90E60015D8A8 /* sharedLib.framework */; };
 		10E946FB29EA90E60015D8A8 /* sharedLib.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 10E946F929EA90E60015D8A8 /* sharedLib.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		2152FB042600AC8F00CF470E /* iOSApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2152FB032600AC8F00CF470E /* iOSApp.swift */; };
@@ -34,8 +32,6 @@
 /* Begin PBXFileReference section */
 		058557BA273AAA24004C7B11 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		058557D8273AAEEB004C7B11 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
-		109DAE2F2A790C5A00A738D9 /* AuthScreenState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthScreenState.swift; sourceTree = "<group>"; };
-		109DAE312A79125600A738D9 /* AuthScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthScreen.swift; sourceTree = "<group>"; };
 		10E946F929EA90E60015D8A8 /* sharedLib.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = sharedLib.framework; path = ../sharedLib/build/bin/iosSimulatorArm64/debugFramework/sharedLib.framework; sourceTree = "<group>"; };
 		2152FB032600AC8F00CF470E /* iOSApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = iOSApp.swift; sourceTree = "<group>"; };
 		7555FF7B242A565900829871 /* Roar.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Roar.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -72,23 +68,6 @@
 			path = app;
 			sourceTree = "<group>";
 		};
-		109DAE2D2A790AB000A738D9 /* features */ = {
-			isa = PBXGroup;
-			children = (
-				109DAE2E2A790C3700A738D9 /* auth */,
-			);
-			path = features;
-			sourceTree = "<group>";
-		};
-		109DAE2E2A790C3700A738D9 /* auth */ = {
-			isa = PBXGroup;
-			children = (
-				109DAE2F2A790C5A00A738D9 /* AuthScreenState.swift */,
-				109DAE312A79125600A738D9 /* AuthScreen.swift */,
-			);
-			path = auth;
-			sourceTree = "<group>";
-		};
 		7555FF72242A565900829871 = {
 			isa = PBXGroup;
 			children = (
@@ -109,7 +88,6 @@
 		7555FF7D242A565900829871 /* iosApp */ = {
 			isa = PBXGroup;
 			children = (
-				109DAE2D2A790AB000A738D9 /* features */,
 				109DAE2C2A790A8A00A738D9 /* app */,
 				058557BA273AAA24004C7B11 /* Assets.xcassets */,
 				7555FF8C242A565B00829871 /* Info.plist */,
@@ -219,8 +197,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				2152FB042600AC8F00CF470E /* iOSApp.swift in Sources */,
-				109DAE322A79125600A738D9 /* AuthScreen.swift in Sources */,
-				109DAE302A790C5A00A738D9 /* AuthScreenState.swift in Sources */,
 				7555FF83242A565900829871 /* ContentView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

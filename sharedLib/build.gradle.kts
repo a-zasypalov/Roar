@@ -7,7 +7,7 @@ plugins {
 }
 
 kotlin {
-    android()
+    androidTarget()
 
     listOf(
         iosX64(),
@@ -18,6 +18,8 @@ kotlin {
             baseName = "sharedLib"
         }
     }
+
+    jvmToolchain(17)
 
     sqldelight {
         database("RoarDatabase") {
@@ -62,6 +64,8 @@ kotlin {
                 implementation("moe.tlaster:precompose:$precomposeVersion")
                 implementation("moe.tlaster:precompose-viewmodel:$precomposeVersion")
                 implementation("moe.tlaster:precompose-koin:$precomposeVersion")
+
+//                implementation("dev.gitlive:firebase-auth:1.12.0")
             }
         }
         val commonTest by getting {
@@ -129,6 +133,9 @@ android {
     compileSdk = 34
     defaultConfig {
         minSdk = 26
-//        targetSdk = 33
+    }
+    compileOptions {
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
     }
 }

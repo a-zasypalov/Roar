@@ -5,7 +5,9 @@ import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import com.gaoyun.roar.presentation.LAUNCH_LISTEN_FOR_EFFECTS
+import com.gaoyun.roar.ui.features.home.HomeScreenDestination
 import com.gaoyun.roar.ui.features.onboarding.OnboardingRootScreen
+import com.gaoyun.roar.ui.features.registration.UserRegistrationDestination
 import com.gaoyun.roar.ui.navigation.NavigationAction
 import com.gaoyun.roar.ui.navigation.NavigationKeys
 import com.gaoyun.roar.ui.theme.RoarTheme
@@ -48,7 +50,7 @@ fun GlobalDestinationState(isOnboardingComplete: Boolean) {
                     )
                 )
             }
-        }.collect{
+        }.collect {
             println("GlobalDestination NavigationAction: $it")
         }
     }
@@ -65,6 +67,12 @@ fun GlobalDestinationState(isOnboardingComplete: Boolean) {
     ) {
         scene(NavigationKeys.Route.ONBOARDING_ROUTE) {
             OnboardingRootScreen(navHostController = navigator)
+        }
+        scene(NavigationKeys.Route.HOME_ROUTE) {
+            HomeScreenDestination(onNavigationCall = viewModel::navigate)
+        }
+        scene(NavigationKeys.Route.REGISTER_USER_ROUTE) {
+            UserRegistrationDestination(onNavigationCall = viewModel::navigate)
         }
     }
 }
