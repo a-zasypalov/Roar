@@ -7,6 +7,7 @@ import androidx.compose.runtime.LaunchedEffect
 import com.gaoyun.roar.presentation.LAUNCH_LISTEN_FOR_EFFECTS
 import com.gaoyun.roar.ui.features.home.HomeScreenDestination
 import com.gaoyun.roar.ui.features.onboarding.OnboardingRootScreen
+import com.gaoyun.roar.ui.features.pet.PetScreenDestination
 import com.gaoyun.roar.ui.features.registration.UserRegistrationDestination
 import com.gaoyun.roar.ui.navigation.NavigationAction
 import com.gaoyun.roar.ui.navigation.NavigationKeys
@@ -16,6 +17,7 @@ import moe.tlaster.precompose.PreComposeApp
 import moe.tlaster.precompose.koin.koinViewModel
 import moe.tlaster.precompose.navigation.NavHost
 import moe.tlaster.precompose.navigation.PopUpTo
+import moe.tlaster.precompose.navigation.path
 import moe.tlaster.precompose.navigation.rememberNavigator
 
 @Composable
@@ -73,6 +75,15 @@ fun GlobalDestinationState(isOnboardingComplete: Boolean) {
         }
         scene(NavigationKeys.Route.REGISTER_USER_ROUTE) {
             UserRegistrationDestination(onNavigationCall = viewModel::navigate)
+        }
+
+        scene(
+            route = NavigationKeys.Route.PET_DETAIL_ROUTE,
+        ) {
+            PetScreenDestination(
+                viewModel::navigate,
+                petId = it.path<String>(NavigationKeys.Arg.PET_ID_KEY) ?: ""
+            )
         }
     }
 }

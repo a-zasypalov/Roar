@@ -35,8 +35,7 @@ import com.gaoyun.feature_create_reminder.AddReminderCompleteDestination
 import com.gaoyun.feature_create_reminder.AddReminderDestination
 import com.gaoyun.feature_create_reminder.setup.SetupReminderDestination
 import com.gaoyun.feature_interactions.InteractionScreenDestination
-import com.gaoyun.feature_pet_screen.PetScreenDestination
-import com.gaoyun.roar.ui.features.registration.UserRegistrationDestination
+import com.gaoyun.roar.ui.features.pet.PetScreenDestination
 import com.gaoyun.feature_user_screen.about_screen.AboutScreenDestination
 import com.gaoyun.feature_user_screen.edit_user.EditUserScreenDestination
 import com.gaoyun.feature_user_screen.user_screen.UserScreenDestination
@@ -287,10 +286,10 @@ class MainActivity : AppCompatActivity() {
                     type = NavType.StringType
                 })
             ) {
-                PetScreenDestination(
-                    viewModel::navigate,
-                    petId = it.arguments?.getString(NavigationKeys.Arg.PET_ID_KEY) ?: ""
-                )
+//                PetScreenDestination(
+//                    viewModel::navigate,
+//                    petId = it.arguments?.getString(NavigationKeys.Arg.PET_ID_KEY) ?: ""
+//                )
             }
 
             composable(

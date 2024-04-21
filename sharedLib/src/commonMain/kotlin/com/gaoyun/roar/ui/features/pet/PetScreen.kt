@@ -1,4 +1,4 @@
-package com.gaoyun.feature_pet_screen
+package com.gaoyun.roar.ui.features.pet
 
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -15,43 +15,34 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.Lifecycle
-import com.gaoyun.common.OnLifecycleEvent
-import com.gaoyun.common.R
-import com.gaoyun.roar.ui.common.composables.BoxWithLoader
-import com.gaoyun.roar.ui.common.composables.RoarExtendedFAB
-import com.gaoyun.roar.ui.SurfaceScaffold
-import com.gaoyun.roar.ui.common.dialog.InteractionCompletionDialog
-import com.gaoyun.roar.ui.features.pet.PetContainer
-import com.gaoyun.roar.model.domain.PetWithInteractions
 import com.gaoyun.roar.model.domain.withInteractions
 import com.gaoyun.roar.presentation.BackNavigationEffect
 import com.gaoyun.roar.presentation.LAUNCH_LISTEN_FOR_EFFECTS
 import com.gaoyun.roar.presentation.NavigationSideEffect
 import com.gaoyun.roar.presentation.pet_screen.PetScreenContract
 import com.gaoyun.roar.presentation.pet_screen.PetScreenViewModel
+import com.gaoyun.roar.ui.SurfaceScaffold
+import com.gaoyun.roar.ui.common.composables.BoxWithLoader
+import com.gaoyun.roar.ui.common.composables.RoarExtendedFAB
+import com.gaoyun.roar.ui.common.dialog.InteractionCompletionDialog
 import com.gaoyun.roar.ui.common.dialog.RemovePetConfirmationDialog
-import com.gaoyun.roar.ui.theme.RoarThemePreview
 import com.gaoyun.roar.util.SharedDateUtils
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.onEach
-import org.koin.androidx.compose.getViewModel
+import moe.tlaster.precompose.koin.koinViewModel
 
 @Composable
 fun PetScreenDestination(
     onNavigationCall: (NavigationSideEffect) -> Unit,
     petId: String,
 ) {
-    val viewModel: PetScreenViewModel = getViewModel()
+    val viewModel = koinViewModel(vmClass = PetScreenViewModel::class)
     val state = viewModel.viewState.collectAsState().value
 
-    OnLifecycleEvent { _, event ->
-        if (event == Lifecycle.Event.ON_CREATE) {
-            viewModel.buildScreenState(petId)
-        }
+    LaunchedEffect(Unit) {
+        //TODO: was on onCreate
+        viewModel.buildScreenState(petId)
     }
 
     val showCompleteReminderDateDialog = remember { mutableStateOf(false) }
@@ -83,8 +74,8 @@ fun PetScreenDestination(
         floatingActionButton = {
             RoarExtendedFAB(
                 icon = Icons.Filled.Add,
-                contentDescription = stringResource(id = R.string.add_reminder),
-                text = stringResource(id = R.string.reminder),
+                contentDescription = "Add reminder", //stringResource(id = R.string.add_reminder),
+                text = "Reminder", //stringResource(id = R.string.reminder),
                 extended = fabExtended,
                 onClick = {
                     viewModel.setEvent(
@@ -180,11 +171,11 @@ fun PetScreenDestination(
     }
 
 }
-
-@Composable
-@Preview
-fun PetScreenPreview() {
-    RoarThemePreview {
-        PetContainer(PetWithInteractions.preview(), listOf(), {}, {}, {}, { _, _, _ -> })
-    }
-}
+//
+//@Composable
+//@Preview
+//fun PetScreenPreview() {
+//    RoarThemePreview {
+//        PetContainer(PetWithInteractions.preview(), listOf(), {}, {}, {}, { _, _, _ -> })
+//    }
+//}
