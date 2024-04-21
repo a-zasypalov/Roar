@@ -1,8 +1,8 @@
 package com.gaoyun.roar.presentation.about_screen
 
-import com.gaoyun.roar.presentation.BaseViewModel
+import com.gaoyun.roar.presentation.MultiplatformBaseViewModel
 
-class AboutScreenViewModel : BaseViewModel<AboutScreenContract.Event, AboutScreenContract.State, AboutScreenContract.Effect>() {
+class AboutScreenViewModel : MultiplatformBaseViewModel<AboutScreenContract.Event, AboutScreenContract.State, AboutScreenContract.Effect>() {
 
     override fun setInitialState() = AboutScreenContract.State()
 

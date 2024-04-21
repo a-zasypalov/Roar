@@ -1,13 +1,6 @@
-package com.gaoyun.feature_user_screen.user_screen
+package com.gaoyun.roar.ui.features.user.user_screen
 
-import android.app.Activity
-import android.app.AlertDialog
-import android.content.ComponentName
-import android.content.pm.PackageManager
-import android.os.Build
-import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.isSystemInDarkTheme
@@ -41,24 +34,17 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.gaoyun.common.R
+import com.gaoyun.roar.presentation.user_screen.UserScreenContract
+import com.gaoyun.roar.ui.Spacer
 import com.gaoyun.roar.ui.common.composables.AutoResizeText
 import com.gaoyun.roar.ui.common.composables.BoxWithLoader
 import com.gaoyun.roar.ui.common.composables.DropdownMenu
 import com.gaoyun.roar.ui.common.composables.FontSizeRange
 import com.gaoyun.roar.ui.common.composables.LabelledCheckBox
-import com.gaoyun.roar.ui.Spacer
-import com.gaoyun.roar.model.domain.User
-import com.gaoyun.roar.presentation.user_screen.UserScreenContract
 import com.gaoyun.roar.ui.theme.primaryColor
 import com.gaoyun.roar.util.ColorTheme
 
@@ -74,14 +60,11 @@ internal fun UserScreenContent(
     onLogout: (UserScreenContract.Event.OnLogout) -> Unit,
     onAboutScreenButtonClick: (UserScreenContract.Event.OnAboutScreenClick) -> Unit
 ) {
-    val context = LocalContext.current
-    val activity = LocalContext.current as? AppCompatActivity
     val isDarkTheme = isSystemInDarkTheme()
     val scrollState = rememberScrollState()
 
-    val supportDynamicColor = Build.VERSION.SDK_INT >= Build.VERSION_CODES.S
-    val numberOfRemindersOnMainScreenState =
-        remember { mutableStateOf(state.numberOfRemindersOnMainScreenState) }
+    val supportDynamicColor = false // Build.VERSION.SDK_INT >= Build.VERSION_CODES.S
+    val numberOfRemindersOnMainScreenState = remember { mutableStateOf(state.numberOfRemindersOnMainScreenState) }
     numberOfRemindersOnMainScreenState.value = state.numberOfRemindersOnMainScreenState
 
     BoxWithLoader(isLoading = state.user == null) {
@@ -102,7 +85,7 @@ internal fun UserScreenContent(
                     modifier = Modifier.fillMaxWidth()
                 ) {
                     AutoResizeText(
-                        text = stringResource(id = R.string.hey_user, user.name),
+                        text = "Hey, ${user.name}", //stringResource(id = R.string.hey_user, user.name),
                         maxLines = 2,
                         style = MaterialTheme.typography.displayMedium,
                         color = MaterialTheme.colorScheme.onSurface,
@@ -124,7 +107,7 @@ internal fun UserScreenContent(
                 Spacer(size = 8.dp)
 
                 Text(
-                    text = stringResource(id = R.string.user_screen_subtitle),
+                    text = "User subtitle", //stringResource(id = R.string.user_screen_subtitle),
                     style = MaterialTheme.typography.titleMedium,
                     color = MaterialTheme.colorScheme.onSurface
                 )
@@ -136,7 +119,7 @@ internal fun UserScreenContent(
                 Spacer(size = 16.dp)
 
                 Text(
-                    text = stringResource(id = R.string.app_settings),
+                    text = "Settings", //stringResource(id = R.string.app_settings),
                     style = MaterialTheme.typography.headlineLarge,
                     color = MaterialTheme.colorScheme.onSurface
                 )
@@ -153,7 +136,7 @@ internal fun UserScreenContent(
                                 )
                             )
                         },
-                        label = stringResource(id = R.string.home_screen_mode_switcher_title),
+                        label = "Home screen mode", //stringResource(id = R.string.home_screen_mode_switcher_title),
                         modifier = Modifier.fillMaxWidth(),
                         horizontalPadding = 8.dp
                     )
@@ -174,7 +157,7 @@ internal fun UserScreenContent(
                                 )
                             )
                         },
-                        label = stringResource(id = R.string.number_of_reminders_main_screen),
+                        label = "Number of reminders", //stringResource(id = R.string.number_of_reminders_main_screen),
                         leadingIcon = Icons.AutoMirrored.Filled.ListAlt,
                         modifier = Modifier.fillMaxWidth()
                     )
@@ -187,7 +170,7 @@ internal fun UserScreenContent(
                 Spacer(size = 16.dp)
 
                 Text(
-                    text = stringResource(id = R.string.colors),
+                    text = "Colors", //stringResource(id = R.string.colors),
                     style = MaterialTheme.typography.titleLarge.copy(fontWeight = FontWeight.Medium),
                     color = MaterialTheme.colorScheme.onSurface
                 )
@@ -203,9 +186,9 @@ internal fun UserScreenContent(
                                     it
                                 )
                             )
-                            activity?.recreate()
+//                            activity?.recreate()
                         },
-                        label = stringResource(id = R.string.dynamic_color_switcher_title),
+                        label = "Dynamic color", //stringResource(id = R.string.dynamic_color_switcher_title),
                         modifier = Modifier.fillMaxWidth(),
                         horizontalPadding = 8.dp
                     )
@@ -213,7 +196,7 @@ internal fun UserScreenContent(
 
                 AnimatedVisibility(visible = !supportDynamicColor || !state.dynamicColorActive) {
                     LazyRow {
-                        items(ColorTheme.values()) {
+                        items(ColorTheme.entries.toTypedArray()) {
                             ElevatedCard(
                                 shape = MaterialTheme.shapes.medium,
                                 colors = CardDefaults.elevatedCardColors(
@@ -232,7 +215,7 @@ internal fun UserScreenContent(
                                                     it
                                                 )
                                             )
-                                            activity?.recreate()
+                                            //activity?.recreate()
                                         }
                                         .padding(8.dp)
                                         .clip(MaterialTheme.shapes.medium)
@@ -261,7 +244,7 @@ internal fun UserScreenContent(
                 Spacer(size = 16.dp)
 
                 Text(
-                    text = stringResource(id = R.string.app_icon),
+                    text = "App icon", //stringResource(id = R.string.app_icon),
                     style = MaterialTheme.typography.titleLarge.copy(fontWeight = FontWeight.Medium),
                     color = MaterialTheme.colorScheme.onSurface
                 )
@@ -283,16 +266,16 @@ internal fun UserScreenContent(
                                 modifier = Modifier
                                     .fillMaxSize()
                                     .clickable {
-                                        activity?.deactivateComponent(PAW_ICON)
-                                        activity?.activateComponent(ROAR_ICON)
+//                                        activity?.deactivateComponent(PAW_ICON)
+//                                        activity?.activateComponent(ROAR_ICON)
                                     }
                                     .clip(MaterialTheme.shapes.medium)
                             ) {
-                                Image(
-                                    painterResource(id = R.mipmap.ic_launcher_foreground),
-                                    contentDescription = null,
-                                    contentScale = ContentScale.FillWidth,
-                                )
+//                                Image(
+//                                    painterResource(id = R.mipmap.ic_launcher_foreground),
+//                                    contentDescription = null,
+//                                    contentScale = ContentScale.FillWidth,
+//                                )
                             }
                         }
                     }
@@ -310,16 +293,16 @@ internal fun UserScreenContent(
                                 modifier = Modifier
                                     .fillMaxSize()
                                     .clickable {
-                                        activity?.deactivateComponent(ROAR_ICON)
-                                        activity?.activateComponent(PAW_ICON)
+//                                        activity?.deactivateComponent(ROAR_ICON)
+//                                        activity?.activateComponent(PAW_ICON)
                                     }
                                     .clip(MaterialTheme.shapes.medium)
                             ) {
-                                Image(
-                                    painterResource(id = R.mipmap.ic_launcher_paw_foreground),
-                                    contentDescription = null,
-                                    contentScale = ContentScale.FillWidth,
-                                )
+//                                Image(
+//                                    painterResource(id = R.mipmap.ic_launcher_paw_foreground),
+//                                    contentDescription = null,
+//                                    contentScale = ContentScale.FillWidth,
+//                                )
                             }
                         }
                     }
@@ -332,7 +315,7 @@ internal fun UserScreenContent(
                 Spacer(size = 16.dp)
 
                 Text(
-                    text = stringResource(id = R.string.backup),
+                    text = "Backup", //stringResource(id = R.string.backup),
                     style = MaterialTheme.typography.titleLarge.copy(fontWeight = FontWeight.Medium),
                     color = MaterialTheme.colorScheme.onSurface
                 )
@@ -352,7 +335,7 @@ internal fun UserScreenContent(
                     modifier = Modifier.align(Alignment.CenterHorizontally)
                 ) {
                     Text(
-                        text = stringResource(id = R.string.about_app_button),
+                        text = "About app", //stringResource(id = R.string.about_app_button),
                         style = MaterialTheme.typography.titleMedium,
                         modifier = Modifier.padding(horizontal = 32.dp, vertical = 8.dp)
                     )
@@ -360,23 +343,23 @@ internal fun UserScreenContent(
 
                 TextButton(
                     onClick = {
-                        AlertDialog.Builder(context)
-                            .setTitle(context.getString(R.string.logout_question))
-                            .setMessage(context.getString(R.string.logout_description))
-                            .setPositiveButton(context.getString(R.string.logout)) { dialog, _ ->
-                                dialog.dismiss()
-                                onLogout(UserScreenContract.Event.OnLogout)
-                            }
-                            .setNegativeButton(context.getString(R.string.cancel)) { dialog, _ ->
-                                dialog.dismiss()
-                            }
-                            .create()
-                            .show()
+//                        AlertDialog.Builder(context)
+//                            .setTitle(context.getString(R.string.logout_question))
+//                            .setMessage(context.getString(R.string.logout_description))
+//                            .setPositiveButton(context.getString(R.string.logout)) { dialog, _ ->
+//                                dialog.dismiss()
+//                                onLogout(UserScreenContract.Event.OnLogout)
+//                            }
+//                            .setNegativeButton(context.getString(R.string.cancel)) { dialog, _ ->
+//                                dialog.dismiss()
+//                            }
+//                            .create()
+//                            .show()
                     },
                     modifier = Modifier.align(Alignment.CenterHorizontally)
                 ) {
                     Text(
-                        text = stringResource(id = R.string.logout),
+                        text = "Logout", //stringResource(id = R.string.logout),
                         color = MaterialTheme.colorScheme.error,
                         style = MaterialTheme.typography.titleMedium,
                         modifier = Modifier.padding(horizontal = 32.dp, vertical = 8.dp)
@@ -389,32 +372,32 @@ internal fun UserScreenContent(
     }
 }
 
-private fun Activity.activateComponent(name: String) {
-    packageManager.setComponentEnabledSetting(
-        ComponentName(this, name),
-        PackageManager.COMPONENT_ENABLED_STATE_ENABLED, PackageManager.DONT_KILL_APP
-    )
-}
-
-private fun Activity.deactivateComponent(name: String) {
-    packageManager.setComponentEnabledSetting(
-        ComponentName(this, name),
-        PackageManager.COMPONENT_ENABLED_STATE_DISABLED, PackageManager.DONT_KILL_APP
-    )
-}
+//private fun Activity.activateComponent(name: String) {
+//    packageManager.setComponentEnabledSetting(
+//        ComponentName(this, name),
+//        PackageManager.COMPONENT_ENABLED_STATE_ENABLED, PackageManager.DONT_KILL_APP
+//    )
+//}
+//
+//private fun Activity.deactivateComponent(name: String) {
+//    packageManager.setComponentEnabledSetting(
+//        ComponentName(this, name),
+//        PackageManager.COMPONENT_ENABLED_STATE_DISABLED, PackageManager.DONT_KILL_APP
+//    )
+//}
 
 const val ROAR_ICON = "com.gaoyun.roar.android.ROAR.AMBER"
 const val PAW_ICON = "com.gaoyun.roar.android.PAW.AMBER"
 
-@Preview
-@Composable
-fun UserScreenPreview() {
-    UserScreenContent(
-        state = UserScreenContract.State(
-            isLoading = false,
-            dynamicColorActive = false,
-            user = User("id", "Tester")
-        ),
-        {}, {}, {}, {}, {}, {}, {}, {}
-    )
-}
+//@Preview
+//@Composable
+//fun UserScreenPreview() {
+//    UserScreenContent(
+//        state = UserScreenContract.State(
+//            isLoading = false,
+//            dynamicColorActive = false,
+//            user = User("id", "Tester")
+//        ),
+//        {}, {}, {}, {}, {}, {}, {}, {}
+//    )
+//}

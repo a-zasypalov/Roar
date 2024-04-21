@@ -8,6 +8,7 @@ import com.gaoyun.roar.domain.user.GetCurrentUserUseCase
 import com.gaoyun.roar.domain.user.LogoutUseCase
 import com.gaoyun.roar.network.SynchronisationApi
 import com.gaoyun.roar.presentation.BaseViewModel
+import com.gaoyun.roar.presentation.MultiplatformBaseViewModel
 import com.gaoyun.roar.util.ColorTheme
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.catch
@@ -24,7 +25,7 @@ class UserScreenViewModel(
     private val synchronisationApi: SynchronisationApi,
     private val logoutUseCase: LogoutUseCase,
     private val getPetUseCase: GetPetUseCase,
-) : BaseViewModel<UserScreenContract.Event, UserScreenContract.State, UserScreenContract.Effect>() {
+) : MultiplatformBaseViewModel<UserScreenContract.Event, UserScreenContract.State, UserScreenContract.Effect>() {
 
     val backupState = MutableStateFlow("")
 

@@ -32,10 +32,7 @@ import com.gaoyun.roar.ui.features.add_pet.pet_data.AddPetDataDestination
 import com.gaoyun.feature_create_reminder.AddReminderCompleteDestination
 import com.gaoyun.feature_create_reminder.AddReminderDestination
 import com.gaoyun.feature_create_reminder.setup.SetupReminderDestination
-import com.gaoyun.roar.ui.features.interactions.InteractionScreenDestination
-import com.gaoyun.feature_user_screen.about_screen.AboutScreenDestination
-import com.gaoyun.feature_user_screen.edit_user.EditUserScreenDestination
-import com.gaoyun.feature_user_screen.user_screen.UserScreenDestination
+import com.gaoyun.roar.ui.features.about.AboutScreenDestination
 import com.gaoyun.roar.presentation.LAUNCH_LISTEN_FOR_EFFECTS
 import com.gaoyun.roar.ui.App
 import com.gaoyun.roar.ui.theme.colors.BlueColor
@@ -280,18 +277,6 @@ class MainActivity : AppCompatActivity() {
                     onNavigationCall = viewModel::navigate,
                     petAvatar = it.arguments?.getString(NavigationKeys.Arg.AVATAR_KEY) ?: "",
                 )
-            }
-
-            composable(NavigationKeys.Route.USER_ROUTE) {
-                UserScreenDestination(viewModel::navigate)
-            }
-
-            composable(NavigationKeys.Route.USER_EDIT_ROUTE) {
-                EditUserScreenDestination(viewModel::navigate)
-            }
-
-            composable(NavigationKeys.Route.ABOUT_ROUTE) {
-                AboutScreenDestination(viewModel::navigate)
             }
         }
     }

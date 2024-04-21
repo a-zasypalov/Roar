@@ -5,6 +5,7 @@ import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import com.gaoyun.roar.presentation.LAUNCH_LISTEN_FOR_EFFECTS
+import com.gaoyun.roar.ui.features.about.AboutScreenDestination
 import com.gaoyun.roar.ui.features.add_pet.AddPetAvatarDestination
 import com.gaoyun.roar.ui.features.add_pet.AddPetPetTypeDestination
 import com.gaoyun.roar.ui.features.add_pet.AddPetSetupDestination
@@ -14,6 +15,8 @@ import com.gaoyun.roar.ui.features.interactions.InteractionScreenDestination
 import com.gaoyun.roar.ui.features.onboarding.OnboardingRootScreen
 import com.gaoyun.roar.ui.features.pet.PetScreenDestination
 import com.gaoyun.roar.ui.features.registration.UserRegistrationDestination
+import com.gaoyun.roar.ui.features.user.edit_user.EditUserScreenDestination
+import com.gaoyun.roar.ui.features.user.user_screen.UserScreenDestination
 import com.gaoyun.roar.ui.navigation.NavigationAction
 import com.gaoyun.roar.ui.navigation.NavigationKeys
 import com.gaoyun.roar.ui.theme.RoarTheme
@@ -120,6 +123,18 @@ fun GlobalDestinationState(isOnboardingComplete: Boolean) {
                 onNavigationCall = viewModel::navigate,
                 interactionId = it.path<String>(NavigationKeys.Arg.INTERACTION_ID_KEY) ?: "",
             )
+        }
+
+        scene(NavigationKeys.Route.USER_ROUTE) {
+            UserScreenDestination(viewModel::navigate)
+        }
+
+        scene(NavigationKeys.Route.USER_EDIT_ROUTE) {
+            EditUserScreenDestination(viewModel::navigate)
+        }
+
+        scene(NavigationKeys.Route.ABOUT_ROUTE) {
+            AboutScreenDestination(viewModel::navigate)
         }
     }
 }

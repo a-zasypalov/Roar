@@ -1,13 +1,16 @@
-package com.gaoyun.feature_user_screen.edit_user
+package com.gaoyun.roar.ui.features.user.edit_user
 
-import androidx.compose.foundation.layout.*
-import androidx.compose.material3.*
-import androidx.compose.runtime.*
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import com.gaoyun.common.R
 import com.gaoyun.roar.presentation.BackNavigationEffect
 import com.gaoyun.roar.presentation.LAUNCH_LISTEN_FOR_EFFECTS
 import com.gaoyun.roar.presentation.NavigationSideEffect
@@ -15,14 +18,15 @@ import com.gaoyun.roar.presentation.user_edit.EditUserScreenContract
 import com.gaoyun.roar.presentation.user_edit.EditUserScreenViewModel
 import com.gaoyun.roar.ui.SurfaceScaffold
 import com.gaoyun.roar.ui.common.composables.BoxWithLoader
-import kotlinx.coroutines.flow.*
-import org.koin.androidx.compose.getViewModel
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.onEach
+import moe.tlaster.precompose.koin.koinViewModel
 
 @Composable
 fun EditUserScreenDestination(
     onNavigationCall: (NavigationSideEffect) -> Unit,
 ) {
-    val viewModel: EditUserScreenViewModel = getViewModel()
+    val viewModel = koinViewModel(vmClass = EditUserScreenViewModel::class)
     val state = viewModel.viewState.collectAsState().value
 
     LaunchedEffect(LAUNCH_LISTEN_FOR_EFFECTS) {
@@ -42,7 +46,7 @@ fun EditUserScreenDestination(
                     contentAlignment = Alignment.BottomCenter, modifier = Modifier.fillMaxSize()
                 ) {
                     Text(
-                        text = stringResource(id = R.string.edit_profile),
+                        text = "Edit profile", //stringResource(id = R.string.edit_profile),
                         style = MaterialTheme.typography.displayMedium,
                         modifier = Modifier
                             .fillMaxSize()

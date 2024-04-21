@@ -1,10 +1,5 @@
-package com.gaoyun.feature_user_screen.about_screen
+package com.gaoyun.roar.ui.features.about
 
-import android.content.ActivityNotFoundException
-import android.content.Context
-import android.content.Intent
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -12,9 +7,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Language
-import androidx.compose.material.icons.filled.Mail
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
@@ -25,38 +17,30 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.graphics.vector.rememberVectorPainter
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalUriHandler
-import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
-import androidx.compose.ui.tooling.preview.Devices
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.gaoyun.common.R
-import com.gaoyun.roar.ui.Spacer
-import com.gaoyun.roar.ui.SurfaceScaffold
 import com.gaoyun.roar.presentation.BackNavigationEffect
 import com.gaoyun.roar.presentation.LAUNCH_LISTEN_FOR_EFFECTS
 import com.gaoyun.roar.presentation.NavigationSideEffect
 import com.gaoyun.roar.presentation.about_screen.AboutScreenContract
 import com.gaoyun.roar.presentation.about_screen.AboutScreenViewModel
+import com.gaoyun.roar.ui.Spacer
+import com.gaoyun.roar.ui.SurfaceScaffold
 import com.gaoyun.roar.ui.theme.RoarTheme
-import com.gaoyun.roar.ui.theme.RoarThemePreview
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.onEach
-import org.koin.androidx.compose.getViewModel
+import moe.tlaster.precompose.koin.koinViewModel
 
 @Composable
 fun AboutScreenDestination(
     onNavigationCall: (NavigationSideEffect) -> Unit,
 ) {
-    val viewModel: AboutScreenViewModel = getViewModel()
+    val viewModel = koinViewModel(vmClass = AboutScreenViewModel::class)
 
     LaunchedEffect(LAUNCH_LISTEN_FOR_EFFECTS) {
         viewModel.effect.onEach { effect ->
@@ -78,8 +62,8 @@ fun AboutScreenContent() {
     val scrollState = rememberScrollState()
     val uriHandler = LocalUriHandler.current
 
-    val termsAndConditionsUrl = stringResource(id = R.string.url_terms_and_conditions)
-    val privacyPolicyUrl = stringResource(id = R.string.url_privacy_policy)
+    val termsAndConditionsUrl = "url" //stringResource(id = R.string.url_terms_and_conditions)
+    val privacyPolicyUrl = "url" //stringResource(id = R.string.url_privacy_policy)
 
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -93,7 +77,7 @@ fun AboutScreenContent() {
             )
     ) {
         Text(
-            text = stringResource(R.string.about_app_title),
+            text = "About Roar", //stringResource(R.string.about_app_title),
             style = MaterialTheme.typography.displayMedium,
             color = MaterialTheme.colorScheme.onSurface,
             overflow = TextOverflow.Ellipsis,
@@ -108,18 +92,18 @@ fun AboutScreenContent() {
                 .clip(MaterialTheme.shapes.extraLarge)
                 .size(120.dp)
         ) {
-            Image(
-                painter = painterResource(id = R.drawable.ic_tab_home),
-                contentDescription = "icon",
-                modifier = Modifier.padding(16.dp),
-                colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.inverseSurface)
-            )
+//            Image(
+//                painter = painterResource(id = R.drawable.ic_tab_home),
+//                contentDescription = "icon",
+//                modifier = Modifier.padding(16.dp),
+//                colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.inverseSurface)
+//            )
         }
 
         Spacer(size = 32.dp)
 
         Text(
-            text = stringResource(id = R.string.about_app_description),
+            text = "About app description", //stringResource(id = R.string.about_app_description),
             style = MaterialTheme.typography.titleMedium
         )
 
@@ -134,7 +118,7 @@ fun AboutScreenContent() {
             modifier = Modifier.align(Alignment.CenterHorizontally)
         ) {
             Text(
-                text = stringResource(id = R.string.terms_and_conditions_button),
+                text = "Terms and conditions", //stringResource(id = R.string.terms_and_conditions_button),
                 style = MaterialTheme.typography.titleMedium,
                 textAlign = TextAlign.Center,
                 modifier = Modifier.padding(horizontal = 32.dp)
@@ -146,7 +130,7 @@ fun AboutScreenContent() {
             modifier = Modifier.align(Alignment.CenterHorizontally)
         ) {
             Text(
-                text = stringResource(id = R.string.privacy_policy),
+                text = "Privacy policy", //stringResource(id = R.string.privacy_policy),
                 style = MaterialTheme.typography.titleMedium,
                 textAlign = TextAlign.Center,
                 modifier = Modifier.padding(horizontal = 32.dp),
@@ -160,30 +144,32 @@ fun AboutScreenContent() {
 
 @Composable
 private fun LinksBlock() {
-    val context = LocalContext.current
     val uriHandler = LocalUriHandler.current
 
-    val telegramUrl = stringResource(id = R.string.url_telegram)
-    val twitterUrl = stringResource(id = R.string.url_twitter)
-    val webUrl = stringResource(id = R.string.url_web)
+    val telegramUrl = "url" //stringResource(id = R.string.url_telegram)
+    val twitterUrl = "url" //stringResource(id = R.string.url_twitter)
+    val webUrl = "url" //stringResource(id = R.string.url_web)
 
-    val email = stringResource(id = R.string.url_email)
-    val subject = stringResource(id = R.string.app_name)
+    val email = "url" //stringResource(id = R.string.url_email)
+    val subject = "url" //stringResource(id = R.string.app_name)
 
     Row {
-        LinkItem(
-            painterResource(id = R.drawable.ic_telegram),
-            Modifier.clickable { uriHandler.openUri(telegramUrl) })
-        Spacer(size = 24.dp)
-        LinkItem(
-            Icons.Default.Mail,
-            Modifier.clickable { context.sendMail(to = email, subject = subject) })
-        Spacer(size = 24.dp)
-        LinkItem(
-            painterResource(id = R.drawable.ic_twitter),
-            Modifier.clickable { uriHandler.openUri(twitterUrl) })
-        Spacer(size = 24.dp)
-        LinkItem(Icons.Default.Language, Modifier.clickable { uriHandler.openUri(webUrl) })
+//        LinkItem(
+//            painterResource(id = R.drawable.ic_telegram),
+//            Modifier.clickable { uriHandler.openUri(telegramUrl) }
+//        )
+//        Spacer(size = 24.dp)
+//        LinkItem(
+//            Icons.Default.Mail,
+//            Modifier.clickable { context.sendMail(to = email, subject = subject) }
+//        )
+//        Spacer(size = 24.dp)
+//        LinkItem(
+//            painterResource(id = R.drawable.ic_twitter),
+//            Modifier.clickable { uriHandler.openUri(twitterUrl) }
+//        )
+//        Spacer(size = 24.dp)
+//        LinkItem(Icons.Default.Language, Modifier.clickable { uriHandler.openUri(webUrl) })
     }
 }
 
@@ -211,26 +197,26 @@ private fun LinkItem(icon: Painter, modifier: Modifier = Modifier) {
     }
 }
 
-fun Context.sendMail(to: String, subject: String) {
-    try {
-        val intent = Intent(Intent.ACTION_SEND)
-        intent.type = "message/rfc822"
-        intent.putExtra(Intent.EXTRA_EMAIL, arrayOf(to))
-        intent.putExtra(Intent.EXTRA_SUBJECT, subject)
-        startActivity(intent)
-    } catch (e: ActivityNotFoundException) {
-        // TODO: Handle case where no email app is available
-    } catch (t: Throwable) {
-        // TODO: Handle potential other type of exceptions
-    }
-}
-
-@Composable
-@Preview(device = Devices.PIXEL)
-fun AboutScreenPreview() {
-    RoarThemePreview {
-        SurfaceScaffold {
-            AboutScreenContent()
-        }
-    }
-}
+//fun Context.sendMail(to: String, subject: String) {
+//    try {
+//        val intent = Intent(Intent.ACTION_SEND)
+//        intent.type = "message/rfc822"
+//        intent.putExtra(Intent.EXTRA_EMAIL, arrayOf(to))
+//        intent.putExtra(Intent.EXTRA_SUBJECT, subject)
+//        startActivity(intent)
+//    } catch (e: ActivityNotFoundException) {
+//        // TODO: Handle case where no email app is available
+//    } catch (t: Throwable) {
+//        // TODO: Handle potential other type of exceptions
+//    }
+//}
+//
+//@Composable
+//@Preview(device = Devices.PIXEL)
+//fun AboutScreenPreview() {
+//    RoarThemePreview {
+//        SurfaceScaffold {
+//            AboutScreenContent()
+//        }
+//    }
+//}

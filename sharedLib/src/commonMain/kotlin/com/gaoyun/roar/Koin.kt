@@ -36,6 +36,7 @@ import com.gaoyun.roar.model.entity.RoarDatabase
 import com.gaoyun.roar.network.InteractionTemplatesApi
 import com.gaoyun.roar.network.PetsApi
 import com.gaoyun.roar.network.SynchronisationApi
+import com.gaoyun.roar.presentation.about_screen.AboutScreenViewModel
 import com.gaoyun.roar.presentation.add_pet.avatar.AddPetAvatarScreenViewModel
 import com.gaoyun.roar.presentation.add_pet.data.AddPetDataScreenViewModel
 import com.gaoyun.roar.presentation.add_pet.setup.AddPetSetupScreenViewModel
@@ -44,7 +45,9 @@ import com.gaoyun.roar.presentation.home_screen.HomeScreenViewModel
 import com.gaoyun.roar.presentation.interactions.InteractionScreenViewModel
 import com.gaoyun.roar.presentation.onboarding.OnboardingViewModel
 import com.gaoyun.roar.presentation.pet_screen.PetScreenViewModel
+import com.gaoyun.roar.presentation.user_edit.EditUserScreenViewModel
 import com.gaoyun.roar.presentation.user_register.RegisterUserViewModel
+import com.gaoyun.roar.presentation.user_screen.UserScreenViewModel
 import com.gaoyun.roar.repository.InteractionRepository
 import com.gaoyun.roar.repository.InteractionRepositoryImpl
 import com.gaoyun.roar.repository.InteractionTemplateRepository
@@ -65,6 +68,9 @@ import org.koin.core.context.startKoin
 import org.koin.dsl.KoinAppDeclaration
 import org.koin.dsl.module
 
+/**
+ * iOS Koin initialisation entry point
+ */
 fun initKoin(registrationLauncher: RegistrationLauncher) = startKoin {
     val iosDependenciesModule = module {
         single { registrationLauncher }
@@ -96,6 +102,10 @@ val useCaseModule = module {
     single { AddPetSetupScreenViewModel(get()) }
     single { AddPetDataScreenViewModel(get(), get(), get(), get()) }
     single { InteractionScreenViewModel(get(), get(), get(), get(), get(), get(), get()) }
+    single { UserScreenViewModel(get(), get(), get(), get(), get(), get(), get()) }
+    single { EditUserScreenViewModel(get(), get()) }
+    single { AboutScreenViewModel() }
+
 
     single { RegisterUserUseCase(get(), get()) }
     single { GetCurrentUserUseCase(get(), get()) }

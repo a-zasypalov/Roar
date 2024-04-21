@@ -1,4 +1,4 @@
-package com.gaoyun.feature_user_screen.edit_user
+package com.gaoyun.roar.ui.features.user.edit_user
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -16,19 +16,16 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.gaoyun.common.R
+import com.gaoyun.roar.model.domain.User
+import com.gaoyun.roar.presentation.user_edit.EditUserScreenContract
 import com.gaoyun.roar.ui.PrimaryElevatedButtonOnSurface
 import com.gaoyun.roar.ui.Spacer
 import com.gaoyun.roar.ui.common.composables.SurfaceCard
 import com.gaoyun.roar.ui.common.composables.TextFormField
 import com.gaoyun.roar.ui.common.composables.surfaceCardFormElevation
 import com.gaoyun.roar.ui.common.composables.surfaceCardFormShape
-import com.gaoyun.roar.model.domain.User
-import com.gaoyun.roar.presentation.user_edit.EditUserScreenContract
 
 @Composable
 internal fun EditUserForm(
@@ -55,10 +52,12 @@ internal fun EditUserForm(
                 text = userName.value,
                 leadingIcon = {
                     Icon(
-                        Icons.Filled.Person, stringResource(id = R.string.name), tint = MaterialTheme.colorScheme.onBackground
+                        Icons.Filled.Person,
+                        contentDescription = "Name", //stringResource(id = R.string.name),
+                        tint = MaterialTheme.colorScheme.onBackground
                     )
                 },
-                label = stringResource(id = R.string.name),
+                label = "Name", //stringResource(id = R.string.name),
                 onChange = {
                     userName.value = it
                 },
@@ -68,7 +67,7 @@ internal fun EditUserForm(
             Spacer(size = 32.dp)
 
             PrimaryElevatedButtonOnSurface(
-                text = stringResource(id = R.string.save),
+                text ="Save", //stringResource(id = R.string.save),
                 onClick = { onSaveClick(EditUserScreenContract.Event.OnSaveAccountClick(user.copy(name = userName.value))) },
             )
 
@@ -77,8 +76,8 @@ internal fun EditUserForm(
     }
 }
 
-@Preview
-@Composable
-fun EditUserScreenPreview() {
-    EditUserForm(User("id", "Tester")) {}
-}
+//@Preview
+//@Composable
+//fun EditUserScreenPreview() {
+//    EditUserForm(User("id", "Tester")) {}
+//}
