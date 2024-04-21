@@ -1,4 +1,4 @@
-package com.gaoyun.feature_add_pet.pet_data
+package com.gaoyun.roar.ui.features.add_pet.pet_data
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -13,8 +13,6 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.List
 import androidx.compose.material.icons.filled.Female
 import androidx.compose.material.icons.filled.Male
-import androidx.compose.material.icons.filled.Memory
-import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
@@ -26,32 +24,28 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.capitalize
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.intl.Locale
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.gaoyun.common.R
-import com.gaoyun.roar.ui.common.composables.DropdownMenu
-import com.gaoyun.roar.ui.common.composables.LabelledCheckBox
+import com.gaoyun.roar.model.domain.Gender
+import com.gaoyun.roar.model.domain.Pet
+import com.gaoyun.roar.model.domain.toGender
+import com.gaoyun.roar.presentation.add_pet.data.AddPetDataScreenContract
 import com.gaoyun.roar.ui.PrimaryElevatedButtonOnSurface
 import com.gaoyun.roar.ui.Spacer
+import com.gaoyun.roar.ui.common.composables.DropdownMenu
+import com.gaoyun.roar.ui.common.composables.LabelledCheckBox
 import com.gaoyun.roar.ui.common.composables.SurfaceCard
 import com.gaoyun.roar.ui.common.composables.TextFormField
 import com.gaoyun.roar.ui.common.composables.surfaceCardFormElevation
 import com.gaoyun.roar.ui.common.composables.surfaceCardFormShape
 import com.gaoyun.roar.ui.common.toLocalizedStringId
-import com.gaoyun.roar.model.domain.Gender
-import com.gaoyun.roar.model.domain.Pet
-import com.gaoyun.roar.model.domain.toGender
-import com.gaoyun.roar.presentation.add_pet.data.AddPetDataScreenContract
-import com.gaoyun.roar.ui.theme.RoarThemePreview
+import com.gaoyun.roar.util.toLocalDate
 import kotlinx.coroutines.launch
-import kotlinx.datetime.LocalDate
+import kotlinx.datetime.Clock
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.atStartOfDayIn
-import java.util.concurrent.TimeUnit
 
 @Composable
 internal fun AddPetForm(
@@ -92,7 +86,7 @@ internal fun AddPetForm(
             .fillMaxSize()
     ) {
         Text(
-            text = stringResource(id = R.string.pets_card),
+            text = "Pet's card", //stringResource(id = R.string.pets_card),
             style = MaterialTheme.typography.displayMedium,
             modifier = Modifier
                 .fillMaxSize()
@@ -120,7 +114,7 @@ internal fun AddPetForm(
                     listState = petBreedState,
                     valueDisplayList = null,
                     listDisplayState = null,
-                    label = stringResource(id = R.string.breed),
+                    label = "Breed", //stringResource(id = R.string.breed),
                     leadingIcon = Icons.AutoMirrored.Filled.List,
                     modifier = Modifier
                         .fillMaxWidth()
@@ -136,7 +130,7 @@ internal fun AddPetForm(
                         it.toGender().toLocalizedStringId()
                     },
                     listDisplayState = petGenderState.value.toGender().toLocalizedStringId(),
-                    label = stringResource(id = R.string.gender),
+                    label = "Gender", //stringResource(id = R.string.gender),
                     leadingIcon = if (petGenderState.value == Gender.MALE_STRING) Icons.Filled.Male else Icons.Filled.Female,
                     modifier = Modifier
                         .fillMaxWidth()
@@ -151,14 +145,14 @@ internal fun AddPetForm(
 
                 TextFormField(
                     text = chipNumberState,
-                    leadingIcon = {
-                        Icon(
-                            Icons.Filled.Memory,
-                            stringResource(id = R.string.chip_number),
-                            tint = MaterialTheme.colorScheme.onBackground
-                        )
-                    },
-                    label = stringResource(id = R.string.chip_number),
+//                    leadingIcon = {
+//                        Icon(
+//                            Icons.Filled.Memory,
+//                            stringResource(id = R.string.chip_number),
+//                            tint = MaterialTheme.colorScheme.onBackground
+//                        )
+//                    },
+                    label = "Chip num", //stringResource(id = R.string.chip_number),
                     onChange = {
                         chipNumberState = it
                     },
@@ -171,7 +165,7 @@ internal fun AddPetForm(
                 LabelledCheckBox(
                     checked = petIsSterilizedState,
                     onCheckedChange = { petIsSterilizedState = it },
-                    label = stringResource(id = R.string.pet_is_sterilized),
+                    label = "Sterilized", //stringResource(id = R.string.pet_is_sterilized),
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(horizontal = 8.dp)
@@ -180,15 +174,13 @@ internal fun AddPetForm(
                 Spacer(size = 32.dp)
 
                 PrimaryElevatedButtonOnSurface(
-                    text = if (petToEdit != null) stringResource(id = R.string.save) else stringResource(
-                        id = R.string.add_pet
-                    ),
+                    text = "Add/Save", //if (petToEdit != null) stringResource(id = R.string.save) else stringResource(id = R.string.add_pet),
                     onClick = {
                         if (petName.value.isBlank()) {
                             coroutineScope.launch {
                                 snackbarHostState.showSnackbar("Name shouldn't be empty")
                             }
-                        } else if (petBirthdayState.value?.let { it < System.currentTimeMillis() } != true) {
+                        } else if (petBirthdayState.value?.let { it < Clock.System.now().toEpochMilliseconds() } != true) {
                             coroutineScope.launch { snackbarHostState.showSnackbar("Birth date isn't correct") }
                         } else {
                             onRegisterClick(
@@ -197,11 +189,12 @@ internal fun AddPetForm(
                                     breed = petBreedState.value,
                                     name = petName.value,
                                     avatar = avatar,
-                                    birthday = LocalDate.fromEpochDays(
-                                        TimeUnit.MILLISECONDS.toDays(
-                                            petBirthdayState.value ?: System.currentTimeMillis()
-                                        ).toInt()
-                                    ),
+                                    birthday = Clock.System.now().toLocalDate(),
+//                                    LocalDate.fromEpochDays(
+//                                        TimeUnit.MILLISECONDS.toDays(
+//                                            petBirthdayState.value ?: Clock.System.now().toEpochMilliseconds()
+//                                        ).toInt()
+//                                    ),
                                     isSterilized = petIsSterilizedState,
                                     gender = petGenderState.value,
                                     chipNumber = chipNumberState
@@ -218,10 +211,10 @@ internal fun AddPetForm(
     }
 }
 
-@Composable
-@Preview
-fun AddPetScreenPreview() {
-    RoarThemePreview {
-        AddPetForm("ic_cat_15", listOf(), "cat", null, SnackbarHostState(), { }, { })
-    }
-}
+//@Composable
+//@Preview
+//fun AddPetScreenPreview() {
+//    RoarThemePreview {
+//        AddPetForm("ic_cat_15", listOf(), "cat", null, SnackbarHostState(), { }, { })
+//    }
+//}

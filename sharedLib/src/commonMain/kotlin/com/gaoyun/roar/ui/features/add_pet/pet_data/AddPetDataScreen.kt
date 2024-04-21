@@ -1,27 +1,23 @@
-package com.gaoyun.feature_add_pet.pet_data
+package com.gaoyun.roar.ui.features.add_pet.pet_data
 
-import androidx.activity.compose.BackHandler
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.remember
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.intl.Locale
-import androidx.lifecycle.Lifecycle
-import com.gaoyun.common.OnLifecycleEvent
-import com.gaoyun.roar.ui.common.composables.BoxWithLoader
-import com.gaoyun.roar.ui.SurfaceScaffold
 import com.gaoyun.roar.presentation.BackNavigationEffect
 import com.gaoyun.roar.presentation.LAUNCH_LISTEN_FOR_EFFECTS
 import com.gaoyun.roar.presentation.NavigationSideEffect
 import com.gaoyun.roar.presentation.add_pet.data.AddPetDataScreenContract
 import com.gaoyun.roar.presentation.add_pet.data.AddPetDataScreenViewModel
+import com.gaoyun.roar.ui.SurfaceScaffold
+import com.gaoyun.roar.ui.common.composables.BoxWithLoader
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.onEach
-import org.koin.androidx.compose.getViewModel
-import com.gaoyun.common.R as CommonR
+import moe.tlaster.precompose.koin.koinViewModel
+import moe.tlaster.precompose.navigation.BackHandler
 
 
 @Composable
@@ -31,15 +27,21 @@ fun AddPetDataDestination(
     avatar: String,
     petId: String? = null
 ) {
-    val viewModel: AddPetDataScreenViewModel = getViewModel()
+    val viewModel: AddPetDataScreenViewModel = koinViewModel(vmClass = AddPetDataScreenViewModel::class)
     val state = viewModel.viewState.collectAsState().value
     val snackbarHostState = remember { SnackbarHostState() }
-    val context = LocalContext.current
 
-    OnLifecycleEvent { _, event ->
-        if (event == Lifecycle.Event.ON_RESUME) {
-            viewModel.setEvent(AddPetDataScreenContract.Event.PetDataInit(petType, avatar, petId, Locale.current.language, context.getString(CommonR.string.no_breed)))
-        }
+    LaunchedEffect(Unit) {
+        //TODO: Was on onResume
+        viewModel.setEvent(
+            AddPetDataScreenContract.Event.PetDataInit(
+                petType,
+                avatar,
+                petId,
+                Locale.current.language,
+                "No breed", //context.getString(CommonR.string.no_breed)
+            )
+        )
     }
 
     LaunchedEffect(LAUNCH_LISTEN_FOR_EFFECTS) {

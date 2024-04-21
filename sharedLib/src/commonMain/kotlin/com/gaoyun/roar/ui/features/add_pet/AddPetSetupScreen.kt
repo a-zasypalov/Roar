@@ -1,7 +1,5 @@
-package com.gaoyun.feature_add_pet
+package com.gaoyun.roar.ui.features.add_pet
 
-import androidx.activity.compose.BackHandler
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -9,7 +7,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -19,48 +16,35 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.lifecycle.Lifecycle
-import com.gaoyun.common.OnLifecycleEvent
-import com.gaoyun.common.R
-import com.gaoyun.roar.ui.common.composables.BoxWithLoader
-import com.gaoyun.roar.ui.PrimaryElevatedButton
-import com.gaoyun.roar.ui.Spacer
-import com.gaoyun.roar.ui.SurfaceScaffold
-import com.gaoyun.common.ext.getDrawableByName
-import com.gaoyun.roar.model.domain.Gender
 import com.gaoyun.roar.model.domain.Pet
-import com.gaoyun.roar.model.domain.PetType
 import com.gaoyun.roar.presentation.LAUNCH_LISTEN_FOR_EFFECTS
 import com.gaoyun.roar.presentation.NavigationSideEffect
 import com.gaoyun.roar.presentation.add_pet.setup.AddPetSetupScreenContract
 import com.gaoyun.roar.presentation.add_pet.setup.AddPetSetupScreenViewModel
-import com.gaoyun.roar.ui.theme.RoarThemePreview
-import com.gaoyun.roar.util.randomUUID
+import com.gaoyun.roar.ui.PrimaryElevatedButton
+import com.gaoyun.roar.ui.Spacer
+import com.gaoyun.roar.ui.SurfaceScaffold
+import com.gaoyun.roar.ui.common.composables.BoxWithLoader
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.onEach
-import kotlinx.datetime.LocalDate
-import org.koin.androidx.compose.getViewModel
+import moe.tlaster.precompose.koin.koinViewModel
+import moe.tlaster.precompose.navigation.BackHandler
 
 @Composable
 fun AddPetSetupDestination(
     onNavigationCall: (NavigationSideEffect) -> Unit,
     petId: String,
 ) {
-    val viewModel: AddPetSetupScreenViewModel = getViewModel()
+    val viewModel = koinViewModel(vmClass = AddPetSetupScreenViewModel::class)
     val state = viewModel.viewState.collectAsState().value
 
-    OnLifecycleEvent { _, event ->
-        if (event == Lifecycle.Event.ON_RESUME) {
-            viewModel.setEvent(AddPetSetupScreenContract.Event.PetInit(petId))
-        }
+    LaunchedEffect(Unit) {
+        //TODO: Was on onCreate
+        viewModel.setEvent(AddPetSetupScreenContract.Event.PetInit(petId))
     }
 
     LaunchedEffect(LAUNCH_LISTEN_FOR_EFFECTS) {
@@ -92,8 +76,6 @@ private fun PetAddingComplete(
     onContinueButtonClicked: (AddPetSetupScreenContract.Event.ContinueButtonClicked) -> Unit,
     onAddReminderButtonClicked: (AddPetSetupScreenContract.Event.OpenTemplatesButtonClicked) -> Unit
 ) {
-    val context = LocalContext.current
-
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center,
@@ -102,16 +84,16 @@ private fun PetAddingComplete(
             .navigationBarsPadding()
     ) {
 
-        Image(
-            painter = painterResource(id = context.getDrawableByName(pet.avatar)),
-            contentDescription = pet.name,
-            modifier = Modifier.size(96.dp)
-        )
+//        Image(
+//            painter = painterResource(id = context.getDrawableByName(pet.avatar)),
+//            contentDescription = pet.name,
+//            modifier = Modifier.size(96.dp)
+//        )
 
         Spacer(16.dp)
 
         Text(
-            stringResource(id = R.string.new_pet_added),
+            "Pet added", //stringResource(id = R.string.new_pet_added),
             style = MaterialTheme.typography.displayMedium,
             modifier = Modifier.padding(horizontal = 8.dp)
         )
@@ -119,7 +101,7 @@ private fun PetAddingComplete(
         Spacer(8.dp)
 
         Text(
-            text = stringResource(id = R.string.new_pet_added_subtitle, pet.name),
+            text = "Pet added ${pet.name}", //stringResource(id = R.string.new_pet_added_subtitle, pet.name),
             style = MaterialTheme.typography.headlineSmall.copy(fontWeight = FontWeight.Normal),
             textAlign = TextAlign.Center,
             modifier = Modifier.padding(horizontal = 8.dp)
@@ -138,7 +120,7 @@ private fun PetAddingComplete(
             modifier = Modifier.align(Alignment.TopEnd)
         ) {
             Text(
-                stringResource(id = R.string.skip_label),
+                "Skip", //stringResource(id = R.string.skip_label),
                 modifier = Modifier.padding(vertical = 8.dp),
                 fontSize = 16.sp,
             )
@@ -150,7 +132,7 @@ private fun PetAddingComplete(
             .navigationBarsPadding()
     ) {
         PrimaryElevatedButton(
-            text = stringResource(id = R.string.open_reminders_menu),
+            text = "Open Reminders", //stringResource(id = R.string.open_reminders_menu),
             onClick = {
                 onAddReminderButtonClicked(AddPetSetupScreenContract.Event.OpenTemplatesButtonClicked)
             },
@@ -161,27 +143,27 @@ private fun PetAddingComplete(
     }
 }
 
-@Composable
-@Preview
-fun AddPetSetupScreenPreview() {
-    RoarThemePreview {
-        Box {
-            PetAddingComplete(
-                Pet(
-                    randomUUID(),
-                    PetType.CAT,
-                    "British",
-                    "Cat",
-                    "ic_cat_1",
-                    "1",
-                    LocalDate.fromEpochDays(1),
-                    false,
-                    Gender.MALE,
-                    "",
-                    LocalDate.fromEpochDays(1)
-                ),
-                {}, {}
-            )
-        }
-    }
-}
+//@Composable
+//@Preview
+//fun AddPetSetupScreenPreview() {
+//    RoarThemePreview {
+//        Box {
+//            PetAddingComplete(
+//                Pet(
+//                    randomUUID(),
+//                    PetType.CAT,
+//                    "British",
+//                    "Cat",
+//                    "ic_cat_1",
+//                    "1",
+//                    LocalDate.fromEpochDays(1),
+//                    false,
+//                    Gender.MALE,
+//                    "",
+//                    LocalDate.fromEpochDays(1)
+//                ),
+//                {}, {}
+//            )
+//        }
+//    }
+//}

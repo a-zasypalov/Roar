@@ -68,11 +68,6 @@ val appModule = module {
     viewModel { UserScreenViewModel(get(), get(), get(), get(), get(), get(), get()) }
     viewModel { EditUserScreenViewModel(get(), get()) }
 
-    viewModel { AddPetDataScreenViewModel(get(), get(), get(), get()) }
-    viewModel { AddPetPetTypeScreenViewModel() }
-    viewModel { AddPetAvatarScreenViewModel(get()) }
-    viewModel { AddPetSetupScreenViewModel(get()) }
-
     viewModel { InteractionScreenViewModel(get(), get(), get(), get(), get(), get(), get()) }
 
     viewModel { AddReminderScreenViewModel(get(), get(), get()) }

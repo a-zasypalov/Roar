@@ -3,11 +3,12 @@ package com.gaoyun.roar.presentation.add_pet.avatar
 import com.gaoyun.roar.config.PetsConfig
 import com.gaoyun.roar.domain.pet.SetPetAvatar
 import com.gaoyun.roar.presentation.BaseViewModel
+import com.gaoyun.roar.presentation.MultiplatformBaseViewModel
 import kotlinx.coroutines.launch
 
 class AddPetAvatarScreenViewModel(
     private val setAvatar: SetPetAvatar,
-) : BaseViewModel<AddPetAvatarScreenContract.Event, AddPetAvatarScreenContract.State, AddPetAvatarScreenContract.Effect>() {
+) : MultiplatformBaseViewModel<AddPetAvatarScreenContract.Event, AddPetAvatarScreenContract.State, AddPetAvatarScreenContract.Effect>() {
 
     override fun setInitialState() = AddPetAvatarScreenContract.State(avatars = listOf())
 

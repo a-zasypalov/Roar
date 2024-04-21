@@ -27,15 +27,14 @@ import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.gaoyun.roar.ui.navigation.NavigationAction
 import com.gaoyun.roar.ui.navigation.NavigationKeys
-import com.gaoyun.feature_add_pet.AddPetAvatarDestination
-import com.gaoyun.feature_add_pet.AddPetPetTypeDestination
-import com.gaoyun.feature_add_pet.AddPetSetupDestination
-import com.gaoyun.feature_add_pet.pet_data.AddPetDataDestination
+import com.gaoyun.roar.ui.features.add_pet.AddPetAvatarDestination
+import com.gaoyun.roar.ui.features.add_pet.AddPetPetTypeDestination
+import com.gaoyun.roar.ui.features.add_pet.AddPetSetupDestination
+import com.gaoyun.roar.ui.features.add_pet.pet_data.AddPetDataDestination
 import com.gaoyun.feature_create_reminder.AddReminderCompleteDestination
 import com.gaoyun.feature_create_reminder.AddReminderDestination
 import com.gaoyun.feature_create_reminder.setup.SetupReminderDestination
 import com.gaoyun.feature_interactions.InteractionScreenDestination
-import com.gaoyun.roar.ui.features.pet.PetScreenDestination
 import com.gaoyun.feature_user_screen.about_screen.AboutScreenDestination
 import com.gaoyun.feature_user_screen.edit_user.EditUserScreenDestination
 import com.gaoyun.feature_user_screen.user_screen.UserScreenDestination
@@ -209,7 +208,7 @@ class MainActivity : AppCompatActivity() {
             }
 
             composable(NavigationKeys.Route.ADD_PET_ROUTE) {
-                AddPetPetTypeDestination(onNavigationCall = viewModel::navigate)
+//                AddPetPetTypeDestination(onNavigationCall = viewModel::navigate)
             }
 
             composable(
@@ -218,10 +217,10 @@ class MainActivity : AppCompatActivity() {
                     type = NavType.StringType
                 })
             ) {
-                AddPetAvatarDestination(
-                    petType = it.arguments?.getString(NavigationKeys.Arg.PET_TYPE_KEY) ?: "",
-                    onNavigationCall = viewModel::navigate
-                )
+//                AddPetAvatarDestination(
+//                    petType = it.arguments?.getString(NavigationKeys.Arg.PET_TYPE_KEY) ?: "",
+//                    onNavigationCall = viewModel::navigate
+//                )
             }
 
             composable(
@@ -245,11 +244,11 @@ class MainActivity : AppCompatActivity() {
                     navArgument(NavigationKeys.Arg.AVATAR_KEY) { type = NavType.StringType },
                 )
             ) {
-                AddPetDataDestination(
-                    onNavigationCall = viewModel::navigate,
-                    petType = it.arguments?.getString(NavigationKeys.Arg.PET_TYPE_KEY) ?: "",
-                    avatar = it.arguments?.getString(NavigationKeys.Arg.AVATAR_KEY) ?: "",
-                )
+//                AddPetDataDestination(
+//                    onNavigationCall = viewModel::navigate,
+//                    petType = it.arguments?.getString(NavigationKeys.Arg.PET_TYPE_KEY) ?: "",
+//                    avatar = it.arguments?.getString(NavigationKeys.Arg.AVATAR_KEY) ?: "",
+//                )
             }
 
             composable(
@@ -274,10 +273,10 @@ class MainActivity : AppCompatActivity() {
                     type = NavType.StringType
                 })
             ) {
-                AddPetSetupDestination(
-                    onNavigationCall = viewModel::navigate,
-                    petId = it.arguments?.getString(NavigationKeys.Arg.PET_ID_KEY) ?: ""
-                )
+//                AddPetSetupDestination(
+//                    onNavigationCall = viewModel::navigate,
+//                    petId = it.arguments?.getString(NavigationKeys.Arg.PET_ID_KEY) ?: ""
+//                )
             }
 
             composable(

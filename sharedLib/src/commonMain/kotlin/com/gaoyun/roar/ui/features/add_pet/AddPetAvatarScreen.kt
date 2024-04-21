@@ -1,7 +1,6 @@
-package com.gaoyun.feature_add_pet
+package com.gaoyun.roar.ui.features.add_pet
 
 import androidx.compose.foundation.ExperimentalFoundationApi
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.WindowInsets
@@ -25,27 +24,18 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.Lifecycle
-import com.gaoyun.common.OnLifecycleEvent
-import com.gaoyun.roar.ui.SurfaceScaffold
-import com.gaoyun.common.ext.getDrawableByName
 import com.gaoyun.roar.config.PetsConfig
 import com.gaoyun.roar.presentation.BackNavigationEffect
 import com.gaoyun.roar.presentation.LAUNCH_LISTEN_FOR_EFFECTS
 import com.gaoyun.roar.presentation.NavigationSideEffect
 import com.gaoyun.roar.presentation.add_pet.avatar.AddPetAvatarScreenContract
 import com.gaoyun.roar.presentation.add_pet.avatar.AddPetAvatarScreenViewModel
+import com.gaoyun.roar.ui.SurfaceScaffold
 import com.gaoyun.roar.ui.theme.RoarTheme
-import com.gaoyun.roar.ui.theme.RoarThemePreview
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.onEach
-import org.koin.androidx.compose.getViewModel
-import com.gaoyun.common.R as CommonR
+import moe.tlaster.precompose.koin.koinViewModel
 
 @Composable
 fun AddPetAvatarDestination(
@@ -53,12 +43,11 @@ fun AddPetAvatarDestination(
     petType: String,
     petId: String? = null
 ) {
-    val viewModel: AddPetAvatarScreenViewModel = getViewModel()
+    val viewModel = koinViewModel(vmClass = AddPetAvatarScreenViewModel::class)
 
-    OnLifecycleEvent { _, event ->
-        if (event == Lifecycle.Event.ON_CREATE) {
-            viewModel.petTypeChosen(petType, petId)
-        }
+    LaunchedEffect(Unit) {
+        //TODO: Was on onCreate
+        viewModel.petTypeChosen(petType, petId)
     }
 
     LaunchedEffect(LAUNCH_LISTEN_FOR_EFFECTS) {
@@ -102,7 +91,7 @@ fun PetAvatarScreen(
     ) {
         item(span = titleSpan) {
             Text(
-                text = stringResource(id = CommonR.string.choose_avatar),
+                text = "Choose avatar", //stringResource(id = CommonR.string.choose_avatar),
                 style = MaterialTheme.typography.displayMedium,
                 modifier = Modifier.padding(start = 8.dp, top = 8.dp, bottom = 16.dp),
             )
@@ -127,7 +116,6 @@ private fun LazyGridItemScope.AvatarItem(
     petType: String,
     onAvatarChosen: (AddPetAvatarScreenContract.Event.AvatarChosen) -> Unit
 ) {
-    val context = LocalContext.current
     Surface(
         shadowElevation = 2.dp,
         tonalElevation = RoarTheme.CONTENT_CARD_ELEVATION,
@@ -149,21 +137,22 @@ private fun LazyGridItemScope.AvatarItem(
                     )
                 }
         ) {
-            Image(
-                painter = painterResource(id = context.getDrawableByName(avatar.iconRes)),
-                contentDescription = petType,
-                modifier = Modifier
-                    .size(96.dp)
-                    .padding(16.dp)
-            )
+            Box(modifier = Modifier.size(64.dp)) //TODO: Remove
+//            Image(
+//                painter = painterResource(id = context.getDrawableByName(avatar.iconRes)),
+//                contentDescription = petType,
+//                modifier = Modifier
+//                    .size(96.dp)
+//                    .padding(16.dp)
+//            )
         }
     }
 }
 
-@Composable
-@Preview
-fun AddPetAvatarScreenPreview() {
-    RoarThemePreview {
-        PetAvatarScreen(PetsConfig.petAvatars("cat"), "cat") {}
-    }
-}
+//@Composable
+//@Preview
+//fun AddPetAvatarScreenPreview() {
+//    RoarThemePreview {
+//        PetAvatarScreen(PetsConfig.petAvatars("cat"), "cat") {}
+//    }
+//}

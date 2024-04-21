@@ -1,4 +1,4 @@
-package com.gaoyun.feature_add_pet
+package com.gaoyun.roar.ui.features.add_pet
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
@@ -18,29 +18,23 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.gaoyun.common.R
-import com.gaoyun.roar.ui.common.composables.RoarIcon
-import com.gaoyun.roar.ui.SurfaceScaffold
-import com.gaoyun.common.ext.getDrawableByName
 import com.gaoyun.roar.config.PetsConfig
 import com.gaoyun.roar.presentation.BackNavigationEffect
 import com.gaoyun.roar.presentation.LAUNCH_LISTEN_FOR_EFFECTS
 import com.gaoyun.roar.presentation.NavigationSideEffect
 import com.gaoyun.roar.presentation.add_pet.type.AddPetPetTypeScreenContract
 import com.gaoyun.roar.presentation.add_pet.type.AddPetPetTypeScreenViewModel
+import com.gaoyun.roar.ui.SurfaceScaffold
+import com.gaoyun.roar.ui.common.composables.RoarIcon
 import com.gaoyun.roar.ui.theme.RoarTheme
-import com.gaoyun.roar.ui.theme.RoarThemePreview
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.onEach
-import org.koin.androidx.compose.getViewModel
+import moe.tlaster.precompose.koin.koinViewModel
 
 @Composable
 fun AddPetPetTypeDestination(onNavigationCall: (NavigationSideEffect) -> Unit) {
-    val viewModel: AddPetPetTypeScreenViewModel = getViewModel()
+    val viewModel = koinViewModel(vmClass = AddPetPetTypeScreenViewModel::class)
     val state = viewModel.viewState.collectAsState().value
 
     LaunchedEffect(LAUNCH_LISTEN_FOR_EFFECTS) {
@@ -67,15 +61,13 @@ private fun ChoosePetType(
     petTypes: List<PetsConfig.PetTypeConfig>,
     onPetTypeChosen: (AddPetPetTypeScreenContract.Event.PetTypeChosen) -> Unit
 ) {
-    val context = LocalContext.current
-
     Box(
         contentAlignment = Alignment.TopCenter,
         modifier = Modifier.fillMaxSize()
     ) {
 
         Text(
-            text = stringResource(id = R.string.new_pet),
+            text = "New pet", //stringResource(id = R.string.new_pet),
             style = MaterialTheme.typography.displayMedium,
             modifier = Modifier
                 .fillMaxWidth()
@@ -123,10 +115,10 @@ private fun ChoosePetType(
     }
 }
 
-@Composable
-@Preview
-fun AddPetPetTypeScreenPreview() {
-    RoarThemePreview {
-        ChoosePetType(PetsConfig.petTypes) {}
-    }
-}
+//@Composable
+//@Preview
+//fun AddPetPetTypeScreenPreview() {
+//    RoarThemePreview {
+//        ChoosePetType(PetsConfig.petTypes) {}
+//    }
+//}

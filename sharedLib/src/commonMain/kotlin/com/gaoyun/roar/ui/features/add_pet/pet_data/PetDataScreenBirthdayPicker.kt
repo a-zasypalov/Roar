@@ -1,6 +1,5 @@
-package com.gaoyun.feature_add_pet.pet_data
+package com.gaoyun.roar.ui.features.add_pet.pet_data
 
-import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Cake
@@ -14,28 +13,22 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
-import com.gaoyun.common.DateUtils.ddMmmmYyyyDateFormatter
-import com.gaoyun.common.R
 import com.gaoyun.roar.ui.common.composables.ReadonlyTextField
-import com.gaoyun.common.dialog.DatePicker
-import java.time.Instant
-import java.time.ZoneId
+import com.gaoyun.roar.util.toLocalDate
+import kotlinx.datetime.Instant
 
 @Composable
 fun PetDataScreenBirthdayPicker(
     petBirthdayState: MutableState<Long?>
 ) {
-    val activity = LocalContext.current as AppCompatActivity
     var petBirthdayStringState by remember {
         mutableStateOf(TextFieldValue(petBirthdayState.value?.let {
-            Instant.ofEpochMilli(it)
-                .atZone(ZoneId.systemDefault())
+            Instant.fromEpochMilliseconds(it)
                 .toLocalDate()
-                .format(ddMmmmYyyyDateFormatter)
+                .toString()
+//                .format(ddMmmmYyyyDateFormatter)
         } ?: ""))
     }
 
@@ -45,30 +38,30 @@ fun PetDataScreenBirthdayPicker(
         leadingIcon = {
             Icon(
                 Icons.Filled.Cake,
-                stringResource(id = R.string.birthday),
+                "Birthday", //stringResource(id = R.string.birthday),
                 tint = MaterialTheme.colorScheme.onBackground
             )
         },
         label = {
-            Text(text = stringResource(id = R.string.birthday))
+            Text(text = "Birthday") //stringResource(id = R.string.birthday))
         },
         modifier = Modifier.padding(horizontal = 24.dp),
         onClick = {
-            DatePicker.pickDate(
-                title = activity.getString(R.string.pets_birthday),
-                end = Instant.now().toEpochMilli(),
-                fragmentManager = activity.supportFragmentManager,
-                selectedDateMillis = petBirthdayState.value,
-                onDatePicked = {
-                    petBirthdayState.value = it
-                    petBirthdayStringState = TextFieldValue(
-                        Instant.ofEpochMilli(it)
-                            .atZone(ZoneId.systemDefault())
-                            .toLocalDate()
-                            .format(ddMmmmYyyyDateFormatter)
-                    )
-                }
-            )
+//            DatePicker.pickDate(
+//                title = activity.getString(R.string.pets_birthday),
+//                end = Instant.now().toEpochMilli(),
+//                fragmentManager = activity.supportFragmentManager,
+//                selectedDateMillis = petBirthdayState.value,
+//                onDatePicked = {
+//                    petBirthdayState.value = it
+//                    petBirthdayStringState = TextFieldValue(
+//                        Instant.ofEpochMilli(it)
+//                            .atZone(ZoneId.systemDefault())
+//                            .toLocalDate()
+//                            .format(ddMmmmYyyyDateFormatter)
+//                    )
+//                }
+//            )
         },
     )
 }

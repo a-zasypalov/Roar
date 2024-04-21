@@ -5,6 +5,10 @@ import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import com.gaoyun.roar.presentation.LAUNCH_LISTEN_FOR_EFFECTS
+import com.gaoyun.roar.ui.features.add_pet.AddPetAvatarDestination
+import com.gaoyun.roar.ui.features.add_pet.AddPetPetTypeDestination
+import com.gaoyun.roar.ui.features.add_pet.AddPetSetupDestination
+import com.gaoyun.roar.ui.features.add_pet.pet_data.AddPetDataDestination
 import com.gaoyun.roar.ui.features.home.HomeScreenDestination
 import com.gaoyun.roar.ui.features.onboarding.OnboardingRootScreen
 import com.gaoyun.roar.ui.features.pet.PetScreenDestination
@@ -77,11 +81,35 @@ fun GlobalDestinationState(isOnboardingComplete: Boolean) {
             UserRegistrationDestination(onNavigationCall = viewModel::navigate)
         }
 
-        scene(
-            route = NavigationKeys.Route.PET_DETAIL_ROUTE,
-        ) {
+        scene(NavigationKeys.Route.PET_DETAIL_ROUTE) {
             PetScreenDestination(
                 viewModel::navigate,
+                petId = it.path<String>(NavigationKeys.Arg.PET_ID_KEY) ?: ""
+            )
+        }
+
+        scene(NavigationKeys.Route.ADD_PET_ROUTE) {
+            AddPetPetTypeDestination(onNavigationCall = viewModel::navigate)
+        }
+
+        scene(NavigationKeys.Route.ADD_PET_AVATAR_ROUTE) {
+            AddPetAvatarDestination(
+                petType = it.path<String>(NavigationKeys.Arg.PET_TYPE_KEY) ?: "",
+                onNavigationCall = viewModel::navigate
+            )
+        }
+
+        scene(NavigationKeys.Route.ADD_PET_DATA_ROUTE) {
+            AddPetDataDestination(
+                onNavigationCall = viewModel::navigate,
+                petType = it.path<String>(NavigationKeys.Arg.PET_TYPE_KEY) ?: "",
+                avatar = it.path<String>(NavigationKeys.Arg.AVATAR_KEY) ?: "",
+            )
+        }
+
+        scene(NavigationKeys.Route.ADD_PET_SETUP_ROUTE) {
+            AddPetSetupDestination(
+                onNavigationCall = viewModel::navigate,
                 petId = it.path<String>(NavigationKeys.Arg.PET_ID_KEY) ?: ""
             )
         }

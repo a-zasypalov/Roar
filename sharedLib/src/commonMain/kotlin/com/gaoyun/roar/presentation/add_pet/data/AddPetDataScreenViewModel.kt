@@ -10,6 +10,7 @@ import com.gaoyun.roar.model.domain.toGender
 import com.gaoyun.roar.model.domain.toLanguageCode
 import com.gaoyun.roar.model.domain.toPetType
 import com.gaoyun.roar.presentation.BaseViewModel
+import com.gaoyun.roar.presentation.MultiplatformBaseViewModel
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.firstOrNull
@@ -21,7 +22,7 @@ class AddPetDataScreenViewModel(
     private val petBreedsUseCase: GetPetBreedsUseCase,
     private val getPet: GetPetUseCase,
     private val setPetAvatar: SetPetAvatar,
-) : BaseViewModel<AddPetDataScreenContract.Event, AddPetDataScreenContract.State, AddPetDataScreenContract.Effect>() {
+) : MultiplatformBaseViewModel<AddPetDataScreenContract.Event, AddPetDataScreenContract.State, AddPetDataScreenContract.Effect>() {
 
     override fun setInitialState() = AddPetDataScreenContract.State(isLoading = true)
 
