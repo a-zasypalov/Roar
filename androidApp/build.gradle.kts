@@ -56,16 +56,7 @@ dependencies {
     implementation(project(":androidApp:common"))
     implementation(project(":androidApp:notifications"))
 
-    implementation(project(":androidApp:feature-home-screen"))
-    implementation(project(":androidApp:feature-user-registration"))
-    implementation(project(":androidApp:feature-add-pet"))
-    implementation(project(":androidApp:feature-pet-screen"))
-    implementation(project(":androidApp:feature-create-reminder"))
-    implementation(project(":androidApp:feature-interactions"))
-    implementation(project(":androidApp:feature-user-screen"))
-    implementation(project(":androidApp:feature-onboarding"))
-
-    implementation("androidx.activity:activity-compose:1.8.0")
+    implementation("androidx.activity:activity-compose:1.9.0")
     implementation("androidx.multidex:multidex:2.0.1")
 
     implementation("com.google.android.play:app-update:2.1.0")
