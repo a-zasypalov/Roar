@@ -1,6 +1,5 @@
-package com.gaoyun.feature_create_reminder.setup
+package com.gaoyun.roar.ui.features.create_reminder.setup
 
-import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -25,23 +24,9 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.onFocusEvent
-import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
-import com.gaoyun.common.DateUtils.ddMmmYyyyDateFormatter
-import com.gaoyun.common.R
-import com.gaoyun.roar.ui.common.composables.LabelledCheckBox
-import com.gaoyun.roar.ui.PrimaryElevatedButton
-import com.gaoyun.roar.ui.common.composables.ReadonlyTextField
-import com.gaoyun.roar.ui.Spacer
-import com.gaoyun.roar.ui.common.composables.TextFormField
-import com.gaoyun.common.dialog.DatePicker
-import com.gaoyun.common.dialog.TimePicker
-import com.gaoyun.common.ext.getName
-import com.gaoyun.roar.ui.common.ext.remindConfigTextFull
-import com.gaoyun.roar.ui.common.ext.repeatConfigTextFull
 import com.gaoyun.roar.model.domain.interactions.InteractionGroup
 import com.gaoyun.roar.model.domain.interactions.InteractionRemindConfig
 import com.gaoyun.roar.model.domain.interactions.InteractionRepeatConfig
@@ -49,16 +34,18 @@ import com.gaoyun.roar.model.domain.interactions.InteractionTemplate
 import com.gaoyun.roar.model.domain.interactions.InteractionType
 import com.gaoyun.roar.model.domain.interactions.InteractionWithReminders
 import com.gaoyun.roar.model.domain.interactions.toInteractionGroup
-import com.gaoyun.roar.util.toLocalDate
+import com.gaoyun.roar.ui.PrimaryElevatedButton
+import com.gaoyun.roar.ui.Spacer
+import com.gaoyun.roar.ui.common.composables.LabelledCheckBox
+import com.gaoyun.roar.ui.common.composables.ReadonlyTextField
+import com.gaoyun.roar.ui.common.composables.TextFormField
+import com.gaoyun.roar.ui.common.ext.remindConfigTextFull
+import com.gaoyun.roar.ui.common.ext.repeatConfigTextFull
 import kotlinx.coroutines.launch
 import kotlinx.datetime.Clock
-import kotlinx.datetime.Instant
 import kotlinx.datetime.LocalTime
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.toInstant
-import kotlinx.datetime.toJavaLocalDate
-import kotlinx.datetime.toJavaLocalDateTime
-import kotlinx.datetime.toLocalDateTime
 import kotlin.time.Duration.Companion.days
 
 @OptIn(ExperimentalFoundationApi::class)
@@ -73,7 +60,6 @@ internal fun ReminderSetupForm(
     onRemindConfigSave: (String) -> Unit,
     onSaveButtonClick: (String, InteractionType, InteractionGroup, Boolean, InteractionRepeatConfig, String, Long, Int, Int, InteractionRemindConfig) -> Unit,
 ) {
-    val activity = LocalContext.current as AppCompatActivity
     val bringIntoViewRequester = remember { BringIntoViewRequester() }
     val coroutineScope = rememberCoroutineScope()
 
@@ -87,7 +73,7 @@ internal fun ReminderSetupForm(
 
     val reminderName = rememberSaveable {
         mutableStateOf(
-            interactionToEdit?.name ?: template?.getName(activity) ?: ""
+            interactionToEdit?.name //?: template?.getName(activity) ?: ""
         )
     }
     val notesState = remember { mutableStateOf(interactionToEdit?.notes ?: "") }
@@ -117,11 +103,11 @@ internal fun ReminderSetupForm(
         mutableStateOf(
             TextFieldValue(
                 StringBuilder()
-                    .append(
-                        Instant.fromEpochMilliseconds(startsOnDate.value)
-                            .toLocalDateTime(TimeZone.currentSystemDefault()).toJavaLocalDateTime()
-                            .format(ddMmmYyyyDateFormatter)
-                    )
+//                    .append(
+//                        Instant.fromEpochMilliseconds(startsOnDate.value)
+//                            .toLocalDateTime(TimeZone.currentSystemDefault()).toJavaLocalDateTime()
+//                            .format(ddMmmYyyyDateFormatter)
+//                    )
                     .append(", ")
                     .append(if (startsOnTime.value.hour < 10) "0${startsOnTime.value.hour}" else "${startsOnTime.value.hour}")
                     .append(":")
@@ -155,15 +141,15 @@ internal fun ReminderSetupForm(
         Spacer(size = 12.dp)
 
         TextFormField(
-            text = reminderName.value,
+            text = reminderName.value ?: "",
             leadingIcon = {
                 Icon(
                     Icons.Filled.TaskAlt,
-                    stringResource(id = R.string.name),
+                    "name", //stringResource(id = R.string.name),
                     tint = MaterialTheme.colorScheme.onBackground
                 )
             },
-            label = stringResource(id = R.string.name),
+            label = "Name", //stringResource(id = R.string.name),
             onChange = {
                 reminderName.value = it
             },
@@ -193,47 +179,51 @@ internal fun ReminderSetupForm(
             onValueChange = { startsOnDateTimeString.value = it },
             label = {
                 Text(
-                    text = if (interactionToEdit != null) stringResource(id = R.string.next_occurrence) else stringResource(
-                        id = R.string.date_time
-                    )
+                    text = if (interactionToEdit != null) {
+                        "Next occurrence"
+//                        stringResource(id = R.string.next_occurrence)
+                    } else {
+                        "Datetime"
+//                        stringResource(id = R.string.date_time)
+                    }
                 )
             },
             onClick = {
-                DatePicker.pickDate(
-                    title = activity.getString(R.string.remind_on_from),
-                    fragmentManager = activity.supportFragmentManager,
-                    selectedDateMillis = startsOnDate.value,
-                    start = Clock.System.now().toEpochMilliseconds(),
-                    onDatePicked = { newDate ->
-                        TimePicker
-                            .pickTime(
-                                title = activity.getString(R.string.remind_at),
-                                activity = activity,
-                                hourAndMinutes = listOf(
-                                    startsOnTime.value.hour,
-                                    startsOnTime.value.minute
-                                ),
-                                onTimePicked = { hours, minutes ->
-                                    val hoursFormatted = if (hours < 10) "0$hours" else "$hours"
-                                    val minutesFormatted =
-                                        if (minutes < 10) "0$minutes" else "$minutes"
-                                    val newTime = "$hoursFormatted:$minutesFormatted"
-
-                                    startsOnDate.value = newDate
-                                    startsOnTime.value = LocalTime.parse(newTime)
-
-                                    startsOnDateTimeString.value = TextFieldValue(
-                                        "${
-                                            Instant.fromEpochMilliseconds(newDate)
-                                                .toLocalDate()
-                                                .toJavaLocalDate()
-                                                .format(ddMmmYyyyDateFormatter)
-                                        }, $hoursFormatted:$minutesFormatted"
-                                    )
-                                }
-                            )
-                    }
-                )
+//                DatePicker.pickDate(
+//                    title = activity.getString(R.string.remind_on_from),
+//                    fragmentManager = activity.supportFragmentManager,
+//                    selectedDateMillis = startsOnDate.value,
+//                    start = Clock.System.now().toEpochMilliseconds(),
+//                    onDatePicked = { newDate ->
+//                        TimePicker
+//                            .pickTime(
+//                                title = activity.getString(R.string.remind_at),
+//                                activity = activity,
+//                                hourAndMinutes = listOf(
+//                                    startsOnTime.value.hour,
+//                                    startsOnTime.value.minute
+//                                ),
+//                                onTimePicked = { hours, minutes ->
+//                                    val hoursFormatted = if (hours < 10) "0$hours" else "$hours"
+//                                    val minutesFormatted =
+//                                        if (minutes < 10) "0$minutes" else "$minutes"
+//                                    val newTime = "$hoursFormatted:$minutesFormatted"
+//
+//                                    startsOnDate.value = newDate
+//                                    startsOnTime.value = LocalTime.parse(newTime)
+//
+//                                    startsOnDateTimeString.value = TextFieldValue(
+//                                        "${
+//                                            Instant.fromEpochMilliseconds(newDate)
+//                                                .toLocalDate()
+//                                                .toJavaLocalDate()
+//                                                .format(ddMmmYyyyDateFormatter)
+//                                        }, $hoursFormatted:$minutesFormatted"
+//                                    )
+//                                }
+//                            )
+//                    }
+//                )
             },
             modifier = Modifier
                 .fillMaxWidth()
@@ -248,12 +238,13 @@ internal fun ReminderSetupForm(
             leadingIcon = {
                 Icon(
                     Icons.Outlined.Notifications,
-                    stringResource(id = R.string.remind),
+                    "Remind",
+//                    stringResource(id = R.string.remind),
                     tint = MaterialTheme.colorScheme.onBackground
                 )
             },
             label = {
-                Text(text = stringResource(id = R.string.remind))
+                Text(text = "Remind" /*stringResource(id = R.string.remind)*/)
             },
             onClick = { showRemindConfigDialog.value = true },
             modifier = Modifier.padding(horizontal = 24.dp),
@@ -264,7 +255,7 @@ internal fun ReminderSetupForm(
         LabelledCheckBox(
             checked = repeatEnabledState.value,
             onCheckedChange = { repeatEnabledState.value = it },
-            label = stringResource(id = R.string.enable_repeat),
+            label = "Enable repeat", //stringResource(id = R.string.enable_repeat),
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(horizontal = 8.dp),
@@ -279,12 +270,12 @@ internal fun ReminderSetupForm(
                 leadingIcon = {
                     Icon(
                         Icons.Filled.Repeat,
-                        stringResource(id = R.string.repeat),
+                        "Repeat", //stringResource(id = R.string.repeat),
                         tint = MaterialTheme.colorScheme.onBackground
                     )
                 },
                 label = {
-                    Text(text = stringResource(id = R.string.repeat))
+                    Text(text = "Repeat" /*stringResource(id = R.string.repeat)*/)
                 },
                 onClick = { showRepeatConfigDialog.value = true },
                 modifier = Modifier.padding(horizontal = 24.dp),
@@ -296,9 +287,9 @@ internal fun ReminderSetupForm(
         TextFormField(
             text = notesState.value,
             onChange = { notesState.value = it },
-            label = stringResource(id = R.string.notes),
+            label = "Notes", //stringResource(id = R.string.notes),
             leadingIcon = {
-                Icon(Icons.AutoMirrored.Filled.Notes, stringResource(id = R.string.notes))
+                Icon(Icons.AutoMirrored.Filled.Notes, "Notes" /*stringResource(id = R.string.notes)*/)
             },
             imeAction = ImeAction.Done,
             modifier = Modifier
@@ -315,15 +306,19 @@ internal fun ReminderSetupForm(
         Spacer(size = 48.dp)
 
         PrimaryElevatedButton(
-            text = if (interactionToEdit != null) stringResource(id = R.string.save) else stringResource(
-                id = R.string.create
-            ),
+            text = if (interactionToEdit != null) {
+                "Save"
+//                stringResource(id = R.string.save)
+            } else {
+                "Create"
+//                stringResource(id = R.string.create)
+            },
             onClick = {
-                if (reminderName.value.isBlank()) {
+                if ((reminderName.value ?: "").isBlank()) {
                     coroutineScope.launch { snackbarHost.showSnackbar("Name shouldn't be empty") }
                 } else {
                     onSaveButtonClick(
-                        reminderName.value,
+                        reminderName.value ?: "",
                         template?.type ?: InteractionType.CUSTOM,
                         interactionGroupState.value.toInteractionGroup(),
                         repeatEnabledState.value,

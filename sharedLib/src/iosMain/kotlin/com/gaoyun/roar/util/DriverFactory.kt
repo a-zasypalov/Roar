@@ -33,46 +33,4 @@ actual class DriverFactory {
 actual fun platformModule() = module {
     single { DriverFactory() }
     single<SynchronisationScheduler> { SynchronisationSchedulerImpl() }
-
-    single { OnboardingViewModel(get()) }
-    single { HomeScreenViewModel(get(), get(), get(), get(), get(), get(), get(), get(), get()) }
-    single { RegisterUserViewModel(get(), get(), get()) }
-    single { UserScreenViewModel(get(), get(), get(), get(), get(), get(), get()) }
-    single { EditUserScreenViewModel(get(), get()) }
-
-    single { AddPetDataScreenViewModel(get(), get(), get(), get()) }
-    single { AddPetPetTypeScreenViewModel() }
-    single { AddPetAvatarScreenViewModel(get()) }
-    single { AddPetSetupScreenViewModel(get()) }
-
-    single { PetScreenViewModel(get(), get(), get(), get(), get()) }
-    single { InteractionScreenViewModel(get(), get(), get(), get(), get(), get(), get()) }
-
-    single { AddReminderScreenViewModel(get(), get(), get()) }
-    single { SetupReminderScreenViewModel(get(), get(), get(), get(), get(), get()) }
-    single { AddReminderCompleteScreenViewModel() }
-
-    single { AboutScreenViewModel() }
-}
-
-object ViewModelProvider : KoinComponent {
-    fun onboardingViewModel() = get<OnboardingViewModel>()
-    fun registerUserViewModel() = get<RegisterUserViewModel>()
-    fun homeScreenViewModel() = get<HomeScreenViewModel>()
-    fun userScreenViewModel() = get<UserScreenViewModel>()
-    fun editUserScreenViewModel() = get<EditUserScreenViewModel>()
-
-    fun addPetDataScreenViewModel() = get<AddPetDataScreenViewModel>()
-    fun addPetTypeScreenViewModel() = get<AddPetPetTypeScreenViewModel>()
-    fun addPetAvatarScreenViewModel() = get<AddPetAvatarScreenViewModel>()
-    fun addPetSetupScreenViewModel() = get<AddPetSetupScreenViewModel>()
-
-    fun petScreenViewModel() = get<PetScreenViewModel>()
-    fun interactionScreenViewModel() = get<InteractionScreenViewModel>()
-
-    fun addReminderScreenViewModel() = get<AddReminderScreenViewModel>()
-    fun setupReminderScreenViewModel() = get<SetupReminderScreenViewModel>()
-    fun addReminderCompleteScreenViewModel() = get<AddReminderCompleteScreenViewModel>()
-
-    fun aboutScreenViewModel() = get<AboutScreenViewModel>()
 }

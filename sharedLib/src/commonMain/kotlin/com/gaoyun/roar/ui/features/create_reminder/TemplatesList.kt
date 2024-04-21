@@ -1,6 +1,5 @@
-package com.gaoyun.feature_create_reminder
+package com.gaoyun.roar.ui.features.create_reminder
 
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -19,22 +18,14 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.gaoyun.common.R
-import com.gaoyun.roar.ui.common.composables.RoarIcon
-import com.gaoyun.roar.ui.Spacer
-import com.gaoyun.common.ext.getDrawableByName
-import com.gaoyun.common.ext.getName
-import com.gaoyun.roar.ui.common.ext.repeatConfigTextShort
 import com.gaoyun.roar.model.domain.PetWithInteractions
 import com.gaoyun.roar.model.domain.interactions.InteractionTemplate
 import com.gaoyun.roar.presentation.add_reminder.choose_template.AddReminderScreenContract
+import com.gaoyun.roar.ui.Spacer
+import com.gaoyun.roar.ui.common.composables.RoarIcon
+import com.gaoyun.roar.ui.common.ext.repeatConfigTextShort
 import com.gaoyun.roar.ui.theme.RoarTheme
-import com.gaoyun.roar.ui.theme.RoarThemePreview
 
 @Composable
 fun TemplatesList(
@@ -51,16 +42,16 @@ fun TemplatesList(
                     .padding(start = 16.dp, top = 8.dp),
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                Image(
-                    painter = painterResource(id = LocalContext.current.getDrawableByName(pet.avatar)),
-                    contentDescription = pet.name,
-                    modifier = Modifier.size(48.dp)
-                )
+//                Image(
+//                    painter = painterResource(id = LocalContext.current.getDrawableByName(pet.avatar)),
+//                    contentDescription = pet.name,
+//                    modifier = Modifier.size(48.dp)
+//                )
 
                 Spacer(size = 10.dp)
 
                 Text(
-                    text = stringResource(id = R.string.templates),
+                    text = "Templates", //stringResource(id = R.string.templates),
                     style = MaterialTheme.typography.displayMedium,
                 )
             }
@@ -94,7 +85,7 @@ fun TemplatesList(
 
         item {
             Text(
-                text = stringResource(id = R.string.custom),
+                text = "Custom", //stringResource(id = R.string.custom),
                 style = MaterialTheme.typography.headlineLarge,
                 modifier = Modifier.padding(horizontal = 16.dp, vertical = 16.dp)
             )
@@ -123,7 +114,7 @@ fun TemplatesList(
                     Row(verticalAlignment = Alignment.CenterVertically) {
                         RoarIcon(
                             icon = "", //pet.petType.icon(),
-                            contentDescription = stringResource(id = R.string.reminder),
+                            contentDescription = "Reminder", //stringResource(id = R.string.reminder),
                             modifier = Modifier
                                 .padding(4.dp)
                                 .size(32.dp)
@@ -131,13 +122,13 @@ fun TemplatesList(
                         Spacer(size = 8.dp)
                         Column(modifier = Modifier.weight(1f)) {
                             Text(
-                                stringResource(id = R.string.custom),
+                                "Custom", //stringResource(id = R.string.custom),
                                 style = MaterialTheme.typography.titleLarge,
                                 color = MaterialTheme.colorScheme.onSurface
                             )
 
                             Text(
-                                stringResource(id = R.string.new_custom_reminder),
+                                "New custom reminder", //stringResource(id = R.string.new_custom_reminder),
                                 style = MaterialTheme.typography.bodyMedium,
                                 color = MaterialTheme.colorScheme.onSurface
                             )
@@ -172,17 +163,17 @@ fun TemplateItem(
                 .padding(horizontal = 14.dp, vertical = 8.dp),
         ) {
             Row(verticalAlignment = Alignment.CenterVertically) {
-                RoarIcon(
-                    icon = "", //template.type.icon(),
-                    contentDescription = stringResource(id = R.string.cd_reminder),
-                    modifier = Modifier
-                        .padding(4.dp)
-                        .size(32.dp)
-                )
+//                RoarIcon(
+//                    icon = "", //template.type.icon(),
+//                    contentDescription = "reminder", //stringResource(id = R.string.cd_reminder),
+//                    modifier = Modifier
+//                        .padding(4.dp)
+//                        .size(32.dp)
+//                )
                 Spacer(size = 8.dp)
                 Column(modifier = Modifier.weight(1f)) {
                     Text(
-                        text = template.getName(LocalContext.current) ?: "",
+                        text = "Template name", //template.getName(LocalContext.current) ?: "",
                         style = MaterialTheme.typography.titleLarge,
                         color = MaterialTheme.colorScheme.onSurface
                     )
@@ -202,14 +193,14 @@ fun TemplateItem(
     }
 }
 
-@Composable
-@Preview
-fun TemplatesListPreview() {
-    RoarThemePreview {
-        TemplatesList(pet = PetWithInteractions.preview(), templates = listOf(
-            InteractionTemplate.preview,
-            InteractionTemplate.preview,
-            InteractionTemplate.preview,
-        ), templateChosen = {})
-    }
-}
+//@Composable
+//@Preview
+//fun TemplatesListPreview() {
+//    RoarThemePreview {
+//        TemplatesList(pet = PetWithInteractions.preview(), templates = listOf(
+//            InteractionTemplate.preview,
+//            InteractionTemplate.preview,
+//            InteractionTemplate.preview,
+//        ), templateChosen = {})
+//    }
+//}

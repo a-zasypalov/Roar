@@ -1,12 +1,10 @@
-package com.gaoyun.feature_create_reminder.setup
+package com.gaoyun.roar.ui.features.create_reminder.setup
 
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
@@ -17,31 +15,24 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.lifecycle.Lifecycle
-import com.gaoyun.common.OnLifecycleEvent
-import com.gaoyun.roar.ui.common.composables.AutoResizeText
-import com.gaoyun.roar.ui.common.composables.BoxWithLoader
-import com.gaoyun.roar.ui.common.composables.FontSizeRange
-import com.gaoyun.roar.ui.Spacer
-import com.gaoyun.roar.ui.common.composables.SurfaceCard
-import com.gaoyun.roar.ui.SurfaceScaffold
-import com.gaoyun.roar.ui.common.composables.surfaceCardFormElevation
-import com.gaoyun.roar.ui.common.composables.surfaceCardFormShape
-import com.gaoyun.common.ext.getDrawableByName
 import com.gaoyun.roar.presentation.BackNavigationEffect
 import com.gaoyun.roar.presentation.LAUNCH_LISTEN_FOR_EFFECTS
 import com.gaoyun.roar.presentation.NavigationSideEffect
 import com.gaoyun.roar.presentation.add_reminder.setup_reminder.SetupReminderScreenContract
 import com.gaoyun.roar.presentation.add_reminder.setup_reminder.SetupReminderScreenViewModel
+import com.gaoyun.roar.ui.Spacer
+import com.gaoyun.roar.ui.SurfaceScaffold
+import com.gaoyun.roar.ui.common.composables.AutoResizeText
+import com.gaoyun.roar.ui.common.composables.BoxWithLoader
+import com.gaoyun.roar.ui.common.composables.FontSizeRange
+import com.gaoyun.roar.ui.common.composables.SurfaceCard
+import com.gaoyun.roar.ui.common.composables.surfaceCardFormElevation
+import com.gaoyun.roar.ui.common.composables.surfaceCardFormShape
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.onEach
-import org.koin.androidx.compose.getViewModel
-import com.gaoyun.common.R as CommonR
+import moe.tlaster.precompose.koin.koinViewModel
 
 @Composable
 fun SetupReminderDestination(
@@ -50,14 +41,13 @@ fun SetupReminderDestination(
     templateId: String,
     interactionId: String? = null
 ) {
-    val viewModel: SetupReminderScreenViewModel = getViewModel()
+    val viewModel = koinViewModel(vmClass = SetupReminderScreenViewModel::class)
     val state = viewModel.viewState.collectAsState().value
     val snackbarHostState = remember { SnackbarHostState() }
 
-    OnLifecycleEvent { _, event ->
-        if (event == Lifecycle.Event.ON_CREATE) {
-            viewModel.buildScreenState(petId = petId, templateId = templateId, interactionId = interactionId)
-        }
+    LaunchedEffect(Unit) {
+        //TODO: was on onCreate
+        viewModel.buildScreenState(petId = petId, templateId = templateId, interactionId = interactionId)
     }
 
     val avatar = remember { mutableStateOf("ic_cat") }
@@ -143,16 +133,16 @@ private fun ReminderSetupHeader(
             .padding(top = 8.dp, start = 16.dp, end = 12.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
-        Image(
-            painter = painterResource(id = LocalContext.current.getDrawableByName(petAvatar)),
-            contentDescription = petName,
-            modifier = Modifier.size(48.dp)
-        )
+//        Image(
+//            painter = painterResource(id = LocalContext.current.getDrawableByName(petAvatar)),
+//            contentDescription = petName,
+//            modifier = Modifier.size(48.dp)
+//        )
 
         Spacer(size = 10.dp)
 
         AutoResizeText(
-            text = stringResource(id = CommonR.string.reminder),
+            text = "Reminder", //stringResource(id = CommonR.string.reminder),
             fontSizeRange = FontSizeRange(
                 min = 20.sp,
                 max = MaterialTheme.typography.displayMedium.fontSize,

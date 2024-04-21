@@ -64,10 +64,6 @@ class RoarApp : MultiDexApplication(), KoinComponent {
 
 val appModule = module {
     single<RegistrationLauncher> { RegistrationLauncherAndroid }
-
-    viewModel { AddReminderScreenViewModel(get(), get(), get()) }
-    viewModel { SetupReminderScreenViewModel(get(), get(), get(), get(), get(), get()) }
-    viewModel { AddReminderCompleteScreenViewModel() }
 }
 
 val notificationsModule = module {

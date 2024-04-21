@@ -10,6 +10,9 @@ import com.gaoyun.roar.ui.features.add_pet.AddPetAvatarDestination
 import com.gaoyun.roar.ui.features.add_pet.AddPetPetTypeDestination
 import com.gaoyun.roar.ui.features.add_pet.AddPetSetupDestination
 import com.gaoyun.roar.ui.features.add_pet.pet_data.AddPetDataDestination
+import com.gaoyun.roar.ui.features.create_reminder.AddReminderCompleteDestination
+import com.gaoyun.roar.ui.features.create_reminder.AddReminderDestination
+import com.gaoyun.roar.ui.features.create_reminder.setup.SetupReminderDestination
 import com.gaoyun.roar.ui.features.home.HomeScreenDestination
 import com.gaoyun.roar.ui.features.interactions.InteractionScreenDestination
 import com.gaoyun.roar.ui.features.onboarding.OnboardingRootScreen
@@ -135,6 +138,54 @@ fun GlobalDestinationState(isOnboardingComplete: Boolean) {
 
         scene(NavigationKeys.Route.ABOUT_ROUTE) {
             AboutScreenDestination(viewModel::navigate)
+        }
+
+        scene(NavigationKeys.Route.PET_EDIT_AVATAR_ROUTE) {
+            AddPetAvatarDestination(
+                petType = it.path<String>(NavigationKeys.Arg.PET_TYPE_KEY) ?: "",
+                petId = it.path<String>(NavigationKeys.Arg.PET_ID_KEY),
+                onNavigationCall = viewModel::navigate
+            )
+        }
+
+        scene(NavigationKeys.Route.PET_EDIT_ROUTE) {
+            AddPetDataDestination(
+                onNavigationCall = viewModel::navigate,
+                petType = it.path<String>(NavigationKeys.Arg.PET_TYPE_KEY) ?: "",
+                avatar = it.path<String>(NavigationKeys.Arg.AVATAR_KEY) ?: "",
+                petId = it.path<String>(NavigationKeys.Arg.PET_ID_KEY)
+            )
+        }
+
+        scene(NavigationKeys.Route.ADD_REMINDER_ROUTE) {
+            AddReminderDestination(
+                onNavigationCall = viewModel::navigate,
+                petId = it.path<String>(NavigationKeys.Arg.PET_ID_KEY) ?: ""
+            )
+        }
+
+        scene(NavigationKeys.Route.SETUP_REMINDER_ROUTE) {
+            SetupReminderDestination(
+                onNavigationCall = viewModel::navigate,
+                petId = it.path<String>(NavigationKeys.Arg.PET_ID_KEY) ?: "",
+                templateId = it.path<String>(NavigationKeys.Arg.TEMPLATE_ID_KEY) ?: "custom"
+            )
+        }
+
+        scene(NavigationKeys.Route.EDIT_REMINDER_ROUTE) {
+            SetupReminderDestination(
+                onNavigationCall = viewModel::navigate,
+                petId = it.path<String>(NavigationKeys.Arg.PET_ID_KEY) ?: "",
+                templateId = it.path<String>(NavigationKeys.Arg.TEMPLATE_ID_KEY) ?: "custom",
+                interactionId = it.path<String>(NavigationKeys.Arg.INTERACTION_ID_KEY)
+            )
+        }
+
+        scene(NavigationKeys.Route.SETUP_REMINDER_COMPLETE_ROUTE) {
+            AddReminderCompleteDestination(
+                onNavigationCall = viewModel::navigate,
+                petAvatar = it.path<String>(NavigationKeys.Arg.AVATAR_KEY) ?: "",
+            )
         }
     }
 }

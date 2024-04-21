@@ -1,42 +1,48 @@
-package com.gaoyun.feature_create_reminder.setup
+package com.gaoyun.roar.ui.features.create_reminder.setup
 
-import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.*
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.FilterChip
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
-import com.gaoyun.common.DateUtils.ddMmmYyyyDateFormatter
-import com.gaoyun.common.R
-import com.gaoyun.common.dialog.DatePicker
-import com.gaoyun.roar.ui.common.toLocalizedStringId
 import com.gaoyun.roar.model.domain.interactions.InteractionRepeatConfig
 import com.gaoyun.roar.model.domain.interactions.InteractionRepeatConfig.Companion.REPEATS_EVERY_PERIOD_ON_LAST
 import com.gaoyun.roar.model.domain.interactions.InteractionRepeatConfig.Companion.REPEATS_EVERY_PERIOD_ON_SAME
 import com.gaoyun.roar.model.domain.interactions.InteractionRepeatConfigEach
 import com.gaoyun.roar.model.domain.interactions.InteractionRepeatConfigEach.Companion.MONTH_STRING
-import com.gaoyun.roar.model.domain.interactions.toInteractionRepeatConfigEach
-import com.gaoyun.roar.ui.common.composables.ReadonlyTextField
 import com.gaoyun.roar.ui.common.composables.SurfaceCard
 import com.gaoyun.roar.ui.common.composables.TextFormField
-import com.gaoyun.roar.util.toLocalDate
-import kotlinx.datetime.*
+import kotlinx.datetime.Clock
+import kotlinx.datetime.DayOfWeek
+import kotlinx.datetime.LocalDate
+import kotlinx.datetime.TimeZone
+import kotlinx.datetime.atStartOfDayIn
+import kotlinx.datetime.isoDayNumber
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -45,9 +51,6 @@ internal fun RepeatConfigDialog(
     setShowDialog: (Boolean) -> Unit,
     onConfigSave: (String) -> Unit
 ) {
-
-    val activity = LocalContext.current as AppCompatActivity
-
     val repeatsEveryNumber = rememberSaveable { mutableStateOf(repeatConfig?.repeatsEveryNumber?.toString() ?: "1") }
     val repeatsEveryPeriod = rememberSaveable { mutableStateOf(repeatConfig?.repeatsEveryPeriod?.toString() ?: "month") }
     val repeatsEveryPeriodsList = InteractionRepeatConfigEach.LIST
@@ -56,19 +59,19 @@ internal fun RepeatConfigDialog(
         mutableStateOf(
             if (repeatConfig?.repeatsEveryPeriod.toString() == MONTH_STRING) {
                 when (repeatConfig?.repeatsEveryPeriodOn) {
-                    REPEATS_EVERY_PERIOD_ON_SAME -> activity.getString(R.string.same_day)
-                    REPEATS_EVERY_PERIOD_ON_LAST -> activity.getString(R.string.last_day)
-                    else -> "${activity.getString(R.string.day).replaceFirstChar { it.uppercase() }} ${repeatConfig?.repeatsEveryPeriodOn ?: 1}"
+                    REPEATS_EVERY_PERIOD_ON_SAME -> "Same day" //activity.getString(R.string.same_day)
+                    REPEATS_EVERY_PERIOD_ON_LAST -> "Last day" //activity.getString(R.string.last_day)
+                    else -> "" //"${activity.getString(R.string.day).replaceFirstChar { it.uppercase() }} ${repeatConfig?.repeatsEveryPeriodOn ?: 1}"
                 }
             } else {
-                "${activity.getString(R.string.day).replaceFirstChar { it.uppercase() }} 1"
+                "" //"${activity.getString(R.string.day).replaceFirstChar { it.uppercase() }} 1"
             }
         )
     }
 
     val repeatsEveryPeriodOnWeek = remember {
         mutableStateOf(
-            if (repeatConfig?.repeatsEveryPeriod.toString() == activity.getString(R.string.week)) {
+            if (repeatConfig?.repeatsEveryPeriod.toString() == "Week" /*activity.getString(R.string.week)*/) {
                 val weekConfig = repeatConfig?.repeatsEveryPeriodOn?.split(",") ?: listOf()
                 mapOf(
                     DayOfWeek.MONDAY to weekConfig.contains("1"),
@@ -95,22 +98,22 @@ internal fun RepeatConfigDialog(
 
     val endSafe = repeatConfig?.ends?.split(".") ?: listOf()
     val endConditionState = rememberSaveable {
-        mutableStateOf(
-            if (endSafe.size == 2) {
-                when (endSafe[0]) {
-                    "date" -> activity.getString(R.string.on_date)
-                    "times" -> activity.getString(R.string.after_three_dots)
-                    else -> activity.getString(R.string.never)
-                }
-            } else {
-                activity.getString(R.string.never)
-            }
+        mutableStateOf(""
+//            if (endSafe.size == 2) {
+//                when (endSafe[0]) {
+//                    "date" -> activity.getString(R.string.on_date)
+//                    "times" -> activity.getString(R.string.after_three_dots)
+//                    else -> activity.getString(R.string.never)
+//                }
+//            } else {
+//                activity.getString(R.string.never)
+//            }
         )
     }
-    val endConditionStatesList = listOf(
-        activity.getString(R.string.never),
-        activity.getString(R.string.on_date),
-        activity.getString(R.string.after_three_dots)
+    val endConditionStatesList = listOf<String>(
+//        activity.getString(R.string.never),
+//        activity.getString(R.string.on_date),
+//        activity.getString(R.string.after_three_dots)
     )
 
     val endsOnDateState = remember {
@@ -124,7 +127,7 @@ internal fun RepeatConfigDialog(
     val endsOnDateStateString = remember {
         mutableStateOf(
             TextFieldValue(
-                Instant.fromEpochMilliseconds(endsOnDateState.value).toLocalDate().toJavaLocalDate().format(ddMmmYyyyDateFormatter)
+//                Instant.fromEpochMilliseconds(endsOnDateState.value).toLocalDate().toJavaLocalDate().format(ddMmmYyyyDateFormatter)
             )
         )
     }
@@ -161,7 +164,7 @@ internal fun RepeatConfigDialog(
                         .verticalScroll(rememberScrollState())
                 ) {
                     Text(
-                        text = stringResource(id = R.string.repeats_every),
+                        text = "Repeats every", //stringResource(id = R.string.repeats_every),
                         style = MaterialTheme.typography.displaySmall,
                         modifier = Modifier.padding(horizontal = defaultHorizontalPadding)
                     )
@@ -231,11 +234,11 @@ internal fun RepeatConfigDialog(
                         }
                         MONTH_STRING -> {
                             val days = arrayListOf<String>().apply {
-                                add(stringResource(id = R.string.same_day))
-                                for (i in 1..31) {
-                                    add("${stringResource(id = R.string.day).replaceFirstChar { it.uppercase() }} $i")
-                                }
-                                add(stringResource(id = R.string.last_day))
+//                                add(stringResource(id = R.string.same_day))
+//                                for (i in 1..31) {
+//                                    add("${stringResource(id = R.string.day).replaceFirstChar { it.uppercase() }} $i")
+//                                }
+//                                add(stringResource(id = R.string.last_day))
                             }
                             com.gaoyun.roar.ui.common.composables.DropdownMenu(
                                 valueList = days,
@@ -267,7 +270,7 @@ internal fun RepeatConfigDialog(
                         listState = endConditionState,
                         valueDisplayList = null,
                         listDisplayState = null,
-                        label = stringResource(id = R.string.ends),
+                        label = "Ends", //stringResource(id = R.string.ends),
                         modifier = Modifier
                             .fillMaxWidth()
                             .padding(horizontal = defaultHorizontalPadding)
@@ -276,55 +279,55 @@ internal fun RepeatConfigDialog(
                     com.gaoyun.roar.ui.Spacer(size = 12.dp)
 
                     when (endConditionState.value) {
-                        stringResource(id = R.string.on_date) -> {
-                            ReadonlyTextField(
-                                value = endsOnDateStateString.value,
-                                onValueChange = { endsOnDateStateString.value = it },
-                                label = { Text(text = stringResource(id = R.string.end_on_date)) },
-                                onClick = {
-                                    DatePicker.pickDate(
-                                        title = activity.getString(R.string.reminder_ends_on),
-                                        start = Clock.System.now().toEpochMilliseconds(),
-                                        fragmentManager = activity.supportFragmentManager,
-                                        selectedDateMillis = Clock.System.now().toEpochMilliseconds(),
-                                        onDatePicked = {
-                                            endsOnDateState.value = it
-                                            endsOnDateStateString.value = TextFieldValue(
-                                                Instant.fromEpochMilliseconds(it)
-                                                    .toLocalDate()
-                                                    .toJavaLocalDate()
-                                                    .format(ddMmmYyyyDateFormatter)
-                                            )
-                                        }
-                                    )
-                                },
-                                modifier = Modifier
-                                    .fillMaxWidth()
-                                    .padding(horizontal = defaultHorizontalPadding)
-                            )
-                        }
-                        stringResource(id = R.string.after_three_dots) -> {
-                            Row(
-                                verticalAlignment = Alignment.CenterVertically,
-                                modifier = Modifier
-                                    .fillMaxWidth()
-                                    .padding(horizontal = defaultHorizontalPadding)
-                            ) {
-                                TextFormField(
-                                    text = endsOnTimesState.value,
-                                    keyboardType = KeyboardType.Decimal,
-                                    onChange = { endsOnTimesState.value = it },
-                                    modifier = Modifier.fillMaxWidth(0.25f),
-                                    imeAction = ImeAction.Done,
-                                )
-                                com.gaoyun.roar.ui.Spacer(size = 12.dp)
-                                Text(
-                                    text = stringResource(id = R.string.occurrences),
-                                    style = MaterialTheme.typography.titleMedium,
-                                    modifier = Modifier.fillMaxWidth(1f)
-                                )
-                            }
-                        }
+//                        stringResource(id = R.string.on_date) -> {
+//                            ReadonlyTextField(
+//                                value = endsOnDateStateString.value,
+//                                onValueChange = { endsOnDateStateString.value = it },
+//                                label = { Text(text = stringResource(id = R.string.end_on_date)) },
+//                                onClick = {
+//                                    DatePicker.pickDate(
+//                                        title = activity.getString(R.string.reminder_ends_on),
+//                                        start = Clock.System.now().toEpochMilliseconds(),
+//                                        fragmentManager = activity.supportFragmentManager,
+//                                        selectedDateMillis = Clock.System.now().toEpochMilliseconds(),
+//                                        onDatePicked = {
+//                                            endsOnDateState.value = it
+//                                            endsOnDateStateString.value = TextFieldValue(
+//                                                Instant.fromEpochMilliseconds(it)
+//                                                    .toLocalDate()
+//                                                    .toJavaLocalDate()
+//                                                    .format(ddMmmYyyyDateFormatter)
+//                                            )
+//                                        }
+//                                    )
+//                                },
+//                                modifier = Modifier
+//                                    .fillMaxWidth()
+//                                    .padding(horizontal = defaultHorizontalPadding)
+//                            )
+//                        }
+//                        stringResource(id = R.string.after_three_dots) -> {
+//                            Row(
+//                                verticalAlignment = Alignment.CenterVertically,
+//                                modifier = Modifier
+//                                    .fillMaxWidth()
+//                                    .padding(horizontal = defaultHorizontalPadding)
+//                            ) {
+//                                TextFormField(
+//                                    text = endsOnTimesState.value,
+//                                    keyboardType = KeyboardType.Decimal,
+//                                    onChange = { endsOnTimesState.value = it },
+//                                    modifier = Modifier.fillMaxWidth(0.25f),
+//                                    imeAction = ImeAction.Done,
+//                                )
+//                                com.gaoyun.roar.ui.Spacer(size = 12.dp)
+//                                Text(
+//                                    text = stringResource(id = R.string.occurrences),
+//                                    style = MaterialTheme.typography.titleMedium,
+//                                    modifier = Modifier.fillMaxWidth(1f)
+//                                )
+//                            }
+//                        }
                     }
 
                     com.gaoyun.roar.ui.Spacer(size = 12.dp)
@@ -338,7 +341,9 @@ internal fun RepeatConfigDialog(
                         TextButton(onClick = {
                             setShowDialog(false)
                         }) {
-                            Text(text = stringResource(id = R.string.cancel))
+                            Text(
+                                text = "Cancel", //stringResource(id = R.string.cancel)
+                            )
                         }
 
                         com.gaoyun.roar.ui.Spacer(size = 12.dp)
@@ -346,19 +351,19 @@ internal fun RepeatConfigDialog(
                         TextButton(onClick = {
                             val repeatsEveryPeriodOn = when (repeatsEveryPeriod.value) {
                                 InteractionRepeatConfigEach.WEEK_STRING -> repeatsEveryPeriodOnWeek.value.filter { it.value }.keys.map { it.isoDayNumber }.joinToString(",")
-                                MONTH_STRING ->
-                                    if (repeatsEveryPeriodOnMonthDay.value.lowercase().contains(activity.getString(R.string.last_day).lowercase())) {
-                                        REPEATS_EVERY_PERIOD_ON_LAST
-                                    } else if (repeatsEveryPeriodOnMonthDay.value.lowercase().contains(activity.getString(R.string.same_day).lowercase())) {
-                                        REPEATS_EVERY_PERIOD_ON_SAME
-                                    } else {
-                                        repeatsEveryPeriodOnMonthDay.value.split(" ")[1]
-                                    }
-                                else -> activity.getString(R.string.dash)
+                                MONTH_STRING -> ""
+//                                    if (repeatsEveryPeriodOnMonthDay.value.lowercase().contains(activity.getString(R.string.last_day).lowercase())) {
+//                                        REPEATS_EVERY_PERIOD_ON_LAST
+//                                    } else if (repeatsEveryPeriodOnMonthDay.value.lowercase().contains(activity.getString(R.string.same_day).lowercase())) {
+//                                        REPEATS_EVERY_PERIOD_ON_SAME
+//                                    } else {
+//                                        repeatsEveryPeriodOnMonthDay.value.split(" ")[1]
+//                                    }
+                                else -> "" //activity.getString(R.string.dash)
                             }
                             val ends = when (endConditionState.value) {
-                                activity.getString(R.string.on_date) -> "date.${Instant.fromEpochMilliseconds(endsOnDateState.value).toLocalDate()}"
-                                activity.getString(R.string.after_three_dots) -> "times.${endsOnTimesState.value}"
+//                                activity.getString(R.string.on_date) -> "date.${Instant.fromEpochMilliseconds(endsOnDateState.value).toLocalDate()}"
+//                                activity.getString(R.string.after_three_dots) -> "times.${endsOnTimesState.value}"
                                 else -> "no.0"
                             }
 
@@ -367,7 +372,7 @@ internal fun RepeatConfigDialog(
                             onConfigSave(config)
                             setShowDialog(false)
                         }) {
-                            Text(text = stringResource(id = R.string.done))
+                            Text(text ="" /*stringResource(id = R.string.done)*/)
                         }
                     }
                 }

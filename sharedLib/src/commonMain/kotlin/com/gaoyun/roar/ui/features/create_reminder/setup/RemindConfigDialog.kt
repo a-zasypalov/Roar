@@ -1,7 +1,12 @@
-package com.gaoyun.feature_create_reminder.setup
+package com.gaoyun.roar.ui.features.create_reminder.setup
 
-import androidx.appcompat.app.AppCompatActivity
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
@@ -13,19 +18,16 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
-import com.gaoyun.common.R
+import com.gaoyun.roar.model.domain.interactions.InteractionRemindConfig
+import com.gaoyun.roar.model.domain.interactions.InteractionRemindConfigPeriod
 import com.gaoyun.roar.ui.Spacer
 import com.gaoyun.roar.ui.common.composables.SurfaceCard
 import com.gaoyun.roar.ui.common.composables.TextFormField
-import com.gaoyun.roar.model.domain.interactions.InteractionRemindConfig
-import com.gaoyun.roar.model.domain.interactions.InteractionRemindConfigPeriod
 
 @Composable
 internal fun RemindConfigDialog(
@@ -33,11 +35,8 @@ internal fun RemindConfigDialog(
     setShowDialog: (Boolean) -> Unit,
     onConfigSave: (String) -> Unit
 ) {
-
-    val activity = LocalContext.current as AppCompatActivity
-
     val repeatsEveryNumber = rememberSaveable { mutableStateOf(remindConfig?.remindBeforeNumber?.toString() ?: "1") }
-    val repeatsEveryPeriod = rememberSaveable { mutableStateOf(remindConfig?.repeatsEveryPeriod?.toString() ?: activity.getString(R.string.day)) }
+    val repeatsEveryPeriod = rememberSaveable { mutableStateOf(remindConfig?.repeatsEveryPeriod?.toString() ?: "day" /*activity.getString(R.string.day)*/) }
     val repeatsEveryPeriodsList = InteractionRemindConfigPeriod.LIST
 
     val defaultHorizontalPadding = 24.dp
@@ -62,7 +61,7 @@ internal fun RemindConfigDialog(
                         .verticalScroll(rememberScrollState())
                 ) {
                     Text(
-                        text = stringResource(id = R.string.remind),
+                        text = "Remind", //stringResource(id = R.string.remind),
                         style = MaterialTheme.typography.displaySmall,
                         modifier = Modifier.padding(horizontal = defaultHorizontalPadding)
                     )
@@ -103,7 +102,9 @@ internal fun RemindConfigDialog(
                         TextButton(onClick = {
                             setShowDialog(false)
                         }) {
-                            Text(text = stringResource(id = R.string.cancel))
+                            Text(
+                                text = "Cancel", //stringResource(id = R.string.cancel)
+                            )
                         }
 
                         Spacer(size = 12.dp)
@@ -114,7 +115,9 @@ internal fun RemindConfigDialog(
                             onConfigSave(config)
                             setShowDialog(false)
                         }) {
-                            Text(text = stringResource(id = R.string.done))
+                            Text(
+                                text = "Done", //stringResource(id = R.string.done)
+                            )
                         }
                     }
                 }

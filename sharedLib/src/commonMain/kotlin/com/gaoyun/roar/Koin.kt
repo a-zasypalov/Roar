@@ -41,6 +41,9 @@ import com.gaoyun.roar.presentation.add_pet.avatar.AddPetAvatarScreenViewModel
 import com.gaoyun.roar.presentation.add_pet.data.AddPetDataScreenViewModel
 import com.gaoyun.roar.presentation.add_pet.setup.AddPetSetupScreenViewModel
 import com.gaoyun.roar.presentation.add_pet.type.AddPetPetTypeScreenViewModel
+import com.gaoyun.roar.presentation.add_reminder.choose_template.AddReminderScreenViewModel
+import com.gaoyun.roar.presentation.add_reminder.complete.AddReminderCompleteScreenViewModel
+import com.gaoyun.roar.presentation.add_reminder.setup_reminder.SetupReminderScreenViewModel
 import com.gaoyun.roar.presentation.home_screen.HomeScreenViewModel
 import com.gaoyun.roar.presentation.interactions.InteractionScreenViewModel
 import com.gaoyun.roar.presentation.onboarding.OnboardingViewModel
@@ -105,6 +108,9 @@ val useCaseModule = module {
     single { UserScreenViewModel(get(), get(), get(), get(), get(), get(), get()) }
     single { EditUserScreenViewModel(get(), get()) }
     single { AboutScreenViewModel() }
+    single { AddReminderScreenViewModel(get(), get(), get()) }
+    single { SetupReminderScreenViewModel(get(), get(), get(), get(), get(), get()) }
+    single { AddReminderCompleteScreenViewModel() }
 
 
     single { RegisterUserUseCase(get(), get()) }

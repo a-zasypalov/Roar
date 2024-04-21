@@ -1,17 +1,20 @@
-package com.gaoyun.feature_create_reminder
+package com.gaoyun.roar.ui.features.create_reminder
 
-import androidx.compose.foundation.layout.*
-import androidx.compose.material3.*
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.asPaddingValues
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.navigationBarsPadding
+import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.ScaffoldDefaults
+import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.Lifecycle
-import com.gaoyun.common.OnLifecycleEvent
-import com.gaoyun.common.R
 import com.gaoyun.roar.presentation.BackNavigationEffect
 import com.gaoyun.roar.presentation.LAUNCH_LISTEN_FOR_EFFECTS
 import com.gaoyun.roar.presentation.NavigationSideEffect
@@ -22,21 +25,19 @@ import com.gaoyun.roar.ui.SurfaceScaffold
 import com.gaoyun.roar.ui.common.composables.BoxWithLoader
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.onEach
-import org.koin.androidx.compose.getViewModel
+import moe.tlaster.precompose.koin.koinViewModel
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AddReminderDestination(
     onNavigationCall: (NavigationSideEffect) -> Unit,
     petId: String
 ) {
-    val viewModel: AddReminderScreenViewModel = getViewModel()
+    val viewModel = koinViewModel(vmClass = AddReminderScreenViewModel::class)
     val state = viewModel.viewState.collectAsState().value
 
-    OnLifecycleEvent { _, event ->
-        if (event == Lifecycle.Event.ON_CREATE) {
-            viewModel.buildScreenState(petId)
-        }
+    LaunchedEffect(Unit) {
+        //TODO: was on onCreate
+        viewModel.buildScreenState(petId)
     }
 
     LaunchedEffect(LAUNCH_LISTEN_FOR_EFFECTS) {
@@ -74,7 +75,7 @@ fun AddReminderDestination(
                             .align(Alignment.BottomCenter)
                     ) {
                         PrimaryElevatedButtonOnSurface(
-                            text = stringResource(id = R.string.done),
+                            text = "Done", //stringResource(id = R.string.done),
                             onClick = { onNavigationCall(BackNavigationEffect) },
                             modifier = Modifier
                                 .align(Alignment.Center)

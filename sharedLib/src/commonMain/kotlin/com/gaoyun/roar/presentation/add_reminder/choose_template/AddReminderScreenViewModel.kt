@@ -6,6 +6,7 @@ import com.gaoyun.roar.domain.pet.GetPetUseCase
 import com.gaoyun.roar.model.domain.PetWithInteractions
 import com.gaoyun.roar.model.domain.withInteractions
 import com.gaoyun.roar.presentation.BaseViewModel
+import com.gaoyun.roar.presentation.MultiplatformBaseViewModel
 import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.launch
 
@@ -13,7 +14,7 @@ class AddReminderScreenViewModel(
     private val getInteractionTemplatesUseCase: GetInteractionTemplatesForPetType,
     private val getPetUseCase: GetPetUseCase,
     private val getInteraction: GetInteraction,
-) : BaseViewModel<AddReminderScreenContract.Event, AddReminderScreenContract.State, AddReminderScreenContract.Effect>() {
+) : MultiplatformBaseViewModel<AddReminderScreenContract.Event, AddReminderScreenContract.State, AddReminderScreenContract.Effect>() {
 
     override fun setInitialState() = AddReminderScreenContract.State(isLoading = true)
 
