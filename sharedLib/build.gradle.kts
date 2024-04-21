@@ -64,8 +64,6 @@ kotlin {
                 implementation("moe.tlaster:precompose:$precomposeVersion")
                 implementation("moe.tlaster:precompose-viewmodel:$precomposeVersion")
                 implementation("moe.tlaster:precompose-koin:$precomposeVersion")
-
-//                implementation("dev.gitlive:firebase-auth:1.12.0")
             }
         }
         val commonTest by getting {
@@ -74,9 +72,6 @@ kotlin {
                 implementation("io.insert-koin:koin-core:$koinVersion")
                 implementation("io.ktor:ktor-client-mock:$ktorVersion")
                 implementation("io.insert-koin:koin-test:$koinVersion")
-//                implementation("io.kotest:kotest-framework-engine:5.5.5")
-//                implementation("io.kotest:kotest-assertions-core:5.5.5")
-//                implementation("io.kotest:kotest-property:5.5.5")
             }
         }
         val androidMain by getting {
@@ -98,11 +93,7 @@ kotlin {
                 implementation("com.google.firebase:firebase-storage-ktx:20.3.0")
             }
         }
-//        val androidTest by getting {
-//            dependencies {
-//                implementation("io.mockk:mockk-common:1.13.2")
-//            }
-//        }
+
         val iosX64Main by getting
         val iosArm64Main by getting
         val iosSimulatorArm64Main by getting

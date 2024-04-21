@@ -3,9 +3,9 @@ import sharedLib
 
 @main
 struct iOSApp: App {
-    
+
     init() {
-        KoinKt.doInitKoin()
+        KoinKt.doInitKoin(registrationLauncher: RegistrationLauncherIos())
     }
     
 	var body: some Scene {
@@ -13,4 +13,12 @@ struct iOSApp: App {
           ContentView()
 		}
 	}
+}
+
+class RegistrationLauncherIos : sharedLib.RegistrationLauncher {
+
+    func launcher(registrationSuccessfulCallback: (String, String) -> Void) -> () -> Void {
+        return {}
+    }
+
 }

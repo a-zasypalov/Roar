@@ -7,6 +7,8 @@ import com.gaoyun.roar.presentation.NavigationSideEffect
 import com.gaoyun.roar.presentation.user_register.RegisterUserScreenContract
 import com.gaoyun.roar.presentation.user_register.RegisterUserViewModel
 import com.gaoyun.roar.ui.SurfaceScaffold
+import com.gaoyun.roar.util.Platform
+import com.gaoyun.roar.util.PlatformNames
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.onEach
 import moe.tlaster.precompose.koin.koinViewModel
@@ -15,7 +17,6 @@ import moe.tlaster.precompose.navigation.BackHandler
 @Composable
 fun UserRegistrationDestination(onNavigationCall: (NavigationSideEffect) -> Unit) {
     val viewModel = koinViewModel(vmClass = RegisterUserViewModel::class)
-
 
     //Block back action
     BackHandler {}
@@ -28,13 +29,15 @@ fun UserRegistrationDestination(onNavigationCall: (NavigationSideEffect) -> Unit
         }.collect()
     }
 
-    val  registrationLauncher = viewModel.registrationLauncher.launcher { username: String, id: String ->
-        viewModel.setEvent(RegisterUserScreenContract.Event.RegistrationSuccessful(username, id))
+    val registrationCallback = { username: String, id: String -> viewModel.setEvent(RegisterUserScreenContract.Event.RegistrationSuccessful(username, id)) }
+    val registrationLauncher = when(Platform.name){
+        PlatformNames.Android -> (viewModel.registrationLauncher as? RegistrationLauncherComposable)?.launcherComposable(registrationCallback)
+        PlatformNames.IOS -> viewModel.registrationLauncher.launcher(registrationCallback)
     }
 
     SurfaceScaffold {
         UserRegistrationForm(
-            { registrationLauncher() },
+            { registrationLauncher?.invoke() },
             {
                 viewModel.setEvent(
                     RegisterUserScreenContract.Event.RegistrationSuccessful(
@@ -45,8 +48,4 @@ fun UserRegistrationDestination(onNavigationCall: (NavigationSideEffect) -> Unit
             }
         )
     }
-}
-
-interface RegistrationLauncher {
-    @Composable fun launcher(registrationSuccessfulCallback: (String, String) -> Unit): () -> Unit
 }

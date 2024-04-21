@@ -4,10 +4,11 @@ import android.app.Activity
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.res.stringResource
+import com.firebase.ui.auth.AuthMethodPickerLayout
 import com.firebase.ui.auth.AuthUI
 import com.firebase.ui.auth.FirebaseAuthUIActivityResultContract
 import com.gaoyun.common.R
-import com.gaoyun.roar.ui.features.registration.RegistrationLauncher
+import com.gaoyun.roar.ui.features.registration.RegistrationLauncherComposable
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 
@@ -20,9 +21,9 @@ private val AuthUIConfig = AuthUI.getInstance()
     .build()
 
 
-object RegistrationLauncherAndroid: RegistrationLauncher {
+object RegistrationLauncherAndroid : RegistrationLauncherComposable {
     @Composable
-    override fun launcher(registrationSuccessfulCallback: (String, String) -> Unit): () -> Unit {
+    override fun launcherComposable(registrationSuccessfulCallback: (String, String) -> Unit): () -> Unit {
         val defaultUsername = stringResource(id = R.string.username)
 
         val signInLauncher =
@@ -36,4 +37,6 @@ object RegistrationLauncherAndroid: RegistrationLauncher {
 
         return { signInLauncher.launch(AuthUIConfig) }
     }
+
+    override fun launcher(registrationSuccessfulCallback: (String, String) -> Unit): () -> Unit = {}
 }

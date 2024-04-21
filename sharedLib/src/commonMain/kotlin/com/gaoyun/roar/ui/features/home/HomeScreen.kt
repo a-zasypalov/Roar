@@ -37,7 +37,7 @@ fun HomeScreenDestination(onNavigationCall: (NavigationSideEffect) -> Unit) {
 //    }
 
     val showCompleteReminderDateDialog = remember { mutableStateOf(false) }
-    val completeReminderDateDialogDate = remember { mutableStateOf(SharedDateUtils.currentDateTime()) }
+//    val completeReminderDateDialogDate = remember { mutableStateOf(SharedDateUtils.currentDateTime()) }
     val reminderToCompleteId = remember { mutableStateOf<String?>(null) }
     val petToComplete = remember { mutableStateOf<PetWithInteractions?>(null) }
 

@@ -49,17 +49,20 @@ import com.gaoyun.roar.repository.ReminderRepositoryImpl
 import com.gaoyun.roar.repository.UserRepository
 import com.gaoyun.roar.repository.UserRepositoryImpl
 import com.gaoyun.roar.ui.AppViewModel
+import com.gaoyun.roar.ui.features.registration.RegistrationLauncher
 import com.gaoyun.roar.util.DriverFactory
 import com.gaoyun.roar.util.PlatformHttpClient
 import com.gaoyun.roar.util.Preferences
 import com.gaoyun.roar.util.platformModule
 import org.koin.core.context.startKoin
-import org.koin.core.module.dsl.singleOf
 import org.koin.dsl.KoinAppDeclaration
 import org.koin.dsl.module
 
-fun initKoin() = startKoin {
-    modules(platformModule(), repositoryModule, useCaseModule, dbModule, networkModule, preferencesModule)
+fun initKoin(registrationLauncher: RegistrationLauncher) = startKoin {
+    val iosDependenciesModule = module {
+        single { registrationLauncher }
+    }
+    modules(platformModule(), iosDependenciesModule, repositoryModule, useCaseModule, dbModule, networkModule, preferencesModule)
 }
 
 fun initKoin(appDeclaration: KoinAppDeclaration = {}) = startKoin {
