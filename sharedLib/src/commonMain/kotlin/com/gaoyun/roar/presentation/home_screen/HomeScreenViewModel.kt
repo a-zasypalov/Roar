@@ -11,7 +11,7 @@ import com.gaoyun.roar.model.domain.PetWithInteractions
 import com.gaoyun.roar.model.domain.User
 import com.gaoyun.roar.model.domain.withInteractions
 import com.gaoyun.roar.network.SynchronisationApi
-import com.gaoyun.roar.presentation.BaseViewModel
+import com.gaoyun.roar.presentation.MultiplatformBaseViewModel
 import com.gaoyun.roar.util.NoUserException
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.catch
@@ -30,7 +30,7 @@ class HomeScreenViewModel(
     private val registerUserUseCase: RegisterUserUseCase,
     private val interactionsListBuilder: InteractionsListBuilder,
     private val syncApi: SynchronisationApi,
-) : BaseViewModel<HomeScreenContract.Event, HomeScreenContract.State, HomeScreenContract.Effect>() {
+) : MultiplatformBaseViewModel<HomeScreenContract.Event, HomeScreenContract.State, HomeScreenContract.Effect>() {
 
     override fun setInitialState() = HomeScreenContract.State(null, emptyList(), listOf(), true)
 

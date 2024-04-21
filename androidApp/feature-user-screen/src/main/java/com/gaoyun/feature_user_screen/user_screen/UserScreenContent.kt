@@ -51,11 +51,11 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.gaoyun.common.R
-import com.gaoyun.common.composables.AutoResizeText
-import com.gaoyun.common.composables.BoxWithLoader
-import com.gaoyun.common.composables.DropdownMenu
-import com.gaoyun.common.composables.FontSizeRange
-import com.gaoyun.common.composables.LabelledCheckBox
+import com.gaoyun.roar.ui.common.composables.AutoResizeText
+import com.gaoyun.roar.ui.common.composables.BoxWithLoader
+import com.gaoyun.roar.ui.common.composables.DropdownMenu
+import com.gaoyun.roar.ui.common.composables.FontSizeRange
+import com.gaoyun.roar.ui.common.composables.LabelledCheckBox
 import com.gaoyun.roar.ui.Spacer
 import com.gaoyun.roar.model.domain.User
 import com.gaoyun.roar.presentation.user_screen.UserScreenContract

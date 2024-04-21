@@ -34,7 +34,6 @@ import com.gaoyun.feature_add_pet.pet_data.AddPetDataDestination
 import com.gaoyun.feature_create_reminder.AddReminderCompleteDestination
 import com.gaoyun.feature_create_reminder.AddReminderDestination
 import com.gaoyun.feature_create_reminder.setup.SetupReminderDestination
-import com.gaoyun.feature_home_screen.HomeScreenDestination
 import com.gaoyun.feature_interactions.InteractionScreenDestination
 import com.gaoyun.feature_pet_screen.PetScreenDestination
 import com.gaoyun.roar.ui.features.registration.UserRegistrationDestination
@@ -203,7 +202,7 @@ class MainActivity : AppCompatActivity() {
 //                OnboardingRootScreen(navHostController = navController)
             }
             composable(NavigationKeys.Route.HOME_ROUTE) {
-                HomeScreenDestination(onNavigationCall = viewModel::navigate)
+//                HomeScreenDestination(onNavigationCall = viewModel::navigate)
             }
 
             composable(NavigationKeys.Route.REGISTER_USER_ROUTE) {

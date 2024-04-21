@@ -25,12 +25,12 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.gaoyun.common.R
-import com.gaoyun.common.composables.RoarIcon
+import com.gaoyun.roar.ui.common.composables.RoarIcon
 import com.gaoyun.roar.ui.Spacer
 import com.gaoyun.common.ext.getDrawableByName
 import com.gaoyun.common.ext.getName
 import com.gaoyun.common.ext.repeatConfigTextShort
-import com.gaoyun.common.ext.toLocalizedStringId
+import com.gaoyun.roar.ui.common.toLocalizedStringId
 import com.gaoyun.common.icon
 import com.gaoyun.roar.model.domain.PetWithInteractions
 import com.gaoyun.roar.model.domain.interactions.InteractionTemplate
@@ -71,7 +71,7 @@ fun TemplatesList(
         templates.groupBy { it.group }.forEach { (interactionGroup, templates) ->
             item {
                 Text(
-                    text = stringResource(id = interactionGroup.toLocalizedStringId()),
+                    text = "", //stringResource(id = interactionGroup.toLocalizedStringId()),
                     style = MaterialTheme.typography.headlineLarge,
                     modifier = Modifier.padding(horizontal = 16.dp, vertical = 16.dp)
                 )
@@ -124,7 +124,7 @@ fun TemplatesList(
                 ) {
                     Row(verticalAlignment = Alignment.CenterVertically) {
                         RoarIcon(
-                            icon = pet.petType.icon(),
+                            icon = "", //pet.petType.icon(),
                             contentDescription = stringResource(id = R.string.reminder),
                             modifier = Modifier
                                 .padding(4.dp)
@@ -175,7 +175,7 @@ fun TemplateItem(
         ) {
             Row(verticalAlignment = Alignment.CenterVertically) {
                 RoarIcon(
-                    icon = template.type.icon(),
+                    icon = "", //template.type.icon(),
                     contentDescription = stringResource(id = R.string.cd_reminder),
                     modifier = Modifier
                         .padding(4.dp)

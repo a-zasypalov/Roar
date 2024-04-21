@@ -23,7 +23,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.gaoyun.common.R
-import com.gaoyun.common.composables.RoarIcon
+import com.gaoyun.roar.ui.common.composables.RoarIcon
 import com.gaoyun.roar.ui.SurfaceScaffold
 import com.gaoyun.common.ext.getDrawableByName
 import com.gaoyun.roar.config.PetsConfig
@@ -109,7 +109,7 @@ private fun ChoosePetType(
                             }
                     ) {
                         RoarIcon(
-                            icon = context.getDrawableByName(type.iconRes),
+                            icon = "", //context.getDrawableByName(type.iconRes),
                             contentDescription = type.nameRes,
                             modifier = Modifier
                                 .size(96.dp)

@@ -12,7 +12,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.gaoyun.common.DateUtils
 import com.gaoyun.common.R
-import com.gaoyun.common.composables.LabelledCheckBox
+import com.gaoyun.roar.ui.common.composables.LabelledCheckBox
 import com.gaoyun.roar.model.domain.Reminder
 import com.gaoyun.roar.presentation.interactions.InteractionScreenContract
 import com.gaoyun.roar.ui.theme.RoarTheme

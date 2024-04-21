@@ -1,59 +1,47 @@
-package com.gaoyun.feature_interactions
+package com.gaoyun.roar.ui.features.pet
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.Notes
-import androidx.compose.material.icons.filled.Close
-import androidx.compose.material.icons.filled.Done
-import androidx.compose.material.icons.filled.MedicalServices
-import androidx.compose.material.icons.filled.Notifications
+import androidx.compose.material.icons.filled.Cake
+import androidx.compose.material.icons.filled.Female
+import androidx.compose.material.icons.filled.Male
+import androidx.compose.material.icons.filled.Memory
 import androidx.compose.material.icons.filled.Pets
-import androidx.compose.material.icons.filled.Repeat
-import androidx.compose.material.icons.filled.Spa
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.MutableState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
-import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.gaoyun.common.R
+import com.gaoyun.roar.model.domain.Gender
+import com.gaoyun.roar.model.domain.Pet
+import com.gaoyun.roar.ui.Spacer
+import com.gaoyun.roar.ui.common.ageText
 import com.gaoyun.roar.ui.common.composables.AutoResizeText
 import com.gaoyun.roar.ui.common.composables.FontSizeRange
-import com.gaoyun.roar.ui.common.composables.RoarIcon
-import com.gaoyun.roar.ui.Spacer
-import com.gaoyun.roar.ui.common.composables.TextFormField
-import com.gaoyun.common.ext.remindConfigTextFull
-import com.gaoyun.common.ext.repeatConfigTextFull
-import com.gaoyun.common.ext.toLocalizedStringId
-import com.gaoyun.roar.ui.common.toLocalizedStringId
-import com.gaoyun.common.icon
-import com.gaoyun.roar.model.domain.Pet
-import com.gaoyun.roar.model.domain.interactions.InteractionGroup
-import com.gaoyun.roar.model.domain.interactions.InteractionWithReminders
 import com.gaoyun.roar.ui.theme.RoarTheme
 
 @Composable
-internal fun InteractionHeader(
+internal fun PetHeader(
     pet: Pet,
-    interaction: InteractionWithReminders,
-    notesState: MutableState<String?>,
     modifier: Modifier = Modifier
 ) {
+//    val isSterilized =
+//        if (pet.isSterilized) stringResource(id = R.string.sterilized) else stringResource(id = R.string.not_sterilized)
+
+    val isSterilized = if (pet.isSterilized) "Sterilized" else "Not sterilized"
+
     Column(
         modifier = modifier.padding(horizontal = 8.dp),
         horizontalAlignment = Alignment.Start
@@ -62,10 +50,10 @@ internal fun InteractionHeader(
         Row(
             modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.SpaceBetween,
-            verticalAlignment = Alignment.CenterVertically,
+            verticalAlignment = Alignment.CenterVertically
         ) {
             AutoResizeText(
-                text = interaction.name,
+                text = pet.name,
                 maxLines = 2,
                 style = MaterialTheme.typography.displayMedium,
                 color = MaterialTheme.colorScheme.onSurface,
@@ -86,12 +74,12 @@ internal fun InteractionHeader(
                     .weight(0.2f),
                 shape = CircleShape,
             ) {
-//                RoarIcon(
-//                    icon = interaction.type.icon(),
+//                Image(
+//                    painter = painterResource(id = context.getDrawableByName(pet.avatar)),
 //                    contentDescription = pet.name,
 //                    modifier = Modifier
 //                        .height(72.dp)
-//                        .padding(all = 16.dp)
+//                        .padding(all = 12.dp)
 //                )
             }
         }
@@ -107,59 +95,38 @@ internal fun InteractionHeader(
                     .fillMaxWidth()
                     .padding(horizontal = 16.dp, vertical = 8.dp),
             ) {
-                val groupIcon = when (interaction.group) {
-                    InteractionGroup.HEALTH -> Icons.Default.MedicalServices
-                    InteractionGroup.CARE -> Icons.Default.Spa
-                    InteractionGroup.ROUTINE -> Icons.Default.Pets
-                }
                 TextWithIconBulletPoint(
-                    icon = groupIcon,
-                    stringResource(id = interaction.group.toLocalizedStringId())
+                    icon = Icons.Filled.Cake,
+                    text = pet.ageText()
                 )
 
-                TextWithIconBulletPoint(
-                    icon = Icons.Default.Notifications,
-                    text = interaction.remindConfig.remindConfigTextFull()
-                )
-
-                interaction.repeatConfig?.let {
-                    TextWithIconBulletPoint(icon = Icons.Default.Repeat, it.repeatConfigTextFull())
-                } ?: TextWithIconBulletPoint(
-                    icon = Icons.Default.Repeat,
-                    stringResource(id = R.string.doesnt_repeat)
-                )
-
-                if (interaction.isActive) {
-                    TextWithIconBulletPoint(
-                        icon = Icons.Default.Done,
-                        stringResource(id = R.string.active)
+                when (pet.gender) {
+                    Gender.MALE -> TextWithIconBulletPoint(
+                        icon = Icons.Filled.Male,
+                        "Male" //""${stringResource(id = R.string.male)}, $isSterilized"
                     )
-                } else {
+
+                    Gender.FEMALE -> TextWithIconBulletPoint(
+                        icon = Icons.Filled.Female,
+                        "Sterilized" //"${stringResource(id = R.string.female)}, $isSterilized"
+                    )
+                }
+
+                TextWithIconBulletPoint(icon = Icons.Filled.Pets, pet.breed)
+
+                if (pet.chipNumber.isNotEmpty()) {
                     TextWithIconBulletPoint(
-                        icon = Icons.Default.Close,
-                        stringResource(id = R.string.not_active)
+                        icon = Icons.Filled.Memory,
+                        "Chip num" //"${stringResource(id = R.string.chip)}: ${pet.chipNumber}"
                     )
                 }
             }
         }
-
-        Spacer(size = 16.dp)
-
-        TextFormField(
-            shape = MaterialTheme.shapes.large,
-            leadingIcon = {
-                Icon(Icons.AutoMirrored.Filled.Notes, stringResource(id = R.string.cd_notes))
-            },
-            text = notesState.value ?: "",
-            label = stringResource(id = R.string.notes),
-            imeAction = ImeAction.Default,
-            onChange = { notesState.value = it }
-        )
     }
 }
 
 @Composable
-fun TextWithIconBulletPoint(icon: ImageVector, text: String) {
+private fun TextWithIconBulletPoint(icon: ImageVector, text: String) {
     Row(
         verticalAlignment = Alignment.CenterVertically,
         modifier = Modifier.padding(vertical = 4.dp)

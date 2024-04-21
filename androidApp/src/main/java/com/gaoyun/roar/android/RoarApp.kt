@@ -65,7 +65,6 @@ class RoarApp : MultiDexApplication(), KoinComponent {
 val appModule = module {
     single<RegistrationLauncher> { RegistrationLauncherAndroid }
 
-    viewModel { HomeScreenViewModel(get(), get(), get(), get(), get(), get(), get(), get(), get()) }
     viewModel { UserScreenViewModel(get(), get(), get(), get(), get(), get(), get()) }
     viewModel { EditUserScreenViewModel(get(), get()) }
 

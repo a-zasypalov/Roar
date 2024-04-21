@@ -21,12 +21,12 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
 import com.gaoyun.common.R
-import com.gaoyun.common.ext.toLocalizedStringId
+import com.gaoyun.roar.ui.common.toLocalizedStringId
 import com.gaoyun.common.ext.toLocalizedStringIdPlural
-import com.gaoyun.common.composables.DropdownMenu
+import com.gaoyun.roar.ui.common.composables.DropdownMenu
 import com.gaoyun.roar.ui.Spacer
-import com.gaoyun.common.composables.SurfaceCard
-import com.gaoyun.common.composables.TextFormField
+import com.gaoyun.roar.ui.common.composables.SurfaceCard
+import com.gaoyun.roar.ui.common.composables.TextFormField
 import com.gaoyun.roar.model.domain.interactions.InteractionRemindConfig
 import com.gaoyun.roar.model.domain.interactions.InteractionRemindConfigPeriod
 import com.gaoyun.roar.model.domain.interactions.toInteractionRemindConfigPeriod
@@ -86,14 +86,14 @@ internal fun RemindConfigDialog(
                             imeAction = ImeAction.Done,
                         )
                         Spacer(size = 12.dp)
-                        DropdownMenu(
-                            valueList = repeatsEveryPeriodsList,
-                            listState = repeatsEveryPeriod,
-                            valueDisplayList = repeatsEveryPeriodsList.map { it.toInteractionRemindConfigPeriod().toLocalizedStringId() },
-                            listDisplayState = repeatsEveryPeriod.value.toInteractionRemindConfigPeriod().toLocalizedStringIdPlural(),
-                            listDisplayStateQuantity = repeatsEveryNumber.value.toIntOrNull() ?: 1,
-                            modifier = Modifier.fillMaxWidth(1f)
-                        )
+//                        DropdownMenu(
+//                            valueList = repeatsEveryPeriodsList,
+//                            listState = repeatsEveryPeriod,
+//                            valueDisplayList = repeatsEveryPeriodsList.map { it.toInteractionRemindConfigPeriod().toLocalizedStringId() },
+//                            listDisplayState = repeatsEveryPeriod.value.toInteractionRemindConfigPeriod().toLocalizedStringIdPlural(),
+//                            listDisplayStateQuantity = repeatsEveryNumber.value.toIntOrNull() ?: 1,
+//                            modifier = Modifier.fillMaxWidth(1f)
+//                        )
                     }
 
                     Spacer(12.dp)

@@ -21,11 +21,11 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.Lifecycle
 import com.gaoyun.common.OnLifecycleEvent
 import com.gaoyun.common.R
-import com.gaoyun.common.composables.BoxWithLoader
-import com.gaoyun.common.composables.RoarExtendedFAB
+import com.gaoyun.roar.ui.common.composables.BoxWithLoader
+import com.gaoyun.roar.ui.common.composables.RoarExtendedFAB
 import com.gaoyun.roar.ui.SurfaceScaffold
-import com.gaoyun.common.dialog.InteractionCompletionDialog
-import com.gaoyun.feature_pet_screen.view.PetContainer
+import com.gaoyun.roar.ui.common.dialog.InteractionCompletionDialog
+import com.gaoyun.roar.ui.features.pet.PetContainer
 import com.gaoyun.roar.model.domain.PetWithInteractions
 import com.gaoyun.roar.model.domain.withInteractions
 import com.gaoyun.roar.presentation.BackNavigationEffect
@@ -33,6 +33,7 @@ import com.gaoyun.roar.presentation.LAUNCH_LISTEN_FOR_EFFECTS
 import com.gaoyun.roar.presentation.NavigationSideEffect
 import com.gaoyun.roar.presentation.pet_screen.PetScreenContract
 import com.gaoyun.roar.presentation.pet_screen.PetScreenViewModel
+import com.gaoyun.roar.ui.common.dialog.RemovePetConfirmationDialog
 import com.gaoyun.roar.ui.theme.RoarThemePreview
 import com.gaoyun.roar.util.SharedDateUtils
 import kotlinx.coroutines.flow.collect

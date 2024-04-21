@@ -33,18 +33,18 @@ import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
 import com.gaoyun.common.DateUtils.ddMmmYyyyDateFormatter
 import com.gaoyun.common.R
-import com.gaoyun.common.composables.DropdownMenu
-import com.gaoyun.common.composables.LabelledCheckBox
+import com.gaoyun.roar.ui.common.composables.DropdownMenu
+import com.gaoyun.roar.ui.common.composables.LabelledCheckBox
 import com.gaoyun.roar.ui.PrimaryElevatedButton
-import com.gaoyun.common.composables.ReadonlyTextField
+import com.gaoyun.roar.ui.common.composables.ReadonlyTextField
 import com.gaoyun.roar.ui.Spacer
-import com.gaoyun.common.composables.TextFormField
+import com.gaoyun.roar.ui.common.composables.TextFormField
 import com.gaoyun.common.dialog.DatePicker
 import com.gaoyun.common.dialog.TimePicker
 import com.gaoyun.common.ext.getName
 import com.gaoyun.common.ext.remindConfigTextFull
 import com.gaoyun.common.ext.repeatConfigTextFull
-import com.gaoyun.common.ext.toLocalizedStringId
+import com.gaoyun.roar.ui.common.toLocalizedStringId
 import com.gaoyun.roar.model.domain.interactions.InteractionGroup
 import com.gaoyun.roar.model.domain.interactions.InteractionRemindConfig
 import com.gaoyun.roar.model.domain.interactions.InteractionRepeatConfig
@@ -177,16 +177,16 @@ internal fun ReminderSetupForm(
         Spacer(size = 16.dp)
 
         if (template == null) {
-            DropdownMenu(
-                valueList = InteractionGroup.GROUP_LIST.map { it.toString() },
-                listState = interactionGroupState,
-                valueDisplayList = InteractionGroup.GROUP_LIST.map { it.toLocalizedStringId() },
-                listDisplayState = interactionGroupState.value.toInteractionGroup()
-                    .toLocalizedStringId(),
-                label = stringResource(id = R.string.group),
-                leadingIcon = Icons.AutoMirrored.Filled.FormatListBulleted,
-                modifier = Modifier.padding(horizontal = 24.dp),
-            )
+//            DropdownMenu(
+//                valueList = InteractionGroup.GROUP_LIST.map { it.toString() },
+//                listState = interactionGroupState,
+//                valueDisplayList = InteractionGroup.GROUP_LIST.map { it.toLocalizedStringId() },
+//                listDisplayState = interactionGroupState.value.toInteractionGroup()
+//                    .toLocalizedStringId(),
+//                label = stringResource(id = R.string.group),
+//                leadingIcon = Icons.AutoMirrored.Filled.FormatListBulleted,
+//                modifier = Modifier.padding(horizontal = 24.dp),
+//            )
 
             Spacer(size = 16.dp)
         }

@@ -60,6 +60,7 @@ kotlin {
                 implementation(compose.material3)
                 @OptIn(org.jetbrains.compose.ExperimentalComposeLibrary::class)
                 implementation(compose.components.resources)
+                implementation(compose.materialIconsExtended)
 
                 implementation("moe.tlaster:precompose:$precomposeVersion")
                 implementation("moe.tlaster:precompose-viewmodel:$precomposeVersion")

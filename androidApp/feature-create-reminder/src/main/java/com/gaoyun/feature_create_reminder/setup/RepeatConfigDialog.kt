@@ -25,14 +25,16 @@ import androidx.compose.ui.window.DialogProperties
 import com.gaoyun.common.DateUtils.ddMmmYyyyDateFormatter
 import com.gaoyun.common.R
 import com.gaoyun.common.dialog.DatePicker
-import com.gaoyun.common.ext.toLocalizedStringId
-import com.gaoyun.common.composables.*
+import com.gaoyun.roar.ui.common.toLocalizedStringId
 import com.gaoyun.roar.model.domain.interactions.InteractionRepeatConfig
 import com.gaoyun.roar.model.domain.interactions.InteractionRepeatConfig.Companion.REPEATS_EVERY_PERIOD_ON_LAST
 import com.gaoyun.roar.model.domain.interactions.InteractionRepeatConfig.Companion.REPEATS_EVERY_PERIOD_ON_SAME
 import com.gaoyun.roar.model.domain.interactions.InteractionRepeatConfigEach
 import com.gaoyun.roar.model.domain.interactions.InteractionRepeatConfigEach.Companion.MONTH_STRING
 import com.gaoyun.roar.model.domain.interactions.toInteractionRepeatConfigEach
+import com.gaoyun.roar.ui.common.composables.ReadonlyTextField
+import com.gaoyun.roar.ui.common.composables.SurfaceCard
+import com.gaoyun.roar.ui.common.composables.TextFormField
 import com.gaoyun.roar.util.toLocalDate
 import kotlinx.datetime.*
 
@@ -179,13 +181,13 @@ internal fun RepeatConfigDialog(
                             imeAction = ImeAction.Done,
                         )
                         com.gaoyun.roar.ui.Spacer(size = 12.dp)
-                        DropdownMenu(
-                            valueList = repeatsEveryPeriodsList,
-                            listState = repeatsEveryPeriod,
-                            valueDisplayList = repeatsEveryPeriodsList.map { it.toInteractionRepeatConfigEach().toLocalizedStringId() },
-                            listDisplayState = repeatsEveryPeriod.value.toInteractionRepeatConfigEach().toLocalizedStringId(),
-                            modifier = Modifier.fillMaxWidth(1f)
-                        )
+//                        com.gaoyun.roar.ui.common.composables.DropdownMenu(
+//                            valueList = repeatsEveryPeriodsList,
+//                            listState = repeatsEveryPeriod,
+//                            valueDisplayList = repeatsEveryPeriodsList.map { it.toInteractionRepeatConfigEach().toLocalizedStringId() },
+//                            listDisplayState = repeatsEveryPeriod.value.toInteractionRepeatConfigEach().toLocalizedStringId(),
+//                            modifier = Modifier.fillMaxWidth(1f)
+//                        )
                     }
 
                     com.gaoyun.roar.ui.Spacer(size = 8.dp)
@@ -227,7 +229,7 @@ internal fun RepeatConfigDialog(
                                 }
                             }
                         }
-                        InteractionRepeatConfigEach.MONTH_STRING -> {
+                        MONTH_STRING -> {
                             val days = arrayListOf<String>().apply {
                                 add(stringResource(id = R.string.same_day))
                                 for (i in 1..31) {
@@ -235,7 +237,7 @@ internal fun RepeatConfigDialog(
                                 }
                                 add(stringResource(id = R.string.last_day))
                             }
-                            DropdownMenu(
+                            com.gaoyun.roar.ui.common.composables.DropdownMenu(
                                 valueList = days,
                                 listState = repeatsEveryPeriodOnMonthDay,
                                 valueDisplayList = null,
@@ -260,7 +262,7 @@ internal fun RepeatConfigDialog(
 
                     com.gaoyun.roar.ui.Spacer(size = 16.dp)
 
-                    DropdownMenu(
+                    com.gaoyun.roar.ui.common.composables.DropdownMenu(
                         valueList = endConditionStatesList,
                         listState = endConditionState,
                         valueDisplayList = null,
@@ -344,7 +346,7 @@ internal fun RepeatConfigDialog(
                         TextButton(onClick = {
                             val repeatsEveryPeriodOn = when (repeatsEveryPeriod.value) {
                                 InteractionRepeatConfigEach.WEEK_STRING -> repeatsEveryPeriodOnWeek.value.filter { it.value }.keys.map { it.isoDayNumber }.joinToString(",")
-                                InteractionRepeatConfigEach.MONTH_STRING ->
+                                MONTH_STRING ->
                                     if (repeatsEveryPeriodOnMonthDay.value.lowercase().contains(activity.getString(R.string.last_day).lowercase())) {
                                         REPEATS_EVERY_PERIOD_ON_LAST
                                     } else if (repeatsEveryPeriodOnMonthDay.value.lowercase().contains(activity.getString(R.string.same_day).lowercase())) {

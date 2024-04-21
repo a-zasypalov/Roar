@@ -23,10 +23,10 @@ import androidx.compose.ui.unit.dp
 import com.gaoyun.common.R
 import com.gaoyun.roar.ui.PrimaryElevatedButtonOnSurface
 import com.gaoyun.roar.ui.Spacer
-import com.gaoyun.common.composables.SurfaceCard
-import com.gaoyun.common.composables.TextFormField
-import com.gaoyun.common.composables.surfaceCardFormElevation
-import com.gaoyun.common.composables.surfaceCardFormShape
+import com.gaoyun.roar.ui.common.composables.SurfaceCard
+import com.gaoyun.roar.ui.common.composables.TextFormField
+import com.gaoyun.roar.ui.common.composables.surfaceCardFormElevation
+import com.gaoyun.roar.ui.common.composables.surfaceCardFormShape
 import com.gaoyun.roar.model.domain.User
 import com.gaoyun.roar.presentation.user_edit.EditUserScreenContract
 

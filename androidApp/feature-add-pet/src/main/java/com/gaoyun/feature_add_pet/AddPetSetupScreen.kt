@@ -30,7 +30,7 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.Lifecycle
 import com.gaoyun.common.OnLifecycleEvent
 import com.gaoyun.common.R
-import com.gaoyun.common.composables.BoxWithLoader
+import com.gaoyun.roar.ui.common.composables.BoxWithLoader
 import com.gaoyun.roar.ui.PrimaryElevatedButton
 import com.gaoyun.roar.ui.Spacer
 import com.gaoyun.roar.ui.SurfaceScaffold
