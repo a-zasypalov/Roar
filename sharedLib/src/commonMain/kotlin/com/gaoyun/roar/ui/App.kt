@@ -10,6 +10,7 @@ import com.gaoyun.roar.ui.features.add_pet.AddPetPetTypeDestination
 import com.gaoyun.roar.ui.features.add_pet.AddPetSetupDestination
 import com.gaoyun.roar.ui.features.add_pet.pet_data.AddPetDataDestination
 import com.gaoyun.roar.ui.features.home.HomeScreenDestination
+import com.gaoyun.roar.ui.features.interactions.InteractionScreenDestination
 import com.gaoyun.roar.ui.features.onboarding.OnboardingRootScreen
 import com.gaoyun.roar.ui.features.pet.PetScreenDestination
 import com.gaoyun.roar.ui.features.registration.UserRegistrationDestination
@@ -111,6 +112,13 @@ fun GlobalDestinationState(isOnboardingComplete: Boolean) {
             AddPetSetupDestination(
                 onNavigationCall = viewModel::navigate,
                 petId = it.path<String>(NavigationKeys.Arg.PET_ID_KEY) ?: ""
+            )
+        }
+
+        scene(NavigationKeys.Route.INTERACTION_DETAIL_ROUTE) {
+            InteractionScreenDestination(
+                onNavigationCall = viewModel::navigate,
+                interactionId = it.path<String>(NavigationKeys.Arg.INTERACTION_ID_KEY) ?: "",
             )
         }
     }

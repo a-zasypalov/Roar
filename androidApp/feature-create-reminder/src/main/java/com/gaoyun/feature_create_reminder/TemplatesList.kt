@@ -29,9 +29,7 @@ import com.gaoyun.roar.ui.common.composables.RoarIcon
 import com.gaoyun.roar.ui.Spacer
 import com.gaoyun.common.ext.getDrawableByName
 import com.gaoyun.common.ext.getName
-import com.gaoyun.common.ext.repeatConfigTextShort
-import com.gaoyun.roar.ui.common.toLocalizedStringId
-import com.gaoyun.common.icon
+import com.gaoyun.roar.ui.common.ext.repeatConfigTextShort
 import com.gaoyun.roar.model.domain.PetWithInteractions
 import com.gaoyun.roar.model.domain.interactions.InteractionTemplate
 import com.gaoyun.roar.presentation.add_reminder.choose_template.AddReminderScreenContract

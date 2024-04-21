@@ -10,7 +10,6 @@ import androidx.compose.foundation.relocation.BringIntoViewRequester
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.FormatListBulleted
 import androidx.compose.material.icons.automirrored.filled.Notes
 import androidx.compose.material.icons.filled.Repeat
 import androidx.compose.material.icons.filled.TaskAlt
@@ -33,7 +32,6 @@ import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
 import com.gaoyun.common.DateUtils.ddMmmYyyyDateFormatter
 import com.gaoyun.common.R
-import com.gaoyun.roar.ui.common.composables.DropdownMenu
 import com.gaoyun.roar.ui.common.composables.LabelledCheckBox
 import com.gaoyun.roar.ui.PrimaryElevatedButton
 import com.gaoyun.roar.ui.common.composables.ReadonlyTextField
@@ -42,9 +40,8 @@ import com.gaoyun.roar.ui.common.composables.TextFormField
 import com.gaoyun.common.dialog.DatePicker
 import com.gaoyun.common.dialog.TimePicker
 import com.gaoyun.common.ext.getName
-import com.gaoyun.common.ext.remindConfigTextFull
-import com.gaoyun.common.ext.repeatConfigTextFull
-import com.gaoyun.roar.ui.common.toLocalizedStringId
+import com.gaoyun.roar.ui.common.ext.remindConfigTextFull
+import com.gaoyun.roar.ui.common.ext.repeatConfigTextFull
 import com.gaoyun.roar.model.domain.interactions.InteractionGroup
 import com.gaoyun.roar.model.domain.interactions.InteractionRemindConfig
 import com.gaoyun.roar.model.domain.interactions.InteractionRepeatConfig

@@ -1,15 +1,13 @@
-package com.gaoyun.feature_interactions
+package com.gaoyun.roar.ui.features.interactions
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.Notes
 import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.Done
 import androidx.compose.material.icons.filled.MedicalServices
@@ -26,25 +24,19 @@ import androidx.compose.runtime.MutableState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.gaoyun.common.R
-import com.gaoyun.roar.ui.common.composables.AutoResizeText
-import com.gaoyun.roar.ui.common.composables.FontSizeRange
-import com.gaoyun.roar.ui.common.composables.RoarIcon
-import com.gaoyun.roar.ui.Spacer
-import com.gaoyun.roar.ui.common.composables.TextFormField
-import com.gaoyun.common.ext.remindConfigTextFull
-import com.gaoyun.common.ext.repeatConfigTextFull
-import com.gaoyun.common.ext.toLocalizedStringId
-import com.gaoyun.roar.ui.common.toLocalizedStringId
-import com.gaoyun.common.icon
 import com.gaoyun.roar.model.domain.Pet
 import com.gaoyun.roar.model.domain.interactions.InteractionGroup
 import com.gaoyun.roar.model.domain.interactions.InteractionWithReminders
+import com.gaoyun.roar.ui.Spacer
+import com.gaoyun.roar.ui.common.composables.AutoResizeText
+import com.gaoyun.roar.ui.common.composables.FontSizeRange
+import com.gaoyun.roar.ui.common.composables.TextFormField
+import com.gaoyun.roar.ui.common.ext.remindConfigTextFull
+import com.gaoyun.roar.ui.common.ext.repeatConfigTextFull
 import com.gaoyun.roar.ui.theme.RoarTheme
 
 @Composable
@@ -114,7 +106,7 @@ internal fun InteractionHeader(
                 }
                 TextWithIconBulletPoint(
                     icon = groupIcon,
-                    stringResource(id = interaction.group.toLocalizedStringId())
+                    text = "group", //stringResource(id = interaction.group.toLocalizedStringId())
                 )
 
                 TextWithIconBulletPoint(
@@ -126,18 +118,18 @@ internal fun InteractionHeader(
                     TextWithIconBulletPoint(icon = Icons.Default.Repeat, it.repeatConfigTextFull())
                 } ?: TextWithIconBulletPoint(
                     icon = Icons.Default.Repeat,
-                    stringResource(id = R.string.doesnt_repeat)
+                    text = "", //stringResource(id = R.string.doesnt_repeat)
                 )
 
                 if (interaction.isActive) {
                     TextWithIconBulletPoint(
                         icon = Icons.Default.Done,
-                        stringResource(id = R.string.active)
+                        text = "", //stringResource(id = R.string.active)
                     )
                 } else {
                     TextWithIconBulletPoint(
                         icon = Icons.Default.Close,
-                        stringResource(id = R.string.not_active)
+                        text = "", //stringResource(id = R.string.not_active)
                     )
                 }
             }
@@ -148,10 +140,10 @@ internal fun InteractionHeader(
         TextFormField(
             shape = MaterialTheme.shapes.large,
             leadingIcon = {
-                Icon(Icons.AutoMirrored.Filled.Notes, stringResource(id = R.string.cd_notes))
+//                Icon(Icons.AutoMirrored.Filled.Notes, stringResource(id = R.string.cd_notes))
             },
             text = notesState.value ?: "",
-            label = stringResource(id = R.string.notes),
+            label = "Notes", //stringResource(id = R.string.notes),
             imeAction = ImeAction.Default,
             onChange = { notesState.value = it }
         )

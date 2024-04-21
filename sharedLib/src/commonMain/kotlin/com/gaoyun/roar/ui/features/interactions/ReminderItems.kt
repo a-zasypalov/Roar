@@ -1,4 +1,4 @@
-package com.gaoyun.feature_interactions
+package com.gaoyun.roar.ui.features.interactions
 
 import androidx.compose.animation.animateContentSize
 import androidx.compose.foundation.layout.Column
@@ -8,17 +8,12 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import com.gaoyun.common.DateUtils
-import com.gaoyun.common.R
-import com.gaoyun.roar.ui.common.composables.LabelledCheckBox
 import com.gaoyun.roar.model.domain.Reminder
 import com.gaoyun.roar.presentation.interactions.InteractionScreenContract
+import com.gaoyun.roar.ui.common.composables.LabelledCheckBox
 import com.gaoyun.roar.ui.theme.RoarTheme
 import com.gaoyun.roar.util.SharedDateUtils
-import kotlinx.datetime.toJavaLocalDate
-import kotlinx.datetime.toJavaLocalDateTime
 
 @Composable
 fun ReminderItems(
@@ -111,15 +106,16 @@ private fun ReminderItem(
 ) {
     LabelledCheckBox(
         checked = reminder.isCompleted,
-        label = "${
-            if (reminder.dateTime.date.year != SharedDateUtils.currentYear()) {
-                reminder.dateTime.date.toJavaLocalDate().format(DateUtils.ddMmmmYyyyDateFormatter)
-            } else {
-                reminder.dateTime.date.toJavaLocalDate().format(DateUtils.ddMmmmDateFormatter)
-            }
-        } ${stringResource(id = R.string.at)} ${
-            reminder.dateTime.toJavaLocalDateTime().format(DateUtils.hhMmTimeFormatter)
-        }",
+        label = "",
+//        label = "${
+//            if (reminder.dateTime.date.year != SharedDateUtils.currentYear()) {
+//                reminder.dateTime.date.toJavaLocalDate().format(DateUtils.ddMmmmYyyyDateFormatter)
+//            } else {
+//                reminder.dateTime.date.toJavaLocalDate().format(DateUtils.ddMmmmDateFormatter)
+//            }
+//        } ${stringResource(id = R.string.at)} ${
+//            reminder.dateTime.toJavaLocalDateTime().format(DateUtils.hhMmTimeFormatter)
+//        }",
         modifier = Modifier.fillMaxWidth(),
         verticalPadding = 16.dp,
         horizontalPadding = 20.dp,

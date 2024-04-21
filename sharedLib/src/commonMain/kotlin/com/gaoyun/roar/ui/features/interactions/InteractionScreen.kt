@@ -1,4 +1,4 @@
-package com.gaoyun.feature_interactions
+package com.gaoyun.roar.ui.features.interactions
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -19,32 +19,28 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.Lifecycle
-import com.gaoyun.common.OnLifecycleEvent
-import com.gaoyun.common.R
-import com.gaoyun.roar.ui.common.composables.BoxWithLoader
-import com.gaoyun.roar.ui.common.composables.RoarExtendedFAB
-import com.gaoyun.roar.ui.Spacer
-import com.gaoyun.roar.ui.SurfaceScaffold
-import com.gaoyun.roar.ui.common.dialog.InteractionCompletionDialog
 import com.gaoyun.roar.presentation.BackNavigationEffect
 import com.gaoyun.roar.presentation.LAUNCH_LISTEN_FOR_EFFECTS
 import com.gaoyun.roar.presentation.NavigationSideEffect
 import com.gaoyun.roar.presentation.interactions.InteractionScreenContract
 import com.gaoyun.roar.presentation.interactions.InteractionScreenViewModel
+import com.gaoyun.roar.ui.Spacer
+import com.gaoyun.roar.ui.SurfaceScaffold
+import com.gaoyun.roar.ui.common.composables.BoxWithLoader
+import com.gaoyun.roar.ui.common.composables.RoarExtendedFAB
+import com.gaoyun.roar.ui.common.dialog.InteractionCompletionDialog
 import com.gaoyun.roar.util.SharedDateUtils
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.onEach
-import org.koin.androidx.compose.getViewModel
+import moe.tlaster.precompose.koin.koinViewModel
 
 @Composable
 fun InteractionScreenDestination(
     onNavigationCall: (NavigationSideEffect) -> Unit,
     interactionId: String
 ) {
-    val viewModel: InteractionScreenViewModel = getViewModel()
+    val viewModel = koinViewModel(vmClass = InteractionScreenViewModel::class)
     val state = viewModel.viewState.collectAsState().value
     val notesState = rememberSaveable { mutableStateOf(state.interaction?.notes) }
 
@@ -52,12 +48,11 @@ fun InteractionScreenDestination(
         notesState.value = state.interaction?.notes.orEmpty()
     }
 
-    OnLifecycleEvent { _, event ->
-        if (event == Lifecycle.Event.ON_CREATE) {
-            viewModel.buildScreenState(interactionId)
-        } else if (event == Lifecycle.Event.ON_PAUSE) {
-            viewModel.setEvent(InteractionScreenContract.Event.OnSaveNotes(notesState.value ?: ""))
-        }
+    LaunchedEffect(Unit) {
+        //TODO: onCreate
+        viewModel.buildScreenState(interactionId)
+        //TODO: onPause
+        //viewModel.setEvent(InteractionScreenContract.Event.OnSaveNotes(notesState.value ?: ""))
     }
 
     val showRemoveInteractionDialog = remember { mutableStateOf(false) }
@@ -98,8 +93,8 @@ fun InteractionScreenDestination(
                 if (interaction.isActive) {
                     RoarExtendedFAB(
                         icon = Icons.Filled.Edit,
-                        contentDescription = stringResource(id = R.string.edit),
-                        text = stringResource(id = R.string.edit),
+                        contentDescription = "", //stringResource(id = R.string.edit),
+                        text = "Edit", //stringResource(id = R.string.edit),
                         onClick = {
                             viewModel.setEvent(
                                 InteractionScreenContract.Event.OnEditClick(
@@ -120,8 +115,17 @@ fun InteractionScreenDestination(
                         showRemoveReminderFromHistoryDialog.value = false
                         reminderToRemoveId.value = null
                     },
-                    title = { Text(stringResource(id = R.string.are_you_sure)) },
-                    text = { Text(stringResource(id = R.string.delete_reminder_from_history_confirmation_text)) },
+                    title = {
+                        Text(
+                            "Are you sure?" //stringResource(id = R.string.are_you_sure)
+                        )
+                    },
+                    text = {
+                        Text(
+                            "Delete reminder from history"
+                            //stringResource(id = R.string.delete_reminder_from_history_confirmation_text)
+                        )
+                    },
                     confirmButton = {
                         TextButton(onClick = {
                             showRemoveReminderFromHistoryDialog.value = false
@@ -130,7 +134,10 @@ fun InteractionScreenDestination(
                             }
                             reminderToRemoveId.value = null
                         }) {
-                            Text(stringResource(id = R.string.yes))
+                            Text(
+                                "Yes"
+//                                stringResource(id = R.string.yes)
+                            )
                         }
                     },
                     dismissButton = {
@@ -138,7 +145,10 @@ fun InteractionScreenDestination(
                             showRemoveReminderFromHistoryDialog.value = false
                             reminderToRemoveId.value = null
                         }) {
-                            Text(stringResource(id = R.string.cancel))
+                            Text(
+                                "Cancel"
+//                                stringResource(id = R.string.cancel)
+                            )
                         }
                     }
                 )
@@ -147,8 +157,18 @@ fun InteractionScreenDestination(
             showRemoveInteractionDialog.value -> {
                 AlertDialog(
                     onDismissRequest = { showRemoveInteractionDialog.value = false },
-                    title = { Text(stringResource(id = R.string.are_you_sure)) },
-                    text = { Text(stringResource(id = R.string.delete_reminder_completely_confirmation_text)) },
+                    title = {
+                        Text(
+                            "Are you sure?"
+//                        stringResource(id = R.string.are_you_sure)
+                        )
+                    },
+                    text = {
+                        Text(
+                            "Delete reminder completely?"
+//                        stringResource(id = R.string.delete_reminder_completely_confirmation_text)
+                        )
+                    },
                     confirmButton = {
                         TextButton(onClick = {
                             showRemoveInteractionDialog.value = false
@@ -156,14 +176,20 @@ fun InteractionScreenDestination(
                                 viewModel.setEvent(InteractionScreenContract.Event.OnDeleteButtonClick(interactionId = interaction.id, confirmed = true))
                             }
                         }) {
-                            Text(stringResource(id = R.string.yes))
+                            Text(
+                                "Yes"
+//                                stringResource(id = R.string.yes)
+                            )
                         }
                     },
                     dismissButton = {
                         TextButton(onClick = {
                             showRemoveInteractionDialog.value = false
                         }) {
-                            Text(stringResource(id = R.string.cancel))
+                            Text(
+                                "Cancel"
+//                                stringResource(id = R.string.cancel)
+                            )
                         }
                     }
                 )
@@ -219,7 +245,7 @@ fun InteractionScreenDestination(
                         if (nextReminders.isNotEmpty()) {
                             item {
                                 Text(
-                                    text = stringResource(id = R.string.next),
+                                    text = "Next", //stringResource(id = R.string.next),
                                     style = MaterialTheme.typography.headlineSmall,
                                     color = MaterialTheme.colorScheme.onSurface,
                                     modifier = Modifier.padding(vertical = 16.dp, horizontal = 8.dp)
@@ -238,7 +264,7 @@ fun InteractionScreenDestination(
                         if (completeReminders.isNotEmpty()) {
                             item {
                                 Text(
-                                    text = stringResource(id = R.string.history),
+                                    text = "History", //stringResource(id = R.string.history),
                                     style = MaterialTheme.typography.headlineSmall,
                                     color = MaterialTheme.colorScheme.onSurface,
                                     modifier = Modifier.padding(vertical = 16.dp, horizontal = 8.dp)
@@ -270,7 +296,7 @@ fun InteractionScreenDestination(
                                     )
                                 }) {
                                     Text(
-                                        text = if (interaction.isActive) stringResource(id = R.string.deactivate) else stringResource(id = R.string.reactivate),
+                                        text = "Activate/Deactivate", //if (interaction.isActive) stringResource(id = R.string.deactivate) else stringResource(id = R.string.reactivate),
                                         color = MaterialTheme.colorScheme.primary,
                                         style = MaterialTheme.typography.titleMedium,
                                         modifier = Modifier.padding(horizontal = 32.dp, vertical = 8.dp)
@@ -281,7 +307,7 @@ fun InteractionScreenDestination(
 
                                 TextButton(onClick = { viewModel.setEvent(InteractionScreenContract.Event.OnDeleteButtonClick(interactionId = interaction.id)) }) {
                                     Text(
-                                        text = stringResource(id = R.string.delete_interaction),
+                                        text = "Delete interaction", //stringResource(id = R.string.delete_interaction),
                                         color = MaterialTheme.colorScheme.error,
                                         style = MaterialTheme.typography.titleMedium,
                                         modifier = Modifier.padding(horizontal = 32.dp, vertical = 8.dp)

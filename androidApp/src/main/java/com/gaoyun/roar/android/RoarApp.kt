@@ -68,8 +68,6 @@ val appModule = module {
     viewModel { UserScreenViewModel(get(), get(), get(), get(), get(), get(), get()) }
     viewModel { EditUserScreenViewModel(get(), get()) }
 
-    viewModel { InteractionScreenViewModel(get(), get(), get(), get(), get(), get(), get()) }
-
     viewModel { AddReminderScreenViewModel(get(), get(), get()) }
     viewModel { SetupReminderScreenViewModel(get(), get(), get(), get(), get(), get()) }
     viewModel { AddReminderCompleteScreenViewModel() }

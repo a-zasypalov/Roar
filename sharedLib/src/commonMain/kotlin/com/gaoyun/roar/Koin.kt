@@ -41,6 +41,7 @@ import com.gaoyun.roar.presentation.add_pet.data.AddPetDataScreenViewModel
 import com.gaoyun.roar.presentation.add_pet.setup.AddPetSetupScreenViewModel
 import com.gaoyun.roar.presentation.add_pet.type.AddPetPetTypeScreenViewModel
 import com.gaoyun.roar.presentation.home_screen.HomeScreenViewModel
+import com.gaoyun.roar.presentation.interactions.InteractionScreenViewModel
 import com.gaoyun.roar.presentation.onboarding.OnboardingViewModel
 import com.gaoyun.roar.presentation.pet_screen.PetScreenViewModel
 import com.gaoyun.roar.presentation.user_register.RegisterUserViewModel
@@ -94,6 +95,7 @@ val useCaseModule = module {
     single { AddPetAvatarScreenViewModel(get()) }
     single { AddPetSetupScreenViewModel(get()) }
     single { AddPetDataScreenViewModel(get(), get(), get(), get()) }
+    single { InteractionScreenViewModel(get(), get(), get(), get(), get(), get(), get()) }
 
     single { RegisterUserUseCase(get(), get()) }
     single { GetCurrentUserUseCase(get(), get()) }
