@@ -17,8 +17,13 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import com.gaoyun.roar.model.domain.PetWithInteractions
-import com.gaoyun.roar.ui.Spacer
+import com.gaoyun.roar.ui.common.composables.Spacer
+import org.jetbrains.compose.resources.ExperimentalResourceApi
+import org.jetbrains.compose.resources.stringResource
+import roar.sharedlib.generated.resources.Res
+import roar.sharedlib.generated.resources.for_who
 
+@OptIn(ExperimentalResourceApi::class)
 @Composable
 fun InteractionPetChooser(pets: List<PetWithInteractions>, onPetChosen: (String) -> Unit, onDismiss: () -> Unit) {
     Dialog(onDismissRequest = onDismiss) {
@@ -31,7 +36,7 @@ fun InteractionPetChooser(pets: List<PetWithInteractions>, onPetChosen: (String)
                     Spacer(8.dp)
 
                     Text(
-                        text = "For who?", //stringResource(id = R.string.for_who),
+                        text = stringResource(resource = Res.string.for_who),
                         style = MaterialTheme.typography.displaySmall,
                         color = MaterialTheme.colorScheme.onSurface,
                         modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp),

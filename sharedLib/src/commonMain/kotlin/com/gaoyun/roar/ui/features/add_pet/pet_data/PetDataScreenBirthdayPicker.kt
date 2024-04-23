@@ -18,7 +18,12 @@ import androidx.compose.ui.unit.dp
 import com.gaoyun.roar.ui.common.composables.ReadonlyTextField
 import com.gaoyun.roar.util.toLocalDate
 import kotlinx.datetime.Instant
+import org.jetbrains.compose.resources.ExperimentalResourceApi
+import org.jetbrains.compose.resources.stringResource
+import roar.sharedlib.generated.resources.Res
+import roar.sharedlib.generated.resources.birthday
 
+@OptIn(ExperimentalResourceApi::class)
 @Composable
 fun PetDataScreenBirthdayPicker(
     petBirthdayState: MutableState<Long?>
@@ -38,12 +43,12 @@ fun PetDataScreenBirthdayPicker(
         leadingIcon = {
             Icon(
                 Icons.Filled.Cake,
-                "Birthday", //stringResource(id = R.string.birthday),
+                stringResource(resource = Res.string.birthday),
                 tint = MaterialTheme.colorScheme.onBackground
             )
         },
         label = {
-            Text(text = "Birthday") //stringResource(id = R.string.birthday))
+            Text(text = stringResource(resource = Res.string.birthday))
         },
         modifier = Modifier.padding(horizontal = 24.dp),
         onClick = {

@@ -14,13 +14,18 @@ import com.gaoyun.roar.presentation.LAUNCH_LISTEN_FOR_EFFECTS
 import com.gaoyun.roar.presentation.NavigationSideEffect
 import com.gaoyun.roar.presentation.add_reminder.complete.AddReminderCompleteScreenContract
 import com.gaoyun.roar.presentation.add_reminder.complete.AddReminderCompleteScreenViewModel
-import com.gaoyun.roar.ui.PrimaryElevatedButton
-import com.gaoyun.roar.ui.Spacer
-import com.gaoyun.roar.ui.SurfaceScaffold
+import com.gaoyun.roar.ui.common.composables.PrimaryElevatedButton
+import com.gaoyun.roar.ui.common.composables.Spacer
+import com.gaoyun.roar.ui.common.composables.SurfaceScaffold
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.onEach
 import moe.tlaster.precompose.koin.koinViewModel
 import moe.tlaster.precompose.navigation.BackHandler
+import org.jetbrains.compose.resources.ExperimentalResourceApi
+import org.jetbrains.compose.resources.stringResource
+import roar.sharedlib.generated.resources.Res
+import roar.sharedlib.generated.resources.continue_label
+import roar.sharedlib.generated.resources.reminder_ready
 
 @Composable
 fun AddReminderCompleteDestination(
@@ -45,6 +50,7 @@ fun AddReminderCompleteDestination(
 
 }
 
+@OptIn(ExperimentalResourceApi::class)
 @Composable
 private fun ReminderAddingComplete(
     petAvatar: String,
@@ -65,14 +71,14 @@ private fun ReminderAddingComplete(
         Spacer(16.dp)
 
         Text(
-            "Reminder ready", //stringResource(id = R.string.reminder_ready),
+            stringResource(resource = Res.string.reminder_ready),
             style = MaterialTheme.typography.displayMedium
         )
 
         Spacer(16.dp)
 
         PrimaryElevatedButton(
-            text = "Continue", //stringResource(id = R.string.continue_label),
+            text = stringResource(resource = Res.string.continue_label),
             onClick = onContinueButtonClicked
         )
     }

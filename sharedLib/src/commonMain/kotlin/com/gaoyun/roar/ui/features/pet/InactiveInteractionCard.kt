@@ -15,8 +15,13 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.gaoyun.roar.model.domain.interactions.InteractionWithReminders
-import com.gaoyun.roar.ui.Spacer
+import com.gaoyun.roar.ui.common.composables.Spacer
+import org.jetbrains.compose.resources.ExperimentalResourceApi
+import org.jetbrains.compose.resources.stringResource
+import roar.sharedlib.generated.resources.Res
+import roar.sharedlib.generated.resources.n_occurrences
 
+@OptIn(ExperimentalResourceApi::class)
 @Composable
 fun InactiveInteractionCard(
     interaction: InteractionWithReminders,
@@ -63,7 +68,7 @@ fun InactiveInteractionCard(
                 )
 
                 Text(
-                    "N occurences", //stringResource(id = R.string.n_occurrences, interaction.reminders.size, lastReminderDate),
+                    stringResource(resource = Res.string.n_occurrences, interaction.reminders.size, lastReminderDate),
                     style = MaterialTheme.typography.bodyMedium,
                     color = MaterialTheme.colorScheme.onSurface,
                 )

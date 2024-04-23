@@ -29,12 +29,26 @@ import com.gaoyun.roar.presentation.LAUNCH_LISTEN_FOR_EFFECTS
 import com.gaoyun.roar.presentation.NavigationSideEffect
 import com.gaoyun.roar.presentation.about_screen.AboutScreenContract
 import com.gaoyun.roar.presentation.about_screen.AboutScreenViewModel
-import com.gaoyun.roar.ui.Spacer
-import com.gaoyun.roar.ui.SurfaceScaffold
+import com.gaoyun.roar.ui.common.composables.Spacer
+import com.gaoyun.roar.ui.common.composables.SurfaceScaffold
 import com.gaoyun.roar.ui.theme.RoarTheme
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.onEach
 import moe.tlaster.precompose.koin.koinViewModel
+import org.jetbrains.compose.resources.ExperimentalResourceApi
+import org.jetbrains.compose.resources.stringResource
+import roar.sharedlib.generated.resources.Res
+import roar.sharedlib.generated.resources.about_app_description
+import roar.sharedlib.generated.resources.about_app_title
+import roar.sharedlib.generated.resources.app_name
+import roar.sharedlib.generated.resources.privacy_policy
+import roar.sharedlib.generated.resources.terms_and_conditions_button
+import roar.sharedlib.generated.resources.url_email
+import roar.sharedlib.generated.resources.url_privacy_policy
+import roar.sharedlib.generated.resources.url_telegram
+import roar.sharedlib.generated.resources.url_terms_and_conditions
+import roar.sharedlib.generated.resources.url_twitter
+import roar.sharedlib.generated.resources.url_web
 
 @Composable
 fun AboutScreenDestination(
@@ -57,13 +71,14 @@ fun AboutScreenDestination(
     }
 }
 
+@OptIn(ExperimentalResourceApi::class)
 @Composable
 fun AboutScreenContent() {
     val scrollState = rememberScrollState()
     val uriHandler = LocalUriHandler.current
 
-    val termsAndConditionsUrl = "url" //stringResource(id = R.string.url_terms_and_conditions)
-    val privacyPolicyUrl = "url" //stringResource(id = R.string.url_privacy_policy)
+    val termsAndConditionsUrl = stringResource(resource = Res.string.url_terms_and_conditions)
+    val privacyPolicyUrl = stringResource(resource = Res.string.url_privacy_policy)
 
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -77,7 +92,7 @@ fun AboutScreenContent() {
             )
     ) {
         Text(
-            text = "About Roar", //stringResource(R.string.about_app_title),
+            text = stringResource(Res.string.about_app_title),
             style = MaterialTheme.typography.displayMedium,
             color = MaterialTheme.colorScheme.onSurface,
             overflow = TextOverflow.Ellipsis,
@@ -103,7 +118,7 @@ fun AboutScreenContent() {
         Spacer(size = 32.dp)
 
         Text(
-            text = "About app description", //stringResource(id = R.string.about_app_description),
+            text = stringResource(resource = Res.string.about_app_description),
             style = MaterialTheme.typography.titleMedium
         )
 
@@ -118,7 +133,7 @@ fun AboutScreenContent() {
             modifier = Modifier.align(Alignment.CenterHorizontally)
         ) {
             Text(
-                text = "Terms and conditions", //stringResource(id = R.string.terms_and_conditions_button),
+                text = stringResource(resource = Res.string.terms_and_conditions_button),
                 style = MaterialTheme.typography.titleMedium,
                 textAlign = TextAlign.Center,
                 modifier = Modifier.padding(horizontal = 32.dp)
@@ -130,7 +145,7 @@ fun AboutScreenContent() {
             modifier = Modifier.align(Alignment.CenterHorizontally)
         ) {
             Text(
-                text = "Privacy policy", //stringResource(id = R.string.privacy_policy),
+                text = stringResource(resource = Res.string.privacy_policy),
                 style = MaterialTheme.typography.titleMedium,
                 textAlign = TextAlign.Center,
                 modifier = Modifier.padding(horizontal = 32.dp),
@@ -142,16 +157,17 @@ fun AboutScreenContent() {
     }
 }
 
+@OptIn(ExperimentalResourceApi::class)
 @Composable
 private fun LinksBlock() {
     val uriHandler = LocalUriHandler.current
 
-    val telegramUrl = "url" //stringResource(id = R.string.url_telegram)
-    val twitterUrl = "url" //stringResource(id = R.string.url_twitter)
-    val webUrl = "url" //stringResource(id = R.string.url_web)
+    val telegramUrl = stringResource(resource = Res.string.url_telegram)
+    val twitterUrl = stringResource(resource = Res.string.url_twitter)
+    val webUrl = stringResource(resource = Res.string.url_web)
 
-    val email = "url" //stringResource(id = R.string.url_email)
-    val subject = "url" //stringResource(id = R.string.app_name)
+    val email = stringResource(resource = Res.string.url_email)
+    val subject = stringResource(resource = Res.string.app_name)
 
     Row {
 //        LinkItem(

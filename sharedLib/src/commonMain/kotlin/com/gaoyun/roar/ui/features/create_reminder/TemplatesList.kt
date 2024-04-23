@@ -22,11 +22,21 @@ import androidx.compose.ui.unit.dp
 import com.gaoyun.roar.model.domain.PetWithInteractions
 import com.gaoyun.roar.model.domain.interactions.InteractionTemplate
 import com.gaoyun.roar.presentation.add_reminder.choose_template.AddReminderScreenContract
-import com.gaoyun.roar.ui.Spacer
 import com.gaoyun.roar.ui.common.composables.RoarIcon
+import com.gaoyun.roar.ui.common.composables.Spacer
 import com.gaoyun.roar.ui.common.ext.repeatConfigTextShort
+import com.gaoyun.roar.ui.common.ext.toLocalizedStringId
 import com.gaoyun.roar.ui.theme.RoarTheme
+import org.jetbrains.compose.resources.ExperimentalResourceApi
+import org.jetbrains.compose.resources.stringResource
+import roar.sharedlib.generated.resources.Res
+import roar.sharedlib.generated.resources.cd_reminder
+import roar.sharedlib.generated.resources.custom
+import roar.sharedlib.generated.resources.new_custom_reminder
+import roar.sharedlib.generated.resources.reminder
+import roar.sharedlib.generated.resources.templates
 
+@OptIn(ExperimentalResourceApi::class)
 @Composable
 fun TemplatesList(
     pet: PetWithInteractions,
@@ -51,7 +61,7 @@ fun TemplatesList(
                 Spacer(size = 10.dp)
 
                 Text(
-                    text = "Templates", //stringResource(id = R.string.templates),
+                    text = stringResource(resource = Res.string.templates),
                     style = MaterialTheme.typography.displayMedium,
                 )
             }
@@ -60,7 +70,7 @@ fun TemplatesList(
         templates.groupBy { it.group }.forEach { (interactionGroup, templates) ->
             item {
                 Text(
-                    text = "", //stringResource(id = interactionGroup.toLocalizedStringId()),
+                    text = stringResource(resource = interactionGroup.toLocalizedStringId()),
                     style = MaterialTheme.typography.headlineLarge,
                     modifier = Modifier.padding(horizontal = 16.dp, vertical = 16.dp)
                 )
@@ -85,7 +95,7 @@ fun TemplatesList(
 
         item {
             Text(
-                text = "Custom", //stringResource(id = R.string.custom),
+                text = stringResource(resource = Res.string.custom),
                 style = MaterialTheme.typography.headlineLarge,
                 modifier = Modifier.padding(horizontal = 16.dp, vertical = 16.dp)
             )
@@ -114,7 +124,7 @@ fun TemplatesList(
                     Row(verticalAlignment = Alignment.CenterVertically) {
                         RoarIcon(
                             icon = "", //pet.petType.icon(),
-                            contentDescription = "Reminder", //stringResource(id = R.string.reminder),
+                            contentDescription = stringResource(resource = Res.string.reminder),
                             modifier = Modifier
                                 .padding(4.dp)
                                 .size(32.dp)
@@ -122,13 +132,13 @@ fun TemplatesList(
                         Spacer(size = 8.dp)
                         Column(modifier = Modifier.weight(1f)) {
                             Text(
-                                "Custom", //stringResource(id = R.string.custom),
+                                stringResource(resource = Res.string.custom),
                                 style = MaterialTheme.typography.titleLarge,
                                 color = MaterialTheme.colorScheme.onSurface
                             )
 
                             Text(
-                                "New custom reminder", //stringResource(id = R.string.new_custom_reminder),
+                                stringResource(resource = Res.string.new_custom_reminder),
                                 style = MaterialTheme.typography.bodyMedium,
                                 color = MaterialTheme.colorScheme.onSurface
                             )
@@ -144,6 +154,7 @@ fun TemplatesList(
     }
 }
 
+@OptIn(ExperimentalResourceApi::class)
 @Composable
 fun TemplateItem(
     template: InteractionTemplate,
@@ -163,20 +174,20 @@ fun TemplateItem(
                 .padding(horizontal = 14.dp, vertical = 8.dp),
         ) {
             Row(verticalAlignment = Alignment.CenterVertically) {
-//                RoarIcon(
-//                    icon = "", //template.type.icon(),
-//                    contentDescription = "reminder", //stringResource(id = R.string.cd_reminder),
-//                    modifier = Modifier
-//                        .padding(4.dp)
-//                        .size(32.dp)
-//                )
+                RoarIcon(
+                    icon = "", //template.type.icon(),
+                    contentDescription = stringResource(resource = Res.string.cd_reminder),
+                    modifier = Modifier
+                        .padding(4.dp)
+                        .size(32.dp)
+                )
                 Spacer(size = 8.dp)
                 Column(modifier = Modifier.weight(1f)) {
-                    Text(
-                        text = "Template name", //template.getName(LocalContext.current) ?: "",
-                        style = MaterialTheme.typography.titleLarge,
-                        color = MaterialTheme.colorScheme.onSurface
-                    )
+//                    Text( TODO: fix
+//                        text = template.getName(LocalContext.current) ?: "",
+//                        style = MaterialTheme.typography.titleLarge,
+//                        color = MaterialTheme.colorScheme.onSurface
+//                    )
 
                     Text(
                         template.repeatConfig.repeatConfigTextShort(),

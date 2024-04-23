@@ -15,13 +15,19 @@ import com.gaoyun.roar.presentation.LAUNCH_LISTEN_FOR_EFFECTS
 import com.gaoyun.roar.presentation.NavigationSideEffect
 import com.gaoyun.roar.presentation.user_screen.UserScreenContract
 import com.gaoyun.roar.presentation.user_screen.UserScreenViewModel
-import com.gaoyun.roar.ui.SurfaceScaffold
 import com.gaoyun.roar.ui.common.composables.RoarExtendedFAB
+import com.gaoyun.roar.ui.common.composables.SurfaceScaffold
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import moe.tlaster.precompose.koin.koinViewModel
+import org.jetbrains.compose.resources.ExperimentalResourceApi
+import org.jetbrains.compose.resources.stringResource
+import roar.sharedlib.generated.resources.Res
+import roar.sharedlib.generated.resources.edit
+import roar.sharedlib.generated.resources.edit_profile
 
+@OptIn(ExperimentalResourceApi::class)
 @Composable
 fun UserScreenDestination(
     onNavigationCall: (NavigationSideEffect) -> Unit,
@@ -82,8 +88,8 @@ fun UserScreenDestination(
         floatingActionButton = {
             RoarExtendedFAB(
                 icon = Icons.Filled.Edit,
-                contentDescription = "", //stringResource(id = R.string.edit_profile),
-                text = "Edit", //stringResource(id = R.string.edit),
+                contentDescription = stringResource(resource = Res.string.edit_profile),
+                text = stringResource(resource = Res.string.edit),
                 onClick = { viewModel.setEvent(UserScreenContract.Event.OnEditAccountClick) }
             )
         },

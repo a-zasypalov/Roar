@@ -32,8 +32,8 @@ import com.gaoyun.roar.model.domain.Gender
 import com.gaoyun.roar.model.domain.Pet
 import com.gaoyun.roar.model.domain.toGender
 import com.gaoyun.roar.presentation.add_pet.data.AddPetDataScreenContract
-import com.gaoyun.roar.ui.PrimaryElevatedButtonOnSurface
-import com.gaoyun.roar.ui.Spacer
+import com.gaoyun.roar.ui.common.composables.PrimaryElevatedButtonOnSurface
+import com.gaoyun.roar.ui.common.composables.Spacer
 import com.gaoyun.roar.ui.common.composables.DropdownMenu
 import com.gaoyun.roar.ui.common.composables.LabelledCheckBox
 import com.gaoyun.roar.ui.common.composables.SurfaceCard
@@ -46,7 +46,16 @@ import kotlinx.coroutines.launch
 import kotlinx.datetime.Clock
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.atStartOfDayIn
+import org.jetbrains.compose.resources.ExperimentalResourceApi
+import org.jetbrains.compose.resources.stringResource
+import roar.sharedlib.generated.resources.Res
+import roar.sharedlib.generated.resources.breed
+import roar.sharedlib.generated.resources.chip_number
+import roar.sharedlib.generated.resources.gender
+import roar.sharedlib.generated.resources.pet_is_sterilized
+import roar.sharedlib.generated.resources.pets_card
 
+@OptIn(ExperimentalResourceApi::class)
 @Composable
 internal fun AddPetForm(
     avatar: String,
@@ -86,7 +95,7 @@ internal fun AddPetForm(
             .fillMaxSize()
     ) {
         Text(
-            text = "Pet's card", //stringResource(id = R.string.pets_card),
+            text = stringResource(resource = Res.string.pets_card),
             style = MaterialTheme.typography.displayMedium,
             modifier = Modifier
                 .fillMaxSize()
@@ -114,7 +123,7 @@ internal fun AddPetForm(
                     listState = petBreedState,
                     valueDisplayList = null,
                     listDisplayState = null,
-                    label = "Breed", //stringResource(id = R.string.breed),
+                    label = stringResource(resource = Res.string.breed),
                     leadingIcon = Icons.AutoMirrored.Filled.List,
                     modifier = Modifier
                         .fillMaxWidth()
@@ -130,7 +139,7 @@ internal fun AddPetForm(
                         it.toGender().toLocalizedStringId()
                     },
                     listDisplayState = petGenderState.value.toGender().toLocalizedStringId(),
-                    label = "Gender", //stringResource(id = R.string.gender),
+                    label = stringResource(resource = Res.string.gender),
                     leadingIcon = if (petGenderState.value == Gender.MALE_STRING) Icons.Filled.Male else Icons.Filled.Female,
                     modifier = Modifier
                         .fillMaxWidth()
@@ -152,7 +161,7 @@ internal fun AddPetForm(
 //                            tint = MaterialTheme.colorScheme.onBackground
 //                        )
 //                    },
-                    label = "Chip num", //stringResource(id = R.string.chip_number),
+                    label = stringResource(resource = Res.string.chip_number),
                     onChange = {
                         chipNumberState = it
                     },
@@ -165,7 +174,7 @@ internal fun AddPetForm(
                 LabelledCheckBox(
                     checked = petIsSterilizedState,
                     onCheckedChange = { petIsSterilizedState = it },
-                    label = "Sterilized", //stringResource(id = R.string.pet_is_sterilized),
+                    label = stringResource(resource = Res.string.pet_is_sterilized),
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(horizontal = 8.dp)

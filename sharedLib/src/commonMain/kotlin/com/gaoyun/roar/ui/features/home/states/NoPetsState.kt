@@ -18,10 +18,17 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import com.gaoyun.roar.ui.PrimaryElevatedButton
-import com.gaoyun.roar.ui.Spacer
+import com.gaoyun.roar.ui.common.composables.PrimaryElevatedButton
+import com.gaoyun.roar.ui.common.composables.Spacer
 import com.gaoyun.roar.ui.theme.RoarTheme
+import org.jetbrains.compose.resources.ExperimentalResourceApi
+import org.jetbrains.compose.resources.stringResource
+import roar.sharedlib.generated.resources.Res
+import roar.sharedlib.generated.resources.add_first_pet
+import roar.sharedlib.generated.resources.import_backup_in_profile
+import roar.sharedlib.generated.resources.nice_to_meet_you
 
+@OptIn(ExperimentalResourceApi::class)
 @Composable
 fun NoPetsState(
     userName: String,
@@ -62,7 +69,7 @@ fun NoPetsState(
 
             Spacer(size = 24.dp)
             Text(
-                text = "Nice to meet you $userName", //stringResource(id = com.gaoyun.common.R.string.nice_to_meet_you, userName),
+                text = stringResource(resource = Res.string.nice_to_meet_you, userName),
                 style = MaterialTheme.typography.titleLarge,
                 textAlign = TextAlign.Center
             )
@@ -76,14 +83,14 @@ fun NoPetsState(
         ) {
 
             PrimaryElevatedButton(
-                text = "Add first pet", //stringResource(id = CommonR.string.add_first_pet),
+                text = stringResource(resource = Res.string.add_first_pet),
                 onClick = onAddPetButtonClick
             )
 
             Spacer(size = 16.dp)
 
             PrimaryElevatedButton(
-                text = "Import backup in profile", //stringResource(id = CommonR.string.import_backup_in_profile),
+                text = stringResource(resource = Res.string.import_backup_in_profile),
                 onClick = onUserDetailsClick
             )
 

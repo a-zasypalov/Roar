@@ -20,9 +20,15 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.gaoyun.roar.ui.Spacer
+import com.gaoyun.roar.ui.common.composables.Spacer
 import com.gaoyun.roar.ui.theme.RoarTheme
+import org.jetbrains.compose.resources.ExperimentalResourceApi
+import org.jetbrains.compose.resources.stringResource
+import roar.sharedlib.generated.resources.Res
+import roar.sharedlib.generated.resources.add_pet
+import roar.sharedlib.generated.resources.profile
 
+@OptIn(ExperimentalResourceApi::class)
 @Composable
 internal fun UserHomeHeader(
     onAddPetButtonClick: () -> Unit,
@@ -46,7 +52,7 @@ internal fun UserHomeHeader(
                 Icon(Icons.Filled.Pets, contentDescription = null)
                 Spacer(size = 6.dp)
                 Text(
-                    "Add Pet", //stringResource(id = R.string.add_pet),
+                    stringResource(resource = Res.string.add_pet),
                     style = MaterialTheme.typography.titleMedium
                 )
             }
@@ -74,7 +80,7 @@ internal fun UserHomeHeader(
                     Icon(Icons.Filled.Person, contentDescription = null)
                     Spacer(size = 6.dp)
                     Text(
-                        "Profile", ////stringResource(R.string.profile),
+                        stringResource(Res.string.profile),
                         style = MaterialTheme.typography.titleMedium
                     )
                 }

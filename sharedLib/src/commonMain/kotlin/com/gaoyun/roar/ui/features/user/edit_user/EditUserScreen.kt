@@ -16,12 +16,17 @@ import com.gaoyun.roar.presentation.LAUNCH_LISTEN_FOR_EFFECTS
 import com.gaoyun.roar.presentation.NavigationSideEffect
 import com.gaoyun.roar.presentation.user_edit.EditUserScreenContract
 import com.gaoyun.roar.presentation.user_edit.EditUserScreenViewModel
-import com.gaoyun.roar.ui.SurfaceScaffold
 import com.gaoyun.roar.ui.common.composables.BoxWithLoader
+import com.gaoyun.roar.ui.common.composables.SurfaceScaffold
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.onEach
 import moe.tlaster.precompose.koin.koinViewModel
+import org.jetbrains.compose.resources.ExperimentalResourceApi
+import org.jetbrains.compose.resources.stringResource
+import roar.sharedlib.generated.resources.Res
+import roar.sharedlib.generated.resources.edit_profile
 
+@OptIn(ExperimentalResourceApi::class)
 @Composable
 fun EditUserScreenDestination(
     onNavigationCall: (NavigationSideEffect) -> Unit,
@@ -46,7 +51,7 @@ fun EditUserScreenDestination(
                     contentAlignment = Alignment.BottomCenter, modifier = Modifier.fillMaxSize()
                 ) {
                     Text(
-                        text = "Edit profile", //stringResource(id = R.string.edit_profile),
+                        text = stringResource(resource = Res.string.edit_profile),
                         style = MaterialTheme.typography.displayMedium,
                         modifier = Modifier
                             .fillMaxSize()

@@ -20,13 +20,19 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
 import com.gaoyun.roar.model.domain.User
 import com.gaoyun.roar.presentation.user_edit.EditUserScreenContract
-import com.gaoyun.roar.ui.PrimaryElevatedButtonOnSurface
-import com.gaoyun.roar.ui.Spacer
+import com.gaoyun.roar.ui.common.composables.PrimaryElevatedButtonOnSurface
+import com.gaoyun.roar.ui.common.composables.Spacer
 import com.gaoyun.roar.ui.common.composables.SurfaceCard
 import com.gaoyun.roar.ui.common.composables.TextFormField
 import com.gaoyun.roar.ui.common.composables.surfaceCardFormElevation
 import com.gaoyun.roar.ui.common.composables.surfaceCardFormShape
+import org.jetbrains.compose.resources.ExperimentalResourceApi
+import org.jetbrains.compose.resources.stringResource
+import roar.sharedlib.generated.resources.Res
+import roar.sharedlib.generated.resources.name
+import roar.sharedlib.generated.resources.save
 
+@OptIn(ExperimentalResourceApi::class)
 @Composable
 internal fun EditUserForm(
     user: User, onSaveClick: (EditUserScreenContract.Event.OnSaveAccountClick) -> Unit
@@ -53,11 +59,11 @@ internal fun EditUserForm(
                 leadingIcon = {
                     Icon(
                         Icons.Filled.Person,
-                        contentDescription = "Name", //stringResource(id = R.string.name),
+                        contentDescription = stringResource(resource = Res.string.name),
                         tint = MaterialTheme.colorScheme.onBackground
                     )
                 },
-                label = "Name", //stringResource(id = R.string.name),
+                label = stringResource(resource = Res.string.name),
                 onChange = {
                     userName.value = it
                 },
@@ -67,7 +73,7 @@ internal fun EditUserForm(
             Spacer(size = 32.dp)
 
             PrimaryElevatedButtonOnSurface(
-                text ="Save", //stringResource(id = R.string.save),
+                text = stringResource(resource = Res.string.save),
                 onClick = { onSaveClick(EditUserScreenContract.Event.OnSaveAccountClick(user.copy(name = userName.value))) },
             )
 

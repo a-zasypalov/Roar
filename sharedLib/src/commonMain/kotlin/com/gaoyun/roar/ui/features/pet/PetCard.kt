@@ -17,7 +17,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.gaoyun.roar.model.domain.PetWithInteractions
-import com.gaoyun.roar.ui.Spacer
+import com.gaoyun.roar.ui.common.composables.Spacer
 import com.gaoyun.roar.ui.common.ageText
 import com.gaoyun.roar.ui.theme.RoarTheme
 import com.gaoyun.roar.util.SharedDateUtils

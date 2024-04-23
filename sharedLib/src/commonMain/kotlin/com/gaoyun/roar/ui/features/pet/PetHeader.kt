@@ -26,21 +26,32 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.gaoyun.roar.model.domain.Gender
 import com.gaoyun.roar.model.domain.Pet
-import com.gaoyun.roar.ui.Spacer
 import com.gaoyun.roar.ui.common.ageText
 import com.gaoyun.roar.ui.common.composables.AutoResizeText
 import com.gaoyun.roar.ui.common.composables.FontSizeRange
+import com.gaoyun.roar.ui.common.composables.Spacer
 import com.gaoyun.roar.ui.theme.RoarTheme
+import org.jetbrains.compose.resources.ExperimentalResourceApi
+import org.jetbrains.compose.resources.stringResource
+import roar.sharedlib.generated.resources.Res
+import roar.sharedlib.generated.resources.chip
+import roar.sharedlib.generated.resources.female
+import roar.sharedlib.generated.resources.male
+import roar.sharedlib.generated.resources.not_sterilized
+import roar.sharedlib.generated.resources.sterilized
 
+@OptIn(ExperimentalResourceApi::class)
 @Composable
 internal fun PetHeader(
     pet: Pet,
     modifier: Modifier = Modifier
 ) {
-//    val isSterilized =
-//        if (pet.isSterilized) stringResource(id = R.string.sterilized) else stringResource(id = R.string.not_sterilized)
+    val isSterilized = if (pet.isSterilized) {
+        stringResource(resource = Res.string.sterilized)
+    } else {
+        stringResource(resource = Res.string.not_sterilized)
+    }
 
-    val isSterilized = if (pet.isSterilized) "Sterilized" else "Not sterilized"
 
     Column(
         modifier = modifier.padding(horizontal = 8.dp),
@@ -103,12 +114,12 @@ internal fun PetHeader(
                 when (pet.gender) {
                     Gender.MALE -> TextWithIconBulletPoint(
                         icon = Icons.Filled.Male,
-                        "Male" //""${stringResource(id = R.string.male)}, $isSterilized"
+                        "${stringResource(resource = Res.string.male)}, $isSterilized"
                     )
 
                     Gender.FEMALE -> TextWithIconBulletPoint(
                         icon = Icons.Filled.Female,
-                        "Sterilized" //"${stringResource(id = R.string.female)}, $isSterilized"
+                        "${stringResource(resource = Res.string.female)}, $isSterilized"
                     )
                 }
 
@@ -117,7 +128,7 @@ internal fun PetHeader(
                 if (pet.chipNumber.isNotEmpty()) {
                     TextWithIconBulletPoint(
                         icon = Icons.Filled.Memory,
-                        "Chip num" //"${stringResource(id = R.string.chip)}: ${pet.chipNumber}"
+                        "${stringResource(resource = Res.string.chip)}: ${pet.chipNumber}"
                     )
                 }
             }

@@ -1,9 +1,12 @@
 package com.gaoyun.roar.ui
 
+import androidx.compose.animation.slideInHorizontally
+import androidx.compose.animation.slideOutHorizontally
 import androidx.compose.material3.ColorScheme
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.remember
 import com.gaoyun.roar.presentation.LAUNCH_LISTEN_FOR_EFFECTS
 import com.gaoyun.roar.ui.features.about.AboutScreenDestination
 import com.gaoyun.roar.ui.features.add_pet.AddPetAvatarDestination
@@ -23,13 +26,17 @@ import com.gaoyun.roar.ui.features.user.user_screen.UserScreenDestination
 import com.gaoyun.roar.ui.navigation.NavigationAction
 import com.gaoyun.roar.ui.navigation.NavigationKeys
 import com.gaoyun.roar.ui.theme.RoarTheme
+import com.gaoyun.roar.util.Platform
+import com.gaoyun.roar.util.PlatformNames
 import kotlinx.coroutines.flow.onEach
 import moe.tlaster.precompose.PreComposeApp
 import moe.tlaster.precompose.koin.koinViewModel
 import moe.tlaster.precompose.navigation.NavHost
 import moe.tlaster.precompose.navigation.PopUpTo
+import moe.tlaster.precompose.navigation.SwipeProperties
 import moe.tlaster.precompose.navigation.path
 import moe.tlaster.precompose.navigation.rememberNavigator
+import moe.tlaster.precompose.navigation.transition.NavTransition
 
 @Composable
 fun App(
@@ -76,7 +83,19 @@ fun GlobalDestinationState(isOnboardingComplete: Boolean) {
 
     NavHost(
         navigator = navigator,
-        initialRoute = initialRoute
+        initialRoute = initialRoute,
+        swipeProperties = if (Platform.name == PlatformNames.IOS) remember { SwipeProperties() } else null,
+        navTransition = if (Platform.name == PlatformNames.IOS) {
+            remember {
+                NavTransition(
+                    createTransition = slideInHorizontally { it },
+                    destroyTransition = slideOutHorizontally { it },
+                    pauseTransition = slideOutHorizontally { -it / 4 },
+                    resumeTransition = slideInHorizontally { -it / 4 },
+                    exitTargetContentZIndex = 1f
+                )
+            }
+        } else NavTransition()
     ) {
         scene(NavigationKeys.Route.ONBOARDING_ROUTE) {
             OnboardingRootScreen(navHostController = navigator)

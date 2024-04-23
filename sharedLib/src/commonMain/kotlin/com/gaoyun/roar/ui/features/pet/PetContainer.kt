@@ -15,11 +15,19 @@ import androidx.compose.ui.unit.dp
 import com.gaoyun.roar.model.domain.PetWithInteractions
 import com.gaoyun.roar.model.domain.interactions.InteractionWithReminders
 import com.gaoyun.roar.model.domain.withoutInteractions
-import com.gaoyun.roar.ui.Spacer
+import com.gaoyun.roar.ui.common.composables.Spacer
+import com.gaoyun.roar.ui.common.ext.toLocalizedStringId
 import com.gaoyun.roar.ui.theme.RoarTheme
 import kotlinx.datetime.LocalDateTime
+import org.jetbrains.compose.resources.ExperimentalResourceApi
+import org.jetbrains.compose.resources.stringResource
+import roar.sharedlib.generated.resources.Res
+import roar.sharedlib.generated.resources.delete_pet
+import roar.sharedlib.generated.resources.edit_pet
+import roar.sharedlib.generated.resources.inactive_reminders_title
+import roar.sharedlib.generated.resources.reminders
 
-@OptIn(ExperimentalFoundationApi::class)
+@OptIn(ExperimentalFoundationApi::class, ExperimentalResourceApi::class)
 @Composable
 fun PetContainer(
     pet: PetWithInteractions,
@@ -43,7 +51,7 @@ fun PetContainer(
 
             if (pet.interactions.isNotEmpty()) {
                 Text(
-                    text = "Reminders", //stringResource(id = R.string.reminders),
+                    text = stringResource(resource = Res.string.reminders),
                     style = MaterialTheme.typography.headlineLarge,
                     color = MaterialTheme.colorScheme.onSurface,
                     modifier = Modifier
@@ -56,7 +64,7 @@ fun PetContainer(
         pet.interactions.map {
             item {
                 Text(
-                    text = it.key.name, //stringResource(id = it.key.toLocalizedStringId()),
+                    text = stringResource(resource = it.key.toLocalizedStringId()),
                     style = MaterialTheme.typography.headlineSmall,
                     color = MaterialTheme.colorScheme.onSurface,
                     modifier = Modifier
@@ -89,7 +97,7 @@ fun PetContainer(
         if (inactiveInteractions.isNotEmpty()) {
             item {
                 Text(
-                    text = "Inactive reminders", //stringResource(id = R.string.inactive_reminders_title),
+                    text = stringResource(resource = Res.string.inactive_reminders_title),
                     style = MaterialTheme.typography.headlineLarge,
                     color = MaterialTheme.colorScheme.onSurface,
                     modifier = Modifier
@@ -121,7 +129,7 @@ fun PetContainer(
         item {
             TextButton(onClick = { onEditPetClick(pet.id) }) {
                 Text(
-                    text = "Edit pet", //stringResource(id = R.string.edit_pet),
+                    text = stringResource(resource = Res.string.edit_pet),
                     color = MaterialTheme.colorScheme.primary,
                     style = MaterialTheme.typography.titleMedium,
                     modifier = Modifier.padding(horizontal = 32.dp, vertical = 8.dp)
@@ -132,7 +140,7 @@ fun PetContainer(
 
             TextButton(onClick = { onDeletePetClick() }) {
                 Text(
-                    text = "Delete pet", //stringResource(id = R.string.delete_pet),
+                    text = stringResource(resource = Res.string.delete_pet),
                     color = MaterialTheme.colorScheme.error,
                     style = MaterialTheme.typography.titleMedium,
                     modifier = Modifier.padding(horizontal = 32.dp, vertical = 8.dp)

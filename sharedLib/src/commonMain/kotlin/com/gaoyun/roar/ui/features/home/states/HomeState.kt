@@ -22,16 +22,20 @@ import androidx.compose.ui.unit.sp
 import com.gaoyun.roar.model.domain.PetWithInteractions
 import com.gaoyun.roar.model.domain.interactions.InteractionWithReminders
 import com.gaoyun.roar.presentation.home_screen.HomeScreenContract
-import com.gaoyun.roar.ui.Spacer
+import com.gaoyun.roar.ui.common.composables.Spacer
 import com.gaoyun.roar.ui.common.composables.AutoResizeText
 import com.gaoyun.roar.ui.common.composables.FontSizeRange
 import com.gaoyun.roar.ui.features.home.view.UserHomeHeader
 import com.gaoyun.roar.ui.features.pet.PetCard
 import com.gaoyun.roar.ui.features.pet.PetContainer
 import kotlinx.datetime.LocalDateTime
+import org.jetbrains.compose.resources.ExperimentalResourceApi
+import org.jetbrains.compose.resources.stringResource
+import roar.sharedlib.generated.resources.Res
+import roar.sharedlib.generated.resources.your_pets
 
 
-@OptIn(ExperimentalFoundationApi::class)
+@OptIn(ExperimentalFoundationApi::class, ExperimentalResourceApi::class)
 @Composable
 fun HomeState(
     screenModeFull: Boolean,
@@ -122,7 +126,7 @@ fun HomeState(
             if (pets.size > 1) {
                 item {
                     AutoResizeText(
-                        text = "Your pets", //stringResource(id = R.string.your_pets),
+                        text = stringResource(resource = Res.string.your_pets),
                         maxLines = 1,
                         style = MaterialTheme.typography.displayMedium,
                         color = MaterialTheme.colorScheme.onSurface,

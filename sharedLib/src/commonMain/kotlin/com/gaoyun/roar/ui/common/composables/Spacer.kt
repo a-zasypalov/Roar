@@ -1,4 +1,4 @@
-package com.gaoyun.roar.ui
+package com.gaoyun.roar.ui.common.composables
 
 import androidx.compose.foundation.layout.size
 import androidx.compose.runtime.Composable

@@ -25,10 +25,17 @@ import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
 import com.gaoyun.roar.model.domain.interactions.InteractionRemindConfig
 import com.gaoyun.roar.model.domain.interactions.InteractionRemindConfigPeriod
-import com.gaoyun.roar.ui.Spacer
+import com.gaoyun.roar.ui.common.composables.Spacer
 import com.gaoyun.roar.ui.common.composables.SurfaceCard
 import com.gaoyun.roar.ui.common.composables.TextFormField
+import org.jetbrains.compose.resources.ExperimentalResourceApi
+import org.jetbrains.compose.resources.stringResource
+import roar.sharedlib.generated.resources.Res
+import roar.sharedlib.generated.resources.cancel
+import roar.sharedlib.generated.resources.done
+import roar.sharedlib.generated.resources.remind
 
+@OptIn(ExperimentalResourceApi::class)
 @Composable
 internal fun RemindConfigDialog(
     remindConfig: InteractionRemindConfig?,
@@ -61,7 +68,7 @@ internal fun RemindConfigDialog(
                         .verticalScroll(rememberScrollState())
                 ) {
                     Text(
-                        text = "Remind", //stringResource(id = R.string.remind),
+                        text = stringResource(resource = Res.string.remind),
                         style = MaterialTheme.typography.displaySmall,
                         modifier = Modifier.padding(horizontal = defaultHorizontalPadding)
                     )
@@ -103,7 +110,7 @@ internal fun RemindConfigDialog(
                             setShowDialog(false)
                         }) {
                             Text(
-                                text = "Cancel", //stringResource(id = R.string.cancel)
+                                text = stringResource(resource = Res.string.cancel)
                             )
                         }
 
@@ -116,7 +123,7 @@ internal fun RemindConfigDialog(
                             setShowDialog(false)
                         }) {
                             Text(
-                                text = "Done", //stringResource(id = R.string.done)
+                                text = stringResource(resource = Res.string.done)
                             )
                         }
                     }

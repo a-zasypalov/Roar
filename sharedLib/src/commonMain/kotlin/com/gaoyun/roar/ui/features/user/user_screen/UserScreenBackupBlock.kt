@@ -14,8 +14,14 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.gaoyun.roar.presentation.user_screen.UserScreenContract
-import com.gaoyun.roar.ui.Spacer
+import com.gaoyun.roar.ui.common.composables.Spacer
+import org.jetbrains.compose.resources.ExperimentalResourceApi
+import org.jetbrains.compose.resources.stringResource
+import roar.sharedlib.generated.resources.Res
+import roar.sharedlib.generated.resources.export_button
+import roar.sharedlib.generated.resources.import_button
 
+@OptIn(ExperimentalResourceApi::class)
 @Composable
 internal fun UserScreenBackupBlock(
     onCreateBackupClick: (UserScreenContract.Event.OnCreateBackupClick) -> Unit,
@@ -68,7 +74,7 @@ internal fun UserScreenBackupBlock(
             Icon(Icons.Filled.Save, contentDescription = null)
             Spacer(size = 6.dp)
             Text(
-                text = "Export", //stringResource(id = R.string.export_button),
+                text = stringResource(resource = Res.string.export_button),
                 style = MaterialTheme.typography.titleMedium
             )
         }
@@ -88,7 +94,7 @@ internal fun UserScreenBackupBlock(
             Icon(Icons.Filled.Download, contentDescription = null)
             Spacer(size = 6.dp)
             Text(
-                text = "Import", //stringResource(id = R.string.import_button),
+                text = stringResource(resource = Res.string.import_button),
                 style = MaterialTheme.typography.titleMedium
             )
         }

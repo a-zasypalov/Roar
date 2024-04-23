@@ -25,12 +25,16 @@ import com.gaoyun.roar.presentation.LAUNCH_LISTEN_FOR_EFFECTS
 import com.gaoyun.roar.presentation.NavigationSideEffect
 import com.gaoyun.roar.presentation.add_pet.type.AddPetPetTypeScreenContract
 import com.gaoyun.roar.presentation.add_pet.type.AddPetPetTypeScreenViewModel
-import com.gaoyun.roar.ui.SurfaceScaffold
+import com.gaoyun.roar.ui.common.composables.SurfaceScaffold
 import com.gaoyun.roar.ui.common.composables.RoarIcon
 import com.gaoyun.roar.ui.theme.RoarTheme
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.onEach
 import moe.tlaster.precompose.koin.koinViewModel
+import org.jetbrains.compose.resources.ExperimentalResourceApi
+import org.jetbrains.compose.resources.stringResource
+import roar.sharedlib.generated.resources.Res
+import roar.sharedlib.generated.resources.new_pet
 
 @Composable
 fun AddPetPetTypeDestination(onNavigationCall: (NavigationSideEffect) -> Unit) {
@@ -56,6 +60,7 @@ fun AddPetPetTypeDestination(onNavigationCall: (NavigationSideEffect) -> Unit) {
 
 }
 
+@OptIn(ExperimentalResourceApi::class)
 @Composable
 private fun ChoosePetType(
     petTypes: List<PetsConfig.PetTypeConfig>,
@@ -67,7 +72,7 @@ private fun ChoosePetType(
     ) {
 
         Text(
-            text = "New pet", //stringResource(id = R.string.new_pet),
+            text = stringResource(resource = Res.string.new_pet),
             style = MaterialTheme.typography.displayMedium,
             modifier = Modifier
                 .fillMaxWidth()

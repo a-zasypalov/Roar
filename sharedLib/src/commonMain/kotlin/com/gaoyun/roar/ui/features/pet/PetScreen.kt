@@ -22,7 +22,7 @@ import com.gaoyun.roar.presentation.LAUNCH_LISTEN_FOR_EFFECTS
 import com.gaoyun.roar.presentation.NavigationSideEffect
 import com.gaoyun.roar.presentation.pet_screen.PetScreenContract
 import com.gaoyun.roar.presentation.pet_screen.PetScreenViewModel
-import com.gaoyun.roar.ui.SurfaceScaffold
+import com.gaoyun.roar.ui.common.composables.SurfaceScaffold
 import com.gaoyun.roar.ui.common.composables.BoxWithLoader
 import com.gaoyun.roar.ui.common.composables.RoarExtendedFAB
 import com.gaoyun.roar.ui.common.dialog.InteractionCompletionDialog
@@ -31,7 +31,13 @@ import com.gaoyun.roar.util.SharedDateUtils
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.onEach
 import moe.tlaster.precompose.koin.koinViewModel
+import org.jetbrains.compose.resources.ExperimentalResourceApi
+import org.jetbrains.compose.resources.stringResource
+import roar.sharedlib.generated.resources.Res
+import roar.sharedlib.generated.resources.add_reminder
+import roar.sharedlib.generated.resources.reminder
 
+@OptIn(ExperimentalResourceApi::class)
 @Composable
 fun PetScreenDestination(
     onNavigationCall: (NavigationSideEffect) -> Unit,
@@ -74,8 +80,8 @@ fun PetScreenDestination(
         floatingActionButton = {
             RoarExtendedFAB(
                 icon = Icons.Filled.Add,
-                contentDescription = "Add reminder", //stringResource(id = R.string.add_reminder),
-                text = "Reminder", //stringResource(id = R.string.reminder),
+                contentDescription = stringResource(resource = Res.string.add_reminder),
+                text = stringResource(resource = Res.string.reminder),
                 extended = fabExtended,
                 onClick = {
                     viewModel.setEvent(

@@ -20,7 +20,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.gaoyun.roar.model.domain.interactions.InteractionWithReminders
-import com.gaoyun.roar.ui.Spacer
+import com.gaoyun.roar.ui.common.composables.Spacer
 import com.gaoyun.roar.ui.common.composables.LabelledCheckBox
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.delay
@@ -29,7 +29,12 @@ import kotlinx.datetime.Clock
 import kotlinx.datetime.LocalDateTime
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.toLocalDateTime
+import org.jetbrains.compose.resources.ExperimentalResourceApi
+import org.jetbrains.compose.resources.stringResource
+import roar.sharedlib.generated.resources.Res
+import roar.sharedlib.generated.resources.no_active_reminder
 
+@OptIn(ExperimentalResourceApi::class)
 @Composable
 fun InteractionCard(
     interaction: InteractionWithReminders,
@@ -141,7 +146,7 @@ fun InteractionCard(
                     }
             } else {
                 Text(
-                    text = "No active reminder", //stringResource(id = R.string.no_active_reminder),
+                    text = stringResource(resource = Res.string.no_active_reminder),
                     style = MaterialTheme.typography.bodyLarge,
                     modifier = Modifier.padding(horizontal = 16.dp, vertical = 12.dp)
                 )

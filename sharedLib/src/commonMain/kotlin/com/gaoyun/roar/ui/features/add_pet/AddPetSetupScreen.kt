@@ -25,14 +25,21 @@ import com.gaoyun.roar.presentation.LAUNCH_LISTEN_FOR_EFFECTS
 import com.gaoyun.roar.presentation.NavigationSideEffect
 import com.gaoyun.roar.presentation.add_pet.setup.AddPetSetupScreenContract
 import com.gaoyun.roar.presentation.add_pet.setup.AddPetSetupScreenViewModel
-import com.gaoyun.roar.ui.PrimaryElevatedButton
-import com.gaoyun.roar.ui.Spacer
-import com.gaoyun.roar.ui.SurfaceScaffold
+import com.gaoyun.roar.ui.common.composables.PrimaryElevatedButton
+import com.gaoyun.roar.ui.common.composables.Spacer
+import com.gaoyun.roar.ui.common.composables.SurfaceScaffold
 import com.gaoyun.roar.ui.common.composables.BoxWithLoader
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.onEach
 import moe.tlaster.precompose.koin.koinViewModel
 import moe.tlaster.precompose.navigation.BackHandler
+import org.jetbrains.compose.resources.ExperimentalResourceApi
+import org.jetbrains.compose.resources.stringResource
+import roar.sharedlib.generated.resources.Res
+import roar.sharedlib.generated.resources.new_pet_added
+import roar.sharedlib.generated.resources.new_pet_added_subtitle
+import roar.sharedlib.generated.resources.open_reminders_menu
+import roar.sharedlib.generated.resources.skip_label
 
 @Composable
 fun AddPetSetupDestination(
@@ -70,6 +77,7 @@ fun AddPetSetupDestination(
     }
 }
 
+@OptIn(ExperimentalResourceApi::class)
 @Composable
 private fun PetAddingComplete(
     pet: Pet,
@@ -93,7 +101,7 @@ private fun PetAddingComplete(
         Spacer(16.dp)
 
         Text(
-            "Pet added", //stringResource(id = R.string.new_pet_added),
+            stringResource(resource = Res.string.new_pet_added),
             style = MaterialTheme.typography.displayMedium,
             modifier = Modifier.padding(horizontal = 8.dp)
         )
@@ -101,7 +109,7 @@ private fun PetAddingComplete(
         Spacer(8.dp)
 
         Text(
-            text = "Pet added ${pet.name}", //stringResource(id = R.string.new_pet_added_subtitle, pet.name),
+            text = stringResource(resource = Res.string.new_pet_added_subtitle, pet.name),
             style = MaterialTheme.typography.headlineSmall.copy(fontWeight = FontWeight.Normal),
             textAlign = TextAlign.Center,
             modifier = Modifier.padding(horizontal = 8.dp)
@@ -120,7 +128,7 @@ private fun PetAddingComplete(
             modifier = Modifier.align(Alignment.TopEnd)
         ) {
             Text(
-                "Skip", //stringResource(id = R.string.skip_label),
+                stringResource(resource = Res.string.skip_label),
                 modifier = Modifier.padding(vertical = 8.dp),
                 fontSize = 16.sp,
             )
@@ -132,7 +140,7 @@ private fun PetAddingComplete(
             .navigationBarsPadding()
     ) {
         PrimaryElevatedButton(
-            text = "Open Reminders", //stringResource(id = R.string.open_reminders_menu),
+            text = stringResource(resource = Res.string.open_reminders_menu),
             onClick = {
                 onAddReminderButtonClicked(AddPetSetupScreenContract.Event.OpenTemplatesButtonClicked)
             },

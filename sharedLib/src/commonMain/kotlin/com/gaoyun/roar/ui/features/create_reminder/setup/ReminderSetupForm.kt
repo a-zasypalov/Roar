@@ -34,10 +34,10 @@ import com.gaoyun.roar.model.domain.interactions.InteractionTemplate
 import com.gaoyun.roar.model.domain.interactions.InteractionType
 import com.gaoyun.roar.model.domain.interactions.InteractionWithReminders
 import com.gaoyun.roar.model.domain.interactions.toInteractionGroup
-import com.gaoyun.roar.ui.PrimaryElevatedButton
-import com.gaoyun.roar.ui.Spacer
 import com.gaoyun.roar.ui.common.composables.LabelledCheckBox
+import com.gaoyun.roar.ui.common.composables.PrimaryElevatedButton
 import com.gaoyun.roar.ui.common.composables.ReadonlyTextField
+import com.gaoyun.roar.ui.common.composables.Spacer
 import com.gaoyun.roar.ui.common.composables.TextFormField
 import com.gaoyun.roar.ui.common.ext.remindConfigTextFull
 import com.gaoyun.roar.ui.common.ext.repeatConfigTextFull
@@ -46,9 +46,21 @@ import kotlinx.datetime.Clock
 import kotlinx.datetime.LocalTime
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.toInstant
+import org.jetbrains.compose.resources.ExperimentalResourceApi
+import org.jetbrains.compose.resources.stringResource
+import roar.sharedlib.generated.resources.Res
+import roar.sharedlib.generated.resources.create
+import roar.sharedlib.generated.resources.date_time
+import roar.sharedlib.generated.resources.enable_repeat
+import roar.sharedlib.generated.resources.name
+import roar.sharedlib.generated.resources.next_occurrence
+import roar.sharedlib.generated.resources.notes
+import roar.sharedlib.generated.resources.remind
+import roar.sharedlib.generated.resources.repeat
+import roar.sharedlib.generated.resources.save
 import kotlin.time.Duration.Companion.days
 
-@OptIn(ExperimentalFoundationApi::class)
+@OptIn(ExperimentalFoundationApi::class, ExperimentalResourceApi::class)
 @Composable
 internal fun ReminderSetupForm(
     interactionToEdit: InteractionWithReminders?,
@@ -145,11 +157,11 @@ internal fun ReminderSetupForm(
             leadingIcon = {
                 Icon(
                     Icons.Filled.TaskAlt,
-                    "name", //stringResource(id = R.string.name),
+                    stringResource(resource = Res.string.name),
                     tint = MaterialTheme.colorScheme.onBackground
                 )
             },
-            label = "Name", //stringResource(id = R.string.name),
+            label = stringResource(resource = Res.string.name),
             onChange = {
                 reminderName.value = it
             },
@@ -180,11 +192,9 @@ internal fun ReminderSetupForm(
             label = {
                 Text(
                     text = if (interactionToEdit != null) {
-                        "Next occurrence"
-//                        stringResource(id = R.string.next_occurrence)
+                        stringResource(resource = Res.string.next_occurrence)
                     } else {
-                        "Datetime"
-//                        stringResource(id = R.string.date_time)
+                        stringResource(resource = Res.string.date_time)
                     }
                 )
             },
@@ -238,13 +248,12 @@ internal fun ReminderSetupForm(
             leadingIcon = {
                 Icon(
                     Icons.Outlined.Notifications,
-                    "Remind",
-//                    stringResource(id = R.string.remind),
+                    stringResource(resource = Res.string.remind),
                     tint = MaterialTheme.colorScheme.onBackground
                 )
             },
             label = {
-                Text(text = "Remind" /*stringResource(id = R.string.remind)*/)
+                Text(text = stringResource(resource = Res.string.remind))
             },
             onClick = { showRemindConfigDialog.value = true },
             modifier = Modifier.padding(horizontal = 24.dp),
@@ -255,7 +264,7 @@ internal fun ReminderSetupForm(
         LabelledCheckBox(
             checked = repeatEnabledState.value,
             onCheckedChange = { repeatEnabledState.value = it },
-            label = "Enable repeat", //stringResource(id = R.string.enable_repeat),
+            label = stringResource(resource = Res.string.enable_repeat),
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(horizontal = 8.dp),
@@ -270,12 +279,12 @@ internal fun ReminderSetupForm(
                 leadingIcon = {
                     Icon(
                         Icons.Filled.Repeat,
-                        "Repeat", //stringResource(id = R.string.repeat),
+                        stringResource(resource = Res.string.repeat),
                         tint = MaterialTheme.colorScheme.onBackground
                     )
                 },
                 label = {
-                    Text(text = "Repeat" /*stringResource(id = R.string.repeat)*/)
+                    Text(text = stringResource(resource = Res.string.repeat))
                 },
                 onClick = { showRepeatConfigDialog.value = true },
                 modifier = Modifier.padding(horizontal = 24.dp),
@@ -287,9 +296,9 @@ internal fun ReminderSetupForm(
         TextFormField(
             text = notesState.value,
             onChange = { notesState.value = it },
-            label = "Notes", //stringResource(id = R.string.notes),
+            label = stringResource(resource = Res.string.notes),
             leadingIcon = {
-                Icon(Icons.AutoMirrored.Filled.Notes, "Notes" /*stringResource(id = R.string.notes)*/)
+                Icon(Icons.AutoMirrored.Filled.Notes, stringResource(resource = Res.string.notes))
             },
             imeAction = ImeAction.Done,
             modifier = Modifier
@@ -307,15 +316,13 @@ internal fun ReminderSetupForm(
 
         PrimaryElevatedButton(
             text = if (interactionToEdit != null) {
-                "Save"
-//                stringResource(id = R.string.save)
+                stringResource(resource = Res.string.save)
             } else {
-                "Create"
-//                stringResource(id = R.string.create)
+                stringResource(resource = Res.string.create)
             },
             onClick = {
                 if ((reminderName.value ?: "").isBlank()) {
-                    coroutineScope.launch { snackbarHost.showSnackbar("Name shouldn't be empty") }
+                    coroutineScope.launch { snackbarHost.showSnackbar("Name shouldn't be empty") } //TODO: Localize
                 } else {
                     onSaveButtonClick(
                         reminderName.value ?: "",

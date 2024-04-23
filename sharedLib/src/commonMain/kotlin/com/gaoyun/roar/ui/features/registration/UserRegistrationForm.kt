@@ -31,7 +31,17 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.gaoyun.roar.ui.theme.RoarTheme
 import kotlinx.datetime.Clock
+import org.jetbrains.compose.resources.ExperimentalResourceApi
+import org.jetbrains.compose.resources.stringResource
+import roar.sharedlib.generated.resources.Res
+import roar.sharedlib.generated.resources.app_name
+import roar.sharedlib.generated.resources.privacy_policy
+import roar.sharedlib.generated.resources.register_or_login
+import roar.sharedlib.generated.resources.terms_and_conditions_button
+import roar.sharedlib.generated.resources.url_privacy_policy
+import roar.sharedlib.generated.resources.url_terms_and_conditions
 
+@OptIn(ExperimentalResourceApi::class)
 @Composable
 fun UserRegistrationForm(
     onRegisterClick: () -> Unit,
@@ -39,8 +49,8 @@ fun UserRegistrationForm(
 ) {
     val uriHandler = LocalUriHandler.current
 
-    val termsAndConditionsUrl = "Terms and conditions" //stringResource(id = R.string.url_terms_and_conditions)
-    val privacyPolicyUrl = "Privacy Policy" //stringResource(id = R.string.url_privacy_policy)
+    val termsAndConditionsUrl = stringResource(resource = Res.string.url_terms_and_conditions)
+    val privacyPolicyUrl = stringResource(resource = Res.string.url_privacy_policy)
 
     val timestampForTesting = Clock.System.now().epochSeconds
 
@@ -69,9 +79,9 @@ fun UserRegistrationForm(
 //                )
             }
 
-            com.gaoyun.roar.ui.Spacer(size = 24.dp)
+            com.gaoyun.roar.ui.common.composables.Spacer(size = 24.dp)
             Text(
-                text = "Roar", //stringResource(id = R.string.app_name),
+                text = stringResource(resource = Res.string.app_name),
                 style = MaterialTheme.typography.titleLarge,
                 textAlign = TextAlign.Center,
                 modifier = Modifier.clickable {
@@ -113,7 +123,7 @@ fun UserRegistrationForm(
 //                        .padding(start = 8.dp, top = 4.dp, bottom = 4.dp)
 //                )
                 Text(
-                    "Register or Login", //stringResource(id = R.string.register_or_login),
+                    stringResource(resource = Res.string.register_or_login),
                     modifier = Modifier
                         .padding(vertical = 8.dp)
                         .weight(8f)
@@ -129,7 +139,7 @@ fun UserRegistrationForm(
                 modifier = Modifier.align(Alignment.CenterHorizontally)
             ) {
                 Text(
-                    text = "Terms and Conditions", //stringResource(id = R.string.terms_and_conditions_button),
+                    text = stringResource(resource = Res.string.terms_and_conditions_button),
                     style = MaterialTheme.typography.titleSmall,
                     modifier = Modifier.padding(horizontal = 32.dp)
                 )
@@ -140,13 +150,13 @@ fun UserRegistrationForm(
                 modifier = Modifier.align(Alignment.CenterHorizontally)
             ) {
                 Text(
-                    text = "Privacy policy", //stringResource(id = R.string.privacy_policy),
+                    text = stringResource(resource = Res.string.privacy_policy),
                     style = MaterialTheme.typography.titleSmall,
                     modifier = Modifier.padding(horizontal = 32.dp)
                 )
             }
 
-            com.gaoyun.roar.ui.Spacer(size = 8.dp)
+            com.gaoyun.roar.ui.common.composables.Spacer(size = 8.dp)
         }
     }
 }

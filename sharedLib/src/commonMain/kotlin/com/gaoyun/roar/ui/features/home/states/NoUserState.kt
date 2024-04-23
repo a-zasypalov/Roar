@@ -12,8 +12,15 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.gaoyun.roar.ui.PrimaryElevatedButton
+import com.gaoyun.roar.ui.common.composables.PrimaryElevatedButton
+import org.jetbrains.compose.resources.ExperimentalResourceApi
+import org.jetbrains.compose.resources.stringResource
+import roar.sharedlib.generated.resources.Res
+import roar.sharedlib.generated.resources.login
+import roar.sharedlib.generated.resources.register_or_login
+import roar.sharedlib.generated.resources.register_to_get_started
 
+@OptIn(ExperimentalResourceApi::class)
 @Composable
 fun NoUserState(
     onRegisterButtonClick: () -> Unit,
@@ -27,20 +34,20 @@ fun NoUserState(
         verticalArrangement = Arrangement.Center
     ) {
         Text(
-            text = "Register to get started", //stringResource(id = CommonR.string.register_to_get_started),
+            text = stringResource(resource = Res.string.register_to_get_started),
             color = MaterialTheme.colorScheme.onSurface
         )
 
         Spacer(modifier = Modifier.size(32.dp))
 
         PrimaryElevatedButton(
-            text = "Register or Login", //stringResource(id = CommonR.string.register_or_login),
+            text = stringResource(resource = Res.string.register_or_login),
             onClick = onRegisterButtonClick
         )
         Spacer(modifier = Modifier.size(16.dp))
 
         PrimaryElevatedButton(
-            text = "Login", //stringResource(id = CommonR.string.login),
+            text = stringResource(resource = Res.string.login),
             onClick = onLoginButtonClick
         )
     }

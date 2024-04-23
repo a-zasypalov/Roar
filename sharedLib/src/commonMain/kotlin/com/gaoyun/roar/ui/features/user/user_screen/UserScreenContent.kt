@@ -39,15 +39,30 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.gaoyun.roar.presentation.user_screen.UserScreenContract
-import com.gaoyun.roar.ui.Spacer
 import com.gaoyun.roar.ui.common.composables.AutoResizeText
 import com.gaoyun.roar.ui.common.composables.BoxWithLoader
 import com.gaoyun.roar.ui.common.composables.DropdownMenu
 import com.gaoyun.roar.ui.common.composables.FontSizeRange
 import com.gaoyun.roar.ui.common.composables.LabelledCheckBox
+import com.gaoyun.roar.ui.common.composables.Spacer
 import com.gaoyun.roar.ui.theme.primaryColor
 import com.gaoyun.roar.util.ColorTheme
+import org.jetbrains.compose.resources.ExperimentalResourceApi
+import org.jetbrains.compose.resources.stringResource
+import roar.sharedlib.generated.resources.Res
+import roar.sharedlib.generated.resources.about_app_button
+import roar.sharedlib.generated.resources.app_icon
+import roar.sharedlib.generated.resources.app_settings
+import roar.sharedlib.generated.resources.backup
+import roar.sharedlib.generated.resources.colors
+import roar.sharedlib.generated.resources.dynamic_color_switcher_title
+import roar.sharedlib.generated.resources.hey_user
+import roar.sharedlib.generated.resources.home_screen_mode_switcher_title
+import roar.sharedlib.generated.resources.logout
+import roar.sharedlib.generated.resources.number_of_reminders_main_screen
+import roar.sharedlib.generated.resources.user_screen_subtitle
 
+@OptIn(ExperimentalResourceApi::class)
 @Composable
 internal fun UserScreenContent(
     state: UserScreenContract.State,
@@ -85,7 +100,7 @@ internal fun UserScreenContent(
                     modifier = Modifier.fillMaxWidth()
                 ) {
                     AutoResizeText(
-                        text = "Hey, ${user.name}", //stringResource(id = R.string.hey_user, user.name),
+                        text = stringResource(resource = Res.string.hey_user, user.name),
                         maxLines = 2,
                         style = MaterialTheme.typography.displayMedium,
                         color = MaterialTheme.colorScheme.onSurface,
@@ -107,7 +122,7 @@ internal fun UserScreenContent(
                 Spacer(size = 8.dp)
 
                 Text(
-                    text = "User subtitle", //stringResource(id = R.string.user_screen_subtitle),
+                    text = stringResource(resource = Res.string.user_screen_subtitle),
                     style = MaterialTheme.typography.titleMedium,
                     color = MaterialTheme.colorScheme.onSurface
                 )
@@ -119,7 +134,7 @@ internal fun UserScreenContent(
                 Spacer(size = 16.dp)
 
                 Text(
-                    text = "Settings", //stringResource(id = R.string.app_settings),
+                    text = stringResource(resource = Res.string.app_settings),
                     style = MaterialTheme.typography.headlineLarge,
                     color = MaterialTheme.colorScheme.onSurface
                 )
@@ -136,7 +151,7 @@ internal fun UserScreenContent(
                                 )
                             )
                         },
-                        label = "Home screen mode", //stringResource(id = R.string.home_screen_mode_switcher_title),
+                        label = stringResource(resource = Res.string.home_screen_mode_switcher_title),
                         modifier = Modifier.fillMaxWidth(),
                         horizontalPadding = 8.dp
                     )
@@ -157,7 +172,7 @@ internal fun UserScreenContent(
                                 )
                             )
                         },
-                        label = "Number of reminders", //stringResource(id = R.string.number_of_reminders_main_screen),
+                        label = stringResource(resource = Res.string.number_of_reminders_main_screen),
                         leadingIcon = Icons.AutoMirrored.Filled.ListAlt,
                         modifier = Modifier.fillMaxWidth()
                     )
@@ -170,7 +185,7 @@ internal fun UserScreenContent(
                 Spacer(size = 16.dp)
 
                 Text(
-                    text = "Colors", //stringResource(id = R.string.colors),
+                    text = stringResource(resource = Res.string.colors),
                     style = MaterialTheme.typography.titleLarge.copy(fontWeight = FontWeight.Medium),
                     color = MaterialTheme.colorScheme.onSurface
                 )
@@ -188,7 +203,7 @@ internal fun UserScreenContent(
                             )
 //                            activity?.recreate()
                         },
-                        label = "Dynamic color", //stringResource(id = R.string.dynamic_color_switcher_title),
+                        label = stringResource(resource = Res.string.dynamic_color_switcher_title),
                         modifier = Modifier.fillMaxWidth(),
                         horizontalPadding = 8.dp
                     )
@@ -244,7 +259,7 @@ internal fun UserScreenContent(
                 Spacer(size = 16.dp)
 
                 Text(
-                    text = "App icon", //stringResource(id = R.string.app_icon),
+                    text = stringResource(resource = Res.string.app_icon),
                     style = MaterialTheme.typography.titleLarge.copy(fontWeight = FontWeight.Medium),
                     color = MaterialTheme.colorScheme.onSurface
                 )
@@ -315,7 +330,7 @@ internal fun UserScreenContent(
                 Spacer(size = 16.dp)
 
                 Text(
-                    text = "Backup", //stringResource(id = R.string.backup),
+                    text = stringResource(resource = Res.string.backup),
                     style = MaterialTheme.typography.titleLarge.copy(fontWeight = FontWeight.Medium),
                     color = MaterialTheme.colorScheme.onSurface
                 )
@@ -335,7 +350,7 @@ internal fun UserScreenContent(
                     modifier = Modifier.align(Alignment.CenterHorizontally)
                 ) {
                     Text(
-                        text = "About app", //stringResource(id = R.string.about_app_button),
+                        text = stringResource(resource = Res.string.about_app_button),
                         style = MaterialTheme.typography.titleMedium,
                         modifier = Modifier.padding(horizontal = 32.dp, vertical = 8.dp)
                     )
@@ -359,7 +374,7 @@ internal fun UserScreenContent(
                     modifier = Modifier.align(Alignment.CenterHorizontally)
                 ) {
                     Text(
-                        text = "Logout", //stringResource(id = R.string.logout),
+                        text = stringResource(resource = Res.string.logout),
                         color = MaterialTheme.colorScheme.error,
                         style = MaterialTheme.typography.titleMedium,
                         modifier = Modifier.padding(horizontal = 32.dp, vertical = 8.dp)

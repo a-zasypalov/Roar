@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.Notes
 import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.Done
 import androidx.compose.material.icons.filled.MedicalServices
@@ -31,14 +32,24 @@ import androidx.compose.ui.unit.sp
 import com.gaoyun.roar.model.domain.Pet
 import com.gaoyun.roar.model.domain.interactions.InteractionGroup
 import com.gaoyun.roar.model.domain.interactions.InteractionWithReminders
-import com.gaoyun.roar.ui.Spacer
 import com.gaoyun.roar.ui.common.composables.AutoResizeText
 import com.gaoyun.roar.ui.common.composables.FontSizeRange
+import com.gaoyun.roar.ui.common.composables.Spacer
 import com.gaoyun.roar.ui.common.composables.TextFormField
 import com.gaoyun.roar.ui.common.ext.remindConfigTextFull
 import com.gaoyun.roar.ui.common.ext.repeatConfigTextFull
+import com.gaoyun.roar.ui.common.ext.toLocalizedStringId
 import com.gaoyun.roar.ui.theme.RoarTheme
+import org.jetbrains.compose.resources.ExperimentalResourceApi
+import org.jetbrains.compose.resources.stringResource
+import roar.sharedlib.generated.resources.Res
+import roar.sharedlib.generated.resources.active
+import roar.sharedlib.generated.resources.cd_notes
+import roar.sharedlib.generated.resources.doesnt_repeat
+import roar.sharedlib.generated.resources.not_active
+import roar.sharedlib.generated.resources.notes
 
+@OptIn(ExperimentalResourceApi::class)
 @Composable
 internal fun InteractionHeader(
     pet: Pet,
@@ -106,7 +117,7 @@ internal fun InteractionHeader(
                 }
                 TextWithIconBulletPoint(
                     icon = groupIcon,
-                    text = "group", //stringResource(id = interaction.group.toLocalizedStringId())
+                    text = stringResource(resource = interaction.group.toLocalizedStringId())
                 )
 
                 TextWithIconBulletPoint(
@@ -118,18 +129,18 @@ internal fun InteractionHeader(
                     TextWithIconBulletPoint(icon = Icons.Default.Repeat, it.repeatConfigTextFull())
                 } ?: TextWithIconBulletPoint(
                     icon = Icons.Default.Repeat,
-                    text = "", //stringResource(id = R.string.doesnt_repeat)
+                    text = stringResource(resource = Res.string.doesnt_repeat)
                 )
 
                 if (interaction.isActive) {
                     TextWithIconBulletPoint(
                         icon = Icons.Default.Done,
-                        text = "", //stringResource(id = R.string.active)
+                        text = stringResource(resource = Res.string.active)
                     )
                 } else {
                     TextWithIconBulletPoint(
                         icon = Icons.Default.Close,
-                        text = "", //stringResource(id = R.string.not_active)
+                        text = stringResource(resource = Res.string.not_active)
                     )
                 }
             }
@@ -140,10 +151,10 @@ internal fun InteractionHeader(
         TextFormField(
             shape = MaterialTheme.shapes.large,
             leadingIcon = {
-//                Icon(Icons.AutoMirrored.Filled.Notes, stringResource(id = R.string.cd_notes))
+                Icon(Icons.AutoMirrored.Filled.Notes, stringResource(resource = Res.string.cd_notes))
             },
             text = notesState.value ?: "",
-            label = "Notes", //stringResource(id = R.string.notes),
+            label = stringResource(resource = Res.string.notes),
             imeAction = ImeAction.Default,
             onChange = { notesState.value = it }
         )

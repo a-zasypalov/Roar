@@ -98,7 +98,7 @@ val useCaseModule = module {
     single { AppViewModel() } //TODO: Refactor to ::AppViewModel
     single { OnboardingViewModel(get()) }
     single { RegisterUserViewModel(get(), get(), get()) }
-    single { HomeScreenViewModel(get(), get(), get(), get(), get(), get(), get(), get(), get()) }
+    single { HomeScreenViewModel(get(), get(), get(), get(), get(), get(), get(), get()) }
     single { PetScreenViewModel(get(), get(), get(), get(), get()) }
     single { AddPetPetTypeScreenViewModel() }
     single { AddPetAvatarScreenViewModel(get()) }

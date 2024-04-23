@@ -22,8 +22,8 @@ import com.gaoyun.roar.presentation.LAUNCH_LISTEN_FOR_EFFECTS
 import com.gaoyun.roar.presentation.NavigationSideEffect
 import com.gaoyun.roar.presentation.add_reminder.setup_reminder.SetupReminderScreenContract
 import com.gaoyun.roar.presentation.add_reminder.setup_reminder.SetupReminderScreenViewModel
-import com.gaoyun.roar.ui.Spacer
-import com.gaoyun.roar.ui.SurfaceScaffold
+import com.gaoyun.roar.ui.common.composables.Spacer
+import com.gaoyun.roar.ui.common.composables.SurfaceScaffold
 import com.gaoyun.roar.ui.common.composables.AutoResizeText
 import com.gaoyun.roar.ui.common.composables.BoxWithLoader
 import com.gaoyun.roar.ui.common.composables.FontSizeRange
@@ -33,6 +33,10 @@ import com.gaoyun.roar.ui.common.composables.surfaceCardFormShape
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.onEach
 import moe.tlaster.precompose.koin.koinViewModel
+import org.jetbrains.compose.resources.ExperimentalResourceApi
+import org.jetbrains.compose.resources.stringResource
+import roar.sharedlib.generated.resources.Res
+import roar.sharedlib.generated.resources.reminder
 
 @Composable
 fun SetupReminderDestination(
@@ -123,6 +127,7 @@ fun SetupReminderDestination(
     }
 }
 
+@OptIn(ExperimentalResourceApi::class)
 @Composable
 private fun ReminderSetupHeader(
     petAvatar: String,
@@ -142,7 +147,7 @@ private fun ReminderSetupHeader(
         Spacer(size = 10.dp)
 
         AutoResizeText(
-            text = "Reminder", //stringResource(id = CommonR.string.reminder),
+            text = stringResource(resource = Res.string.reminder),
             fontSizeRange = FontSizeRange(
                 min = 20.sp,
                 max = MaterialTheme.typography.displayMedium.fontSize,

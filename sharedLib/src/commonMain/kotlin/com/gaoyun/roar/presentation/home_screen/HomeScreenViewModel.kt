@@ -29,7 +29,6 @@ class HomeScreenViewModel(
     private val synchronisationApi: SynchronisationApi,
     private val registerUserUseCase: RegisterUserUseCase,
     private val interactionsListBuilder: InteractionsListBuilder,
-    private val syncApi: SynchronisationApi,
 ) : MultiplatformBaseViewModel<HomeScreenContract.Event, HomeScreenContract.State, HomeScreenContract.Effect>() {
 
     override fun setInitialState() = HomeScreenContract.State(null, emptyList(), listOf(), true)
@@ -70,7 +69,7 @@ class HomeScreenViewModel(
 
     private fun loginUser(id: String) = scope.launch {
         registerUserUseCase.login(id)
-        syncApi.retrieveBackup { scope.launch { getUser() } }
+        synchronisationApi.retrieveBackup { scope.launch { getUser() } }
     }
 
     private suspend fun getUser() {

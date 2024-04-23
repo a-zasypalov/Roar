@@ -31,11 +31,15 @@ import com.gaoyun.roar.presentation.LAUNCH_LISTEN_FOR_EFFECTS
 import com.gaoyun.roar.presentation.NavigationSideEffect
 import com.gaoyun.roar.presentation.add_pet.avatar.AddPetAvatarScreenContract
 import com.gaoyun.roar.presentation.add_pet.avatar.AddPetAvatarScreenViewModel
-import com.gaoyun.roar.ui.SurfaceScaffold
+import com.gaoyun.roar.ui.common.composables.SurfaceScaffold
 import com.gaoyun.roar.ui.theme.RoarTheme
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.onEach
 import moe.tlaster.precompose.koin.koinViewModel
+import org.jetbrains.compose.resources.ExperimentalResourceApi
+import org.jetbrains.compose.resources.stringResource
+import roar.sharedlib.generated.resources.Res
+import roar.sharedlib.generated.resources.choose_avatar
 
 @Composable
 fun AddPetAvatarDestination(
@@ -74,6 +78,7 @@ fun AddPetAvatarDestination(
     }
 }
 
+@OptIn(ExperimentalResourceApi::class)
 @Composable
 fun PetAvatarScreen(
     avatars: List<PetsConfig.PetAvatarConfig>,
@@ -91,7 +96,7 @@ fun PetAvatarScreen(
     ) {
         item(span = titleSpan) {
             Text(
-                text = "Choose avatar", //stringResource(id = CommonR.string.choose_avatar),
+                text = stringResource(resource = Res.string.choose_avatar),
                 style = MaterialTheme.typography.displayMedium,
                 modifier = Modifier.padding(start = 8.dp, top = 8.dp, bottom = 16.dp),
             )

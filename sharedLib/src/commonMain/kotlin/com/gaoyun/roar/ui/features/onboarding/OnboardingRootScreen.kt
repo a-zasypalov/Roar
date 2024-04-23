@@ -1,7 +1,6 @@
 package com.gaoyun.roar.ui.features.onboarding
 
 import androidx.compose.foundation.ExperimentalFoundationApi
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -24,12 +23,11 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.unit.dp
 import com.gaoyun.roar.presentation.onboarding.OnboardingViewModel
-import com.gaoyun.roar.ui.PrimaryElevatedButton
-import com.gaoyun.roar.ui.Spacer
-import com.gaoyun.roar.ui.SurfaceScaffold
+import com.gaoyun.roar.ui.common.composables.PrimaryElevatedButton
+import com.gaoyun.roar.ui.common.composables.Spacer
+import com.gaoyun.roar.ui.common.composables.SurfaceScaffold
 import com.gaoyun.roar.ui.navigation.NavigationKeys
 import com.gaoyun.roar.ui.theme.RoarTheme
 import kotlinx.coroutines.launch
@@ -38,9 +36,18 @@ import moe.tlaster.precompose.navigation.NavOptions
 import moe.tlaster.precompose.navigation.Navigator
 import moe.tlaster.precompose.navigation.PopUpTo
 import org.jetbrains.compose.resources.ExperimentalResourceApi
-import org.jetbrains.compose.resources.painterResource
+import org.jetbrains.compose.resources.stringResource
+import roar.sharedlib.generated.resources.Res
+import roar.sharedlib.generated.resources.app_name
+import roar.sharedlib.generated.resources.next_button
+import roar.sharedlib.generated.resources.onboarding_care_assistant
+import roar.sharedlib.generated.resources.onboarding_care_reminders
+import roar.sharedlib.generated.resources.onboarding_care_reminders_description
+import roar.sharedlib.generated.resources.onboarding_community_project
+import roar.sharedlib.generated.resources.onboarding_community_project_description
+import roar.sharedlib.generated.resources.start
 
-@OptIn(ExperimentalFoundationApi::class, ExperimentalMaterial3Api::class)
+@OptIn(ExperimentalFoundationApi::class, ExperimentalMaterial3Api::class, ExperimentalResourceApi::class)
 @Composable
 fun OnboardingRootScreen(
     navHostController: Navigator,
@@ -80,7 +87,7 @@ fun OnboardingRootScreen(
                 Spacer(size = 16.dp)
                 if (state.currentPage < 2) {
                     PrimaryElevatedButton(
-                        text = "Next", //stringResource(id = R.string.next_button),
+                        text = stringResource(resource = Res.string.next_button),
                         onClick = {
                             scope.launch {
                                 state.animateScrollToPage(state.currentPage + 1)
@@ -88,7 +95,7 @@ fun OnboardingRootScreen(
                         })
                 } else {
                     PrimaryElevatedButton(
-                        text = "Start", //stringResource(id = R.string.start),
+                        text = stringResource(resource = Res.string.start),
                         onClick = {
                             viewModel.completeOnboarding()
                             navHostController.navigate(
@@ -134,11 +141,11 @@ fun OnboardingHelloPage() {
         }
         Spacer(size = 24.dp)
         Text(
-            text = "Roar", //stringResource(id = R.string.app_name),
+            text = stringResource(resource = Res.string.app_name),
             style = MaterialTheme.typography.displayMedium
         )
         Text(
-            text = "Pet's care assistant", //stringResource(id = R.string.onboarding_care_assistant),
+            text = stringResource(resource = Res.string.onboarding_care_assistant),
             style = MaterialTheme.typography.titleLarge
         )
     }
@@ -169,12 +176,12 @@ fun OnboardingCarePage() {
         }
         Spacer(size = 24.dp)
         Text(
-            text = "Care reminders", //stringResource(id = R.string.onboarding_care_reminders),
+            text = stringResource(resource = Res.string.onboarding_care_reminders),
             style = MaterialTheme.typography.displaySmall
         )
         Spacer(size = 4.dp)
         Text(
-            text = "Sometimes pets aren't talkative about their needs", //stringResource(id = R.string.onboarding_care_reminders_description),
+            text = stringResource(resource = Res.string.onboarding_care_reminders_description),
             style = MaterialTheme.typography.titleMedium
         )
     }
@@ -205,12 +212,12 @@ fun OnboardingCommunityPage() {
         }
         Spacer(size = 24.dp)
         Text(
-            text = "Community", //stringResource(id = R.string.onboarding_community_project),
+            text = stringResource(resource = Res.string.onboarding_community_project),
             style = MaterialTheme.typography.displaySmall
         )
         Spacer(size = 4.dp)
         Text(
-            text = "Let's make life better for pets together!", //stringResource(id = R.string.onboarding_community_project_description),
+            text = stringResource(resource = Res.string.onboarding_community_project_description),
             style = MaterialTheme.typography.titleMedium
         )
     }
