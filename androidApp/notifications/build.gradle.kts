@@ -1,6 +1,6 @@
 plugins {
-    id("com.android.library")
-    id("org.jetbrains.kotlin.android")
+    alias(libs.plugins.android.library)
+    alias(libs.plugins.kotlin.android)
 }
 
 android {
@@ -31,5 +31,5 @@ android {
 }
 
 dependencies {
-    implementation(project(":androidApp:common"))
+    implementation(projects.androidApp.common)
 }

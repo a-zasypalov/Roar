@@ -1,4 +1,7 @@
+enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")
+
 rootProject.name = "Roar"
+
 include(":androidApp")
 include(":sharedLib")
 include(":androidApp:common")
@@ -15,17 +18,19 @@ include(":androidApp:feature-onboarding")
 pluginManagement {
     repositories {
         google()
-        gradlePluginPortal()
         mavenCentral()
         maven("https://maven.pkg.jetbrains.space/public/p/compose/dev")
-    }
-
-    plugins {
-        id("org.jetbrains.compose") version "1.4.0" apply false
+        maven("https://www.jetbrains.com/intellij-repository/releases")
     }
 }
 
 dependencyResolutionManagement {
+    repositoriesMode = RepositoriesMode.FAIL_ON_PROJECT_REPOS
+    versionCatalogs {
+        create("libs") {
+            from(files("libs.versions.toml"))
+        }
+    }
     repositories {
         google()
         mavenCentral()

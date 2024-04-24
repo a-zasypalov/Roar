@@ -1,9 +1,17 @@
 plugins {
-    kotlin("multiplatform")
-    id("com.android.library")
-    kotlin("plugin.serialization")
-    id("com.squareup.sqldelight")
-//    id("org.jetbrains.compose")
+    alias(libs.plugins.android.library)
+    alias(libs.plugins.kotlin.multiplatform)
+    alias(libs.plugins.kotlin.serialization)
+    alias(libs.plugins.sqldelight)
+}
+
+android {
+    namespace = "com.gaoyun.roar"
+    compileSdk = 34
+    defaultConfig {
+        minSdk = 26
+        targetSdk = 34
+    }
 }
 
 kotlin {
@@ -29,71 +37,46 @@ kotlin {
         linkSqlite = true
     }
 
-    val coroutinesVersion = "1.7.3"
-    val serializationVersion = "1.5.1"
-    val ktorVersion = "2.3.2"
-    val koinVersion = "3.1.6"
-    val lifecycleVersion = "2.6.1"
-
     sourceSets {
         val commonMain by getting {
             dependencies {
-                implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutinesVersion")
-                implementation("org.jetbrains.kotlinx:kotlinx-serialization-core:$serializationVersion")
-
-                implementation("io.ktor:ktor-client-core:$ktorVersion")
-                implementation("io.ktor:ktor-client-serialization:$ktorVersion")
-                implementation("io.ktor:ktor-client-logging:$ktorVersion")
-                implementation("io.ktor:ktor-client-cio:$ktorVersion")
-                implementation("io.ktor:ktor-client-content-negotiation:$ktorVersion")
-                implementation("io.ktor:ktor-serialization-kotlinx-json:$ktorVersion")
-
-                implementation("io.insert-koin:koin-core:$koinVersion")
-                implementation("org.jetbrains.kotlinx:kotlinx-datetime:0.4.0")
-                implementation("com.squareup.sqldelight:runtime:1.5.5")
-
-//                implementation(compose.runtime)
-//                implementation(compose.foundation)
-//                implementation(compose.material)
-//                @OptIn(org.jetbrains.compose.ExperimentalComposeLibrary::class)
-//                implementation(compose.components.resources)
+                implementation(libs.kotlin.coroutines.core)
+                implementation(libs.kotlin.serialization.core)
+                implementation(libs.kotlin.datetime)
+                implementation(libs.ktor.client.core)
+                implementation(libs.ktor.serialization)
+                implementation(libs.ktor.serialization.json)
+                implementation(libs.ktor.logging)
+                implementation(libs.ktor.cio)
+                implementation(libs.ktor.contentnegotiation)
+                implementation(libs.koin.core)
+                implementation(libs.sqldelight.runtime)
             }
         }
         val commonTest by getting {
             dependencies {
-                implementation(kotlin("test"))
-                implementation("io.insert-koin:koin-core:$koinVersion")
-                implementation("io.ktor:ktor-client-mock:$ktorVersion")
-                implementation("io.insert-koin:koin-test:$koinVersion")
-//                implementation("io.kotest:kotest-framework-engine:5.5.5")
-//                implementation("io.kotest:kotest-assertions-core:5.5.5")
-//                implementation("io.kotest:kotest-property:5.5.5")
+                implementation(libs.kotlin.test)
+                implementation(libs.ktor.clientmock)
+                implementation(libs.koin.core)
+                implementation(libs.koin.test)
             }
         }
         val androidMain by getting {
             dependencies {
-                implementation("io.insert-koin:koin-android:$koinVersion")
-                implementation("com.squareup.okhttp3:logging-interceptor:4.11.0")
-                implementation("com.squareup.sqldelight:android-driver:1.5.5")
-                implementation("androidx.work:work-runtime-ktx:2.8.1")
-
-
-                val composeVersion = "1.4.3"
-                implementation("androidx.compose.ui:ui:$composeVersion")
-                implementation("androidx.compose.material:material:$composeVersion")
-
-                implementation("androidx.lifecycle:lifecycle-runtime-ktx:$lifecycleVersion")
-                implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycleVersion")
-
-                implementation("com.google.firebase:firebase-common-ktx:20.3.3")
-                implementation("com.google.firebase:firebase-storage-ktx:20.2.1")
+                implementation(libs.androidx.lifecycle.runtime)
+                implementation(libs.androidx.lifecycle.viewmodel)
+                implementation(libs.androidx.work.runtime)
+                implementation(libs.compose.ui)
+                implementation(libs.compose.material2)
+                implementation(libs.koin.android)
+                implementation(libs.sqldelight.androidDriver)
+                implementation(project.dependencies.platform(libs.firebase.bom))
+                implementation(libs.firebase.common)
+                implementation(libs.firebase.storage)
+                implementation(libs.loggingInterceptor)
             }
         }
-//        val androidTest by getting {
-//            dependencies {
-//                implementation("io.mockk:mockk-common:1.13.2")
-//            }
-//        }
+
         val iosX64Main by getting
         val iosArm64Main by getting
         val iosSimulatorArm64Main by getting
@@ -103,8 +86,8 @@ kotlin {
             iosArm64Main.dependsOn(this)
             iosSimulatorArm64Main.dependsOn(this)
             dependencies {
-                implementation("io.ktor:ktor-client-ios:$ktorVersion")
-                implementation("com.squareup.sqldelight:native-driver:1.5.5")
+                implementation(libs.ktor.client.ios)
+                implementation(libs.sqldelight.nativeDriver)
             }
         }
         val iosX64Test by getting
@@ -116,14 +99,5 @@ kotlin {
             iosArm64Test.dependsOn(this)
             iosSimulatorArm64Test.dependsOn(this)
         }
-    }
-}
-
-android {
-    namespace = "com.gaoyun.roar"
-    compileSdk = 33
-    defaultConfig {
-        minSdk = 26
-        targetSdk = 33
     }
 }
