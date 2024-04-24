@@ -2,6 +2,7 @@ enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")
 
 rootProject.name = "Roar"
 
+includeBuild("build-logic")
 include(":androidApp")
 include(":sharedLib")
 include(":androidApp:common")

@@ -2,9 +2,9 @@
 # Plugins
 agp = "8.3.2"
 kotlin = "1.9.23"
-composeCompiler = "1.6.2"
+compose-multiplatform = "1.6.2"
 sqldelight = "1.5.5"
-googleServices = "4.4.1"
+google-services = "4.4.1"
 crashlytics = "2.9.9"
 mapsSecrets = "2.0.1"
 
@@ -24,6 +24,7 @@ kotlinSerialization = "1.6.3"
 kotlinDatetime = "0.5.0"
 # Compose
 compose = "1.6.6"
+compose-compiler = "1.5.12"
 compose-material3 = "1.2.1"
 # Accompanist
 accompanist-permissions = "0.34.0"
@@ -113,6 +114,9 @@ espresso = { module = "androidx.test.espresso:espresso-core", version.ref = "esp
 loggingInterceptor = { module = "com.squareup.okhttp3:logging-interceptor", version.ref = "logging-interceptor" }
 appupdate = { module = "com.google.android.play:app-update", version.ref = "app-update" }
 appupdate-ktx = { module = "com.google.android.play:app-update-ktx", version.ref = "app-update" }
+# Plugin artifacts
+pluginartifact-android = { module = "com.android.tools.build:gradle", version.ref = "agp" }
+pluginartifact-kotlin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlin" }
 
 [bundles]
 appupdate = ["appupdate", "appupdate-ktx"]
@@ -124,7 +128,7 @@ kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 kotlin-multiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin" }
 kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
 sqldelight = { id = "com.squareup.sqldelight", version.ref = "sqldelight" }
-compose = { id = "org.jetbrains.compose", version.ref = "composeCompiler" }
-googleServices = { id = "com.google.gms.google-services", version.ref = "googleServices" }
+compose = { id = "org.jetbrains.compose", version.ref = "compose-multiplatform" }
+googleServices = { id = "com.google.gms.google-services", version.ref = "google-services" }
 crashlytics = { id = "com.google.firebase.crashlytics", version.ref = "crashlytics" }
 mapsSecrets = { id = "com.google.android.libraries.mapsplatform.secrets-gradle-plugin", version.ref = "mapsSecrets" }
