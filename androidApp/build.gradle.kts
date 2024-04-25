@@ -1,10 +1,10 @@
 @file:Suppress("UnstableApiUsage")
 
 plugins {
-    id("com.android.application")
-    id("com.google.gms.google-services")
-    id("com.google.firebase.crashlytics")
-    kotlin("android")
+    alias(libs.plugins.android.application)
+    alias(libs.plugins.kotlin.android)
+    alias(libs.plugins.googleServices)
+    alias(libs.plugins.crashlytics)
 }
 
 android {
@@ -24,13 +24,12 @@ android {
         targetSdk = 34
         versionCode = versionCodeValue
         versionName = versionNameValue
-        multiDexEnabled = true
     }
     buildFeatures {
         compose = true
     }
     composeOptions {
-        kotlinCompilerExtensionVersion = "1.4.5"
+        kotlinCompilerExtensionVersion = libs.versions.compose.compiler.get()
     }
     packagingOptions {
         resources {
@@ -45,22 +44,20 @@ android {
 }
 
 dependencies {
-    implementation(project(":sharedLib"))
-    implementation(project(":androidApp:common"))
-    implementation(project(":androidApp:notifications"))
+    implementation(projects.sharedLib)
+    implementation(projects.androidApp.common)
+    implementation(projects.androidApp.notifications)
 
-    implementation(project(":androidApp:feature-home-screen"))
-    implementation(project(":androidApp:feature-user-registration"))
-    implementation(project(":androidApp:feature-add-pet"))
-    implementation(project(":androidApp:feature-pet-screen"))
-    implementation(project(":androidApp:feature-create-reminder"))
-    implementation(project(":androidApp:feature-interactions"))
-    implementation(project(":androidApp:feature-user-screen"))
-    implementation(project(":androidApp:feature-onboarding"))
+    implementation(projects.androidApp.featureHomeScreen)
+    implementation(projects.androidApp.featureUserRegistration)
+    implementation(projects.androidApp.featureAddPet)
+    implementation(projects.androidApp.featurePetScreen)
+    implementation(projects.androidApp.featureCreateReminder)
+    implementation(projects.androidApp.featureInteractions)
+    implementation(projects.androidApp.featureUserScreen)
+    implementation(projects.androidApp.featureOnboarding)
 
-    implementation("androidx.activity:activity-compose:1.8.0")
-    implementation("androidx.multidex:multidex:2.0.1")
+    implementation(libs.androidx.activity)
 
-    implementation("com.google.android.play:app-update:2.1.0")
-    implementation("com.google.android.play:app-update-ktx:2.1.0")
+    implementation(libs.bundles.appupdate)
 }

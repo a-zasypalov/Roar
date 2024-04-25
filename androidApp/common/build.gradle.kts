@@ -1,81 +1,53 @@
 plugins {
-    id("com.android.library")
-    id("org.jetbrains.kotlin.android")
+    alias(libs.plugins.android.library)
+    alias(libs.plugins.kotlin.android)
+    id("roar-feature-module")
 }
 
 android {
     namespace = "com.gaoyun.common"
-    compileSdk = 33
-
-    defaultConfig {
-        minSdk = 26
-        targetSdk = 33
-        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-    }
-
-    compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
-    }
-    kotlinOptions {
-        jvmTarget = "1.8"
-    }
-    buildFeatures {
-        compose = true
-    }
-    composeOptions {
-        kotlinCompilerExtensionVersion = "1.4.5"
-    }
 }
 
 dependencies {
-    api(project(":sharedLib"))
-    api("androidx.core:core-ktx:1.12.0")
-    api("androidx.appcompat:appcompat:1.6.1")
-    api("com.google.android.material:material:1.10.0")
-    api("org.jetbrains.kotlinx:kotlinx-coroutines-core-jvm:1.7.3")
+    api(projects.sharedLib)
 
-    api("androidx.lifecycle:lifecycle-runtime-ktx:2.6.2")
-    api("androidx.activity:activity-compose:1.8.0")
+    api(libs.androidx.core)
+    api(libs.androidx.appcompat)
+    api(libs.androidx.activity)
+    api(libs.androidx.browser)
+    api(libs.androidx.material)
+    api(libs.androidx.navigation)
+    api(libs.androidx.lifecycle.runtime)
+    api(libs.androidx.work.runtime)
+    api(libs.kotlin.coroutines.core)
+    api(libs.kotlin.datetime)
 
-    val composeVersion = "1.5.3"
-    api("androidx.compose.ui:ui:$composeVersion")
-    api("androidx.compose.ui:ui-tooling-preview:$composeVersion")
-    api("androidx.compose.material:material-icons-extended:$composeVersion")
-    api("androidx.navigation:navigation-compose:2.7.4")
+    api(libs.compose.ui)
+    api(libs.compose.materialIcons)
+    api(libs.compose.material3)
+    api(libs.compose.uiTooling.preview)
+    debugApi(libs.compose.uiTooling)
 
-    api("androidx.compose.material3:material3:1.1.2")
+    api(libs.accompanist.permissions)
+    api(libs.accompanist.insets)
+    api(libs.accompanist.uicontroller)
 
-    api("org.jetbrains.kotlinx:kotlinx-datetime:0.4.1")
+    api(libs.koin.android)
+    api(libs.koin.androidx)
+    api(libs.koin.compose)
+    api(libs.koin.workmanager)
 
-    api("com.google.accompanist:accompanist-permissions:0.32.0")
-    api("com.google.accompanist:accompanist-insets:0.30.1")
-    api("com.google.accompanist:accompanist-systemuicontroller:0.32.0")
+    api(libs.coil)
+    api(libs.coil.compose)
 
-    api("androidx.work:work-runtime-ktx:2.8.1")
+    api(platform(libs.firebase.bom))
+    api(libs.firebase.auth)
+    api(libs.firebase.auth.ui)
+    api(libs.firebase.analytics)
+    api(libs.firebase.crashlytics)
+    api(libs.firebase.messaging)
 
-    val koinVersion = "3.1.6"
-    api("io.insert-koin:koin-android:$koinVersion")
-    api("io.insert-koin:koin-android-ext:3.0.2")
-    api("io.insert-koin:koin-androidx-compose:$koinVersion")
-    api("io.insert-koin:koin-androidx-workmanager:$koinVersion")
-
-    api("io.coil-kt:coil:2.4.0")
-    api("io.coil-kt:coil-compose:2.4.0")
-
-    api("androidx.browser:browser:1.6.0")
-
-    debugApi("androidx.compose.ui:ui-tooling:1.5.3")
-    api("androidx.compose.ui:ui-tooling-preview:1.5.3")
-
-    api(platform("com.google.firebase:firebase-bom:31.2.3"))
-    api("com.google.firebase:firebase-crashlytics-ktx")
-    api("com.google.firebase:firebase-analytics-ktx")
-    api("com.google.firebase:firebase-messaging-ktx")
-    api("com.firebaseui:firebase-ui-auth:7.2.0")
-    api("com.google.firebase:firebase-auth-ktx:22.1.2")
-
-    testImplementation("junit:junit:4.13.2")
-    androidTestImplementation("androidx.test.ext:junit:1.1.5")
-    androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
+    testImplementation(libs.junit)
+    androidTestImplementation(libs.androidx.junitx)
+    androidTestImplementation(libs.espresso)
 }

@@ -1,25 +1,13 @@
 plugins {
-    id("com.android.library")
-    id("org.jetbrains.kotlin.android")
+    alias(libs.plugins.android.library)
+    alias(libs.plugins.kotlin.android)
+    id("roar-feature-module")
 }
 
 android {
     namespace = "com.gaoyun.feature_user_screen"
-    compileSdk = 33
-
-    defaultConfig {
-        minSdk = 26
-        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-    }
-
-    buildFeatures {
-        compose = true
-    }
-    composeOptions {
-        kotlinCompilerExtensionVersion = "1.4.5"
-    }
 }
 
 dependencies {
-    implementation(project(":androidApp:common"))
+    implementation(projects.androidApp.common)
 }
