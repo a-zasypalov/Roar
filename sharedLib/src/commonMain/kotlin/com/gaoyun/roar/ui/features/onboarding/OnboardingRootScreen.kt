@@ -1,6 +1,7 @@
 package com.gaoyun.roar.ui.features.onboarding
 
 import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -14,7 +15,6 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.systemBars
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -23,6 +23,7 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.unit.dp
 import com.gaoyun.roar.presentation.onboarding.OnboardingViewModel
 import com.gaoyun.roar.ui.common.composables.PrimaryElevatedButton
@@ -36,9 +37,13 @@ import moe.tlaster.precompose.navigation.NavOptions
 import moe.tlaster.precompose.navigation.Navigator
 import moe.tlaster.precompose.navigation.PopUpTo
 import org.jetbrains.compose.resources.ExperimentalResourceApi
+import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
 import roar.sharedlib.generated.resources.Res
 import roar.sharedlib.generated.resources.app_name
+import roar.sharedlib.generated.resources.ic_care_filled
+import roar.sharedlib.generated.resources.ic_community
+import roar.sharedlib.generated.resources.ic_tab_home
 import roar.sharedlib.generated.resources.next_button
 import roar.sharedlib.generated.resources.onboarding_care_assistant
 import roar.sharedlib.generated.resources.onboarding_care_reminders
@@ -47,7 +52,7 @@ import roar.sharedlib.generated.resources.onboarding_community_project
 import roar.sharedlib.generated.resources.onboarding_community_project_description
 import roar.sharedlib.generated.resources.start
 
-@OptIn(ExperimentalFoundationApi::class, ExperimentalMaterial3Api::class, ExperimentalResourceApi::class)
+@OptIn(ExperimentalFoundationApi::class, ExperimentalResourceApi::class)
 @Composable
 fun OnboardingRootScreen(
     navHostController: Navigator,
@@ -132,12 +137,12 @@ fun OnboardingHelloPage() {
                 .clip(MaterialTheme.shapes.extraLarge)
                 .size(160.dp)
         ) {
-//            Image(
-//                painter = painterResource(res = ""), //(id = R.drawable.ic_tab_home),
-//                contentDescription = "icon",
-//                modifier = Modifier.padding(16.dp),
-//                colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.inverseSurface)
-//            )
+            Image(
+                painter = painterResource(resource = Res.drawable.ic_tab_home),
+                contentDescription = "icon",
+                modifier = Modifier.padding(16.dp),
+                colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.inverseSurface)
+            )
         }
         Spacer(size = 24.dp)
         Text(
@@ -167,12 +172,12 @@ fun OnboardingCarePage() {
                 .clip(MaterialTheme.shapes.extraLarge)
                 .size(160.dp)
         ) {
-//            Image(
-//                painter = painterResource(res = ""), //painterResource(id = R.drawable.ic_care_filled),
-//                contentDescription = "icon",
-//                modifier = Modifier.padding(24.dp),
-//                colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.inverseSurface)
-//            )
+            Image(
+                painter = painterResource(resource = Res.drawable.ic_care_filled),
+                contentDescription = "icon",
+                modifier = Modifier.padding(24.dp),
+                colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.inverseSurface)
+            )
         }
         Spacer(size = 24.dp)
         Text(
@@ -203,12 +208,12 @@ fun OnboardingCommunityPage() {
                 .clip(MaterialTheme.shapes.extraLarge)
                 .size(160.dp)
         ) {
-//            Image(
-//                painter = painterResource(res = ""), //painterResource(id = R.drawable.ic_community),
-//                contentDescription = "icon",
-//                modifier = Modifier.padding(24.dp),
-//                colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.inverseSurface)
-//            )
+            Image(
+                painter = painterResource(resource = Res.drawable.ic_community),
+                contentDescription = "icon",
+                modifier = Modifier.padding(24.dp),
+                colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.inverseSurface)
+            )
         }
         Spacer(size = 24.dp)
         Text(
