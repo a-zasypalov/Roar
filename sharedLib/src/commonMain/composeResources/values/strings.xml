@@ -3,7 +3,7 @@
     <string name="app_name">Roar</string>
     <string name="username">Username</string>
     <string name="choose_avatar">Avatar</string>
-    <string name="pets_card">Pet\'s Card</string>
+    <string name="pets_card">Pet's Card</string>
     <string name="edit_profile">Edit profile</string>
     <string name="nice_to_meet_you">Nice to meet you, %1$s!</string>
     <string name="logout">Logout</string>
@@ -16,7 +16,7 @@
     <string name="female">Female</string>
     <string name="gender">Gender</string>
     <string name="birthday">Birthday</string>
-    <string name="pets_birthday">Pet\'s birthday</string>
+    <string name="pets_birthday">Pet's birthday</string>
     <string name="chip_number">Chip Number</string>
     <string name="chip">Chip</string>
     <string name="pet_is_sterilized">Pet is sterilized</string>
@@ -80,7 +80,7 @@
     <string name="login">Login</string>
     <string name="for_who">For who?</string>
     <string name="add_reminder">Add reminder</string>
-    <string name="doesnt_repeat">Doesn\'t repeat</string>
+    <string name="doesnt_repeat">Doesn't repeat</string>
     <string name="active">Active</string>
     <string name="not_active">Not active</string>
     <string name="edit">Edit</string>
@@ -192,11 +192,11 @@
         <item>Sun</item>
     </array>
 
-    <string name="onboarding_care_assistant">Pet\'s care assistant</string>
+    <string name="onboarding_care_assistant">Pet's care assistant</string>
     <string name="onboarding_care_reminders">Care reminders</string>
-    <string name="onboarding_care_reminders_description">Sometimes pets aren\'t talkative about needs</string>
+    <string name="onboarding_care_reminders_description">Sometimes pets aren't talkative about needs</string>
     <string name="onboarding_community_project">Community</string>
-    <string name="onboarding_community_project_description">Let\'s make life better for pets together!</string>
+    <string name="onboarding_community_project_description">Let's make life better for pets together!</string>
 
     <string name="date_on">on</string>
     <string name="never_ends">never ends</string>
