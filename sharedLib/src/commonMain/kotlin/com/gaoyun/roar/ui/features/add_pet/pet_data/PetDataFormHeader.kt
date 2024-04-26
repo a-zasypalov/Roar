@@ -1,8 +1,11 @@
 package com.gaoyun.roar.ui.features.add_pet.pet_data
 
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Pets
@@ -18,9 +21,12 @@ import androidx.compose.ui.unit.dp
 import com.gaoyun.roar.model.domain.Pet
 import com.gaoyun.roar.presentation.add_pet.data.AddPetDataScreenContract
 import com.gaoyun.roar.ui.common.composables.TextFormField
+import com.gaoyun.roar.ui.common.ext.getDrawableByName
 import org.jetbrains.compose.resources.ExperimentalResourceApi
+import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
 import roar.sharedlib.generated.resources.Res
+import roar.sharedlib.generated.resources.cd_pet
 import roar.sharedlib.generated.resources.name
 
 @OptIn(ExperimentalResourceApi::class)
@@ -38,13 +44,13 @@ fun PetDataFormHeader(
             .padding(top = 32.dp, start = 24.dp, end = 24.dp)
     ) {
         if (petToEdit == null) {
-//            Image(
-//                painter = painterResource(id = activity.getDrawableByName(avatar)),
-//                contentDescription = stringResource(id = R.string.cd_pet),
-//                modifier = Modifier
-//                    .size(64.dp)
-//                    .padding(end = 12.dp, top = 8.dp)
-//            )
+            Image(
+                painter = painterResource(resource = getDrawableByName(avatar)),
+                contentDescription = stringResource(Res.string.cd_pet),
+                modifier = Modifier
+                    .size(64.dp)
+                    .padding(end = 12.dp, top = 8.dp)
+            )
         } else {
             Surface(
                 shape = RoundedCornerShape(8.dp),
@@ -52,14 +58,14 @@ fun PetDataFormHeader(
                 modifier = Modifier
                     .padding(end = 12.dp, top = 8.dp)
             ) {
-//                Image(
-//                    painter = painterResource(id = activity.getDrawableByName(avatar)),
-//                    contentDescription = stringResource(id = R.string.cd_pet),
-//                    modifier = Modifier
-//                        .size(64.dp)
-//                        .clickable { onAvatarEditClick(AddPetDataScreenContract.Event.NavigateToAvatarEdit(petToEdit.id, petToEdit.petType)) }
-//                        .padding(all = 8.dp)
-//                )
+                Image(
+                    painter = painterResource(resource = getDrawableByName(avatar)),
+                    contentDescription = stringResource(Res.string.cd_pet),
+                    modifier = Modifier
+                        .size(64.dp)
+                        .clickable { onAvatarEditClick(AddPetDataScreenContract.Event.NavigateToAvatarEdit(petToEdit.id, petToEdit.petType)) }
+                        .padding(all = 8.dp)
+                )
             }
         }
         TextFormField(

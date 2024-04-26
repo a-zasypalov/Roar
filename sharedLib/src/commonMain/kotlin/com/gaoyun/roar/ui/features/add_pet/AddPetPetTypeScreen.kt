@@ -25,8 +25,8 @@ import com.gaoyun.roar.presentation.LAUNCH_LISTEN_FOR_EFFECTS
 import com.gaoyun.roar.presentation.NavigationSideEffect
 import com.gaoyun.roar.presentation.add_pet.type.AddPetPetTypeScreenContract
 import com.gaoyun.roar.presentation.add_pet.type.AddPetPetTypeScreenViewModel
-import com.gaoyun.roar.ui.common.composables.SurfaceScaffold
 import com.gaoyun.roar.ui.common.composables.RoarIcon
+import com.gaoyun.roar.ui.common.composables.SurfaceScaffold
 import com.gaoyun.roar.ui.theme.RoarTheme
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.onEach
@@ -106,7 +106,7 @@ private fun ChoosePetType(
                             }
                     ) {
                         RoarIcon(
-                            icon = "", //context.getDrawableByName(type.iconRes),
+                            icon = type.iconRes,
                             contentDescription = type.nameRes,
                             modifier = Modifier
                                 .size(96.dp)

@@ -25,13 +25,18 @@ import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
 import com.gaoyun.roar.model.domain.interactions.InteractionRemindConfig
 import com.gaoyun.roar.model.domain.interactions.InteractionRemindConfigPeriod
+import com.gaoyun.roar.model.domain.interactions.toInteractionRemindConfigPeriod
+import com.gaoyun.roar.ui.common.composables.DropdownMenu
 import com.gaoyun.roar.ui.common.composables.Spacer
 import com.gaoyun.roar.ui.common.composables.SurfaceCard
 import com.gaoyun.roar.ui.common.composables.TextFormField
+import com.gaoyun.roar.ui.common.ext.toLocalizedStringId
+import com.gaoyun.roar.ui.common.ext.toLocalizedStringIdPlural
 import org.jetbrains.compose.resources.ExperimentalResourceApi
 import org.jetbrains.compose.resources.stringResource
 import roar.sharedlib.generated.resources.Res
 import roar.sharedlib.generated.resources.cancel
+import roar.sharedlib.generated.resources.day
 import roar.sharedlib.generated.resources.done
 import roar.sharedlib.generated.resources.remind
 
@@ -42,8 +47,9 @@ internal fun RemindConfigDialog(
     setShowDialog: (Boolean) -> Unit,
     onConfigSave: (String) -> Unit
 ) {
+    val dayString = stringResource(Res.string.day)
     val repeatsEveryNumber = rememberSaveable { mutableStateOf(remindConfig?.remindBeforeNumber?.toString() ?: "1") }
-    val repeatsEveryPeriod = rememberSaveable { mutableStateOf(remindConfig?.repeatsEveryPeriod?.toString() ?: "day" /*activity.getString(R.string.day)*/) }
+    val repeatsEveryPeriod = rememberSaveable { mutableStateOf(remindConfig?.repeatsEveryPeriod?.toString() ?: dayString) }
     val repeatsEveryPeriodsList = InteractionRemindConfigPeriod.LIST
 
     val defaultHorizontalPadding = 24.dp
@@ -88,14 +94,14 @@ internal fun RemindConfigDialog(
                             imeAction = ImeAction.Done,
                         )
                         Spacer(size = 12.dp)
-//                        DropdownMenu(
-//                            valueList = repeatsEveryPeriodsList,
-//                            listState = repeatsEveryPeriod,
-//                            valueDisplayList = repeatsEveryPeriodsList.map { it.toInteractionRemindConfigPeriod().toLocalizedStringId() },
-//                            listDisplayState = repeatsEveryPeriod.value.toInteractionRemindConfigPeriod().toLocalizedStringIdPlural(),
-//                            listDisplayStateQuantity = repeatsEveryNumber.value.toIntOrNull() ?: 1,
-//                            modifier = Modifier.fillMaxWidth(1f)
-//                        )
+                        DropdownMenu(
+                            valueList = repeatsEveryPeriodsList,
+                            listState = repeatsEveryPeriod,
+                            valueDisplayList = repeatsEveryPeriodsList.map { it.toInteractionRemindConfigPeriod().toLocalizedStringId() },
+                            listDisplayState = repeatsEveryPeriod.value.toInteractionRemindConfigPeriod().toLocalizedStringIdPlural(),
+                            listDisplayStateQuantity = repeatsEveryNumber.value.toIntOrNull() ?: 1,
+                            modifier = Modifier.fillMaxWidth(1f)
+                        )
                     }
 
                     Spacer(12.dp)

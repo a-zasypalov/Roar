@@ -3,11 +3,20 @@ package com.gaoyun.roar.ui.common.ext
 import androidx.compose.runtime.Composable
 import com.gaoyun.roar.model.domain.interactions.InteractionRemindConfig
 import com.gaoyun.roar.model.domain.interactions.InteractionRemindConfigPeriod
+import org.jetbrains.compose.resources.ExperimentalResourceApi
+import org.jetbrains.compose.resources.stringResource
+import roar.sharedlib.generated.resources.Res
+import roar.sharedlib.generated.resources.before
+import roar.sharedlib.generated.resources.day
+import roar.sharedlib.generated.resources.hour
+import roar.sharedlib.generated.resources.remind
+import roar.sharedlib.generated.resources.week
 
+@OptIn(ExperimentalResourceApi::class)
 @Composable
 fun InteractionRemindConfig.remindConfigTextFull() =
     StringBuilder().apply {
-//        append(stringResource(id = R.string.remind))
+        append(stringResource(Res.string.remind))
         append(" $remindBeforeNumber ")
 //        append(
 //            pluralStringResource(
@@ -18,20 +27,22 @@ fun InteractionRemindConfig.remindConfigTextFull() =
 //                }, count = remindBeforeNumber
 //            )
 //        )
-//        append(" ${stringResource(id = R.string.before)}")
+        append(" ${stringResource(Res.string.before)}")
     }.toString()
 
-
-fun InteractionRemindConfigPeriod.toLocalizedStringIdPlural() = 1
+@Composable
+@OptIn(ExperimentalResourceApi::class)
+fun InteractionRemindConfigPeriod.toLocalizedStringIdPlural() = stringResource(Res.string.remind) //TODO: fix
 //    when (this) {
-//    InteractionRemindConfigPeriod.WEEK -> R.plurals.weeks_before
-//    InteractionRemindConfigPeriod.DAY -> R.plurals.days_before
-//    InteractionRemindConfigPeriod.HOUR -> R.plurals.hours_before
+//    InteractionRemindConfigPeriod.WEEK -> Res.string.weeks_before
+//    InteractionRemindConfigPeriod.DAY -> Res.string.days_before
+//    InteractionRemindConfigPeriod.HOUR -> Res.string.hours_before
 //}
 
-fun InteractionRemindConfigPeriod.toLocalizedStringId() = 1
-//    when (this) {
-//    InteractionRemindConfigPeriod.WEEK -> R.string.week
-//    InteractionRemindConfigPeriod.DAY -> R.string.day
-//    InteractionRemindConfigPeriod.HOUR -> R.string.hour
-//}
+@Composable
+@OptIn(ExperimentalResourceApi::class)
+fun InteractionRemindConfigPeriod.toLocalizedStringId() = when (this) {
+    InteractionRemindConfigPeriod.WEEK -> stringResource(Res.string.week)
+    InteractionRemindConfigPeriod.DAY -> stringResource(Res.string.day)
+    InteractionRemindConfigPeriod.HOUR -> stringResource(Res.string.hour)
+}

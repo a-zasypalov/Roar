@@ -19,8 +19,10 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
+import com.gaoyun.roar.ui.common.ext.getStringByName
+import org.jetbrains.compose.resources.ExperimentalResourceApi
+import org.jetbrains.compose.resources.stringResource
 
-//TODO: Resolve resources
 @Composable
 fun DropdownMenu(
     valueList: List<String>,
@@ -42,6 +44,7 @@ fun DropdownMenu(
     )
 }
 
+@OptIn(ExperimentalResourceApi::class)
 @Composable
 fun DropdownMenu(
     valueList: List<String>,
@@ -50,8 +53,6 @@ fun DropdownMenu(
     onChange: ((String) -> Unit)? = null,
     valueDisplayList: List<String>?,
     listDisplayState: String?,
-//    @StringRes valueDisplayList: List<Int>?,
-//    @StringRes listDisplayState: Int?,
     label: String? = null,
     leadingIcon: ImageVector? = null
 ) {
@@ -60,13 +61,14 @@ fun DropdownMenu(
         listState = listState,
         modifier = modifier,
         onChange = onChange,
-        valueDisplayList = valueDisplayList, //valueDisplayList?.map { stringResource(id = it) },
-        listDisplayState = listDisplayState, //listDisplayState?.let { stringResource(id = it) },
+        valueDisplayList = valueDisplayList?.map { stringResource(resource = getStringByName(it)) },
+        listDisplayState = listDisplayState?.let { stringResource(resource = getStringByName(it)) },
         label = label,
         leadingIcon = leadingIcon,
     )
 }
 
+@OptIn(ExperimentalResourceApi::class)
 @Composable
 fun DropdownMenu(
     valueList: List<String>,
@@ -75,8 +77,6 @@ fun DropdownMenu(
     onChange: ((String) -> Unit)? = null,
     valueDisplayList: List<String>?,
     listDisplayState: String?,
-//    @StringRes valueDisplayList: List<Int>?,
-//    @PluralsRes listDisplayState: Int?,
     listDisplayStateQuantity: Int,
     label: String? = null,
     leadingIcon: ImageVector? = null
@@ -86,8 +86,8 @@ fun DropdownMenu(
         listState = listState,
         modifier = modifier,
         onChange = onChange,
-        valueDisplayList = valueDisplayList, //valueDisplayList?.map { stringResource(id = it) },
-        listDisplayState = listDisplayState, //listDisplayState?.let { pluralStringResource(id = it, count = listDisplayStateQuantity) },
+        valueDisplayList = valueDisplayList?.map { stringResource(resource = getStringByName(it)) },
+        listDisplayState = listDisplayState?.let { stringResource(resource = getStringByName(it), listDisplayStateQuantity) },
         label = label,
         leadingIcon = leadingIcon,
     )

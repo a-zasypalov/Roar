@@ -1,5 +1,6 @@
 package com.gaoyun.roar.ui.features.registration
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -25,6 +26,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -32,14 +34,18 @@ import androidx.compose.ui.unit.sp
 import com.gaoyun.roar.ui.theme.RoarTheme
 import kotlinx.datetime.Clock
 import org.jetbrains.compose.resources.ExperimentalResourceApi
+import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
 import roar.sharedlib.generated.resources.Res
 import roar.sharedlib.generated.resources.app_name
+import roar.sharedlib.generated.resources.btn_google
+import roar.sharedlib.generated.resources.ic_tab_home
 import roar.sharedlib.generated.resources.privacy_policy
 import roar.sharedlib.generated.resources.register_or_login
 import roar.sharedlib.generated.resources.terms_and_conditions_button
 import roar.sharedlib.generated.resources.url_privacy_policy
 import roar.sharedlib.generated.resources.url_terms_and_conditions
+import com.gaoyun.roar.ui.common.composables.Spacer as SpacerRoar
 
 @OptIn(ExperimentalResourceApi::class)
 @Composable
@@ -71,12 +77,12 @@ fun UserRegistrationForm(
                     .clip(MaterialTheme.shapes.extraLarge)
                     .size(160.dp)
             ) {
-//                Image(
-//                    painter = painterResource(id = R.drawable.ic_tab_home),
-//                    contentDescription = "icon",
-//                    modifier = Modifier.padding(16.dp),
-//                    colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.inverseSurface)
-//                )
+                Image(
+                    painter = painterResource(Res.drawable.ic_tab_home),
+                    contentDescription = "icon",
+                    modifier = Modifier.padding(16.dp),
+                    colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.inverseSurface)
+                )
             }
 
             com.gaoyun.roar.ui.common.composables.Spacer(size = 24.dp)
@@ -115,13 +121,13 @@ fun UserRegistrationForm(
                     .fillMaxWidth()
                     .padding(horizontal = 24.dp)
             ) {
-//                Image(
-//                    painter = painterResource(id = R.drawable.btn_google),
-//                    contentDescription = null,
-//                    modifier = Modifier
-//                        .weight(2f)
-//                        .padding(start = 8.dp, top = 4.dp, bottom = 4.dp)
-//                )
+                Image(
+                    painter = painterResource(Res.drawable.btn_google),
+                    contentDescription = null,
+                    modifier = Modifier
+                        .weight(2f)
+                        .padding(start = 8.dp, top = 4.dp, bottom = 4.dp)
+                )
                 Text(
                     stringResource(resource = Res.string.register_or_login),
                     modifier = Modifier
@@ -156,7 +162,7 @@ fun UserRegistrationForm(
                 )
             }
 
-            com.gaoyun.roar.ui.common.composables.Spacer(size = 8.dp)
+            SpacerRoar(size = 8.dp)
         }
     }
 }

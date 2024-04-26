@@ -13,7 +13,6 @@ import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FilterChip
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -35,10 +34,13 @@ import com.gaoyun.roar.model.domain.interactions.InteractionRepeatConfig.Compani
 import com.gaoyun.roar.model.domain.interactions.InteractionRepeatConfig.Companion.REPEATS_EVERY_PERIOD_ON_SAME
 import com.gaoyun.roar.model.domain.interactions.InteractionRepeatConfigEach
 import com.gaoyun.roar.model.domain.interactions.InteractionRepeatConfigEach.Companion.MONTH_STRING
+import com.gaoyun.roar.model.domain.interactions.toInteractionRepeatConfigEach
+import com.gaoyun.roar.ui.common.composables.DropdownMenu
 import com.gaoyun.roar.ui.common.composables.ReadonlyTextField
 import com.gaoyun.roar.ui.common.composables.Spacer
 import com.gaoyun.roar.ui.common.composables.SurfaceCard
 import com.gaoyun.roar.ui.common.composables.TextFormField
+import com.gaoyun.roar.ui.common.ext.toLocalizedStringId
 import com.gaoyun.roar.util.toLocalDate
 import kotlinx.datetime.Clock
 import kotlinx.datetime.DayOfWeek
@@ -65,7 +67,7 @@ import roar.sharedlib.generated.resources.repeats_every
 import roar.sharedlib.generated.resources.same_day
 import roar.sharedlib.generated.resources.week
 
-@OptIn(ExperimentalMaterial3Api::class, ExperimentalResourceApi::class)
+@OptIn(ExperimentalResourceApi::class)
 @Composable
 internal fun RepeatConfigDialog(
     repeatConfig: InteractionRepeatConfig?,
@@ -210,13 +212,13 @@ internal fun RepeatConfigDialog(
                             imeAction = ImeAction.Done,
                         )
                         Spacer(size = 12.dp)
-//                        com.gaoyun.roar.ui.common.composables.DropdownMenu(
-//                            valueList = repeatsEveryPeriodsList,
-//                            listState = repeatsEveryPeriod,
-//                            valueDisplayList = repeatsEveryPeriodsList.map { it.toInteractionRepeatConfigEach().toLocalizedStringId() },
-//                            listDisplayState = repeatsEveryPeriod.value.toInteractionRepeatConfigEach().toLocalizedStringId(),
-//                            modifier = Modifier.fillMaxWidth(1f)
-//                        )
+                        DropdownMenu(
+                            valueList = repeatsEveryPeriodsList,
+                            listState = repeatsEveryPeriod,
+                            valueDisplayList = repeatsEveryPeriodsList.map { stringResource(it.toInteractionRepeatConfigEach().toLocalizedStringId()) },
+                            listDisplayState = stringResource(repeatsEveryPeriod.value.toInteractionRepeatConfigEach().toLocalizedStringId()),
+                            modifier = Modifier.fillMaxWidth(1f)
+                        )
                     }
 
                     Spacer(size = 8.dp)
@@ -292,7 +294,7 @@ internal fun RepeatConfigDialog(
 
                     Spacer(size = 16.dp)
 
-                    com.gaoyun.roar.ui.common.composables.DropdownMenu(
+                    DropdownMenu(
                         valueList = endConditionStatesList,
                         listState = endConditionState,
                         valueDisplayList = null,
@@ -312,7 +314,7 @@ internal fun RepeatConfigDialog(
                                 onValueChange = { endsOnDateStateString.value = it },
                                 label = { Text(text = stringResource(resource = Res.string.end_on_date)) },
                                 onClick = {
-//                                    DatePicker.pickDate(
+//                                    DatePicker.pickDate( TODO: fix
 //                                        title = activity.getString(R.string.reminder_ends_on),
 //                                        start = Clock.System.now().toEpochMilliseconds(),
 //                                        fragmentManager = activity.supportFragmentManager,

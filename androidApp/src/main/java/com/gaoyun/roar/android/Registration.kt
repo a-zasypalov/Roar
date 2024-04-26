@@ -24,7 +24,7 @@ private val AuthUIConfig = AuthUI.getInstance()
 object RegistrationLauncherAndroid : RegistrationLauncherComposable {
     @Composable
     override fun launcherComposable(registrationSuccessfulCallback: (String, String) -> Unit): () -> Unit {
-        val defaultUsername = stringResource(id = R.string.username)
+        val defaultUsername = "Username" //TODO: stringResource(id = R.string.username)
 
         val signInLauncher =
             rememberLauncherForActivityResult(FirebaseAuthUIActivityResultContract()) { res ->

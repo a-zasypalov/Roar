@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
@@ -34,11 +35,13 @@ import com.gaoyun.roar.model.domain.interactions.InteractionGroup
 import com.gaoyun.roar.model.domain.interactions.InteractionWithReminders
 import com.gaoyun.roar.ui.common.composables.AutoResizeText
 import com.gaoyun.roar.ui.common.composables.FontSizeRange
+import com.gaoyun.roar.ui.common.composables.RoarIcon
 import com.gaoyun.roar.ui.common.composables.Spacer
 import com.gaoyun.roar.ui.common.composables.TextFormField
 import com.gaoyun.roar.ui.common.ext.remindConfigTextFull
 import com.gaoyun.roar.ui.common.ext.repeatConfigTextFull
 import com.gaoyun.roar.ui.common.ext.toLocalizedStringId
+import com.gaoyun.roar.ui.common.icon
 import com.gaoyun.roar.ui.theme.RoarTheme
 import org.jetbrains.compose.resources.ExperimentalResourceApi
 import org.jetbrains.compose.resources.stringResource
@@ -89,13 +92,13 @@ internal fun InteractionHeader(
                     .weight(0.2f),
                 shape = CircleShape,
             ) {
-//                RoarIcon(
-//                    icon = interaction.type.icon(),
-//                    contentDescription = pet.name,
-//                    modifier = Modifier
-//                        .height(72.dp)
-//                        .padding(all = 16.dp)
-//                )
+                RoarIcon(
+                    icon = interaction.type.icon(),
+                    contentDescription = pet.name,
+                    modifier = Modifier
+                        .height(72.dp)
+                        .padding(all = 16.dp)
+                )
             }
         }
 

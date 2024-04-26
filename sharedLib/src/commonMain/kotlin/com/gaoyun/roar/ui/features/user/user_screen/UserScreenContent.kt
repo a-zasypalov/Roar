@@ -1,6 +1,7 @@
 package com.gaoyun.roar.ui.features.user.user_screen
 
 import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.isSystemInDarkTheme
@@ -23,6 +24,7 @@ import androidx.compose.material.icons.filled.Person
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Divider
 import androidx.compose.material3.ElevatedCard
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -34,6 +36,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
@@ -48,6 +51,7 @@ import com.gaoyun.roar.ui.common.composables.Spacer
 import com.gaoyun.roar.ui.theme.primaryColor
 import com.gaoyun.roar.util.ColorTheme
 import org.jetbrains.compose.resources.ExperimentalResourceApi
+import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
 import roar.sharedlib.generated.resources.Res
 import roar.sharedlib.generated.resources.about_app_button
@@ -58,6 +62,8 @@ import roar.sharedlib.generated.resources.colors
 import roar.sharedlib.generated.resources.dynamic_color_switcher_title
 import roar.sharedlib.generated.resources.hey_user
 import roar.sharedlib.generated.resources.home_screen_mode_switcher_title
+import roar.sharedlib.generated.resources.ic_launcher_foreground
+import roar.sharedlib.generated.resources.ic_launcher_paw_foreground
 import roar.sharedlib.generated.resources.logout
 import roar.sharedlib.generated.resources.number_of_reminders_main_screen
 import roar.sharedlib.generated.resources.user_screen_subtitle
@@ -254,7 +260,7 @@ internal fun UserScreenContent(
 
                 Spacer(size = 16.dp)
 
-                Divider()
+                HorizontalDivider()
 
                 Spacer(size = 16.dp)
 
@@ -286,11 +292,11 @@ internal fun UserScreenContent(
                                     }
                                     .clip(MaterialTheme.shapes.medium)
                             ) {
-//                                Image(
-//                                    painterResource(id = R.mipmap.ic_launcher_foreground),
-//                                    contentDescription = null,
-//                                    contentScale = ContentScale.FillWidth,
-//                                )
+                                Image(
+                                    painterResource(Res.drawable.ic_launcher_foreground),
+                                    contentDescription = null,
+                                    contentScale = ContentScale.FillWidth,
+                                )
                             }
                         }
                     }
@@ -313,11 +319,11 @@ internal fun UserScreenContent(
                                     }
                                     .clip(MaterialTheme.shapes.medium)
                             ) {
-//                                Image(
-//                                    painterResource(id = R.mipmap.ic_launcher_paw_foreground),
-//                                    contentDescription = null,
-//                                    contentScale = ContentScale.FillWidth,
-//                                )
+                                Image(
+                                    painterResource(Res.drawable.ic_launcher_paw_foreground),
+                                    contentDescription = null,
+                                    contentScale = ContentScale.FillWidth,
+                                )
                             }
                         }
                     }

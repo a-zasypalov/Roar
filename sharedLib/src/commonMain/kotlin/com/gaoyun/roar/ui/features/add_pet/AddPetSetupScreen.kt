@@ -1,5 +1,6 @@
 package com.gaoyun.roar.ui.features.add_pet
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -7,6 +8,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -25,15 +27,17 @@ import com.gaoyun.roar.presentation.LAUNCH_LISTEN_FOR_EFFECTS
 import com.gaoyun.roar.presentation.NavigationSideEffect
 import com.gaoyun.roar.presentation.add_pet.setup.AddPetSetupScreenContract
 import com.gaoyun.roar.presentation.add_pet.setup.AddPetSetupScreenViewModel
+import com.gaoyun.roar.ui.common.composables.BoxWithLoader
 import com.gaoyun.roar.ui.common.composables.PrimaryElevatedButton
 import com.gaoyun.roar.ui.common.composables.Spacer
 import com.gaoyun.roar.ui.common.composables.SurfaceScaffold
-import com.gaoyun.roar.ui.common.composables.BoxWithLoader
+import com.gaoyun.roar.ui.common.ext.getDrawableByName
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.onEach
 import moe.tlaster.precompose.koin.koinViewModel
 import moe.tlaster.precompose.navigation.BackHandler
 import org.jetbrains.compose.resources.ExperimentalResourceApi
+import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
 import roar.sharedlib.generated.resources.Res
 import roar.sharedlib.generated.resources.new_pet_added
@@ -92,11 +96,11 @@ private fun PetAddingComplete(
             .navigationBarsPadding()
     ) {
 
-//        Image(
-//            painter = painterResource(id = context.getDrawableByName(pet.avatar)),
-//            contentDescription = pet.name,
-//            modifier = Modifier.size(96.dp)
-//        )
+        Image(
+            painter = painterResource(getDrawableByName(pet.avatar)),
+            contentDescription = pet.name,
+            modifier = Modifier.size(96.dp)
+        )
 
         Spacer(16.dp)
 

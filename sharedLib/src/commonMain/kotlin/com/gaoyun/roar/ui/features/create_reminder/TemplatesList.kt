@@ -1,5 +1,6 @@
 package com.gaoyun.roar.ui.features.create_reminder
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -24,10 +25,14 @@ import com.gaoyun.roar.model.domain.interactions.InteractionTemplate
 import com.gaoyun.roar.presentation.add_reminder.choose_template.AddReminderScreenContract
 import com.gaoyun.roar.ui.common.composables.RoarIcon
 import com.gaoyun.roar.ui.common.composables.Spacer
+import com.gaoyun.roar.ui.common.ext.getDrawableByName
+import com.gaoyun.roar.ui.common.ext.getName
 import com.gaoyun.roar.ui.common.ext.repeatConfigTextShort
 import com.gaoyun.roar.ui.common.ext.toLocalizedStringId
+import com.gaoyun.roar.ui.common.icon
 import com.gaoyun.roar.ui.theme.RoarTheme
 import org.jetbrains.compose.resources.ExperimentalResourceApi
+import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
 import roar.sharedlib.generated.resources.Res
 import roar.sharedlib.generated.resources.cd_reminder
@@ -52,11 +57,11 @@ fun TemplatesList(
                     .padding(start = 16.dp, top = 8.dp),
                 verticalAlignment = Alignment.CenterVertically
             ) {
-//                Image(
-//                    painter = painterResource(id = LocalContext.current.getDrawableByName(pet.avatar)),
-//                    contentDescription = pet.name,
-//                    modifier = Modifier.size(48.dp)
-//                )
+                Image(
+                    painter = painterResource(getDrawableByName(pet.avatar)),
+                    contentDescription = pet.name,
+                    modifier = Modifier.size(48.dp)
+                )
 
                 Spacer(size = 10.dp)
 
@@ -123,7 +128,7 @@ fun TemplatesList(
                 ) {
                     Row(verticalAlignment = Alignment.CenterVertically) {
                         RoarIcon(
-                            icon = "", //pet.petType.icon(),
+                            icon = pet.petType.icon(),
                             contentDescription = stringResource(resource = Res.string.reminder),
                             modifier = Modifier
                                 .padding(4.dp)
@@ -175,7 +180,7 @@ fun TemplateItem(
         ) {
             Row(verticalAlignment = Alignment.CenterVertically) {
                 RoarIcon(
-                    icon = "", //template.type.icon(),
+                    icon = template.type.icon(),
                     contentDescription = stringResource(resource = Res.string.cd_reminder),
                     modifier = Modifier
                         .padding(4.dp)
@@ -183,11 +188,11 @@ fun TemplateItem(
                 )
                 Spacer(size = 8.dp)
                 Column(modifier = Modifier.weight(1f)) {
-//                    Text( TODO: fix
-//                        text = template.getName(LocalContext.current) ?: "",
-//                        style = MaterialTheme.typography.titleLarge,
-//                        color = MaterialTheme.colorScheme.onSurface
-//                    )
+                    Text(
+                        text = template.getName() ?: "", //TODO: Check if throws
+                        style = MaterialTheme.typography.titleLarge,
+                        color = MaterialTheme.colorScheme.onSurface
+                    )
 
                     Text(
                         template.repeatConfig.repeatConfigTextShort(),

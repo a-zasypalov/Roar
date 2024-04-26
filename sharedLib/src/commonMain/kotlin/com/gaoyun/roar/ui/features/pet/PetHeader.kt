@@ -1,10 +1,12 @@
 package com.gaoyun.roar.ui.features.pet
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
@@ -30,8 +32,10 @@ import com.gaoyun.roar.ui.common.ageText
 import com.gaoyun.roar.ui.common.composables.AutoResizeText
 import com.gaoyun.roar.ui.common.composables.FontSizeRange
 import com.gaoyun.roar.ui.common.composables.Spacer
+import com.gaoyun.roar.ui.common.ext.getDrawableByName
 import com.gaoyun.roar.ui.theme.RoarTheme
 import org.jetbrains.compose.resources.ExperimentalResourceApi
+import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
 import roar.sharedlib.generated.resources.Res
 import roar.sharedlib.generated.resources.chip
@@ -85,13 +89,13 @@ internal fun PetHeader(
                     .weight(0.2f),
                 shape = CircleShape,
             ) {
-//                Image(
-//                    painter = painterResource(id = context.getDrawableByName(pet.avatar)),
-//                    contentDescription = pet.name,
-//                    modifier = Modifier
-//                        .height(72.dp)
-//                        .padding(all = 12.dp)
-//                )
+                Image(
+                    painter = painterResource(getDrawableByName(pet.avatar)),
+                    contentDescription = pet.name,
+                    modifier = Modifier
+                        .height(72.dp)
+                        .padding(all = 12.dp)
+                )
             }
         }
 

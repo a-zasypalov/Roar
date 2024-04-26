@@ -1,8 +1,10 @@
 package com.gaoyun.roar.ui.features.create_reminder
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.size
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -17,13 +19,16 @@ import com.gaoyun.roar.presentation.add_reminder.complete.AddReminderCompleteScr
 import com.gaoyun.roar.ui.common.composables.PrimaryElevatedButton
 import com.gaoyun.roar.ui.common.composables.Spacer
 import com.gaoyun.roar.ui.common.composables.SurfaceScaffold
+import com.gaoyun.roar.ui.common.ext.getDrawableByName
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.onEach
 import moe.tlaster.precompose.koin.koinViewModel
 import moe.tlaster.precompose.navigation.BackHandler
 import org.jetbrains.compose.resources.ExperimentalResourceApi
+import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
 import roar.sharedlib.generated.resources.Res
+import roar.sharedlib.generated.resources.cd_avatar
 import roar.sharedlib.generated.resources.continue_label
 import roar.sharedlib.generated.resources.reminder_ready
 
@@ -62,11 +67,11 @@ private fun ReminderAddingComplete(
         modifier = Modifier.fillMaxSize()
     ) {
 
-//        Image(
-//            painter = painterResource(id = context.getDrawableByName(petAvatar)),
-//            contentDescription = stringResource(id = R.string.cd_avatar),
-//            modifier = Modifier.size(96.dp)
-//        )
+        Image(
+            painter = painterResource(getDrawableByName(petAvatar)),
+            contentDescription = stringResource(Res.string.cd_avatar),
+            modifier = Modifier.size(96.dp)
+        )
 
         Spacer(16.dp)
 

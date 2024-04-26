@@ -13,6 +13,8 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.List
 import androidx.compose.material.icons.filled.Female
 import androidx.compose.material.icons.filled.Male
+import androidx.compose.material.icons.filled.Memory
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
@@ -32,10 +34,10 @@ import com.gaoyun.roar.model.domain.Gender
 import com.gaoyun.roar.model.domain.Pet
 import com.gaoyun.roar.model.domain.toGender
 import com.gaoyun.roar.presentation.add_pet.data.AddPetDataScreenContract
-import com.gaoyun.roar.ui.common.composables.PrimaryElevatedButtonOnSurface
-import com.gaoyun.roar.ui.common.composables.Spacer
 import com.gaoyun.roar.ui.common.composables.DropdownMenu
 import com.gaoyun.roar.ui.common.composables.LabelledCheckBox
+import com.gaoyun.roar.ui.common.composables.PrimaryElevatedButtonOnSurface
+import com.gaoyun.roar.ui.common.composables.Spacer
 import com.gaoyun.roar.ui.common.composables.SurfaceCard
 import com.gaoyun.roar.ui.common.composables.TextFormField
 import com.gaoyun.roar.ui.common.composables.surfaceCardFormElevation
@@ -49,11 +51,13 @@ import kotlinx.datetime.atStartOfDayIn
 import org.jetbrains.compose.resources.ExperimentalResourceApi
 import org.jetbrains.compose.resources.stringResource
 import roar.sharedlib.generated.resources.Res
+import roar.sharedlib.generated.resources.add_pet
 import roar.sharedlib.generated.resources.breed
 import roar.sharedlib.generated.resources.chip_number
 import roar.sharedlib.generated.resources.gender
 import roar.sharedlib.generated.resources.pet_is_sterilized
 import roar.sharedlib.generated.resources.pets_card
+import roar.sharedlib.generated.resources.save
 
 @OptIn(ExperimentalResourceApi::class)
 @Composable
@@ -154,13 +158,13 @@ internal fun AddPetForm(
 
                 TextFormField(
                     text = chipNumberState,
-//                    leadingIcon = {
-//                        Icon(
-//                            Icons.Filled.Memory,
-//                            stringResource(id = R.string.chip_number),
-//                            tint = MaterialTheme.colorScheme.onBackground
-//                        )
-//                    },
+                    leadingIcon = {
+                        Icon(
+                            Icons.Filled.Memory,
+                            stringResource(resource = Res.string.chip_number),
+                            tint = MaterialTheme.colorScheme.onBackground
+                        )
+                    },
                     label = stringResource(resource = Res.string.chip_number),
                     onChange = {
                         chipNumberState = it
@@ -183,7 +187,7 @@ internal fun AddPetForm(
                 Spacer(size = 32.dp)
 
                 PrimaryElevatedButtonOnSurface(
-                    text = "Add/Save", //if (petToEdit != null) stringResource(id = R.string.save) else stringResource(id = R.string.add_pet),
+                    text = if (petToEdit != null) stringResource(Res.string.save) else stringResource(Res.string.add_pet),
                     onClick = {
                         if (petName.value.isBlank()) {
                             coroutineScope.launch {

@@ -1,6 +1,7 @@
 package com.gaoyun.roar.ui.features.add_pet
 
 import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.WindowInsets
@@ -32,11 +33,13 @@ import com.gaoyun.roar.presentation.NavigationSideEffect
 import com.gaoyun.roar.presentation.add_pet.avatar.AddPetAvatarScreenContract
 import com.gaoyun.roar.presentation.add_pet.avatar.AddPetAvatarScreenViewModel
 import com.gaoyun.roar.ui.common.composables.SurfaceScaffold
+import com.gaoyun.roar.ui.common.ext.getDrawableByName
 import com.gaoyun.roar.ui.theme.RoarTheme
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.onEach
 import moe.tlaster.precompose.koin.koinViewModel
 import org.jetbrains.compose.resources.ExperimentalResourceApi
+import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
 import roar.sharedlib.generated.resources.Res
 import roar.sharedlib.generated.resources.choose_avatar
@@ -115,7 +118,7 @@ fun PetAvatarScreen(
 }
 
 @Composable
-@OptIn(ExperimentalFoundationApi::class)
+@OptIn(ExperimentalFoundationApi::class, ExperimentalResourceApi::class)
 private fun LazyGridItemScope.AvatarItem(
     avatar: PetsConfig.PetAvatarConfig,
     petType: String,
@@ -142,14 +145,13 @@ private fun LazyGridItemScope.AvatarItem(
                     )
                 }
         ) {
-            Box(modifier = Modifier.size(64.dp)) //TODO: Remove
-//            Image(
-//                painter = painterResource(id = context.getDrawableByName(avatar.iconRes)),
-//                contentDescription = petType,
-//                modifier = Modifier
-//                    .size(96.dp)
-//                    .padding(16.dp)
-//            )
+            Image(
+                painter = painterResource(getDrawableByName(avatar.iconRes)),
+                contentDescription = petType,
+                modifier = Modifier
+                    .size(96.dp)
+                    .padding(16.dp)
+            )
         }
     }
 }

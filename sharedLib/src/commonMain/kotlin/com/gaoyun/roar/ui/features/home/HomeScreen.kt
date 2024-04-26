@@ -18,10 +18,10 @@ import com.gaoyun.roar.presentation.LAUNCH_LISTEN_FOR_EFFECTS
 import com.gaoyun.roar.presentation.NavigationSideEffect
 import com.gaoyun.roar.presentation.home_screen.HomeScreenContract
 import com.gaoyun.roar.presentation.home_screen.HomeScreenViewModel
-import com.gaoyun.roar.ui.common.composables.Spacer
-import com.gaoyun.roar.ui.common.composables.SurfaceScaffold
 import com.gaoyun.roar.ui.common.composables.BoxWithLoader
 import com.gaoyun.roar.ui.common.composables.RoarExtendedFAB
+import com.gaoyun.roar.ui.common.composables.Spacer
+import com.gaoyun.roar.ui.common.composables.SurfaceScaffold
 import com.gaoyun.roar.ui.common.dialog.InteractionCompletionDialog
 import com.gaoyun.roar.ui.common.dialog.RemovePetConfirmationDialog
 import com.gaoyun.roar.ui.features.home.states.HomeState
@@ -33,7 +33,13 @@ import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.onEach
 import moe.tlaster.precompose.koin.koinViewModel
 import moe.tlaster.precompose.navigation.BackHandler
+import org.jetbrains.compose.resources.ExperimentalResourceApi
+import org.jetbrains.compose.resources.stringResource
+import roar.sharedlib.generated.resources.Res
+import roar.sharedlib.generated.resources.add_reminder
+import roar.sharedlib.generated.resources.reminder
 
+@OptIn(ExperimentalResourceApi::class)
 @Composable
 fun HomeScreenDestination(onNavigationCall: (NavigationSideEffect) -> Unit) {
     val viewModel = koinViewModel(vmClass = HomeScreenViewModel::class)
@@ -78,8 +84,8 @@ fun HomeScreenDestination(onNavigationCall: (NavigationSideEffect) -> Unit) {
             if (state.pets.isNotEmpty()) {
                 RoarExtendedFAB(
                     icon = Icons.Filled.Add,
-                    contentDescription = "Add Reminder",//stringResource(id = R.string.add_reminder),
-                    text = "Add Reminder", //stringResource(id = R.string.reminder),
+                    contentDescription = stringResource(Res.string.add_reminder),
+                    text = stringResource(Res.string.reminder),
                     extended = fabExtended,
                     onClick = {
                         if (state.pets.size > 1) {
@@ -101,7 +107,8 @@ fun HomeScreenDestination(onNavigationCall: (NavigationSideEffect) -> Unit) {
 //                }
 //            }
 //        }
-//
+// TODO: Fix login launcher
+
         when {
             state.showPetChooser -> {
                 InteractionPetChooser(

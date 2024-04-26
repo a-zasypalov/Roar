@@ -1,5 +1,7 @@
 package com.gaoyun.roar.ui.features.about
 
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -7,6 +9,9 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Language
+import androidx.compose.material.icons.filled.Mail
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
@@ -17,6 +22,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.graphics.vector.rememberVectorPainter
@@ -36,11 +42,15 @@ import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.onEach
 import moe.tlaster.precompose.koin.koinViewModel
 import org.jetbrains.compose.resources.ExperimentalResourceApi
+import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
 import roar.sharedlib.generated.resources.Res
 import roar.sharedlib.generated.resources.about_app_description
 import roar.sharedlib.generated.resources.about_app_title
 import roar.sharedlib.generated.resources.app_name
+import roar.sharedlib.generated.resources.ic_tab_home
+import roar.sharedlib.generated.resources.ic_telegram
+import roar.sharedlib.generated.resources.ic_twitter
 import roar.sharedlib.generated.resources.privacy_policy
 import roar.sharedlib.generated.resources.terms_and_conditions_button
 import roar.sharedlib.generated.resources.url_email
@@ -107,12 +117,12 @@ fun AboutScreenContent() {
                 .clip(MaterialTheme.shapes.extraLarge)
                 .size(120.dp)
         ) {
-//            Image(
-//                painter = painterResource(id = R.drawable.ic_tab_home),
-//                contentDescription = "icon",
-//                modifier = Modifier.padding(16.dp),
-//                colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.inverseSurface)
-//            )
+            Image(
+                painter = painterResource(resource = Res.drawable.ic_tab_home),
+                contentDescription = "icon",
+                modifier = Modifier.padding(16.dp),
+                colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.inverseSurface)
+            )
         }
 
         Spacer(size = 32.dp)
@@ -170,22 +180,22 @@ private fun LinksBlock() {
     val subject = stringResource(resource = Res.string.app_name)
 
     Row {
-//        LinkItem(
-//            painterResource(id = R.drawable.ic_telegram),
-//            Modifier.clickable { uriHandler.openUri(telegramUrl) }
-//        )
-//        Spacer(size = 24.dp)
-//        LinkItem(
-//            Icons.Default.Mail,
-//            Modifier.clickable { context.sendMail(to = email, subject = subject) }
-//        )
-//        Spacer(size = 24.dp)
-//        LinkItem(
-//            painterResource(id = R.drawable.ic_twitter),
-//            Modifier.clickable { uriHandler.openUri(twitterUrl) }
-//        )
-//        Spacer(size = 24.dp)
-//        LinkItem(Icons.Default.Language, Modifier.clickable { uriHandler.openUri(webUrl) })
+        LinkItem(
+            painterResource(resource = Res.drawable.ic_telegram),
+            Modifier.clickable { uriHandler.openUri(telegramUrl) }
+        )
+        Spacer(size = 24.dp)
+        LinkItem(
+            Icons.Default.Mail,
+            Modifier.clickable { /*context.sendMail(to = email, subject = subject)*/ }
+        )
+        Spacer(size = 24.dp)
+        LinkItem(
+            painterResource(resource = Res.drawable.ic_twitter),
+            Modifier.clickable { uriHandler.openUri(twitterUrl) }
+        )
+        Spacer(size = 24.dp)
+        LinkItem(Icons.Default.Language, Modifier.clickable { uriHandler.openUri(webUrl) })
     }
 }
 

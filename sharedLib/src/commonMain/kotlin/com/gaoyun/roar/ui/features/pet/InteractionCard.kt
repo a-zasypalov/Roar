@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
@@ -20,8 +21,11 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.gaoyun.roar.model.domain.interactions.InteractionWithReminders
-import com.gaoyun.roar.ui.common.composables.Spacer
 import com.gaoyun.roar.ui.common.composables.LabelledCheckBox
+import com.gaoyun.roar.ui.common.composables.RoarIcon
+import com.gaoyun.roar.ui.common.composables.Spacer
+import com.gaoyun.roar.ui.common.ext.repeatConfigTextShort
+import com.gaoyun.roar.ui.common.icon
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -32,6 +36,7 @@ import kotlinx.datetime.toLocalDateTime
 import org.jetbrains.compose.resources.ExperimentalResourceApi
 import org.jetbrains.compose.resources.stringResource
 import roar.sharedlib.generated.resources.Res
+import roar.sharedlib.generated.resources.cd_reminder
 import roar.sharedlib.generated.resources.no_active_reminder
 
 @OptIn(ExperimentalResourceApi::class)
@@ -73,13 +78,13 @@ fun InteractionCard(
                 verticalAlignment = Alignment.CenterVertically,
                 modifier = Modifier.padding(horizontal = 16.dp)
             ) {
-//                RoarIcon(
-//                    icon = interaction.type.icon(),
-//                    contentDescription = stringResource(id = R.string.cd_reminder),
-//                    modifier = Modifier
-//                        .padding(4.dp)
-//                        .size(32.dp)
-//                )
+                RoarIcon(
+                    icon = interaction.type.icon(),
+                    contentDescription = stringResource(Res.string.cd_reminder),
+                    modifier = Modifier
+                        .padding(4.dp)
+                        .size(32.dp)
+                )
                 Spacer(size = 8.dp)
                 Column(modifier = Modifier.weight(1f)) {
                     Text(
@@ -89,7 +94,7 @@ fun InteractionCard(
                     )
 
                     Text(
-                        "Repeat config", //interaction.repeatConfigTextShort(),
+                        interaction.repeatConfigTextShort(),
                         style = MaterialTheme.typography.bodyMedium,
                         color = MaterialTheme.colorScheme.onSurface
                     )
@@ -110,7 +115,7 @@ fun InteractionCard(
 //                        }
 //                    } ${stringResource(id = R.string.at)} ${
 //                        reminderToShow.dateTime.toJavaLocalDateTime().format(DateUtils.hhMmTimeFormatter)
-//                    }",
+//                    }", TODO: FIx date
                     modifier = Modifier.fillMaxWidth(),
                     verticalPadding = 16.dp,
                     horizontalPadding = 20.dp,

@@ -9,6 +9,7 @@ import androidx.compose.foundation.relocation.BringIntoViewRequester
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.FormatListBulleted
 import androidx.compose.material.icons.automirrored.filled.Notes
 import androidx.compose.material.icons.filled.Repeat
 import androidx.compose.material.icons.filled.TaskAlt
@@ -34,13 +35,16 @@ import com.gaoyun.roar.model.domain.interactions.InteractionTemplate
 import com.gaoyun.roar.model.domain.interactions.InteractionType
 import com.gaoyun.roar.model.domain.interactions.InteractionWithReminders
 import com.gaoyun.roar.model.domain.interactions.toInteractionGroup
+import com.gaoyun.roar.ui.common.composables.DropdownMenu
 import com.gaoyun.roar.ui.common.composables.LabelledCheckBox
 import com.gaoyun.roar.ui.common.composables.PrimaryElevatedButton
 import com.gaoyun.roar.ui.common.composables.ReadonlyTextField
 import com.gaoyun.roar.ui.common.composables.Spacer
 import com.gaoyun.roar.ui.common.composables.TextFormField
+import com.gaoyun.roar.ui.common.ext.getName
 import com.gaoyun.roar.ui.common.ext.remindConfigTextFull
 import com.gaoyun.roar.ui.common.ext.repeatConfigTextFull
+import com.gaoyun.roar.ui.common.ext.toLocalizedStringId
 import kotlinx.coroutines.launch
 import kotlinx.datetime.Clock
 import kotlinx.datetime.LocalTime
@@ -52,6 +56,7 @@ import roar.sharedlib.generated.resources.Res
 import roar.sharedlib.generated.resources.create
 import roar.sharedlib.generated.resources.date_time
 import roar.sharedlib.generated.resources.enable_repeat
+import roar.sharedlib.generated.resources.group
 import roar.sharedlib.generated.resources.name
 import roar.sharedlib.generated.resources.next_occurrence
 import roar.sharedlib.generated.resources.notes
@@ -83,9 +88,10 @@ internal fun ReminderSetupForm(
         )
     }
 
+    val templateName = template?.getName()
     val reminderName = rememberSaveable {
         mutableStateOf(
-            interactionToEdit?.name //?: template?.getName(activity) ?: ""
+            interactionToEdit?.name ?: templateName ?: ""
         )
     }
     val notesState = remember { mutableStateOf(interactionToEdit?.notes ?: "") }
@@ -115,7 +121,7 @@ internal fun ReminderSetupForm(
         mutableStateOf(
             TextFieldValue(
                 StringBuilder()
-//                    .append(
+//                    .append( TODO: fix
 //                        Instant.fromEpochMilliseconds(startsOnDate.value)
 //                            .toLocalDateTime(TimeZone.currentSystemDefault()).toJavaLocalDateTime()
 //                            .format(ddMmmYyyyDateFormatter)
@@ -172,16 +178,15 @@ internal fun ReminderSetupForm(
         Spacer(size = 16.dp)
 
         if (template == null) {
-//            DropdownMenu(
-//                valueList = InteractionGroup.GROUP_LIST.map { it.toString() },
-//                listState = interactionGroupState,
-//                valueDisplayList = InteractionGroup.GROUP_LIST.map { it.toLocalizedStringId() },
-//                listDisplayState = interactionGroupState.value.toInteractionGroup()
-//                    .toLocalizedStringId(),
-//                label = stringResource(id = R.string.group),
-//                leadingIcon = Icons.AutoMirrored.Filled.FormatListBulleted,
-//                modifier = Modifier.padding(horizontal = 24.dp),
-//            )
+            DropdownMenu(
+                valueList = InteractionGroup.GROUP_LIST.map { it.toString() },
+                listState = interactionGroupState,
+                valueDisplayList = InteractionGroup.GROUP_LIST.map { stringResource(it.toLocalizedStringId()) },
+                listDisplayState = stringResource(interactionGroupState.value.toInteractionGroup().toLocalizedStringId()),
+                label = stringResource(Res.string.group),
+                leadingIcon = Icons.AutoMirrored.Filled.FormatListBulleted,
+                modifier = Modifier.padding(horizontal = 24.dp),
+            )
 
             Spacer(size = 16.dp)
         }

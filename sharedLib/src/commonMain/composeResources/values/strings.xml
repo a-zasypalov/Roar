@@ -172,7 +172,7 @@
         <item quantity="other">times</item>
     </plurals>
 
-    <array name="weekdays">
+    <string-array name="weekdays">
         <item>Monday</item>
         <item>Tuesday</item>
         <item>Wednesday</item>
@@ -180,9 +180,9 @@
         <item>Friday</item>
         <item>Saturday</item>
         <item>Sunday</item>
-    </array>
+    </string-array>
 
-    <array name="weekdays_short">
+    <string-array name="weekdays_short">
         <item>Mon</item>
         <item>Tue</item>
         <item>Wed</item>
@@ -190,7 +190,7 @@
         <item>Fri</item>
         <item>Sat</item>
         <item>Sun</item>
-    </array>
+    </string-array>
 
     <string name="onboarding_care_assistant">Pet's care assistant</string>
     <string name="onboarding_care_reminders">Care reminders</string>

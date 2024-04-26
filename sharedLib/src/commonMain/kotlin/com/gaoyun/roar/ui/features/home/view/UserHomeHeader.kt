@@ -1,5 +1,6 @@
 package com.gaoyun.roar.ui.features.home.view
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -10,8 +11,8 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.material.icons.filled.Pets
-import androidx.compose.material3.Divider
 import androidx.compose.material3.FilledTonalButton
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
@@ -19,13 +20,16 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.unit.dp
 import com.gaoyun.roar.ui.common.composables.Spacer
 import com.gaoyun.roar.ui.theme.RoarTheme
 import org.jetbrains.compose.resources.ExperimentalResourceApi
+import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
 import roar.sharedlib.generated.resources.Res
 import roar.sharedlib.generated.resources.add_pet
+import roar.sharedlib.generated.resources.ic_tab_home
 import roar.sharedlib.generated.resources.profile
 
 @OptIn(ExperimentalResourceApi::class)
@@ -57,14 +61,14 @@ internal fun UserHomeHeader(
                 )
             }
 
-//            Image(
-//                painter = painterResource(id = R.drawable.ic_tab_home),
-//                contentDescription = "icon",
-//                modifier = Modifier
-//                    .weight(0.24f)
-//                    .padding(horizontal = 24.dp),
-//                colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.inverseSurface)
-//            )
+            Image(
+                painter = painterResource(Res.drawable.ic_tab_home),
+                contentDescription = "icon",
+                modifier = Modifier
+                    .weight(0.24f)
+                    .padding(horizontal = 24.dp),
+                colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.inverseSurface)
+            )
 
             Surface(
                 tonalElevation = RoarTheme.CONTENT_CARD_ELEVATION,
@@ -89,7 +93,7 @@ internal fun UserHomeHeader(
 
         Spacer(size = 12.dp)
 
-        Divider()
+        HorizontalDivider()
     }
 }
 

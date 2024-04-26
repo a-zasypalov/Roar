@@ -4,6 +4,7 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -15,10 +16,13 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.gaoyun.roar.model.domain.interactions.InteractionWithReminders
+import com.gaoyun.roar.ui.common.composables.RoarIcon
 import com.gaoyun.roar.ui.common.composables.Spacer
+import com.gaoyun.roar.ui.common.icon
 import org.jetbrains.compose.resources.ExperimentalResourceApi
 import org.jetbrains.compose.resources.stringResource
 import roar.sharedlib.generated.resources.Res
+import roar.sharedlib.generated.resources.cd_reminder
 import roar.sharedlib.generated.resources.n_occurrences
 
 @OptIn(ExperimentalResourceApi::class)
@@ -37,7 +41,7 @@ fun InactiveInteractionCard(
 //        } else {
 //            it.format(DateUtils.ddMmmmDateFormatter)
 //        }
-//    } ?: "..."
+//    } ?: "..." TODO: fix date
     val lastReminderDate = ""
 
     Surface(
@@ -52,13 +56,13 @@ fun InactiveInteractionCard(
                 .clickable { onClick(interaction.id) }
                 .padding(vertical = 12.dp, horizontal = 16.dp)
         ) {
-//            RoarIcon(
-//                icon = interaction.type.icon(),
-//                contentDescription = stringResource(id = R.string.cd_reminder),
-//                modifier = Modifier
-//                    .padding(4.dp)
-//                    .size(32.dp)
-//            )
+            RoarIcon(
+                icon = interaction.type.icon(),
+                contentDescription = stringResource(Res.string.cd_reminder),
+                modifier = Modifier
+                    .padding(4.dp)
+                    .size(32.dp)
+            )
             Spacer(size = 8.dp)
             Column(modifier = Modifier.weight(1f)) {
                 Text(

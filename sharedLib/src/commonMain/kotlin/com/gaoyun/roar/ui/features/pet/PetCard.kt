@@ -1,6 +1,7 @@
 package com.gaoyun.roar.ui.features.pet
 
 import androidx.compose.animation.animateContentSize
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -17,12 +18,16 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.gaoyun.roar.model.domain.PetWithInteractions
-import com.gaoyun.roar.ui.common.composables.Spacer
 import com.gaoyun.roar.ui.common.ageText
+import com.gaoyun.roar.ui.common.composables.Spacer
+import com.gaoyun.roar.ui.common.ext.getDrawableByName
 import com.gaoyun.roar.ui.theme.RoarTheme
 import com.gaoyun.roar.util.SharedDateUtils
 import kotlinx.datetime.LocalDateTime
+import org.jetbrains.compose.resources.ExperimentalResourceApi
+import org.jetbrains.compose.resources.painterResource
 
+@OptIn(ExperimentalResourceApi::class)
 @Composable
 fun PetCard(
     pet: PetWithInteractions,
@@ -45,13 +50,13 @@ fun PetCard(
                     .padding(horizontal = 12.dp, vertical = 8.dp),
                 verticalAlignment = Alignment.CenterVertically
             ) {
-//                Image(
-//                    painter = painterResource(id = context.getDrawableByName(pet.avatar)),
-//                    contentDescription = pet.petType.toString(),
-//                    modifier = Modifier
-//                        .size(72.dp)
-//                        .padding(8.dp)
-//                )
+                Image(
+                    painter = painterResource(getDrawableByName(pet.avatar)),
+                    contentDescription = pet.petType.toString(),
+                    modifier = Modifier
+                        .size(72.dp)
+                        .padding(8.dp)
+                )
 
                 Spacer(modifier = Modifier.size(8.dp))
 

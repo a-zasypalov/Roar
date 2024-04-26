@@ -3,6 +3,7 @@ package com.gaoyun.roar.ui.features.pet
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material3.FabPosition
@@ -22,9 +23,9 @@ import com.gaoyun.roar.presentation.LAUNCH_LISTEN_FOR_EFFECTS
 import com.gaoyun.roar.presentation.NavigationSideEffect
 import com.gaoyun.roar.presentation.pet_screen.PetScreenContract
 import com.gaoyun.roar.presentation.pet_screen.PetScreenViewModel
-import com.gaoyun.roar.ui.common.composables.SurfaceScaffold
 import com.gaoyun.roar.ui.common.composables.BoxWithLoader
 import com.gaoyun.roar.ui.common.composables.RoarExtendedFAB
+import com.gaoyun.roar.ui.common.composables.SurfaceScaffold
 import com.gaoyun.roar.ui.common.dialog.InteractionCompletionDialog
 import com.gaoyun.roar.ui.common.dialog.RemovePetConfirmationDialog
 import com.gaoyun.roar.util.SharedDateUtils
@@ -168,7 +169,7 @@ fun PetScreenDestination(
                         }
                     },
                     modifier = Modifier
-//                        .verticalScroll(verticalScroll)
+                        .verticalScroll(verticalScroll)
                         .padding(start = 8.dp, end = 8.dp)
                         .fillMaxWidth()
                 )
