@@ -11,3 +11,4 @@ xcuserdata
 /androidApp/google-services.json
 /androidApp/release/
 /iosApp/iosApp/GoogleService-Info.plist
+.kotlin
