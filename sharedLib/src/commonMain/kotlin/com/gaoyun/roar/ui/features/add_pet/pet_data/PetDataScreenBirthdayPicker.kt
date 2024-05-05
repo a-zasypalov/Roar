@@ -16,14 +16,17 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
 import com.gaoyun.roar.ui.common.composables.ReadonlyTextField
+import com.gaoyun.roar.ui.common.dialog.DatePicker
 import com.gaoyun.roar.util.DateFormats
 import com.gaoyun.roar.util.formatDate
 import com.gaoyun.roar.util.toLocalDate
+import kotlinx.datetime.Clock
 import kotlinx.datetime.Instant
 import org.jetbrains.compose.resources.ExperimentalResourceApi
 import org.jetbrains.compose.resources.stringResource
 import roar.sharedlib.generated.resources.Res
 import roar.sharedlib.generated.resources.birthday
+import roar.sharedlib.generated.resources.pets_birthday
 
 @OptIn(ExperimentalResourceApi::class)
 @Composable
@@ -37,6 +40,8 @@ fun PetDataScreenBirthdayPicker(
                 .formatDate(DateFormats.ddMmmmYyyyDateFormat)
         } ?: ""))
     }
+
+    val showPicker = remember { mutableStateOf(false) }
 
     ReadonlyTextField(
         value = petBirthdayStringState,
@@ -52,22 +57,24 @@ fun PetDataScreenBirthdayPicker(
             Text(text = stringResource(resource = Res.string.birthday))
         },
         modifier = Modifier.padding(horizontal = 24.dp),
-        onClick = {
-//            DatePicker.pickDate(
-//                title = activity.getString(R.string.pets_birthday),
-//                end = Instant.now().toEpochMilli(),
-//                fragmentManager = activity.supportFragmentManager,
-//                selectedDateMillis = petBirthdayState.value,
-//                onDatePicked = {
-//                    petBirthdayState.value = it
-//                    petBirthdayStringState = TextFieldValue(
-//                        Instant.ofEpochMilli(it)
-//                            .atZone(ZoneId.systemDefault())
-//                            .toLocalDate()
-//                            .format(ddMmmmYyyyDateFormatter)
-//                    )
-//                }
-//            )
-        },
+        onClick = { showPicker.value = true },
     )
+
+    if (showPicker.value) {
+        DatePicker.pickDate(
+            title = stringResource(Res.string.pets_birthday),
+            end = Clock.System.now(),
+            selectedDateMillis = petBirthdayState.value,
+            onDatePicked = {
+                petBirthdayState.value = it
+                petBirthdayStringState = TextFieldValue(
+                    Instant.fromEpochMilliseconds(it)
+                        .toLocalDate()
+                        .formatDate(DateFormats.ddMmmmYyyyDateFormat)
+                )
+                showPicker.value = false
+            },
+            onDismiss = { showPicker.value = false }
+        )
+    }
 }

@@ -41,12 +41,16 @@ import com.gaoyun.roar.ui.common.composables.PrimaryElevatedButton
 import com.gaoyun.roar.ui.common.composables.ReadonlyTextField
 import com.gaoyun.roar.ui.common.composables.Spacer
 import com.gaoyun.roar.ui.common.composables.TextFormField
+import com.gaoyun.roar.ui.common.dialog.DatePicker
+import com.gaoyun.roar.ui.common.dialog.TimePicker
 import com.gaoyun.roar.ui.common.ext.getName
 import com.gaoyun.roar.ui.common.ext.remindConfigTextFull
 import com.gaoyun.roar.ui.common.ext.repeatConfigTextFull
 import com.gaoyun.roar.ui.common.ext.toLocalizedStringId
 import com.gaoyun.roar.util.DateFormats
+import com.gaoyun.roar.util.formatDate
 import com.gaoyun.roar.util.formatDateTime
+import com.gaoyun.roar.util.toLocalDate
 import kotlinx.coroutines.launch
 import kotlinx.datetime.Clock
 import kotlinx.datetime.Instant
@@ -65,6 +69,7 @@ import roar.sharedlib.generated.resources.name
 import roar.sharedlib.generated.resources.next_occurrence
 import roar.sharedlib.generated.resources.notes
 import roar.sharedlib.generated.resources.remind
+import roar.sharedlib.generated.resources.remind_on_from
 import roar.sharedlib.generated.resources.repeat
 import roar.sharedlib.generated.resources.save
 import kotlin.time.Duration.Companion.days
@@ -105,6 +110,8 @@ internal fun ReminderSetupForm(
     }
     val showRepeatConfigDialog = remember { mutableStateOf(false) }
     val showRemindConfigDialog = remember { mutableStateOf(false) }
+    val showDatePickerDialog = remember { mutableStateOf(false) }
+    val showTimePickerDialog = remember { mutableStateOf(false) }
 
     val startsOnDate = remember {
         mutableStateOf(
@@ -155,6 +162,50 @@ internal fun ReminderSetupForm(
         )
     }
 
+    if (showDatePickerDialog.value) {
+        DatePicker.pickDate(
+            title = stringResource(Res.string.remind_on_from),
+            selectedDateMillis = startsOnDate.value,
+            start = Clock.System.now(),
+            onDatePicked = { newDate ->
+                showDatePickerDialog.value = false
+                startsOnDate.value = newDate
+                val hoursFormatted = if (startsOnTime.value.hour < 10) "0${startsOnTime.value.hour}" else "${startsOnTime.value.hour}"
+                val minutesFormatted = if (startsOnTime.value.minute < 10) "0${startsOnTime.value.hour}" else "${startsOnTime.value.hour}"
+                startsOnDateTimeString.value = TextFieldValue(
+                    "${
+                        Instant.fromEpochMilliseconds(startsOnDate.value).toLocalDate().formatDate(DateFormats.ddMmmYyyyDateFormat)
+                    }, $hoursFormatted:$minutesFormatted"
+                )
+                showTimePickerDialog.value = true
+            },
+            onDismiss = { showDatePickerDialog.value = false }
+        )
+    }
+
+    if (showTimePickerDialog.value) {
+        TimePicker.pickTime(
+            hourAndMinutes = listOf(
+                startsOnTime.value.hour,
+                startsOnTime.value.minute
+            ),
+            onTimePicked = { hours, minutes ->
+                val hoursFormatted = if (hours < 10) "0$hours" else "$hours"
+                val minutesFormatted = if (minutes < 10) "0$minutes" else "$minutes"
+                val newTime = "$hoursFormatted:$minutesFormatted"
+
+                startsOnTime.value = LocalTime.parse(newTime)
+                startsOnDateTimeString.value = TextFieldValue(
+                    "${
+                        Instant.fromEpochMilliseconds(startsOnDate.value).toLocalDate().formatDate(DateFormats.ddMmmYyyyDateFormat)
+                    }, $hoursFormatted:$minutesFormatted"
+                )
+                showTimePickerDialog.value = false
+            },
+            onDismiss = { showTimePickerDialog.value = false }
+        )
+    }
+
     Column(
         modifier = Modifier
             .verticalScroll(rememberScrollState())
@@ -163,7 +214,7 @@ internal fun ReminderSetupForm(
         Spacer(size = 12.dp)
 
         TextFormField(
-            text = reminderName.value ?: "",
+            text = reminderName.value,
             leadingIcon = {
                 Icon(
                     Icons.Filled.TaskAlt,
@@ -207,43 +258,7 @@ internal fun ReminderSetupForm(
                     }
                 )
             },
-            onClick = {
-//                DatePicker.pickDate(
-//                    title = activity.getString(R.string.remind_on_from),
-//                    fragmentManager = activity.supportFragmentManager,
-//                    selectedDateMillis = startsOnDate.value,
-//                    start = Clock.System.now().toEpochMilliseconds(),
-//                    onDatePicked = { newDate ->
-//                        TimePicker
-//                            .pickTime(
-//                                title = activity.getString(R.string.remind_at),
-//                                activity = activity,
-//                                hourAndMinutes = listOf(
-//                                    startsOnTime.value.hour,
-//                                    startsOnTime.value.minute
-//                                ),
-//                                onTimePicked = { hours, minutes ->
-//                                    val hoursFormatted = if (hours < 10) "0$hours" else "$hours"
-//                                    val minutesFormatted =
-//                                        if (minutes < 10) "0$minutes" else "$minutes"
-//                                    val newTime = "$hoursFormatted:$minutesFormatted"
-//
-//                                    startsOnDate.value = newDate
-//                                    startsOnTime.value = LocalTime.parse(newTime)
-//
-//                                    startsOnDateTimeString.value = TextFieldValue(
-//                                        "${
-//                                            Instant.fromEpochMilliseconds(newDate)
-//                                                .toLocalDate()
-//                                                .toJavaLocalDate()
-//                                                .format(ddMmmYyyyDateFormatter)
-//                                        }, $hoursFormatted:$minutesFormatted"
-//                                    )
-//                                }
-//                            )
-//                    }
-//                )
-            },
+            onClick = { showDatePickerDialog.value = true },
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(horizontal = 24.dp)

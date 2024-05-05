@@ -40,6 +40,7 @@ import com.gaoyun.roar.ui.common.composables.ReadonlyTextField
 import com.gaoyun.roar.ui.common.composables.Spacer
 import com.gaoyun.roar.ui.common.composables.SurfaceCard
 import com.gaoyun.roar.ui.common.composables.TextFormField
+import com.gaoyun.roar.ui.common.dialog.DatePicker
 import com.gaoyun.roar.ui.common.ext.toLocalizedStringId
 import com.gaoyun.roar.util.DateFormats
 import com.gaoyun.roar.util.formatDate
@@ -65,6 +66,7 @@ import roar.sharedlib.generated.resources.last_day
 import roar.sharedlib.generated.resources.never
 import roar.sharedlib.generated.resources.occurrences
 import roar.sharedlib.generated.resources.on_date
+import roar.sharedlib.generated.resources.reminder_ends_on
 import roar.sharedlib.generated.resources.repeats_every
 import roar.sharedlib.generated.resources.same_day
 import roar.sharedlib.generated.resources.week
@@ -174,6 +176,25 @@ internal fun RepeatConfigDialog(
 
     val defaultHorizontalPadding = 24.dp
 
+    val showDatePickerDialog = remember { mutableStateOf(false) }
+    if (showDatePickerDialog.value) {
+        DatePicker.pickDate(
+            title = stringResource(Res.string.reminder_ends_on),
+            start = Clock.System.now(),
+            selectedDateMillis = Clock.System.now().toEpochMilliseconds(),
+            onDatePicked = {
+                endsOnDateState.value = it
+                endsOnDateStateString.value = TextFieldValue(
+                    Instant.fromEpochMilliseconds(it)
+                        .toLocalDate()
+                        .formatDate(DateFormats.ddMmmYyyyDateFormat)
+                )
+                showDatePickerDialog.value = false
+            },
+            onDismiss = { showDatePickerDialog.value = false }
+        )
+    }
+
     Dialog(
         onDismissRequest = { setShowDialog(false) },
         properties = DialogProperties(
@@ -271,7 +292,7 @@ internal fun RepeatConfigDialog(
                                 }
                                 add(stringResource(resource = Res.string.last_day))
                             }
-                            com.gaoyun.roar.ui.common.composables.DropdownMenu(
+                            DropdownMenu(
                                 valueList = days,
                                 listState = repeatsEveryPeriodOnMonthDay,
                                 valueDisplayList = null,
@@ -315,23 +336,7 @@ internal fun RepeatConfigDialog(
                                 value = endsOnDateStateString.value,
                                 onValueChange = { endsOnDateStateString.value = it },
                                 label = { Text(text = stringResource(resource = Res.string.end_on_date)) },
-                                onClick = {
-//                                    DatePicker.pickDate( TODO: fix
-//                                        title = activity.getString(R.string.reminder_ends_on),
-//                                        start = Clock.System.now().toEpochMilliseconds(),
-//                                        fragmentManager = activity.supportFragmentManager,
-//                                        selectedDateMillis = Clock.System.now().toEpochMilliseconds(),
-//                                        onDatePicked = {
-//                                            endsOnDateState.value = it
-//                                            endsOnDateStateString.value = TextFieldValue(
-//                                                Instant.fromEpochMilliseconds(it)
-//                                                    .toLocalDate()
-//                                                    .toJavaLocalDate()
-//                                                    .format(ddMmmYyyyDateFormatter)
-//                                            )
-//                                        }
-//                                    )
-                                },
+                                onClick = { showDatePickerDialog.value = true },
                                 modifier = Modifier
                                     .fillMaxWidth()
                                     .padding(horizontal = defaultHorizontalPadding)
