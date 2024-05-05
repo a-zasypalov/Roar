@@ -15,13 +15,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.gaoyun.roar.presentation.user_screen.UserScreenContract
 import com.gaoyun.roar.ui.common.composables.Spacer
-import org.jetbrains.compose.resources.ExperimentalResourceApi
 import org.jetbrains.compose.resources.stringResource
 import roar.sharedlib.generated.resources.Res
 import roar.sharedlib.generated.resources.export_button
 import roar.sharedlib.generated.resources.import_button
 
-@OptIn(ExperimentalResourceApi::class)
 @Composable
 internal fun UserScreenBackupBlock(
     onCreateBackupClick: (UserScreenContract.Event.OnCreateBackupClick) -> Unit,

@@ -13,14 +13,12 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.gaoyun.roar.ui.common.composables.PrimaryElevatedButton
-import org.jetbrains.compose.resources.ExperimentalResourceApi
 import org.jetbrains.compose.resources.stringResource
 import roar.sharedlib.generated.resources.Res
 import roar.sharedlib.generated.resources.login
 import roar.sharedlib.generated.resources.register_or_login
 import roar.sharedlib.generated.resources.register_to_get_started
 
-@OptIn(ExperimentalResourceApi::class)
 @Composable
 fun NoUserState(
     onRegisterButtonClick: () -> Unit,

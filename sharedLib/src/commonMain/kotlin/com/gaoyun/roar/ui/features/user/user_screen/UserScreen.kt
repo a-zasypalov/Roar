@@ -21,13 +21,11 @@ import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import moe.tlaster.precompose.koin.koinViewModel
-import org.jetbrains.compose.resources.ExperimentalResourceApi
 import org.jetbrains.compose.resources.stringResource
 import roar.sharedlib.generated.resources.Res
 import roar.sharedlib.generated.resources.edit
 import roar.sharedlib.generated.resources.edit_profile
 
-@OptIn(ExperimentalResourceApi::class)
 @Composable
 fun UserScreenDestination(
     onNavigationCall: (NavigationSideEffect) -> Unit,

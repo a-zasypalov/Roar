@@ -38,7 +38,6 @@ import com.gaoyun.roar.ui.theme.RoarTheme
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.onEach
 import moe.tlaster.precompose.koin.koinViewModel
-import org.jetbrains.compose.resources.ExperimentalResourceApi
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
 import roar.sharedlib.generated.resources.Res
@@ -81,7 +80,6 @@ fun AddPetAvatarDestination(
     }
 }
 
-@OptIn(ExperimentalResourceApi::class)
 @Composable
 fun PetAvatarScreen(
     avatars: List<PetsConfig.PetAvatarConfig>,
@@ -118,7 +116,7 @@ fun PetAvatarScreen(
 }
 
 @Composable
-@OptIn(ExperimentalFoundationApi::class, ExperimentalResourceApi::class)
+@OptIn(ExperimentalFoundationApi::class)
 private fun LazyGridItemScope.AvatarItem(
     avatar: PetsConfig.PetAvatarConfig,
     petType: String,

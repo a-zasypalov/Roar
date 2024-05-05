@@ -48,7 +48,6 @@ import kotlinx.coroutines.launch
 import kotlinx.datetime.Clock
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.atStartOfDayIn
-import org.jetbrains.compose.resources.ExperimentalResourceApi
 import org.jetbrains.compose.resources.stringResource
 import roar.sharedlib.generated.resources.Res
 import roar.sharedlib.generated.resources.add_pet
@@ -59,7 +58,6 @@ import roar.sharedlib.generated.resources.pet_is_sterilized
 import roar.sharedlib.generated.resources.pets_card
 import roar.sharedlib.generated.resources.save
 
-@OptIn(ExperimentalResourceApi::class)
 @Composable
 internal fun AddPetForm(
     avatar: String,

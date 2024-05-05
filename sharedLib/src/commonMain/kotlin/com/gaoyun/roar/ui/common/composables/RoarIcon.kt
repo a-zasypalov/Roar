@@ -7,10 +7,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.ColorFilter
 import com.gaoyun.roar.ui.common.ext.getDrawableByName
 import org.jetbrains.compose.resources.DrawableResource
-import org.jetbrains.compose.resources.ExperimentalResourceApi
 import org.jetbrains.compose.resources.painterResource
 
-@OptIn(ExperimentalResourceApi::class)
 @Composable
 fun RoarIcon(
     icon: String,
@@ -25,7 +23,6 @@ fun RoarIcon(
     )
 }
 
-@OptIn(ExperimentalResourceApi::class)
 @Composable
 fun RoarIcon(
     icon: DrawableResource,

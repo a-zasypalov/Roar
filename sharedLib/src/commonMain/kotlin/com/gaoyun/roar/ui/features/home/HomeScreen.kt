@@ -33,13 +33,11 @@ import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.onEach
 import moe.tlaster.precompose.koin.koinViewModel
 import moe.tlaster.precompose.navigation.BackHandler
-import org.jetbrains.compose.resources.ExperimentalResourceApi
 import org.jetbrains.compose.resources.stringResource
 import roar.sharedlib.generated.resources.Res
 import roar.sharedlib.generated.resources.add_reminder
 import roar.sharedlib.generated.resources.reminder
 
-@OptIn(ExperimentalResourceApi::class)
 @Composable
 fun HomeScreenDestination(onNavigationCall: (NavigationSideEffect) -> Unit) {
     val viewModel = koinViewModel(vmClass = HomeScreenViewModel::class)

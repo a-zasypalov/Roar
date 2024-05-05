@@ -4,6 +4,7 @@ plugins {
     kotlin("plugin.serialization")
     id("com.squareup.sqldelight")
     id("org.jetbrains.compose")
+    id("org.jetbrains.kotlin.plugin.compose")
 }
 
 kotlin {
@@ -83,15 +84,15 @@ kotlin {
                 implementation("androidx.work:work-runtime-ktx:2.9.0")
 
 
-                val composeVersion = "1.6.5"
+                val composeVersion = "1.6.7"
                 implementation("androidx.compose.ui:ui:$composeVersion")
                 implementation("androidx.compose.material:material:$composeVersion")
 
                 implementation("androidx.lifecycle:lifecycle-runtime-ktx:$lifecycleVersion")
                 implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycleVersion")
 
-                implementation("com.google.firebase:firebase-common-ktx:20.4.3")
-                implementation("com.google.firebase:firebase-storage-ktx:20.3.0")
+                implementation("com.google.firebase:firebase-common-ktx:21.0.0")
+                implementation("com.google.firebase:firebase-storage-ktx:21.0.0")
             }
         }
 

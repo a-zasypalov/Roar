@@ -36,7 +36,6 @@ import moe.tlaster.precompose.koin.koinViewModel
 import moe.tlaster.precompose.navigation.NavOptions
 import moe.tlaster.precompose.navigation.Navigator
 import moe.tlaster.precompose.navigation.PopUpTo
-import org.jetbrains.compose.resources.ExperimentalResourceApi
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
 import roar.sharedlib.generated.resources.Res
@@ -52,7 +51,7 @@ import roar.sharedlib.generated.resources.onboarding_community_project
 import roar.sharedlib.generated.resources.onboarding_community_project_description
 import roar.sharedlib.generated.resources.start
 
-@OptIn(ExperimentalFoundationApi::class, ExperimentalResourceApi::class)
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun OnboardingRootScreen(
     navHostController: Navigator,
@@ -121,7 +120,6 @@ fun OnboardingRootScreen(
     }
 }
 
-@OptIn(ExperimentalResourceApi::class)
 @Composable
 fun OnboardingHelloPage() {
     Column(
@@ -156,7 +154,6 @@ fun OnboardingHelloPage() {
     }
 }
 
-@OptIn(ExperimentalResourceApi::class)
 @Composable
 fun OnboardingCarePage() {
     Column(
@@ -192,7 +189,6 @@ fun OnboardingCarePage() {
     }
 }
 
-@OptIn(ExperimentalResourceApi::class)
 @Composable
 fun OnboardingCommunityPage() {
     Column(

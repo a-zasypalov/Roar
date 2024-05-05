@@ -24,7 +24,6 @@ import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.unit.dp
 import com.gaoyun.roar.ui.common.composables.Spacer
 import com.gaoyun.roar.ui.theme.RoarTheme
-import org.jetbrains.compose.resources.ExperimentalResourceApi
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
 import roar.sharedlib.generated.resources.Res
@@ -32,7 +31,6 @@ import roar.sharedlib.generated.resources.add_pet
 import roar.sharedlib.generated.resources.ic_tab_home
 import roar.sharedlib.generated.resources.profile
 
-@OptIn(ExperimentalResourceApi::class)
 @Composable
 internal fun UserHomeHeader(
     onAddPetButtonClick: () -> Unit,

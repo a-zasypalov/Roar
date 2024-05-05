@@ -22,13 +22,11 @@ import com.gaoyun.roar.ui.common.icon
 import com.gaoyun.roar.util.DateFormats
 import com.gaoyun.roar.util.SharedDateUtils
 import com.gaoyun.roar.util.formatDate
-import org.jetbrains.compose.resources.ExperimentalResourceApi
 import org.jetbrains.compose.resources.stringResource
 import roar.sharedlib.generated.resources.Res
 import roar.sharedlib.generated.resources.cd_reminder
 import roar.sharedlib.generated.resources.n_occurrences
 
-@OptIn(ExperimentalResourceApi::class)
 @Composable
 fun InactiveInteractionCard(
     interaction: InteractionWithReminders,

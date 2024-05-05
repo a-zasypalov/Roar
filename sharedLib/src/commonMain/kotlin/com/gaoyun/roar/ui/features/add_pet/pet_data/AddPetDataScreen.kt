@@ -18,13 +18,10 @@ import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.onEach
 import moe.tlaster.precompose.koin.koinViewModel
 import moe.tlaster.precompose.navigation.BackHandler
-import org.jetbrains.compose.resources.ExperimentalResourceApi
 import org.jetbrains.compose.resources.stringResource
 import roar.sharedlib.generated.resources.Res
 import roar.sharedlib.generated.resources.no_breed
 
-
-@OptIn(ExperimentalResourceApi::class)
 @Composable
 fun AddPetDataDestination(
     onNavigationCall: (NavigationSideEffect) -> Unit,

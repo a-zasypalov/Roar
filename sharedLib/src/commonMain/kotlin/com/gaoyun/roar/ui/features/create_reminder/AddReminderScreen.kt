@@ -26,12 +26,10 @@ import com.gaoyun.roar.ui.common.composables.SurfaceScaffold
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.onEach
 import moe.tlaster.precompose.koin.koinViewModel
-import org.jetbrains.compose.resources.ExperimentalResourceApi
 import org.jetbrains.compose.resources.stringResource
 import roar.sharedlib.generated.resources.Res
 import roar.sharedlib.generated.resources.done
 
-@OptIn(ExperimentalResourceApi::class)
 @Composable
 fun AddReminderDestination(
     onNavigationCall: (NavigationSideEffect) -> Unit,

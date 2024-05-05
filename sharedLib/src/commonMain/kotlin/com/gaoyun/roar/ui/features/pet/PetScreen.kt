@@ -3,7 +3,6 @@ package com.gaoyun.roar.ui.features.pet
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material3.FabPosition
@@ -32,13 +31,11 @@ import com.gaoyun.roar.util.SharedDateUtils
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.onEach
 import moe.tlaster.precompose.koin.koinViewModel
-import org.jetbrains.compose.resources.ExperimentalResourceApi
 import org.jetbrains.compose.resources.stringResource
 import roar.sharedlib.generated.resources.Res
 import roar.sharedlib.generated.resources.add_reminder
 import roar.sharedlib.generated.resources.reminder
 
-@OptIn(ExperimentalResourceApi::class)
 @Composable
 fun PetScreenDestination(
     onNavigationCall: (NavigationSideEffect) -> Unit,
@@ -169,7 +166,7 @@ fun PetScreenDestination(
                         }
                     },
                     modifier = Modifier
-                        .verticalScroll(verticalScroll)
+//                        .verticalScroll(verticalScroll)
                         .padding(start = 8.dp, end = 8.dp)
                         .fillMaxWidth()
                 )

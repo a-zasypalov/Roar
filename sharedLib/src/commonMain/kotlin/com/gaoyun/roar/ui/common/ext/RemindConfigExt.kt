@@ -3,45 +3,46 @@ package com.gaoyun.roar.ui.common.ext
 import androidx.compose.runtime.Composable
 import com.gaoyun.roar.model.domain.interactions.InteractionRemindConfig
 import com.gaoyun.roar.model.domain.interactions.InteractionRemindConfigPeriod
-import org.jetbrains.compose.resources.ExperimentalResourceApi
+import org.jetbrains.compose.resources.pluralStringResource
 import org.jetbrains.compose.resources.stringResource
 import roar.sharedlib.generated.resources.Res
-import roar.sharedlib.generated.resources.app_name
 import roar.sharedlib.generated.resources.before
 import roar.sharedlib.generated.resources.day
+import roar.sharedlib.generated.resources.days
+import roar.sharedlib.generated.resources.days_before
 import roar.sharedlib.generated.resources.hour
+import roar.sharedlib.generated.resources.hours
+import roar.sharedlib.generated.resources.hours_before
 import roar.sharedlib.generated.resources.remind
 import roar.sharedlib.generated.resources.week
+import roar.sharedlib.generated.resources.weeks
+import roar.sharedlib.generated.resources.weeks_before
 
-@OptIn(ExperimentalResourceApi::class)
 @Composable
 fun InteractionRemindConfig.remindConfigTextFull() =
     StringBuilder().apply {
         append(stringResource(Res.string.remind))
         append(" $remindBeforeNumber ")
-//        append(
-//            pluralStringResource(
-//                id = when (repeatsEveryPeriod) {
-//                    InteractionRemindConfigPeriod.WEEK -> R.plurals.weeks
-//                    InteractionRemindConfigPeriod.DAY -> R.plurals.days
-//                    InteractionRemindConfigPeriod.HOUR -> R.plurals.hours
-//                }, count = remindBeforeNumber
-//            )
-//        )
+        append(
+            pluralStringResource(
+                resource = when (repeatsEveryPeriod) {
+                    InteractionRemindConfigPeriod.WEEK -> Res.plurals.weeks
+                    InteractionRemindConfigPeriod.DAY -> Res.plurals.days
+                    InteractionRemindConfigPeriod.HOUR -> Res.plurals.hours
+                }, quantity = remindBeforeNumber
+            )
+        )
         append(" ${stringResource(Res.string.before)}")
     }.toString()
 
 @Composable
-@OptIn(ExperimentalResourceApi::class)
-fun InteractionRemindConfigPeriod.toLocalizedStringIdPlural() = Res.string.app_name //TODO: fix
-//    when (this) {
-//    InteractionRemindConfigPeriod.WEEK -> Res.string.weeks_before
-//    InteractionRemindConfigPeriod.DAY -> Res.string.days_before
-//    InteractionRemindConfigPeriod.HOUR -> Res.string.hours_before
-//}
+fun InteractionRemindConfigPeriod.toLocalizedStringIdPlural() = when (this) {
+    InteractionRemindConfigPeriod.WEEK -> Res.plurals.weeks_before
+    InteractionRemindConfigPeriod.DAY -> Res.plurals.days_before
+    InteractionRemindConfigPeriod.HOUR -> Res.plurals.hours_before
+}
 
 @Composable
-@OptIn(ExperimentalResourceApi::class)
 fun InteractionRemindConfigPeriod.toLocalizedStringId() = when (this) {
     InteractionRemindConfigPeriod.WEEK -> Res.string.week
     InteractionRemindConfigPeriod.DAY -> Res.string.day

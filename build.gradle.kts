@@ -1,14 +1,14 @@
 plugins {
     //trick: for the same plugin versions in all sub-modules
     id("com.android.application") version "8.3.1" apply false
-    kotlin("multiplatform") version "1.7.10" apply false
+    kotlin("multiplatform") version "2.0.0-RC2" apply false
     id("com.android.library") version "8.3.1" apply false
-    id("org.jetbrains.kotlin.android") version "1.7.10" apply false
+    id("org.jetbrains.kotlin.plugin.compose") version "2.0.0-RC2" apply false
 }
 
 buildscript {
 
-    val kotlinVersion by extra("1.9.23")
+    val kotlinVersion by extra("2.0.0-RC2")
 
     repositories {
         google()

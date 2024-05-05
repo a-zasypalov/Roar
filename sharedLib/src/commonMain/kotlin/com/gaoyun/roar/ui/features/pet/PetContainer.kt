@@ -19,7 +19,6 @@ import com.gaoyun.roar.ui.common.composables.Spacer
 import com.gaoyun.roar.ui.common.ext.toLocalizedStringId
 import com.gaoyun.roar.ui.theme.RoarTheme
 import kotlinx.datetime.LocalDateTime
-import org.jetbrains.compose.resources.ExperimentalResourceApi
 import org.jetbrains.compose.resources.stringResource
 import roar.sharedlib.generated.resources.Res
 import roar.sharedlib.generated.resources.delete_pet
@@ -27,7 +26,7 @@ import roar.sharedlib.generated.resources.edit_pet
 import roar.sharedlib.generated.resources.inactive_reminders_title
 import roar.sharedlib.generated.resources.reminders
 
-@OptIn(ExperimentalFoundationApi::class, ExperimentalResourceApi::class)
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun PetContainer(
     pet: PetWithInteractions,
@@ -61,7 +60,7 @@ fun PetContainer(
             }
         }
 
-        pet.interactions.map {
+        pet.interactions.map { it ->
             item {
                 Text(
                     text = stringResource(resource = it.key.toLocalizedStringId()),

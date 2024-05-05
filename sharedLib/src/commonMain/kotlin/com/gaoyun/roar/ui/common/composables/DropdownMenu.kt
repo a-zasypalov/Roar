@@ -19,8 +19,9 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
-import org.jetbrains.compose.resources.ExperimentalResourceApi
+import org.jetbrains.compose.resources.PluralStringResource
 import org.jetbrains.compose.resources.StringResource
+import org.jetbrains.compose.resources.pluralStringResource
 import org.jetbrains.compose.resources.stringResource
 
 @Composable
@@ -44,7 +45,6 @@ fun DropdownMenu(
     )
 }
 
-@OptIn(ExperimentalResourceApi::class)
 @Composable
 fun DropdownMenu(
     valueList: List<String>,
@@ -68,7 +68,6 @@ fun DropdownMenu(
     )
 }
 
-@OptIn(ExperimentalResourceApi::class)
 @Composable
 fun DropdownMenu(
     valueList: List<String>,
@@ -76,7 +75,7 @@ fun DropdownMenu(
     modifier: Modifier = Modifier,
     onChange: ((String) -> Unit)? = null,
     valueDisplayList: List<StringResource>?,
-    listDisplayState: StringResource?,
+    listDisplayState: PluralStringResource?,
     listDisplayStateQuantity: Int,
     label: String? = null,
     leadingIcon: ImageVector? = null
@@ -87,7 +86,7 @@ fun DropdownMenu(
         modifier = modifier,
         onChange = onChange,
         valueDisplayList = valueDisplayList?.map { stringResource(it) },
-        listDisplayState = listDisplayState?.let { stringResource(it, listDisplayStateQuantity) },
+        listDisplayState = listDisplayState?.let { pluralStringResource(it, listDisplayStateQuantity) },
         label = label,
         leadingIcon = leadingIcon,
     )

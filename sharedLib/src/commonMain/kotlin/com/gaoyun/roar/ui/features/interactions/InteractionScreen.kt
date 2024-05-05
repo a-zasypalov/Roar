@@ -34,7 +34,6 @@ import com.gaoyun.roar.util.SharedDateUtils
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.onEach
 import moe.tlaster.precompose.koin.koinViewModel
-import org.jetbrains.compose.resources.ExperimentalResourceApi
 import org.jetbrains.compose.resources.stringResource
 import roar.sharedlib.generated.resources.Res
 import roar.sharedlib.generated.resources.are_you_sure
@@ -49,7 +48,6 @@ import roar.sharedlib.generated.resources.next
 import roar.sharedlib.generated.resources.reactivate
 import roar.sharedlib.generated.resources.yes
 
-@OptIn(ExperimentalResourceApi::class)
 @Composable
 fun InteractionScreenDestination(
     onNavigationCall: (NavigationSideEffect) -> Unit,

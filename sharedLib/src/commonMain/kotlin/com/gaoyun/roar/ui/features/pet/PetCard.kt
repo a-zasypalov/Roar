@@ -24,10 +24,8 @@ import com.gaoyun.roar.ui.common.ext.getDrawableByName
 import com.gaoyun.roar.ui.theme.RoarTheme
 import com.gaoyun.roar.util.SharedDateUtils
 import kotlinx.datetime.LocalDateTime
-import org.jetbrains.compose.resources.ExperimentalResourceApi
 import org.jetbrains.compose.resources.painterResource
 
-@OptIn(ExperimentalResourceApi::class)
 @Composable
 fun PetCard(
     pet: PetWithInteractions,

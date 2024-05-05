@@ -26,13 +26,11 @@ import com.gaoyun.roar.ui.common.composables.SurfaceCard
 import com.gaoyun.roar.ui.common.composables.TextFormField
 import com.gaoyun.roar.ui.common.composables.surfaceCardFormElevation
 import com.gaoyun.roar.ui.common.composables.surfaceCardFormShape
-import org.jetbrains.compose.resources.ExperimentalResourceApi
 import org.jetbrains.compose.resources.stringResource
 import roar.sharedlib.generated.resources.Res
 import roar.sharedlib.generated.resources.name
 import roar.sharedlib.generated.resources.save
 
-@OptIn(ExperimentalResourceApi::class)
 @Composable
 internal fun EditUserForm(
     user: User, onSaveClick: (EditUserScreenContract.Event.OnSaveAccountClick) -> Unit

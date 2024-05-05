@@ -6,20 +6,24 @@ import com.gaoyun.roar.model.domain.interactions.InteractionRepeatConfigEach
 import com.gaoyun.roar.util.DateFormats
 import com.gaoyun.roar.util.formatDate
 import kotlinx.datetime.LocalDate
-import org.jetbrains.compose.resources.ExperimentalResourceApi
+import org.jetbrains.compose.resources.pluralStringResource
 import org.jetbrains.compose.resources.stringArrayResource
 import org.jetbrains.compose.resources.stringResource
 import roar.sharedlib.generated.resources.Res
 import roar.sharedlib.generated.resources.date_on
 import roar.sharedlib.generated.resources.day
+import roar.sharedlib.generated.resources.days
 import roar.sharedlib.generated.resources.ends
+import roar.sharedlib.generated.resources.months
 import roar.sharedlib.generated.resources.never_ends
 import roar.sharedlib.generated.resources.repeats_every
 import roar.sharedlib.generated.resources.the_last_day
 import roar.sharedlib.generated.resources.the_same_day
+import roar.sharedlib.generated.resources.times
 import roar.sharedlib.generated.resources.weekdays_short
+import roar.sharedlib.generated.resources.weeks
+import roar.sharedlib.generated.resources.years
 
-@OptIn(ExperimentalResourceApi::class)
 @Composable
 fun InteractionRepeatConfig.repeatConfigTextShort() = StringBuilder().apply {
     append(stringResource(Res.string.repeats_every))
@@ -27,20 +31,19 @@ fun InteractionRepeatConfig.repeatConfigTextShort() = StringBuilder().apply {
     if (repeatsEveryNumber > 1) {
         append("$repeatsEveryNumber ")
     }
-//    append(
-//        pluralStringResource(
-//            id = when (repeatsEveryPeriod) {
-//                InteractionRepeatConfigEach.YEAR -> R.plurals.years
-//                InteractionRepeatConfigEach.MONTH -> R.plurals.months
-//                InteractionRepeatConfigEach.WEEK -> R.plurals.weeks
-//                InteractionRepeatConfigEach.DAY -> R.plurals.days
-//            }, count = repeatsEveryNumber
-//        )
-//    )
+    append(
+        pluralStringResource(
+            resource = when (repeatsEveryPeriod) {
+                InteractionRepeatConfigEach.YEAR -> Res.plurals.years
+                InteractionRepeatConfigEach.MONTH -> Res.plurals.months
+                InteractionRepeatConfigEach.WEEK -> Res.plurals.weeks
+                InteractionRepeatConfigEach.DAY -> Res.plurals.days
+            }, quantity = repeatsEveryNumber
+        )
+    )
     append(" ")
 }.toString()
 
-@OptIn(ExperimentalResourceApi::class)
 @Composable
 fun InteractionRepeatConfig.repeatConfigTextFull() =
     StringBuilder().apply {
@@ -49,16 +52,16 @@ fun InteractionRepeatConfig.repeatConfigTextFull() =
         if (repeatsEveryNumber > 1) {
             append("$repeatsEveryNumber ")
         }
-//        append(
-//            pluralStringResource(
-//                id = when (repeatsEveryPeriod) {
-//                    InteractionRepeatConfigEach.YEAR -> R.plurals.years
-//                    InteractionRepeatConfigEach.MONTH -> R.plurals.months
-//                    InteractionRepeatConfigEach.WEEK -> R.plurals.weeks
-//                    InteractionRepeatConfigEach.DAY -> R.plurals.days
-//                }, count = repeatsEveryNumber
-//            )
-//        )
+        append(
+            pluralStringResource(
+                resource = when (repeatsEveryPeriod) {
+                    InteractionRepeatConfigEach.YEAR -> Res.plurals.years
+                    InteractionRepeatConfigEach.MONTH -> Res.plurals.months
+                    InteractionRepeatConfigEach.WEEK -> Res.plurals.weeks
+                    InteractionRepeatConfigEach.DAY -> Res.plurals.days
+                }, quantity = repeatsEveryNumber
+            )
+        )
         if (repeatsEveryPeriodOn != InteractionRepeatConfig.REPEATS_EVERY_PERIOD_ON_EMPTY) {
             when (repeatsEveryPeriod) {
                 InteractionRepeatConfigEach.MONTH -> {
@@ -71,6 +74,8 @@ fun InteractionRepeatConfig.repeatConfigTextFull() =
                         append(stringResource(Res.string.the_last_day))
                     } else if (repeatsEveryPeriodOn == InteractionRepeatConfig.REPEATS_EVERY_PERIOD_ON_SAME) {
                         append(stringResource(Res.string.the_same_day))
+                    } else {
+                        append("")
                     }
                 }
 
@@ -80,7 +85,7 @@ fun InteractionRepeatConfig.repeatConfigTextFull() =
                     append(" ")
                     append(repeatsEveryPeriodOn.split(",")
                         .mapNotNull { it.toIntOrNull() }
-                        .map { stringArrayResource(Res.string.weekdays_short)[it - 1] }
+                        .map { stringArrayResource(Res.array.weekdays_short)[it - 1] }
                         .joinToString(", ")
                     )
                 }
@@ -103,8 +108,7 @@ fun InteractionRepeatConfig.repeatConfigTextFull() =
                 }
 
                 InteractionRepeatConfig.ENDS_TIMES -> {
-                    //TODO: fix
-//                    append(" (${endsSplit[1]} ${pluralStringResource(id = R.plurals.times, count = endsSplit[1].toInt())})")
+                    append(" (${endsSplit[1]} ${pluralStringResource(resource = Res.plurals.times, quantity = endsSplit[1].toInt())})")
                 }
             }
         }

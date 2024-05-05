@@ -33,7 +33,6 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.gaoyun.roar.ui.theme.RoarTheme
 import kotlinx.datetime.Clock
-import org.jetbrains.compose.resources.ExperimentalResourceApi
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
 import roar.sharedlib.generated.resources.Res
@@ -47,7 +46,6 @@ import roar.sharedlib.generated.resources.url_privacy_policy
 import roar.sharedlib.generated.resources.url_terms_and_conditions
 import com.gaoyun.roar.ui.common.composables.Spacer as SpacerRoar
 
-@OptIn(ExperimentalResourceApi::class)
 @Composable
 fun UserRegistrationForm(
     onRegisterClick: () -> Unit,

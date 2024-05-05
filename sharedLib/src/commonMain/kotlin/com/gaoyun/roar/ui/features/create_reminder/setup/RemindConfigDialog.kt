@@ -32,7 +32,6 @@ import com.gaoyun.roar.ui.common.composables.SurfaceCard
 import com.gaoyun.roar.ui.common.composables.TextFormField
 import com.gaoyun.roar.ui.common.ext.toLocalizedStringId
 import com.gaoyun.roar.ui.common.ext.toLocalizedStringIdPlural
-import org.jetbrains.compose.resources.ExperimentalResourceApi
 import org.jetbrains.compose.resources.stringResource
 import roar.sharedlib.generated.resources.Res
 import roar.sharedlib.generated.resources.cancel
@@ -40,7 +39,6 @@ import roar.sharedlib.generated.resources.day
 import roar.sharedlib.generated.resources.done
 import roar.sharedlib.generated.resources.remind
 
-@OptIn(ExperimentalResourceApi::class)
 @Composable
 internal fun RemindConfigDialog(
     remindConfig: InteractionRemindConfig?,

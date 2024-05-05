@@ -3,7 +3,6 @@ package com.gaoyun.roar.ui.common
 import com.gaoyun.roar.model.domain.PetType
 import com.gaoyun.roar.model.domain.interactions.InteractionGroup
 import com.gaoyun.roar.model.domain.interactions.InteractionType
-import org.jetbrains.compose.resources.ExperimentalResourceApi
 import roar.sharedlib.generated.resources.Res
 import roar.sharedlib.generated.resources.ic_care
 import roar.sharedlib.generated.resources.ic_cat
@@ -17,7 +16,6 @@ import roar.sharedlib.generated.resources.ic_pills
 import roar.sharedlib.generated.resources.ic_soap
 import roar.sharedlib.generated.resources.ic_vaccine
 
-@OptIn(ExperimentalResourceApi::class)
 fun InteractionType.icon() = when (this) {
     InteractionType.HEALTH_CHECK -> Res.drawable.ic_health_check
     InteractionType.FLEES -> Res.drawable.ic_drops
@@ -30,14 +28,12 @@ fun InteractionType.icon() = when (this) {
     InteractionType.CUSTOM -> Res.drawable.ic_care
 }
 
-@OptIn(ExperimentalResourceApi::class)
 fun InteractionGroup.icon() = when (this) {
     InteractionGroup.HEALTH -> Res.drawable.ic_medical
     InteractionGroup.CARE -> Res.drawable.ic_care
     InteractionGroup.ROUTINE -> Res.drawable.ic_grooming
 }
 
-@OptIn(ExperimentalResourceApi::class)
 fun PetType.icon() = when (this) {
     PetType.CAT -> Res.drawable.ic_cat
     PetType.DOG -> Res.drawable.ic_dog

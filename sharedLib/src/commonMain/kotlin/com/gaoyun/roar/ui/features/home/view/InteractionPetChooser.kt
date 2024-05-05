@@ -21,13 +21,11 @@ import androidx.compose.ui.window.Dialog
 import com.gaoyun.roar.model.domain.PetWithInteractions
 import com.gaoyun.roar.ui.common.composables.Spacer
 import com.gaoyun.roar.ui.common.ext.getDrawableByName
-import org.jetbrains.compose.resources.ExperimentalResourceApi
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
 import roar.sharedlib.generated.resources.Res
 import roar.sharedlib.generated.resources.for_who
 
-@OptIn(ExperimentalResourceApi::class)
 @Composable
 fun InteractionPetChooser(pets: List<PetWithInteractions>, onPetChosen: (String) -> Unit, onDismiss: () -> Unit) {
     Dialog(onDismissRequest = onDismiss) {

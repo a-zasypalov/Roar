@@ -11,7 +11,6 @@ import com.gaoyun.roar.util.formatDateTime
 import com.gaoyun.roar.util.toLocalDate
 import kotlinx.datetime.Clock
 import kotlinx.datetime.LocalDateTime
-import org.jetbrains.compose.resources.ExperimentalResourceApi
 import org.jetbrains.compose.resources.stringResource
 import roar.sharedlib.generated.resources.Res
 import roar.sharedlib.generated.resources.interaction_completion_dialog_description
@@ -19,7 +18,6 @@ import roar.sharedlib.generated.resources.interaction_completion_dialog_title
 import roar.sharedlib.generated.resources.on_date_arg
 import roar.sharedlib.generated.resources.today
 
-@OptIn(ExperimentalResourceApi::class)
 @Composable
 fun InteractionCompletionDialog(
     showCompleteReminderDateDialog: MutableState<Boolean>,

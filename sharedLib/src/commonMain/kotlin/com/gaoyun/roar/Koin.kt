@@ -78,12 +78,29 @@ fun initKoin(registrationLauncher: RegistrationLauncher) = startKoin {
     val iosDependenciesModule = module {
         single { registrationLauncher }
     }
-    modules(platformModule(), iosDependenciesModule, repositoryModule, useCaseModule, dbModule, networkModule, preferencesModule)
+    modules(
+        platformModule(),
+        iosDependenciesModule,
+        vmModule,
+        repositoryModule,
+        useCaseModule,
+        dbModule,
+        networkModule,
+        preferencesModule
+    )
 }
 
 fun initKoin(appDeclaration: KoinAppDeclaration = {}) = startKoin {
     appDeclaration()
-    modules(platformModule(), repositoryModule, useCaseModule, dbModule, networkModule, preferencesModule)
+    modules(
+        platformModule(),
+        vmModule,
+        repositoryModule,
+        useCaseModule,
+        dbModule,
+        networkModule,
+        preferencesModule
+    )
 }
 
 val repositoryModule = module {
@@ -94,8 +111,8 @@ val repositoryModule = module {
     single<ReminderRepository> { ReminderRepositoryImpl(get(), get()) }
 }
 
-val useCaseModule = module {
-    single { AppViewModel() } //TODO: Refactor to ::AppViewModel
+val vmModule = module {
+    single { AppViewModel() }
     single { OnboardingViewModel(get()) }
     single { RegisterUserViewModel(get(), get(), get()) }
     single { HomeScreenViewModel(get(), get(), get(), get(), get(), get(), get(), get()) }
@@ -111,8 +128,9 @@ val useCaseModule = module {
     single { AddReminderScreenViewModel(get(), get(), get()) }
     single { SetupReminderScreenViewModel(get(), get(), get(), get(), get(), get()) }
     single { AddReminderCompleteScreenViewModel() }
+}
 
-
+val useCaseModule = module {
     single { RegisterUserUseCase(get(), get()) }
     single { GetCurrentUserUseCase(get(), get()) }
     single { CheckUserExistingUseCase(get()) }

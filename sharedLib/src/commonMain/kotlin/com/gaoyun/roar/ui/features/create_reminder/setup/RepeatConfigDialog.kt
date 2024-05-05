@@ -52,7 +52,6 @@ import kotlinx.datetime.LocalDate
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.atStartOfDayIn
 import kotlinx.datetime.isoDayNumber
-import org.jetbrains.compose.resources.ExperimentalResourceApi
 import org.jetbrains.compose.resources.stringResource
 import roar.sharedlib.generated.resources.Res
 import roar.sharedlib.generated.resources.after_three_dots
@@ -71,7 +70,6 @@ import roar.sharedlib.generated.resources.repeats_every
 import roar.sharedlib.generated.resources.same_day
 import roar.sharedlib.generated.resources.week
 
-@OptIn(ExperimentalResourceApi::class)
 @Composable
 internal fun RepeatConfigDialog(
     repeatConfig: InteractionRepeatConfig?,

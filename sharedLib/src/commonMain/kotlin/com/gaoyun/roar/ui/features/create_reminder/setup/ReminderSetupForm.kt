@@ -58,7 +58,6 @@ import kotlinx.datetime.LocalTime
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.toInstant
 import kotlinx.datetime.toLocalDateTime
-import org.jetbrains.compose.resources.ExperimentalResourceApi
 import org.jetbrains.compose.resources.stringResource
 import roar.sharedlib.generated.resources.Res
 import roar.sharedlib.generated.resources.create
@@ -74,7 +73,7 @@ import roar.sharedlib.generated.resources.repeat
 import roar.sharedlib.generated.resources.save
 import kotlin.time.Duration.Companion.days
 
-@OptIn(ExperimentalFoundationApi::class, ExperimentalResourceApi::class)
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
 internal fun ReminderSetupForm(
     interactionToEdit: InteractionWithReminders?,

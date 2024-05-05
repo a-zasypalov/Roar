@@ -24,7 +24,6 @@ import androidx.compose.ui.unit.dp
 import com.gaoyun.roar.ui.common.composables.PrimaryElevatedButton
 import com.gaoyun.roar.ui.common.composables.Spacer
 import com.gaoyun.roar.ui.theme.RoarTheme
-import org.jetbrains.compose.resources.ExperimentalResourceApi
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
 import roar.sharedlib.generated.resources.Res
@@ -33,7 +32,6 @@ import roar.sharedlib.generated.resources.ic_tab_home
 import roar.sharedlib.generated.resources.import_backup_in_profile
 import roar.sharedlib.generated.resources.nice_to_meet_you
 
-@OptIn(ExperimentalResourceApi::class)
 @Composable
 fun NoPetsState(
     userName: String,

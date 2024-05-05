@@ -17,7 +17,6 @@ import com.gaoyun.roar.util.DateFormats
 import com.gaoyun.roar.util.SharedDateUtils
 import com.gaoyun.roar.util.formatDate
 import com.gaoyun.roar.util.formatDateTime
-import org.jetbrains.compose.resources.ExperimentalResourceApi
 import org.jetbrains.compose.resources.stringResource
 import roar.sharedlib.generated.resources.Res
 import roar.sharedlib.generated.resources.at
@@ -106,7 +105,6 @@ private fun ReminderCard(
     )
 }
 
-@OptIn(ExperimentalResourceApi::class)
 @Composable
 private fun ReminderItem(
     reminder: Reminder,

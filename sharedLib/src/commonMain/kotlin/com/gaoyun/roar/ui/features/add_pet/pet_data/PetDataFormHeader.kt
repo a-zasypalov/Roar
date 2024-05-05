@@ -22,14 +22,12 @@ import com.gaoyun.roar.model.domain.Pet
 import com.gaoyun.roar.presentation.add_pet.data.AddPetDataScreenContract
 import com.gaoyun.roar.ui.common.composables.TextFormField
 import com.gaoyun.roar.ui.common.ext.getDrawableByName
-import org.jetbrains.compose.resources.ExperimentalResourceApi
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
 import roar.sharedlib.generated.resources.Res
 import roar.sharedlib.generated.resources.cd_pet
 import roar.sharedlib.generated.resources.name
 
-@OptIn(ExperimentalResourceApi::class)
 @Composable
 fun PetDataFormHeader(
     avatar: String,

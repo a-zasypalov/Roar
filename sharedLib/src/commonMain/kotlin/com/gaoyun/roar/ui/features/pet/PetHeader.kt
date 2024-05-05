@@ -34,7 +34,6 @@ import com.gaoyun.roar.ui.common.composables.FontSizeRange
 import com.gaoyun.roar.ui.common.composables.Spacer
 import com.gaoyun.roar.ui.common.ext.getDrawableByName
 import com.gaoyun.roar.ui.theme.RoarTheme
-import org.jetbrains.compose.resources.ExperimentalResourceApi
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
 import roar.sharedlib.generated.resources.Res
@@ -44,7 +43,6 @@ import roar.sharedlib.generated.resources.male
 import roar.sharedlib.generated.resources.not_sterilized
 import roar.sharedlib.generated.resources.sterilized
 
-@OptIn(ExperimentalResourceApi::class)
 @Composable
 internal fun PetHeader(
     pet: Pet,

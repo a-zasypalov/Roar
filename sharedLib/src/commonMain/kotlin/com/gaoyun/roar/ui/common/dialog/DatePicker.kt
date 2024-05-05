@@ -13,7 +13,6 @@ import androidx.compose.ui.unit.dp
 import com.gaoyun.roar.util.toLocalDate
 import kotlinx.datetime.Clock
 import kotlinx.datetime.Instant
-import org.jetbrains.compose.resources.ExperimentalResourceApi
 import org.jetbrains.compose.resources.stringResource
 import roar.sharedlib.generated.resources.Res
 import roar.sharedlib.generated.resources.ok
@@ -21,7 +20,7 @@ import kotlin.time.Duration.Companion.days
 
 object DatePicker {
     @Composable
-    @OptIn(ExperimentalMaterial3Api::class, ExperimentalResourceApi::class)
+    @OptIn(ExperimentalMaterial3Api::class)
     fun pickDate(
         title: String,
         onDatePicked: (Long) -> Unit,

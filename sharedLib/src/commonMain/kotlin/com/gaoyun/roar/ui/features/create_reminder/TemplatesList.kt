@@ -31,7 +31,6 @@ import com.gaoyun.roar.ui.common.ext.repeatConfigTextShort
 import com.gaoyun.roar.ui.common.ext.toLocalizedStringId
 import com.gaoyun.roar.ui.common.icon
 import com.gaoyun.roar.ui.theme.RoarTheme
-import org.jetbrains.compose.resources.ExperimentalResourceApi
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
 import roar.sharedlib.generated.resources.Res
@@ -41,7 +40,6 @@ import roar.sharedlib.generated.resources.new_custom_reminder
 import roar.sharedlib.generated.resources.reminder
 import roar.sharedlib.generated.resources.templates
 
-@OptIn(ExperimentalResourceApi::class)
 @Composable
 fun TemplatesList(
     pet: PetWithInteractions,
@@ -159,7 +157,6 @@ fun TemplatesList(
     }
 }
 
-@OptIn(ExperimentalResourceApi::class)
 @Composable
 fun TemplateItem(
     template: InteractionTemplate,
@@ -189,7 +186,7 @@ fun TemplateItem(
                 Spacer(size = 8.dp)
                 Column(modifier = Modifier.weight(1f)) {
                     Text(
-                        text = template.getName() ?: "", //TODO: Check if throws
+                        text = template.getName(),
                         style = MaterialTheme.typography.titleLarge,
                         color = MaterialTheme.colorScheme.onSurface
                     )

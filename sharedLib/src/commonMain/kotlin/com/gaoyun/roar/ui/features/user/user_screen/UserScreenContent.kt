@@ -50,7 +50,6 @@ import com.gaoyun.roar.ui.common.composables.LabelledCheckBox
 import com.gaoyun.roar.ui.common.composables.Spacer
 import com.gaoyun.roar.ui.theme.primaryColor
 import com.gaoyun.roar.util.ColorTheme
-import org.jetbrains.compose.resources.ExperimentalResourceApi
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
 import roar.sharedlib.generated.resources.Res
@@ -68,7 +67,6 @@ import roar.sharedlib.generated.resources.logout
 import roar.sharedlib.generated.resources.number_of_reminders_main_screen
 import roar.sharedlib.generated.resources.user_screen_subtitle
 
-@OptIn(ExperimentalResourceApi::class)
 @Composable
 internal fun UserScreenContent(
     state: UserScreenContract.State,

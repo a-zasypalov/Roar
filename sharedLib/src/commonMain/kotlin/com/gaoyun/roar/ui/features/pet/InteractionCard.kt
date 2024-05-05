@@ -37,7 +37,6 @@ import kotlinx.datetime.Clock
 import kotlinx.datetime.LocalDateTime
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.toLocalDateTime
-import org.jetbrains.compose.resources.ExperimentalResourceApi
 import org.jetbrains.compose.resources.stringResource
 import roar.sharedlib.generated.resources.Res
 import roar.sharedlib.generated.resources.at
@@ -45,7 +44,6 @@ import roar.sharedlib.generated.resources.cd_reminder
 import roar.sharedlib.generated.resources.next
 import roar.sharedlib.generated.resources.no_active_reminder
 
-@OptIn(ExperimentalResourceApi::class)
 @Composable
 fun InteractionCard(
     interaction: InteractionWithReminders,

@@ -22,13 +22,11 @@ import com.gaoyun.roar.util.formatDate
 import com.gaoyun.roar.util.toLocalDate
 import kotlinx.datetime.Clock
 import kotlinx.datetime.Instant
-import org.jetbrains.compose.resources.ExperimentalResourceApi
 import org.jetbrains.compose.resources.stringResource
 import roar.sharedlib.generated.resources.Res
 import roar.sharedlib.generated.resources.birthday
 import roar.sharedlib.generated.resources.pets_birthday
 
-@OptIn(ExperimentalResourceApi::class)
 @Composable
 fun PetDataScreenBirthdayPicker(
     petBirthdayState: MutableState<Long?>

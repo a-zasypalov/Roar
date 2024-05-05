@@ -43,7 +43,6 @@ import com.gaoyun.roar.ui.common.ext.repeatConfigTextFull
 import com.gaoyun.roar.ui.common.ext.toLocalizedStringId
 import com.gaoyun.roar.ui.common.icon
 import com.gaoyun.roar.ui.theme.RoarTheme
-import org.jetbrains.compose.resources.ExperimentalResourceApi
 import org.jetbrains.compose.resources.stringResource
 import roar.sharedlib.generated.resources.Res
 import roar.sharedlib.generated.resources.active
@@ -52,7 +51,6 @@ import roar.sharedlib.generated.resources.doesnt_repeat
 import roar.sharedlib.generated.resources.not_active
 import roar.sharedlib.generated.resources.notes
 
-@OptIn(ExperimentalResourceApi::class)
 @Composable
 internal fun InteractionHeader(
     pet: Pet,
