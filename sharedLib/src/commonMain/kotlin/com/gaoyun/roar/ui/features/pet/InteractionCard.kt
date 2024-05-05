@@ -26,6 +26,10 @@ import com.gaoyun.roar.ui.common.composables.RoarIcon
 import com.gaoyun.roar.ui.common.composables.Spacer
 import com.gaoyun.roar.ui.common.ext.repeatConfigTextShort
 import com.gaoyun.roar.ui.common.icon
+import com.gaoyun.roar.util.DateFormats
+import com.gaoyun.roar.util.SharedDateUtils
+import com.gaoyun.roar.util.formatDate
+import com.gaoyun.roar.util.formatDateTime
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -36,7 +40,9 @@ import kotlinx.datetime.toLocalDateTime
 import org.jetbrains.compose.resources.ExperimentalResourceApi
 import org.jetbrains.compose.resources.stringResource
 import roar.sharedlib.generated.resources.Res
+import roar.sharedlib.generated.resources.at
 import roar.sharedlib.generated.resources.cd_reminder
+import roar.sharedlib.generated.resources.next
 import roar.sharedlib.generated.resources.no_active_reminder
 
 @OptIn(ExperimentalResourceApi::class)
@@ -106,16 +112,15 @@ fun InteractionCard(
             if (reminderToShow != null) {
                 LabelledCheckBox(
                     checked = reminderToShow.isCompleted,
-                    label = "date",
-//                    label = "${
-//                        if (reminderToShow.dateTime.date.year != SharedDateUtils.currentYear()) {
-//                            reminderToShow.dateTime.date.toJavaLocalDate().format(DateUtils.ddMmmmYyyyDateFormatter)
-//                        } else {
-//                            reminderToShow.dateTime.date.toJavaLocalDate().format(DateUtils.ddMmmmDateFormatter)
-//                        }
-//                    } ${stringResource(id = R.string.at)} ${
-//                        reminderToShow.dateTime.toJavaLocalDateTime().format(DateUtils.hhMmTimeFormatter)
-//                    }", TODO: FIx date
+                    label = "${
+                        if (reminderToShow.dateTime.date.year != SharedDateUtils.currentYear()) {
+                            reminderToShow.dateTime.date.formatDate(DateFormats.ddMmmmYyyyDateFormat)
+                        } else {
+                            reminderToShow.dateTime.date.formatDate(DateFormats.ddMmmmDateFormat)
+                        }
+                    } ${stringResource(resource = Res.string.at)} ${
+                        reminderToShow.dateTime.formatDateTime(DateFormats.hhMmTimeFormat)
+                    }",
                     modifier = Modifier.fillMaxWidth(),
                     verticalPadding = 16.dp,
                     horizontalPadding = 20.dp,
@@ -127,16 +132,15 @@ fun InteractionCard(
                     .filter { !it.isCompleted || it.dateTime > Clock.System.now().toLocalDateTime(TimeZone.currentSystemDefault()) }
                     .maxByOrNull { it.dateTime }?.let { nextReminder ->
                         AnimatedVisibility(visible = interaction.reminders.size > 1) {
-//                            val nextReminderText = "${stringResource(id = R.string.next)}: ${
-//                                if (nextReminder.dateTime.date.year != SharedDateUtils.currentYear()) {
-//                                    nextReminder.dateTime.date.toJavaLocalDate().format(DateUtils.ddMmmmYyyyDateFormatter)
-//                                } else {
-//                                    nextReminder.dateTime.date.toJavaLocalDate().format(DateUtils.ddMmmmDateFormatter)
-//                                }
-//                            } ${stringResource(id = R.string.at)} ${
-//                                nextReminder.dateTime.toJavaLocalDateTime().format(DateUtils.hhMmTimeFormatter)
-//                            }"
-                            val nextReminderText = "Next reminder"
+                            val nextReminderText = "${stringResource(resource = Res.string.next)}: ${
+                                if (nextReminder.dateTime.date.year != SharedDateUtils.currentYear()) {
+                                    nextReminder.dateTime.date.formatDate(DateFormats.ddMmmmYyyyDateFormat)
+                                } else {
+                                    nextReminder.dateTime.date.formatDate(DateFormats.ddMmmmDateFormat)
+                                }
+                            } ${stringResource(resource = Res.string.at)} ${
+                                nextReminder.dateTime.formatDateTime(DateFormats.hhMmTimeFormat)
+                            }"
                             if (nextReminderLabel.value == null) nextReminderLabel.value = nextReminderText
 
                             HorizontalDivider()

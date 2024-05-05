@@ -16,6 +16,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
 import com.gaoyun.roar.ui.common.composables.ReadonlyTextField
+import com.gaoyun.roar.util.DateFormats
+import com.gaoyun.roar.util.formatDate
 import com.gaoyun.roar.util.toLocalDate
 import kotlinx.datetime.Instant
 import org.jetbrains.compose.resources.ExperimentalResourceApi
@@ -32,8 +34,7 @@ fun PetDataScreenBirthdayPicker(
         mutableStateOf(TextFieldValue(petBirthdayState.value?.let {
             Instant.fromEpochMilliseconds(it)
                 .toLocalDate()
-                .toString()
-//                .format(ddMmmmYyyyDateFormatter)
+                .formatDate(DateFormats.ddMmmmYyyyDateFormat)
         } ?: ""))
     }
 

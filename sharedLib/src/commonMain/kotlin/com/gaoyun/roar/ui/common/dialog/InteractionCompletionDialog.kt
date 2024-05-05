@@ -5,10 +5,21 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
+import com.gaoyun.roar.util.DateFormats
+import com.gaoyun.roar.util.SharedDateUtils
+import com.gaoyun.roar.util.formatDateTime
 import com.gaoyun.roar.util.toLocalDate
 import kotlinx.datetime.Clock
 import kotlinx.datetime.LocalDateTime
+import org.jetbrains.compose.resources.ExperimentalResourceApi
+import org.jetbrains.compose.resources.stringResource
+import roar.sharedlib.generated.resources.Res
+import roar.sharedlib.generated.resources.interaction_completion_dialog_description
+import roar.sharedlib.generated.resources.interaction_completion_dialog_title
+import roar.sharedlib.generated.resources.on_date_arg
+import roar.sharedlib.generated.resources.today
 
+@OptIn(ExperimentalResourceApi::class)
 @Composable
 fun InteractionCompletionDialog(
     showCompleteReminderDateDialog: MutableState<Boolean>,
@@ -21,34 +32,28 @@ fun InteractionCompletionDialog(
         return
     }
 
-    //TODO: Format date
-//    val date = if(dateTime.date.year == SharedDateUtils.currentYear()) {
-//        dateTime.toJavaLocalDateTime().format(DateUtils.ddMmmDateFormatter)
-//    } else {
-//        dateTime.toJavaLocalDateTime().format(DateUtils.ddMmmYyyyDateFormatter)
-//    }
-    val date = ""
+    val date = if (dateTime.date.year == SharedDateUtils.currentYear()) {
+        dateTime.formatDateTime(DateFormats.ddMmmDateFormat)
+    } else {
+        dateTime.formatDateTime(DateFormats.ddMmmYyyyDateFormat)
+    }
 
     AlertDialog(
         onDismissRequest = { showCompleteReminderDateDialog.value = false },
         title = {
-//            Text(stringResource(id = R.string.interaction_completion_dialog_title))
-            Text("When was it completed?")
+            Text(stringResource(resource = Res.string.interaction_completion_dialog_title))
         },
         text = {
-//            Text(stringResource(id = R.string.interaction_completion_dialog_description, date))
-            Text("Was the interaction completed today or according its date on $date?")
+            Text(stringResource(resource = Res.string.interaction_completion_dialog_description, date))
         },
         confirmButton = {
             TextButton(onClick = onConfirmButtonClick) {
-//                Text(stringResource(id = R.string.today))
-                Text("Today")
+                Text(stringResource(resource = Res.string.today))
             }
         },
         dismissButton = {
             TextButton(onClick = onDismissButtonClick) {
-//                Text(stringResource(id = R.string.on_date_arg, date))
-                Text("On $date")
+                Text(stringResource(resource = Res.string.on_date_arg, date))
             }
         }
     )

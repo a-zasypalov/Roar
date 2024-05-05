@@ -7,6 +7,10 @@ import com.gaoyun.roar.model.domain.PetWithInteractions
 import com.gaoyun.roar.model.domain.withoutInteractions
 import com.gaoyun.roar.util.SharedDateUtils.monthsFromNow
 import com.gaoyun.roar.util.SharedDateUtils.yearsFromNow
+import org.jetbrains.compose.resources.ExperimentalResourceApi
+import roar.sharedlib.generated.resources.Res
+import roar.sharedlib.generated.resources.female
+import roar.sharedlib.generated.resources.male
 
 @Composable
 fun PetWithInteractions.ageText() = withoutInteractions().ageText()
@@ -26,7 +30,8 @@ fun Pet.ageText() = StringBuilder().apply {
     append("months")
 }.toString()
 
+@OptIn(ExperimentalResourceApi::class)
 fun Gender.toLocalizedStringId() = when (this) {
-    Gender.MALE -> "Male" //R.string.male
-    Gender.FEMALE -> "Female" //R.string.female
+    Gender.MALE -> Res.string.male
+    Gender.FEMALE -> Res.string.female
 }

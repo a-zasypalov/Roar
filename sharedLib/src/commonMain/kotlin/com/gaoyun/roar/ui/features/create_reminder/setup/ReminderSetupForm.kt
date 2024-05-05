@@ -45,11 +45,15 @@ import com.gaoyun.roar.ui.common.ext.getName
 import com.gaoyun.roar.ui.common.ext.remindConfigTextFull
 import com.gaoyun.roar.ui.common.ext.repeatConfigTextFull
 import com.gaoyun.roar.ui.common.ext.toLocalizedStringId
+import com.gaoyun.roar.util.DateFormats
+import com.gaoyun.roar.util.formatDateTime
 import kotlinx.coroutines.launch
 import kotlinx.datetime.Clock
+import kotlinx.datetime.Instant
 import kotlinx.datetime.LocalTime
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.toInstant
+import kotlinx.datetime.toLocalDateTime
 import org.jetbrains.compose.resources.ExperimentalResourceApi
 import org.jetbrains.compose.resources.stringResource
 import roar.sharedlib.generated.resources.Res
@@ -121,11 +125,11 @@ internal fun ReminderSetupForm(
         mutableStateOf(
             TextFieldValue(
                 StringBuilder()
-//                    .append( TODO: fix
-//                        Instant.fromEpochMilliseconds(startsOnDate.value)
-//                            .toLocalDateTime(TimeZone.currentSystemDefault()).toJavaLocalDateTime()
-//                            .format(ddMmmYyyyDateFormatter)
-//                    )
+                    .append(
+                        Instant.fromEpochMilliseconds(startsOnDate.value)
+                            .toLocalDateTime(TimeZone.currentSystemDefault())
+                            .formatDateTime(DateFormats.ddMmmYyyyDateFormat)
+                    )
                     .append(", ")
                     .append(if (startsOnTime.value.hour < 10) "0${startsOnTime.value.hour}" else "${startsOnTime.value.hour}")
                     .append(":")
@@ -181,8 +185,8 @@ internal fun ReminderSetupForm(
             DropdownMenu(
                 valueList = InteractionGroup.GROUP_LIST.map { it.toString() },
                 listState = interactionGroupState,
-                valueDisplayList = InteractionGroup.GROUP_LIST.map { stringResource(it.toLocalizedStringId()) },
-                listDisplayState = stringResource(interactionGroupState.value.toInteractionGroup().toLocalizedStringId()),
+                valueDisplayList = InteractionGroup.GROUP_LIST.map { it.toLocalizedStringId() },
+                listDisplayState = interactionGroupState.value.toInteractionGroup().toLocalizedStringId(),
                 label = stringResource(Res.string.group),
                 leadingIcon = Icons.AutoMirrored.Filled.FormatListBulleted,
                 modifier = Modifier.padding(horizontal = 24.dp),
@@ -326,11 +330,11 @@ internal fun ReminderSetupForm(
                 stringResource(resource = Res.string.create)
             },
             onClick = {
-                if ((reminderName.value ?: "").isBlank()) {
+                if ((reminderName.value).isBlank()) {
                     coroutineScope.launch { snackbarHost.showSnackbar("Name shouldn't be empty") } //TODO: Localize
                 } else {
                     onSaveButtonClick(
-                        reminderName.value ?: "",
+                        reminderName.value,
                         template?.type ?: InteractionType.CUSTOM,
                         interactionGroupState.value.toInteractionGroup(),
                         repeatEnabledState.value,

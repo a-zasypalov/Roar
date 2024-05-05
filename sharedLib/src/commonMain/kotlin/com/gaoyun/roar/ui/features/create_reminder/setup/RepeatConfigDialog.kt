@@ -41,6 +41,8 @@ import com.gaoyun.roar.ui.common.composables.Spacer
 import com.gaoyun.roar.ui.common.composables.SurfaceCard
 import com.gaoyun.roar.ui.common.composables.TextFormField
 import com.gaoyun.roar.ui.common.ext.toLocalizedStringId
+import com.gaoyun.roar.util.DateFormats
+import com.gaoyun.roar.util.formatDate
 import com.gaoyun.roar.util.toLocalDate
 import kotlinx.datetime.Clock
 import kotlinx.datetime.DayOfWeek
@@ -155,7 +157,7 @@ internal fun RepeatConfigDialog(
     val endsOnDateStateString = remember {
         mutableStateOf(
             TextFieldValue(
-//                Instant.fromEpochMilliseconds(endsOnDateState.value).toLocalDate().toJavaLocalDate().format(ddMmmYyyyDateFormatter)
+                Instant.fromEpochMilliseconds(endsOnDateState.value).toLocalDate().formatDate(DateFormats.ddMmmYyyyDateFormat)
             )
         )
     }
@@ -215,8 +217,8 @@ internal fun RepeatConfigDialog(
                         DropdownMenu(
                             valueList = repeatsEveryPeriodsList,
                             listState = repeatsEveryPeriod,
-                            valueDisplayList = repeatsEveryPeriodsList.map { stringResource(it.toInteractionRepeatConfigEach().toLocalizedStringId()) },
-                            listDisplayState = stringResource(repeatsEveryPeriod.value.toInteractionRepeatConfigEach().toLocalizedStringId()),
+                            valueDisplayList = repeatsEveryPeriodsList.map { it.toInteractionRepeatConfigEach().toLocalizedStringId() },
+                            listDisplayState = repeatsEveryPeriod.value.toInteractionRepeatConfigEach().toLocalizedStringId(),
                             modifier = Modifier.fillMaxWidth(1f)
                         )
                     }

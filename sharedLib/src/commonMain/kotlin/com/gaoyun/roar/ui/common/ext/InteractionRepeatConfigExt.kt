@@ -3,6 +3,8 @@ package com.gaoyun.roar.ui.common.ext
 import androidx.compose.runtime.Composable
 import com.gaoyun.roar.model.domain.interactions.InteractionRepeatConfig
 import com.gaoyun.roar.model.domain.interactions.InteractionRepeatConfigEach
+import com.gaoyun.roar.util.DateFormats
+import com.gaoyun.roar.util.formatDate
 import kotlinx.datetime.LocalDate
 import org.jetbrains.compose.resources.ExperimentalResourceApi
 import org.jetbrains.compose.resources.stringArrayResource
@@ -97,10 +99,11 @@ fun InteractionRepeatConfig.repeatConfigTextFull() =
                     append(stringResource(Res.string.ends).replaceFirstChar { it.lowercase() })
                     append(" ")
                     val date = LocalDate.parse(endsSplit[1])
-//                    append(date.toJavaLocalDate().format(DateUtils.ddMmmYyyyDateFormatter)) //TODO: fix
+                    append(date.formatDate(DateFormats.ddMmmYyyyDateFormat))
                 }
 
                 InteractionRepeatConfig.ENDS_TIMES -> {
+                    //TODO: fix
 //                    append(" (${endsSplit[1]} ${pluralStringResource(id = R.plurals.times, count = endsSplit[1].toInt())})")
                 }
             }

@@ -19,6 +19,9 @@ import com.gaoyun.roar.model.domain.interactions.InteractionWithReminders
 import com.gaoyun.roar.ui.common.composables.RoarIcon
 import com.gaoyun.roar.ui.common.composables.Spacer
 import com.gaoyun.roar.ui.common.icon
+import com.gaoyun.roar.util.DateFormats
+import com.gaoyun.roar.util.SharedDateUtils
+import com.gaoyun.roar.util.formatDate
 import org.jetbrains.compose.resources.ExperimentalResourceApi
 import org.jetbrains.compose.resources.stringResource
 import roar.sharedlib.generated.resources.Res
@@ -35,14 +38,13 @@ fun InactiveInteractionCard(
     modifier: Modifier = Modifier,
     shadowElevation: Dp = 0.dp,
 ) {
-//    val lastReminderDate = interaction.reminders.maxOfOrNull { it.dateTime }?.date?.toJavaLocalDate()?.let {
-//        if (it.year != SharedDateUtils.currentYear()) {
-//            it.format(DateUtils.ddMmmmYyyyDateFormatter)
-//        } else {
-//            it.format(DateUtils.ddMmmmDateFormatter)
-//        }
-//    } ?: "..." TODO: fix date
-    val lastReminderDate = ""
+    val lastReminderDate = interaction.reminders.maxOfOrNull { it.dateTime }?.date?.let {
+        if (it.year != SharedDateUtils.currentYear()) {
+            it.formatDate(DateFormats.ddMmmmYyyyDateFormat, "...")
+        } else {
+            it.formatDate(DateFormats.ddMmmmDateFormat, "...")
+        }
+    } ?: "..."
 
     Surface(
         tonalElevation = elevation,

@@ -19,8 +19,8 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
-import com.gaoyun.roar.ui.common.ext.getStringByName
 import org.jetbrains.compose.resources.ExperimentalResourceApi
+import org.jetbrains.compose.resources.StringResource
 import org.jetbrains.compose.resources.stringResource
 
 @Composable
@@ -51,8 +51,8 @@ fun DropdownMenu(
     listState: MutableState<String>,
     modifier: Modifier = Modifier,
     onChange: ((String) -> Unit)? = null,
-    valueDisplayList: List<String>?,
-    listDisplayState: String?,
+    valueDisplayList: List<StringResource>?,
+    listDisplayState: StringResource?,
     label: String? = null,
     leadingIcon: ImageVector? = null
 ) {
@@ -61,8 +61,8 @@ fun DropdownMenu(
         listState = listState,
         modifier = modifier,
         onChange = onChange,
-        valueDisplayList = valueDisplayList?.map { stringResource(resource = getStringByName(it)) },
-        listDisplayState = listDisplayState?.let { stringResource(resource = getStringByName(it)) },
+        valueDisplayList = valueDisplayList?.map { stringResource(it) },
+        listDisplayState = listDisplayState?.let { stringResource(it) },
         label = label,
         leadingIcon = leadingIcon,
     )
@@ -75,8 +75,8 @@ fun DropdownMenu(
     listState: MutableState<String>,
     modifier: Modifier = Modifier,
     onChange: ((String) -> Unit)? = null,
-    valueDisplayList: List<String>?,
-    listDisplayState: String?,
+    valueDisplayList: List<StringResource>?,
+    listDisplayState: StringResource?,
     listDisplayStateQuantity: Int,
     label: String? = null,
     leadingIcon: ImageVector? = null
@@ -86,8 +86,8 @@ fun DropdownMenu(
         listState = listState,
         modifier = modifier,
         onChange = onChange,
-        valueDisplayList = valueDisplayList?.map { stringResource(resource = getStringByName(it)) },
-        listDisplayState = listDisplayState?.let { stringResource(resource = getStringByName(it), listDisplayStateQuantity) },
+        valueDisplayList = valueDisplayList?.map { stringResource(it) },
+        listDisplayState = listDisplayState?.let { stringResource(it, listDisplayStateQuantity) },
         label = label,
         leadingIcon = leadingIcon,
     )

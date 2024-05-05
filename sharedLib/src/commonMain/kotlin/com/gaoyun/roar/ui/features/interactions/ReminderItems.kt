@@ -13,7 +13,14 @@ import com.gaoyun.roar.model.domain.Reminder
 import com.gaoyun.roar.presentation.interactions.InteractionScreenContract
 import com.gaoyun.roar.ui.common.composables.LabelledCheckBox
 import com.gaoyun.roar.ui.theme.RoarTheme
+import com.gaoyun.roar.util.DateFormats
 import com.gaoyun.roar.util.SharedDateUtils
+import com.gaoyun.roar.util.formatDate
+import com.gaoyun.roar.util.formatDateTime
+import org.jetbrains.compose.resources.ExperimentalResourceApi
+import org.jetbrains.compose.resources.stringResource
+import roar.sharedlib.generated.resources.Res
+import roar.sharedlib.generated.resources.at
 
 @Composable
 fun ReminderItems(
@@ -99,6 +106,7 @@ private fun ReminderCard(
     )
 }
 
+@OptIn(ExperimentalResourceApi::class)
 @Composable
 private fun ReminderItem(
     reminder: Reminder,
@@ -106,16 +114,15 @@ private fun ReminderItem(
 ) {
     LabelledCheckBox(
         checked = reminder.isCompleted,
-        label = "",
-//        label = "${
-//            if (reminder.dateTime.date.year != SharedDateUtils.currentYear()) {
-//                reminder.dateTime.date.toJavaLocalDate().format(DateUtils.ddMmmmYyyyDateFormatter)
-//            } else {
-//                reminder.dateTime.date.toJavaLocalDate().format(DateUtils.ddMmmmDateFormatter)
-//            }
-//        } ${stringResource(id = R.string.at)} ${
-//            reminder.dateTime.toJavaLocalDateTime().format(DateUtils.hhMmTimeFormatter)
-//        }",
+        label = "${
+            if (reminder.dateTime.date.year != SharedDateUtils.currentYear()) {
+                reminder.dateTime.date.formatDate(DateFormats.ddMmmmYyyyDateFormat)
+            } else {
+                reminder.dateTime.date.formatDate(DateFormats.ddMmmmDateFormat)
+            }
+        } ${stringResource(resource = Res.string.at)} ${
+            reminder.dateTime.formatDateTime(DateFormats.hhMmTimeFormat)
+        }",
         modifier = Modifier.fillMaxWidth(),
         verticalPadding = 16.dp,
         horizontalPadding = 20.dp,

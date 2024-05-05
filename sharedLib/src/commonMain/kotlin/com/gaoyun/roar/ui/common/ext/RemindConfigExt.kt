@@ -6,6 +6,7 @@ import com.gaoyun.roar.model.domain.interactions.InteractionRemindConfigPeriod
 import org.jetbrains.compose.resources.ExperimentalResourceApi
 import org.jetbrains.compose.resources.stringResource
 import roar.sharedlib.generated.resources.Res
+import roar.sharedlib.generated.resources.app_name
 import roar.sharedlib.generated.resources.before
 import roar.sharedlib.generated.resources.day
 import roar.sharedlib.generated.resources.hour
@@ -32,7 +33,7 @@ fun InteractionRemindConfig.remindConfigTextFull() =
 
 @Composable
 @OptIn(ExperimentalResourceApi::class)
-fun InteractionRemindConfigPeriod.toLocalizedStringIdPlural() = stringResource(Res.string.remind) //TODO: fix
+fun InteractionRemindConfigPeriod.toLocalizedStringIdPlural() = Res.string.app_name //TODO: fix
 //    when (this) {
 //    InteractionRemindConfigPeriod.WEEK -> Res.string.weeks_before
 //    InteractionRemindConfigPeriod.DAY -> Res.string.days_before
@@ -42,7 +43,7 @@ fun InteractionRemindConfigPeriod.toLocalizedStringIdPlural() = stringResource(R
 @Composable
 @OptIn(ExperimentalResourceApi::class)
 fun InteractionRemindConfigPeriod.toLocalizedStringId() = when (this) {
-    InteractionRemindConfigPeriod.WEEK -> stringResource(Res.string.week)
-    InteractionRemindConfigPeriod.DAY -> stringResource(Res.string.day)
-    InteractionRemindConfigPeriod.HOUR -> stringResource(Res.string.hour)
+    InteractionRemindConfigPeriod.WEEK -> Res.string.week
+    InteractionRemindConfigPeriod.DAY -> Res.string.day
+    InteractionRemindConfigPeriod.HOUR -> Res.string.hour
 }
