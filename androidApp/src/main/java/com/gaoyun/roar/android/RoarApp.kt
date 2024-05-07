@@ -17,6 +17,8 @@ import com.gaoyun.roar.domain.SynchronisationSchedulerImpl
 import com.gaoyun.roar.domain.SynchronisationWorker
 import com.gaoyun.roar.initKoin
 import com.gaoyun.roar.migrations.MigrationsExecutor
+import com.gaoyun.roar.network.SynchronisationApi
+import com.gaoyun.roar.network.SynchronisationApiAndroid
 import com.gaoyun.roar.presentation.about_screen.AboutScreenViewModel
 import com.gaoyun.roar.presentation.add_pet.avatar.AddPetAvatarScreenViewModel
 import com.gaoyun.roar.presentation.add_pet.data.AddPetDataScreenViewModel
@@ -64,6 +66,7 @@ class RoarApp : MultiDexApplication(), KoinComponent {
 
 val appModule = module {
     single<RegistrationLauncher> { RegistrationLauncherAndroid }
+    single<SynchronisationApi> { SynchronisationApiAndroid() }
 }
 
 val notificationsModule = module {

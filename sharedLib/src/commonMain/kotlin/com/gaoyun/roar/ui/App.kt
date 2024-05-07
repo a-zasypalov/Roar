@@ -1,5 +1,10 @@
 package com.gaoyun.roar.ui
 
+import androidx.compose.animation.core.Spring
+import androidx.compose.animation.core.VisibilityThreshold
+import androidx.compose.animation.core.spring
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
 import androidx.compose.animation.slideInHorizontally
 import androidx.compose.animation.slideOutHorizontally
 import androidx.compose.material3.ColorScheme
@@ -7,6 +12,8 @@ import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
+import androidx.compose.ui.unit.IntOffset
+import androidx.compose.ui.unit.dp
 import com.gaoyun.roar.presentation.LAUNCH_LISTEN_FOR_EFFECTS
 import com.gaoyun.roar.ui.features.about.AboutScreenDestination
 import com.gaoyun.roar.ui.features.add_pet.AddPetAvatarDestination
@@ -62,7 +69,7 @@ fun GlobalDestinationState(isOnboardingComplete: Boolean) {
         viewModel.navigationEffect.onEach { destination ->
             when (destination) {
                 is NavigationAction.NavigateTo -> navigator.navigate(destination.path)
-                is NavigationAction.NavigateBack -> navigator.goBack() //was `navigateUp()`
+                is NavigationAction.NavigateBack -> navigator.goBack()
                 is NavigationAction.PopTo -> navigator.goBack(
                     PopUpTo(
                         route = destination.path,
@@ -84,14 +91,42 @@ fun GlobalDestinationState(isOnboardingComplete: Boolean) {
     NavHost(
         navigator = navigator,
         initialRoute = initialRoute,
-        swipeProperties = if (Platform.name == PlatformNames.IOS) remember { SwipeProperties() } else null,
+        swipeProperties = if (Platform.name == PlatformNames.IOS) remember { SwipeProperties(
+            spaceToSwipe = 16.dp,
+            positionalThreshold = { distance: Float -> distance * 0.9f },
+            velocityThreshold = { 0.dp.toPx() }
+        ) } else null,
         navTransition = if (Platform.name == PlatformNames.IOS) {
             remember {
                 NavTransition(
-                    createTransition = slideInHorizontally { it },
-                    destroyTransition = slideOutHorizontally { it },
-                    pauseTransition = slideOutHorizontally { -it / 4 },
-                    resumeTransition = slideInHorizontally { -it / 4 },
+                    createTransition = fadeIn() + slideInHorizontally(
+                        animationSpec = spring(
+                            stiffness = Spring.StiffnessMediumLow,
+                            visibilityThreshold = IntOffset.VisibilityThreshold
+                        ),
+                        initialOffsetX = { it }
+                    ),
+                    destroyTransition = fadeOut(targetAlpha = 0.5f) + slideOutHorizontally(
+                        animationSpec = spring(
+                            stiffness = Spring.StiffnessMediumLow,
+                            visibilityThreshold = IntOffset.VisibilityThreshold
+                        ),
+                        targetOffsetX = { it }
+                    ),
+                    pauseTransition = fadeOut(targetAlpha = 0.5f) + slideOutHorizontally(
+                        animationSpec = spring(
+                            stiffness = Spring.StiffnessMediumLow,
+                            visibilityThreshold = IntOffset.VisibilityThreshold
+                        ),
+                        targetOffsetX = { -it / 2 }
+                    ),
+                    resumeTransition = fadeIn() + slideInHorizontally(
+                        animationSpec = spring(
+                            stiffness = Spring.StiffnessMediumLow,
+                            visibilityThreshold = IntOffset.VisibilityThreshold
+                        ),
+                        initialOffsetX = { -it / 2 }
+                    ),
                     exitTargetContentZIndex = 1f
                 )
             }

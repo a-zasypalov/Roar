@@ -22,7 +22,6 @@ import androidx.compose.material.icons.automirrored.filled.ListAlt
 import androidx.compose.material.icons.filled.Check
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.Divider
 import androidx.compose.material3.ElevatedCard
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
@@ -133,7 +132,7 @@ internal fun UserScreenContent(
 
                 Spacer(size = 16.dp)
 
-                Divider()
+                HorizontalDivider()
 
                 Spacer(size = 16.dp)
 
@@ -184,7 +183,7 @@ internal fun UserScreenContent(
 
                 Spacer(size = 16.dp)
 
-                Divider()
+                HorizontalDivider()
 
                 Spacer(size = 16.dp)
 
@@ -329,7 +328,7 @@ internal fun UserScreenContent(
 
                 Spacer(size = 16.dp)
 
-                Divider()
+                HorizontalDivider()
 
                 Spacer(size = 16.dp)
 
@@ -345,7 +344,7 @@ internal fun UserScreenContent(
 
                 Spacer(size = 16.dp)
 
-                Divider()
+                HorizontalDivider()
 
                 Spacer(size = 16.dp)
 

@@ -14,6 +14,7 @@ import com.gaoyun.roar.model.domain.withoutInteractions
 import com.gaoyun.roar.model.domain.withoutPets
 import com.gaoyun.roar.util.Preferences
 import com.gaoyun.roar.util.PreferencesKeys
+import com.gaoyun.roar.util.asCommonFlow
 import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.flow.flow
 import kotlinx.serialization.SerializationException
@@ -69,6 +70,6 @@ class SynchronisationUseCase(
             e.printStackTrace()
             emit(false)
         }
-    }
+    }.asCommonFlow()
 
 }

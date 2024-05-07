@@ -74,9 +74,11 @@ import org.koin.dsl.module
 /**
  * iOS Koin initialisation entry point
  */
-fun initKoin(registrationLauncher: RegistrationLauncher) = startKoin {
+fun initKoin(appDeclaration: iOSAppDeclaration) = startKoin {
     val iosDependenciesModule = module {
-        single { registrationLauncher }
+        single { appDeclaration.registrationLauncher }
+        single { appDeclaration.synchronisationApi }
+        single { appDeclaration.synchronisationScheduler }
     }
     modules(
         platformModule(),
@@ -112,22 +114,22 @@ val repositoryModule = module {
 }
 
 val vmModule = module {
-    single { AppViewModel() }
-    single { OnboardingViewModel(get()) }
-    single { RegisterUserViewModel(get(), get(), get()) }
-    single { HomeScreenViewModel(get(), get(), get(), get(), get(), get(), get(), get()) }
-    single { PetScreenViewModel(get(), get(), get(), get(), get()) }
-    single { AddPetPetTypeScreenViewModel() }
-    single { AddPetAvatarScreenViewModel(get()) }
-    single { AddPetSetupScreenViewModel(get()) }
-    single { AddPetDataScreenViewModel(get(), get(), get(), get()) }
-    single { InteractionScreenViewModel(get(), get(), get(), get(), get(), get(), get()) }
-    single { UserScreenViewModel(get(), get(), get(), get(), get(), get(), get()) }
-    single { EditUserScreenViewModel(get(), get()) }
-    single { AboutScreenViewModel() }
-    single { AddReminderScreenViewModel(get(), get(), get()) }
-    single { SetupReminderScreenViewModel(get(), get(), get(), get(), get(), get()) }
-    single { AddReminderCompleteScreenViewModel() }
+    factory { AppViewModel() }
+    factory { OnboardingViewModel(get()) }
+    factory { RegisterUserViewModel(get(), get(), get()) }
+    factory { HomeScreenViewModel(get(), get(), get(), get(), get(), get(), get(), get()) }
+    factory { PetScreenViewModel(get(), get(), get(), get(), get()) }
+    factory { AddPetPetTypeScreenViewModel() }
+    factory { AddPetAvatarScreenViewModel(get()) }
+    factory { AddPetSetupScreenViewModel(get()) }
+    factory { AddPetDataScreenViewModel(get(), get(), get(), get()) }
+    factory { InteractionScreenViewModel(get(), get(), get(), get(), get(), get(), get()) }
+    factory { UserScreenViewModel(get(), get(), get(), get(), get(), get(), get()) }
+    factory { EditUserScreenViewModel(get(), get()) }
+    factory { AboutScreenViewModel() }
+    factory { AddReminderScreenViewModel(get(), get(), get()) }
+    factory { SetupReminderScreenViewModel(get(), get(), get(), get(), get(), get()) }
+    factory { AddReminderCompleteScreenViewModel() }
 }
 
 val useCaseModule = module {
@@ -174,7 +176,6 @@ val networkModule = module {
     single { PlatformHttpClient.httpClient() }
     single { InteractionTemplatesApi(get()) }
     single { PetsApi(get()) }
-    single { SynchronisationApi() }
 }
 
 val dbModule = module {
