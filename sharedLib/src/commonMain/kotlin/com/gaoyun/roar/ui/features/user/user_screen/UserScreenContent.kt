@@ -49,6 +49,7 @@ import com.gaoyun.roar.ui.common.composables.FontSizeRange
 import com.gaoyun.roar.ui.common.composables.LabelledCheckBox
 import com.gaoyun.roar.ui.common.composables.Spacer
 import com.gaoyun.roar.ui.theme.primaryColor
+import com.gaoyun.roar.util.AppIcon
 import com.gaoyun.roar.util.ColorTheme
 import com.gaoyun.roar.util.Platform
 import com.gaoyun.roar.util.PlatformNames
@@ -83,6 +84,7 @@ internal fun UserScreenContent(
     onStaticColorThemePick: (UserScreenContract.Event.OnStaticColorThemePick) -> Unit,
     onLogout: (UserScreenContract.Event.OnLogout) -> Unit,
     onAboutScreenButtonClick: (UserScreenContract.Event.OnAboutScreenClick) -> Unit,
+    onIconChange: (UserScreenContract.Event.OnAppIconChange) -> Unit
 ) {
     val isDarkTheme = isSystemInDarkTheme()
     val scrollState = rememberScrollState()
@@ -309,10 +311,7 @@ internal fun UserScreenContent(
                             Box(
                                 modifier = Modifier
                                     .fillMaxSize()
-                                    .clickable {
-//                                        activity?.deactivateComponent(PAW_ICON)
-//                                        activity?.activateComponent(ROAR_ICON)
-                                    }
+                                    .clickable { onIconChange(UserScreenContract.Event.OnAppIconChange(AppIcon.Roar)) }
                                     .clip(MaterialTheme.shapes.medium)
                             ) {
                                 Image(
@@ -336,10 +335,7 @@ internal fun UserScreenContent(
                             Box(
                                 modifier = Modifier
                                     .fillMaxSize()
-                                    .clickable {
-//                                        activity?.deactivateComponent(ROAR_ICON)
-//                                        activity?.activateComponent(PAW_ICON)
-                                    }
+                                    .clickable { onIconChange(UserScreenContract.Event.OnAppIconChange(AppIcon.Paw)) }
                                     .clip(MaterialTheme.shapes.medium)
                             ) {
                                 Image(
@@ -407,23 +403,6 @@ internal fun UserScreenContent(
         }
     }
 }
-
-//private fun Activity.activateComponent(name: String) {
-//    packageManager.setComponentEnabledSetting(
-//        ComponentName(this, name),
-//        PackageManager.COMPONENT_ENABLED_STATE_ENABLED, PackageManager.DONT_KILL_APP
-//    )
-//}
-//
-//private fun Activity.deactivateComponent(name: String) {
-//    packageManager.setComponentEnabledSetting(
-//        ComponentName(this, name),
-//        PackageManager.COMPONENT_ENABLED_STATE_DISABLED, PackageManager.DONT_KILL_APP
-//    )
-//}
-
-const val ROAR_ICON = "com.gaoyun.roar.android.ROAR.AMBER"
-const val PAW_ICON = "com.gaoyun.roar.android.PAW.AMBER"
 
 //@Preview
 //@Composable

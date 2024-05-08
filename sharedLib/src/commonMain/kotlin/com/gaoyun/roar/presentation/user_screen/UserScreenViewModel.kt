@@ -8,6 +8,7 @@ import com.gaoyun.roar.domain.user.GetCurrentUserUseCase
 import com.gaoyun.roar.domain.user.LogoutUseCase
 import com.gaoyun.roar.network.SynchronisationApi
 import com.gaoyun.roar.presentation.MultiplatformBaseViewModel
+import com.gaoyun.roar.util.AppIcon
 import com.gaoyun.roar.util.ColorTheme
 import com.gaoyun.roar.util.ThemeChanger
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -43,6 +44,7 @@ class UserScreenViewModel(
             is UserScreenContract.Event.OnStaticColorThemePick -> staticThemeChange(event.theme)
             is UserScreenContract.Event.OnNumberOfRemindersOnMainScreen -> setNumberOfRemindersOnMainScreen(event.newNumber)
             is UserScreenContract.Event.OnHomeScreenModeChange -> switchHomeScreenMode()
+            is UserScreenContract.Event.OnAppIconChange -> activateIcon(event.icon)
             is UserScreenContract.Event.OnAboutScreenClick -> setEffect { UserScreenContract.Effect.Navigation.ToAboutScreen }
             is UserScreenContract.Event.NavigateBack -> {
                 setEffect { UserScreenContract.Effect.NavigateBack }
@@ -114,6 +116,10 @@ class UserScreenViewModel(
             .first()
         logoutUseCase.logout().firstOrNull()
         setEffect { UserScreenContract.Effect.LoggedOut }
+    }
+
+    private fun activateIcon(icon: AppIcon) {
+        themeChanger.activateIcon(icon)
     }
 
 }

@@ -8,4 +8,8 @@ class ThemeChangerIOS: ThemeChanger, ObservableObject {
     func applyTheme() {
         key = UUID()
     }
+
+    func activateIcon(icon: AppIcon) {
+        
+    }
 }
