@@ -14,53 +14,22 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material3.dynamicDarkColorScheme
 import androidx.compose.material3.dynamicLightColorScheme
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.ui.platform.LocalContext
 import androidx.core.content.ContextCompat
 import androidx.core.view.WindowCompat
 import androidx.lifecycle.lifecycleScope
-import androidx.navigation.NavType
-import androidx.navigation.compose.NavHost
-import androidx.navigation.compose.composable
-import androidx.navigation.compose.rememberNavController
-import androidx.navigation.navArgument
-import com.gaoyun.roar.ui.navigation.NavigationAction
-import com.gaoyun.roar.ui.navigation.NavigationKeys
-import com.gaoyun.roar.ui.features.add_pet.AddPetAvatarDestination
-import com.gaoyun.roar.ui.features.add_pet.pet_data.AddPetDataDestination
-import com.gaoyun.roar.ui.features.create_reminder.AddReminderCompleteDestination
-import com.gaoyun.roar.ui.features.create_reminder.AddReminderDestination
-import com.gaoyun.roar.ui.features.create_reminder.setup.SetupReminderDestination
-import com.gaoyun.roar.presentation.LAUNCH_LISTEN_FOR_EFFECTS
 import com.gaoyun.roar.ui.App
-import com.gaoyun.roar.ui.theme.colors.BlueColor
-import com.gaoyun.roar.ui.theme.colors.GreenColor
-import com.gaoyun.roar.ui.theme.colors.OrangeColor
-import com.gaoyun.roar.util.ColorTheme
+import com.gaoyun.roar.util.Platform
 import com.gaoyun.roar.util.PreferencesKeys
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import kotlinx.coroutines.delay
-import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
-import org.koin.android.ext.android.inject
+import com.gaoyun.common.R as CommonR
 
 class MainActivity : AppCompatActivity() {
-
-    private val isOnboardingComplete by lazy {
-        this.getSharedPreferences("app_prefs", MODE_PRIVATE)
-            .getBoolean(PreferencesKeys.ONBOARDING_COMPLETE, false)
-    }
 
     private val isDynamicColorsActive by lazy {
         this.getSharedPreferences("app_prefs", MODE_PRIVATE)
             .getBoolean(PreferencesKeys.DYNAMIC_COLORS_ACTIVE, true)
-    }
-
-    private val colorTheme by lazy {
-        this.getSharedPreferences("app_prefs", MODE_PRIVATE)
-            .getString(PreferencesKeys.COLOR_THEME, null)?.let { ColorTheme.valueOf(it) }
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -72,23 +41,12 @@ class MainActivity : AppCompatActivity() {
             WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS
         )
 
-        val supportsDynamic = Build.VERSION.SDK_INT >= Build.VERSION_CODES.S
-
         setContent {
-            val darkTheme = isSystemInDarkTheme()
-            val colors = if (isDynamicColorsActive && supportsDynamic) {
-                val context = LocalContext.current
-                if (darkTheme) dynamicDarkColorScheme(context) else dynamicLightColorScheme(context)
-            } else {
-                when (colorTheme) {
-                    ColorTheme.Green -> if (darkTheme) GreenColor.DarkColors else GreenColor.LightColors
-                    ColorTheme.Blue -> if (darkTheme) BlueColor.DarkColors else BlueColor.LightColors
-                    ColorTheme.Orange -> if (darkTheme) OrangeColor.DarkColors else OrangeColor.LightColors
-                    else -> if (darkTheme) OrangeColor.DarkColors else OrangeColor.LightColors
-                }
-            }
+            val dynamicColors = if (isDynamicColorsActive && Platform.supportsDynamicColor) {
+                if (isSystemInDarkTheme()) dynamicDarkColorScheme(this) else dynamicLightColorScheme(this)
+            } else null
 
-            App(colors, isOnboardingComplete)
+            App(dynamicColors)
         }
 
         prepareNotificationChannel()
@@ -131,29 +89,29 @@ class MainActivity : AppCompatActivity() {
         }
 
     private fun showSettingDialog() {
-//        MaterialAlertDialogBuilder(this) TODO: fix
-//            .setTitle(com.gaoyun.common.R.string.alert)
-//            .setMessage(com.gaoyun.common.R.string.notification_permission_dialog_text)
-//            .setPositiveButton(com.gaoyun.common.R.string.ok) { _, _ ->
-//                val intent = Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS)
-//                intent.data = Uri.parse("package:$packageName")
-//                startActivity(intent)
-//            }
-//            .setNegativeButton(com.gaoyun.common.R.string.cancel, null)
-//            .show()
+        MaterialAlertDialogBuilder(this)
+            .setTitle(CommonR.string.alert)
+            .setMessage(CommonR.string.notification_permission_dialog_text)
+            .setPositiveButton(com.gaoyun.common.R.string.ok) { _, _ ->
+                val intent = Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS)
+                intent.data = Uri.parse("package:$packageName")
+                startActivity(intent)
+            }
+            .setNegativeButton(com.gaoyun.common.R.string.cancel, null)
+            .show()
     }
 
     private fun showNotificationPermissionRationale() {
-//        MaterialAlertDialogBuilder(this) TODO: fix
-//            .setTitle(com.gaoyun.common.R.string.alert)
-//            .setMessage(com.gaoyun.common.R.string.notification_permission_rationale_dialog_text)
-//            .setPositiveButton(com.gaoyun.common.R.string.ok) { _, _ ->
-//                if (Build.VERSION.SDK_INT >= 33) {
-//                    notificationPermissionLauncher.launch(android.Manifest.permission.POST_NOTIFICATIONS)
-//                }
-//            }
-//            .setNegativeButton(com.gaoyun.common.R.string.cancel, null)
-//            .show()
+        MaterialAlertDialogBuilder(this)
+            .setTitle(com.gaoyun.common.R.string.alert)
+            .setMessage(com.gaoyun.common.R.string.notification_permission_rationale_dialog_text)
+            .setPositiveButton(com.gaoyun.common.R.string.ok) { _, _ ->
+                if (Build.VERSION.SDK_INT >= 33) {
+                    notificationPermissionLauncher.launch(android.Manifest.permission.POST_NOTIFICATIONS)
+                }
+            }
+            .setNegativeButton(com.gaoyun.common.R.string.cancel, null)
+            .show()
     }
 
     override fun onResume() {

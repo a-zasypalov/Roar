@@ -7,9 +7,9 @@ import com.gaoyun.roar.domain.pet.GetPetUseCase
 import com.gaoyun.roar.domain.user.GetCurrentUserUseCase
 import com.gaoyun.roar.domain.user.LogoutUseCase
 import com.gaoyun.roar.network.SynchronisationApi
-import com.gaoyun.roar.presentation.BaseViewModel
 import com.gaoyun.roar.presentation.MultiplatformBaseViewModel
 import com.gaoyun.roar.util.ColorTheme
+import com.gaoyun.roar.util.ThemeChanger
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.first
@@ -25,6 +25,7 @@ class UserScreenViewModel(
     private val synchronisationApi: SynchronisationApi,
     private val logoutUseCase: LogoutUseCase,
     private val getPetUseCase: GetPetUseCase,
+    private val themeChanger: ThemeChanger,
 ) : MultiplatformBaseViewModel<UserScreenContract.Event, UserScreenContract.State, UserScreenContract.Effect>() {
 
     val backupState = MutableStateFlow("")
@@ -85,11 +86,13 @@ class UserScreenViewModel(
 
     private fun setDynamicColor(active: Boolean) {
         appPreferencesUseCase.setDynamicColors(active)
+        themeChanger.applyTheme()
         setState { copy(dynamicColorActive = active) }
     }
 
     private fun staticThemeChange(theme: ColorTheme) {
         appPreferencesUseCase.setStaticTheme(theme.name)
+        themeChanger.applyTheme()
         setState { copy(activeColorTheme = theme) }
     }
 

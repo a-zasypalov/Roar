@@ -28,16 +28,19 @@ struct iOSApp: App {
 
     let provider = sharedLib.KoinProvider()
     var synchronisationScheduler: SynchronisationSchedulerIOS? = nil
+    @ObservedObject var themeChanger = ThemeChangerIOS()
 
 
     init() {
         synchronisationScheduler = SynchronisationSchedulerIOS(provider: provider)
         guard let synchronisationScheduler else { fatalError("Init error") }
 
+
         let appDeclaration = sharedLib.iOSAppDeclaration(
             registrationLauncher: RegistrationLauncherIos(),
             synchronisationApi: SynchronisationApiIOS(provider: provider),
-            synchronisationScheduler: synchronisationScheduler
+            synchronisationScheduler: synchronisationScheduler,
+            themeChanger: themeChanger
         )
 
         KoinKt.doInitKoin(appDeclaration: appDeclaration)
@@ -46,6 +49,7 @@ struct iOSApp: App {
 	var body: some Scene {
 		WindowGroup {
             ContentView()
+                .id(themeChanger.key)
                 .onChange(of: scenePhase) { newPhase in
                     if newPhase == .background {
                         synchronisationScheduler?.scheduleSynchronisation(dispatchTime: DispatchTime.now())

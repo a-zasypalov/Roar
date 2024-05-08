@@ -35,7 +35,6 @@ import com.gaoyun.roar.migrations.MigrationsExecutor
 import com.gaoyun.roar.model.entity.RoarDatabase
 import com.gaoyun.roar.network.InteractionTemplatesApi
 import com.gaoyun.roar.network.PetsApi
-import com.gaoyun.roar.network.SynchronisationApi
 import com.gaoyun.roar.presentation.about_screen.AboutScreenViewModel
 import com.gaoyun.roar.presentation.add_pet.avatar.AddPetAvatarScreenViewModel
 import com.gaoyun.roar.presentation.add_pet.data.AddPetDataScreenViewModel
@@ -62,7 +61,7 @@ import com.gaoyun.roar.repository.ReminderRepositoryImpl
 import com.gaoyun.roar.repository.UserRepository
 import com.gaoyun.roar.repository.UserRepositoryImpl
 import com.gaoyun.roar.ui.AppViewModel
-import com.gaoyun.roar.ui.features.registration.RegistrationLauncher
+import com.gaoyun.roar.ui.common.ColorsProvider
 import com.gaoyun.roar.util.DriverFactory
 import com.gaoyun.roar.util.PlatformHttpClient
 import com.gaoyun.roar.util.Preferences
@@ -79,6 +78,7 @@ fun initKoin(appDeclaration: iOSAppDeclaration) = startKoin {
         single { appDeclaration.registrationLauncher }
         single { appDeclaration.synchronisationApi }
         single { appDeclaration.synchronisationScheduler }
+        single { appDeclaration.themeChanger }
     }
     modules(
         platformModule(),
@@ -114,7 +114,7 @@ val repositoryModule = module {
 }
 
 val vmModule = module {
-    factory { AppViewModel() }
+    factory { AppViewModel(get(), get()) }
     factory { OnboardingViewModel(get()) }
     factory { RegisterUserViewModel(get(), get(), get()) }
     factory { HomeScreenViewModel(get(), get(), get(), get(), get(), get(), get(), get()) }
@@ -124,7 +124,7 @@ val vmModule = module {
     factory { AddPetSetupScreenViewModel(get()) }
     factory { AddPetDataScreenViewModel(get(), get(), get(), get()) }
     factory { InteractionScreenViewModel(get(), get(), get(), get(), get(), get(), get()) }
-    factory { UserScreenViewModel(get(), get(), get(), get(), get(), get(), get()) }
+    factory { UserScreenViewModel(get(), get(), get(), get(), get(), get(), get(), get()) }
     factory { EditUserScreenViewModel(get(), get()) }
     factory { AboutScreenViewModel() }
     factory { AddReminderScreenViewModel(get(), get(), get()) }
@@ -133,6 +133,7 @@ val vmModule = module {
 }
 
 val useCaseModule = module {
+    single { ColorsProvider(get()) }
     single { RegisterUserUseCase(get(), get()) }
     single { GetCurrentUserUseCase(get(), get()) }
     single { CheckUserExistingUseCase(get()) }

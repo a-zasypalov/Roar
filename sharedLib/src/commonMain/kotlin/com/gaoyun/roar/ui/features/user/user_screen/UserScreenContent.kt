@@ -21,6 +21,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ListAlt
 import androidx.compose.material.icons.filled.Check
 import androidx.compose.material.icons.filled.Person
+import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ElevatedCard
 import androidx.compose.material3.HorizontalDivider
@@ -49,6 +50,8 @@ import com.gaoyun.roar.ui.common.composables.LabelledCheckBox
 import com.gaoyun.roar.ui.common.composables.Spacer
 import com.gaoyun.roar.ui.theme.primaryColor
 import com.gaoyun.roar.util.ColorTheme
+import com.gaoyun.roar.util.Platform
+import com.gaoyun.roar.util.PlatformNames
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
 import roar.sharedlib.generated.resources.Res
@@ -56,6 +59,7 @@ import roar.sharedlib.generated.resources.about_app_button
 import roar.sharedlib.generated.resources.app_icon
 import roar.sharedlib.generated.resources.app_settings
 import roar.sharedlib.generated.resources.backup
+import roar.sharedlib.generated.resources.cancel
 import roar.sharedlib.generated.resources.colors
 import roar.sharedlib.generated.resources.dynamic_color_switcher_title
 import roar.sharedlib.generated.resources.hey_user
@@ -63,6 +67,8 @@ import roar.sharedlib.generated.resources.home_screen_mode_switcher_title
 import roar.sharedlib.generated.resources.ic_launcher_foreground
 import roar.sharedlib.generated.resources.ic_launcher_paw_foreground
 import roar.sharedlib.generated.resources.logout
+import roar.sharedlib.generated.resources.logout_description
+import roar.sharedlib.generated.resources.logout_question
 import roar.sharedlib.generated.resources.number_of_reminders_main_screen
 import roar.sharedlib.generated.resources.user_screen_subtitle
 
@@ -76,14 +82,38 @@ internal fun UserScreenContent(
     onHomeScreenModeChange: (UserScreenContract.Event.OnHomeScreenModeChange) -> Unit,
     onStaticColorThemePick: (UserScreenContract.Event.OnStaticColorThemePick) -> Unit,
     onLogout: (UserScreenContract.Event.OnLogout) -> Unit,
-    onAboutScreenButtonClick: (UserScreenContract.Event.OnAboutScreenClick) -> Unit
+    onAboutScreenButtonClick: (UserScreenContract.Event.OnAboutScreenClick) -> Unit,
 ) {
     val isDarkTheme = isSystemInDarkTheme()
     val scrollState = rememberScrollState()
+    val showLogoutDialog = remember { mutableStateOf(false) }
 
-    val supportDynamicColor = false // Build.VERSION.SDK_INT >= Build.VERSION_CODES.S
+    val supportDynamicColor = Platform.supportsDynamicColor
     val numberOfRemindersOnMainScreenState = remember { mutableStateOf(state.numberOfRemindersOnMainScreenState) }
     numberOfRemindersOnMainScreenState.value = state.numberOfRemindersOnMainScreenState
+
+    if (showLogoutDialog.value) {
+        AlertDialog(
+            onDismissRequest = { showLogoutDialog.value = false },
+            title = { Text(stringResource(resource = Res.string.logout_question)) },
+            text = { Text(stringResource(resource = Res.string.logout_description)) },
+            confirmButton = {
+                TextButton(onClick = {
+                    showLogoutDialog.value = false
+                    onLogout(UserScreenContract.Event.OnLogout)
+                }) {
+                    Text(stringResource(resource = Res.string.logout))
+                }
+            },
+            dismissButton = {
+                TextButton(onClick = {
+                    showLogoutDialog.value = false
+                }) {
+                    Text(stringResource(resource = Res.string.cancel))
+                }
+            }
+        )
+    }
 
     BoxWithLoader(isLoading = state.user == null) {
         state.user?.let { user ->
@@ -200,11 +230,8 @@ internal fun UserScreenContent(
                         checked = state.dynamicColorActive,
                         onCheckedChange = {
                             onDynamicColorsStateChange(
-                                UserScreenContract.Event.OnDynamicColorsStateChange(
-                                    it
-                                )
+                                UserScreenContract.Event.OnDynamicColorsStateChange(it)
                             )
-//                            activity?.recreate()
                         },
                         label = stringResource(resource = Res.string.dynamic_color_switcher_title),
                         modifier = Modifier.fillMaxWidth(),
@@ -233,7 +260,6 @@ internal fun UserScreenContent(
                                                     it
                                                 )
                                             )
-                                            //activity?.recreate()
                                         }
                                         .padding(8.dp)
                                         .clip(MaterialTheme.shapes.medium)
@@ -328,21 +354,24 @@ internal fun UserScreenContent(
 
                 Spacer(size = 16.dp)
 
-                HorizontalDivider()
+                //File backup currently supported only by Android
+                if (Platform.name == PlatformNames.Android) {
+                    HorizontalDivider()
 
-                Spacer(size = 16.dp)
+                    Spacer(size = 16.dp)
 
-                Text(
-                    text = stringResource(resource = Res.string.backup),
-                    style = MaterialTheme.typography.titleLarge.copy(fontWeight = FontWeight.Medium),
-                    color = MaterialTheme.colorScheme.onSurface
-                )
+                    Text(
+                        text = stringResource(resource = Res.string.backup),
+                        style = MaterialTheme.typography.titleLarge.copy(fontWeight = FontWeight.Medium),
+                        color = MaterialTheme.colorScheme.onSurface
+                    )
 
-                Spacer(size = 8.dp)
+                    Spacer(size = 8.dp)
 
-                UserScreenBackupBlock(onCreateBackupClick, onUseBackup)
+                    UserScreenBackupBlock(onCreateBackupClick, onUseBackup)
 
-                Spacer(size = 16.dp)
+                    Spacer(size = 16.dp)
+                }
 
                 HorizontalDivider()
 
@@ -361,18 +390,7 @@ internal fun UserScreenContent(
 
                 TextButton(
                     onClick = {
-//                        AlertDialog.Builder(context)
-//                            .setTitle(context.getString(R.string.logout_question))
-//                            .setMessage(context.getString(R.string.logout_description))
-//                            .setPositiveButton(context.getString(R.string.logout)) { dialog, _ ->
-//                                dialog.dismiss()
-//                                onLogout(UserScreenContract.Event.OnLogout)
-//                            }
-//                            .setNegativeButton(context.getString(R.string.cancel)) { dialog, _ ->
-//                                dialog.dismiss()
-//                            }
-//                            .create()
-//                            .show()
+                        showLogoutDialog.value = true
                     },
                     modifier = Modifier.align(Alignment.CenterHorizontally)
                 ) {

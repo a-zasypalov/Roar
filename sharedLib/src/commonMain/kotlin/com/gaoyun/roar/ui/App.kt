@@ -47,22 +47,25 @@ import moe.tlaster.precompose.navigation.transition.NavTransition
 
 @Composable
 fun App(
-    colors: ColorScheme,
-    isOnboardingComplete: Boolean,
+    dynamicColorsScheme: ColorScheme?,
 ) {
     PreComposeApp {
+        val viewModel = koinViewModel(vmClass = AppViewModel::class)
+        val colors = dynamicColorsScheme ?: viewModel.getColorScheme()
+
         RoarTheme(colors) {
             Surface(tonalElevation = RoarTheme.BACKGROUND_SURFACE_ELEVATION) {
-                GlobalDestinationState(isOnboardingComplete = isOnboardingComplete)
+                GlobalDestinationState(viewModel.isOnboardingComplete(), viewModel)
             }
         }
     }
 }
 
 @Composable
-fun GlobalDestinationState(isOnboardingComplete: Boolean) {
-    val viewModel = koinViewModel(vmClass = AppViewModel::class)
-
+fun GlobalDestinationState(
+    isOnboardingComplete: Boolean,
+    viewModel: AppViewModel,
+) {
     val navigator = rememberNavigator()
 
     LaunchedEffect(LAUNCH_LISTEN_FOR_EFFECTS) {
@@ -91,11 +94,13 @@ fun GlobalDestinationState(isOnboardingComplete: Boolean) {
     NavHost(
         navigator = navigator,
         initialRoute = initialRoute,
-        swipeProperties = if (Platform.name == PlatformNames.IOS) remember { SwipeProperties(
-            spaceToSwipe = 16.dp,
-            positionalThreshold = { distance: Float -> distance * 0.9f },
-            velocityThreshold = { 0.dp.toPx() }
-        ) } else null,
+        swipeProperties = if (Platform.name == PlatformNames.IOS) remember {
+            SwipeProperties(
+                spaceToSwipe = 16.dp,
+                positionalThreshold = { distance: Float -> distance * 0.9f },
+                velocityThreshold = { 0.dp.toPx() }
+            )
+        } else null,
         navTransition = if (Platform.name == PlatformNames.IOS) {
             remember {
                 NavTransition(

@@ -1,5 +1,7 @@
 package com.gaoyun.roar.android
 
+import android.app.Activity
+import android.os.Bundle
 import androidx.core.app.NotificationManagerCompat
 import androidx.multidex.MultiDexApplication
 import androidx.work.WorkManager
@@ -19,26 +21,11 @@ import com.gaoyun.roar.initKoin
 import com.gaoyun.roar.migrations.MigrationsExecutor
 import com.gaoyun.roar.network.SynchronisationApi
 import com.gaoyun.roar.network.SynchronisationApiAndroid
-import com.gaoyun.roar.presentation.about_screen.AboutScreenViewModel
-import com.gaoyun.roar.presentation.add_pet.avatar.AddPetAvatarScreenViewModel
-import com.gaoyun.roar.presentation.add_pet.data.AddPetDataScreenViewModel
-import com.gaoyun.roar.presentation.add_pet.setup.AddPetSetupScreenViewModel
-import com.gaoyun.roar.presentation.add_pet.type.AddPetPetTypeScreenViewModel
-import com.gaoyun.roar.presentation.add_reminder.choose_template.AddReminderScreenViewModel
-import com.gaoyun.roar.presentation.add_reminder.complete.AddReminderCompleteScreenViewModel
-import com.gaoyun.roar.presentation.add_reminder.setup_reminder.SetupReminderScreenViewModel
-import com.gaoyun.roar.presentation.home_screen.HomeScreenViewModel
-import com.gaoyun.roar.presentation.interactions.InteractionScreenViewModel
-import com.gaoyun.roar.presentation.onboarding.OnboardingViewModel
-import com.gaoyun.roar.presentation.pet_screen.PetScreenViewModel
-import com.gaoyun.roar.presentation.user_edit.EditUserScreenViewModel
-import com.gaoyun.roar.presentation.user_register.RegisterUserViewModel
-import com.gaoyun.roar.presentation.user_screen.UserScreenViewModel
-import com.gaoyun.roar.ui.AppViewModel
 import com.gaoyun.roar.ui.features.registration.RegistrationLauncher
+import com.gaoyun.roar.util.ThemeChanger
+import org.koin.android.ext.koin.androidApplication
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger
-import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.androidx.workmanager.dsl.worker
 import org.koin.androidx.workmanager.koin.workManagerFactory
 import org.koin.core.component.KoinComponent
@@ -49,9 +36,38 @@ import org.koin.dsl.module
 class RoarApp : MultiDexApplication(), KoinComponent {
 
     private val migrationsExecutor: MigrationsExecutor by inject()
+    var initialActivity: Activity? = null
+
+    private val appModule = module {
+        single<RegistrationLauncher> { RegistrationLauncherAndroid }
+        single<SynchronisationApi> { SynchronisationApiAndroid() }
+        single<ThemeChanger> { ThemeChangerAndroid(get()) }
+        single { ActivityProvider(androidApplication(), initialActivity) }
+    }
+
+    private val activityCallback = object : ActivityLifecycleCallbacks {
+        override fun onActivityStarted(activity: Activity) {}
+        override fun onActivityStopped(activity: Activity) {}
+        override fun onActivitySaveInstanceState(activity: Activity, outState: Bundle) {}
+        override fun onActivityDestroyed(activity: Activity) {}
+
+        override fun onActivityCreated(activity: Activity, savedInstanceState: Bundle?) {
+            initialActivity = activity
+        }
+
+        override fun onActivityResumed(activity: Activity) {
+            initialActivity = activity
+        }
+
+        override fun onActivityPaused(activity: Activity) {
+            initialActivity = null
+        }
+    }
 
     override fun onCreate() {
         super.onCreate()
+
+        registerActivityLifecycleCallbacks(activityCallback)
 
         initKoin {
             androidLogger(if (BuildConfig.DEBUG) Level.ERROR else Level.NONE)
@@ -62,11 +78,6 @@ class RoarApp : MultiDexApplication(), KoinComponent {
 
         migrationsExecutor.migrate()
     }
-}
-
-val appModule = module {
-    single<RegistrationLauncher> { RegistrationLauncherAndroid }
-    single<SynchronisationApi> { SynchronisationApiAndroid() }
 }
 
 val notificationsModule = module {
