@@ -10,6 +10,25 @@ class ThemeChangerIOS: ThemeChanger, ObservableObject {
     }
 
     func activateIcon(icon: AppIcon) {
-        
+        Task {
+            switch icon {
+                case AppIcon.paw:
+                    await UIApplication.shared.setAlternateIconName("IconPaw"){ error in
+                        if let error = error {
+                            print(error.localizedDescription)
+                        } else {
+                            print("Success!")
+                        }
+                    }
+                default:
+                    await UIApplication.shared.setAlternateIconName(nil){ error in
+                        if let error = error {
+                            print(error.localizedDescription)
+                        } else {
+                            print("Success!")
+                        }
+                    }
+            }
+        }
     }
 }

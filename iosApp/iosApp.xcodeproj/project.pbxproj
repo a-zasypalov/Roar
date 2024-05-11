@@ -12,6 +12,10 @@
 		1069E01C2BE8B9B5008B585F /* SynchronisationApi.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1069E01B2BE8B9B5008B585F /* SynchronisationApi.swift */; };
 		1069E01E2BE8DD6B008B585F /* SynchronisationScheduler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1069E01D2BE8DD6B008B585F /* SynchronisationScheduler.swift */; };
 		1069E0202BEA925A008B585F /* ThemeChanger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1069E01F2BEA925A008B585F /* ThemeChanger.swift */; };
+		1069E0242BEC14A1008B585F /* paw@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 1069E0222BEC14A1008B585F /* paw@2x.png */; };
+		1069E0252BEC14A1008B585F /* paw@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 1069E0232BEC14A1008B585F /* paw@3x.png */; };
+		1069E02C2BEC199C008B585F /* roar@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 1069E02A2BEC199C008B585F /* roar@3x.png */; };
+		1069E02D2BEC199C008B585F /* roar@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 1069E02B2BEC199C008B585F /* roar@2x.png */; };
 		10719D552BD7E5600044550A /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 10719D542BD7E5600044550A /* GoogleService-Info.plist */; };
 		10719D582BD7E6270044550A /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 10719D572BD7E6270044550A /* FirebaseAuth */; };
 		10719D5A2BD7E6270044550A /* FirebaseCrashlytics in Frameworks */ = {isa = PBXBuildFile; productRef = 10719D592BD7E6270044550A /* FirebaseCrashlytics */; };
@@ -46,6 +50,10 @@
 		1069E01B2BE8B9B5008B585F /* SynchronisationApi.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SynchronisationApi.swift; sourceTree = "<group>"; };
 		1069E01D2BE8DD6B008B585F /* SynchronisationScheduler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SynchronisationScheduler.swift; sourceTree = "<group>"; };
 		1069E01F2BEA925A008B585F /* ThemeChanger.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThemeChanger.swift; sourceTree = "<group>"; };
+		1069E0222BEC14A1008B585F /* paw@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "paw@2x.png"; sourceTree = "<group>"; };
+		1069E0232BEC14A1008B585F /* paw@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "paw@3x.png"; sourceTree = "<group>"; };
+		1069E02A2BEC199C008B585F /* roar@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "roar@3x.png"; sourceTree = "<group>"; };
+		1069E02B2BEC199C008B585F /* roar@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "roar@2x.png"; sourceTree = "<group>"; };
 		10719D542BD7E5600044550A /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		10719D5F2BD7E7090044550A /* RegistrationLauncher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegistrationLauncher.swift; sourceTree = "<group>"; };
 		10E946F929EA90E60015D8A8 /* sharedLib.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = sharedLib.framework; path = ../sharedLib/build/bin/iosSimulatorArm64/debugFramework/sharedLib.framework; sourceTree = "<group>"; };
@@ -84,6 +92,10 @@
 		109DAE2C2A790A8A00A738D9 /* app */ = {
 			isa = PBXGroup;
 			children = (
+				1069E0222BEC14A1008B585F /* paw@2x.png */,
+				1069E0232BEC14A1008B585F /* paw@3x.png */,
+				1069E02B2BEC199C008B585F /* roar@2x.png */,
+				1069E02A2BEC199C008B585F /* roar@3x.png */,
 				2152FB032600AC8F00CF470E /* iOSApp.swift */,
 				7555FF82242A565900829871 /* ContentView.swift */,
 				10719D5F2BD7E7090044550A /* RegistrationLauncher.swift */,
@@ -206,6 +218,10 @@
 				058557D9273AAEEB004C7B11 /* Preview Assets.xcassets in Resources */,
 				058557BB273AAA24004C7B11 /* Assets.xcassets in Resources */,
 				10719D552BD7E5600044550A /* GoogleService-Info.plist in Resources */,
+				1069E0242BEC14A1008B585F /* paw@2x.png in Resources */,
+				1069E02D2BEC199C008B585F /* roar@2x.png in Resources */,
+				1069E0252BEC14A1008B585F /* paw@3x.png in Resources */,
+				1069E02C2BEC199C008B585F /* roar@3x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -368,6 +384,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
@@ -400,6 +417,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
