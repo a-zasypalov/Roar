@@ -7,6 +7,7 @@ import com.gaoyun.roar.presentation.NavigationSideEffect
 import com.gaoyun.roar.presentation.user_register.RegisterUserScreenContract
 import com.gaoyun.roar.presentation.user_register.RegisterUserViewModel
 import com.gaoyun.roar.ui.common.composables.SurfaceScaffold
+import com.gaoyun.roar.ui.navigation.CloseAppNavigationSideEffect
 import com.gaoyun.roar.util.Platform
 import com.gaoyun.roar.util.PlatformNames
 import kotlinx.coroutines.flow.collect
@@ -18,8 +19,7 @@ import moe.tlaster.precompose.navigation.BackHandler
 fun UserRegistrationDestination(onNavigationCall: (NavigationSideEffect) -> Unit) {
     val viewModel = koinViewModel(vmClass = RegisterUserViewModel::class)
 
-    //TODO: Close app
-    BackHandler {}
+    BackHandler { onNavigationCall(CloseAppNavigationSideEffect) }
 
     LaunchedEffect(LAUNCH_LISTEN_FOR_EFFECTS) {
         viewModel.effect.onEach { effect ->

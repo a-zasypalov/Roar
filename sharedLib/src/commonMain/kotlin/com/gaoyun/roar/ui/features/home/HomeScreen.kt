@@ -81,7 +81,7 @@ fun HomeScreenDestination(onNavigationCall: (NavigationSideEffect) -> Unit) {
             }
     }
 
-    BackHandler { /* TODO: Close app */ }
+    BackHandler { onNavigationCall(CloseAppNavigationSideEffect) }
 
     SurfaceScaffold(
         floatingActionButton = {
