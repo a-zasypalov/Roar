@@ -10,6 +10,7 @@ import androidx.compose.animation.slideOutHorizontally
 import androidx.compose.material3.ColorScheme
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
 import androidx.compose.ui.unit.IntOffset
@@ -53,9 +54,12 @@ fun App(
         val viewModel = koinViewModel(vmClass = AppViewModel::class)
         val colors = dynamicColorsScheme ?: viewModel.getColorScheme()
 
-        RoarTheme(colors) {
-            Surface(tonalElevation = RoarTheme.BACKGROUND_SURFACE_ELEVATION) {
-                GlobalDestinationState(viewModel.isOnboardingComplete(), viewModel)
+        //Workaround for Lifecycle 2.8.0 version https://issuetracker.google.com/issues/336842920#comment8
+        CompositionLocalProvider(androidx.lifecycle.compose.LocalLifecycleOwner provides androidx.compose.ui.platform.LocalLifecycleOwner.current) {
+            RoarTheme(colors) {
+                Surface(tonalElevation = RoarTheme.BACKGROUND_SURFACE_ELEVATION) {
+                    GlobalDestinationState(viewModel.isOnboardingComplete(), viewModel)
+                }
             }
         }
     }
@@ -127,6 +131,7 @@ fun GlobalDestinationState(
                     ),
                     resumeTransition = fadeIn() + slideInHorizontally(
                         animationSpec = spring(
+
                             stiffness = Spring.StiffnessMediumLow,
                             visibilityThreshold = IntOffset.VisibilityThreshold
                         ),
