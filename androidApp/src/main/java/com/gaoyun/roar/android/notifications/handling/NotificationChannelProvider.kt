@@ -1,4 +1,4 @@
-package com.gaoyun.roar.android.notifications
+package com.gaoyun.roar.android.notifications.handling
 
 import android.media.AudioAttributes
 import android.media.RingtoneManager
@@ -9,7 +9,6 @@ import kotlinx.coroutines.runBlocking
 class NotificationChannelProvider(
     private val notificationManager: NotificationManagerCompat
 ) {
-
     private var created = false
 
     fun create() {
@@ -37,7 +36,6 @@ class NotificationChannelProvider(
         }
         notificationManager.createNotificationChannelsCompat(channels)
     }
-
 }
 
 enum class NotificationChannel(val id: String) {

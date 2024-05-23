@@ -1,4 +1,4 @@
-package com.gaoyun.roar.android.platform_utils
+package com.gaoyun.roar.util
 
 import android.app.Activity
 import android.app.Application
@@ -9,8 +9,13 @@ class ActivityProvider(application: Application, initialActivity: Activity?) {
 
     init {
         application.registerActivityLifecycleCallbacks(object : Application.ActivityLifecycleCallbacks {
-            override fun onActivityResumed(activity: Activity) { activeActivity = activity }
-            override fun onActivityPaused(activity: Activity) { activeActivity = null }
+            override fun onActivityResumed(activity: Activity) {
+                activeActivity = activity
+            }
+
+            override fun onActivityPaused(activity: Activity) {
+                activeActivity = null
+            }
 
             override fun onActivityCreated(activity: Activity, savedInstanceState: Bundle?) {}
             override fun onActivityStarted(activity: Activity) {}

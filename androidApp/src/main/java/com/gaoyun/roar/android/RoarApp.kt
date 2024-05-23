@@ -5,17 +5,12 @@ import android.os.Bundle
 import androidx.core.app.NotificationManagerCompat
 import androidx.multidex.MultiDexApplication
 import androidx.work.WorkManager
-import com.gaoyun.roar.android.notifications.NotificationChannelProvider
-import com.gaoyun.roar.android.notifications.NotificationDisplayer
-import com.gaoyun.roar.android.notifications.NotificationHandler
-import com.gaoyun.roar.android.notifications.NotificationIntentProvider
-import com.gaoyun.roar.android.notifications.NotificationSchedulerImpl
-import com.gaoyun.roar.android.notifications.NotificationWorker
 import com.gaoyun.roar.android.notifications.FcmService
-import com.gaoyun.roar.android.notifications.NotificationIntentProviderImpl
-import com.gaoyun.roar.android.platform_utils.ActivityProvider
+import com.gaoyun.roar.android.notifications.NotificationSchedulerImpl
+import com.gaoyun.roar.android.notifications.handling.NotificationChannelProvider
+import com.gaoyun.roar.android.notifications.handling.NotificationDisplayer
+import com.gaoyun.roar.android.notifications.handling.NotificationHandler
 import com.gaoyun.roar.android.platform_utils.RegistrationLauncherAndroid
-import com.gaoyun.roar.android.platform_utils.ThemeChangerAndroid
 import com.gaoyun.roar.domain.NotificationScheduler
 import com.gaoyun.roar.domain.SynchronisationScheduler
 import com.gaoyun.roar.domain.SynchronisationSchedulerImpl
@@ -25,7 +20,9 @@ import com.gaoyun.roar.migrations.MigrationsExecutor
 import com.gaoyun.roar.network.SynchronisationApi
 import com.gaoyun.roar.network.SynchronisationApiAndroid
 import com.gaoyun.roar.ui.features.registration.RegistrationLauncher
+import com.gaoyun.roar.util.ActivityProvider
 import com.gaoyun.roar.util.ThemeChanger
+import com.gaoyun.roar.util.ThemeChangerAndroid
 import org.koin.android.ext.koin.androidApplication
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger
@@ -86,13 +83,12 @@ class RoarApp : MultiDexApplication(), KoinComponent {
 val notificationsModule = module {
     single<NotificationScheduler> { NotificationSchedulerImpl(get(), get()) }
     single<SynchronisationScheduler> { SynchronisationSchedulerImpl() }
-    single<NotificationIntentProvider> { NotificationIntentProviderImpl(get()) }
     single { WorkManager.getInstance(get()) }
     single { NotificationManagerCompat.from(get()) }
     single { NotificationChannelProvider(get()) }
     single { NotificationDisplayer(get(), get(), get()) }
-    single { NotificationHandler(get(), get(), get(), get(), get(), get()) }
+    single { NotificationHandler(get(), get(), get(), get(), get()) }
     single { FcmService() }
-    worker { NotificationWorker(get(), get(), get()) }
+    worker { NotificationSchedulerImpl.NotificationWorker(get(), get(), get()) }
     worker { SynchronisationWorker(get(), get(), get(), get()) }
 }

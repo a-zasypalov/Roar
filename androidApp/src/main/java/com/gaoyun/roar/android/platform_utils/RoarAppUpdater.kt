@@ -15,7 +15,7 @@ import kotlinx.datetime.Clock
 import kotlinx.datetime.Instant
 import kotlin.time.Duration.Companion.days
 
-object AppUpdater {
+object RoarAppUpdater {
     fun checkAppUpdate(context: AppCompatActivity) {
         val appUpdateManager = AppUpdateManagerFactory.create(context)
         val lastCheckingDateTime = context.getSharedPreferences("app_prefs", AppCompatActivity.MODE_PRIVATE)

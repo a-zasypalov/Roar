@@ -1,4 +1,4 @@
-package com.gaoyun.roar.android.notifications
+package com.gaoyun.roar.android.notifications.handling
 
 import android.annotation.SuppressLint
 import android.app.PendingIntent
@@ -14,7 +14,6 @@ class NotificationDisplayer(
     private val context: Context,
     private val notificationManager: NotificationManagerCompat,
 ) {
-
     @SuppressLint("MissingPermission")
     fun display(
         title: String,
@@ -33,5 +32,4 @@ class NotificationDisplayer(
 
         notificationManager.notify(Random.nextInt(), notification)
     }
-
 }

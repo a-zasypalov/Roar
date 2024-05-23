@@ -1,9 +1,7 @@
-package com.gaoyun.roar.android.platform_utils
+package com.gaoyun.roar.util
 
 import android.content.ComponentName
 import android.content.pm.PackageManager
-import com.gaoyun.roar.util.AppIcon
-import com.gaoyun.roar.util.ThemeChanger
 import org.koin.core.component.KoinComponent
 
 
@@ -14,11 +12,11 @@ class ThemeChangerAndroid(private val activityProvider: ActivityProvider) : Koin
 
     override fun activateIcon(icon: AppIcon) {
         activityProvider.activeActivity?.let {
-            val enable = when(icon) {
+            val enable = when (icon) {
                 AppIcon.Roar -> "com.gaoyun.roar.android.ROAR.AMBER"
                 AppIcon.Paw -> "com.gaoyun.roar.android.PAW.AMBER"
             }
-            val disable = when(icon) {
+            val disable = when (icon) {
                 AppIcon.Paw -> "com.gaoyun.roar.android.ROAR.AMBER"
                 AppIcon.Roar -> "com.gaoyun.roar.android.PAW.AMBER"
             }

@@ -1,6 +1,8 @@
-package com.gaoyun.roar.android.notifications
+package com.gaoyun.roar.android.notifications.handling
 
 import android.content.Context
+import android.content.Intent
+import com.gaoyun.roar.android.MainActivity
 import com.gaoyun.roar.android.R
 import com.gaoyun.roar.domain.interaction.GetInteraction
 import com.gaoyun.roar.domain.pet.GetPetUseCase
@@ -16,9 +18,9 @@ class NotificationHandler(
     private val getInteraction: GetInteraction,
     private val getReminder: GetReminder,
     private val getPetUseCase: GetPetUseCase,
-    private val notificationIntentProvider: NotificationIntentProvider,
     private val context: Context,
 ) {
+    val defaultIntent = Intent(context, MainActivity::class.java)
 
     suspend fun handle(notification: NotificationData): Boolean {
         return when (notification.item) {
@@ -38,7 +40,7 @@ class NotificationHandler(
                             reminder.dateTime.formatDateTime(DateFormats.ddMmmmDateFormat)
                         ),
                         channel = NotificationChannel.PetsReminder,
-                        intent = notificationIntentProvider.getDefaultIntent()
+                        intent = defaultIntent
                     )
                 }
 
@@ -57,8 +59,7 @@ class NotificationHandler(
             title = notification.title,
             content = notification.message,
             channel = NotificationChannel.PetsReminder,
-            intent = notificationIntentProvider.getDefaultIntent()
+            intent = defaultIntent
         )
     }
-
 }
