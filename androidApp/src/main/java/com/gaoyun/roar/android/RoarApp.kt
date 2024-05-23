@@ -13,6 +13,9 @@ import com.gaoyun.roar.android.notifications.NotificationSchedulerImpl
 import com.gaoyun.roar.android.notifications.NotificationWorker
 import com.gaoyun.roar.android.notifications.FcmService
 import com.gaoyun.roar.android.notifications.NotificationIntentProviderImpl
+import com.gaoyun.roar.android.platform_utils.ActivityProvider
+import com.gaoyun.roar.android.platform_utils.RegistrationLauncherAndroid
+import com.gaoyun.roar.android.platform_utils.ThemeChangerAndroid
 import com.gaoyun.roar.domain.NotificationScheduler
 import com.gaoyun.roar.domain.SynchronisationScheduler
 import com.gaoyun.roar.domain.SynchronisationSchedulerImpl

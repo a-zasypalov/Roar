@@ -1,4 +1,4 @@
-package com.gaoyun.roar.android
+package com.gaoyun.roar.android.platform_utils
 
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
@@ -16,7 +16,6 @@ import kotlinx.datetime.Instant
 import kotlin.time.Duration.Companion.days
 
 object AppUpdater {
-
     fun checkAppUpdate(context: AppCompatActivity) {
         val appUpdateManager = AppUpdateManagerFactory.create(context)
         val lastCheckingDateTime = context.getSharedPreferences("app_prefs", AppCompatActivity.MODE_PRIVATE)
@@ -41,5 +40,4 @@ object AppUpdater {
         val activityResultLauncher = context.registerForActivityResult(ActivityResultContracts.StartIntentSenderForResult()) {}
         appUpdateManager.startUpdateFlowForResult(appUpdateInfo, activityResultLauncher, AppUpdateOptions.newBuilder(updateType).build())
     }
-
 }

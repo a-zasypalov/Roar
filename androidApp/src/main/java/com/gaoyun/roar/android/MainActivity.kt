@@ -17,6 +17,7 @@ import androidx.compose.material3.dynamicLightColorScheme
 import androidx.core.content.ContextCompat
 import androidx.core.view.WindowCompat
 import androidx.lifecycle.lifecycleScope
+import com.gaoyun.roar.android.platform_utils.AppUpdater
 import com.gaoyun.roar.ui.App
 import com.gaoyun.roar.util.Platform
 import com.gaoyun.roar.util.PreferencesKeys

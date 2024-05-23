@@ -1,4 +1,4 @@
-package com.gaoyun.roar.android
+package com.gaoyun.roar.android.platform_utils
 
 import android.content.ComponentName
 import android.content.pm.PackageManager
@@ -8,7 +8,6 @@ import org.koin.core.component.KoinComponent
 
 
 class ThemeChangerAndroid(private val activityProvider: ActivityProvider) : KoinComponent, ThemeChanger {
-
     override fun applyTheme() {
         activityProvider.activeActivity?.recreate()
     }
