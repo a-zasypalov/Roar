@@ -19,6 +19,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.compose.LifecycleEventEffect
 import com.gaoyun.roar.presentation.BackNavigationEffect
 import com.gaoyun.roar.presentation.LAUNCH_LISTEN_FOR_EFFECTS
 import com.gaoyun.roar.presentation.NavigationSideEffect
@@ -52,8 +54,7 @@ fun SetupReminderDestination(
     val state = viewModel.viewState.collectAsState().value
     val snackbarHostState = remember { SnackbarHostState() }
 
-    LaunchedEffect(Unit) {
-        //TODO: was on onCreate
+    LifecycleEventEffect(Lifecycle.Event.ON_CREATE) {
         viewModel.buildScreenState(petId = petId, templateId = templateId, interactionId = interactionId)
     }
 

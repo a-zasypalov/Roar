@@ -23,15 +23,15 @@ android {
 
 dependencies {
     api(project(":sharedLib"))
-    api("androidx.core:core-ktx:1.12.0")
+    api("androidx.core:core-ktx:1.13.1")
     api("androidx.appcompat:appcompat:1.6.1")
-    api("com.google.android.material:material:1.11.0")
-    api("org.jetbrains.kotlinx:kotlinx-coroutines-core-jvm:1.8.0")
+    api("com.google.android.material:material:1.12.0")
+    api("org.jetbrains.kotlinx:kotlinx-coroutines-core-jvm:1.8.1")
 
-    api("androidx.lifecycle:lifecycle-runtime-ktx:2.7.0")
-    api("androidx.activity:activity-compose:1.8.2")
+//    api("androidx.lifecycle:lifecycle-runtime-ktx:2.7.0")
+    api("androidx.activity:activity-compose:1.9.0")
 
-    val composeVersion = "1.6.5"
+    val composeVersion = "1.6.7"
     api("androidx.compose.ui:ui:$composeVersion")
     api("androidx.compose.ui:ui-tooling-preview:$composeVersion")
     api("androidx.compose.material:material-icons-extended:$composeVersion")
@@ -39,7 +39,7 @@ dependencies {
 
     api("androidx.compose.material3:material3:1.2.1")
 
-    api("org.jetbrains.kotlinx:kotlinx-datetime:0.5.0")
+    api("org.jetbrains.kotlinx:kotlinx-datetime:0.6.0")
 
     api("com.google.accompanist:accompanist-permissions:0.34.0")
     api("com.google.accompanist:accompanist-insets:0.30.1")
@@ -58,15 +58,15 @@ dependencies {
 
     api("androidx.browser:browser:1.8.0")
 
-    debugApi("androidx.compose.ui:ui-tooling:1.6.5")
-    api("androidx.compose.ui:ui-tooling-preview:1.6.5")
+    debugApi("androidx.compose.ui:ui-tooling:1.6.7")
+    api("androidx.compose.ui:ui-tooling-preview:1.6.7")
 
-    api(platform("com.google.firebase:firebase-bom:32.8.1"))
+    api(platform("com.google.firebase:firebase-bom:33.0.0"))
     api("com.google.firebase:firebase-crashlytics-ktx")
     api("com.google.firebase:firebase-analytics-ktx")
     api("com.google.firebase:firebase-messaging-ktx")
     api("com.firebaseui:firebase-ui-auth:7.2.0")
-    api("com.google.firebase:firebase-auth-ktx:22.3.1")
+    api("com.google.firebase:firebase-auth-ktx:23.0.0")
 
     testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test.ext:junit:1.1.5")

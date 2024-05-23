@@ -16,6 +16,8 @@ import androidx.compose.runtime.setValue
 import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.compose.LifecycleEventEffect
 import com.gaoyun.roar.model.domain.withInteractions
 import com.gaoyun.roar.presentation.BackNavigationEffect
 import com.gaoyun.roar.presentation.LAUNCH_LISTEN_FOR_EFFECTS
@@ -44,8 +46,7 @@ fun PetScreenDestination(
     val viewModel = koinViewModel(vmClass = PetScreenViewModel::class)
     val state = viewModel.viewState.collectAsState().value
 
-    LaunchedEffect(Unit) {
-        //TODO: was on onCreate
+    LifecycleEventEffect(Lifecycle.Event.ON_CREATE) {
         viewModel.buildScreenState(petId)
     }
 

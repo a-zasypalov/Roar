@@ -20,6 +20,8 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.compose.LifecycleEventEffect
 import com.gaoyun.roar.presentation.BackNavigationEffect
 import com.gaoyun.roar.presentation.LAUNCH_LISTEN_FOR_EFFECTS
 import com.gaoyun.roar.presentation.NavigationSideEffect
@@ -61,11 +63,12 @@ fun InteractionScreenDestination(
         notesState.value = state.interaction?.notes.orEmpty()
     }
 
-    LaunchedEffect(Unit) {
-        //TODO: onCreate
+    LifecycleEventEffect(Lifecycle.Event.ON_CREATE) {
         viewModel.buildScreenState(interactionId)
-        //TODO: onPause
-        //viewModel.setEvent(InteractionScreenContract.Event.OnSaveNotes(notesState.value ?: ""))
+    }
+
+    LifecycleEventEffect(Lifecycle.Event.ON_PAUSE) {
+        viewModel.setEvent(InteractionScreenContract.Event.OnSaveNotes(notesState.value ?: ""))
     }
 
     val showRemoveInteractionDialog = remember { mutableStateOf(false) }

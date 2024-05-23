@@ -32,15 +32,15 @@ kotlin {
         linkSqlite = true
     }
 
-    val coroutinesVersion = "1.8.0"
+    val coroutinesVersion = "1.8.1"
     val serializationVersion = "1.6.3"
-    val ktorVersion = "2.3.10"
+    val ktorVersion = "2.3.11"
     val koinVersion = "3.5.6"
-    val lifecycleVersion = "2.7.0"
+    val lifecycleVersion = "2.8.0"
     val precomposeVersion = "1.6.0"
 
     sourceSets {
-        val commonMain by getting {
+        commonMain {
             dependencies {
                 implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutinesVersion")
                 implementation("org.jetbrains.kotlinx:kotlinx-serialization-core:$serializationVersion")
@@ -53,7 +53,7 @@ kotlin {
                 implementation("io.ktor:ktor-serialization-kotlinx-json:$ktorVersion")
 
                 implementation("io.insert-koin:koin-core:$koinVersion")
-                implementation("org.jetbrains.kotlinx:kotlinx-datetime:0.5.0")
+                implementation("org.jetbrains.kotlinx:kotlinx-datetime:0.6.0")
                 implementation("com.squareup.sqldelight:runtime:1.5.5")
 
                 implementation(compose.runtime)
@@ -62,13 +62,15 @@ kotlin {
                 @OptIn(org.jetbrains.compose.ExperimentalComposeLibrary::class)
                 implementation(compose.components.resources)
                 implementation(compose.materialIconsExtended)
+                implementation("org.jetbrains.androidx.lifecycle:lifecycle-common:$lifecycleVersion")
+                implementation("org.jetbrains.androidx.lifecycle:lifecycle-runtime-compose:$lifecycleVersion")
 
                 implementation("moe.tlaster:precompose:$precomposeVersion")
                 implementation("moe.tlaster:precompose-viewmodel:$precomposeVersion")
                 implementation("moe.tlaster:precompose-koin:$precomposeVersion")
             }
         }
-        val commonTest by getting {
+        commonTest {
             dependencies {
                 implementation(kotlin("test"))
                 implementation("io.insert-koin:koin-core:$koinVersion")
@@ -76,47 +78,23 @@ kotlin {
                 implementation("io.insert-koin:koin-test:$koinVersion")
             }
         }
-        val androidMain by getting {
+        androidMain {
             dependencies {
                 implementation("io.insert-koin:koin-android:$koinVersion")
                 implementation("com.squareup.okhttp3:logging-interceptor:4.12.0")
                 implementation("com.squareup.sqldelight:android-driver:1.5.5")
                 implementation("androidx.work:work-runtime-ktx:2.9.0")
 
-
-                val composeVersion = "1.6.7"
-                implementation("androidx.compose.ui:ui:$composeVersion")
-                implementation("androidx.compose.material:material:$composeVersion")
-
-                implementation("androidx.lifecycle:lifecycle-runtime-ktx:$lifecycleVersion")
-                implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycleVersion")
-
                 implementation("com.google.firebase:firebase-common-ktx:21.0.0")
                 implementation("com.google.firebase:firebase-storage-ktx:21.0.0")
             }
         }
 
-        val iosX64Main by getting
-        val iosArm64Main by getting
-        val iosSimulatorArm64Main by getting
-        val iosMain by creating {
-            dependsOn(commonMain)
-            iosX64Main.dependsOn(this)
-            iosArm64Main.dependsOn(this)
-            iosSimulatorArm64Main.dependsOn(this)
+        iosMain {
             dependencies {
                 implementation("io.ktor:ktor-client-ios:$ktorVersion")
                 implementation("com.squareup.sqldelight:native-driver:1.5.5")
             }
-        }
-        val iosX64Test by getting
-        val iosArm64Test by getting
-        val iosSimulatorArm64Test by getting
-        val iosTest by creating {
-            dependsOn(commonTest)
-            iosX64Test.dependsOn(this)
-            iosArm64Test.dependsOn(this)
-            iosSimulatorArm64Test.dependsOn(this)
         }
     }
 }

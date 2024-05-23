@@ -15,6 +15,8 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.compose.LifecycleEventEffect
 import com.gaoyun.roar.presentation.BackNavigationEffect
 import com.gaoyun.roar.presentation.LAUNCH_LISTEN_FOR_EFFECTS
 import com.gaoyun.roar.presentation.NavigationSideEffect
@@ -38,8 +40,7 @@ fun AddReminderDestination(
     val viewModel = koinViewModel(vmClass = AddReminderScreenViewModel::class)
     val state = viewModel.viewState.collectAsState().value
 
-    LaunchedEffect(Unit) {
-        //TODO: was on onCreate
+    LifecycleEventEffect(Lifecycle.Event.ON_CREATE) {
         viewModel.buildScreenState(petId)
     }
 

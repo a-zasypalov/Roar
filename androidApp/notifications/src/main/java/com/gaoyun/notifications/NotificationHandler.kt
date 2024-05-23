@@ -1,11 +1,14 @@
 package com.gaoyun.notifications
 
 import android.content.Context
+import com.gaoyun.common.R
 import com.gaoyun.roar.domain.interaction.GetInteraction
 import com.gaoyun.roar.domain.pet.GetPetUseCase
 import com.gaoyun.roar.domain.reminder.GetReminder
 import com.gaoyun.roar.model.domain.NotificationData
 import com.gaoyun.roar.model.domain.NotificationItem
+import com.gaoyun.roar.util.DateFormats
+import com.gaoyun.roar.util.formatDateTime
 import kotlinx.coroutines.flow.firstOrNull
 
 class NotificationHandler(
@@ -28,13 +31,12 @@ class NotificationHandler(
                 val reminderIsCompleted = reminder.isCompleted
                 if (reminderIsCompleted.not()) {
                     displayer.display(
-                        title = "Notification title", // TODO: fix context.getString(CommonR.string.notification_title, pet.name),
-                        content = "Notification text",
-//                        context.getString(
-//                            CommonR.string.notification_content_dont_forget,
-//                            interaction.name,
-//                            reminder.dateTime.toJavaLocalDateTime().format(DateUtils.ddMmmmDateFormatter)
-//                        ),
+                        title = context.getString(R.string.notification_title, pet.name),
+                        content = context.getString(
+                            R.string.notification_content_dont_forget,
+                            interaction.name,
+                            reminder.dateTime.formatDateTime(DateFormats.ddMmmmDateFormat)
+                        ),
                         channel = NotificationChannel.PetsReminder,
                         intent = notificationIntentProvider.getDefaultIntent()
                     )

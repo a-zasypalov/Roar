@@ -7,6 +7,8 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.remember
 import androidx.compose.ui.text.intl.Locale
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.compose.LifecycleEventEffect
 import com.gaoyun.roar.presentation.BackNavigationEffect
 import com.gaoyun.roar.presentation.LAUNCH_LISTEN_FOR_EFFECTS
 import com.gaoyun.roar.presentation.NavigationSideEffect
@@ -35,8 +37,7 @@ fun AddPetDataDestination(
 
     val noBreedString = stringResource(Res.string.no_breed)
 
-    LaunchedEffect(Unit) {
-        //TODO: Was on onResume
+    LifecycleEventEffect(Lifecycle.Event.ON_RESUME) {
         viewModel.setEvent(
             AddPetDataScreenContract.Event.PetDataInit(
                 petType,

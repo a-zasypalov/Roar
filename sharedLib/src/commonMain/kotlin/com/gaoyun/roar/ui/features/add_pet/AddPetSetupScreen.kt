@@ -22,6 +22,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.compose.LifecycleEventEffect
 import com.gaoyun.roar.model.domain.Pet
 import com.gaoyun.roar.presentation.LAUNCH_LISTEN_FOR_EFFECTS
 import com.gaoyun.roar.presentation.NavigationSideEffect
@@ -52,8 +54,7 @@ fun AddPetSetupDestination(
     val viewModel = koinViewModel(vmClass = AddPetSetupScreenViewModel::class)
     val state = viewModel.viewState.collectAsState().value
 
-    LaunchedEffect(Unit) {
-        //TODO: Was on onCreate
+    LifecycleEventEffect(Lifecycle.Event.ON_CREATE) {
         viewModel.setEvent(AddPetSetupScreenContract.Event.PetInit(petId))
     }
 

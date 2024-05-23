@@ -26,6 +26,8 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.compose.LifecycleEventEffect
 import com.gaoyun.roar.config.PetsConfig
 import com.gaoyun.roar.presentation.BackNavigationEffect
 import com.gaoyun.roar.presentation.LAUNCH_LISTEN_FOR_EFFECTS
@@ -51,8 +53,7 @@ fun AddPetAvatarDestination(
 ) {
     val viewModel = koinViewModel(vmClass = AddPetAvatarScreenViewModel::class)
 
-    LaunchedEffect(Unit) {
-        //TODO: Was on onCreate
+    LifecycleEventEffect(Lifecycle.Event.ON_CREATE) {
         viewModel.petTypeChosen(petType, petId)
     }
 

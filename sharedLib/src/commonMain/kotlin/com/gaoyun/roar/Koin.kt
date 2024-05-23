@@ -117,7 +117,7 @@ val vmModule = module {
     factory { AppViewModel(get(), get()) }
     factory { OnboardingViewModel(get()) }
     factory { RegisterUserViewModel(get(), get(), get()) }
-    factory { HomeScreenViewModel(get(), get(), get(), get(), get(), get(), get(), get()) }
+    factory { HomeScreenViewModel(get(), get(), get(), get(), get(), get(), get(), get(), get()) }
     factory { PetScreenViewModel(get(), get(), get(), get(), get()) }
     factory { AddPetPetTypeScreenViewModel() }
     factory { AddPetAvatarScreenViewModel(get()) }

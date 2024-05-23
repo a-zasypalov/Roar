@@ -8,4 +8,6 @@
     <string name="notification_permission_rationale_dialog_text">Notification permission is required, to show notification</string>
     <string name="ok">OK</string>
     <string name="cancel">Cancel</string>
+    <string name="notification_content_dont_forget">%1$s %2$s</string>
+    <string name="notification_title">Reminder for %1$s</string>
 </resources>

@@ -13,6 +13,8 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.compose.LifecycleEventEffect
 import com.gaoyun.roar.model.domain.PetWithInteractions
 import com.gaoyun.roar.presentation.LAUNCH_LISTEN_FOR_EFFECTS
 import com.gaoyun.roar.presentation.NavigationSideEffect
@@ -28,6 +30,10 @@ import com.gaoyun.roar.ui.features.home.states.HomeState
 import com.gaoyun.roar.ui.features.home.states.NoPetsState
 import com.gaoyun.roar.ui.features.home.states.NoUserState
 import com.gaoyun.roar.ui.features.home.view.InteractionPetChooser
+import com.gaoyun.roar.ui.features.registration.RegistrationLauncherComposable
+import com.gaoyun.roar.ui.navigation.CloseAppNavigationSideEffect
+import com.gaoyun.roar.util.Platform
+import com.gaoyun.roar.util.PlatformNames
 import com.gaoyun.roar.util.SharedDateUtils
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.onEach
@@ -43,8 +49,7 @@ fun HomeScreenDestination(onNavigationCall: (NavigationSideEffect) -> Unit) {
     val viewModel = koinViewModel(vmClass = HomeScreenViewModel::class)
     val state = viewModel.viewState.collectAsState().value
 
-    LaunchedEffect(1) {
-        //TODO: Check on onResume
+    LifecycleEventEffect(Lifecycle.Event.ON_RESUME) {
         viewModel.checkUserRegistered()
     }
 
@@ -56,7 +61,8 @@ fun HomeScreenDestination(onNavigationCall: (NavigationSideEffect) -> Unit) {
     LaunchedEffect(LAUNCH_LISTEN_FOR_EFFECTS) {
         viewModel.effect.onEach { effect ->
             when (effect) {
-                is HomeScreenContract.Effect.NavigateBack -> { /* TODO: Close app */
+                is HomeScreenContract.Effect.NavigateBack -> {
+                    onNavigationCall(CloseAppNavigationSideEffect)
                 }
 
                 is HomeScreenContract.Effect.Navigation -> onNavigationCall(effect)
@@ -96,16 +102,12 @@ fun HomeScreenDestination(onNavigationCall: (NavigationSideEffect) -> Unit) {
         },
         floatingActionButtonPosition = FabPosition.End
     ) {
-//        val signInLauncher = rememberLauncherForActivityResult(
-//            FirebaseAuthUIActivityResultContract()
-//        ) { res ->
-//            if (res.resultCode == Activity.RESULT_OK) {
-//                Firebase.auth.currentUser?.let { user ->
-//                    viewModel.setEvent(HomeScreenContract.Event.LoginUser(user.uid))
-//                }
-//            }
-//        }
-// TODO: Fix login launcher
+
+        val registrationCallback = { _: String, id: String -> viewModel.setEvent(HomeScreenContract.Event.LoginUser(id)) }
+        val registrationLauncher = when (Platform.name) {
+            PlatformNames.Android -> (viewModel.registrationLauncher as? RegistrationLauncherComposable)?.launcherComposable(registrationCallback)
+            PlatformNames.IOS -> viewModel.registrationLauncher.launcher(registrationCallback)
+        }
 
         when {
             state.showPetChooser -> {
@@ -200,18 +202,10 @@ fun HomeScreenDestination(onNavigationCall: (NavigationSideEffect) -> Unit) {
                     )
                 }
             } ?: if (!state.isLoading) {
-                NoUserState(onRegisterButtonClick = viewModel::openRegistration,
-                    onLoginButtonClick = {
-//                        signInLauncher.launch(
-//                            AuthUI.getInstance()
-//                                .createSignInIntentBuilder()
-//                                .setAvailableProviders(arrayListOf(AuthUI.IdpConfig.GoogleBuilder().build()))
-//                                .setLogo(R.drawable.ic_tab_home)
-//                                .setTheme(R.style.RoarTheme)
-//                                .setIsSmartLockEnabled(false)
-//                                .build()
-//                        )
-                    })
+                NoUserState(
+                    onRegisterButtonClick = viewModel::openRegistration,
+                    onLoginButtonClick = { registrationLauncher?.invoke() }
+                )
             } else Spacer(size = 1.dp)
         }
     }

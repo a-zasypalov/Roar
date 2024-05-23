@@ -18,7 +18,7 @@ import moe.tlaster.precompose.navigation.BackHandler
 fun UserRegistrationDestination(onNavigationCall: (NavigationSideEffect) -> Unit) {
     val viewModel = koinViewModel(vmClass = RegisterUserViewModel::class)
 
-    //Block back action
+    //TODO: Close app
     BackHandler {}
 
     LaunchedEffect(LAUNCH_LISTEN_FOR_EFFECTS) {
@@ -30,7 +30,7 @@ fun UserRegistrationDestination(onNavigationCall: (NavigationSideEffect) -> Unit
     }
 
     val registrationCallback = { username: String, id: String -> viewModel.setEvent(RegisterUserScreenContract.Event.RegistrationSuccessful(username, id)) }
-    val registrationLauncher = when(Platform.name){
+    val registrationLauncher = when (Platform.name) {
         PlatformNames.Android -> (viewModel.registrationLauncher as? RegistrationLauncherComposable)?.launcherComposable(registrationCallback)
         PlatformNames.IOS -> viewModel.registrationLauncher.launcher(registrationCallback)
     }

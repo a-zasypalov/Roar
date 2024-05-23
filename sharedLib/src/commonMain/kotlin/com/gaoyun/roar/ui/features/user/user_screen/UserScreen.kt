@@ -10,6 +10,8 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.compose.LifecycleEventEffect
 import com.gaoyun.roar.presentation.BackNavigationEffect
 import com.gaoyun.roar.presentation.LAUNCH_LISTEN_FOR_EFFECTS
 import com.gaoyun.roar.presentation.NavigationSideEffect
@@ -50,8 +52,7 @@ fun UserScreenDestination(
 //        }
 //    }
 
-    LaunchedEffect(Unit) {
-        //TODO: was on onResume
+    LifecycleEventEffect(Lifecycle.Event.ON_RESUME) {
         viewModel.buildScreenState()
     }
 
@@ -74,8 +75,6 @@ fun UserScreenDestination(
 //                    Firebase.auth.signOut()
                     viewModel.setEvent(UserScreenContract.Event.NavigateBack)
                 }
-
-                else -> {}
             }
         }.collect()
     }

@@ -14,6 +14,7 @@ import com.gaoyun.roar.presentation.pet_screen.PetScreenContract
 import com.gaoyun.roar.presentation.user_register.RegisterUserScreenContract
 import com.gaoyun.roar.presentation.user_screen.UserScreenContract
 
+object CloseAppNavigationSideEffect : NavigationSideEffect
 object AppNavigator {
     fun navigate(call: NavigationSideEffect) = when (call) {
         is HomeScreenContract.Effect.Navigation.ToUserRegistration -> toUserRegistration()
@@ -45,6 +46,7 @@ object AppNavigator {
         is AddReminderCompleteScreenContract.Effect.Navigation.Continue -> completeReminderCreation()
 
         is InteractionScreenContract.Effect.Navigation.ToEditInteraction -> toEditInteraction(call)
+        is CloseAppNavigationSideEffect -> NavigationAction.NavigateTo("")
         else -> null
     }
 

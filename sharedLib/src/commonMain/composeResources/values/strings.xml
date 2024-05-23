@@ -98,7 +98,7 @@
     <string name="history">History</string>
     <string name="deactivate">Deactivate</string>
     <string name="reactivate">Reactivate</string>
-    <string name="delete_interaction">Delete interaction</string>
+    <string name="delete_interaction">Remove reminder</string>
     <string name="no_repeat">No repeat</string>
     <string name="no_active_reminder">No active reminder</string>
     <string name="inactive_reminders_title">Inactive</string>
