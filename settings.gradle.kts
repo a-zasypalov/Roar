@@ -1,8 +1,6 @@
 rootProject.name = "Roar"
 include(":androidApp")
 include(":sharedLib")
-include(":androidApp:common")
-include(":androidApp:notifications")
 
 pluginManagement {
     repositories {

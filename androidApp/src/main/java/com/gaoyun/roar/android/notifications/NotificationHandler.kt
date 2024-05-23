@@ -1,7 +1,7 @@
-package com.gaoyun.notifications
+package com.gaoyun.roar.android.notifications
 
 import android.content.Context
-import com.gaoyun.common.R
+import com.gaoyun.roar.android.R
 import com.gaoyun.roar.domain.interaction.GetInteraction
 import com.gaoyun.roar.domain.pet.GetPetUseCase
 import com.gaoyun.roar.domain.reminder.GetReminder

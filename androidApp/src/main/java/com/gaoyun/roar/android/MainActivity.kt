@@ -23,7 +23,6 @@ import com.gaoyun.roar.util.PreferencesKeys
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import com.gaoyun.common.R as CommonR
 
 class MainActivity : AppCompatActivity() {
 
@@ -90,27 +89,27 @@ class MainActivity : AppCompatActivity() {
 
     private fun showSettingDialog() {
         MaterialAlertDialogBuilder(this)
-            .setTitle(CommonR.string.alert)
-            .setMessage(CommonR.string.notification_permission_dialog_text)
-            .setPositiveButton(com.gaoyun.common.R.string.ok) { _, _ ->
+            .setTitle(R.string.alert)
+            .setMessage(R.string.notification_permission_dialog_text)
+            .setPositiveButton(R.string.ok) { _, _ ->
                 val intent = Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS)
                 intent.data = Uri.parse("package:$packageName")
                 startActivity(intent)
             }
-            .setNegativeButton(com.gaoyun.common.R.string.cancel, null)
+            .setNegativeButton(R.string.cancel, null)
             .show()
     }
 
     private fun showNotificationPermissionRationale() {
         MaterialAlertDialogBuilder(this)
-            .setTitle(com.gaoyun.common.R.string.alert)
-            .setMessage(com.gaoyun.common.R.string.notification_permission_rationale_dialog_text)
-            .setPositiveButton(com.gaoyun.common.R.string.ok) { _, _ ->
+            .setTitle(R.string.alert)
+            .setMessage(R.string.notification_permission_rationale_dialog_text)
+            .setPositiveButton(R.string.ok) { _, _ ->
                 if (Build.VERSION.SDK_INT >= 33) {
                     notificationPermissionLauncher.launch(android.Manifest.permission.POST_NOTIFICATIONS)
                 }
             }
-            .setNegativeButton(com.gaoyun.common.R.string.cancel, null)
+            .setNegativeButton(R.string.cancel, null)
             .show()
     }
 

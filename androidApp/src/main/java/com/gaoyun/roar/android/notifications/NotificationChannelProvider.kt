@@ -1,4 +1,4 @@
-package com.gaoyun.notifications
+package com.gaoyun.roar.android.notifications
 
 import android.media.AudioAttributes
 import android.media.RingtoneManager

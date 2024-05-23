@@ -6,7 +6,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.res.stringResource
 import com.firebase.ui.auth.AuthUI
 import com.firebase.ui.auth.FirebaseAuthUIActivityResultContract
-import com.gaoyun.common.R
 import com.gaoyun.roar.ui.features.registration.RegistrationLauncherComposable
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase

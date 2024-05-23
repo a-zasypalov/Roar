@@ -1,4 +1,4 @@
-package com.gaoyun.notifications
+package com.gaoyun.roar.android.notifications
 
 import android.annotation.SuppressLint
 import android.app.PendingIntent
@@ -6,6 +6,7 @@ import android.content.Context
 import android.content.Intent
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
+import com.gaoyun.roar.android.R
 import kotlin.random.Random
 
 class NotificationDisplayer(
@@ -24,7 +25,7 @@ class NotificationDisplayer(
         channelProvider.create()
 
         val notification = NotificationCompat.Builder(context, channel.id)
-            .setSmallIcon(com.gaoyun.common.R.drawable.ic_tab_home)
+            .setSmallIcon(R.drawable.ic_tab_home)
             .setContentText(content)
             .setContentTitle(title)
             .setContentIntent(PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_IMMUTABLE))
