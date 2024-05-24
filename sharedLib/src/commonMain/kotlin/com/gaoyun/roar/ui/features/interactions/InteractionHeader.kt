@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.Notes
 import androidx.compose.material.icons.filled.Close
@@ -21,11 +22,13 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
@@ -50,14 +53,19 @@ import roar.sharedlib.generated.resources.cd_notes
 import roar.sharedlib.generated.resources.doesnt_repeat
 import roar.sharedlib.generated.resources.not_active
 import roar.sharedlib.generated.resources.notes
+import roar.sharedlib.generated.resources.save
 
 @Composable
 internal fun InteractionHeader(
     pet: Pet,
     interaction: InteractionWithReminders,
     notesState: MutableState<String?>,
+    savedNote: MutableState<String?>,
+    onSaveNoteClick: () -> Unit,
     modifier: Modifier = Modifier
 ) {
+    val keyboardController = LocalSoftwareKeyboardController.current
+
     Column(
         modifier = modifier.padding(horizontal = 8.dp),
         horizontalAlignment = Alignment.Start
@@ -154,9 +162,25 @@ internal fun InteractionHeader(
             leadingIcon = {
                 Icon(Icons.AutoMirrored.Filled.Notes, stringResource(resource = Res.string.cd_notes))
             },
+            trailingIcon = {
+                if ((notesState.value ?: "") != savedNote.value) {
+                    TextButton(onClick = {
+                        savedNote.value = notesState.value
+                        onSaveNoteClick()
+                        keyboardController?.hide()
+                    }) {
+                        Text(stringResource(Res.string.save))
+                    }
+                }
+            },
             text = notesState.value ?: "",
             label = stringResource(resource = Res.string.notes),
-            imeAction = ImeAction.Default,
+            imeAction = ImeAction.Done,
+            keyBoardActions = KeyboardActions(onDone = {
+                savedNote.value = notesState.value
+                onSaveNoteClick()
+                keyboardController?.hide()
+            }),
             onChange = { notesState.value = it }
         )
     }

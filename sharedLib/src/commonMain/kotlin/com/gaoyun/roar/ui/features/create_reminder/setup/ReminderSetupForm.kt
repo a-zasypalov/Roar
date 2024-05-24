@@ -316,26 +316,30 @@ internal fun ReminderSetupForm(
             Spacer(size = 16.dp)
         }
 
-        TextFormField(
-            text = notesState.value,
-            onChange = { notesState.value = it },
-            label = stringResource(resource = Res.string.notes),
-            leadingIcon = {
-                Icon(Icons.AutoMirrored.Filled.Notes, stringResource(resource = Res.string.notes))
-            },
-            imeAction = ImeAction.Done,
-            modifier = Modifier
-                .padding(horizontal = 24.dp)
-                .onFocusEvent {
-                    if (it.isFocused) {
-                        coroutineScope.launch {
-                            bringIntoViewRequester.bringIntoView()
+        if(interactionToEdit == null) {
+            TextFormField(
+                text = notesState.value,
+                onChange = { notesState.value = it },
+                label = stringResource(resource = Res.string.notes),
+                leadingIcon = {
+                    Icon(Icons.AutoMirrored.Filled.Notes, stringResource(resource = Res.string.notes))
+                },
+                imeAction = ImeAction.Done,
+                modifier = Modifier
+                    .padding(horizontal = 24.dp)
+                    .onFocusEvent {
+                        if (it.isFocused) {
+                            coroutineScope.launch {
+                                bringIntoViewRequester.bringIntoView()
+                            }
                         }
                     }
-                }
-        )
+            )
 
-        Spacer(size = 48.dp)
+            Spacer(size = 32.dp)
+        } else {
+            Spacer(size = 16.dp)
+        }
 
         PrimaryElevatedButton(
             text = if (interactionToEdit != null) {

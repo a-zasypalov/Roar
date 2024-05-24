@@ -36,6 +36,7 @@ import com.gaoyun.roar.util.SharedDateUtils
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.onEach
 import moe.tlaster.precompose.koin.koinViewModel
+import moe.tlaster.precompose.navigation.BackHandler
 import org.jetbrains.compose.resources.stringResource
 import roar.sharedlib.generated.resources.Res
 import roar.sharedlib.generated.resources.are_you_sure
@@ -58,17 +59,19 @@ fun InteractionScreenDestination(
     val viewModel = koinViewModel(vmClass = InteractionScreenViewModel::class)
     val state = viewModel.viewState.collectAsState().value
     val notesState = rememberSaveable { mutableStateOf(state.interaction?.notes) }
+    val savedNote = remember { mutableStateOf(state.interaction?.notes) }
 
     if (notesState.value == null && !state.interaction?.notes.isNullOrEmpty()) {
         notesState.value = state.interaction?.notes.orEmpty()
+        savedNote.value = state.interaction?.notes.orEmpty()
     }
 
     LifecycleEventEffect(Lifecycle.Event.ON_CREATE) {
         viewModel.buildScreenState(interactionId)
     }
 
-    LifecycleEventEffect(Lifecycle.Event.ON_PAUSE) {
-        viewModel.setEvent(InteractionScreenContract.Event.OnSaveNotes(notesState.value ?: ""))
+    BackHandler {
+        onNavigationCall(BackNavigationEffect)
     }
 
     val showRemoveInteractionDialog = remember { mutableStateOf(false) }
@@ -231,6 +234,10 @@ fun InteractionScreenDestination(
                                 pet = pet,
                                 interaction = interaction,
                                 notesState = notesState,
+                                savedNote = savedNote,
+                                onSaveNoteClick = {
+                                    viewModel.setEvent(InteractionScreenContract.Event.OnSaveNotes(notesState.value ?: ""))
+                                },
                                 modifier = Modifier.padding(top = 8.dp)
                             )
                         }
