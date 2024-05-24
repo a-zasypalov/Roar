@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.statusBars
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material.icons.automirrored.filled.ArrowBackIos
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FabPosition
 import androidx.compose.material3.Icon
@@ -22,6 +23,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
+import com.gaoyun.roar.util.Platform
+import com.gaoyun.roar.util.PlatformNames
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -60,7 +63,11 @@ fun SurfaceScaffold(
                         onClick = backHandler::invoke,
                         colors = IconButtonDefaults.iconButtonColors(contentColor = MaterialTheme.colorScheme.onSurface)
                     ) {
-                        Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = null)
+                        if (Platform.name == PlatformNames.Android) {
+                            Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = null)
+                        } else {
+                            Icon(Icons.AutoMirrored.Filled.ArrowBackIos, contentDescription = null)
+                        }
                     }
                 }
                 content()

@@ -17,7 +17,7 @@ sealed interface NotificationItem {
     @SerialName("reminder")
     data class Reminder(
         val workId: String = randomUUID(),
-        val itemId: String
+        val itemId: String,
     ) : NotificationItem
 
     @Serializable

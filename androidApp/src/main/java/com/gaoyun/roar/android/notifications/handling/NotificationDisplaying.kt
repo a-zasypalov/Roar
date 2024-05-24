@@ -6,20 +6,23 @@ import android.content.Context
 import android.content.Intent
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
+import com.gaoyun.roar.android.MainActivity
 import com.gaoyun.roar.android.R
+import com.gaoyun.roar.notifications.NotificationDisplaying
 import kotlin.random.Random
 
-class NotificationDisplayer(
+class NotificationDisplayingImpl(
     private val channelProvider: NotificationChannelProvider,
     private val context: Context,
     private val notificationManager: NotificationManagerCompat,
-) {
+) : NotificationDisplaying {
+    private val defaultIntent = Intent(context, MainActivity::class.java)
+    private val channel = NotificationChannel.PetsReminder
+
     @SuppressLint("MissingPermission")
-    fun display(
+    override fun display(
         title: String,
         content: String,
-        intent: Intent? = null,
-        channel: NotificationChannel,
     ) {
         channelProvider.create()
 
@@ -27,7 +30,7 @@ class NotificationDisplayer(
             .setSmallIcon(R.drawable.ic_tab_home)
             .setContentText(content)
             .setContentTitle(title)
-            .setContentIntent(PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_IMMUTABLE))
+            .setContentIntent(PendingIntent.getActivity(context, 0, defaultIntent, PendingIntent.FLAG_IMMUTABLE))
             .build()
 
         notificationManager.notify(Random.nextInt(), notification)

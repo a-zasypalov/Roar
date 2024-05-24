@@ -39,11 +39,12 @@ class AddNextReminder(
                 from = completedReminder.dateTime.date
             )?.atTime(completedReminder.dateTime.hour, completedReminder.dateTime.minute)?.let { nextReminderDateTime ->
                 val newReminderId = randomUUID()
-                val newNotificationJobId = scheduleNextReminder(
+                val newNotificationData = prepareNextReminder(
                     dateTime = nextReminderDateTime,
                     reminderId = newReminderId,
                     remindConfig = interaction.remindConfig,
                 )
+                val newNotificationJobId = (newNotificationData.item as? NotificationItem.Reminder)?.workId
                 val newReminder = Reminder(
                     id = newReminderId,
                     interactionId = interaction.id,
@@ -63,13 +64,19 @@ class AddNextReminder(
                     deactivateInteraction.deactivate(interaction.id).firstOrNull()
                 }
 
+                scheduleNextReminder(newNotificationData)
+
             } ?: deactivateInteraction.deactivate(interaction.id).firstOrNull()
         }
 
         return getNewInteractionState(interaction.id)
     }
 
-    private fun scheduleNextReminder(dateTime: LocalDateTime, reminderId: String, remindConfig: InteractionRemindConfig): String {
+    private fun scheduleNextReminder(notificationData: NotificationData) {
+        notificationScheduler.scheduleNotification(notificationData)
+    }
+
+    private fun prepareNextReminder(dateTime: LocalDateTime, reminderId: String, remindConfig: InteractionRemindConfig): NotificationData {
         val notificationDateTime = dateTime
             .toInstant(TimeZone.currentSystemDefault())
             .minus(remindConfig.toDuration())
@@ -81,9 +88,8 @@ class AddNextReminder(
                 itemId = reminderId
             )
         )
-        notificationScheduler.scheduleNotification(notificationData)
 
-        return (notificationData.item as? NotificationItem.Reminder)?.workId ?: randomUUID()
+        return notificationData
     }
 
     private suspend fun getNewInteractionState(interactionId: String) = getInteraction.getInteractionWithReminders(interactionId).firstOrNull()

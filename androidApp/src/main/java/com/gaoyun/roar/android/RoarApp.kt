@@ -8,8 +8,7 @@ import androidx.work.WorkManager
 import com.gaoyun.roar.android.notifications.FcmService
 import com.gaoyun.roar.android.notifications.NotificationSchedulerImpl
 import com.gaoyun.roar.android.notifications.handling.NotificationChannelProvider
-import com.gaoyun.roar.android.notifications.handling.NotificationDisplayer
-import com.gaoyun.roar.android.notifications.handling.NotificationHandler
+import com.gaoyun.roar.android.notifications.handling.NotificationDisplayingImpl
 import com.gaoyun.roar.android.platform_utils.RegistrationLauncherAndroid
 import com.gaoyun.roar.domain.NotificationScheduler
 import com.gaoyun.roar.domain.SynchronisationScheduler
@@ -19,6 +18,7 @@ import com.gaoyun.roar.initKoin
 import com.gaoyun.roar.migrations.MigrationsExecutor
 import com.gaoyun.roar.network.SynchronisationApi
 import com.gaoyun.roar.network.SynchronisationApiAndroid
+import com.gaoyun.roar.notifications.NotificationDisplaying
 import com.gaoyun.roar.ui.features.registration.RegistrationLauncher
 import com.gaoyun.roar.util.ActivityProvider
 import com.gaoyun.roar.util.ThemeChanger
@@ -86,8 +86,7 @@ val notificationsModule = module {
     single { WorkManager.getInstance(get()) }
     single { NotificationManagerCompat.from(get()) }
     single { NotificationChannelProvider(get()) }
-    single { NotificationDisplayer(get(), get(), get()) }
-    single { NotificationHandler(get(), get(), get(), get(), get()) }
+    single<NotificationDisplaying> { NotificationDisplayingImpl(get(), get(), get()) }
     single { FcmService() }
     worker { NotificationSchedulerImpl.NotificationWorker(get(), get(), get()) }
     worker { SynchronisationWorker(get(), get(), get(), get()) }

@@ -40,7 +40,8 @@ struct iOSApp: App {
             registrationLauncher: RegistrationLauncherIos(),
             synchronisationApi: SynchronisationApiIOS(provider: provider),
             synchronisationScheduler: synchronisationScheduler,
-            themeChanger: themeChanger
+            themeChanger: themeChanger,
+            notificationScheduler: NotificationSchedulerIOS(provider: provider)
         )
 
         KoinKt.doInitKoin(appDeclaration: appDeclaration)

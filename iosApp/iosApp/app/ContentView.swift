@@ -14,6 +14,15 @@ struct ComposeView: UIViewControllerRepresentable {
 struct ContentView: View {
     var body: some View {
         ComposeView()
-                .ignoresSafeArea(.all) // Compose has own keyboard handler
+                .ignoresSafeArea(.all)
+                .onAppear {
+                    UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .badge, .sound]) { success, error in
+                        if success {
+                            print("All set!")
+                        } else if let error {
+                            print(error.localizedDescription)
+                        }
+                    }
+                }
     }
 }

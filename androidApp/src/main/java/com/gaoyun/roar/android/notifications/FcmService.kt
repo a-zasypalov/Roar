@@ -1,8 +1,8 @@
 package com.gaoyun.roar.android.notifications
 
 import android.util.Log
-import com.gaoyun.roar.android.notifications.handling.NotificationHandler
 import com.gaoyun.roar.model.domain.NotificationItem
+import com.gaoyun.roar.notifications.NotificationHandler
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
 import org.koin.android.ext.android.inject

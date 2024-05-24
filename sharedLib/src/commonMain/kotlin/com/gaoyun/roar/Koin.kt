@@ -35,6 +35,8 @@ import com.gaoyun.roar.migrations.MigrationsExecutor
 import com.gaoyun.roar.model.entity.RoarDatabase
 import com.gaoyun.roar.network.InteractionTemplatesApi
 import com.gaoyun.roar.network.PetsApi
+import com.gaoyun.roar.notifications.NotificationContentMaker
+import com.gaoyun.roar.notifications.NotificationHandler
 import com.gaoyun.roar.presentation.about_screen.AboutScreenViewModel
 import com.gaoyun.roar.presentation.add_pet.avatar.AddPetAvatarScreenViewModel
 import com.gaoyun.roar.presentation.add_pet.data.AddPetDataScreenViewModel
@@ -79,6 +81,7 @@ fun initKoin(appDeclaration: iOSAppDeclaration) = startKoin {
         single { appDeclaration.synchronisationApi }
         single { appDeclaration.synchronisationScheduler }
         single { appDeclaration.themeChanger }
+        single { appDeclaration.notificationScheduler }
     }
     modules(
         platformModule(),
@@ -171,6 +174,9 @@ val useCaseModule = module {
     single { AppPreferencesUseCase(get()) }
 
     single { InteractionsListBuilder(get(), get(), get()) }
+
+    single { NotificationHandler(get(), get()) }
+    single { NotificationContentMaker(get(), get(), get()) }
 }
 
 val networkModule = module {
