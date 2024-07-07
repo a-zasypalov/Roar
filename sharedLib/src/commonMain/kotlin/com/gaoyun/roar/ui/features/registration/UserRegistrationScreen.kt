@@ -30,14 +30,22 @@ fun UserRegistrationDestination(onNavigationCall: (NavigationSideEffect) -> Unit
     }
 
     val registrationCallback = { username: String, id: String -> viewModel.setEvent(RegisterUserScreenContract.Event.RegistrationSuccessful(username, id)) }
-    val registrationLauncher = when (Platform.name) {
+    val registrationLauncherGoogle = when (Platform.name) {
         PlatformNames.Android -> (viewModel.registrationLauncher as? RegistrationLauncherComposable)?.launcherComposable(registrationCallback)
-        PlatformNames.IOS -> viewModel.registrationLauncher.launcher(registrationCallback)
+        PlatformNames.IOS -> (viewModel.registrationLauncher as? RegistrationLauncherApple)?.launcher(registrationCallback)
     }
+    val registrationLauncherApple = if (Platform.name == PlatformNames.IOS) {
+        (viewModel.registrationLauncher as? RegistrationLauncherApple)?.launcherApple(registrationCallback)
+    } else null
 
     SurfaceScaffold {
         UserRegistrationForm(
-            { registrationLauncher?.invoke() },
+            {
+                when (it) {
+                    RegistrationType.Google -> registrationLauncherGoogle?.invoke()
+                    RegistrationType.Apple -> registrationLauncherApple?.invoke()
+                }
+            },
             {
                 viewModel.setEvent(
                     RegisterUserScreenContract.Event.RegistrationSuccessful(

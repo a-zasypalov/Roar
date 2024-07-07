@@ -46,9 +46,14 @@ import roar.sharedlib.generated.resources.url_privacy_policy
 import roar.sharedlib.generated.resources.url_terms_and_conditions
 import com.gaoyun.roar.ui.common.composables.Spacer as SpacerRoar
 
+enum class RegistrationType
+{
+    Google, Apple
+}
+
 @Composable
 fun UserRegistrationForm(
-    onRegisterClick: () -> Unit,
+    onRegisterClick: (RegistrationType) -> Unit,
     onRegisterTestClick: () -> Unit
 ) {
     val uriHandler = LocalUriHandler.current
@@ -104,7 +109,7 @@ fun UserRegistrationForm(
                 .align(Alignment.BottomCenter)
         ) {
             ElevatedButton(
-                onClick = { onRegisterClick() },
+                onClick = { onRegisterClick(RegistrationType.Google) },
                 elevation = ButtonDefaults.elevatedButtonElevation(
                     defaultElevation = 2.dp,
                     pressedElevation = 8.dp
@@ -128,6 +133,41 @@ fun UserRegistrationForm(
                 )
                 Text(
                     stringResource(resource = Res.string.register_or_login),
+                    modifier = Modifier
+                        .padding(vertical = 8.dp)
+                        .weight(8f)
+                        .fillMaxWidth(),
+                    fontSize = 16.sp,
+                    textAlign = TextAlign.Center
+                )
+                Spacer(modifier = Modifier.weight(2f))
+            }
+
+            ElevatedButton(
+                onClick = { onRegisterClick(RegistrationType.Apple) },
+                elevation = ButtonDefaults.elevatedButtonElevation(
+                    defaultElevation = 2.dp,
+                    pressedElevation = 8.dp
+                ),
+                colors = ButtonDefaults.elevatedButtonColors(
+                    containerColor = Color.White,
+                    contentColor = Color.Black,
+                ),
+                contentPadding = PaddingValues(0.dp),
+                modifier = Modifier
+                    .padding(bottom = 16.dp)
+                    .fillMaxWidth()
+                    .padding(horizontal = 24.dp)
+            ) {
+//                Image(
+//                    painter = painterResource(Res.drawable.btn_google),
+//                    contentDescription = null,
+//                    modifier = Modifier
+//                        .weight(2f)
+//                        .padding(start = 8.dp, top = 4.dp, bottom = 4.dp)
+//                )
+                Text(
+                    "Apple",
                     modifier = Modifier
                         .padding(vertical = 8.dp)
                         .weight(8f)

@@ -2,8 +2,21 @@ import sharedLib
 import Firebase
 import GoogleSignIn
 import GoogleSignInSwift
+import CryptoKit
+import AuthenticationServices
 
-class RegistrationLauncherIos : sharedLib.RegistrationLauncher {
+class RegistrationLauncherIos : sharedLib.RegistrationLauncherApple {
+    private var coordinator = SignInWithAppleCoordinator()
+
+    func launcherApple(registrationSuccessfulCallback: @escaping (String, String) -> Void) -> () -> Void {
+        return {
+            self.coordinator.registrationSuccessfulCallback = { uid, email in
+                registrationSuccessfulCallback(uid, email)
+            }
+            self.coordinator.handleSignInWithApple()
+        }
+    }
+
     func launcher(registrationSuccessfulCallback: @escaping (String, String) -> Void) -> () -> Void {
         return {
             guard let clientID = FirebaseApp.app()?.options.clientID else {
@@ -48,4 +61,57 @@ class RegistrationLauncherIos : sharedLib.RegistrationLauncher {
         }
     }
 
+}
+
+class SignInWithAppleCoordinator: NSObject, ASAuthorizationControllerDelegate, ASAuthorizationControllerPresentationContextProviding {
+
+    var registrationSuccessfulCallback: ((String, String) -> Void)?
+
+    func handleSignInWithApple() {
+        let request = ASAuthorizationAppleIDProvider().createRequest()
+        request.requestedScopes = [.fullName, .email]
+
+        let authorizationController = ASAuthorizationController(authorizationRequests: [request])
+        authorizationController.delegate = self
+        authorizationController.presentationContextProvider = self
+        authorizationController.performRequests()
+    }
+
+    func authorizationController(controller: ASAuthorizationController, didCompleteWithAuthorization authorization: ASAuthorization) {
+        if let appleIDCredential = authorization.credential as? ASAuthorizationAppleIDCredential {
+            guard let appleIDToken = appleIDCredential.identityToken else {
+                print("Unable to fetch identity token")
+                return
+            }
+
+            guard let idTokenString = String(data: appleIDToken, encoding: .utf8) else {
+                print("Unable to serialize token string from data: \(appleIDToken.debugDescription)")
+                return
+            }
+
+            let credential = OAuthProvider.credential(withProviderID: "apple.com", idToken: idTokenString, rawNonce: nil)
+
+            Auth.auth().signIn(with: credential) { (authResult, error) in
+                if let error = error {
+                    print("Error authenticating: \(error.localizedDescription)")
+                    return
+                }
+
+                // User is signed in to Firebase with Apple.
+                if let user = authResult?.user {
+                    let uid = user.uid
+                    let email = user.email ?? "No Email"
+                    self.registrationSuccessfulCallback?(uid, email)
+                }
+            }
+        }
+    }
+
+    func authorizationController(controller: ASAuthorizationController, didCompleteWithError error: Error) {
+        print("Sign in with Apple errored: \(error.localizedDescription)")
+    }
+
+    func presentationAnchor(for controller: ASAuthorizationController) -> ASPresentationAnchor {
+        return UIApplication.shared.windows.first!
+    }
 }
