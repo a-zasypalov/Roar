@@ -9,6 +9,7 @@ import com.gaoyun.roar.model.domain.withPets
 import com.gaoyun.roar.util.Preferences
 import com.gaoyun.roar.util.PreferencesKeys
 import com.gaoyun.roar.util.PreferencesKeys.LAST_SYNCHRONISED_HASH
+import com.gaoyun.roar.util.asCommonFlow
 import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.flow.flow
 import kotlinx.serialization.json.Json
@@ -63,6 +64,6 @@ class CreateBackupUseCase(
                 emit(null)
             }
         }
-    }
+    }.asCommonFlow()
 
 }

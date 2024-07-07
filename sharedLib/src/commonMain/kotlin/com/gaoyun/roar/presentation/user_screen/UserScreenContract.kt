@@ -5,6 +5,7 @@ import com.gaoyun.roar.presentation.NavigationSideEffect
 import com.gaoyun.roar.presentation.ViewEvent
 import com.gaoyun.roar.presentation.ViewSideEffect
 import com.gaoyun.roar.presentation.ViewState
+import com.gaoyun.roar.util.AppIcon
 import com.gaoyun.roar.util.ColorTheme
 
 class UserScreenContract {
@@ -38,6 +39,7 @@ class UserScreenContract {
         data class OnHomeScreenModeChange(val full: Boolean) : Event()
         data class OnStaticColorThemePick(val theme: ColorTheme) : Event()
         data class OnNumberOfRemindersOnMainScreen(val newNumber: Int) : Event()
+        data class OnAppIconChange(val icon: AppIcon) : Event()
         object NavigateBack : Event()
     }
 

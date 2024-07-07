@@ -8,6 +8,8 @@ plugins {
     alias(libs.plugins.googleServices) apply false
     alias(libs.plugins.crashlytics) apply false
     alias(libs.plugins.mapsSecrets) apply false
+    alias(libs.plugins.compose) apply false
+    alias(libs.plugins.compose.compiler) apply false
 }
 
 tasks.register("clean", Delete::class) {

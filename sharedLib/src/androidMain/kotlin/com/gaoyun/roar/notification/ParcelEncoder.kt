@@ -40,7 +40,7 @@ internal class ParcelEncoder(private val parcel: Parcel) : AbstractEncoder() {
 @OptIn(ExperimentalSerializationApi::class)
 internal class ParcelDecoder(private val parcel: Parcel) : AbstractDecoder() {
 
-    override val serializersModule = EmptySerializersModule
+    override val serializersModule = EmptySerializersModule()
 
     override fun decodeSequentially(): Boolean = true
     override fun decodeElementIndex(descriptor: SerialDescriptor): Int = CompositeDecoder.DECODE_DONE

@@ -2,11 +2,12 @@ package com.gaoyun.roar.presentation.add_pet.setup
 
 import com.gaoyun.roar.domain.pet.GetPetUseCase
 import com.gaoyun.roar.presentation.BaseViewModel
+import com.gaoyun.roar.presentation.MultiplatformBaseViewModel
 import kotlinx.coroutines.launch
 
 class AddPetSetupScreenViewModel(
     private val getPetUseCase: GetPetUseCase,
-) : BaseViewModel<AddPetSetupScreenContract.Event, AddPetSetupScreenContract.State, AddPetSetupScreenContract.Effect>() {
+) : MultiplatformBaseViewModel<AddPetSetupScreenContract.Event, AddPetSetupScreenContract.State, AddPetSetupScreenContract.Effect>() {
 
     override fun setInitialState() = AddPetSetupScreenContract.State(isLoading = false)
 

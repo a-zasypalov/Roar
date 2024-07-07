@@ -11,7 +11,8 @@ import com.gaoyun.roar.model.domain.PetWithInteractions
 import com.gaoyun.roar.model.domain.User
 import com.gaoyun.roar.model.domain.withInteractions
 import com.gaoyun.roar.network.SynchronisationApi
-import com.gaoyun.roar.presentation.BaseViewModel
+import com.gaoyun.roar.presentation.MultiplatformBaseViewModel
+import com.gaoyun.roar.ui.features.registration.RegistrationLauncher
 import com.gaoyun.roar.util.NoUserException
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.catch
@@ -29,8 +30,8 @@ class HomeScreenViewModel(
     private val synchronisationApi: SynchronisationApi,
     private val registerUserUseCase: RegisterUserUseCase,
     private val interactionsListBuilder: InteractionsListBuilder,
-    private val syncApi: SynchronisationApi,
-) : BaseViewModel<HomeScreenContract.Event, HomeScreenContract.State, HomeScreenContract.Effect>() {
+    val registrationLauncher: RegistrationLauncher,
+) : MultiplatformBaseViewModel<HomeScreenContract.Event, HomeScreenContract.State, HomeScreenContract.Effect>() {
 
     override fun setInitialState() = HomeScreenContract.State(null, emptyList(), listOf(), true)
 
@@ -70,7 +71,7 @@ class HomeScreenViewModel(
 
     private fun loginUser(id: String) = scope.launch {
         registerUserUseCase.login(id)
-        syncApi.retrieveBackup { scope.launch { getUser() } }
+        synchronisationApi.retrieveBackup { scope.launch { getUser() } }
     }
 
     private suspend fun getUser() {
@@ -89,7 +90,8 @@ class HomeScreenViewModel(
         val screenModeFull = appPreferencesUseCase.homeScreenModeFull()
 
         interactionsListBuilder.buildPetState(user.id, screenModeFull).takeIf { it.isNotEmpty() }?.let { pets ->
-            val inactiveInteractions = pets.takeIf { it.size == 1 }?.firstOrNull()?.id?.let { interactionsListBuilder.buildInactiveInteractionsListFor(it) } ?: listOf()
+            val inactiveInteractions =
+                pets.takeIf { it.size == 1 }?.firstOrNull()?.id?.let { interactionsListBuilder.buildInactiveInteractionsListFor(it) } ?: listOf()
             setState { copy(user = user, pets = pets, inactiveInteractions = inactiveInteractions, isLoading = false, screenModeFull = screenModeFull) }
         } ?: setState { copy(user = user, pets = emptyList(), isLoading = false, screenModeFull = screenModeFull) }
     }
