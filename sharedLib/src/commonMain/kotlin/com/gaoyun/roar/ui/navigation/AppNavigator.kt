@@ -72,7 +72,7 @@ object AppNavigator {
         NavigationAction.NavigateTo("${NavigationKeys.Route.HOME_ROUTE}/${NavigationKeys.Route.USER}")
 
     private fun toPetAdding() =
-        NavigationAction.NavigateTo(NavigationKeys.Route.HOME_ROUTE)
+        NavigationAction.PopTo(NavigationKeys.Route.HOME_ROUTE, inclusive = false)
 
     private fun toPetAvatar(effect: AddPetPetTypeScreenContract.Effect.Navigation.ToPetAvatar) =
         NavigationAction.NavigateTo("${NavigationKeys.Route.ADD_PET_ROUTE}/${effect.petType}")
