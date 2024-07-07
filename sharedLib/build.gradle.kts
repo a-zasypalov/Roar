@@ -3,8 +3,8 @@ plugins {
     alias(libs.plugins.kotlin.multiplatform)
     alias(libs.plugins.kotlin.serialization)
     alias(libs.plugins.sqldelight)
-    id("org.jetbrains.compose")
-    id("org.jetbrains.kotlin.plugin.compose")
+    alias(libs.plugins.compose)
+    alias(libs.plugins.compose.compiler)
 }
 
 android {
@@ -53,6 +53,16 @@ kotlin {
             implementation(libs.ktor.contentnegotiation)
             implementation(libs.koin.core)
             implementation(libs.sqldelight.runtime)
+            implementation(libs.lifecycle.common)
+            implementation(libs.lifecycle.common.runtime)
+            implementation(libs.precompose)
+            implementation(libs.precompose.viewmodel)
+            implementation(libs.precompose.koin)
+            implementation(compose.runtime)
+            implementation(compose.foundation)
+            implementation(compose.material3)
+            implementation(compose.components.resources)
+            implementation(compose.materialIconsExtended)
         }
         commonTest.dependencies {
             implementation(libs.kotlin.test)
@@ -65,7 +75,7 @@ kotlin {
             implementation(libs.androidx.lifecycle.viewmodel)
             implementation(libs.androidx.work.runtime)
             implementation(libs.compose.ui)
-            implementation(libs.compose.material2)
+            implementation(libs.compose.material3)
             implementation(libs.koin.android)
             implementation(libs.sqldelight.androidDriver)
             implementation(project.dependencies.platform(libs.firebase.bom))

@@ -1,9 +1,9 @@
 package com.gaoyun.roar.android
 
 import android.app.Activity
+import android.app.Application
 import android.os.Bundle
 import androidx.core.app.NotificationManagerCompat
-import androidx.multidex.MultiDexApplication
 import androidx.work.WorkManager
 import com.gaoyun.roar.android.notifications.FcmService
 import com.gaoyun.roar.android.notifications.NotificationSchedulerImpl
@@ -33,7 +33,7 @@ import org.koin.core.component.inject
 import org.koin.core.logger.Level
 import org.koin.dsl.module
 
-class RoarApp : MultiDexApplication(), KoinComponent {
+class RoarApp : Application(), KoinComponent {
 
     private val migrationsExecutor: MigrationsExecutor by inject()
     var initialActivity: Activity? = null
