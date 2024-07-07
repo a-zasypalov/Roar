@@ -1,11 +1,10 @@
 @file:Suppress("UnstableApiUsage")
 
 plugins {
-    id("com.android.application")
-    id("com.google.gms.google-services")
-    id("com.google.firebase.crashlytics")
-    id("org.jetbrains.kotlin.plugin.compose")
-    kotlin("android")
+    alias(libs.plugins.android.application)
+    alias(libs.plugins.kotlin.android)
+    alias(libs.plugins.googleServices)
+    alias(libs.plugins.crashlytics)
 }
 
 android {
@@ -25,13 +24,15 @@ android {
         targetSdk = 34
         versionCode = versionCodeValue
         versionName = versionNameValue
-        multiDexEnabled = true
     }
     buildFeatures {
         compose = true
         buildConfig = true
     }
-    packaging {
+    composeOptions {
+        kotlinCompilerExtensionVersion = libs.versions.compose.compiler.get()
+    }
+    packagingOptions {
         resources {
             excludes += "/META-INF/{AL2.0,LGPL2.1}"
         }
@@ -48,41 +49,20 @@ android {
 }
 
 dependencies {
-    implementation(project(":sharedLib"))
+    implementation(projects.sharedLib)
+    implementation(projects.androidApp.common)
+    implementation(projects.androidApp.notifications)
 
-    implementation("androidx.activity:activity-compose:1.9.0")
-    implementation("androidx.multidex:multidex:2.0.1")
+    implementation(projects.androidApp.featureHomeScreen)
+    implementation(projects.androidApp.featureUserRegistration)
+    implementation(projects.androidApp.featureAddPet)
+    implementation(projects.androidApp.featurePetScreen)
+    implementation(projects.androidApp.featureCreateReminder)
+    implementation(projects.androidApp.featureInteractions)
+    implementation(projects.androidApp.featureUserScreen)
+    implementation(projects.androidApp.featureOnboarding)
 
-    implementation("com.google.android.play:app-update:2.1.0")
-    implementation("com.google.android.play:app-update-ktx:2.1.0")
+    implementation(libs.androidx.activity)
 
-    implementation("com.google.android.material:material:1.12.0")
-
-    implementation("androidx.compose.material3:material3:1.2.1")
-
-    implementation("org.jetbrains.kotlinx:kotlinx-datetime:0.6.0")
-
-    implementation("androidx.work:work-runtime-ktx:2.9.0")
-
-    val koinVersion = "3.5.6"
-    implementation("io.insert-koin:koin-android:$koinVersion")
-    implementation("io.insert-koin:koin-android-ext:3.0.2")
-    implementation("io.insert-koin:koin-androidx-compose:$koinVersion")
-    implementation("io.insert-koin:koin-androidx-workmanager:$koinVersion")
-
-    implementation("androidx.browser:browser:1.8.0")
-
-    debugImplementation("androidx.compose.ui:ui-tooling:1.6.8")
-    implementation("androidx.compose.ui:ui-tooling-preview:1.6.8")
-
-    implementation(platform("com.google.firebase:firebase-bom:33.1.1"))
-    implementation("com.google.firebase:firebase-crashlytics-ktx")
-    implementation("com.google.firebase:firebase-analytics-ktx")
-    implementation("com.google.firebase:firebase-messaging-ktx")
-    implementation("com.firebaseui:firebase-ui-auth:7.2.0")
-    implementation("com.google.firebase:firebase-auth-ktx:23.0.0")
-
-    testImplementation("junit:junit:4.13.2")
-    androidTestImplementation("androidx.test.ext:junit:1.2.1")
-    androidTestImplementation("androidx.test.espresso:espresso-core:3.6.1")
+    implementation(libs.bundles.appupdate)
 }
