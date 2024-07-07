@@ -1,29 +1,29 @@
 [versions]
 # Plugins
 agp = "8.3.2"
-kotlin = "1.9.23"
+kotlin = "2.0.0"
 compose-multiplatform = "1.6.2"
 sqldelight = "1.5.5"
-google-services = "4.4.1"
-crashlytics = "2.9.9"
+google-services = "4.4.2"
+crashlytics = "3.0.2"
 mapsSecrets = "2.0.1"
 
 # Libraries
 # AndroidX
-appCompat = "1.6.1"
-androidxCore = "1.13.0"
+appCompat = "1.7.0"
+androidxCore = "1.13.1"
 activity = "1.9.0"
 browser = "1.8.0"
-material = "1.11.0"
+material = "1.12.0"
 navigation = "2.7.7"
-lifecycle = "2.7.0"
+lifecycle = "2.8.3"
 workManager = "2.9.0"
 # Kotlin
-kotlinCoroutines = "1.8.0"
+kotlinCoroutines = "1.8.1"
 kotlinSerialization = "1.6.3"
-kotlinDatetime = "0.5.0"
+kotlinDatetime = "0.6.0"
 # Compose
-compose = "1.6.6"
+compose = "1.6.8"
 compose-compiler = "1.5.12"
 compose-material3 = "1.2.1"
 # Accompanist
@@ -32,19 +32,19 @@ accompanist-insets = "0.30.1"
 accompanist-uicontroller = "0.34.0"
 accompanist-pager = "0.34.0"
 # Firebase
-firebase = "32.8.1"
+firebase = "33.1.1"
 firebase-authui = "8.0.2"
 # Others
 koin = "3.5.6"
 koin-extension = "3.0.2"
-ktor = "2.3.10"
+ktor = "2.3.12"
 coil = "2.6.0"
 logging-interceptor = "4.12.0"
 app-update = "2.1.0"
 # Tests
 junit = "4.13.2"
-junitx = "1.1.5"
-espresso = "3.5.1"
+junitx = "1.2.1"
+espresso = "3.6.1"
 
 [libraries]
 # AndroidX
