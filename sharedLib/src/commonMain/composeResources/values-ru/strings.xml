@@ -5,6 +5,7 @@
     <string name="username">Имя пользователя</string>
     <string name="choose_avatar">Аватар</string>
     <string name="pets_card">Карточка</string>
+    <string name="search">Поиск</string>
     <string name="edit_profile">Профиль</string>
     <string name="nice_to_meet_you">Добро пожаловать, %1$s!</string>
     <string name="logout">Выйти</string>

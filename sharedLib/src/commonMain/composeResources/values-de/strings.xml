@@ -4,6 +4,7 @@
     <string name="app_icon">App icon</string>
     <string name="username">Benutzername</string>
     <string name="choose_avatar">Avatar</string>
+    <string name="search">Suchen</string>
     <string name="pets_card">Tierkarte</string>
     <string name="edit_profile">Profil bearbeiten</string>
     <string name="nice_to_meet_you">Schön, Sie kennenzulernen %1$s!</string>

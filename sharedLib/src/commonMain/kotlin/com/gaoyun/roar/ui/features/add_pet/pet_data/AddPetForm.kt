@@ -1,5 +1,6 @@
 package com.gaoyun.roar.ui.features.add_pet.pet_data
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -14,6 +15,8 @@ import androidx.compose.material.icons.automirrored.filled.List
 import androidx.compose.material.icons.filled.Female
 import androidx.compose.material.icons.filled.Male
 import androidx.compose.material.icons.filled.Memory
+import androidx.compose.material3.BasicAlertDialog
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.SnackbarHostState
@@ -28,6 +31,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.capitalize
 import androidx.compose.ui.text.input.ImeAction
+import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.intl.Locale
 import androidx.compose.ui.unit.dp
 import com.gaoyun.roar.model.domain.Gender
@@ -37,6 +41,7 @@ import com.gaoyun.roar.presentation.add_pet.data.AddPetDataScreenContract
 import com.gaoyun.roar.ui.common.composables.DropdownMenu
 import com.gaoyun.roar.ui.common.composables.LabelledCheckBox
 import com.gaoyun.roar.ui.common.composables.PrimaryElevatedButtonOnSurface
+import com.gaoyun.roar.ui.common.composables.ReadonlyTextField
 import com.gaoyun.roar.ui.common.composables.Spacer
 import com.gaoyun.roar.ui.common.composables.SurfaceCard
 import com.gaoyun.roar.ui.common.composables.TextFormField
@@ -58,6 +63,7 @@ import roar.sharedlib.generated.resources.pet_is_sterilized
 import roar.sharedlib.generated.resources.pets_card
 import roar.sharedlib.generated.resources.save
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 internal fun AddPetForm(
     avatar: String,
@@ -72,7 +78,7 @@ internal fun AddPetForm(
 
     val petName = remember { mutableStateOf(petToEdit?.name ?: "") }
     val petBreedState =
-        remember { mutableStateOf(petToEdit?.breed ?: petBreeds.firstOrNull() ?: "") }
+        remember { mutableStateOf(TextFieldValue(petToEdit?.breed ?: petBreeds.firstOrNull() ?: "")) }
     val petGenderState = remember {
         mutableStateOf(
             petToEdit?.gender?.toString()?.capitalize(Locale.current) ?: Gender.MALE_STRING
@@ -87,15 +93,35 @@ internal fun AddPetForm(
     var chipNumberState by remember { mutableStateOf(petToEdit?.chipNumber ?: "") }
     var petIsSterilizedState by remember { mutableStateOf(petToEdit?.isSterilized ?: false) }
 
-    if (petBreedState.value.isEmpty() && petBreeds.isNotEmpty()) {
-        petBreedState.value = petBreeds.first()
+    if (petBreedState.value.text.isEmpty() && petBreeds.isNotEmpty()) {
+        petBreedState.value = TextFieldValue(petBreeds.first())
     }
+
+    var showPickerDialog by remember { mutableStateOf(false) }
 
     Box(
         contentAlignment = Alignment.BottomCenter,
         modifier = Modifier
             .fillMaxSize()
     ) {
+        if (showPickerDialog) {
+            BasicAlertDialog(
+                onDismissRequest = { showPickerDialog = false },
+                modifier = Modifier.padding(vertical = 16.dp)
+                    .background(
+                        color = MaterialTheme.colorScheme.surface,
+                        shape = MaterialTheme.shapes.small
+                    ),
+            ) {
+                SearchablePicker(
+                    items = petBreeds,
+                    onItemSelected = {
+                        petBreedState.value = TextFieldValue(it)
+                        showPickerDialog = false
+                    })
+            }
+        }
+
         Text(
             text = stringResource(resource = Res.string.pets_card),
             style = MaterialTheme.typography.displayMedium,
@@ -120,16 +146,21 @@ internal fun AddPetForm(
 
                 Spacer(size = 16.dp)
 
-                DropdownMenu(
-                    valueList = petBreeds,
-                    listState = petBreedState,
-                    valueDisplayList = null,
-                    listDisplayState = null,
-                    label = stringResource(resource = Res.string.breed),
-                    leadingIcon = Icons.AutoMirrored.Filled.List,
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(horizontal = 24.dp)
+                ReadonlyTextField(
+                    value = petBreedState.value,
+                    onValueChange = { petBreedState.value = it },
+                    leadingIcon = {
+                        Icon(
+                            Icons.AutoMirrored.Filled.List,
+                            stringResource(resource = Res.string.breed),
+                            tint = MaterialTheme.colorScheme.onBackground
+                        )
+                    },
+                    label = {
+                        Text(text = stringResource(resource = Res.string.breed))
+                    },
+                    modifier = Modifier.padding(horizontal = 24.dp),
+                    onClick = { showPickerDialog = true },
                 )
 
                 Spacer(size = 16.dp)
@@ -197,7 +228,7 @@ internal fun AddPetForm(
                             onRegisterClick(
                                 AddPetDataScreenContract.Event.AddPetButtonClicked(
                                     petType = petType,
-                                    breed = petBreedState.value,
+                                    breed = petBreedState.value.text,
                                     name = petName.value,
                                     avatar = avatar,
                                     birthday = Clock.System.now().toLocalDate(),
