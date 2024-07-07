@@ -11,8 +11,8 @@ plugins {
 android {
 
     val versionMajor = 1
-    val versionMinor = 0
-    val versionPatch = 1
+    val versionMinor = 1
+    val versionPatch = 0
 
     val versionCodeValue = versionMajor * 10000 + versionMinor * 100 + versionPatch
     val versionNameValue = "${versionMajor}.${versionMinor}.${versionPatch}"
@@ -72,10 +72,10 @@ dependencies {
 
     implementation("androidx.browser:browser:1.8.0")
 
-    debugImplementation("androidx.compose.ui:ui-tooling:1.6.7")
-    implementation("androidx.compose.ui:ui-tooling-preview:1.6.7")
+    debugImplementation("androidx.compose.ui:ui-tooling:1.6.8")
+    implementation("androidx.compose.ui:ui-tooling-preview:1.6.8")
 
-    implementation(platform("com.google.firebase:firebase-bom:33.0.0"))
+    implementation(platform("com.google.firebase:firebase-bom:33.1.1"))
     implementation("com.google.firebase:firebase-crashlytics-ktx")
     implementation("com.google.firebase:firebase-analytics-ktx")
     implementation("com.google.firebase:firebase-messaging-ktx")
@@ -83,6 +83,6 @@ dependencies {
     implementation("com.google.firebase:firebase-auth-ktx:23.0.0")
 
     testImplementation("junit:junit:4.13.2")
-    androidTestImplementation("androidx.test.ext:junit:1.1.5")
-    androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
+    androidTestImplementation("androidx.test.ext:junit:1.2.1")
+    androidTestImplementation("androidx.test.espresso:espresso-core:3.6.1")
 }

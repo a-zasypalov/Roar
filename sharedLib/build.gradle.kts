@@ -11,7 +11,6 @@ kotlin {
     androidTarget()
 
     listOf(
-        iosX64(),
         iosArm64(),
         iosSimulatorArm64()
     ).forEach {
@@ -34,7 +33,7 @@ kotlin {
 
     val coroutinesVersion = "1.8.1"
     val serializationVersion = "1.6.3"
-    val ktorVersion = "2.3.11"
+    val ktorVersion = "2.3.12"
     val koinVersion = "3.5.6"
     val lifecycleVersion = "2.8.0"
     val precomposeVersion = "1.6.0"
@@ -91,7 +90,6 @@ kotlin {
             }
         }
 
-        val iosX64Main by getting
         val iosArm64Main by getting
         val iosSimulatorArm64Main by getting
         val iosMain by creating {
@@ -100,7 +98,6 @@ kotlin {
                 implementation("com.squareup.sqldelight:native-driver:1.5.5")
             }
         }
-        val iosX64Test by getting
         val iosArm64Test by getting
         val iosSimulatorArm64Test by getting
         val iosTest by creating {}
