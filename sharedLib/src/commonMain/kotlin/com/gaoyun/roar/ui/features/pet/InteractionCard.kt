@@ -1,7 +1,6 @@
 package com.gaoyun.roar.ui.features.pet
 
 import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -24,6 +23,7 @@ import com.gaoyun.roar.model.domain.interactions.InteractionWithReminders
 import com.gaoyun.roar.ui.common.composables.LabelledCheckBox
 import com.gaoyun.roar.ui.common.composables.RoarIcon
 import com.gaoyun.roar.ui.common.composables.Spacer
+import com.gaoyun.roar.ui.common.composables.platformStyleClickable
 import com.gaoyun.roar.ui.common.ext.repeatConfigTextShort
 import com.gaoyun.roar.ui.common.icon
 import com.gaoyun.roar.util.DateFormats
@@ -69,7 +69,7 @@ fun InteractionCard(
         modifier = modifier,
     ) {
         Column(modifier = Modifier
-            .clickable {
+            .platformStyleClickable {
                 onClick(interaction.id)
                 MainScope().launch {
                     delay(300)

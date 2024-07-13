@@ -1,6 +1,5 @@
 package com.gaoyun.roar.ui.common.composables
 
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material3.MaterialTheme
@@ -37,7 +36,7 @@ fun ReadonlyTextField(
             modifier = Modifier
                 .matchParentSize()
                 .alpha(0f)
-                .clickable(onClick = onClick),
+                .platformStyleClickable(onClick = onClick),
         )
     }
 }

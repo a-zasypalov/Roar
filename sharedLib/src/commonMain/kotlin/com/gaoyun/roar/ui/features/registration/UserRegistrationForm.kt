@@ -1,7 +1,6 @@
 package com.gaoyun.roar.ui.features.registration
 
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -31,6 +30,7 @@ import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.gaoyun.roar.ui.common.composables.platformStyleClickable
 import com.gaoyun.roar.ui.theme.RoarTheme
 import com.gaoyun.roar.ui.theme.RoarThemePreview
 import kotlinx.datetime.Clock
@@ -94,7 +94,7 @@ fun UserRegistrationForm(
                 text = stringResource(resource = Res.string.app_name),
                 style = MaterialTheme.typography.titleLarge,
                 textAlign = TextAlign.Center,
-                modifier = Modifier.clickable {
+                modifier = Modifier.platformStyleClickable {
                     if (Clock.System.now().epochSeconds - timestampForTesting > 10) {
                         onRegisterTestClick()
                     }

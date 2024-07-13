@@ -1,7 +1,6 @@
 package com.gaoyun.roar.ui.features.add_pet.pet_data
 
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -21,6 +20,7 @@ import androidx.compose.ui.unit.dp
 import com.gaoyun.roar.model.domain.Pet
 import com.gaoyun.roar.presentation.add_pet.data.AddPetDataScreenContract
 import com.gaoyun.roar.ui.common.composables.TextFormField
+import com.gaoyun.roar.ui.common.composables.platformStyleClickable
 import com.gaoyun.roar.ui.common.ext.getDrawableByName
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
@@ -61,7 +61,7 @@ fun PetDataFormHeader(
                     contentDescription = stringResource(Res.string.cd_pet),
                     modifier = Modifier
                         .size(64.dp)
-                        .clickable { onAvatarEditClick(AddPetDataScreenContract.Event.NavigateToAvatarEdit(petToEdit.id, petToEdit.petType)) }
+                        .platformStyleClickable { onAvatarEditClick(AddPetDataScreenContract.Event.NavigateToAvatarEdit(petToEdit.id, petToEdit.petType)) }
                         .padding(all = 8.dp)
                 )
             }

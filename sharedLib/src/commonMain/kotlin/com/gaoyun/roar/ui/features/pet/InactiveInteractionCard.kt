@@ -1,6 +1,5 @@
 package com.gaoyun.roar.ui.features.pet
 
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
@@ -18,6 +17,7 @@ import androidx.compose.ui.unit.dp
 import com.gaoyun.roar.model.domain.interactions.InteractionWithReminders
 import com.gaoyun.roar.ui.common.composables.RoarIcon
 import com.gaoyun.roar.ui.common.composables.Spacer
+import com.gaoyun.roar.ui.common.composables.platformStyleClickable
 import com.gaoyun.roar.ui.common.icon
 import com.gaoyun.roar.util.DateFormats
 import com.gaoyun.roar.util.SharedDateUtils
@@ -53,7 +53,7 @@ fun InactiveInteractionCard(
         Row(
             verticalAlignment = Alignment.CenterVertically,
             modifier = Modifier
-                .clickable { onClick(interaction.id) }
+                .platformStyleClickable { onClick(interaction.id) }
                 .padding(vertical = 12.dp, horizontal = 16.dp)
         ) {
             RoarIcon(

@@ -3,7 +3,6 @@ package com.gaoyun.roar.ui.features.user.user_screen
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -49,6 +48,7 @@ import com.gaoyun.roar.ui.common.composables.DropdownMenu
 import com.gaoyun.roar.ui.common.composables.FontSizeRange
 import com.gaoyun.roar.ui.common.composables.LabelledCheckBox
 import com.gaoyun.roar.ui.common.composables.Spacer
+import com.gaoyun.roar.ui.common.composables.platformStyleClickable
 import com.gaoyun.roar.ui.theme.primaryColor
 import com.gaoyun.roar.util.AppIcon
 import com.gaoyun.roar.util.ColorTheme
@@ -258,7 +258,7 @@ internal fun UserScreenContent(
                                 Box(
                                     modifier = Modifier
                                         .fillMaxSize()
-                                        .clickable {
+                                        .platformStyleClickable {
                                             onStaticColorThemePick(
                                                 UserScreenContract.Event.OnStaticColorThemePick(
                                                     it
@@ -313,7 +313,7 @@ internal fun UserScreenContent(
                             Box(
                                 modifier = Modifier
                                     .fillMaxSize()
-                                    .clickable { onIconChange(UserScreenContract.Event.OnAppIconChange(AppIcon.Roar)) }
+                                    .platformStyleClickable { onIconChange(UserScreenContract.Event.OnAppIconChange(AppIcon.Roar)) }
                                     .clip(MaterialTheme.shapes.medium)
                             ) {
                                 Image(
@@ -337,7 +337,7 @@ internal fun UserScreenContent(
                             Box(
                                 modifier = Modifier
                                     .fillMaxSize()
-                                    .clickable { onIconChange(UserScreenContract.Event.OnAppIconChange(AppIcon.Paw)) }
+                                    .platformStyleClickable { onIconChange(UserScreenContract.Event.OnAppIconChange(AppIcon.Paw)) }
                                     .clip(MaterialTheme.shapes.medium)
                             ) {
                                 Image(

@@ -2,7 +2,6 @@ package com.gaoyun.roar.ui.features.pet
 
 import androidx.compose.animation.animateContentSize
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -20,6 +19,7 @@ import androidx.compose.ui.unit.dp
 import com.gaoyun.roar.model.domain.PetWithInteractions
 import com.gaoyun.roar.ui.common.ageText
 import com.gaoyun.roar.ui.common.composables.Spacer
+import com.gaoyun.roar.ui.common.composables.platformStyleClickable
 import com.gaoyun.roar.ui.common.ext.getDrawableByName
 import com.gaoyun.roar.ui.theme.RoarTheme
 import com.gaoyun.roar.util.SharedDateUtils
@@ -41,7 +41,7 @@ fun PetCard(
         shadowElevation = 2.dp,
         modifier = modifier.padding(horizontal = 16.dp, vertical = 8.dp),
     ) {
-        Column(modifier = Modifier.clickable { onPetCardClick(pet.id) }) {
+        Column(modifier = Modifier.platformStyleClickable { onPetCardClick(pet.id) }) {
             Row(
                 modifier = Modifier
                     .fillMaxWidth()

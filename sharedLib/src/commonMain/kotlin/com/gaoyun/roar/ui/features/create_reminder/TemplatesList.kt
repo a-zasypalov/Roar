@@ -1,7 +1,6 @@
 package com.gaoyun.roar.ui.features.create_reminder
 
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -25,6 +24,7 @@ import com.gaoyun.roar.model.domain.interactions.InteractionTemplate
 import com.gaoyun.roar.presentation.add_reminder.choose_template.AddReminderScreenContract
 import com.gaoyun.roar.ui.common.composables.RoarIcon
 import com.gaoyun.roar.ui.common.composables.Spacer
+import com.gaoyun.roar.ui.common.composables.platformStyleClickable
 import com.gaoyun.roar.ui.common.ext.getDrawableByName
 import com.gaoyun.roar.ui.common.ext.getName
 import com.gaoyun.roar.ui.common.ext.repeatConfigTextShort
@@ -116,7 +116,7 @@ fun TemplatesList(
                 Column(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .clickable {
+                        .platformStyleClickable {
                             templateChosen(
                                 AddReminderScreenContract.Event.TemplateChosen(
                                     templateId = "null",
@@ -174,7 +174,7 @@ fun TemplateItem(
         Column(
             modifier = Modifier
                 .fillMaxWidth()
-                .clickable { onClick(template.id) }
+                .platformStyleClickable { onClick(template.id) }
                 .padding(horizontal = 14.dp, vertical = 8.dp),
         ) {
             Row(verticalAlignment = Alignment.CenterVertically) {

@@ -1,7 +1,6 @@
 package com.gaoyun.roar.ui.features.home.view
 
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -20,6 +19,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import com.gaoyun.roar.model.domain.PetWithInteractions
 import com.gaoyun.roar.ui.common.composables.Spacer
+import com.gaoyun.roar.ui.common.composables.platformStyleClickable
 import com.gaoyun.roar.ui.common.ext.getDrawableByName
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
@@ -50,7 +50,7 @@ fun InteractionPetChooser(pets: List<PetWithInteractions>, onPetChosen: (String)
                         verticalAlignment = Alignment.CenterVertically,
                         modifier = Modifier
                             .fillMaxWidth()
-                            .clickable { onPetChosen(pet.id) }
+                            .platformStyleClickable { onPetChosen(pet.id) }
                             .padding(horizontal = 16.dp, vertical = 12.dp)
                     ) {
 

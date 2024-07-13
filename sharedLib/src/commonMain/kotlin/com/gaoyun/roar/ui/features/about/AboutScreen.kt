@@ -1,7 +1,6 @@
 package com.gaoyun.roar.ui.features.about
 
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -37,6 +36,7 @@ import com.gaoyun.roar.presentation.about_screen.AboutScreenContract
 import com.gaoyun.roar.presentation.about_screen.AboutScreenViewModel
 import com.gaoyun.roar.ui.common.composables.Spacer
 import com.gaoyun.roar.ui.common.composables.SurfaceScaffold
+import com.gaoyun.roar.ui.common.composables.platformStyleClickable
 import com.gaoyun.roar.ui.theme.RoarTheme
 import com.gaoyun.roar.ui.theme.RoarThemePreview
 import kotlinx.coroutines.flow.collect
@@ -181,20 +181,20 @@ private fun LinksBlock() {
     Row {
         LinkItem(
             painterResource(resource = Res.drawable.ic_telegram),
-            Modifier.clickable { uriHandler.openUri(telegramUrl) }
+            Modifier.platformStyleClickable { uriHandler.openUri(telegramUrl) }
         )
         Spacer(size = 24.dp)
         LinkItem(
             Icons.Default.Mail,
-            Modifier.clickable { /*context.sendMail(to = email, subject = subject)*/ }
+            Modifier.platformStyleClickable { /*context.sendMail(to = email, subject = subject)*/ }
         )
         Spacer(size = 24.dp)
         LinkItem(
             painterResource(resource = Res.drawable.ic_twitter),
-            Modifier.clickable { uriHandler.openUri(twitterUrl) }
+            Modifier.platformStyleClickable { uriHandler.openUri(twitterUrl) }
         )
         Spacer(size = 24.dp)
-        LinkItem(Icons.Default.Language, Modifier.clickable { uriHandler.openUri(webUrl) })
+        LinkItem(Icons.Default.Language, Modifier.platformStyleClickable { uriHandler.openUri(webUrl) })
     }
 }
 

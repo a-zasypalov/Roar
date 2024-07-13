@@ -10,6 +10,7 @@ import androidx.compose.ui.unit.dp
 import com.gaoyun.roar.ui.theme.colors.BlueColor
 import com.gaoyun.roar.ui.theme.colors.GreenColor
 import com.gaoyun.roar.ui.theme.colors.OrangeColor
+import com.gaoyun.roar.ui.theme.colors.PurpleColor
 import com.gaoyun.roar.util.ColorTheme
 
 private val RoarOrange = Color(0xFFee9338)
@@ -49,6 +50,7 @@ fun ColorTheme.primaryColor(darkTheme: Boolean) = when (this) {
     ColorTheme.Green -> if (darkTheme) GreenColor.DarkColors.primary else GreenColor.LightColors.primary
     ColorTheme.Blue -> if (darkTheme) BlueColor.DarkColors.primary else BlueColor.LightColors.primary
     ColorTheme.Orange -> if (darkTheme) OrangeColor.DarkColors.primary else OrangeColor.LightColors.primary
+    ColorTheme.Purple -> if (darkTheme) PurpleColor.DarkColors.primary else PurpleColor.LightColors.primary
 }
 
 object RoarTheme {
