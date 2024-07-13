@@ -31,8 +31,10 @@ import com.gaoyun.roar.ui.common.ext.repeatConfigTextShort
 import com.gaoyun.roar.ui.common.ext.toLocalizedStringId
 import com.gaoyun.roar.ui.common.icon
 import com.gaoyun.roar.ui.theme.RoarTheme
+import com.gaoyun.roar.ui.theme.RoarThemePreview
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
+import org.jetbrains.compose.ui.tooling.preview.Preview
 import roar.sharedlib.generated.resources.Res
 import roar.sharedlib.generated.resources.cd_reminder
 import roar.sharedlib.generated.resources.custom
@@ -206,14 +208,14 @@ fun TemplateItem(
     }
 }
 
-//@Composable
-//@Preview
-//fun TemplatesListPreview() {
-//    RoarThemePreview {
-//        TemplatesList(pet = PetWithInteractions.preview(), templates = listOf(
-//            InteractionTemplate.preview,
-//            InteractionTemplate.preview,
-//            InteractionTemplate.preview,
-//        ), templateChosen = {})
-//    }
-//}
+@Composable
+@Preview
+fun TemplatesListPreview() {
+    RoarThemePreview {
+        TemplatesList(pet = PetWithInteractions.preview(), templates = listOf(
+            InteractionTemplate.preview,
+            InteractionTemplate.preview,
+            InteractionTemplate.preview,
+        ), templateChosen = {})
+    }
+}

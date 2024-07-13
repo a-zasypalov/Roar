@@ -41,6 +41,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.gaoyun.roar.model.domain.User
 import com.gaoyun.roar.presentation.user_screen.UserScreenContract
 import com.gaoyun.roar.ui.common.composables.AutoResizeText
 import com.gaoyun.roar.ui.common.composables.BoxWithLoader
@@ -55,6 +56,7 @@ import com.gaoyun.roar.util.Platform
 import com.gaoyun.roar.util.PlatformNames
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
+import org.jetbrains.compose.ui.tooling.preview.Preview
 import roar.sharedlib.generated.resources.Res
 import roar.sharedlib.generated.resources.about_app_button
 import roar.sharedlib.generated.resources.app_icon
@@ -404,15 +406,15 @@ internal fun UserScreenContent(
     }
 }
 
-//@Preview
-//@Composable
-//fun UserScreenPreview() {
-//    UserScreenContent(
-//        state = UserScreenContract.State(
-//            isLoading = false,
-//            dynamicColorActive = false,
-//            user = User("id", "Tester")
-//        ),
-//        {}, {}, {}, {}, {}, {}, {}, {}
-//    )
-//}
+@Preview
+@Composable
+fun UserScreenPreview() {
+    UserScreenContent(
+        state = UserScreenContract.State(
+            isLoading = false,
+            dynamicColorActive = false,
+            user = User("id", "Tester")
+        ),
+        {}, {}, {}, {}, {}, {}, {}, {}, {}
+    )
+}

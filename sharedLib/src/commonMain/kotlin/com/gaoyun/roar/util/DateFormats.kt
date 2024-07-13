@@ -8,13 +8,13 @@ import kotlinx.datetime.atStartOfDayIn
 import kotlinx.datetime.toInstant
 
 object DateFormats {
-    val ddMmmYyyyDateFormat: String = "dd MMM yyyy"
-    val ddMmmmYyyyDateFormat: String = "dd MMMM yyyy"
+    const val DD_MMM_YYYY_DATE_FORMAT: String = "dd MMM yyyy"
+    const val DD_MMMM_YYYY_DATE_FORMAT: String = "dd MMMM yyyy"
 
-    val ddMmmDateFormat: String = "dd MMM"
-    val ddMmmmDateFormat: String = "dd MMMM"
+    const val DD_MMM_DATE_FORMAT: String = "dd MMM"
+    const val DD_MMMM_DATE_FORMAT: String = "dd MMMM"
 
-    val hhMmTimeFormat: String = "HH:mm"
+    const val HH_MM_TIME_FORMAT: String = "HH:mm"
 }
 
 fun LocalDate.formatDate(pattern: String, defValue: String = ""): String {

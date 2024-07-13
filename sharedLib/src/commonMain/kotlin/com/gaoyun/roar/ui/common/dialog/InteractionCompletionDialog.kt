@@ -31,9 +31,9 @@ fun InteractionCompletionDialog(
     }
 
     val date = if (dateTime.date.year == SharedDateUtils.currentYear()) {
-        dateTime.formatDateTime(DateFormats.ddMmmDateFormat)
+        dateTime.formatDateTime(DateFormats.DD_MMM_DATE_FORMAT)
     } else {
-        dateTime.formatDateTime(DateFormats.ddMmmYyyyDateFormat)
+        dateTime.formatDateTime(DateFormats.DD_MMM_YYYY_DATE_FORMAT)
     }
 
     AlertDialog(

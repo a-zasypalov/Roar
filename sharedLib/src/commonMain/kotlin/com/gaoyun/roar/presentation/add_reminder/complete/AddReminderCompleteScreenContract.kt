@@ -7,7 +7,7 @@ import com.gaoyun.roar.presentation.ViewState
 
 class AddReminderCompleteScreenContract {
     sealed class Event : ViewEvent {
-        object ContinueButtonClicked : Event()
+        data object ContinueButtonClicked : Event()
     }
 
     data class State(

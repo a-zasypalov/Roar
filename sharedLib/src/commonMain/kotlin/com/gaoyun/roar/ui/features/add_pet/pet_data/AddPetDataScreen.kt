@@ -53,10 +53,10 @@ fun AddPetDataDestination(
         viewModel.effect.onEach { effect ->
             when (effect) {
                 is AddPetDataScreenContract.Effect.NavigateBack -> {
-                    if (effect.confirmed || state.pet?.avatar == null || state.pet?.avatar == avatar) {
+                    if (effect.confirmed || state.pet?.avatar == null || state.pet.avatar == avatar) {
                         onNavigationCall(BackNavigationEffect)
                     } else {
-                        viewModel.revertPetAvatar(state.pet?.id ?: "", avatar)
+                        viewModel.revertPetAvatar(state.pet.id, avatar)
                     }
                 }
 

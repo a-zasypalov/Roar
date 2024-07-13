@@ -13,7 +13,9 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.gaoyun.roar.ui.common.composables.PrimaryElevatedButton
+import com.gaoyun.roar.ui.theme.RoarThemePreview
 import org.jetbrains.compose.resources.stringResource
+import org.jetbrains.compose.ui.tooling.preview.Preview
 import roar.sharedlib.generated.resources.Res
 import roar.sharedlib.generated.resources.login
 import roar.sharedlib.generated.resources.register_or_login
@@ -51,10 +53,10 @@ fun NoUserState(
     }
 }
 
-//@Preview
-//@Composable
-//fun NoUserStatePreview() {
-//    RoarThemePreview {
-//        NoUserState({}, {})
-//    }
-//}
+@Preview
+@Composable
+fun NoUserStatePreview() {
+    RoarThemePreview {
+        NoUserState({}, {})
+    }
+}

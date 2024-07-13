@@ -114,12 +114,12 @@ private fun ReminderItem(
         checked = reminder.isCompleted,
         label = "${
             if (reminder.dateTime.date.year != SharedDateUtils.currentYear()) {
-                reminder.dateTime.date.formatDate(DateFormats.ddMmmmYyyyDateFormat)
+                reminder.dateTime.date.formatDate(DateFormats.DD_MMMM_YYYY_DATE_FORMAT)
             } else {
-                reminder.dateTime.date.formatDate(DateFormats.ddMmmmDateFormat)
+                reminder.dateTime.date.formatDate(DateFormats.DD_MMMM_DATE_FORMAT)
             }
         } ${stringResource(resource = Res.string.at)} ${
-            reminder.dateTime.formatDateTime(DateFormats.hhMmTimeFormat)
+            reminder.dateTime.formatDateTime(DateFormats.HH_MM_TIME_FORMAT)
         }",
         modifier = Modifier.fillMaxWidth(),
         verticalPadding = 16.dp,

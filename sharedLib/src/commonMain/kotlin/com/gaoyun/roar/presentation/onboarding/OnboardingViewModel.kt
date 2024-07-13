@@ -1,7 +1,6 @@
 package com.gaoyun.roar.presentation.onboarding
 
 import com.gaoyun.roar.domain.onboarding.CompleteOnboardingUseCase
-import com.gaoyun.roar.presentation.BaseViewModel
 import com.gaoyun.roar.presentation.MultiplatformBaseViewModel
 
 class OnboardingViewModel(

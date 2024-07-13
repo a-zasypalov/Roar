@@ -38,11 +38,13 @@ import com.gaoyun.roar.presentation.about_screen.AboutScreenViewModel
 import com.gaoyun.roar.ui.common.composables.Spacer
 import com.gaoyun.roar.ui.common.composables.SurfaceScaffold
 import com.gaoyun.roar.ui.theme.RoarTheme
+import com.gaoyun.roar.ui.theme.RoarThemePreview
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.onEach
 import moe.tlaster.precompose.koin.koinViewModel
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
+import org.jetbrains.compose.ui.tooling.preview.Preview
 import roar.sharedlib.generated.resources.Res
 import roar.sharedlib.generated.resources.about_app_description
 import roar.sharedlib.generated.resources.about_app_title
@@ -233,13 +235,13 @@ private fun LinkItem(icon: Painter, modifier: Modifier = Modifier) {
 //        // TODO: Handle potential other type of exceptions
 //    }
 //}
-//
-//@Composable
-//@Preview(device = Devices.PIXEL)
-//fun AboutScreenPreview() {
-//    RoarThemePreview {
-//        SurfaceScaffold {
-//            AboutScreenContent()
-//        }
-//    }
-//}
+
+@Composable
+@Preview
+fun AboutScreenPreview() {
+    RoarThemePreview {
+        SurfaceScaffold {
+            AboutScreenContent()
+        }
+    }
+}

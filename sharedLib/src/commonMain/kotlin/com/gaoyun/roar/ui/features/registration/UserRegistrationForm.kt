@@ -32,9 +32,11 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.gaoyun.roar.ui.theme.RoarTheme
+import com.gaoyun.roar.ui.theme.RoarThemePreview
 import kotlinx.datetime.Clock
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
+import org.jetbrains.compose.ui.tooling.preview.Preview
 import roar.sharedlib.generated.resources.Res
 import roar.sharedlib.generated.resources.app_name
 import roar.sharedlib.generated.resources.btn_google
@@ -46,8 +48,7 @@ import roar.sharedlib.generated.resources.url_privacy_policy
 import roar.sharedlib.generated.resources.url_terms_and_conditions
 import com.gaoyun.roar.ui.common.composables.Spacer as SpacerRoar
 
-enum class RegistrationType
-{
+enum class RegistrationType {
     Google, Apple
 }
 
@@ -205,10 +206,10 @@ fun UserRegistrationForm(
     }
 }
 
-//@Composable
-//@Preview(device = Devices.PIXEL)
-//fun UserRegistrationFormPreview() {
-//    RoarThemePreview {
-//        UserRegistrationForm({}, {})
-//    }
-//}
+@Composable
+@Preview
+fun UserRegistrationFormPreview() {
+    RoarThemePreview {
+        UserRegistrationForm({}, {})
+    }
+}

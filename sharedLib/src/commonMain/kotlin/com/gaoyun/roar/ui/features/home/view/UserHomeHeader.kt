@@ -24,8 +24,10 @@ import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.unit.dp
 import com.gaoyun.roar.ui.common.composables.Spacer
 import com.gaoyun.roar.ui.theme.RoarTheme
+import com.gaoyun.roar.ui.theme.RoarThemePreview
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
+import org.jetbrains.compose.ui.tooling.preview.Preview
 import roar.sharedlib.generated.resources.Res
 import roar.sharedlib.generated.resources.add_pet
 import roar.sharedlib.generated.resources.ic_tab_home
@@ -95,10 +97,10 @@ internal fun UserHomeHeader(
     }
 }
 
-//@Preview
-//@Composable
-//fun UserHomeHeaderPreview() {
-//    RoarThemePreview {
-//        UserHomeHeader({}, {})
-//    }
-//}
+@Preview
+@Composable
+fun UserHomeHeaderPreview() {
+    RoarThemePreview {
+        UserHomeHeader({}, {})
+    }
+}

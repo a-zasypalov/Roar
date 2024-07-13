@@ -24,8 +24,10 @@ import androidx.compose.ui.unit.dp
 import com.gaoyun.roar.ui.common.composables.PrimaryElevatedButton
 import com.gaoyun.roar.ui.common.composables.Spacer
 import com.gaoyun.roar.ui.theme.RoarTheme
+import com.gaoyun.roar.ui.theme.RoarThemePreview
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
+import org.jetbrains.compose.ui.tooling.preview.Preview
 import roar.sharedlib.generated.resources.Res
 import roar.sharedlib.generated.resources.add_first_pet
 import roar.sharedlib.generated.resources.ic_tab_home
@@ -102,10 +104,10 @@ fun NoPetsState(
     }
 }
 
-//@Preview
-//@Composable
-//fun NoPetsStatePreview() {
-//    RoarThemePreview {
-//        NoPetsState("Tester", {}, {})
-//    }
-//}
+@Preview
+@Composable
+fun NoPetsStatePreview() {
+    RoarThemePreview {
+        NoPetsState("Tester", {}, {})
+    }
+}

@@ -24,7 +24,9 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.compose.LifecycleEventEffect
+import com.gaoyun.roar.model.domain.Gender
 import com.gaoyun.roar.model.domain.Pet
+import com.gaoyun.roar.model.domain.PetType
 import com.gaoyun.roar.presentation.LAUNCH_LISTEN_FOR_EFFECTS
 import com.gaoyun.roar.presentation.NavigationSideEffect
 import com.gaoyun.roar.presentation.add_pet.setup.AddPetSetupScreenContract
@@ -34,12 +36,16 @@ import com.gaoyun.roar.ui.common.composables.PrimaryElevatedButton
 import com.gaoyun.roar.ui.common.composables.Spacer
 import com.gaoyun.roar.ui.common.composables.SurfaceScaffold
 import com.gaoyun.roar.ui.common.ext.getDrawableByName
+import com.gaoyun.roar.ui.theme.RoarThemePreview
+import com.gaoyun.roar.util.randomUUID
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.onEach
+import kotlinx.datetime.LocalDate
 import moe.tlaster.precompose.koin.koinViewModel
 import moe.tlaster.precompose.navigation.BackHandler
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
+import org.jetbrains.compose.ui.tooling.preview.Preview
 import roar.sharedlib.generated.resources.Res
 import roar.sharedlib.generated.resources.new_pet_added
 import roar.sharedlib.generated.resources.new_pet_added_subtitle
@@ -154,27 +160,27 @@ private fun PetAddingComplete(
     }
 }
 
-//@Composable
-//@Preview
-//fun AddPetSetupScreenPreview() {
-//    RoarThemePreview {
-//        Box {
-//            PetAddingComplete(
-//                Pet(
-//                    randomUUID(),
-//                    PetType.CAT,
-//                    "British",
-//                    "Cat",
-//                    "ic_cat_1",
-//                    "1",
-//                    LocalDate.fromEpochDays(1),
-//                    false,
-//                    Gender.MALE,
-//                    "",
-//                    LocalDate.fromEpochDays(1)
-//                ),
-//                {}, {}
-//            )
-//        }
-//    }
-//}
+@Composable
+@Preview
+fun AddPetSetupScreenPreview() {
+    RoarThemePreview {
+        Box {
+            PetAddingComplete(
+                Pet(
+                    randomUUID(),
+                    PetType.CAT,
+                    "British",
+                    "Cat",
+                    "ic_cat_1",
+                    "1",
+                    LocalDate.fromEpochDays(1),
+                    false,
+                    Gender.MALE,
+                    "",
+                    LocalDate.fromEpochDays(1)
+                ),
+                {}, {}
+            )
+        }
+    }
+}

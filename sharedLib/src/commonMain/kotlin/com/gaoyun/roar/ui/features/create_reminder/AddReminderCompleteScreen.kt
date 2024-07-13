@@ -20,12 +20,14 @@ import com.gaoyun.roar.ui.common.composables.PrimaryElevatedButton
 import com.gaoyun.roar.ui.common.composables.Spacer
 import com.gaoyun.roar.ui.common.composables.SurfaceScaffold
 import com.gaoyun.roar.ui.common.ext.getDrawableByName
+import com.gaoyun.roar.ui.theme.RoarThemePreview
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.onEach
 import moe.tlaster.precompose.koin.koinViewModel
 import moe.tlaster.precompose.navigation.BackHandler
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
+import org.jetbrains.compose.ui.tooling.preview.Preview
 import roar.sharedlib.generated.resources.Res
 import roar.sharedlib.generated.resources.cd_avatar
 import roar.sharedlib.generated.resources.continue_label
@@ -88,10 +90,10 @@ private fun ReminderAddingComplete(
 
 }
 
-//@Composable
-//@Preview
-//fun AddPetSetupScreenPreview() {
-//    RoarThemePreview {
-//        ReminderAddingComplete("ic_cat_1") {}
-//    }
-//}
+@Composable
+@Preview
+fun AddPetSetupScreenPreview() {
+    RoarThemePreview {
+        ReminderAddingComplete("ic_cat_1") {}
+    }
+}

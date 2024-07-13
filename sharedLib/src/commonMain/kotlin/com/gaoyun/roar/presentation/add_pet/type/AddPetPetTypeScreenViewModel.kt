@@ -1,7 +1,6 @@
 package com.gaoyun.roar.presentation.add_pet.type
 
 import com.gaoyun.roar.config.PetsConfig
-import com.gaoyun.roar.presentation.BaseViewModel
 import com.gaoyun.roar.presentation.MultiplatformBaseViewModel
 
 class AddPetPetTypeScreenViewModel :

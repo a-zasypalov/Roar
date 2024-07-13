@@ -157,7 +157,7 @@ internal fun RepeatConfigDialog(
     val endsOnDateStateString = remember {
         mutableStateOf(
             TextFieldValue(
-                Instant.fromEpochMilliseconds(endsOnDateState.value).toLocalDate().formatDate(DateFormats.ddMmmYyyyDateFormat)
+                Instant.fromEpochMilliseconds(endsOnDateState.value).toLocalDate().formatDate(DateFormats.DD_MMM_YYYY_DATE_FORMAT)
             )
         )
     }
@@ -185,7 +185,7 @@ internal fun RepeatConfigDialog(
                 endsOnDateStateString.value = TextFieldValue(
                     Instant.fromEpochMilliseconds(it)
                         .toLocalDate()
-                        .formatDate(DateFormats.ddMmmYyyyDateFormat)
+                        .formatDate(DateFormats.DD_MMM_YYYY_DATE_FORMAT)
                 )
                 showDatePickerDialog.value = false
             },

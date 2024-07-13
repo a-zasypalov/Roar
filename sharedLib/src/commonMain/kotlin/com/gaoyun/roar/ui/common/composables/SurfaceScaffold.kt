@@ -10,7 +10,6 @@ import androidx.compose.foundation.layout.statusBars
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.automirrored.filled.ArrowBackIos
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FabPosition
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -26,7 +25,6 @@ import androidx.compose.ui.unit.dp
 import com.gaoyun.roar.util.Platform
 import com.gaoyun.roar.util.PlatformNames
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SurfaceScaffold(
     modifier: Modifier = Modifier,

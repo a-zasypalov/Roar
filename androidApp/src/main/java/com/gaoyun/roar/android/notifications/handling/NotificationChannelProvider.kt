@@ -19,7 +19,7 @@ class NotificationChannelProvider(
     }
 
     private fun createChannels() = runBlocking {
-        val channels = NotificationChannel.values().map { channel ->
+        val channels = NotificationChannel.entries.map { channel ->
             val title = "Roar"
             NotificationChannelCompat.Builder(channel.id, NotificationManagerCompat.IMPORTANCE_HIGH)
                 .setName(title)

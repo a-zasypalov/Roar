@@ -9,7 +9,6 @@ import com.gaoyun.roar.model.domain.PetType
 import com.gaoyun.roar.model.domain.toGender
 import com.gaoyun.roar.model.domain.toLanguageCode
 import com.gaoyun.roar.model.domain.toPetType
-import com.gaoyun.roar.presentation.BaseViewModel
 import com.gaoyun.roar.presentation.MultiplatformBaseViewModel
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.collectLatest

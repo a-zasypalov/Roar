@@ -35,7 +35,7 @@ fun PetDataScreenBirthdayPicker(
         mutableStateOf(TextFieldValue(petBirthdayState.value?.let {
             Instant.fromEpochMilliseconds(it)
                 .toLocalDate()
-                .formatDate(DateFormats.ddMmmmYyyyDateFormat)
+                .formatDate(DateFormats.DD_MMMM_YYYY_DATE_FORMAT)
         } ?: ""))
     }
 
@@ -68,7 +68,7 @@ fun PetDataScreenBirthdayPicker(
                 petBirthdayStringState = TextFieldValue(
                     Instant.fromEpochMilliseconds(it)
                         .toLocalDate()
-                        .formatDate(DateFormats.ddMmmmYyyyDateFormat)
+                        .formatDate(DateFormats.DD_MMMM_YYYY_DATE_FORMAT)
                 )
                 showPicker.value = false
             },

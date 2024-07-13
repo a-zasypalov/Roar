@@ -13,6 +13,7 @@ import androidx.compose.foundation.layout.statusBars
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -28,8 +29,10 @@ import com.gaoyun.roar.ui.common.composables.Spacer
 import com.gaoyun.roar.ui.features.home.view.UserHomeHeader
 import com.gaoyun.roar.ui.features.pet.PetCard
 import com.gaoyun.roar.ui.features.pet.PetContainer
+import com.gaoyun.roar.ui.theme.RoarThemePreview
 import kotlinx.datetime.LocalDateTime
 import org.jetbrains.compose.resources.stringResource
+import org.jetbrains.compose.ui.tooling.preview.Preview
 import roar.sharedlib.generated.resources.Res
 import roar.sharedlib.generated.resources.your_pets
 
@@ -168,22 +171,22 @@ fun HomeState(
     }
 }
 
-//@Preview
-//@Composable
-//fun HomeStatePreview() {
-//    RoarThemePreview {
-//        HomeState(
-//            true,
-//            listOf(PetWithInteractions.preview()),
-//            listOf(),
-//            {},
-//            {},
-//            { _ -> },
-//            {},
-//            {},
-//            { _, _, _, _ -> },
-//            {},
-//            rememberLazyListState()
-//        )
-//    }
-//}
+@Preview
+@Composable
+fun HomeStatePreview() {
+    RoarThemePreview {
+        HomeState(
+            true,
+            listOf(PetWithInteractions.preview()),
+            listOf(),
+            {},
+            {},
+            { _ -> },
+            {},
+            {},
+            { _, _, _, _ -> },
+            {},
+            rememberLazyListState()
+        )
+    }
+}

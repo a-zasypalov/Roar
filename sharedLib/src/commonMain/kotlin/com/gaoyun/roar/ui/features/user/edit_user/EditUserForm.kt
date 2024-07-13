@@ -27,6 +27,7 @@ import com.gaoyun.roar.ui.common.composables.TextFormField
 import com.gaoyun.roar.ui.common.composables.surfaceCardFormElevation
 import com.gaoyun.roar.ui.common.composables.surfaceCardFormShape
 import org.jetbrains.compose.resources.stringResource
+import org.jetbrains.compose.ui.tooling.preview.Preview
 import roar.sharedlib.generated.resources.Res
 import roar.sharedlib.generated.resources.name
 import roar.sharedlib.generated.resources.save
@@ -80,8 +81,8 @@ internal fun EditUserForm(
     }
 }
 
-//@Preview
-//@Composable
-//fun EditUserScreenPreview() {
-//    EditUserForm(User("id", "Tester")) {}
-//}
+@Preview
+@Composable
+fun EditUserScreenPreview() {
+    EditUserForm(User("id", "Tester")) {}
+}

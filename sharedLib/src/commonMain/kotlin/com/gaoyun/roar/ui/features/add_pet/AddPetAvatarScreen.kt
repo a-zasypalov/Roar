@@ -37,11 +37,13 @@ import com.gaoyun.roar.presentation.add_pet.avatar.AddPetAvatarScreenViewModel
 import com.gaoyun.roar.ui.common.composables.SurfaceScaffold
 import com.gaoyun.roar.ui.common.ext.getDrawableByName
 import com.gaoyun.roar.ui.theme.RoarTheme
+import com.gaoyun.roar.ui.theme.RoarThemePreview
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.onEach
 import moe.tlaster.precompose.koin.koinViewModel
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
+import org.jetbrains.compose.ui.tooling.preview.Preview
 import roar.sharedlib.generated.resources.Res
 import roar.sharedlib.generated.resources.choose_avatar
 
@@ -155,10 +157,10 @@ private fun LazyGridItemScope.AvatarItem(
     }
 }
 
-//@Composable
-//@Preview
-//fun AddPetAvatarScreenPreview() {
-//    RoarThemePreview {
-//        PetAvatarScreen(PetsConfig.petAvatars("cat"), "cat") {}
-//    }
-//}
+@Composable
+@Preview
+fun AddPetAvatarScreenPreview() {
+    RoarThemePreview {
+        PetAvatarScreen(PetsConfig.petAvatars("cat"), "cat") {}
+    }
+}

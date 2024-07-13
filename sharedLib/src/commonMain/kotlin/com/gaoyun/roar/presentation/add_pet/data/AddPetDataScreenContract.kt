@@ -23,7 +23,7 @@ class AddPetDataScreenContract {
             val isSterilized: Boolean
         ) : Event()
 
-        object NavigateBack : Event()
+        data object NavigateBack : Event()
         class NavigateToAvatarEdit(val petId: String, val petType: PetType) : Event()
     }
 

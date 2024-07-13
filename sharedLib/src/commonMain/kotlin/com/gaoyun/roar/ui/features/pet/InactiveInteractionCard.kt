@@ -38,9 +38,9 @@ fun InactiveInteractionCard(
 ) {
     val lastReminderDate = interaction.reminders.maxOfOrNull { it.dateTime }?.date?.let {
         if (it.year != SharedDateUtils.currentYear()) {
-            it.formatDate(DateFormats.ddMmmmYyyyDateFormat, "...")
+            it.formatDate(DateFormats.DD_MMMM_YYYY_DATE_FORMAT, "...")
         } else {
-            it.formatDate(DateFormats.ddMmmmDateFormat, "...")
+            it.formatDate(DateFormats.DD_MMMM_DATE_FORMAT, "...")
         }
     } ?: "..."
 

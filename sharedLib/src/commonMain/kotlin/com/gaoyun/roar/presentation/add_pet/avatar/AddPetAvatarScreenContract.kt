@@ -18,7 +18,7 @@ class AddPetAvatarScreenContract {
     ) : ViewState
 
     sealed class Effect : ViewSideEffect {
-        object NavigateBack: Effect()
+        data object NavigateBack : Effect()
         sealed class Navigation : Effect(), NavigationSideEffect {
             class ToPetData(val avatar: String, val petType: String) : Navigation()
         }

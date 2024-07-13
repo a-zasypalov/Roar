@@ -104,7 +104,7 @@ fun InteractionRepeatConfig.repeatConfigTextFull() =
                     append(stringResource(Res.string.ends).replaceFirstChar { it.lowercase() })
                     append(" ")
                     val date = LocalDate.parse(endsSplit[1])
-                    append(date.formatDate(DateFormats.ddMmmYyyyDateFormat))
+                    append(date.formatDate(DateFormats.DD_MMM_YYYY_DATE_FORMAT))
                 }
 
                 InteractionRepeatConfig.ENDS_TIMES -> {

@@ -5,7 +5,6 @@ import com.gaoyun.roar.domain.interaction.InteractionsListBuilder
 import com.gaoyun.roar.domain.pet.GetPetUseCase
 import com.gaoyun.roar.domain.pet.RemovePetUseCase
 import com.gaoyun.roar.domain.reminder.SetReminderComplete
-import com.gaoyun.roar.presentation.BaseViewModel
 import com.gaoyun.roar.presentation.MultiplatformBaseViewModel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.filterNotNull

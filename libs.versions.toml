@@ -32,7 +32,6 @@ firebase-authui = "8.0.2"
 koin = "3.5.6"
 koin-extension = "3.0.2"
 ktor = "2.3.12"
-coil = "2.6.0"
 logging-interceptor = "4.12.0"
 app-update = "2.1.0"
 # Tests
@@ -58,7 +57,7 @@ compose-ui = { module = "androidx.compose.ui:ui", version.ref = "compose" }
 compose-material3 = { module = "androidx.compose.material3:material3", version.ref = "compose-material3" }
 compose-uiTooling = { module = "androidx.compose.ui:ui-tooling", version.ref = "compose" }
 compose-uiTooling-preview = { module = "androidx.compose.ui:ui-tooling-preview", version.ref = "compose" }
-lifecycle-common = { module = "org.jetbrains.androidx.lifecycle:lifecycle-common", version.ref = "lifecycle-common"}
+lifecycle-common = { module = "org.jetbrains.androidx.lifecycle:lifecycle-common", version.ref = "lifecycle-common" }
 lifecycle-common-runtime = { module = "org.jetbrains.androidx.lifecycle:lifecycle-runtime-compose", version.ref = "lifecycle-common" }
 precompose = { module = "moe.tlaster:precompose", version.ref = "precompose" }
 precompose-viewmodel = { module = "moe.tlaster:precompose-viewmodel", version.ref = "precompose" }
@@ -76,22 +75,22 @@ ktor-clientmock = { module = "io.ktor:ktor-client-mock", version.ref = "ktor" }
 # Koin
 koin-core = { module = "io.insert-koin:koin-core", version.ref = "koin" }
 koin-test = { module = "io.insert-koin:koin-test", version.ref = "koin" }
-koin-android = { module = "io.insert-koin:koin-android", version.ref= "koin" }
-koin-androidx = { module = "io.insert-koin:koin-android-ext", version.ref= "koin-extension" }
-koin-compose = { module = "io.insert-koin:koin-androidx-compose", version.ref= "koin" }
-koin-workmanager = { module = "io.insert-koin:koin-androidx-workmanager", version.ref= "koin" }
+koin-android = { module = "io.insert-koin:koin-android", version.ref = "koin" }
+koin-androidx = { module = "io.insert-koin:koin-android-ext", version.ref = "koin-extension" }
+koin-compose = { module = "io.insert-koin:koin-androidx-compose", version.ref = "koin" }
+koin-workmanager = { module = "io.insert-koin:koin-androidx-workmanager", version.ref = "koin" }
 # Sqldelight
 sqldelight-runtime = { module = "com.squareup.sqldelight:runtime", version.ref = "sqldelight" }
 sqldelight-androidDriver = { module = "com.squareup.sqldelight:android-driver", version.ref = "sqldelight" }
 sqldelight-nativeDriver = { module = "com.squareup.sqldelight:native-driver", version.ref = "sqldelight" }
 # Firebase
-firebase-bom = { module="com.google.firebase:firebase-bom", version.ref = "firebase" }
-firebase-analytics = { module="com.google.firebase:firebase-analytics-ktx" }
-firebase-auth = { module="com.google.firebase:firebase-auth-ktx" }
+firebase-bom = { module = "com.google.firebase:firebase-bom", version.ref = "firebase" }
+firebase-analytics = { module = "com.google.firebase:firebase-analytics-ktx" }
+firebase-auth = { module = "com.google.firebase:firebase-auth-ktx" }
 firebase-auth-ui = { module = "com.firebaseui:firebase-ui-auth", version.ref = "firebase-authui" }
 firebase-common = { module = "com.google.firebase:firebase-common-ktx" }
-firebase-crashlytics = { module="com.google.firebase:firebase-crashlytics-ktx" }
-firebase-messaging = { module="com.google.firebase:firebase-messaging-ktx" }
+firebase-crashlytics = { module = "com.google.firebase:firebase-crashlytics-ktx" }
+firebase-messaging = { module = "com.google.firebase:firebase-messaging-ktx" }
 firebase-storage = { module = "com.google.firebase:firebase-storage-ktx" }
 # Tests
 junit = { module = "junit:junit", version.ref = "junit" }

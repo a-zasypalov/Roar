@@ -28,10 +28,12 @@ import com.gaoyun.roar.presentation.add_pet.type.AddPetPetTypeScreenViewModel
 import com.gaoyun.roar.ui.common.composables.RoarIcon
 import com.gaoyun.roar.ui.common.composables.SurfaceScaffold
 import com.gaoyun.roar.ui.theme.RoarTheme
+import com.gaoyun.roar.ui.theme.RoarThemePreview
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.onEach
 import moe.tlaster.precompose.koin.koinViewModel
 import org.jetbrains.compose.resources.stringResource
+import org.jetbrains.compose.ui.tooling.preview.Preview
 import roar.sharedlib.generated.resources.Res
 import roar.sharedlib.generated.resources.new_pet
 
@@ -118,10 +120,10 @@ private fun ChoosePetType(
     }
 }
 
-//@Composable
-//@Preview
-//fun AddPetPetTypeScreenPreview() {
-//    RoarThemePreview {
-//        ChoosePetType(PetsConfig.petTypes) {}
-//    }
-//}
+@Composable
+@Preview
+fun AddPetPetTypeScreenPreview() {
+    RoarThemePreview {
+        ChoosePetType(PetsConfig.petTypes) {}
+    }
+}

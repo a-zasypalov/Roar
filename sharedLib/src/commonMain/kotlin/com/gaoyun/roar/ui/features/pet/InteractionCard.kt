@@ -112,12 +112,12 @@ fun InteractionCard(
                     checked = reminderToShow.isCompleted,
                     label = "${
                         if (reminderToShow.dateTime.date.year != SharedDateUtils.currentYear()) {
-                            reminderToShow.dateTime.date.formatDate(DateFormats.ddMmmmYyyyDateFormat)
+                            reminderToShow.dateTime.date.formatDate(DateFormats.DD_MMMM_YYYY_DATE_FORMAT)
                         } else {
-                            reminderToShow.dateTime.date.formatDate(DateFormats.ddMmmmDateFormat)
+                            reminderToShow.dateTime.date.formatDate(DateFormats.DD_MMMM_DATE_FORMAT)
                         }
                     } ${stringResource(resource = Res.string.at)} ${
-                        reminderToShow.dateTime.formatDateTime(DateFormats.hhMmTimeFormat)
+                        reminderToShow.dateTime.formatDateTime(DateFormats.HH_MM_TIME_FORMAT)
                     }",
                     modifier = Modifier.fillMaxWidth(),
                     verticalPadding = 16.dp,
@@ -132,12 +132,12 @@ fun InteractionCard(
                         AnimatedVisibility(visible = interaction.reminders.size > 1) {
                             val nextReminderText = "${stringResource(resource = Res.string.next)}: ${
                                 if (nextReminder.dateTime.date.year != SharedDateUtils.currentYear()) {
-                                    nextReminder.dateTime.date.formatDate(DateFormats.ddMmmmYyyyDateFormat)
+                                    nextReminder.dateTime.date.formatDate(DateFormats.DD_MMMM_YYYY_DATE_FORMAT)
                                 } else {
-                                    nextReminder.dateTime.date.formatDate(DateFormats.ddMmmmDateFormat)
+                                    nextReminder.dateTime.date.formatDate(DateFormats.DD_MMMM_DATE_FORMAT)
                                 }
                             } ${stringResource(resource = Res.string.at)} ${
-                                nextReminder.dateTime.formatDateTime(DateFormats.hhMmTimeFormat)
+                                nextReminder.dateTime.formatDateTime(DateFormats.HH_MM_TIME_FORMAT)
                             }"
                             if (nextReminderLabel.value == null) nextReminderLabel.value = nextReminderText
 

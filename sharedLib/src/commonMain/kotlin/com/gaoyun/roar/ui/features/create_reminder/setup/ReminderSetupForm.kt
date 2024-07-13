@@ -134,7 +134,7 @@ internal fun ReminderSetupForm(
                     .append(
                         Instant.fromEpochMilliseconds(startsOnDate.value)
                             .toLocalDateTime(TimeZone.currentSystemDefault())
-                            .formatDateTime(DateFormats.ddMmmYyyyDateFormat)
+                            .formatDateTime(DateFormats.DD_MMM_YYYY_DATE_FORMAT)
                     )
                     .append(", ")
                     .append(if (startsOnTime.value.hour < 10) "0${startsOnTime.value.hour}" else "${startsOnTime.value.hour}")
@@ -173,7 +173,7 @@ internal fun ReminderSetupForm(
                 val minutesFormatted = if (startsOnTime.value.minute < 10) "0${startsOnTime.value.hour}" else "${startsOnTime.value.hour}"
                 startsOnDateTimeString.value = TextFieldValue(
                     "${
-                        Instant.fromEpochMilliseconds(startsOnDate.value).toLocalDate().formatDate(DateFormats.ddMmmYyyyDateFormat)
+                        Instant.fromEpochMilliseconds(startsOnDate.value).toLocalDate().formatDate(DateFormats.DD_MMM_YYYY_DATE_FORMAT)
                     }, $hoursFormatted:$minutesFormatted"
                 )
                 showTimePickerDialog.value = true
@@ -196,7 +196,7 @@ internal fun ReminderSetupForm(
                 startsOnTime.value = LocalTime.parse(newTime)
                 startsOnDateTimeString.value = TextFieldValue(
                     "${
-                        Instant.fromEpochMilliseconds(startsOnDate.value).toLocalDate().formatDate(DateFormats.ddMmmYyyyDateFormat)
+                        Instant.fromEpochMilliseconds(startsOnDate.value).toLocalDate().formatDate(DateFormats.DD_MMM_YYYY_DATE_FORMAT)
                     }, $hoursFormatted:$minutesFormatted"
                 )
                 showTimePickerDialog.value = false
@@ -316,7 +316,7 @@ internal fun ReminderSetupForm(
             Spacer(size = 16.dp)
         }
 
-        if(interactionToEdit == null) {
+        if (interactionToEdit == null) {
             TextFormField(
                 text = notesState.value,
                 onChange = { notesState.value = it },

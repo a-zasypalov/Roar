@@ -45,7 +45,8 @@ class InteractionsListBuilder(
         pet.withInteractions(interactionsToShow)
     }.sortedBy { pet ->
         pet.interactions.values.flatten()
-            .minOfOrNull { interaction -> interaction.reminders.minOfOrNull { reminder -> reminder.dateTime } ?: SharedDateUtils.MAX_DATE } ?: SharedDateUtils.MIN_DATE
+            .minOfOrNull { interaction -> interaction.reminders.minOfOrNull { reminder -> reminder.dateTime } ?: SharedDateUtils.MAX_DATE }
+            ?: SharedDateUtils.MIN_DATE
     }
 
     private suspend fun buildInitialInteractionsListForPet(petId: String) = buildInitialInteractionsListForPet(
@@ -55,7 +56,7 @@ class InteractionsListBuilder(
     fun buildInitialInteractionsListForPet(interactions: List<InteractionWithReminders>) = interactions
         .filter { it.reminders.any { r -> !r.isCompleted } }
         .map {
-            it.withReminders(it.reminders.toMutableList().filter { !it.isCompleted })
+            it.withReminders(it.reminders.toMutableList().filter { reminder -> !reminder.isCompleted })
         }
         .sortedBy { v ->
             v.reminders.filter { r -> !r.isCompleted }.minOfOrNull { r -> r.dateTime }
@@ -63,7 +64,8 @@ class InteractionsListBuilder(
         }
         .groupBy { it.group }
 
-    suspend fun buildInactiveInteractionsListFor(petId: String) = buildInactiveInteractionsList(getInteractions.getInteractionByPet(petId).firstOrNull() ?: emptyList())
+    suspend fun buildInactiveInteractionsListFor(petId: String) =
+        buildInactiveInteractionsList(getInteractions.getInteractionByPet(petId).firstOrNull() ?: emptyList())
 
     fun buildInactiveInteractionsList(interactions: List<InteractionWithReminders>) = interactions
         .filter { it.reminders.all { r -> r.isCompleted } }
@@ -81,7 +83,8 @@ class InteractionsListBuilder(
 
         val newList = originalList[completedInteraction.group]?.toMutableList()?.apply {
             indexOfFirst { item -> item.id == completedInteraction.id }.takeIf { it > -1 }?.let { index ->
-                val interactionToShow = if (isComplete) completedInteraction else completedInteraction.withReminders(completedInteraction.reminders.filter { !it.isCompleted })
+                val interactionToShow =
+                    if (isComplete) completedInteraction else completedInteraction.withReminders(completedInteraction.reminders.filter { !it.isCompleted })
                 set(index, interactionToShow)
             }
         }

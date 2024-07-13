@@ -27,7 +27,7 @@ class NotificationContentMaker(
                 content = getString(
                     Res.string.notification_content_dont_forget,
                     interaction.name,
-                    reminder.dateTime.formatDateTime(DateFormats.ddMmmmDateFormat)
+                    reminder.dateTime.formatDateTime(DateFormats.DD_MMMM_DATE_FORMAT)
                 ),
             )
         } else null

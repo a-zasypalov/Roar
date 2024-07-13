@@ -48,12 +48,14 @@ import com.gaoyun.roar.ui.common.composables.TextFormField
 import com.gaoyun.roar.ui.common.composables.surfaceCardFormElevation
 import com.gaoyun.roar.ui.common.composables.surfaceCardFormShape
 import com.gaoyun.roar.ui.common.toLocalizedStringId
+import com.gaoyun.roar.ui.theme.RoarThemePreview
 import com.gaoyun.roar.util.toLocalDate
 import kotlinx.coroutines.launch
 import kotlinx.datetime.Clock
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.atStartOfDayIn
 import org.jetbrains.compose.resources.stringResource
+import org.jetbrains.compose.ui.tooling.preview.Preview
 import roar.sharedlib.generated.resources.Res
 import roar.sharedlib.generated.resources.add_pet
 import roar.sharedlib.generated.resources.breed
@@ -253,10 +255,10 @@ internal fun AddPetForm(
     }
 }
 
-//@Composable
-//@Preview
-//fun AddPetScreenPreview() {
-//    RoarThemePreview {
-//        AddPetForm("ic_cat_15", listOf(), "cat", null, SnackbarHostState(), { }, { })
-//    }
-//}
+@Composable
+@Preview
+fun AddPetScreenPreview() {
+    RoarThemePreview {
+        AddPetForm("ic_cat_15", listOf(), "cat", null, SnackbarHostState(), { }, { })
+    }
+}

@@ -2,7 +2,6 @@ package com.gaoyun.roar.presentation.user_register
 
 import com.gaoyun.roar.domain.user.RegisterUserUseCase
 import com.gaoyun.roar.network.SynchronisationApi
-import com.gaoyun.roar.presentation.BaseViewModel
 import com.gaoyun.roar.presentation.MultiplatformBaseViewModel
 import com.gaoyun.roar.ui.features.registration.RegistrationLauncher
 import kotlinx.coroutines.launch

@@ -17,7 +17,6 @@ import com.gaoyun.roar.model.domain.interactions.InteractionWithReminders
 import com.gaoyun.roar.model.domain.interactions.toInteractionRemindConfig
 import com.gaoyun.roar.model.domain.interactions.toInteractionRepeatConfig
 import com.gaoyun.roar.model.domain.interactions.withoutReminders
-import com.gaoyun.roar.presentation.BaseViewModel
 import com.gaoyun.roar.presentation.MultiplatformBaseViewModel
 import com.gaoyun.roar.util.randomUUID
 import com.gaoyun.roar.util.toLocalDate
