@@ -21,6 +21,8 @@ import com.gaoyun.roar.network.SynchronisationApiAndroid
 import com.gaoyun.roar.notifications.NotificationDisplaying
 import com.gaoyun.roar.ui.features.registration.RegistrationLauncher
 import com.gaoyun.roar.util.ActivityProvider
+import com.gaoyun.roar.util.SignOutExecutor
+import com.gaoyun.roar.util.SignOutExecutorImpl
 import com.gaoyun.roar.util.ThemeChanger
 import com.gaoyun.roar.util.ThemeChangerAndroid
 import org.koin.android.ext.koin.androidApplication
@@ -42,6 +44,7 @@ class RoarApp : Application(), KoinComponent {
         single<RegistrationLauncher> { RegistrationLauncherAndroid }
         single<SynchronisationApi> { SynchronisationApiAndroid() }
         single<ThemeChanger> { ThemeChangerAndroid(get()) }
+        single<SignOutExecutor> { SignOutExecutorImpl() }
         single { ActivityProvider(androidApplication(), initialActivity) }
     }
 

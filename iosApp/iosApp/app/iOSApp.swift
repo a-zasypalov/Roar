@@ -41,7 +41,8 @@ struct iOSApp: App {
             synchronisationApi: SynchronisationApiIOS(provider: provider),
             synchronisationScheduler: synchronisationScheduler,
             themeChanger: themeChanger,
-            notificationScheduler: NotificationSchedulerIOS(provider: provider)
+            notificationScheduler: NotificationSchedulerIOS(provider: provider),
+            signOutExecutor: SignOutExecutorImpl()
         )
 
         KoinKt.doInitKoin(appDeclaration: appDeclaration)

@@ -170,7 +170,6 @@ fun PetScreenDestination(
                         }
                     },
                     modifier = Modifier
-//                        .verticalScroll(verticalScroll)
                         .padding(start = 8.dp, end = 8.dp)
                         .fillMaxWidth()
                 )

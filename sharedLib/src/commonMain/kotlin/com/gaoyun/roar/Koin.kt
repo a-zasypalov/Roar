@@ -82,6 +82,7 @@ fun initKoin(appDeclaration: iOSAppDeclaration) = startKoin {
         single { appDeclaration.synchronisationScheduler }
         single { appDeclaration.themeChanger }
         single { appDeclaration.notificationScheduler }
+        single { appDeclaration.signOutExecutor }
     }
     modules(
         platformModule(),
@@ -141,7 +142,7 @@ val useCaseModule = module {
     single { GetCurrentUserUseCase(get(), get()) }
     single { CheckUserExistingUseCase(get()) }
     single { EditUserUseCase(get()) }
-    single { LogoutUseCase(get(), get(), get(), get(), get(), get()) }
+    single { LogoutUseCase(get(), get(), get(), get(), get(), get(), get()) }
     single { SynchronisationUseCase(get(), get(), get(), get(), get(), get(), get(), get(), get()) }
 
     single { GetPetUseCase(get()) }

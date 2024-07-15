@@ -6,7 +6,6 @@ actual class Preferences actual constructor(name: String?) {
 
     private val userDefault: NSUserDefaults = NSUserDefaults(suiteName = name)
 
-    //region int
     actual fun setInt(key: String, value: Int) {
         return userDefault.setInteger(value.toLong(), key)
     }

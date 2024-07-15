@@ -82,6 +82,7 @@ kotlin {
             implementation(project.dependencies.platform(libs.firebase.bom))
             implementation(libs.firebase.common)
             implementation(libs.firebase.storage)
+            implementation(libs.firebase.auth)
             implementation(libs.loggingInterceptor)
         }
         iosMain.dependencies {
