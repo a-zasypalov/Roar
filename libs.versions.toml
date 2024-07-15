@@ -1,6 +1,6 @@
 [versions]
 # Plugins
-agp = "8.3.2"
+agp = "8.5.0"
 kotlin = "2.0.0"
 compose-multiplatform = "1.6.10"
 sqldelight = "1.5.5"

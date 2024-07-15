@@ -52,6 +52,7 @@ import com.gaoyun.roar.ui.theme.RoarThemePreview
 import com.gaoyun.roar.util.toLocalDate
 import kotlinx.coroutines.launch
 import kotlinx.datetime.Clock
+import kotlinx.datetime.LocalDate
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.atStartOfDayIn
 import org.jetbrains.compose.resources.stringResource
@@ -64,6 +65,7 @@ import roar.sharedlib.generated.resources.gender
 import roar.sharedlib.generated.resources.pet_is_sterilized
 import roar.sharedlib.generated.resources.pets_card
 import roar.sharedlib.generated.resources.save
+import kotlin.time.Duration.Companion.milliseconds
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -233,12 +235,12 @@ internal fun AddPetForm(
                                     breed = petBreedState.value.text,
                                     name = petName.value,
                                     avatar = avatar,
-                                    birthday = Clock.System.now().toLocalDate(),
-//                                    LocalDate.fromEpochDays(
-//                                        TimeUnit.MILLISECONDS.toDays(
-//                                            petBirthdayState.value ?: Clock.System.now().toEpochMilliseconds()
-//                                        ).toInt()
-//                                    ),
+                                    birthday = LocalDate.fromEpochDays(
+                                        (petBirthdayState.value ?: Clock.System.now().toEpochMilliseconds())
+                                        .milliseconds
+                                        .inWholeDays
+                                        .toInt()
+                                    ),
                                     isSterilized = petIsSterilizedState,
                                     gender = petGenderState.value,
                                     chipNumber = chipNumberState
