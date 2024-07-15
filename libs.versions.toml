@@ -41,6 +41,7 @@ espresso = "3.6.1"
 
 [libraries]
 # AndroidX
+androidx-activity-ktx = { module = "androidx.activity:activity-ktx", version.ref = "activity" }
 androidx-activity = { module = "androidx.activity:activity-compose", version.ref = "activity" }
 androidx-browser = { module = "androidx.browser:browser", version.ref = "browser" }
 androidx-material = { module = "com.google.android.material:material", version.ref = "material" }

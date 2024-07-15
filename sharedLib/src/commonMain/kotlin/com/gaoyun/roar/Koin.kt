@@ -64,7 +64,9 @@ import com.gaoyun.roar.repository.UserRepository
 import com.gaoyun.roar.repository.UserRepositoryImpl
 import com.gaoyun.roar.ui.AppViewModel
 import com.gaoyun.roar.ui.common.ColorsProvider
+import com.gaoyun.roar.util.BackupExportExecutor
 import com.gaoyun.roar.util.DriverFactory
+import com.gaoyun.roar.util.NoopBackupExportExecutor
 import com.gaoyun.roar.util.PlatformHttpClient
 import com.gaoyun.roar.util.Preferences
 import com.gaoyun.roar.util.platformModule
@@ -83,6 +85,7 @@ fun initKoin(appDeclaration: iOSAppDeclaration) = startKoin {
         single { appDeclaration.themeChanger }
         single { appDeclaration.notificationScheduler }
         single { appDeclaration.signOutExecutor }
+        single { NoopBackupExportExecutor() }
     }
     modules(
         platformModule(),
@@ -128,7 +131,7 @@ val vmModule = module {
     factory { AddPetSetupScreenViewModel(get()) }
     factory { AddPetDataScreenViewModel(get(), get(), get(), get()) }
     factory { InteractionScreenViewModel(get(), get(), get(), get(), get(), get(), get()) }
-    factory { UserScreenViewModel(get(), get(), get(), get(), get(), get(), get(), get()) }
+    factory { UserScreenViewModel(get(), get(), get(), get(), get(), get(), get(), get(), get()) }
     factory { EditUserScreenViewModel(get(), get()) }
     factory { AboutScreenViewModel() }
     factory { AddReminderScreenViewModel(get(), get(), get()) }

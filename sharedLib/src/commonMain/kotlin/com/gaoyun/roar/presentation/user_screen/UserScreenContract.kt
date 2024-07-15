@@ -54,7 +54,7 @@ class UserScreenContract {
     ) : ViewState
 
     sealed class Effect : ViewSideEffect {
-        data object BackupReady : Effect()
+        data object BackupCreated : Effect()
         data object BackupApplied : Effect()
         data object LoggedOut : Effect()
         data object NavigateBack : Effect()

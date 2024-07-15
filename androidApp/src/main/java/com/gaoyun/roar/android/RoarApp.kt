@@ -21,6 +21,8 @@ import com.gaoyun.roar.network.SynchronisationApiAndroid
 import com.gaoyun.roar.notifications.NotificationDisplaying
 import com.gaoyun.roar.ui.features.registration.RegistrationLauncher
 import com.gaoyun.roar.util.ActivityProvider
+import com.gaoyun.roar.util.BackupExportExecutor
+import com.gaoyun.roar.util.BackupExportExecutorImpl
 import com.gaoyun.roar.util.SignOutExecutor
 import com.gaoyun.roar.util.SignOutExecutorImpl
 import com.gaoyun.roar.util.ThemeChanger
@@ -38,12 +40,14 @@ import org.koin.dsl.module
 class RoarApp : Application(), KoinComponent {
 
     private val migrationsExecutor: MigrationsExecutor by inject()
+    private val backupExportExecutor: BackupExportExecutor by inject()
     var initialActivity: Activity? = null
 
     private val appModule = module {
         single<RegistrationLauncher> { RegistrationLauncherAndroid }
         single<SynchronisationApi> { SynchronisationApiAndroid() }
         single<ThemeChanger> { ThemeChangerAndroid(get()) }
+        single<BackupExportExecutor> { BackupExportExecutorImpl(get()) }
         single<SignOutExecutor> { SignOutExecutorImpl() }
         single { ActivityProvider(androidApplication(), initialActivity) }
     }
@@ -56,6 +60,7 @@ class RoarApp : Application(), KoinComponent {
 
         override fun onActivityCreated(activity: Activity, savedInstanceState: Bundle?) {
             initialActivity = activity
+            backupExportExecutor.registerExecutor()
         }
 
         override fun onActivityResumed(activity: Activity) {

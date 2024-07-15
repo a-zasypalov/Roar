@@ -9,6 +9,7 @@ import com.gaoyun.roar.domain.user.LogoutUseCase
 import com.gaoyun.roar.network.SynchronisationApi
 import com.gaoyun.roar.presentation.MultiplatformBaseViewModel
 import com.gaoyun.roar.util.AppIcon
+import com.gaoyun.roar.util.BackupExportExecutor
 import com.gaoyun.roar.util.ColorTheme
 import com.gaoyun.roar.util.ThemeChanger
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -27,6 +28,7 @@ class UserScreenViewModel(
     private val logoutUseCase: LogoutUseCase,
     private val getPetUseCase: GetPetUseCase,
     private val themeChanger: ThemeChanger,
+    private val backupExportExecutor: BackupExportExecutor
 ) : MultiplatformBaseViewModel<UserScreenContract.Event, UserScreenContract.State, UserScreenContract.Effect>() {
 
     val backupState = MutableStateFlow("")
@@ -76,7 +78,9 @@ class UserScreenViewModel(
     private fun createBackup() = scope.launch {
         createBackupUseCase.createBackup().collect {
             backupState.value = it
-            setEffect { UserScreenContract.Effect.BackupReady }
+            backupExportExecutor.exportBackup(it) {
+                setEffect { UserScreenContract.Effect.BackupCreated }
+            }
         }
     }
 

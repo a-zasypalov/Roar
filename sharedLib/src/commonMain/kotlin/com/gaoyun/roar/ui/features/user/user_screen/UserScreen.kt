@@ -9,7 +9,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.compose.LifecycleEventEffect
 import com.gaoyun.roar.presentation.BackNavigationEffect
@@ -21,10 +20,11 @@ import com.gaoyun.roar.ui.common.composables.RoarExtendedFAB
 import com.gaoyun.roar.ui.common.composables.SurfaceScaffold
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.onEach
-import kotlinx.coroutines.launch
 import moe.tlaster.precompose.koin.koinViewModel
 import org.jetbrains.compose.resources.stringResource
 import roar.sharedlib.generated.resources.Res
+import roar.sharedlib.generated.resources.backup_applied
+import roar.sharedlib.generated.resources.backup_saved
 import roar.sharedlib.generated.resources.edit
 import roar.sharedlib.generated.resources.edit_profile
 
@@ -35,46 +35,23 @@ fun UserScreenDestination(
     val viewModel = koinViewModel(vmClass = UserScreenViewModel::class)
     val state = viewModel.viewState.collectAsState().value
 
-    val coroutineScope = rememberCoroutineScope()
     val snackbarHostState = remember { SnackbarHostState() }
-
-//    val exportBackupLauncher = rememberLauncherForActivityResult(ActivityResultContracts.StartActivityForResult()) {
-//        coroutineScope.launch {
-//            if (it.resultCode == RESULT_OK) {
-//                it.data?.data?.let { uri ->
-//                    context.contentResolver.openOutputStream(uri)?.use { stream ->
-//                        stream.write(viewModel.backupState.firstOrNull()?.toByteArray() ?: byteArrayOf())
-//                    }
-//                    delay(200)
-//                    snackbarHostState.showSnackbar(message = context.getString(R.string.backup_saved))
-//                }
-//            }
-//        }
-//    }
 
     LifecycleEventEffect(Lifecycle.Event.ON_RESUME) {
         viewModel.buildScreenState()
     }
+
+    val backupSavedMessage = stringResource(Res.string.backup_saved)
+    val backupAppliedMessage = stringResource(Res.string.backup_applied)
 
     LaunchedEffect(LAUNCH_LISTEN_FOR_EFFECTS) {
         viewModel.effect.onEach { effect ->
             when (effect) {
                 is UserScreenContract.Effect.NavigateBack -> onNavigationCall(BackNavigationEffect)
                 is UserScreenContract.Effect.Navigation -> onNavigationCall(effect)
-                is UserScreenContract.Effect.BackupReady -> coroutineScope.launch {
-//                    val intent = Intent(Intent.ACTION_CREATE_DOCUMENT).apply {
-//                        addCategory(Intent.CATEGORY_OPENABLE)
-//                        type = "application/json"
-//                        putExtra(Intent.EXTRA_TITLE, "Roar_Backup_${LocalDateTime.now().format(DateTimeFormatter.ISO_DATE_TIME)}.json")
-//                    }
-//                    exportBackupLauncher.launch(intent)
-                }
-
-                is UserScreenContract.Effect.BackupApplied -> snackbarHostState.showSnackbar(message = "Backup applied")
-                is UserScreenContract.Effect.LoggedOut -> {
-//                    Firebase.auth.signOut()
-                    viewModel.setEvent(UserScreenContract.Event.NavigateBack)
-                }
+                is UserScreenContract.Effect.BackupCreated -> snackbarHostState.showSnackbar(message = backupSavedMessage)
+                is UserScreenContract.Effect.BackupApplied -> snackbarHostState.showSnackbar(message = backupAppliedMessage)
+                is UserScreenContract.Effect.LoggedOut -> viewModel.setEvent(UserScreenContract.Event.NavigateBack)
             }
         }.collect()
     }

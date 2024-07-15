@@ -72,6 +72,7 @@ kotlin {
             implementation(libs.koin.test)
         }
         androidMain.dependencies {
+            implementation(libs.androidx.activity.ktx)
             implementation(libs.androidx.lifecycle.runtime)
             implementation(libs.androidx.lifecycle.viewmodel)
             implementation(libs.androidx.work.runtime)
