@@ -22,49 +22,12 @@ import roar.sharedlib.generated.resources.import_button
 
 @Composable
 internal fun UserScreenBackupBlock(
-    onCreateBackupClick: (UserScreenContract.Event.OnCreateBackupClick) -> Unit,
-    onUseBackup: (UserScreenContract.Event.OnUseBackup) -> Unit,
+    backupClick: (UserScreenContract.Event) -> Unit,
 ) {
-//    val importBackupLauncher = rememberLauncherForActivityResult(ActivityResultContracts.StartActivityForResult()) {
-//        it.data?.data?.let { uri ->
-//            context.contentResolver.openFileDescriptor(uri, "r")?.use { descriptor ->
-//                if (descriptor.statSize <= Int.MAX_VALUE) {
-//                    val data = ByteArray(descriptor.statSize.toInt())
-//                    FileInputStream(descriptor.fileDescriptor).use { fileStream ->
-//                        fileStream.read(data)
-//
-//                        AlertDialog.Builder(context)
-//                            .setTitle(context.getString(R.string.replace_current_data_title))
-//                            .setMessage(context.getString(R.string.replace_current_data_description))
-//                            .setPositiveButton(context.getString(R.string.leave)) { dialog, _ ->
-//                                dialog.dismiss()
-//                                onUseBackup(
-//                                    UserScreenContract.Event.OnUseBackup(
-//                                        backup = data,
-//                                        removeOld = false
-//                                    )
-//                                )
-//                            }
-//                            .setNegativeButton(context.getString(R.string.replace)) { dialog, _ ->
-//                                dialog.dismiss()
-//                                onUseBackup(
-//                                    UserScreenContract.Event.OnUseBackup(
-//                                        backup = data,
-//                                        removeOld = true
-//                                    )
-//                                )
-//                            }
-//                            .create()
-//                            .show()
-//                    }
-//                }
-//            }
-//        }
-//    }
 
     Row(modifier = Modifier.fillMaxWidth()) {
         FilledTonalButton(
-            onClick = { onCreateBackupClick(UserScreenContract.Event.OnCreateBackupClick) },
+            onClick = { backupClick(UserScreenContract.Event.OnCreateBackupClick) },
             modifier = Modifier
                 .weight(1f)
                 .padding(end = 4.dp)
@@ -78,13 +41,7 @@ internal fun UserScreenBackupBlock(
         }
 
         FilledTonalButton(
-            onClick = {
-//                val intent = Intent(Intent.ACTION_OPEN_DOCUMENT).apply {
-//                    addCategory(Intent.CATEGORY_OPENABLE)
-//                    type = "application/json"
-//                }
-//                importBackupLauncher.launch(intent)
-            },
+            onClick = { backupClick(UserScreenContract.Event.OnUseBackupClick) },
             modifier = Modifier
                 .weight(1f)
                 .padding(start = 4.dp)

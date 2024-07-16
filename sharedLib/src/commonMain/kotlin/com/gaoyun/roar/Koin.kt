@@ -64,9 +64,12 @@ import com.gaoyun.roar.repository.UserRepository
 import com.gaoyun.roar.repository.UserRepositoryImpl
 import com.gaoyun.roar.ui.AppViewModel
 import com.gaoyun.roar.ui.common.ColorsProvider
-import com.gaoyun.roar.util.BackupExportExecutor
+import com.gaoyun.roar.ui.navigation.AppNavigator
+import com.gaoyun.roar.ui.navigation.CloseAppActionHandler
+import com.gaoyun.roar.ui.navigation.NoopCloseAppActionHandler
+import com.gaoyun.roar.util.BackupHandler
 import com.gaoyun.roar.util.DriverFactory
-import com.gaoyun.roar.util.NoopBackupExportExecutor
+import com.gaoyun.roar.util.NoopBackupHandler
 import com.gaoyun.roar.util.PlatformHttpClient
 import com.gaoyun.roar.util.Preferences
 import com.gaoyun.roar.util.platformModule
@@ -85,8 +88,9 @@ fun initKoin(appDeclaration: iOSAppDeclaration) = startKoin {
         single { appDeclaration.themeChanger }
         single { appDeclaration.notificationScheduler }
         single { appDeclaration.signOutExecutor }
-        single<BackupExportExecutor> { NoopBackupExportExecutor() }
         single { appDeclaration.emailSender }
+        single<BackupHandler> { NoopBackupHandler() }
+        single<CloseAppActionHandler> { NoopCloseAppActionHandler() }
     }
     modules(
         platformModule(),
@@ -122,7 +126,8 @@ val repositoryModule = module {
 }
 
 val vmModule = module {
-    factory { AppViewModel(get(), get()) }
+    single { AppNavigator(get()) }
+    factory { AppViewModel(get(), get(), get()) }
     factory { OnboardingViewModel(get()) }
     factory { RegisterUserViewModel(get(), get(), get()) }
     factory { HomeScreenViewModel(get(), get(), get(), get(), get(), get(), get(), get(), get()) }

@@ -18,7 +18,8 @@ import moe.tlaster.precompose.viewmodel.viewModelScope
 
 class AppViewModel(
     private val colorsProvider: ColorsProvider,
-    private val preferences: Preferences
+    private val preferences: Preferences,
+    private val appNavigator: AppNavigator
 ) : ViewModel() {
 
     private val _event: MutableSharedFlow<NavigationSideEffect> = MutableSharedFlow()
@@ -47,7 +48,7 @@ class AppViewModel(
     private fun handleNavigation(event: NavigationSideEffect) {
         when (event) {
             is BackNavigationEffect -> setEffect { NavigationAction.NavigateBack }
-            else -> AppNavigator.navigate(event)?.let { setEffect { it } }
+            else -> appNavigator.navigate(event)?.let { setEffect { it } }
         }
     }
 

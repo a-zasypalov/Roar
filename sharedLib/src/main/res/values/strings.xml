@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="replace_current_data_title">Replace current data?</string>
+    <string name="leave">Leave</string>
+    <string name="replace_current_data_description">We can leave current data without changes or replace it by backup completely</string>
+    <string name="replace">Replace</string>
+</resources>

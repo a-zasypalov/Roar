@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="leave">Verlassen</string>
+    <string name="replace_current_data_title">Aktuelle Daten ersetzen?</string>
+    <string name="replace_current_data_description">Wir können die aktuellen Daten ohne Änderungen belassen oder sie vollständig durch das Backup ersetzen</string>
+    <string name="replace">Ersetzen</string>
+</resources>

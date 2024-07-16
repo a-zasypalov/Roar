@@ -15,6 +15,7 @@ class UserScreenContract {
         data object OnLogout : Event()
         data object OnAboutScreenClick : Event()
         data object OnCreateBackupClick : Event()
+        data object OnUseBackupClick : Event()
         data class OnUseBackup(val backup: ByteArray, val removeOld: Boolean) : Event() {
             override fun equals(other: Any?): Boolean {
                 if (this === other) return true

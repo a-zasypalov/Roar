@@ -78,8 +78,7 @@ import roar.sharedlib.generated.resources.user_screen_subtitle
 @Composable
 internal fun UserScreenContent(
     state: UserScreenContract.State,
-    onCreateBackupClick: (UserScreenContract.Event.OnCreateBackupClick) -> Unit,
-    onUseBackup: (UserScreenContract.Event.OnUseBackup) -> Unit,
+    onCreateBackupClick: (UserScreenContract.Event) -> Unit,
     onNumberOfRemindersOnMainScreenChange: (UserScreenContract.Event.OnNumberOfRemindersOnMainScreen) -> Unit,
     onDynamicColorsStateChange: (UserScreenContract.Event.OnDynamicColorsStateChange) -> Unit,
     onHomeScreenModeChange: (UserScreenContract.Event.OnHomeScreenModeChange) -> Unit,
@@ -366,7 +365,7 @@ internal fun UserScreenContent(
 
                     Spacer(size = 8.dp)
 
-                    UserScreenBackupBlock(onCreateBackupClick, onUseBackup)
+                    UserScreenBackupBlock(onCreateBackupClick)
 
                     Spacer(size = 16.dp)
                 }
@@ -415,6 +414,6 @@ fun UserScreenPreview() {
             dynamicColorActive = false,
             user = User("id", "Tester")
         ),
-        {}, {}, {}, {}, {}, {}, {}, {}, {}
+        {}, {}, {}, {}, {}, {}, {}, {}
     )
 }

@@ -9,7 +9,7 @@ import com.gaoyun.roar.domain.user.LogoutUseCase
 import com.gaoyun.roar.network.SynchronisationApi
 import com.gaoyun.roar.presentation.MultiplatformBaseViewModel
 import com.gaoyun.roar.util.AppIcon
-import com.gaoyun.roar.util.BackupExportExecutor
+import com.gaoyun.roar.util.BackupHandler
 import com.gaoyun.roar.util.ColorTheme
 import com.gaoyun.roar.util.ThemeChanger
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -28,10 +28,10 @@ class UserScreenViewModel(
     private val logoutUseCase: LogoutUseCase,
     private val getPetUseCase: GetPetUseCase,
     private val themeChanger: ThemeChanger,
-    private val backupExportExecutor: BackupExportExecutor
+    private val backupHandler: BackupHandler
 ) : MultiplatformBaseViewModel<UserScreenContract.Event, UserScreenContract.State, UserScreenContract.Effect>() {
 
-    val backupState = MutableStateFlow("")
+    private val backupState = MutableStateFlow("")
 
     override fun setInitialState() = UserScreenContract.State(isLoading = true)
 
@@ -41,6 +41,7 @@ class UserScreenViewModel(
             is UserScreenContract.Event.OnLogout -> logout()
             is UserScreenContract.Event.OnEditAccountClick -> setEffect { UserScreenContract.Effect.Navigation.ToUserEdit }
             is UserScreenContract.Event.OnCreateBackupClick -> createBackup()
+            is UserScreenContract.Event.OnUseBackupClick -> backupHandler.importBackup { useBackup(it.backup, it.removeOld) }
             is UserScreenContract.Event.OnUseBackup -> useBackup(event.backup, event.removeOld)
             is UserScreenContract.Event.OnDynamicColorsStateChange -> setDynamicColor(event.active)
             is UserScreenContract.Event.OnStaticColorThemePick -> staticThemeChange(event.theme)
@@ -48,9 +49,7 @@ class UserScreenViewModel(
             is UserScreenContract.Event.OnHomeScreenModeChange -> switchHomeScreenMode()
             is UserScreenContract.Event.OnAppIconChange -> activateIcon(event.icon)
             is UserScreenContract.Event.OnAboutScreenClick -> setEffect { UserScreenContract.Effect.Navigation.ToAboutScreen }
-            is UserScreenContract.Event.NavigateBack -> {
-                setEffect { UserScreenContract.Effect.NavigateBack }
-            }
+            is UserScreenContract.Event.NavigateBack -> setEffect { UserScreenContract.Effect.NavigateBack }
         }
     }
 
@@ -78,7 +77,7 @@ class UserScreenViewModel(
     private fun createBackup() = scope.launch {
         createBackupUseCase.createBackup().collect {
             backupState.value = it
-            backupExportExecutor.exportBackup(it) {
+            backupHandler.exportBackup(it) {
                 setEffect { UserScreenContract.Effect.BackupCreated }
             }
         }

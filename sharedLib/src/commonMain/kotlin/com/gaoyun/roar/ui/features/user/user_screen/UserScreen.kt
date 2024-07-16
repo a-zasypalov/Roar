@@ -72,7 +72,6 @@ fun UserScreenDestination(
         UserScreenContent(
             state = state,
             onCreateBackupClick = viewModel::setEvent,
-            onUseBackup = viewModel::setEvent,
             onNumberOfRemindersOnMainScreenChange = viewModel::setEvent,
             onDynamicColorsStateChange = viewModel::setEvent,
             onStaticColorThemePick = viewModel::setEvent,

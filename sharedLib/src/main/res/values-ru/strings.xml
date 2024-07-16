@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="replace">Заменить</string>
+    <string name="leave">Оставить</string>
+    <string name="replace_current_data_title">Заменить текущие данные?</string>
+    <string name="replace_current_data_description">Мы можем оставить текущие данные без изменений или полностью заменить их резервной копией</string>
+</resources>

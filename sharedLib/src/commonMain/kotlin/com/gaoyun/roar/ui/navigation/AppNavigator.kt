@@ -13,9 +13,10 @@ import com.gaoyun.roar.presentation.interactions.InteractionScreenContract
 import com.gaoyun.roar.presentation.pet_screen.PetScreenContract
 import com.gaoyun.roar.presentation.user_register.RegisterUserScreenContract
 import com.gaoyun.roar.presentation.user_screen.UserScreenContract
+import org.koin.core.component.KoinComponent
 
 object CloseAppNavigationSideEffect : NavigationSideEffect
-object AppNavigator {
+class AppNavigator(private val closeAppActionHandler: CloseAppActionHandler) : KoinComponent {
     fun navigate(call: NavigationSideEffect) = when (call) {
         is HomeScreenContract.Effect.Navigation.ToUserRegistration -> toUserRegistration()
         is HomeScreenContract.Effect.Navigation.ToAddPet -> toAddPet()
@@ -46,7 +47,10 @@ object AppNavigator {
         is AddReminderCompleteScreenContract.Effect.Navigation.Continue -> completeReminderCreation()
 
         is InteractionScreenContract.Effect.Navigation.ToEditInteraction -> toEditInteraction(call)
-        is CloseAppNavigationSideEffect -> NavigationAction.NavigateTo("")
+        is CloseAppNavigationSideEffect -> {
+            closeAppActionHandler.closeApp(); null
+        }
+
         else -> null
     }
 

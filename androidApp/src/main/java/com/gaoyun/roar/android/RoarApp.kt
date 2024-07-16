@@ -16,13 +16,15 @@ import com.gaoyun.roar.domain.SynchronisationSchedulerImpl
 import com.gaoyun.roar.domain.SynchronisationWorker
 import com.gaoyun.roar.initKoin
 import com.gaoyun.roar.migrations.MigrationsExecutor
+import com.gaoyun.roar.navigation.CloseAppActionHandlerImpl
 import com.gaoyun.roar.network.SynchronisationApi
 import com.gaoyun.roar.network.SynchronisationApiAndroid
 import com.gaoyun.roar.notifications.NotificationDisplaying
 import com.gaoyun.roar.ui.features.registration.RegistrationLauncher
+import com.gaoyun.roar.ui.navigation.CloseAppActionHandler
 import com.gaoyun.roar.util.ActivityProvider
-import com.gaoyun.roar.util.BackupExportExecutor
-import com.gaoyun.roar.util.BackupExportExecutorImpl
+import com.gaoyun.roar.util.BackupHandler
+import com.gaoyun.roar.util.BackupHandlerImpl
 import com.gaoyun.roar.util.EmailSender
 import com.gaoyun.roar.util.EmailSenderImpl
 import com.gaoyun.roar.util.SignOutExecutor
@@ -42,28 +44,31 @@ import org.koin.dsl.module
 class RoarApp : Application(), KoinComponent {
 
     private val migrationsExecutor: MigrationsExecutor by inject()
-    private val backupExportExecutor: BackupExportExecutor by inject()
+    private val backupHandler: BackupHandler by inject()
     var initialActivity: Activity? = null
 
     private val appModule = module {
         single<RegistrationLauncher> { RegistrationLauncherAndroid }
         single<SynchronisationApi> { SynchronisationApiAndroid() }
         single<ThemeChanger> { ThemeChangerAndroid(get()) }
-        single<BackupExportExecutor> { BackupExportExecutorImpl(get()) }
+        single<BackupHandler> { BackupHandlerImpl(get()) }
         single<SignOutExecutor> { SignOutExecutorImpl() }
         single { ActivityProvider(androidApplication(), initialActivity) }
         single<EmailSender> { EmailSenderImpl(get()) }
+        single<CloseAppActionHandler> { CloseAppActionHandlerImpl(get()) }
     }
 
     private val activityCallback = object : ActivityLifecycleCallbacks {
         override fun onActivityStarted(activity: Activity) {}
         override fun onActivityStopped(activity: Activity) {}
         override fun onActivitySaveInstanceState(activity: Activity, outState: Bundle) {}
-        override fun onActivityDestroyed(activity: Activity) {}
+        override fun onActivityDestroyed(activity: Activity) {
+            backupHandler.unregisterExecutor()
+        }
 
         override fun onActivityCreated(activity: Activity, savedInstanceState: Bundle?) {
             initialActivity = activity
-            backupExportExecutor.registerExecutor()
+            backupHandler.registerExecutor()
         }
 
         override fun onActivityResumed(activity: Activity) {
