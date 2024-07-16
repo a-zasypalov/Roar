@@ -35,9 +35,9 @@ class RepeatConfigUseCase(
     private fun getNextDateAccordingToRepeatConfig(
         repeatConfig: InteractionRepeatConfig,
         interaction: InteractionWithReminders,
-        from: LocalDate = Clock.System.now().toLocalDate()
+        from: LocalDate,
     ): LocalDate? {
-
+        println("From date: $from")
         val unitToAdd = when (repeatConfig.repeatsEveryPeriod) {
             InteractionRepeatConfigEach.YEAR -> DateTimeUnit.YEAR
             InteractionRepeatConfigEach.MONTH -> DateTimeUnit.MONTH
@@ -114,6 +114,7 @@ class RepeatConfigUseCase(
     }
 
     private fun checkResult(endsDate: LocalDate?, result: LocalDate): LocalDate? {
+        println("Result: $result")
         return if (endsDate == null) result else if (result <= endsDate) result else null
     }
 }

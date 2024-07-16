@@ -85,7 +85,7 @@ fun initKoin(appDeclaration: iOSAppDeclaration) = startKoin {
         single { appDeclaration.themeChanger }
         single { appDeclaration.notificationScheduler }
         single { appDeclaration.signOutExecutor }
-        single { NoopBackupExportExecutor() }
+        single<BackupExportExecutor> { NoopBackupExportExecutor() }
     }
     modules(
         platformModule(),
