@@ -32,6 +32,7 @@ object DatePicker {
         val state = rememberDatePickerState(
             yearRange = start.toLocalDate().year..end.toLocalDate().year,
             initialDisplayedMonthMillis = selectedDateMillis ?: Clock.System.now().toEpochMilliseconds(),
+            initialSelectedDateMillis = selectedDateMillis ?: Clock.System.now().toEpochMilliseconds(),
         )
         DatePickerDialog(
             confirmButton = {

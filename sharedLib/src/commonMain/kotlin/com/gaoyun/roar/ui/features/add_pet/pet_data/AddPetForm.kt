@@ -90,7 +90,7 @@ internal fun AddPetForm(
     }
     val petBirthdayState = remember {
         mutableStateOf(
-            petToEdit?.birthday?.atStartOfDayIn(TimeZone.currentSystemDefault())
+            petToEdit?.birthday?.atStartOfDayIn(TimeZone.UTC)
                 ?.toEpochMilliseconds()
         )
     }
