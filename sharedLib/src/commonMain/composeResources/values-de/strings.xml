@@ -18,6 +18,7 @@
     <string name="gender">Geschlecht</string>
     <string name="birthday">Geburtstag</string>
     <string name="pets_birthday">Geburtstag des Tiers</string>
+    <string name="continue_with_apple">Mit Apple fortfahren</string>
     <string name="chip_number">Chip-Nummer</string>
     <string name="chip">Chip</string>
     <string name="pet_is_sterilized">Tier ist sterilisiert</string>

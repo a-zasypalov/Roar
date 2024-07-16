@@ -79,6 +79,7 @@
     <string name="add_first_pet">Add First Pet</string>
     <string name="register_to_get_started">Register to get started</string>
     <string name="register_or_login">Continue with Google</string>
+    <string name="continue_with_apple">Continue with Apple</string>
     <string name="register">Register</string>
     <string name="login">Login</string>
     <string name="for_who">For who?</string>

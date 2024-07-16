@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.asPaddingValues
@@ -14,6 +15,7 @@ import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.statusBars
+import androidx.compose.foundation.layout.width
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.ElevatedButton
 import androidx.compose.material3.MaterialTheme
@@ -33,13 +35,17 @@ import androidx.compose.ui.unit.sp
 import com.gaoyun.roar.ui.common.composables.platformStyleClickable
 import com.gaoyun.roar.ui.theme.RoarTheme
 import com.gaoyun.roar.ui.theme.RoarThemePreview
+import com.gaoyun.roar.util.Platform
+import com.gaoyun.roar.util.PlatformNames
 import kotlinx.datetime.Clock
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
 import roar.sharedlib.generated.resources.Res
 import roar.sharedlib.generated.resources.app_name
+import roar.sharedlib.generated.resources.btn_apple
 import roar.sharedlib.generated.resources.btn_google
+import roar.sharedlib.generated.resources.continue_with_apple
 import roar.sharedlib.generated.resources.ic_tab_home
 import roar.sharedlib.generated.resources.privacy_policy
 import roar.sharedlib.generated.resources.register_or_login
@@ -125,58 +131,57 @@ fun UserRegistrationForm(
                     .fillMaxWidth()
                     .padding(horizontal = 24.dp)
             ) {
-                Image(
-                    painter = painterResource(Res.drawable.btn_google),
-                    contentDescription = null,
-                    modifier = Modifier
-                        .weight(2f)
-                        .padding(start = 8.dp, top = 4.dp, bottom = 4.dp)
-                )
-                Text(
-                    stringResource(resource = Res.string.register_or_login),
-                    modifier = Modifier
-                        .padding(vertical = 8.dp)
-                        .weight(8f)
-                        .fillMaxWidth(),
-                    fontSize = 16.sp,
-                    textAlign = TextAlign.Center
-                )
-                Spacer(modifier = Modifier.weight(2f))
+                Row(
+                    horizontalArrangement = Arrangement.Center,
+                    verticalAlignment = Alignment.CenterVertically,
+                    modifier = Modifier.padding(vertical = 4.dp)
+                ) {
+                    Image(
+                        painter = painterResource(Res.drawable.btn_google),
+                        contentDescription = null,
+                        modifier = Modifier.size(48.dp).padding(bottom = 2.dp)
+                    )
+                    Text(
+                        stringResource(resource = Res.string.register_or_login),
+                        fontSize = 16.sp,
+                    )
+                }
             }
 
-            ElevatedButton(
-                onClick = { onRegisterClick(RegistrationType.Apple) },
-                elevation = ButtonDefaults.elevatedButtonElevation(
-                    defaultElevation = 2.dp,
-                    pressedElevation = 8.dp
-                ),
-                colors = ButtonDefaults.elevatedButtonColors(
-                    containerColor = Color.White,
-                    contentColor = Color.Black,
-                ),
-                contentPadding = PaddingValues(0.dp),
-                modifier = Modifier
-                    .padding(bottom = 16.dp)
-                    .fillMaxWidth()
-                    .padding(horizontal = 24.dp)
-            ) {
-//                Image(
-//                    painter = painterResource(Res.drawable.btn_google),
-//                    contentDescription = null,
-//                    modifier = Modifier
-//                        .weight(2f)
-//                        .padding(start = 8.dp, top = 4.dp, bottom = 4.dp)
-//                )
-                Text(
-                    "Apple",
+            if(Platform.name == PlatformNames.IOS) {
+                ElevatedButton(
+                    onClick = { onRegisterClick(RegistrationType.Apple) },
+                    elevation = ButtonDefaults.elevatedButtonElevation(
+                        defaultElevation = 2.dp,
+                        pressedElevation = 8.dp
+                    ),
+                    colors = ButtonDefaults.elevatedButtonColors(
+                        containerColor = Color.White,
+                        contentColor = Color.Black,
+                    ),
+                    contentPadding = PaddingValues(0.dp),
                     modifier = Modifier
-                        .padding(vertical = 8.dp)
-                        .weight(8f)
-                        .fillMaxWidth(),
-                    fontSize = 16.sp,
-                    textAlign = TextAlign.Center
-                )
-                Spacer(modifier = Modifier.weight(2f))
+                        .padding(bottom = 16.dp)
+                        .fillMaxWidth()
+                        .padding(horizontal = 24.dp)
+                ) {
+                    Row(
+                        horizontalArrangement = Arrangement.Center,
+                        verticalAlignment = Alignment.CenterVertically,
+                        modifier = Modifier.padding(vertical = 16.dp)
+                    ) {
+                        Image(
+                            painter = painterResource(Res.drawable.btn_apple),
+                            contentDescription = null,
+                            modifier = Modifier.size(24.dp).padding(bottom = 2.dp)
+                        )
+                        Spacer(modifier = Modifier.width(12.dp))
+                        Text(
+                            stringResource(Res.string.continue_with_apple),
+                            fontSize = 16.sp,
+                        )
+                    }
+                }
             }
 
             TextButton(

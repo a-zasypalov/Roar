@@ -75,6 +75,7 @@
     <string name="add_first_pet">Добавить первого питомца</string>
     <string name="register_to_get_started">Зарегистрируйтесь, чтобы начать</string>
     <string name="register_or_login">Продолжить с Google</string>
+    <string name="continue_with_apple">Продолжить с Apple</string>
     <string name="register">Регистрация</string>
     <string name="login">Вход</string>
     <string name="for_who">Для кого?</string>
