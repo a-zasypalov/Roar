@@ -15,7 +15,7 @@ import com.gaoyun.roar.util.PlatformNames
 fun Modifier.platformStyleClickable(
     enabled: Boolean = true,
     indication: Indication? = if (Platform.name == PlatformNames.IOS) null else LocalIndication.current,
-    onClick: () -> Unit
+    onClick: () -> Unit,
 ): Modifier = composed {
     clickable(
         enabled = enabled,

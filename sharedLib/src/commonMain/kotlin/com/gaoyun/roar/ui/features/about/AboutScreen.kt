@@ -67,6 +67,9 @@ fun AboutScreenDestination(
 ) {
     val viewModel = koinViewModel(vmClass = AboutScreenViewModel::class)
 
+    val email = stringResource(resource = Res.string.url_email)
+    val subject = stringResource(resource = Res.string.app_name)
+
     LaunchedEffect(LAUNCH_LISTEN_FOR_EFFECTS) {
         viewModel.effect.onEach { effect ->
             when (effect) {
@@ -78,12 +81,12 @@ fun AboutScreenDestination(
     SurfaceScaffold(
         backHandler = { viewModel.setEvent(AboutScreenContract.Event.NavigateBack) },
     ) {
-        AboutScreenContent()
+        AboutScreenContent { viewModel.sendEmail(email, subject) }
     }
 }
 
 @Composable
-fun AboutScreenContent() {
+fun AboutScreenContent(sendEmail: () -> Unit) {
     val scrollState = rememberScrollState()
     val uriHandler = LocalUriHandler.current
 
@@ -134,7 +137,7 @@ fun AboutScreenContent() {
 
         Spacer(size = 32.dp)
 
-        LinksBlock()
+        LinksBlock(sendEmail)
 
         Spacer(size = 32.dp)
 
@@ -168,15 +171,12 @@ fun AboutScreenContent() {
 }
 
 @Composable
-private fun LinksBlock() {
+private fun LinksBlock(sendEmail: () -> Unit) {
     val uriHandler = LocalUriHandler.current
 
     val telegramUrl = stringResource(resource = Res.string.url_telegram)
     val twitterUrl = stringResource(resource = Res.string.url_twitter)
     val webUrl = stringResource(resource = Res.string.url_web)
-
-    val email = stringResource(resource = Res.string.url_email)
-    val subject = stringResource(resource = Res.string.app_name)
 
     Row {
         LinkItem(
@@ -186,7 +186,7 @@ private fun LinksBlock() {
         Spacer(size = 24.dp)
         LinkItem(
             Icons.Default.Mail,
-            Modifier.platformStyleClickable { /*context.sendMail(to = email, subject = subject)*/ }
+            Modifier.platformStyleClickable { sendEmail() }
         )
         Spacer(size = 24.dp)
         LinkItem(
@@ -222,26 +222,12 @@ private fun LinkItem(icon: Painter, modifier: Modifier = Modifier) {
     }
 }
 
-//fun Context.sendMail(to: String, subject: String) {
-//    try {
-//        val intent = Intent(Intent.ACTION_SEND)
-//        intent.type = "message/rfc822"
-//        intent.putExtra(Intent.EXTRA_EMAIL, arrayOf(to))
-//        intent.putExtra(Intent.EXTRA_SUBJECT, subject)
-//        startActivity(intent)
-//    } catch (e: ActivityNotFoundException) {
-//        // TODO: Handle case where no email app is available
-//    } catch (t: Throwable) {
-//        // TODO: Handle potential other type of exceptions
-//    }
-//}
-
 @Composable
 @Preview
 fun AboutScreenPreview() {
     RoarThemePreview {
         SurfaceScaffold {
-            AboutScreenContent()
+            AboutScreenContent({})
         }
     }
 }

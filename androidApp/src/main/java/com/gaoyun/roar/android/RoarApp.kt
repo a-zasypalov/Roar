@@ -23,6 +23,8 @@ import com.gaoyun.roar.ui.features.registration.RegistrationLauncher
 import com.gaoyun.roar.util.ActivityProvider
 import com.gaoyun.roar.util.BackupExportExecutor
 import com.gaoyun.roar.util.BackupExportExecutorImpl
+import com.gaoyun.roar.util.EmailSender
+import com.gaoyun.roar.util.EmailSenderImpl
 import com.gaoyun.roar.util.SignOutExecutor
 import com.gaoyun.roar.util.SignOutExecutorImpl
 import com.gaoyun.roar.util.ThemeChanger
@@ -50,6 +52,7 @@ class RoarApp : Application(), KoinComponent {
         single<BackupExportExecutor> { BackupExportExecutorImpl(get()) }
         single<SignOutExecutor> { SignOutExecutorImpl() }
         single { ActivityProvider(androidApplication(), initialActivity) }
+        single<EmailSender> { EmailSenderImpl(get()) }
     }
 
     private val activityCallback = object : ActivityLifecycleCallbacks {

@@ -86,6 +86,7 @@ fun initKoin(appDeclaration: iOSAppDeclaration) = startKoin {
         single { appDeclaration.notificationScheduler }
         single { appDeclaration.signOutExecutor }
         single<BackupExportExecutor> { NoopBackupExportExecutor() }
+        single { appDeclaration.emailSender }
     }
     modules(
         platformModule(),
@@ -133,7 +134,7 @@ val vmModule = module {
     factory { InteractionScreenViewModel(get(), get(), get(), get(), get(), get(), get()) }
     factory { UserScreenViewModel(get(), get(), get(), get(), get(), get(), get(), get(), get()) }
     factory { EditUserScreenViewModel(get(), get()) }
-    factory { AboutScreenViewModel() }
+    factory { AboutScreenViewModel(get()) }
     factory { AddReminderScreenViewModel(get(), get(), get()) }
     factory { SetupReminderScreenViewModel(get(), get(), get(), get(), get(), get()) }
     factory { AddReminderCompleteScreenViewModel() }

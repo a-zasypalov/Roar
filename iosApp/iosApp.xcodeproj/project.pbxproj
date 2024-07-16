@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		058557BB273AAA24004C7B11 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 058557BA273AAA24004C7B11 /* Assets.xcassets */; };
 		058557D9273AAEEB004C7B11 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 058557D8273AAEEB004C7B11 /* Preview Assets.xcassets */; };
+		10246DD72C46C8F00048D002 /* EmailSenderImpl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10246DD62C46C8F00048D002 /* EmailSenderImpl.swift */; };
 		103AE8852C45B67100652653 /* SignOutExecutorImpl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 103AE8842C45B67100652653 /* SignOutExecutorImpl.swift */; };
 		1069E01C2BE8B9B5008B585F /* SynchronisationApi.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1069E01B2BE8B9B5008B585F /* SynchronisationApi.swift */; };
 		1069E01E2BE8DD6B008B585F /* SynchronisationScheduler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1069E01D2BE8DD6B008B585F /* SynchronisationScheduler.swift */; };
@@ -49,6 +50,7 @@
 /* Begin PBXFileReference section */
 		058557BA273AAA24004C7B11 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		058557D8273AAEEB004C7B11 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		10246DD62C46C8F00048D002 /* EmailSenderImpl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmailSenderImpl.swift; sourceTree = "<group>"; };
 		103AE8842C45B67100652653 /* SignOutExecutorImpl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignOutExecutorImpl.swift; sourceTree = "<group>"; };
 		1069E01B2BE8B9B5008B585F /* SynchronisationApi.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SynchronisationApi.swift; sourceTree = "<group>"; };
 		1069E01D2BE8DD6B008B585F /* SynchronisationScheduler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SynchronisationScheduler.swift; sourceTree = "<group>"; };
@@ -108,6 +110,7 @@
 				1069E01F2BEA925A008B585F /* ThemeChanger.swift */,
 				106FD1DE2BFFA1EA001C11EC /* NotificationSchedulerIOS.swift */,
 				103AE8842C45B67100652653 /* SignOutExecutorImpl.swift */,
+				10246DD62C46C8F00048D002 /* EmailSenderImpl.swift */,
 			);
 			path = app;
 			sourceTree = "<group>";
@@ -260,6 +263,7 @@
 			files = (
 				1069E0202BEA925A008B585F /* ThemeChanger.swift in Sources */,
 				1069E01C2BE8B9B5008B585F /* SynchronisationApi.swift in Sources */,
+				10246DD72C46C8F00048D002 /* EmailSenderImpl.swift in Sources */,
 				1069E01E2BE8DD6B008B585F /* SynchronisationScheduler.swift in Sources */,
 				2152FB042600AC8F00CF470E /* iOSApp.swift in Sources */,
 				7555FF83242A565900829871 /* ContentView.swift in Sources */,
