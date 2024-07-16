@@ -28,7 +28,6 @@ class AppViewModel(
     private val scope = viewModelScope
 
     init {
-        // Subscribe to events
         scope.launch {
             _event.collect {
                 handleNavigation(it)

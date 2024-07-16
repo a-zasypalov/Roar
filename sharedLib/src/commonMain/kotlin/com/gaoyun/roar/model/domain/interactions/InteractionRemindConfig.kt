@@ -40,7 +40,6 @@ enum class InteractionRemindConfigPeriod {
         val LIST = listOf(
             DAY_STRING,
             WEEK_STRING,
-//            HOUR_STRING,
         )
     }
 }

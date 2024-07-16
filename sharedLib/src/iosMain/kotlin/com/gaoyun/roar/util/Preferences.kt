@@ -21,9 +21,7 @@ actual class Preferences actual constructor(name: String?) {
             userDefault.integerForKey(key).toInt()
         else null
     }
-    //endregion
 
-    //region float
     actual fun setFloat(key: String, value: Float) {
         return userDefault.setFloat(value, key)
     }
@@ -41,9 +39,7 @@ actual class Preferences actual constructor(name: String?) {
             null
         }
     }
-    //endregion
 
-    //region float
     actual fun setLong(key: String, value: Long) {
         return userDefault.setInteger(value, key)
     }
@@ -61,9 +57,7 @@ actual class Preferences actual constructor(name: String?) {
             null
         }
     }
-    //endregion
 
-    //region string
     actual fun setString(key: String, value: String) {
         return userDefault.setObject(value, key)
     }
@@ -79,9 +73,7 @@ actual class Preferences actual constructor(name: String?) {
             null
         }
     }
-    //endregion
 
-    //region boolean
     actual fun setBoolean(key: String, value: Boolean) {
         return userDefault.setBool(value, key)
     }
@@ -99,7 +91,6 @@ actual class Preferences actual constructor(name: String?) {
             null
         }
     }
-    //endregion
 
     actual fun hasKey(key: String): Boolean = userDefault.objectForKey(key) != null
 
