@@ -44,7 +44,7 @@ kotlin {
             embedBitcode(BitcodeEmbeddingMode.DISABLE)
             linkerOpts("-lsqlite3", "-application_extension", "-ld64")
             binaryOption("bundleId", "${appId}.sharedLib")
-            freeCompilerArgs += listOf("-Xoverride-konan-properties=minVersion.ios=14.0.0")
+            freeCompilerArgs += listOf("-Xoverride-konan-properties=minVersion.ios=14.0.0", "-Xexpect-actual-classes")
         }
     }
 
