@@ -46,6 +46,8 @@ class NotificationSchedulerIOS: NotificationScheduler {
                 UNUserNotificationCenter.current().add(request) { error in
                     if let error {
                         print("Notification scheduling failed (scheduling stage): \(String(describing: error))")
+                    } else {
+                        print("Notification scheduling succeed!")
                     }
                 }
             }
