@@ -126,6 +126,9 @@
     <string name="alert">Alarm</string>
     <string name="inactive_reminders_title">Inaktiv</string>
     <string name="n_occurrences">%1$d Vorkommen, letztes war %2$s</string>
+    <string name="customization_prompt_title">Wählen Sie Ihr Lieblingsthema</string>
+    <string name="customization_prompt_caption">Offnen Profil</string>
+
 
     <plurals name="years">
         <item quantity="one">Jahr</item>

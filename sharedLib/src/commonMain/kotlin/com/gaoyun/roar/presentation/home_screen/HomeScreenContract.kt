@@ -21,6 +21,7 @@ class HomeScreenContract {
         class OnInteractionCheckClicked(val pet: PetWithInteractions, val reminderId: String, val completed: Boolean, val completionDateTime: LocalDateTime) :
             Event()
 
+        data object RemoveCustomizationPromptClicked : Event()
         data object ToUserScreenClicked : Event()
         class ToEditPetClicked(val pet: PetWithInteractions) : Event()
     }
@@ -33,6 +34,7 @@ class HomeScreenContract {
         val showPetChooser: Boolean = false,
         val deletePetDialogShow: Boolean = false,
         val screenModeFull: Boolean = true,
+        val showCustomizationPrompt: Boolean = false,
     ) : ViewState
 
     sealed class Effect : ViewSideEffect {

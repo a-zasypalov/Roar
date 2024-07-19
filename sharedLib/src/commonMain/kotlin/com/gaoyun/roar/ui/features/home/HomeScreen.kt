@@ -168,6 +168,7 @@ fun HomeScreenDestination(onNavigationCall: (NavigationSideEffect) -> Unit) {
                 if (state.pets.isNotEmpty()) {
                     HomeState(
                         screenModeFull = state.screenModeFull,
+                        showCustomizationPrompt = state.showCustomizationPrompt,
                         pets = state.pets,
                         inactiveInteractions = state.inactiveInteractions,
                         onAddPetButtonClick = viewModel::openAddPetScreen,
@@ -193,6 +194,7 @@ fun HomeScreenDestination(onNavigationCall: (NavigationSideEffect) -> Unit) {
                             }
                         },
                         onUserDetailsClick = { viewModel.setEvent(HomeScreenContract.Event.ToUserScreenClicked) },
+                        onClosePromptClick = { viewModel.setEvent(HomeScreenContract.Event.RemoveCustomizationPromptClicked) },
                         state = verticalScroll
                     )
                 } else {

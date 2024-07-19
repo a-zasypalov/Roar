@@ -26,6 +26,7 @@ import com.gaoyun.roar.presentation.home_screen.HomeScreenContract
 import com.gaoyun.roar.ui.common.composables.AutoResizeText
 import com.gaoyun.roar.ui.common.composables.FontSizeRange
 import com.gaoyun.roar.ui.common.composables.Spacer
+import com.gaoyun.roar.ui.features.home.view.CustomizationPrompt
 import com.gaoyun.roar.ui.features.home.view.UserHomeHeader
 import com.gaoyun.roar.ui.features.pet.PetCard
 import com.gaoyun.roar.ui.features.pet.PetContainer
@@ -41,6 +42,7 @@ import roar.sharedlib.generated.resources.your_pets
 @Composable
 fun HomeState(
     screenModeFull: Boolean,
+    showCustomizationPrompt: Boolean,
     pets: List<PetWithInteractions>,
     inactiveInteractions: List<InteractionWithReminders>,
     onAddPetButtonClick: () -> Unit,
@@ -50,6 +52,7 @@ fun HomeState(
     onEditPetClick: (HomeScreenContract.Event.ToEditPetClicked) -> Unit,
     onInteractionCheckClicked: (pet: PetWithInteractions, interactionId: String, isChecked: Boolean, completionDateTime: LocalDateTime) -> Unit,
     onUserDetailsClick: () -> Unit,
+    onClosePromptClick: () -> Unit,
     state: LazyListState,
 ) {
 
@@ -64,10 +67,20 @@ fun HomeState(
 
             UserHomeHeader(
                 onAddPetButtonClick = onAddPetButtonClick,
-                onUserButtonButtonClick = onUserDetailsClick,
+                onUserButtonButtonClick = {
+                    if (showCustomizationPrompt) {
+                        onClosePromptClick()
+                    }
+                    onUserDetailsClick()
+                }
             )
 
             Spacer(size = 8.dp)
+
+            if (showCustomizationPrompt) {
+                CustomizationPrompt(onClosePromptClick, modifier = Modifier.padding(horizontal = 16.dp))
+                Spacer(size = 8.dp)
+            }
 
             PetContainer(
                 pet = pet,
@@ -97,7 +110,7 @@ fun HomeState(
                     )
                 },
                 modifier = Modifier
-                    .padding(start = 8.dp, end = 8.dp)
+                    .padding(horizontal = 8.dp)
                     .fillMaxWidth()
             )
         }
@@ -118,12 +131,21 @@ fun HomeState(
             item {
                 UserHomeHeader(
                     onAddPetButtonClick = onAddPetButtonClick,
-                    onUserButtonButtonClick = onUserDetailsClick,
+                    onUserButtonButtonClick = {
+                        if (showCustomizationPrompt) {
+                            onClosePromptClick()
+                        }
+                        onUserDetailsClick()
+                    },
                 )
             }
 
             item {
                 Spacer(size = 8.dp)
+                if (showCustomizationPrompt) {
+                    CustomizationPrompt(onClosePromptClick, modifier = Modifier.padding(horizontal = 16.dp))
+                    Spacer(size = 8.dp)
+                }
             }
             if (pets.size > 1) {
                 item {
@@ -176,7 +198,8 @@ fun HomeState(
 fun HomeStatePreview() {
     RoarThemePreview {
         HomeState(
-            true,
+            screenModeFull = true,
+            showCustomizationPrompt = true,
             listOf(PetWithInteractions.preview()),
             listOf(),
             {},
@@ -185,6 +208,7 @@ fun HomeStatePreview() {
             {},
             {},
             { _, _, _, _ -> },
+            {},
             {},
             rememberLazyListState()
         )

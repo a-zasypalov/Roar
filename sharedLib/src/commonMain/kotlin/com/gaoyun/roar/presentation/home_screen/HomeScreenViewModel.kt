@@ -58,6 +58,10 @@ class HomeScreenViewModel(
             }
 
             is HomeScreenContract.Event.OnInteractionCheckClicked -> setReminderComplete(event.pet, event.reminderId, event.completed, event.completionDateTime)
+            is HomeScreenContract.Event.RemoveCustomizationPromptClicked -> {
+                appPreferencesUseCase.closeCustomizationPrompt()
+                setState { copy(showCustomizationPrompt = false) }
+            }
         }
     }
 
@@ -88,12 +92,32 @@ class HomeScreenViewModel(
 
     private fun getPets(user: User) = scope.launch {
         val screenModeFull = appPreferencesUseCase.homeScreenModeFull()
+        val showCustomizationPrompt = appPreferencesUseCase.showCustomizationPrompt()
 
         interactionsListBuilder.buildPetState(user.id, screenModeFull).takeIf { it.isNotEmpty() }?.let { pets ->
-            val inactiveInteractions =
-                pets.takeIf { it.size == 1 }?.firstOrNull()?.id?.let { interactionsListBuilder.buildInactiveInteractionsListFor(it) } ?: listOf()
-            setState { copy(user = user, pets = pets, inactiveInteractions = inactiveInteractions, isLoading = false, screenModeFull = screenModeFull) }
-        } ?: setState { copy(user = user, pets = emptyList(), isLoading = false, screenModeFull = screenModeFull) }
+            val inactiveInteractions = pets.takeIf { it.size == 1 }?.firstOrNull()?.id?.let {
+                interactionsListBuilder.buildInactiveInteractionsListFor(it)
+            } ?: listOf()
+
+            setState {
+                copy(
+                    user = user,
+                    pets = pets,
+                    inactiveInteractions = inactiveInteractions,
+                    isLoading = false,
+                    screenModeFull = screenModeFull,
+                    showCustomizationPrompt = showCustomizationPrompt
+                )
+            }
+        } ?: setState {
+            copy(
+                user = user,
+                pets = emptyList(),
+                isLoading = false,
+                screenModeFull = screenModeFull,
+                showCustomizationPrompt = showCustomizationPrompt
+            )
+        }
     }
 
     private fun setReminderComplete(pet: PetWithInteractions, reminderId: String, isComplete: Boolean, completionDateTime: LocalDateTime) = scope.launch {

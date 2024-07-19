@@ -129,6 +129,8 @@
     <string name="on_date_arg">On %1$s</string>
     <string name="open_reminders_menu">Open Reminders Menu</string>
     <string name="no_breed">No breed</string>
+    <string name="customization_prompt_title">Pick your favourite theme &amp; icon</string>
+    <string name="customization_prompt_caption">Click Profile button</string>
 
     <plurals name="years">
         <item quantity="one">year</item>

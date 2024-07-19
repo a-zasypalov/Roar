@@ -44,7 +44,9 @@ class NotificationSchedulerIOS: NotificationScheduler {
                 let request = UNNotificationRequest(identifier: reminderData.workId, content: content, trigger: trigger)
 
                 UNUserNotificationCenter.current().add(request) { error in
-                    print("Notification scheduling failed (scheduling stage): \(String(describing: error))")
+                    if let error {
+                        print("Notification scheduling failed (scheduling stage): \(String(describing: error))")
+                    }
                 }
             }
         }

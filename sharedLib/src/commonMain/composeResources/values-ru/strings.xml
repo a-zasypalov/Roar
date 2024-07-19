@@ -128,6 +128,8 @@
     <string name="on_date_arg">%1$s</string>
     <string name="open_reminders_menu">Создать напоминания</string>
     <string name="no_breed">Без породы</string>
+    <string name="customization_prompt_title">Выберите вашу любимую тему</string>
+    <string name="customization_prompt_caption">Откройте Профиль</string>
 
     <plurals name="years">
         <item quantity="one" tools:ignore="ImpliedQuantity">год</item>
