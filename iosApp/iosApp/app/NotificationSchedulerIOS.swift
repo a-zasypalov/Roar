@@ -47,7 +47,7 @@ class NotificationSchedulerIOS: NotificationScheduler {
                     if let error {
                         print("Notification scheduling failed (scheduling stage): \(String(describing: error))")
                     } else {
-                        print("Notification scheduling succeed!")
+                        print("Notification scheduling succeed! (\(String(describing: trigger.nextTriggerDate()))")
                     }
                 }
             }

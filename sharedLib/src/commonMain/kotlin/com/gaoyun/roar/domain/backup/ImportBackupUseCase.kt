@@ -48,7 +48,7 @@ class ImportBackupUseCase(
                 insertInteraction.insertInteraction(interaction.withoutReminders()).firstOrNull()
                 return@flatMap interaction.reminders
             }.forEach { reminder ->
-                insertReminder.insertReminder(reminder).firstOrNull()
+                insertReminder.insertReminderAndScheduleNotification(reminder).firstOrNull()
             }
 
             emit(true)

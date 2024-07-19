@@ -1,6 +1,7 @@
 package com.gaoyun.roar.android.notifications
 
 import android.content.Context
+import android.util.Log
 import androidx.core.app.NotificationManagerCompat
 import androidx.work.CoroutineWorker
 import androidx.work.ExistingWorkPolicy
@@ -14,8 +15,10 @@ import com.gaoyun.roar.notification.toInputData
 import com.gaoyun.roar.notification.toNotificationData
 import com.gaoyun.roar.notifications.NotificationHandler
 import com.gaoyun.roar.util.randomUUID
+import kotlinx.datetime.Clock
+import kotlinx.datetime.TimeZone
 import kotlinx.datetime.toJavaLocalDateTime
-import kotlinx.datetime.toKotlinLocalDateTime
+import kotlinx.datetime.toLocalDateTime
 import java.time.LocalDateTime
 import java.time.temporal.ChronoUnit
 import java.util.UUID
@@ -27,7 +30,11 @@ class NotificationSchedulerImpl(
 ) : NotificationScheduler {
     override fun scheduleNotification(data: NotificationData) {
         if (!notificationManager.areNotificationsEnabled()) return
-        if (data.scheduled < LocalDateTime.now().toKotlinLocalDateTime()) return
+
+        val now = Clock.System.now().toLocalDateTime(TimeZone.currentSystemDefault())
+        Log.d("NotificationScheduler attempt", "Schedule notification: ${data.scheduled}, now: $now")
+
+        if (data.scheduled < now) return
         scheduleJob(data)
     }
 
@@ -44,6 +51,7 @@ class NotificationSchedulerImpl(
             .setInputData(data.item.toInputData(data.scheduled))
             .build()
 
+        Log.d("NotificationScheduler", "Scheduled notification: ${data.scheduled}")
         workManager.enqueueUniqueWork((data.item as? NotificationItem.Reminder)?.workId ?: randomUUID(), ExistingWorkPolicy.REPLACE, request)
     }
 

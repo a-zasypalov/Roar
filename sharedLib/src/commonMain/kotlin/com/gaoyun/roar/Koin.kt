@@ -172,7 +172,7 @@ val useCaseModule = module {
     single { RepeatConfigUseCase(get()) }
 
     single { GetReminder(get()) }
-    single { InsertReminder(get(), get()) }
+    single { InsertReminder(get(), get(), get()) }
     single { RemoveReminder(get(), get()) }
     single { SetReminderComplete(get(), get(), get(), get(), get(), get()) }
     single { AddNextReminder(get(), get(), get(), get(), get(), get()) }
