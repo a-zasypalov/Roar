@@ -99,9 +99,7 @@ class SignInWithAppleCoordinator: NSObject, ASAuthorizationControllerDelegate, A
 
                 // User is signed in to Firebase with Apple.
                 if let user = authResult?.user {
-                    let uid = user.uid
-                    let email = user.email ?? "No Email"
-                    self.registrationSuccessfulCallback?(uid, email)
+                    self.registrationSuccessfulCallback?(user.displayName ?? "Username", user.uid)
                 }
             }
         }
