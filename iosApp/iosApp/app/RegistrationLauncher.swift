@@ -112,6 +112,7 @@ class SignInWithAppleCoordinator: NSObject, ASAuthorizationControllerDelegate, A
     }
 
     func presentationAnchor(for controller: ASAuthorizationController) -> ASPresentationAnchor {
-        return UIApplication.shared.windows.first!
+        let window = UIApplication.shared.connectedScenes.first
+        return ((window as? UIWindowScene)?.windows.first)!
     }
 }

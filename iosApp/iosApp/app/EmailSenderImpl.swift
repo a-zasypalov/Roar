@@ -5,7 +5,8 @@ class EmailSenderImpl: NSObject, EmailSender, MFMailComposeViewControllerDelegat
 
     func sendSupportEmail(to: String, subject: String) {
         if MFMailComposeViewController.canSendMail() {
-            if let topController = UIApplication.shared.windows.first?.rootViewController {
+            let window = UIApplication.shared.connectedScenes.first
+            if let topController = (window as? UIWindowScene)?.windows.first?.rootViewController {
                 let mail = MFMailComposeViewController()
                 mail.mailComposeDelegate = self
                 mail.setToRecipients([to])
