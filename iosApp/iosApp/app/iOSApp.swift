@@ -1,28 +1,9 @@
-import SwiftUI
 import sharedLib
-import Firebase
-import GoogleSignIn
-
-class AppDelegate: NSObject, UIApplicationDelegate {
-
-    func application(_ application: UIApplication, 
-                     didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey : Any]? = nil) -> Bool
-    {
-        FirebaseApp.configure()
-        return true
-    }
-
-    func application(_ app: UIApplication,
-                     open url: URL,
-                     options: [UIApplication.OpenURLOptionsKey: Any] = [:]) -> Bool 
-    {
-        return GIDSignIn.sharedInstance.handle(url)
-    }
-
-}
+import SwiftUI
 
 @main
-struct iOSApp: App {
+struct iOSApp: App
+{
     @UIApplicationDelegateAdaptor(AppDelegate.self) var delegate
     @Environment(\.scenePhase) private var scenePhase
 
@@ -30,11 +11,10 @@ struct iOSApp: App {
     var synchronisationScheduler: SynchronisationSchedulerIOS? = nil
     @ObservedObject var themeChanger = ThemeChangerIOS()
 
-
-    init() {
+    init()
+    {
         synchronisationScheduler = SynchronisationSchedulerIOS(provider: provider)
         guard let synchronisationScheduler else { fatalError("Init error") }
-
 
         let appDeclaration = sharedLib.iOSAppDeclaration(
             registrationLauncher: RegistrationLauncherIos(),
@@ -49,15 +29,19 @@ struct iOSApp: App {
         KoinKt.doInitKoin(appDeclaration: appDeclaration)
     }
 
-	var body: some Scene {
-		WindowGroup {
+    var body: some Scene
+    {
+        WindowGroup
+        {
             ContentView()
                 .id(themeChanger.key)
-                .onChange(of: scenePhase) { newPhase in
-                    if newPhase == .background {
+                .onChange(of: scenePhase)
+                { newPhase in
+                    if newPhase == .background
+                    {
                         synchronisationScheduler?.scheduleSynchronisation(dispatchTime: DispatchTime.now())
                     }
                 }
-		}
-	}
+        }
+    }
 }
