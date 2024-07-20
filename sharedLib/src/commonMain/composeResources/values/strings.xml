@@ -94,7 +94,7 @@
     <string name="yes">Yes</string>
     <string name="next">Next</string>
     <string name="next_button">Next</string>
-    <string name="hey_user">Hey, %1$s</string>
+    <string name="hey_user">Hey %1$s</string>
     <string name="colors">Colors</string>
     <string name="user_screen_subtitle">Thank you for being with us</string>
     <string name="start">Start</string>
