@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Roar</string>
+    <string name="username">Username</string>
+    <string name="alert">Alert</string>
+    <string name="notification_permission_dialog_text">Notification permission is required, Please allow notification permission from setting</string>
+    <string name="notification_permission_rationale_dialog_text">Notification permission is required, to show notification</string>
+    <string name="ok">OK</string>
+    <string name="cancel">Cancel</string>
+</resources>

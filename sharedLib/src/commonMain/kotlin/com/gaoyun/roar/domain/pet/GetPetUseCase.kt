@@ -1,15 +1,14 @@
 package com.gaoyun.roar.domain.pet
 
+import com.gaoyun.roar.model.domain.Pet
 import com.gaoyun.roar.repository.PetRepository
-import com.gaoyun.roar.util.NoPetException
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
-import kotlin.coroutines.cancellation.CancellationException
 
 class GetPetUseCase(private val repository: PetRepository) {
 
-    @Throws(NoPetException::class, CancellationException::class)
-    fun getPet(petId: String) = flow {
-        emit(repository.getPet(petId) ?: throw NoPetException())
+    fun getPet(petId: String): Flow<Pet?> = flow {
+        emit(repository.getPet(petId))
     }
 
     fun getPets(petIds: List<String>) = flow {

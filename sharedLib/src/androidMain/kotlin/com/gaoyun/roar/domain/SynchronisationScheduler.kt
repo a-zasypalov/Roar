@@ -6,6 +6,7 @@ import androidx.work.ExistingWorkPolicy
 import androidx.work.OneTimeWorkRequestBuilder
 import androidx.work.WorkManager
 import androidx.work.WorkerParameters
+import com.gaoyun.roar.BuildConfig
 import com.gaoyun.roar.domain.backup.CreateBackupUseCase
 import com.gaoyun.roar.network.SynchronisationApi
 import kotlinx.coroutines.flow.catch
@@ -18,10 +19,11 @@ import java.util.concurrent.TimeUnit
 class SynchronisationSchedulerImpl : SynchronisationScheduler, KoinComponent {
 
     private val workManager: WorkManager by inject()
+    private val syncDelay = if (BuildConfig.DEBUG) 5L else 30L
 
     override fun scheduleSynchronisation() {
         val request = OneTimeWorkRequestBuilder<SynchronisationWorker>()
-            .setInitialDelay(30, TimeUnit.SECONDS)
+            .setInitialDelay(syncDelay, TimeUnit.SECONDS)
             .build()
 
         workManager.enqueueUniqueWork("sync", ExistingWorkPolicy.REPLACE, request)

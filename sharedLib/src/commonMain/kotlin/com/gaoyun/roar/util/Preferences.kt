@@ -13,6 +13,7 @@ object PreferencesKeys {
     const val LAST_SYNCHRONISED_HASH = "LAST_SYNCHRONISED_HASH"
     const val HOME_SCREEN_MODE_FULL = "HOME_SCREEN_MODE_FULL"
     const val LAST_UPDATE_CHECK_DATETIME = "LAST_UPDATE_CHECK_DATETIME"
+    const val SHOW_CUSTOMIZATION_PROMPT = "SHOW_CUSTOMIZATION_PROMPT"
 }
 
 expect class Preferences(name: String? = null) {

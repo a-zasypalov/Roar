@@ -7,15 +7,15 @@ import com.gaoyun.roar.presentation.ViewState
 class OnboardingScreenContract {
 
     sealed class Event : ViewEvent {
-        object OnboardingComplete : Event()
+        data object OnboardingComplete : Event()
     }
 
     object State : ViewState
 
     sealed class Effect : ViewSideEffect {
         sealed class Navigation : Effect() {
-            object NavigateBack : Navigation()
-            object ToHomeScreen : Navigation()
+            data object NavigateBack : Navigation()
+            data object ToHomeScreen : Navigation()
         }
     }
 }

@@ -10,14 +10,14 @@ import kotlinx.coroutines.launch
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 
-actual class SynchronisationApi : KoinComponent {
+class SynchronisationApiAndroid : KoinComponent, SynchronisationApi {
 
     private val storageRef = Firebase.storage.reference
     private val prefs: Preferences by inject()
     private val scope = MainScope()
     private val synchronisationUseCase: SynchronisationUseCase by inject()
 
-    actual fun sendBackup(backup: String) {
+    override fun sendBackup(backup: String) {
         prefs.getString(PreferencesKeys.CURRENT_USER_ID)?.let { userId ->
             storageRef.child("sync_data/$userId.json")
                 .putBytes(backup.encodeToByteArray())
@@ -26,21 +26,21 @@ actual class SynchronisationApi : KoinComponent {
         }
     }
 
-    actual suspend fun retrieveBackup(onFinish: ((Boolean) -> Unit)?) {
+    override suspend fun retrieveBackup(onFinish: ((Boolean) -> Unit)) {
         prefs.getString(PreferencesKeys.CURRENT_USER_ID)?.let { userId ->
             storageRef.child("sync_data/$userId.json")
                 .getBytes(Long.MAX_VALUE)
                 .addOnSuccessListener {
                     scope.launch {
                         println("Synced")
-                        synchronisationUseCase.sync(it).collect {
-                            onFinish?.invoke(it)
+                        synchronisationUseCase.sync(it).watch {
+                            onFinish.invoke(it)
                         }
                     }
                 }
                 .addOnFailureListener {
                     println("Sync failed!\n$it")
-                    onFinish?.invoke(false)
+                    onFinish.invoke(false)
                 }
         }
     }

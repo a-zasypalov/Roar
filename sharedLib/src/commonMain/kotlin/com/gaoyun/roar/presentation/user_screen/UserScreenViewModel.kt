@@ -7,10 +7,14 @@ import com.gaoyun.roar.domain.pet.GetPetUseCase
 import com.gaoyun.roar.domain.user.GetCurrentUserUseCase
 import com.gaoyun.roar.domain.user.LogoutUseCase
 import com.gaoyun.roar.network.SynchronisationApi
-import com.gaoyun.roar.presentation.BaseViewModel
+import com.gaoyun.roar.presentation.MultiplatformBaseViewModel
+import com.gaoyun.roar.util.AppIcon
+import com.gaoyun.roar.util.BackupHandler
 import com.gaoyun.roar.util.ColorTheme
+import com.gaoyun.roar.util.ThemeChanger
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.flow.map
@@ -24,9 +28,11 @@ class UserScreenViewModel(
     private val synchronisationApi: SynchronisationApi,
     private val logoutUseCase: LogoutUseCase,
     private val getPetUseCase: GetPetUseCase,
-) : BaseViewModel<UserScreenContract.Event, UserScreenContract.State, UserScreenContract.Effect>() {
+    private val themeChanger: ThemeChanger,
+    private val backupHandler: BackupHandler
+) : MultiplatformBaseViewModel<UserScreenContract.Event, UserScreenContract.State, UserScreenContract.Effect>() {
 
-    val backupState = MutableStateFlow("")
+    private val backupState = MutableStateFlow("")
 
     override fun setInitialState() = UserScreenContract.State(isLoading = true)
 
@@ -36,23 +42,21 @@ class UserScreenViewModel(
             is UserScreenContract.Event.OnLogout -> logout()
             is UserScreenContract.Event.OnEditAccountClick -> setEffect { UserScreenContract.Effect.Navigation.ToUserEdit }
             is UserScreenContract.Event.OnCreateBackupClick -> createBackup()
+            is UserScreenContract.Event.OnUseBackupClick -> backupHandler.importBackup { useBackup(it.backup, it.removeOld) }
             is UserScreenContract.Event.OnUseBackup -> useBackup(event.backup, event.removeOld)
             is UserScreenContract.Event.OnDynamicColorsStateChange -> setDynamicColor(event.active)
             is UserScreenContract.Event.OnStaticColorThemePick -> staticThemeChange(event.theme)
             is UserScreenContract.Event.OnNumberOfRemindersOnMainScreen -> setNumberOfRemindersOnMainScreen(event.newNumber)
             is UserScreenContract.Event.OnHomeScreenModeChange -> switchHomeScreenMode()
+            is UserScreenContract.Event.OnAppIconChange -> activateIcon(event.icon)
             is UserScreenContract.Event.OnAboutScreenClick -> setEffect { UserScreenContract.Effect.Navigation.ToAboutScreen }
-            is UserScreenContract.Event.NavigateBack -> {
-                setEffect { UserScreenContract.Effect.NavigateBack }
-            }
+            is UserScreenContract.Event.NavigateBack -> setEffect { UserScreenContract.Effect.NavigateBack }
         }
     }
 
     fun buildScreenState() = scope.launch {
         getUser.getCurrentUser()
-            .catch {
-                it.printStackTrace()
-            }
+            .filterNotNull()
             .collect { user ->
                 val numberOfPets = getPetUseCase.getPetByUserId(user.id).firstOrNull()?.size ?: 1
                 setState {
@@ -72,7 +76,9 @@ class UserScreenViewModel(
     private fun createBackup() = scope.launch {
         createBackupUseCase.createBackup().collect {
             backupState.value = it
-            setEffect { UserScreenContract.Effect.BackupReady }
+            backupHandler.exportBackup(it) {
+                setEffect { UserScreenContract.Effect.BackupCreated }
+            }
         }
     }
 
@@ -84,11 +90,13 @@ class UserScreenViewModel(
 
     private fun setDynamicColor(active: Boolean) {
         appPreferencesUseCase.setDynamicColors(active)
+        themeChanger.applyTheme()
         setState { copy(dynamicColorActive = active) }
     }
 
     private fun staticThemeChange(theme: ColorTheme) {
         appPreferencesUseCase.setStaticTheme(theme.name)
+        themeChanger.applyTheme()
         setState { copy(activeColorTheme = theme) }
     }
 
@@ -110,6 +118,10 @@ class UserScreenViewModel(
             .first()
         logoutUseCase.logout().firstOrNull()
         setEffect { UserScreenContract.Effect.LoggedOut }
+    }
+
+    private fun activateIcon(icon: AppIcon) {
+        themeChanger.activateIcon(icon)
     }
 
 }

@@ -1,14 +1,14 @@
 package com.gaoyun.roar.presentation.interactions
 
+import com.gaoyun.roar.domain.interaction.ActivateInteraction
 import com.gaoyun.roar.domain.interaction.GetInteraction
 import com.gaoyun.roar.domain.interaction.InsertInteraction
 import com.gaoyun.roar.domain.interaction.RemoveInteraction
-import com.gaoyun.roar.domain.interaction.ActivateInteraction
 import com.gaoyun.roar.domain.pet.GetPetUseCase
 import com.gaoyun.roar.domain.reminder.RemoveReminder
 import com.gaoyun.roar.domain.reminder.SetReminderComplete
 import com.gaoyun.roar.model.domain.interactions.withoutReminders
-import com.gaoyun.roar.presentation.BaseViewModel
+import com.gaoyun.roar.presentation.MultiplatformBaseViewModel
 import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.launch
 import kotlinx.datetime.LocalDateTime
@@ -21,7 +21,7 @@ class InteractionScreenViewModel(
     private val removeReminder: RemoveReminder,
     private val removeInteraction: RemoveInteraction,
     private val activateInteraction: ActivateInteraction,
-) : BaseViewModel<InteractionScreenContract.Event, InteractionScreenContract.State, InteractionScreenContract.Effect>() {
+) : MultiplatformBaseViewModel<InteractionScreenContract.Event, InteractionScreenContract.State, InteractionScreenContract.Effect>() {
 
     override fun setInitialState() = InteractionScreenContract.State(isLoading = true)
 

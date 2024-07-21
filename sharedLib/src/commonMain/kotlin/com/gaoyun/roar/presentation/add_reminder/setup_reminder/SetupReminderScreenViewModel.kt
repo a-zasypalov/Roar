@@ -17,9 +17,10 @@ import com.gaoyun.roar.model.domain.interactions.InteractionWithReminders
 import com.gaoyun.roar.model.domain.interactions.toInteractionRemindConfig
 import com.gaoyun.roar.model.domain.interactions.toInteractionRepeatConfig
 import com.gaoyun.roar.model.domain.interactions.withoutReminders
-import com.gaoyun.roar.presentation.BaseViewModel
+import com.gaoyun.roar.presentation.MultiplatformBaseViewModel
 import com.gaoyun.roar.util.randomUUID
 import com.gaoyun.roar.util.toLocalDate
+import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.launch
 import kotlinx.datetime.Instant
@@ -36,7 +37,7 @@ class SetupReminderScreenViewModel(
     private val insertReminder: InsertReminder,
     private val getInteraction: GetInteraction,
     private val notificationScheduler: NotificationScheduler,
-) : BaseViewModel<SetupReminderScreenContract.Event, SetupReminderScreenContract.State, SetupReminderScreenContract.Effect>() {
+) : MultiplatformBaseViewModel<SetupReminderScreenContract.Event, SetupReminderScreenContract.State, SetupReminderScreenContract.Effect>() {
 
     override fun setInitialState() = SetupReminderScreenContract.State(isLoading = true)
 
@@ -67,7 +68,7 @@ class SetupReminderScreenViewModel(
     }
 
     fun buildScreenState(petId: String, templateId: String, interactionId: String?) = scope.launch {
-        getPetUseCase.getPet(petId).collect { pet ->
+        getPetUseCase.getPet(petId).filterNotNull().collect { pet ->
             val interaction = interactionId?.let { getInteraction.getInteractionWithReminders(it).firstOrNull() }
             if (templateId == "null") {
                 setState {

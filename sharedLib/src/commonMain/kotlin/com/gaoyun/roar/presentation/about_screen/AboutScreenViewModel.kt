@@ -1,8 +1,11 @@
 package com.gaoyun.roar.presentation.about_screen
 
-import com.gaoyun.roar.presentation.BaseViewModel
+import com.gaoyun.roar.presentation.MultiplatformBaseViewModel
+import com.gaoyun.roar.util.EmailSender
 
-class AboutScreenViewModel : BaseViewModel<AboutScreenContract.Event, AboutScreenContract.State, AboutScreenContract.Effect>() {
+class AboutScreenViewModel(
+    private val emailSender: EmailSender,
+) : MultiplatformBaseViewModel<AboutScreenContract.Event, AboutScreenContract.State, AboutScreenContract.Effect>() {
 
     override fun setInitialState() = AboutScreenContract.State()
 
@@ -14,4 +17,7 @@ class AboutScreenViewModel : BaseViewModel<AboutScreenContract.Event, AboutScree
         }
     }
 
+    fun sendEmail(to: String, subject: String) {
+        emailSender.sendSupportEmail(to, subject)
+    }
 }

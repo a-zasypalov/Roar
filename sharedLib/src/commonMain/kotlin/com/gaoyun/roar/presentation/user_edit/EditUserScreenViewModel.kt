@@ -3,14 +3,13 @@ package com.gaoyun.roar.presentation.user_edit
 import com.gaoyun.roar.domain.user.EditUserUseCase
 import com.gaoyun.roar.domain.user.GetCurrentUserUseCase
 import com.gaoyun.roar.model.domain.User
-import com.gaoyun.roar.presentation.BaseViewModel
-import kotlinx.coroutines.flow.catch
+import com.gaoyun.roar.presentation.MultiplatformBaseViewModel
 import kotlinx.coroutines.launch
 
 class EditUserScreenViewModel(
     private val getUser: GetCurrentUserUseCase,
     private val editUserUseCase: EditUserUseCase,
-) : BaseViewModel<EditUserScreenContract.Event, EditUserScreenContract.State, EditUserScreenContract.Effect>() {
+) : MultiplatformBaseViewModel<EditUserScreenContract.Event, EditUserScreenContract.State, EditUserScreenContract.Effect>() {
 
     init {
         buildScreenState()
@@ -26,9 +25,7 @@ class EditUserScreenViewModel(
     }
 
     private fun buildScreenState() = scope.launch {
-        getUser.getCurrentUser()
-            .catch { it.printStackTrace() }
-            .collect { setState { copy(isLoading = false, userToEdit = it) } }
+        getUser.getCurrentUser().collect { setState { copy(isLoading = false, userToEdit = it) } }
     }
 
     private fun saveUserProfile(user: User) = scope.launch {

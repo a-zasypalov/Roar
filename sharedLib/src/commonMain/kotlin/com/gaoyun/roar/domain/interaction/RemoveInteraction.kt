@@ -25,7 +25,7 @@ class RemoveInteraction(
 
     fun removeInteractionByPetToSync(petId: String) = flow {
         getInteraction.getInteractionIdsByPet(petId).firstOrNull()?.forEach {
-            removeReminder.removeReminderByInteraction(it, scheduleSync = false).firstOrNull()
+            removeReminder.removeReminderByInteraction(it, scheduleSync = false, removeNotification = false).firstOrNull()
         }
         emit(repository.deletePetInteractions(petId))
     }

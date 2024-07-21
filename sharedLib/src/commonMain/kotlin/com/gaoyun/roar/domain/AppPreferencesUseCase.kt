@@ -3,6 +3,7 @@ package com.gaoyun.roar.domain
 import com.gaoyun.roar.util.Preferences
 import com.gaoyun.roar.util.PreferencesKeys
 import com.gaoyun.roar.util.PreferencesKeys.HOME_SCREEN_MODE_FULL
+import com.gaoyun.roar.util.PreferencesKeys.SHOW_CUSTOMIZATION_PROMPT
 
 class AppPreferencesUseCase(private val prefs: Preferences) {
 
@@ -14,5 +15,7 @@ class AppPreferencesUseCase(private val prefs: Preferences) {
     fun setNumberOfRemindersOnMainScreen(newNumber: Int) = prefs.setInt(PreferencesKeys.NUMBER_OF_REMINDERS_ON_MAIN_SCREEN, newNumber)
     fun homeScreenModeFull() = prefs.getBoolean(HOME_SCREEN_MODE_FULL, true)
     fun switchHomeScreenMode() = prefs.setBoolean(HOME_SCREEN_MODE_FULL, prefs.getBoolean(HOME_SCREEN_MODE_FULL, true).not())
+    fun showCustomizationPrompt() = prefs.getBoolean(SHOW_CUSTOMIZATION_PROMPT, true)
+    fun closeCustomizationPrompt() = prefs.setBoolean(SHOW_CUSTOMIZATION_PROMPT, false)
 
 }

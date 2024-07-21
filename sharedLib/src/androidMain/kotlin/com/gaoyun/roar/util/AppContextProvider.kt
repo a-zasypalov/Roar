@@ -40,7 +40,7 @@ fun Context.canLeakMemory(): Boolean = when (this) {
  *
  * If you don't want this code that uses reflection to ever run, see [injectAsAppCtx].
  */
-@SuppressLint("PrivateApi")
+@SuppressLint("PrivateApi", "DiscouragedPrivateApi")
 private fun initAndGetAppCtxWithReflection(): Context {
     // Fallback, should only run once per non default process.
     val activityThread = Class.forName("android.app.ActivityThread")

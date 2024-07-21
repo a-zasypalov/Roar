@@ -11,10 +11,9 @@ import com.gaoyun.roar.model.domain.PetWithInteractions
 import com.gaoyun.roar.model.domain.User
 import com.gaoyun.roar.model.domain.withInteractions
 import com.gaoyun.roar.network.SynchronisationApi
-import com.gaoyun.roar.presentation.BaseViewModel
-import com.gaoyun.roar.util.NoUserException
+import com.gaoyun.roar.presentation.MultiplatformBaseViewModel
+import com.gaoyun.roar.ui.features.registration.RegistrationLauncher
 import kotlinx.coroutines.delay
-import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
@@ -29,8 +28,8 @@ class HomeScreenViewModel(
     private val synchronisationApi: SynchronisationApi,
     private val registerUserUseCase: RegisterUserUseCase,
     private val interactionsListBuilder: InteractionsListBuilder,
-    private val syncApi: SynchronisationApi,
-) : BaseViewModel<HomeScreenContract.Event, HomeScreenContract.State, HomeScreenContract.Effect>() {
+    val registrationLauncher: RegistrationLauncher,
+) : MultiplatformBaseViewModel<HomeScreenContract.Event, HomeScreenContract.State, HomeScreenContract.Effect>() {
 
     override fun setInitialState() = HomeScreenContract.State(null, emptyList(), listOf(), true)
 
@@ -57,6 +56,10 @@ class HomeScreenViewModel(
             }
 
             is HomeScreenContract.Event.OnInteractionCheckClicked -> setReminderComplete(event.pet, event.reminderId, event.completed, event.completionDateTime)
+            is HomeScreenContract.Event.RemoveCustomizationPromptClicked -> {
+                appPreferencesUseCase.closeCustomizationPrompt()
+                setState { copy(showCustomizationPrompt = false) }
+            }
         }
     }
 
@@ -70,28 +73,48 @@ class HomeScreenViewModel(
 
     private fun loginUser(id: String) = scope.launch {
         registerUserUseCase.login(id)
-        syncApi.retrieveBackup { scope.launch { getUser() } }
+        synchronisationApi.retrieveBackup { scope.launch { getUser() } }
     }
 
     private suspend fun getUser() {
         getUserUseCase.getCurrentUser()
-            .catch {
-                it.printStackTrace()
-                if (it is NoUserException) {
-                    openRegistration()
-                }
+            .onEach { user ->
+                user.takeIf { it != null }?.let { safeUser ->
+                    synchronisationApi.retrieveBackup { getPets(safeUser) }
+                } ?: openRegistration()
             }
-            .onEach { synchronisationApi.retrieveBackup() }
+            .filterNotNull()
             .collect { getPets(it) }
     }
 
     private fun getPets(user: User) = scope.launch {
         val screenModeFull = appPreferencesUseCase.homeScreenModeFull()
+        val showCustomizationPrompt = appPreferencesUseCase.showCustomizationPrompt()
 
         interactionsListBuilder.buildPetState(user.id, screenModeFull).takeIf { it.isNotEmpty() }?.let { pets ->
-            val inactiveInteractions = pets.takeIf { it.size == 1 }?.firstOrNull()?.id?.let { interactionsListBuilder.buildInactiveInteractionsListFor(it) } ?: listOf()
-            setState { copy(user = user, pets = pets, inactiveInteractions = inactiveInteractions, isLoading = false, screenModeFull = screenModeFull) }
-        } ?: setState { copy(user = user, pets = emptyList(), isLoading = false, screenModeFull = screenModeFull) }
+            val inactiveInteractions = pets.takeIf { it.size == 1 }?.firstOrNull()?.id?.let {
+                interactionsListBuilder.buildInactiveInteractionsListFor(it)
+            } ?: listOf()
+
+            setState {
+                copy(
+                    user = user,
+                    pets = pets,
+                    inactiveInteractions = inactiveInteractions,
+                    isLoading = false,
+                    screenModeFull = screenModeFull,
+                    showCustomizationPrompt = showCustomizationPrompt
+                )
+            }
+        } ?: setState {
+            copy(
+                user = user,
+                pets = emptyList(),
+                isLoading = false,
+                screenModeFull = screenModeFull,
+                showCustomizationPrompt = showCustomizationPrompt
+            )
+        }
     }
 
     private fun setReminderComplete(pet: PetWithInteractions, reminderId: String, isComplete: Boolean, completionDateTime: LocalDateTime) = scope.launch {

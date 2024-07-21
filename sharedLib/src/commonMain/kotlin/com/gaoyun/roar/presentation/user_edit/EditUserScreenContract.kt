@@ -9,7 +9,7 @@ class EditUserScreenContract {
 
     sealed class Event : ViewEvent {
         class OnSaveAccountClick(val user: User) : Event()
-        object NavigateBack : Event()
+        data object NavigateBack : Event()
     }
 
     data class State(
@@ -18,7 +18,7 @@ class EditUserScreenContract {
     ) : ViewState
 
     sealed class Effect : ViewSideEffect {
-        object NavigateBack : Effect()
+        data object NavigateBack : Effect()
     }
 
 }

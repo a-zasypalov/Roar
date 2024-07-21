@@ -7,7 +7,6 @@ actual class Preferences actual constructor(name: String?) {
 
     private val sharedPreferences: SharedPreferences = application.getSharedPreferences(name, Context.MODE_PRIVATE)
 
-    //region int
     actual fun setInt(key: String, value: Int) {
         sharedPreferences.edit().putInt(key, value).apply()
     }
@@ -23,9 +22,7 @@ actual class Preferences actual constructor(name: String?) {
             null
         }
     }
-    //endregion
 
-    //region float
     actual fun setFloat(key: String, value: Float) {
         sharedPreferences.edit().putFloat(key, value).apply()
     }
@@ -41,9 +38,7 @@ actual class Preferences actual constructor(name: String?) {
             null
         }
     }
-    //endregion
 
-    //region long
     actual fun setLong(key: String, value: Long) {
         sharedPreferences.edit().putLong(key, value).apply()
     }
@@ -59,9 +54,7 @@ actual class Preferences actual constructor(name: String?) {
             null
         }
     }
-    //endregion
 
-    //region string
     actual fun setString(key: String, value: String) {
         sharedPreferences.edit().putString(key, value).apply()
     }
@@ -77,9 +70,7 @@ actual class Preferences actual constructor(name: String?) {
             null
         }
     }
-    //endregion
 
-    //region boolean
     actual fun getBoolean(key: String, defaultValue: Boolean): Boolean {
         return sharedPreferences.getBoolean(key, defaultValue)
     }
@@ -95,7 +86,6 @@ actual class Preferences actual constructor(name: String?) {
     actual fun setBoolean(key: String, value: Boolean) {
         sharedPreferences.edit().putBoolean(key, value).apply()
     }
-    //endregion
 
     actual fun hasKey(key: String): Boolean = sharedPreferences.contains(key)
 

@@ -1,15 +1,24 @@
+import org.jetbrains.kotlin.gradle.plugin.mpp.BitcodeEmbeddingMode
+
 plugins {
     alias(libs.plugins.android.library)
     alias(libs.plugins.kotlin.multiplatform)
     alias(libs.plugins.kotlin.serialization)
     alias(libs.plugins.sqldelight)
+    alias(libs.plugins.compose)
+    alias(libs.plugins.compose.compiler)
 }
 
+val appId = "com.gaoyun.roar"
+
 android {
-    namespace = "com.gaoyun.roar"
+    namespace = appId
     compileSdk = 34
     defaultConfig {
         minSdk = 26
+    }
+    buildFeatures {
+        buildConfig = true
     }
 }
 
@@ -28,14 +37,21 @@ kotlin {
     // Targets
     androidTarget()
     listOf(
-        iosX64(),
         iosArm64(),
-        iosSimulatorArm64()
+        iosSimulatorArm64(),
+        iosX64()
     ).forEach {
         it.binaries.framework {
             baseName = "sharedLib"
+            isStatic = true
+            embedBitcode(BitcodeEmbeddingMode.DISABLE)
+            linkerOpts("-lsqlite3", "-application_extension", "-ld64")
+            binaryOption("bundleId", "${appId}.sharedLib")
+            freeCompilerArgs += listOf("-Xoverride-konan-properties=minVersion.ios=14.0.0", "-Xexpect-actual-classes")
         }
     }
+
+    jvmToolchain(17)
 
     sourceSets {
         commonMain.dependencies {
@@ -50,6 +66,17 @@ kotlin {
             implementation(libs.ktor.contentnegotiation)
             implementation(libs.koin.core)
             implementation(libs.sqldelight.runtime)
+            implementation(libs.lifecycle.common)
+            implementation(libs.lifecycle.common.runtime)
+            implementation(libs.precompose)
+            implementation(libs.precompose.viewmodel)
+            implementation(libs.precompose.koin)
+            implementation(compose.runtime)
+            implementation(compose.foundation)
+            implementation(compose.material3)
+            implementation(compose.components.resources)
+            implementation(compose.materialIconsExtended)
+            implementation(compose.components.uiToolingPreview)
         }
         commonTest.dependencies {
             implementation(libs.kotlin.test)
@@ -58,16 +85,18 @@ kotlin {
             implementation(libs.koin.test)
         }
         androidMain.dependencies {
+            implementation(libs.androidx.activity.ktx)
             implementation(libs.androidx.lifecycle.runtime)
             implementation(libs.androidx.lifecycle.viewmodel)
             implementation(libs.androidx.work.runtime)
             implementation(libs.compose.ui)
-            implementation(libs.compose.material2)
+            implementation(libs.compose.material3)
             implementation(libs.koin.android)
             implementation(libs.sqldelight.androidDriver)
             implementation(project.dependencies.platform(libs.firebase.bom))
             implementation(libs.firebase.common)
             implementation(libs.firebase.storage)
+            implementation(libs.firebase.auth)
             implementation(libs.loggingInterceptor)
         }
         iosMain.dependencies {

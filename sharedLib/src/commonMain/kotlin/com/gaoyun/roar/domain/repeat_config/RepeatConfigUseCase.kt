@@ -35,9 +35,8 @@ class RepeatConfigUseCase(
     private fun getNextDateAccordingToRepeatConfig(
         repeatConfig: InteractionRepeatConfig,
         interaction: InteractionWithReminders,
-        from: LocalDate = Clock.System.now().toLocalDate()
+        from: LocalDate,
     ): LocalDate? {
-
         val unitToAdd = when (repeatConfig.repeatsEveryPeriod) {
             InteractionRepeatConfigEach.YEAR -> DateTimeUnit.YEAR
             InteractionRepeatConfigEach.MONTH -> DateTimeUnit.MONTH

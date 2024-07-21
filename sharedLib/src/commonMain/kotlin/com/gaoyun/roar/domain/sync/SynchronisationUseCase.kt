@@ -1,5 +1,6 @@
 package com.gaoyun.roar.domain.sync
 
+import com.gaoyun.roar.domain.NotificationScheduler
 import com.gaoyun.roar.domain.interaction.InsertInteraction
 import com.gaoyun.roar.domain.interaction.RemoveInteraction
 import com.gaoyun.roar.domain.pet.AddPetUseCase
@@ -14,6 +15,7 @@ import com.gaoyun.roar.model.domain.withoutInteractions
 import com.gaoyun.roar.model.domain.withoutPets
 import com.gaoyun.roar.util.Preferences
 import com.gaoyun.roar.util.PreferencesKeys
+import com.gaoyun.roar.util.asCommonFlow
 import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.flow.flow
 import kotlinx.serialization.SerializationException
@@ -28,6 +30,7 @@ class SynchronisationUseCase(
     private val removePetUseCase: RemovePetUseCase,
     private val removeInteraction: RemoveInteraction,
     private val editUserUseCase: EditUserUseCase,
+    private val notificationScheduler: NotificationScheduler,
     private val prefs: Preferences,
 ) {
 
@@ -40,7 +43,7 @@ class SynchronisationUseCase(
                 prefs.setLong(PreferencesKeys.LAST_SYNCHRONISED_TIMESTAMP, user.timestamp)
                 println("Apply synced data")
 
-                val currentUserId = getCurrentUserUseCase.getCurrentUser().firstOrNull()?.id ?: ""
+                val currentUserId = getCurrentUserUseCase.getCurrentUser().firstOrNull()?.id ?: return@flow
 
                 getPetUseCase.getPetByUserId(currentUserId)
                     .firstOrNull()
@@ -51,6 +54,19 @@ class SynchronisationUseCase(
 
                 editUserUseCase.update(user.withoutPets()).firstOrNull()
 
+                notificationScheduler.scheduledNotificationIds { scheduledJobIds ->
+                    val syncedJobs = user.pets.flatMap { pet ->
+                        pet.interactions.values.flatten().flatMap { interaction ->
+                            interaction.reminders.mapNotNull {
+                                it.notificationJobId
+                            }
+                        }
+                    }
+
+                    val jobsToCancel = scheduledJobIds.filter { !syncedJobs.contains(it) }
+                    notificationScheduler.cancelNotifications(jobsToCancel)
+                }
+
                 user.pets.map { pet ->
                     addPetUseCase.addPet(pet.withoutInteractions().copy(userId = currentUserId)).firstOrNull()
                     return@map pet
@@ -60,7 +76,7 @@ class SynchronisationUseCase(
                     insertInteraction.insertInteraction(interaction.withoutReminders()).firstOrNull()
                     return@flatMap interaction.reminders
                 }.forEach { reminder ->
-                    insertReminder.insertReminder(reminder).firstOrNull()
+                    insertReminder.insertReminderAndScheduleNotification(reminder).firstOrNull()
                 }
             }
 
@@ -69,6 +85,6 @@ class SynchronisationUseCase(
             e.printStackTrace()
             emit(false)
         }
-    }
+    }.asCommonFlow()
 
 }

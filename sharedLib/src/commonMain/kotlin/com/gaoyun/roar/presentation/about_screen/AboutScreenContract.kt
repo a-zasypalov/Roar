@@ -6,12 +6,12 @@ import com.gaoyun.roar.presentation.ViewState
 
 class AboutScreenContract {
     sealed class Event : ViewEvent {
-        object NavigateBack : Event()
+        data object NavigateBack : Event()
     }
 
     class State : ViewState
 
     sealed class Effect : ViewSideEffect {
-        object NavigateBack : Effect()
+        data object NavigateBack : Effect()
     }
 }

@@ -9,8 +9,8 @@ import com.gaoyun.roar.presentation.ViewState
 class AddPetSetupScreenContract {
     sealed class Event : ViewEvent {
         class PetInit(val petId: String) : Event()
-        object ContinueButtonClicked : Event()
-        object OpenTemplatesButtonClicked : Event()
+        data object ContinueButtonClicked : Event()
+        data object OpenTemplatesButtonClicked : Event()
     }
 
     data class State(

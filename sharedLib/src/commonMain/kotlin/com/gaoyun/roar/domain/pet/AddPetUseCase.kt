@@ -26,7 +26,7 @@ class AddPetUseCase(
         chipNumber: String,
         isSterilized: Boolean
     ) = flow {
-        val userId = getUserUseCase.getCurrentUser().firstOrNull()?.id ?: ""
+        val userId = getUserUseCase.getCurrentUser().firstOrNull()?.id ?: return@flow
         val pet = Pet(
             petType = petType.toPetType(),
             breed = breed,

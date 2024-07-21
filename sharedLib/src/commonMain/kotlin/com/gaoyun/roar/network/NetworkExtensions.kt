@@ -21,7 +21,6 @@ internal suspend fun <T> HttpClient.requestAndCatch(
     }
 )
 
-//TODO: Make own exception types
 internal fun Throwable.handleDefaultApiErrors(): Nothing =
     if (this is ResponseException) {
         when (this.response.status) {

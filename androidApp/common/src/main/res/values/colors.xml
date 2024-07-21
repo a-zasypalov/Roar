@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-    <color name="roar_orange">#FF9C36</color>
-    <color name="roar_white">#F4F9FD</color>
-    <color name="roar_gray_light">#EBEBEB</color>
-    <color name="roar_statusBarColor">#EBEBEB</color>
-    <color name="roar_gray">#909090</color>
-    <color name="roar_black">#20201F</color>
-</resources>
