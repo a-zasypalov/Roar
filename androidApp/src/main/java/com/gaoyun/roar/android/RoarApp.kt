@@ -53,7 +53,7 @@ class RoarApp : Application(), KoinComponent {
         single<ThemeChanger> { ThemeChangerAndroid(get()) }
         single<BackupHandler> { BackupHandlerImpl(get()) }
         single<SignOutExecutor> { SignOutExecutorImpl() }
-        single { ActivityProvider(androidApplication(), initialActivity) }
+        single { ActivityProvider(initialActivity) }
         single<EmailSender> { EmailSenderImpl(get()) }
         single<CloseAppActionHandler> { CloseAppActionHandlerImpl(get()) }
     }
@@ -65,14 +65,18 @@ class RoarApp : Application(), KoinComponent {
         override fun onActivityResumed(activity: Activity) {}
         override fun onActivityPaused(activity: Activity) {}
         override fun onActivityDestroyed(activity: Activity) {
-//            backupHandler.unregisterExecutor() //TODO: fix
-            initialActivity = null
+            (activity as? MainActivity)?.let { appActivity ->
+                backupHandler.unregisterExecutor()
+                initialActivity = null
+            }
 
         }
 
         override fun onActivityCreated(activity: Activity, savedInstanceState: Bundle?) {
-            initialActivity = activity
-//            backupHandler.registerExecutor() //TODO: fix
+            (activity as? MainActivity)?.let { appActivity ->
+                initialActivity = appActivity
+                backupHandler.registerExecutor()
+            }
         }
     }
 
