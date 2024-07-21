@@ -26,7 +26,7 @@ class SynchronisationApiIOS: SynchronisationApi {
             }
     }
 
-    func retrieveBackup(onFinish: ((KotlinBoolean) -> Void)?) async throws {
+    func retrieveBackup(onFinish: @escaping ((KotlinBoolean) -> Void)) async throws {
         let storageRef = Storage.storage().reference()
         guard let userId = provider.preferences.getString(key: currentUserPreferenceKey)
         else { return }
@@ -37,14 +37,14 @@ class SynchronisationApiIOS: SynchronisationApi {
             .getData(maxSize: Int64.max) { data, error in
                 if let error {
                     print("Sync failed! \n\(error)")
-                    if let onFinish { onFinish(false) }
+                    onFinish(false)
                 } else {
                     guard let backup = data else {
                         print("No sync data")
                         return
                     }
                     syncUseCase.sync(backup: KotlinByteArray.from(data: backup)).watch { result in
-                        if let onFinish { onFinish(result ?? false) }
+                        onFinish(result ?? false)
                         print("Synced")
                     }
                 }
