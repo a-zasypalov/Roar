@@ -6,6 +6,7 @@ import org.koin.core.component.KoinComponent
 
 class CloseAppActionHandlerImpl(private val activityProvider: ActivityProvider) : KoinComponent, CloseAppActionHandler {
     override fun closeApp() {
-        activityProvider.activeActivity?.finish()
+        activityProvider.mainActivity?.finishAffinity()
+        activityProvider.currentActivity?.finishAffinity()
     }
 }

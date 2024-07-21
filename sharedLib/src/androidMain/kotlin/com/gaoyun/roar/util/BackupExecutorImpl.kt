@@ -33,7 +33,7 @@ class BackupHandlerImpl(private val activityProvider: ActivityProvider) : KoinCo
     }
 
     override fun registerExecutor() {
-        (activityProvider.activeActivity as? AppCompatActivity)?.let { activity ->
+        (activityProvider.mainActivity as? AppCompatActivity)?.let { activity ->
             exportBackupLauncher = activity.registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
                 coroutineScope.launch {
                     if (result.resultCode == Activity.RESULT_OK) {

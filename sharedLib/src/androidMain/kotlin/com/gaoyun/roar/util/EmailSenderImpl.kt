@@ -9,6 +9,6 @@ class EmailSenderImpl(private val activityProvider: ActivityProvider) : EmailSen
         intent.type = "message/rfc822"
         intent.putExtra(Intent.EXTRA_EMAIL, arrayOf(to))
         intent.putExtra(Intent.EXTRA_SUBJECT, subject)
-        activityProvider.activeActivity?.startActivity(intent)
+        activityProvider.mainActivity?.startActivity(intent)
     }
 }

@@ -7,11 +7,11 @@ import org.koin.core.component.KoinComponent
 
 class ThemeChangerAndroid(private val activityProvider: ActivityProvider) : KoinComponent, ThemeChanger {
     override fun applyTheme() {
-        activityProvider.activeActivity?.recreate()
+        activityProvider.currentActivity?.recreate()
     }
 
     override fun activateIcon(icon: AppIcon) {
-        activityProvider.activeActivity?.let {
+        activityProvider.currentActivity?.let {
             val enable = when (icon) {
                 AppIcon.Roar -> "com.gaoyun.roar.android.ROAR.AMBER"
                 AppIcon.Paw -> "com.gaoyun.roar.android.PAW.AMBER"
