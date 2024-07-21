@@ -26,7 +26,7 @@ class SynchronisationApiAndroid : KoinComponent, SynchronisationApi {
         }
     }
 
-    override suspend fun retrieveBackup(onFinish: ((Boolean) -> Unit)?) {
+    override suspend fun retrieveBackup(onFinish: ((Boolean) -> Unit)) {
         prefs.getString(PreferencesKeys.CURRENT_USER_ID)?.let { userId ->
             storageRef.child("sync_data/$userId.json")
                 .getBytes(Long.MAX_VALUE)
@@ -34,13 +34,13 @@ class SynchronisationApiAndroid : KoinComponent, SynchronisationApi {
                     scope.launch {
                         println("Synced")
                         synchronisationUseCase.sync(it).watch {
-                            onFinish?.invoke(it)
+                            onFinish.invoke(it)
                         }
                     }
                 }
                 .addOnFailureListener {
                     println("Sync failed!\n$it")
-                    onFinish?.invoke(false)
+                    onFinish.invoke(false)
                 }
         }
     }
