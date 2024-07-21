@@ -86,7 +86,7 @@ class HomeScreenViewModel(
                     openRegistration()
                 }
             }
-            .onEach { synchronisationApi.retrieveBackup() }
+            .onEach { user -> synchronisationApi.retrieveBackup{ getPets(user) } }
             .collect { getPets(it) }
     }
 

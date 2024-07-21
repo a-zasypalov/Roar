@@ -6,13 +6,20 @@ class SynchronisationSchedulerIOS: SynchronisationScheduler {
     private var isSynchronizationScheduled = false
 
     let provider: KoinProvider
+    var syncTimeout: Int {
+        #if DEBUG
+        5
+        #else
+        30
+        #endif
+    }
 
     init(provider: KoinProvider) {
         self.provider = provider
     }
 
     func scheduleSynchronisation() {
-        scheduleSynchronisation(dispatchTime: DispatchTime.now() + 30)
+        scheduleSynchronisation(dispatchTime: DispatchTime.now() + syncTimeout)
     }
 
     func scheduleSynchronisation(dispatchTime: DispatchTime) {

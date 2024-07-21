@@ -14,14 +14,16 @@ import kotlinx.coroutines.flow.map
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 import java.util.concurrent.TimeUnit
+import com.gaoyun.roar.BuildConfig
 
 class SynchronisationSchedulerImpl : SynchronisationScheduler, KoinComponent {
 
     private val workManager: WorkManager by inject()
+    private val syncDelay = if(BuildConfig.DEBUG) 5L else 30L
 
     override fun scheduleSynchronisation() {
         val request = OneTimeWorkRequestBuilder<SynchronisationWorker>()
-            .setInitialDelay(30, TimeUnit.SECONDS)
+            .setInitialDelay(syncDelay, TimeUnit.SECONDS)
             .build()
 
         workManager.enqueueUniqueWork("sync", ExistingWorkPolicy.REPLACE, request)
