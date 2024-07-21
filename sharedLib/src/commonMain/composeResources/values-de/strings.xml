@@ -128,6 +128,7 @@
     <string name="n_occurrences">%1$d Vorkommen, letztes war %2$s</string>
     <string name="customization_prompt_title">Wählen Sie Ihr Lieblingsthema</string>
     <string name="customization_prompt_caption">Offnen Profil</string>
+    <string name="empty_name_error_label">Name darf nicht leer sein</string>
 
 
     <plurals name="years">

@@ -131,6 +131,7 @@
     <string name="no_breed">No breed</string>
     <string name="customization_prompt_title">Pick your favourite theme &amp; icon</string>
     <string name="customization_prompt_caption">Click Profile button</string>
+    <string name="empty_name_error_label">Name shouldn't be empty</string>
 
     <plurals name="years">
         <item quantity="one">year</item>

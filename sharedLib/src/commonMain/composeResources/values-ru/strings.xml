@@ -130,6 +130,7 @@
     <string name="no_breed">Без породы</string>
     <string name="customization_prompt_title">Выберите вашу любимую тему</string>
     <string name="customization_prompt_caption">Откройте Профиль</string>
+    <string name="empty_name_error_label">Заполните поле имени</string>
 
     <plurals name="years">
         <item quantity="one" tools:ignore="ImpliedQuantity">год</item>

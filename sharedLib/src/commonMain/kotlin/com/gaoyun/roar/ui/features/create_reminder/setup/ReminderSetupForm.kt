@@ -62,6 +62,7 @@ import org.jetbrains.compose.resources.stringResource
 import roar.sharedlib.generated.resources.Res
 import roar.sharedlib.generated.resources.create
 import roar.sharedlib.generated.resources.date_time
+import roar.sharedlib.generated.resources.empty_name_error_label
 import roar.sharedlib.generated.resources.enable_repeat
 import roar.sharedlib.generated.resources.group
 import roar.sharedlib.generated.resources.name
@@ -341,6 +342,7 @@ internal fun ReminderSetupForm(
             Spacer(size = 16.dp)
         }
 
+        val emptyNameErrorLabel = stringResource(Res.string.empty_name_error_label)
         PrimaryElevatedButton(
             text = if (interactionToEdit != null) {
                 stringResource(resource = Res.string.save)
@@ -349,7 +351,7 @@ internal fun ReminderSetupForm(
             },
             onClick = {
                 if ((reminderName.value).isBlank()) {
-                    coroutineScope.launch { snackbarHost.showSnackbar("Name shouldn't be empty") } //TODO: Localize
+                    coroutineScope.launch { snackbarHost.showSnackbar(emptyNameErrorLabel) }
                 } else {
                     onSaveButtonClick(
                         reminderName.value,
