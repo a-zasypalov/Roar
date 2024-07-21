@@ -55,7 +55,7 @@ class PetScreenViewModel(
     }
 
     fun buildScreenState(petId: String) = scope.launch {
-        getPetUseCase.getPet(petId).collect { pet ->
+        getPetUseCase.getPet(petId).filterNotNull().collect { pet ->
             getInteraction.getInteractionByPet(pet.id).collect { interactions ->
                 setState {
                     copy(

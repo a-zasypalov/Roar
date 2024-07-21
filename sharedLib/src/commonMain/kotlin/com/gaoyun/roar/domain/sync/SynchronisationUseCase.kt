@@ -43,7 +43,7 @@ class SynchronisationUseCase(
                 prefs.setLong(PreferencesKeys.LAST_SYNCHRONISED_TIMESTAMP, user.timestamp)
                 println("Apply synced data")
 
-                val currentUserId = getCurrentUserUseCase.getCurrentUser().firstOrNull()?.id ?: ""
+                val currentUserId = getCurrentUserUseCase.getCurrentUser().firstOrNull()?.id ?: return@flow
 
                 getPetUseCase.getPetByUserId(currentUserId)
                     .firstOrNull()

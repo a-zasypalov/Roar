@@ -23,7 +23,7 @@ class LogoutUseCase(
 
     fun logout() = flow {
         try {
-            val currentUserId = getCurrentUserUseCase.getCurrentUser().firstOrNull()?.id ?: ""
+            val currentUserId = getCurrentUserUseCase.getCurrentUser().firstOrNull()?.id ?: return@flow
             userRepository.deleteUsers()
 
             val petIds = getPetUseCase.getPetByUserId(currentUserId).firstOrNull() ?: listOf()

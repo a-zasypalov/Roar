@@ -14,6 +14,7 @@ import com.gaoyun.roar.util.ColorTheme
 import com.gaoyun.roar.util.ThemeChanger
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.flow.map
@@ -55,9 +56,7 @@ class UserScreenViewModel(
 
     fun buildScreenState() = scope.launch {
         getUser.getCurrentUser()
-            .catch {
-                it.printStackTrace()
-            }
+            .filterNotNull()
             .collect { user ->
                 val numberOfPets = getPetUseCase.getPetByUserId(user.id).firstOrNull()?.size ?: 1
                 setState {

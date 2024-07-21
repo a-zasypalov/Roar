@@ -20,6 +20,7 @@ import com.gaoyun.roar.model.domain.interactions.withoutReminders
 import com.gaoyun.roar.presentation.MultiplatformBaseViewModel
 import com.gaoyun.roar.util.randomUUID
 import com.gaoyun.roar.util.toLocalDate
+import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.launch
 import kotlinx.datetime.Instant
@@ -67,7 +68,7 @@ class SetupReminderScreenViewModel(
     }
 
     fun buildScreenState(petId: String, templateId: String, interactionId: String?) = scope.launch {
-        getPetUseCase.getPet(petId).collect { pet ->
+        getPetUseCase.getPet(petId).filterNotNull().collect { pet ->
             val interaction = interactionId?.let { getInteraction.getInteractionWithReminders(it).firstOrNull() }
             if (templateId == "null") {
                 setState {

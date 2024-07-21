@@ -13,9 +13,7 @@ import com.gaoyun.roar.model.domain.withInteractions
 import com.gaoyun.roar.network.SynchronisationApi
 import com.gaoyun.roar.presentation.MultiplatformBaseViewModel
 import com.gaoyun.roar.ui.features.registration.RegistrationLauncher
-import com.gaoyun.roar.util.NoUserException
 import kotlinx.coroutines.delay
-import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
@@ -80,13 +78,12 @@ class HomeScreenViewModel(
 
     private suspend fun getUser() {
         getUserUseCase.getCurrentUser()
-            .catch {
-                it.printStackTrace()
-                if (it is NoUserException) {
-                    openRegistration()
-                }
+            .onEach { user ->
+                user.takeIf { it != null }?.let { safeUser ->
+                    synchronisationApi.retrieveBackup { getPets(safeUser) }
+                } ?: openRegistration()
             }
-            .onEach { user -> synchronisationApi.retrieveBackup{ getPets(user) } }
+            .filterNotNull()
             .collect { getPets(it) }
     }
 

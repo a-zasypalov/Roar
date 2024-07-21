@@ -6,6 +6,7 @@ import com.gaoyun.roar.domain.pet.GetPetUseCase
 import com.gaoyun.roar.model.domain.PetWithInteractions
 import com.gaoyun.roar.model.domain.withInteractions
 import com.gaoyun.roar.presentation.MultiplatformBaseViewModel
+import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.launch
 
@@ -26,7 +27,7 @@ class AddReminderScreenViewModel(
     }
 
     fun buildScreenState(petId: String) = scope.launch {
-        getPetUseCase.getPet(petId).collect { pet ->
+        getPetUseCase.getPet(petId).filterNotNull().collect { pet ->
             getInteractionTemplates(pet.withInteractions(getInteraction.getInteractionByPet(pet.id).firstOrNull()))
         }
     }

@@ -30,7 +30,7 @@ class ImportBackupUseCase(
     fun importBackup(backup: ByteArray, removeOld: Boolean) = flow {
         try {
             val user = Json.decodeFromString(UserWithPets.serializer(), backup.decodeToString())
-            val currentUserId = getCurrentUserUseCase.getCurrentUser().firstOrNull()?.id ?: ""
+            val currentUserId = getCurrentUserUseCase.getCurrentUser().firstOrNull()?.id ?: return@flow
 
             if (removeOld) {
                 val petIds = getPetUseCase.getPetByUserId(currentUserId).firstOrNull() ?: listOf()
