@@ -52,15 +52,15 @@ class NotificationSchedulerIOS: NotificationScheduler
             guard let d = convertLocalDateTimeToSwiftDate(localDateTime: data.scheduled)
             else { return }
 
-            let oneHour: TimeInterval = 3_600
-
             let triggerInterval = if d.timeIntervalSinceNow > 0
             {
                 d.timeIntervalSinceNow
             }
             else
             {
-                oneHour
+                TimeInterval(integerLiteral: 0)
+                //TODO: implement controlled late notification
+                // oneHour (let oneHour: TimeInterval = 3_600)
             }
 
             if triggerInterval > 0
