@@ -31,6 +31,7 @@
 		10E946FA29EA90E60015D8A8 /* sharedLib.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 10E946F929EA90E60015D8A8 /* sharedLib.framework */; };
 		10E946FB29EA90E60015D8A8 /* sharedLib.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 10E946F929EA90E60015D8A8 /* sharedLib.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		10FA38ED2C4BB76100439512 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10FA38EC2C4BB76100439512 /* AppDelegate.swift */; };
+		10FA38F02C4D709500439512 /* DebugPrint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10FA38EF2C4D709500439512 /* DebugPrint.swift */; };
 		2152FB042600AC8F00CF470E /* iOSApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2152FB032600AC8F00CF470E /* iOSApp.swift */; };
 		7555FF83242A565900829871 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7555FF82242A565900829871 /* ContentView.swift */; };
 /* End PBXBuildFile section */
@@ -68,6 +69,7 @@
 		108DF50C2C4A7077007054C7 /* Config.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = Config.xcconfig; sourceTree = "<group>"; };
 		10E946F929EA90E60015D8A8 /* sharedLib.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = sharedLib.framework; path = ../sharedLib/build/bin/iosSimulatorArm64/debugFramework/sharedLib.framework; sourceTree = "<group>"; };
 		10FA38EC2C4BB76100439512 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		10FA38EF2C4D709500439512 /* DebugPrint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DebugPrint.swift; sourceTree = "<group>"; };
 		2152FB032600AC8F00CF470E /* iOSApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = iOSApp.swift; sourceTree = "<group>"; };
 		7555FF7B242A565900829871 /* Roar.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Roar.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		7555FF82242A565900829871 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -126,6 +128,7 @@
 				103AE8842C45B67100652653 /* SignOutExecutorImpl.swift */,
 				10246DD62C46C8F00048D002 /* EmailSenderImpl.swift */,
 				10FA38EC2C4BB76100439512 /* AppDelegate.swift */,
+				10FA38EF2C4D709500439512 /* DebugPrint.swift */,
 			);
 			path = app;
 			sourceTree = "<group>";
@@ -313,6 +316,7 @@
 				103AE8852C45B67100652653 /* SignOutExecutorImpl.swift in Sources */,
 				10FA38ED2C4BB76100439512 /* AppDelegate.swift in Sources */,
 				106FD1DF2BFFA1EA001C11EC /* NotificationSchedulerIOS.swift in Sources */,
+				10FA38F02C4D709500439512 /* DebugPrint.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
