@@ -1,4 +1,8 @@
 [versions]
+# App
+app-name = "1.1.0"
+app-code = "10101"
+
 # Plugins
 agp = "8.3.2"
 kotlin = "2.0.0"

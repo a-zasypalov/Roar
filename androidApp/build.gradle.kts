@@ -7,22 +7,14 @@ plugins {
 }
 
 android {
-
-    val versionMajor = 1
-    val versionMinor = 1
-    val versionPatch = 0
-
-    val versionCodeValue = versionMajor * 10000 + versionMinor * 100 + versionPatch
-    val versionNameValue = "${versionMajor}.${versionMinor}.${versionPatch}"
-
     namespace = "com.gaoyun.roar.android"
     compileSdk = 34
     defaultConfig {
         applicationId = "com.gaoyun.roar.android"
         minSdk = 26
         targetSdk = 34
-        versionCode = versionCodeValue
-        versionName = versionNameValue
+        versionCode = libs.versions.app.code.get().toInt()
+        versionName = libs.versions.app.name.get()
     }
     buildFeatures {
         compose = true
