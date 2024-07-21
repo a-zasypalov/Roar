@@ -65,14 +65,14 @@ class RoarApp : Application(), KoinComponent {
         override fun onActivityResumed(activity: Activity) {}
         override fun onActivityPaused(activity: Activity) {}
         override fun onActivityDestroyed(activity: Activity) {
-//            backupHandler.unregisterExecutor() TODO: fix
+//            backupHandler.unregisterExecutor() //TODO: fix
             initialActivity = null
 
         }
 
         override fun onActivityCreated(activity: Activity, savedInstanceState: Bundle?) {
             initialActivity = activity
-//            backupHandler.registerExecutor() TODO: fix
+//            backupHandler.registerExecutor() //TODO: fix
         }
     }
 

@@ -1,5 +1,6 @@
 package com.gaoyun.roar.domain.sync
 
+import com.gaoyun.roar.domain.NotificationScheduler
 import com.gaoyun.roar.domain.interaction.InsertInteraction
 import com.gaoyun.roar.domain.interaction.RemoveInteraction
 import com.gaoyun.roar.domain.pet.AddPetUseCase
@@ -29,6 +30,7 @@ class SynchronisationUseCase(
     private val removePetUseCase: RemovePetUseCase,
     private val removeInteraction: RemoveInteraction,
     private val editUserUseCase: EditUserUseCase,
+    private val notificationScheduler: NotificationScheduler,
     private val prefs: Preferences,
 ) {
 
@@ -51,6 +53,19 @@ class SynchronisationUseCase(
                     }
 
                 editUserUseCase.update(user.withoutPets()).firstOrNull()
+
+                notificationScheduler.scheduledNotificationIds { scheduledJobIds ->
+                    val syncedJobs = user.pets.flatMap { pet ->
+                        pet.interactions.values.flatten().flatMap { interaction ->
+                            interaction.reminders.mapNotNull {
+                                it.notificationJobId
+                            }
+                        }
+                    }
+
+                    val jobsToCancel = scheduledJobIds.filter { !syncedJobs.contains(it) }
+                    notificationScheduler.cancelNotifications(jobsToCancel)
+                }
 
                 user.pets.map { pet ->
                     addPetUseCase.addPet(pet.withoutInteractions().copy(userId = currentUserId)).firstOrNull()

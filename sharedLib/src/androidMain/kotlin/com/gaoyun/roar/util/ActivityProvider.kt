@@ -14,7 +14,7 @@ class ActivityProvider(application: Application, initialActivity: Activity?) : K
         application.registerActivityLifecycleCallbacks(object : Application.ActivityLifecycleCallbacks {
             override fun onActivityCreated(activity: Activity, savedInstanceState: Bundle?) {
                 activeActivity = activity
-//                backupHandler.registerExecutor() TODO: fix
+//                backupHandler.registerExecutor() //TODO: fix
             }
 
             override fun onActivityStarted(activity: Activity) {}
@@ -23,7 +23,7 @@ class ActivityProvider(application: Application, initialActivity: Activity?) : K
             override fun onActivityStopped(activity: Activity) {}
             override fun onActivitySaveInstanceState(activity: Activity, outState: Bundle) {}
             override fun onActivityDestroyed(activity: Activity) {
-//                backupHandler.unregisterExecutor() TODO: fix
+//                backupHandler.unregisterExecutor() //TODO: fix
                 activeActivity = null
             }
         })

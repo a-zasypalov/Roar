@@ -14,10 +14,10 @@ class RemoveReminder(
         emit(repository.deleteReminder(id))
     }
 
-    fun removeReminderByInteraction(interactionId: String, scheduleSync: Boolean = true) = flow {
+    fun removeReminderByInteraction(interactionId: String, scheduleSync: Boolean = true, removeNotification: Boolean = true) = flow {
         repository.getRemindersByInteraction(interactionId)
             .mapNotNull { it.notificationJobId }
-            .forEach { notificationScheduler.cancelNotification(it) }
+            .forEach { if(removeNotification) notificationScheduler.cancelNotification(it) }
 
         emit(repository.deleteReminderByInteractionId(interactionId, scheduleSync))
     }

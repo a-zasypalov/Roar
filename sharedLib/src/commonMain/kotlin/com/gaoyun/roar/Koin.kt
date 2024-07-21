@@ -152,7 +152,7 @@ val useCaseModule = module {
     single { CheckUserExistingUseCase(get()) }
     single { EditUserUseCase(get()) }
     single { LogoutUseCase(get(), get(), get(), get(), get(), get(), get()) }
-    single { SynchronisationUseCase(get(), get(), get(), get(), get(), get(), get(), get(), get()) }
+    single { SynchronisationUseCase(get(), get(), get(), get(), get(), get(), get(), get(), get(), get()) }
 
     single { GetPetUseCase(get()) }
     single { AddPetUseCase(get(), get()) }
@@ -174,12 +174,12 @@ val useCaseModule = module {
     single { GetReminder(get()) }
     single { InsertReminder(get(), get(), get()) }
     single { RemoveReminder(get(), get()) }
-    single { SetReminderComplete(get(), get(), get(), get(), get(), get()) }
+    single { SetReminderComplete(get(), get(), get(), get(), get(), get(), get()) }
     single { AddNextReminder(get(), get(), get(), get(), get(), get()) }
     single { DeactivateInteraction(get(), get()) }
 
     single { CreateBackupUseCase(get(), get(), get(), get()) }
-    single { ImportBackupUseCase(get(), get(), get(), get(), get(), get(), get()) }
+    single { ImportBackupUseCase(get(), get(), get(), get(), get(), get(), get(), get()) }
     single { CompleteOnboardingUseCase(get()) }
     single { AppPreferencesUseCase(get()) }
 

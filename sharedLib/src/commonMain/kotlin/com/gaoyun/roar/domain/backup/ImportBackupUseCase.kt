@@ -1,5 +1,6 @@
 package com.gaoyun.roar.domain.backup
 
+import com.gaoyun.roar.domain.NotificationScheduler
 import com.gaoyun.roar.domain.interaction.InsertInteraction
 import com.gaoyun.roar.domain.interaction.RemoveInteraction
 import com.gaoyun.roar.domain.pet.AddPetUseCase
@@ -23,6 +24,7 @@ class ImportBackupUseCase(
     private val getPetUseCase: GetPetUseCase,
     private val removePetUseCase: RemovePetUseCase,
     private val removeInteraction: RemoveInteraction,
+    private val notificationScheduler: NotificationScheduler
 ) {
 
     fun importBackup(backup: ByteArray, removeOld: Boolean) = flow {
@@ -32,6 +34,8 @@ class ImportBackupUseCase(
 
             if (removeOld) {
                 val petIds = getPetUseCase.getPetByUserId(currentUserId).firstOrNull() ?: listOf()
+
+                notificationScheduler.cancelAllNotifications()
 
                 petIds.forEach {
                     removeInteraction.removeInteractionByPet(it.id).firstOrNull()
