@@ -6,20 +6,13 @@ class SynchronisationSchedulerIOS: SynchronisationScheduler {
     private var isSynchronizationScheduled = false
 
     let provider: KoinProvider
-    var syncTimeout: Int {
-        #if DEBUG
-        5
-        #else
-        30
-        #endif
-    }
 
     init(provider: KoinProvider) {
         self.provider = provider
     }
 
     func scheduleSynchronisation() {
-        scheduleSynchronisation(dispatchTime: DispatchTime.now() + syncTimeout)
+        scheduleSynchronisation(dispatchTime: getSyncTime())
     }
 
     func scheduleSynchronisation(dispatchTime: DispatchTime) {
@@ -48,5 +41,13 @@ class SynchronisationSchedulerIOS: SynchronisationScheduler {
             print("Sending Backup...")
             self.provider.synchronisationApi.sendBackup(backup: backupToSync as String)
         }
+    }
+
+    private func getSyncTime() -> DispatchTime {
+        #if DEBUG
+        return DispatchTime.now() + 5
+        #else
+        return DispatchTime.now() + 30
+        #endif
     }
 }
