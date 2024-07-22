@@ -131,6 +131,9 @@
     <string name="customization_prompt_title">Выберите вашу любимую тему</string>
     <string name="customization_prompt_caption">Откройте Профиль</string>
     <string name="empty_name_error_label">Заполните поле имени</string>
+    <string name="delete_account">Удалить аккаунт</string>
+    <string name="delete_account_dialog_title">Внимание!\nВы собираетесь полностью удалить аккаунт.</string>
+    <string name="delete_account_dialog_description">Подтвердите, что вы хотите удалить аккаунт навсегда. Вы сможете создать его заново, но все сохраненные данные на данный момент будут полностью удалены из приложения и с сервера.\n\nЭто действие нельзя отменить!</string>
 
     <plurals name="years">
         <item quantity="one" tools:ignore="ImpliedQuantity">год</item>

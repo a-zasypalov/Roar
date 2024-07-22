@@ -3,6 +3,7 @@ package com.gaoyun.roar.network
 import com.gaoyun.roar.domain.sync.SynchronisationUseCase
 import com.gaoyun.roar.util.Preferences
 import com.gaoyun.roar.util.PreferencesKeys
+import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.ktx.storage
 import kotlinx.coroutines.MainScope
@@ -26,7 +27,7 @@ class SynchronisationApiAndroid : KoinComponent, SynchronisationApi {
         }
     }
 
-    override suspend fun retrieveBackup(onFinish: ((Boolean) -> Unit)) {
+    override suspend fun retrieveBackup(onFinish: ((Boolean) -> Unit), onAuthException: () -> Unit) {
         prefs.getString(PreferencesKeys.CURRENT_USER_ID)?.let { userId ->
             storageRef.child("sync_data/$userId.json")
                 .getBytes(Long.MAX_VALUE)
@@ -41,6 +42,7 @@ class SynchronisationApiAndroid : KoinComponent, SynchronisationApi {
                 .addOnFailureListener {
                     println("Sync failed!\n$it")
                     onFinish.invoke(false)
+                    Firebase.auth.currentUser?.getIdToken(true)?.addOnFailureListener { e -> e.printStackTrace(); onAuthException() }
                 }
         }
     }

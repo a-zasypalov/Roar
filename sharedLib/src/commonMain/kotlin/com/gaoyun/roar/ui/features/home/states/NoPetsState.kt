@@ -25,6 +25,8 @@ import com.gaoyun.roar.ui.common.composables.PrimaryElevatedButton
 import com.gaoyun.roar.ui.common.composables.Spacer
 import com.gaoyun.roar.ui.theme.RoarTheme
 import com.gaoyun.roar.ui.theme.RoarThemePreview
+import com.gaoyun.roar.util.Platform
+import com.gaoyun.roar.util.PlatformNames
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
@@ -92,12 +94,13 @@ fun NoPetsState(
                 onClick = onAddPetButtonClick
             )
 
-            Spacer(size = 16.dp)
-
-            PrimaryElevatedButton(
-                text = stringResource(resource = Res.string.import_backup_in_profile),
-                onClick = onUserDetailsClick
-            )
+            if (Platform.name == PlatformNames.Android) {
+                Spacer(size = 16.dp)
+                PrimaryElevatedButton(
+                    text = stringResource(resource = Res.string.import_backup_in_profile),
+                    onClick = onUserDetailsClick
+                )
+            }
 
             Spacer(size = 64.dp)
         }

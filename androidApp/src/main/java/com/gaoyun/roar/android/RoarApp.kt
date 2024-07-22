@@ -14,6 +14,8 @@ import com.gaoyun.roar.domain.NotificationScheduler
 import com.gaoyun.roar.domain.SynchronisationScheduler
 import com.gaoyun.roar.domain.SynchronisationSchedulerImpl
 import com.gaoyun.roar.domain.SynchronisationWorker
+import com.gaoyun.roar.domain.user.DeleteRemoteAccountExecutor
+import com.gaoyun.roar.domain.user.DeleteRemoteAccountExecutorImpl
 import com.gaoyun.roar.initKoin
 import com.gaoyun.roar.migrations.MigrationsExecutor
 import com.gaoyun.roar.navigation.CloseAppActionHandlerImpl
@@ -56,6 +58,7 @@ class RoarApp : Application(), KoinComponent {
         single { ActivityProvider(androidApplication(), initialActivity) }
         single<EmailSender> { EmailSenderImpl(get()) }
         single<CloseAppActionHandler> { CloseAppActionHandlerImpl(get()) }
+        single<DeleteRemoteAccountExecutor> { DeleteRemoteAccountExecutorImpl(get()) }
     }
 
     private val activityCallback = object : ActivityLifecycleCallbacks {

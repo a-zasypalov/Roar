@@ -23,7 +23,8 @@ struct iOSApp: App
             themeChanger: themeChanger,
             notificationScheduler: NotificationSchedulerIOS(provider: provider),
             signOutExecutor: SignOutExecutorImpl(),
-            emailSender: EmailSenderImpl()
+            emailSender: EmailSenderImpl(), 
+            deleteRemoteAccountExecutor: DeleteRemoteAccountExecutorImpl(provider: provider)
         )
 
         KoinKt.doInitKoin(appDeclaration: appDeclaration)

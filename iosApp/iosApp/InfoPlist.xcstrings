@@ -1,0 +1,41 @@
+{
+  "sourceLanguage" : "en",
+  "strings" : {
+    "CFBundleName" : {
+      "comment" : "Bundle name",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Roar"
+          }
+        }
+      }
+    },
+    "NSUserTrackingUsageDescription" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Wir verwenden die Kennung Ihres Geräts, um die Funktionalität der App zu verbessern, die Stabilität durch Crashlytics zu erhöhen und Analysen zu sammeln, um die Interaktionen der Nutzer besser zu verstehen und Ihr Erlebnis zu verbessern."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "We use your device identifier to enhance app functionality, improve stability through Crashlytics, and gather analytics to better understand user interactions and improve your experience."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Мы используем идентификатор вашего устройства для повышения стабильности работы приложения и сбора аналитических данных об опыте использования."
+          }
+        }
+      }
+    }
+  },
+  "version" : "1.0"
+}

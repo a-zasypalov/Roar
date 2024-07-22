@@ -35,9 +35,7 @@ class PetRepositoryImpl(
     override suspend fun getPetsByUser(userId: String): List<Pet> {
         var cached = getCachedPetsByUser(userId)
         if (cached.isEmpty()) {
-            syncApi.retrieveBackup {
-                if (it) cached = getCachedPetsByUser(userId)
-            }
+            syncApi.retrieveBackup(onFinish = { if (it) cached = getCachedPetsByUser(userId) })
         }
 
         return cached

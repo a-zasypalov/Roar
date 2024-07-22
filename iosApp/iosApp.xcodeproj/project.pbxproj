@@ -10,7 +10,9 @@
 		058557BB273AAA24004C7B11 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 058557BA273AAA24004C7B11 /* Assets.xcassets */; };
 		058557D9273AAEEB004C7B11 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 058557D8273AAEEB004C7B11 /* Preview Assets.xcassets */; };
 		10246DD72C46C8F00048D002 /* EmailSenderImpl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10246DD62C46C8F00048D002 /* EmailSenderImpl.swift */; };
+		1032D9942C4E5AF40028315E /* DeleteRemoteAccountExecutorImpl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1032D9932C4E5AF40028315E /* DeleteRemoteAccountExecutorImpl.swift */; };
 		103AE8852C45B67100652653 /* SignOutExecutorImpl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 103AE8842C45B67100652653 /* SignOutExecutorImpl.swift */; };
+		10695E4B2C4E46550056B607 /* InfoPlist.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = 10695E4A2C4E46550056B607 /* InfoPlist.xcstrings */; };
 		1069E01C2BE8B9B5008B585F /* SynchronisationApi.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1069E01B2BE8B9B5008B585F /* SynchronisationApi.swift */; };
 		1069E01E2BE8DD6B008B585F /* SynchronisationScheduler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1069E01D2BE8DD6B008B585F /* SynchronisationScheduler.swift */; };
 		1069E0202BEA925A008B585F /* ThemeChanger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1069E01F2BEA925A008B585F /* ThemeChanger.swift */; };
@@ -54,8 +56,10 @@
 		058557BA273AAA24004C7B11 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		058557D8273AAEEB004C7B11 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		10246DD62C46C8F00048D002 /* EmailSenderImpl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmailSenderImpl.swift; sourceTree = "<group>"; };
+		1032D9932C4E5AF40028315E /* DeleteRemoteAccountExecutorImpl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeleteRemoteAccountExecutorImpl.swift; sourceTree = "<group>"; };
 		103AE8842C45B67100652653 /* SignOutExecutorImpl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignOutExecutorImpl.swift; sourceTree = "<group>"; };
 		104BA9BB2C4AF0A0005E6A2D /* Roar.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Roar.entitlements; sourceTree = "<group>"; };
+		10695E4A2C4E46550056B607 /* InfoPlist.xcstrings */ = {isa = PBXFileReference; lastKnownFileType = text.json.xcstrings; path = InfoPlist.xcstrings; sourceTree = "<group>"; };
 		1069E01B2BE8B9B5008B585F /* SynchronisationApi.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SynchronisationApi.swift; sourceTree = "<group>"; };
 		1069E01D2BE8DD6B008B585F /* SynchronisationScheduler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SynchronisationScheduler.swift; sourceTree = "<group>"; };
 		1069E01F2BEA925A008B585F /* ThemeChanger.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThemeChanger.swift; sourceTree = "<group>"; };
@@ -129,6 +133,7 @@
 				10246DD62C46C8F00048D002 /* EmailSenderImpl.swift */,
 				10FA38EC2C4BB76100439512 /* AppDelegate.swift */,
 				10FA38EF2C4D709500439512 /* DebugPrint.swift */,
+				1032D9932C4E5AF40028315E /* DeleteRemoteAccountExecutorImpl.swift */,
 			);
 			path = app;
 			sourceTree = "<group>";
@@ -160,6 +165,7 @@
 				058557BA273AAA24004C7B11 /* Assets.xcassets */,
 				7555FF8C242A565B00829871 /* Info.plist */,
 				058557D7273AAEEB004C7B11 /* Preview Content */,
+				10695E4A2C4E46550056B607 /* InfoPlist.xcstrings */,
 			);
 			path = iosApp;
 			sourceTree = "<group>";
@@ -248,6 +254,7 @@
 				058557D9273AAEEB004C7B11 /* Preview Assets.xcassets in Resources */,
 				058557BB273AAA24004C7B11 /* Assets.xcassets in Resources */,
 				10719D552BD7E5600044550A /* GoogleService-Info.plist in Resources */,
+				10695E4B2C4E46550056B607 /* InfoPlist.xcstrings in Resources */,
 				1069E0242BEC14A1008B585F /* paw@2x.png in Resources */,
 				108DF50E2C4A7077007054C7 /* Config.xcconfig in Resources */,
 				1069E02D2BEC199C008B585F /* roar@2x.png in Resources */,
@@ -311,6 +318,7 @@
 				10246DD72C46C8F00048D002 /* EmailSenderImpl.swift in Sources */,
 				1069E01E2BE8DD6B008B585F /* SynchronisationScheduler.swift in Sources */,
 				2152FB042600AC8F00CF470E /* iOSApp.swift in Sources */,
+				1032D9942C4E5AF40028315E /* DeleteRemoteAccountExecutorImpl.swift in Sources */,
 				7555FF83242A565900829871 /* ContentView.swift in Sources */,
 				10719D602BD7E7090044550A /* RegistrationLauncher.swift in Sources */,
 				103AE8852C45B67100652653 /* SignOutExecutorImpl.swift in Sources */,
@@ -450,7 +458,7 @@
 				CODE_SIGN_ENTITLEMENTS = Roar.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 3;
+				CURRENT_PROJECT_VERSION = 5;
 				DEVELOPMENT_ASSET_PATHS = "\"iosApp/Preview Content\"";
 				DEVELOPMENT_TEAM = 55554XNCXE;
 				ENABLE_PREVIEWS = YES;
@@ -490,7 +498,7 @@
 				CODE_SIGN_ENTITLEMENTS = Roar.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 3;
+				CURRENT_PROJECT_VERSION = 5;
 				DEVELOPMENT_ASSET_PATHS = "\"iosApp/Preview Content\"";
 				DEVELOPMENT_TEAM = 55554XNCXE;
 				ENABLE_PREVIEWS = YES;

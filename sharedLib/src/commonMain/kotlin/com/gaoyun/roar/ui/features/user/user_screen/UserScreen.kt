@@ -78,7 +78,8 @@ fun UserScreenDestination(
             onLogout = viewModel::setEvent,
             onAboutScreenButtonClick = viewModel::setEvent,
             onHomeScreenModeChange = viewModel::setEvent,
-            onIconChange = viewModel::setEvent
+            onIconChange = viewModel::setEvent,
+            onAccountDeleteConfirmed = viewModel::setEvent
         )
     }
 }

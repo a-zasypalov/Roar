@@ -132,6 +132,9 @@
     <string name="customization_prompt_title">Pick your favourite theme &amp; icon</string>
     <string name="customization_prompt_caption">Click Profile button</string>
     <string name="empty_name_error_label">Name shouldn't be empty</string>
+    <string name="delete_account">Delete account</string>
+    <string name="delete_account_dialog_title">Read carefully!\nYou're about to delete your account.</string>
+    <string name="delete_account_dialog_description">If you confirm, the account will be deleted permanently. You will be able to recreate it again, but all of your currently saved data will be completely erased from the app and server.\n\nThis step cannot be undone!</string>
 
     <plurals name="years">
         <item quantity="one">year</item>

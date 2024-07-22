@@ -21,6 +21,7 @@ import androidx.compose.material.icons.automirrored.filled.ListAlt
 import androidx.compose.material.icons.filled.Check
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.material3.AlertDialog
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ElevatedCard
 import androidx.compose.material3.HorizontalDivider
@@ -64,6 +65,9 @@ import roar.sharedlib.generated.resources.app_settings
 import roar.sharedlib.generated.resources.backup
 import roar.sharedlib.generated.resources.cancel
 import roar.sharedlib.generated.resources.colors
+import roar.sharedlib.generated.resources.delete_account
+import roar.sharedlib.generated.resources.delete_account_dialog_description
+import roar.sharedlib.generated.resources.delete_account_dialog_title
 import roar.sharedlib.generated.resources.dynamic_color_switcher_title
 import roar.sharedlib.generated.resources.hey_user
 import roar.sharedlib.generated.resources.home_screen_mode_switcher_title
@@ -84,12 +88,14 @@ internal fun UserScreenContent(
     onHomeScreenModeChange: (UserScreenContract.Event.OnHomeScreenModeChange) -> Unit,
     onStaticColorThemePick: (UserScreenContract.Event.OnStaticColorThemePick) -> Unit,
     onLogout: (UserScreenContract.Event.OnLogout) -> Unit,
+    onAccountDeleteConfirmed: (UserScreenContract.Event.OnAccountDeleteConfirmed) -> Unit,
     onAboutScreenButtonClick: (UserScreenContract.Event.OnAboutScreenClick) -> Unit,
     onIconChange: (UserScreenContract.Event.OnAppIconChange) -> Unit
 ) {
     val isDarkTheme = isSystemInDarkTheme()
     val scrollState = rememberScrollState()
     val showLogoutDialog = remember { mutableStateOf(false) }
+    val showDeleteAccountDialog = remember { mutableStateOf(false) }
 
     val supportDynamicColor = Platform.supportsDynamicColor
     val numberOfRemindersOnMainScreenState = remember { mutableStateOf(state.numberOfRemindersOnMainScreenState) }
@@ -115,6 +121,29 @@ internal fun UserScreenContent(
                     Text(stringResource(resource = Res.string.cancel))
                 }
             }
+        )
+    }
+
+    if (showDeleteAccountDialog.value) {
+        AlertDialog(
+            onDismissRequest = { showLogoutDialog.value = false },
+            title = { Text(stringResource(resource = Res.string.delete_account_dialog_title)) },
+            text = { Text(stringResource(resource = Res.string.delete_account_dialog_description)) },
+            confirmButton = {
+                TextButton(
+                    colors = ButtonDefaults.textButtonColors().copy(contentColor = MaterialTheme.colorScheme.error),
+                    onClick = {
+                        showDeleteAccountDialog.value = false
+                        onAccountDeleteConfirmed(UserScreenContract.Event.OnAccountDeleteConfirmed)
+                    }) {
+                    Text(stringResource(resource = Res.string.delete_account))
+                }
+            },
+            dismissButton = {
+                TextButton(onClick = { showDeleteAccountDialog.value = false }) {
+                    Text(stringResource(resource = Res.string.cancel))
+                }
+            },
         )
     }
 
@@ -399,6 +428,24 @@ internal fun UserScreenContent(
                     )
                 }
 
+                Spacer(size = 16.dp)
+
+                HorizontalDivider()
+
+                TextButton(
+                    onClick = {
+                        showDeleteAccountDialog.value = true
+                    },
+                    modifier = Modifier.align(Alignment.CenterHorizontally)
+                ) {
+                    Text(
+                        text = stringResource(resource = Res.string.delete_account),
+                        color = MaterialTheme.colorScheme.error,
+                        style = MaterialTheme.typography.titleMedium,
+                        modifier = Modifier.padding(horizontal = 32.dp, vertical = 8.dp)
+                    )
+                }
+
                 Spacer(size = 96.dp)
             }
         }
@@ -414,6 +461,6 @@ fun UserScreenPreview() {
             dynamicColorActive = false,
             user = User("id", "Tester")
         ),
-        {}, {}, {}, {}, {}, {}, {}, {}
+        {}, {}, {}, {}, {}, {}, {}, {}, {}
     )
 }

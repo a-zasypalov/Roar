@@ -6,6 +6,7 @@ import com.gaoyun.roar.domain.pet.RemovePetUseCase
 import com.gaoyun.roar.domain.reminder.SetReminderComplete
 import com.gaoyun.roar.domain.user.CheckUserExistingUseCase
 import com.gaoyun.roar.domain.user.GetCurrentUserUseCase
+import com.gaoyun.roar.domain.user.LogoutUseCase
 import com.gaoyun.roar.domain.user.RegisterUserUseCase
 import com.gaoyun.roar.model.domain.PetWithInteractions
 import com.gaoyun.roar.model.domain.User
@@ -15,6 +16,7 @@ import com.gaoyun.roar.presentation.MultiplatformBaseViewModel
 import com.gaoyun.roar.ui.features.registration.RegistrationLauncher
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.filterNotNull
+import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import kotlinx.datetime.LocalDateTime
@@ -28,6 +30,7 @@ class HomeScreenViewModel(
     private val synchronisationApi: SynchronisationApi,
     private val registerUserUseCase: RegisterUserUseCase,
     private val interactionsListBuilder: InteractionsListBuilder,
+    private val logoutUseCase: LogoutUseCase,
     val registrationLauncher: RegistrationLauncher,
 ) : MultiplatformBaseViewModel<HomeScreenContract.Event, HomeScreenContract.State, HomeScreenContract.Effect>() {
 
@@ -73,18 +76,29 @@ class HomeScreenViewModel(
 
     private fun loginUser(id: String) = scope.launch {
         registerUserUseCase.login(id)
-        synchronisationApi.retrieveBackup { scope.launch { getUser() } }
+        synchronisationApi.retrieveBackup(
+            onFinish = { scope.launch { getUser() } },
+            onAuthException = ::logout
+        )
     }
 
     private suspend fun getUser() {
         getUserUseCase.getCurrentUser()
             .onEach { user ->
                 user.takeIf { it != null }?.let { safeUser ->
-                    synchronisationApi.retrieveBackup { getPets(safeUser) }
+                    synchronisationApi.retrieveBackup(
+                        onFinish = { getPets(safeUser) },
+                        onAuthException = ::logout
+                    )
                 } ?: openRegistration()
             }
             .filterNotNull()
             .collect { getPets(it) }
+    }
+
+    private fun logout() = scope.launch {
+        logoutUseCase.logout().firstOrNull()
+        openRegistration()
     }
 
     private fun getPets(user: User) = scope.launch {

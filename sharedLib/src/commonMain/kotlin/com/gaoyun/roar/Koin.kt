@@ -27,6 +27,7 @@ import com.gaoyun.roar.domain.reminder.SetReminderComplete
 import com.gaoyun.roar.domain.repeat_config.RepeatConfigUseCase
 import com.gaoyun.roar.domain.sync.SynchronisationUseCase
 import com.gaoyun.roar.domain.user.CheckUserExistingUseCase
+import com.gaoyun.roar.domain.user.DeleteAccountUseCase
 import com.gaoyun.roar.domain.user.EditUserUseCase
 import com.gaoyun.roar.domain.user.GetCurrentUserUseCase
 import com.gaoyun.roar.domain.user.LogoutUseCase
@@ -89,6 +90,7 @@ fun initKoin(appDeclaration: iOSAppDeclaration) = startKoin {
         single { appDeclaration.notificationScheduler }
         single { appDeclaration.signOutExecutor }
         single { appDeclaration.emailSender }
+        single { appDeclaration.deleteRemoteAccountExecutor }
         single<BackupHandler> { NoopBackupHandler() }
         single<CloseAppActionHandler> { NoopCloseAppActionHandler() }
     }
@@ -130,14 +132,14 @@ val vmModule = module {
     factory { AppViewModel(get(), get(), get()) }
     factory { OnboardingViewModel(get()) }
     factory { RegisterUserViewModel(get(), get(), get()) }
-    factory { HomeScreenViewModel(get(), get(), get(), get(), get(), get(), get(), get(), get()) }
+    factory { HomeScreenViewModel(get(), get(), get(), get(), get(), get(), get(), get(), get(), get()) }
     factory { PetScreenViewModel(get(), get(), get(), get(), get()) }
     factory { AddPetPetTypeScreenViewModel() }
     factory { AddPetAvatarScreenViewModel(get()) }
     factory { AddPetSetupScreenViewModel(get()) }
     factory { AddPetDataScreenViewModel(get(), get(), get(), get()) }
     factory { InteractionScreenViewModel(get(), get(), get(), get(), get(), get(), get()) }
-    factory { UserScreenViewModel(get(), get(), get(), get(), get(), get(), get(), get(), get()) }
+    factory { UserScreenViewModel(get(), get(), get(), get(), get(), get(), get(), get(), get(), get()) }
     factory { EditUserScreenViewModel(get(), get()) }
     factory { AboutScreenViewModel(get()) }
     factory { AddReminderScreenViewModel(get(), get(), get()) }
@@ -153,6 +155,7 @@ val useCaseModule = module {
     single { EditUserUseCase(get()) }
     single { LogoutUseCase(get(), get(), get(), get(), get(), get(), get()) }
     single { SynchronisationUseCase(get(), get(), get(), get(), get(), get(), get(), get(), get(), get()) }
+    single { DeleteAccountUseCase(get(), get()) }
 
     single { GetPetUseCase(get()) }
     single { AddPetUseCase(get(), get()) }

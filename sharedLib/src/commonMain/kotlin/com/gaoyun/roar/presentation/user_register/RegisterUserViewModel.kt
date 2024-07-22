@@ -22,8 +22,6 @@ class RegisterUserViewModel(
 
     private fun registerUser(name: String, id: String) = scope.launch {
         registerUserUseCase.register(name, id)
-        syncApi.retrieveBackup {
-            setEffect { RegisterUserScreenContract.Effect.Navigation.ToPetAdding }
-        }
+        syncApi.retrieveBackup(onFinish = { setEffect { RegisterUserScreenContract.Effect.Navigation.ToPetAdding } })
     }
 }

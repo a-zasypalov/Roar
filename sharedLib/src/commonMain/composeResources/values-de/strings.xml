@@ -129,7 +129,9 @@
     <string name="customization_prompt_title">Wählen Sie Ihr Lieblingsthema</string>
     <string name="customization_prompt_caption">Offnen Profil</string>
     <string name="empty_name_error_label">Name darf nicht leer sein</string>
-
+    <string name="delete_account">Konto löschen</string>
+    <string name="delete_account_dialog_title">Achtung!\nSie sind dabei, Ihr Konto zu löschen.</string>
+    <string name="delete_account_dialog_description">Wenn Sie bestätigen, wird das Konto endgültig gelöscht. Sie können es zwar wieder neu erstellen, aber alle Ihre aktuell gespeicherten Daten werden vollständig von der App und dem Server gelöscht.\n\nDieser Schritt kann nicht rückgängig gemacht werden!</string>
 
     <plurals name="years">
         <item quantity="one">Jahr</item>

@@ -88,5 +88,7 @@
 	<array>
 		<string>UIInterfaceOrientationPortrait</string>
 	</array>
+	<key>NSUserTrackingUsageDescription</key>
+	<string>We use your device identifier to enhance app functionality, improve stability through Crashlytics, and gather analytics to better understand user interactions and improve your experience.</string>
 </dict>
 </plist>

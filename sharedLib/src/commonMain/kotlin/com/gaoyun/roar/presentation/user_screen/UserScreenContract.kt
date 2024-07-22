@@ -13,6 +13,7 @@ class UserScreenContract {
         data object OnDeleteAccountClick : Event()
         data object OnEditAccountClick : Event()
         data object OnLogout : Event()
+        data object OnAccountDeleteConfirmed : Event()
         data object OnAboutScreenClick : Event()
         data object OnCreateBackupClick : Event()
         data object OnUseBackupClick : Event()

@@ -4,6 +4,7 @@ import com.gaoyun.roar.domain.AppPreferencesUseCase
 import com.gaoyun.roar.domain.backup.CreateBackupUseCase
 import com.gaoyun.roar.domain.backup.ImportBackupUseCase
 import com.gaoyun.roar.domain.pet.GetPetUseCase
+import com.gaoyun.roar.domain.user.DeleteAccountUseCase
 import com.gaoyun.roar.domain.user.GetCurrentUserUseCase
 import com.gaoyun.roar.domain.user.LogoutUseCase
 import com.gaoyun.roar.network.SynchronisationApi
@@ -27,6 +28,7 @@ class UserScreenViewModel(
     private val appPreferencesUseCase: AppPreferencesUseCase,
     private val synchronisationApi: SynchronisationApi,
     private val logoutUseCase: LogoutUseCase,
+    private val deleteAccountUseCase: DeleteAccountUseCase,
     private val getPetUseCase: GetPetUseCase,
     private val themeChanger: ThemeChanger,
     private val backupHandler: BackupHandler
@@ -40,6 +42,7 @@ class UserScreenViewModel(
         when (event) {
             is UserScreenContract.Event.OnDeleteAccountClick -> {}
             is UserScreenContract.Event.OnLogout -> logout()
+            is UserScreenContract.Event.OnAccountDeleteConfirmed -> deleteAccount()
             is UserScreenContract.Event.OnEditAccountClick -> setEffect { UserScreenContract.Effect.Navigation.ToUserEdit }
             is UserScreenContract.Event.OnCreateBackupClick -> createBackup()
             is UserScreenContract.Event.OnUseBackupClick -> backupHandler.importBackup { useBackup(it.backup, it.removeOld) }
@@ -117,6 +120,13 @@ class UserScreenViewModel(
             .map { if (it != null) synchronisationApi.sendBackup(it) }
             .first()
         logoutUseCase.logout().firstOrNull()
+        setEffect { UserScreenContract.Effect.LoggedOut }
+    }
+
+    private fun deleteAccount() = scope.launch {
+        setState { copy(isLoading = true) }
+
+        deleteAccountUseCase.deleteAccount().firstOrNull()
         setEffect { UserScreenContract.Effect.LoggedOut }
     }
 

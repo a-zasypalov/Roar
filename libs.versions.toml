@@ -1,7 +1,7 @@
 [versions]
 # App
 app-name = "1.1.0"
-app-code = "10101"
+app-code = "10102"
 
 # Plugins
 agp = "8.3.2"
