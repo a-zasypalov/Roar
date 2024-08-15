@@ -10,6 +10,7 @@ import com.gaoyun.roar.android.notifications.NotificationSchedulerImpl
 import com.gaoyun.roar.android.notifications.handling.NotificationChannelProvider
 import com.gaoyun.roar.android.notifications.handling.NotificationDisplayingImpl
 import com.gaoyun.roar.android.platform_utils.RegistrationLauncherAndroid
+import com.gaoyun.roar.domain.NightlySyncWorker
 import com.gaoyun.roar.domain.NotificationScheduler
 import com.gaoyun.roar.domain.SynchronisationScheduler
 import com.gaoyun.roar.domain.SynchronisationSchedulerImpl
@@ -109,4 +110,5 @@ val notificationsModule = module {
     single { FcmService() }
     worker { NotificationSchedulerImpl.NotificationWorker(get(), get(), get()) }
     worker { SynchronisationWorker(get(), get(), get(), get()) }
+    worker { NightlySyncWorker(get(), get(), get()) }
 }

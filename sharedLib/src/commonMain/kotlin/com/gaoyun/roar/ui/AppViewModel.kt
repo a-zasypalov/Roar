@@ -1,6 +1,8 @@
 package com.gaoyun.roar.ui
 
 import androidx.compose.runtime.Composable
+import com.gaoyun.roar.domain.SynchronisationScheduler
+import com.gaoyun.roar.domain.user.GetCurrentUserUseCase
 import com.gaoyun.roar.presentation.BackNavigationEffect
 import com.gaoyun.roar.presentation.NavigationSideEffect
 import com.gaoyun.roar.ui.common.ColorsProvider
@@ -11,6 +13,7 @@ import com.gaoyun.roar.util.PreferencesKeys
 import kotlinx.coroutines.cancel
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
 import moe.tlaster.precompose.viewmodel.ViewModel
@@ -19,7 +22,9 @@ import moe.tlaster.precompose.viewmodel.viewModelScope
 class AppViewModel(
     private val colorsProvider: ColorsProvider,
     private val preferences: Preferences,
-    private val appNavigator: AppNavigator
+    private val appNavigator: AppNavigator,
+    synchronisationScheduler: SynchronisationScheduler,
+    getCurrentUserUseCase: GetCurrentUserUseCase,
 ) : ViewModel() {
 
     private val _event: MutableSharedFlow<NavigationSideEffect> = MutableSharedFlow()
@@ -30,6 +35,7 @@ class AppViewModel(
 
     init {
         scope.launch {
+            getCurrentUserUseCase.getCurrentUser().firstOrNull()?.run { synchronisationScheduler.scheduleNightlySynchronisation() }
             _event.collect {
                 handleNavigation(it)
             }

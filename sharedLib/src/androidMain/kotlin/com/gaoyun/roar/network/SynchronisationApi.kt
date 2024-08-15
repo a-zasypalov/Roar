@@ -42,7 +42,10 @@ class SynchronisationApiAndroid : KoinComponent, SynchronisationApi {
                 .addOnFailureListener {
                     println("Sync failed!\n$it")
                     onFinish.invoke(false)
-                    Firebase.auth.currentUser?.getIdToken(true)?.addOnFailureListener { e -> e.printStackTrace(); onAuthException() }
+                    Firebase.auth.currentUser?.getIdToken(true)?.addOnFailureListener { e ->
+                        e.printStackTrace()
+                        onAuthException()
+                    }
                 }
         }
     }
