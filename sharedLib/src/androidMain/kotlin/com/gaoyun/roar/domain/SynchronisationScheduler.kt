@@ -34,7 +34,6 @@ class SynchronisationSchedulerImpl : SynchronisationScheduler, KoinComponent {
 
     private val workManager: WorkManager by inject()
     private val context: Context by inject()
-    private val preferencesUseCase: AppPreferencesUseCase by inject()
     private val syncDelay = if (BuildConfig.DEBUG) 5L else 30L
 
     companion object {
@@ -51,21 +50,19 @@ class SynchronisationSchedulerImpl : SynchronisationScheduler, KoinComponent {
     }
 
     override fun scheduleNightlySynchronisation() {
-        if (preferencesUseCase.nightlyScheduledAt() < Clock.System.now().toEpochMilliseconds()) {
-            val scheduledTime = next3AMMillis()
-            Log.d(TAG, "Schedule nightly at: ${Instant.fromEpochMilliseconds(scheduledTime).toLocalDateTime(TimeZone.currentSystemDefault())}")
-            val alarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
-            val alarmIntent = Intent(context, NightlyAlarmReceiver::class.java).let { intent ->
-                PendingIntent.getBroadcast(context, NIGHTLY_SYNC_REQUEST_ID, intent, PendingIntent.FLAG_IMMUTABLE)
-            }
-            alarmManager.setAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, scheduledTime, alarmIntent)
-            preferencesUseCase.setNightlyScheduled(forTime = scheduledTime)
+        val scheduledTime = next3AMMillis()
+        Log.d(TAG, "Schedule nightly at: ${Instant.fromEpochMilliseconds(scheduledTime).toLocalDateTime(TimeZone.currentSystemDefault())}")
+        val alarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
+        val alarmIntent = Intent(context, NightlyAlarmReceiver::class.java).let { intent ->
+            PendingIntent.getBroadcast(context, NIGHTLY_SYNC_REQUEST_ID, intent, PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE)
         }
+        alarmManager.setAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, scheduledTime, alarmIntent)
     }
 
     private fun next3AMMillis(): Long {
         val now = Clock.System.now().toLocalDateTime(TimeZone.currentSystemDefault())
         val addHours = if (now.hour > 2) 24.hours else 0.hours
+        //For testing: val next3AM = Clock.System.now().plus(10.seconds).toLocalDateTime(TimeZone.currentSystemDefault())
         val next3AM = Clock.System.now().plus(addHours).toLocalDate().atTime(hour = 3, minute = 0)
         return next3AM.toInstant(TimeZone.currentSystemDefault()).toEpochMilliseconds()
     }

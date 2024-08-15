@@ -7,8 +7,6 @@ import com.gaoyun.roar.util.PreferencesKeys.SHOW_CUSTOMIZATION_PROMPT
 
 class AppPreferencesUseCase(private val prefs: Preferences) {
 
-    fun nightlyScheduledAt() = prefs.getLong(PreferencesKeys.NIGHTLY_SCHEDULED_AT, 0L)
-    fun setNightlyScheduled(forTime: Long) = prefs.setLong(PreferencesKeys.NIGHTLY_SCHEDULED_AT, forTime)
     fun dynamicColorsIsActive() = prefs.getBoolean(PreferencesKeys.DYNAMIC_COLORS_ACTIVE, true)
     fun setDynamicColors(active: Boolean) = prefs.setBoolean(PreferencesKeys.DYNAMIC_COLORS_ACTIVE, active)
     fun staticTheme() = prefs.getString(PreferencesKeys.COLOR_THEME)
