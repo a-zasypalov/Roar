@@ -110,5 +110,5 @@ val notificationsModule = module {
     single { FcmService() }
     worker { NotificationSchedulerImpl.NotificationWorker(get(), get(), get()) }
     worker { SynchronisationWorker(get(), get(), get(), get()) }
-    worker { NightlySyncWorker(get(), get(), get()) }
+    worker { NightlySyncWorker(get(), get(), get(), get()) }
 }

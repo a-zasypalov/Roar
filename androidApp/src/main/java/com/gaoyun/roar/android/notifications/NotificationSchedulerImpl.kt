@@ -16,8 +16,6 @@ import com.gaoyun.roar.notification.toInputData
 import com.gaoyun.roar.notification.toNotificationData
 import com.gaoyun.roar.notifications.NotificationHandler
 import com.gaoyun.roar.util.randomUUID
-import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.flow.map
 import kotlinx.datetime.Clock
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.toJavaLocalDateTime
@@ -28,6 +26,7 @@ import java.util.UUID
 import java.util.concurrent.TimeUnit
 
 const val NOTIFICATION_WORK_TAG = "NOTIFICATION_WORK_TAG"
+private const val TAG = "NotificationScheduler"
 
 class NotificationSchedulerImpl(
     private val workManager: WorkManager,
@@ -37,7 +36,7 @@ class NotificationSchedulerImpl(
         if (!notificationManager.areNotificationsEnabled()) return
 
         val now = Clock.System.now().toLocalDateTime(TimeZone.currentSystemDefault())
-        Log.d("NotificationScheduler", "Attempt to schedule notification: ${data.scheduled}, now: $now")
+        Log.d(TAG, "Attempt to schedule notification: ${data.scheduled}, now: $now")
 
         if (data.scheduled < now) return
         scheduleJob(data)
@@ -45,17 +44,17 @@ class NotificationSchedulerImpl(
 
     override fun cancelNotification(id: String?) {
         id?.let { workManager.cancelUniqueWork(it) }
-        Log.d("NotificationScheduler", "Cancelling job: $id")
+        Log.d(TAG, "Cancelling job: $id")
     }
 
     override fun cancelAllNotifications() {
         workManager.cancelAllWorkByTag(NOTIFICATION_WORK_TAG)
-        Log.d("NotificationScheduler", "Cancelling all jobs")
+        Log.d(TAG, "Cancelling all jobs")
     }
 
     override fun cancelNotifications(ids: List<String>) {
         ids.forEach { workManager.cancelUniqueWork(it) }
-        Log.d("NotificationScheduler", "Cancelling jobs: $ids")
+        Log.d(TAG, "Cancelling jobs: $ids")
     }
 
     override fun scheduledNotificationIds(completion: (List<String>) -> Unit) {
@@ -74,7 +73,7 @@ class NotificationSchedulerImpl(
             .setInputData(data.item.toInputData(data.scheduled))
             .build()
 
-        Log.d("NotificationScheduler", "Scheduled notification: ${data.scheduled} id:$workId")
+        Log.d(TAG, "Scheduled notification: ${data.scheduled} id:$workId")
         workManager.enqueueUniqueWork(workId.toString(), ExistingWorkPolicy.REPLACE, request)
     }
 

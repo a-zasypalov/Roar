@@ -60,10 +60,8 @@ class SynchronisationSchedulerImpl : SynchronisationScheduler, KoinComponent {
     }
 
     private fun next3AMMillis(): Long {
-        val now = Clock.System.now().toLocalDateTime(TimeZone.currentSystemDefault())
-        val addHours = if (now.hour > 2) 24.hours else 0.hours
         //For testing: val next3AM = Clock.System.now().plus(10.seconds).toLocalDateTime(TimeZone.currentSystemDefault())
-        val next3AM = Clock.System.now().plus(addHours).toLocalDate().atTime(hour = 3, minute = 0)
+        val next3AM = Clock.System.now().plus(24.hours).toLocalDate().atTime(hour = 3, minute = 0)
         return next3AM.toInstant(TimeZone.currentSystemDefault()).toEpochMilliseconds()
     }
 }

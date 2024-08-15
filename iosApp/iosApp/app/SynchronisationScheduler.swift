@@ -3,6 +3,7 @@ import sharedLib
 
 class SynchronisationSchedulerIOS: SynchronisationScheduler
 {
+    //To test: e -l objc -- (void)[[BGTaskScheduler sharedScheduler] _simulateLaunchForTaskWithIdentifier:@"com.gaoyun.roar.nightlySync"]
     private let nightlySyncTaskIdentifier = "com.gaoyun.roar.nightlySync"
     private let synchronizationQueue = DispatchQueue(label: "com.gaoyun.roar.syncQueue")
     private var isSynchronizationScheduled = false
@@ -23,8 +24,8 @@ class SynchronisationSchedulerIOS: SynchronisationScheduler
                     error in
                     print("Nightly sync completed")
                     if let error { print(error) }
-                    self.scheduleSynchronisation()
                     task.setTaskCompleted(success: error == nil)
+                    self.scheduleNightlySynchronisation()
                 }
             )
         }
@@ -73,8 +74,6 @@ class SynchronisationSchedulerIOS: SynchronisationScheduler
         }
     }
 
-
-
     func performSynchronization()
     {
         provider.createBackupUseCase.createBackupToSync().watch
@@ -97,21 +96,12 @@ class SynchronisationSchedulerIOS: SynchronisationScheduler
         calendar.timeZone = TimeZone.current
 
         var components = calendar.dateComponents([.year, .month, .day], from: now)
-
         components.hour = 3
         components.minute = 0
         components.second = 0
 
         let today3AM = calendar.date(from: components)!
-
-        if today3AM <= now
-        {
-            return calendar.date(byAdding: .day, value: 1, to: today3AM) ?? Date()
-        }
-        else
-        {
-            return today3AM
-        }
+        return calendar.date(byAdding: .day, value: 1, to: today3AM) ?? Date()
     }
 
     private func getSyncTime() -> DispatchTime

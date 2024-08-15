@@ -33,10 +33,12 @@ class NightlySyncWorker(
     context: Context,
     params: WorkerParameters,
     private val api: SynchronisationApi,
+    private val synchronisationScheduler: SynchronisationScheduler
 ) : CoroutineWorker(context, params) {
 
     override suspend fun doWork(): Result {
         api.retrieveBackup(onFinish = { Log.d(TAG, "Nightly sync succeed: $it") })
+        synchronisationScheduler.scheduleNightlySynchronisation()
         return Result.success()
     }
 }
