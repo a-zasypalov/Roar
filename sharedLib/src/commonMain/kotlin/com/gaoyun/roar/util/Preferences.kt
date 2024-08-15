@@ -14,6 +14,7 @@ object PreferencesKeys {
     const val HOME_SCREEN_MODE_FULL = "HOME_SCREEN_MODE_FULL"
     const val LAST_UPDATE_CHECK_DATETIME = "LAST_UPDATE_CHECK_DATETIME"
     const val SHOW_CUSTOMIZATION_PROMPT = "SHOW_CUSTOMIZATION_PROMPT"
+    const val NIGHTLY_SCHEDULED_AT = "NIGHTLY_SCHEDULED_AT"
 }
 
 expect class Preferences(name: String? = null) {

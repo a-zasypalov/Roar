@@ -73,10 +73,7 @@ class SynchronisationSchedulerIOS: SynchronisationScheduler
         }
     }
 
-    func stopNightlySynchronisation()
-    {
-        BGTaskScheduler.shared.cancel(taskRequestWithIdentifier: nightlySyncTaskIdentifier)
-    }
+
 
     func performSynchronization()
     {
