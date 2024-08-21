@@ -3,6 +3,7 @@ package com.gaoyun.roar.domain
 import com.gaoyun.roar.util.Preferences
 import com.gaoyun.roar.util.PreferencesKeys
 import com.gaoyun.roar.util.PreferencesKeys.HOME_SCREEN_MODE_FULL
+import com.gaoyun.roar.util.PreferencesKeys.LAST_SYNC
 import com.gaoyun.roar.util.PreferencesKeys.SHOW_CUSTOMIZATION_PROMPT
 
 class AppPreferencesUseCase(private val prefs: Preferences) {
@@ -17,5 +18,7 @@ class AppPreferencesUseCase(private val prefs: Preferences) {
     fun switchHomeScreenMode() = prefs.setBoolean(HOME_SCREEN_MODE_FULL, prefs.getBoolean(HOME_SCREEN_MODE_FULL, true).not())
     fun showCustomizationPrompt() = prefs.getBoolean(SHOW_CUSTOMIZATION_PROMPT, true)
     fun closeCustomizationPrompt() = prefs.setBoolean(SHOW_CUSTOMIZATION_PROMPT, false)
+    fun getLastSync() = prefs.getLong(LAST_SYNC, 0L)
+    fun setLastSync(at: Long) = prefs.setLong(LAST_SYNC, at)
 
 }

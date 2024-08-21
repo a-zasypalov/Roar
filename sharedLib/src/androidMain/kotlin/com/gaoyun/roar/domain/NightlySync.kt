@@ -10,6 +10,7 @@ import androidx.work.OneTimeWorkRequestBuilder
 import androidx.work.WorkManager
 import androidx.work.WorkerParameters
 import com.gaoyun.roar.network.SynchronisationApi
+import kotlinx.datetime.Clock
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 
@@ -33,12 +34,14 @@ class NightlySyncWorker(
     context: Context,
     params: WorkerParameters,
     private val api: SynchronisationApi,
-    private val synchronisationScheduler: SynchronisationScheduler
+    private val synchronisationScheduler: SynchronisationScheduler,
+    private val appPreferencesUseCase: AppPreferencesUseCase,
 ) : CoroutineWorker(context, params) {
 
     override suspend fun doWork(): Result {
         api.retrieveBackup(onFinish = { Log.d(TAG, "Nightly sync succeed: $it") })
         synchronisationScheduler.scheduleNightlySynchronisation()
+        appPreferencesUseCase.setLastSync(Clock.System.now().toEpochMilliseconds())
         return Result.success()
     }
 }

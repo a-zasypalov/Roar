@@ -7,6 +7,10 @@ import com.gaoyun.roar.presentation.ViewSideEffect
 import com.gaoyun.roar.presentation.ViewState
 import com.gaoyun.roar.util.AppIcon
 import com.gaoyun.roar.util.ColorTheme
+import kotlinx.datetime.Clock
+import kotlinx.datetime.LocalDateTime
+import kotlinx.datetime.TimeZone
+import kotlinx.datetime.toLocalDateTime
 
 class UserScreenContract {
     sealed class Event : ViewEvent {
@@ -52,6 +56,7 @@ class UserScreenContract {
         val activeColorTheme: ColorTheme = ColorTheme.Orange,
         val numberOfRemindersOnMainScreenState: String = "2",
         val numberOfPets: Int = 1,
+        val lastSync: LocalDateTime = Clock.System.now().toLocalDateTime(TimeZone.currentSystemDefault()),
         val user: User? = null,
     ) : ViewState
 

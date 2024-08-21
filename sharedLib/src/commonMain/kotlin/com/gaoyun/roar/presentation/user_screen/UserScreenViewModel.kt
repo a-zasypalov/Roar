@@ -20,6 +20,9 @@ import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
+import kotlinx.datetime.Instant
+import kotlinx.datetime.TimeZone
+import kotlinx.datetime.toLocalDateTime
 
 class UserScreenViewModel(
     private val getUser: GetCurrentUserUseCase,
@@ -70,6 +73,7 @@ class UserScreenViewModel(
                         dynamicColorActive = appPreferencesUseCase.dynamicColorsIsActive(),
                         screenModeFull = appPreferencesUseCase.homeScreenModeFull(),
                         numberOfRemindersOnMainScreenState = appPreferencesUseCase.numberOfRemindersOnMainScreen().toString(),
+                        lastSync = Instant.fromEpochMilliseconds(appPreferencesUseCase.getLastSync()).toLocalDateTime(TimeZone.currentSystemDefault()),
                         numberOfPets = numberOfPets
                     )
                 }

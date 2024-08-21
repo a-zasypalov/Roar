@@ -23,6 +23,7 @@ class SynchronisationSchedulerIOS: SynchronisationScheduler
                 completionHandler: {
                     error in
                     print("Nightly sync completed")
+                    self.provider.preferences.setLong(key: "LAST_SYNC", value: Int64(NSDate().timeIntervalSince1970 * 1000))
                     if let error { print(error) }
                     task.setTaskCompleted(success: error == nil)
                     self.scheduleNightlySynchronisation()
