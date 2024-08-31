@@ -448,8 +448,8 @@ internal fun UserScreenContent(
 
                 Spacer(size = 16.dp)
 
-                //TODO: remove in release
-                Text("Last sync: ${state.lastSync}")
+                //For debug info of latest background sync time
+                //Text("Last sync: ${state.lastSync}")
 
                 Spacer(size = 96.dp)
             }
