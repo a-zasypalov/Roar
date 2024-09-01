@@ -70,12 +70,10 @@ fun InteractionRepeatConfig.repeatConfigTextFull() =
                     append(" ")
                     repeatsEveryPeriodOn.toIntOrNull()?.let { dayNumber ->
                         append("$dayNumber ${stringResource(Res.string.day)}")
-                    } ?: if (repeatsEveryPeriodOn == InteractionRepeatConfig.REPEATS_EVERY_PERIOD_ON_LAST) {
-                        append(stringResource(Res.string.the_last_day))
-                    } else if (repeatsEveryPeriodOn == InteractionRepeatConfig.REPEATS_EVERY_PERIOD_ON_SAME) {
-                        append(stringResource(Res.string.the_same_day))
-                    } else {
-                        append("")
+                    } ?: when (repeatsEveryPeriodOn) {
+                        InteractionRepeatConfig.REPEATS_EVERY_PERIOD_ON_LAST -> append(stringResource(Res.string.the_last_day))
+                        InteractionRepeatConfig.REPEATS_EVERY_PERIOD_ON_SAME -> append(stringResource(Res.string.the_same_day))
+                        else -> append("")
                     }
                 }
 
@@ -85,7 +83,7 @@ fun InteractionRepeatConfig.repeatConfigTextFull() =
                     append(" ")
                     append(repeatsEveryPeriodOn.split(",")
                         .mapNotNull { it.toIntOrNull() }
-                        .map { stringArrayResource(Res.array.weekdays_short)[it - 1] }
+                        .map { stringArrayResource(Res.array.weekdays_short)[it - 1] } //Do not simplify - it will break
                         .joinToString(", ")
                     )
                 }

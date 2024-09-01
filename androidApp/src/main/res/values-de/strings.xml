@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Roar</string>
+    <string name="username">Benutzername</string>
+    <string name="alert">Alarm</string>
+    <string name="notification_permission_dialog_text">Benachrichtigungsberechtigung ist erforderlich, bitte erlauben Sie die Benachrichtigungsberechtigung in den Einstellungen</string>
+    <string name="notification_permission_rationale_dialog_text">Benachrichtigungsberechtigung ist erforderlich, um Benachrichtigungen anzuzeigen</string>
+    <string name="cancel">Abbrechen</string>
+</resources>

@@ -33,12 +33,12 @@ fun Context.canLeakMemory(): Boolean = when (this) {
 }
 
 /**
- * This methods is only run if [appCtx] is accessed while [AppCtxInitProvider] hasn't been
+ * This methods is only run if appCtx is accessed while AppCtxInitProvider hasn't been
  * initialized. This may happen in case you're accessing it outside the default process, or in case
- * you are accessing it in a [ContentProvider] with a higher priority than [AppCtxInitProvider]
+ * you are accessing it in a [ContentProvider] with a higher priority than AppCtxInitProvider
  * (900 at the time of writing this doc).
  *
- * If you don't want this code that uses reflection to ever run, see [injectAsAppCtx].
+ * If you don't want this code that uses reflection to ever run, see injectAsAppCtx.
  */
 @SuppressLint("PrivateApi", "DiscouragedPrivateApi")
 private fun initAndGetAppCtxWithReflection(): Context {

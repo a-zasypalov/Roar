@@ -15,7 +15,6 @@ class OnboardingScreenContract {
     sealed class Effect : ViewSideEffect {
         sealed class Navigation : Effect() {
             data object NavigateBack : Navigation()
-            data object ToHomeScreen : Navigation()
         }
     }
 }

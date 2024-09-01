@@ -81,7 +81,7 @@ import org.koin.dsl.module
 /**
  * iOS Koin initialisation entry point
  */
-fun initKoin(appDeclaration: iOSAppDeclaration) = startKoin {
+fun initKoin(appDeclaration: IOSAppDeclaration) = startKoin {
     val iosDependenciesModule = module {
         single { appDeclaration.registrationLauncher }
         single { appDeclaration.synchronisationApi }

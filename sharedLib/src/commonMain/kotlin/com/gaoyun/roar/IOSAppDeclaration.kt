@@ -9,7 +9,7 @@ import com.gaoyun.roar.util.EmailSender
 import com.gaoyun.roar.util.SignOutExecutor
 import com.gaoyun.roar.util.ThemeChanger
 
-class iOSAppDeclaration(
+class IOSAppDeclaration(
     val registrationLauncher: RegistrationLauncher,
     val synchronisationApi: SynchronisationApi,
     val synchronisationScheduler: SynchronisationScheduler,

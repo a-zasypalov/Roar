@@ -16,7 +16,7 @@ struct iOSApp: App
         synchronisationScheduler = SynchronisationSchedulerIOS(provider: provider)
         guard let synchronisationScheduler else { fatalError("Init error") }
 
-        let appDeclaration = sharedLib.iOSAppDeclaration(
+        let appDeclaration = sharedLib.IOSAppDeclaration(
             registrationLauncher: RegistrationLauncherIos(),
             synchronisationApi: SynchronisationApiIOS(provider: provider),
             synchronisationScheduler: synchronisationScheduler,

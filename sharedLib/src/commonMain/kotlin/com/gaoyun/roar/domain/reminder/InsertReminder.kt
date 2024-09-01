@@ -6,7 +6,6 @@ import com.gaoyun.roar.model.domain.NotificationData
 import com.gaoyun.roar.model.domain.NotificationItem
 import com.gaoyun.roar.model.domain.Reminder
 import com.gaoyun.roar.model.domain.interactions.InteractionRemindConfig
-import com.gaoyun.roar.model.domain.interactions.InteractionRepeatConfig
 import com.gaoyun.roar.repository.ReminderRepository
 import com.gaoyun.roar.util.randomUUID
 import kotlinx.coroutines.flow.firstOrNull

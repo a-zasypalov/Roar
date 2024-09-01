@@ -227,7 +227,7 @@ private fun LinkItem(icon: Painter, modifier: Modifier = Modifier) {
 fun AboutScreenPreview() {
     RoarThemePreview {
         SurfaceScaffold {
-            AboutScreenContent({})
+            AboutScreenContent{}
         }
     }
 }
