@@ -1,5 +1,5 @@
 package com.gaoyun.roar.notifications
 
-interface NotificationBadgeHandler {
+interface AppReminderInfoHandler {
     fun setShowBadge(count: Int)
 }

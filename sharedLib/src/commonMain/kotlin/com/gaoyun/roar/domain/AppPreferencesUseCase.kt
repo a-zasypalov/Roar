@@ -4,6 +4,7 @@ import com.gaoyun.roar.util.Preferences
 import com.gaoyun.roar.util.PreferencesKeys
 import com.gaoyun.roar.util.PreferencesKeys.HOME_SCREEN_MODE_FULL
 import com.gaoyun.roar.util.PreferencesKeys.LAST_SYNC
+import com.gaoyun.roar.util.PreferencesKeys.SCHEDULED_INFO_NOTIFICATION_DATETIME
 import com.gaoyun.roar.util.PreferencesKeys.SHOW_CUSTOMIZATION_PROMPT
 
 class AppPreferencesUseCase(private val prefs: Preferences) {
@@ -20,5 +21,7 @@ class AppPreferencesUseCase(private val prefs: Preferences) {
     fun closeCustomizationPrompt() = prefs.setBoolean(SHOW_CUSTOMIZATION_PROMPT, false)
     fun getLastSync() = prefs.getLong(LAST_SYNC, 0L)
     fun setLastSync(at: Long) = prefs.setLong(LAST_SYNC, at)
+    fun getLastScheduledInfoNotification() = prefs.getLong(SCHEDULED_INFO_NOTIFICATION_DATETIME, 0L)
+    fun setLastScheduledInfoNotification(at: Long) = prefs.setLong(SCHEDULED_INFO_NOTIFICATION_DATETIME, at)
 
 }

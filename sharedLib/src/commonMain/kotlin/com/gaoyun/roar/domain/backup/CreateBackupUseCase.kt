@@ -1,12 +1,14 @@
 package com.gaoyun.roar.domain.backup
 
+import com.gaoyun.roar.domain.NotificationScheduler
 import com.gaoyun.roar.domain.interaction.GetInteraction
 import com.gaoyun.roar.domain.pet.GetPetUseCase
 import com.gaoyun.roar.domain.user.GetCurrentUserUseCase
 import com.gaoyun.roar.model.domain.UserWithPets
 import com.gaoyun.roar.model.domain.withInteractions
 import com.gaoyun.roar.model.domain.withPets
-import com.gaoyun.roar.notifications.NotificationBadgeHandler
+import com.gaoyun.roar.notifications.AppReminderInfoHandler
+import com.gaoyun.roar.notifications.ScheduledInfoNotificationCreator
 import com.gaoyun.roar.util.Preferences
 import com.gaoyun.roar.util.PreferencesKeys
 import com.gaoyun.roar.util.PreferencesKeys.LAST_SYNCHRONISED_HASH
@@ -24,7 +26,9 @@ class CreateBackupUseCase(
     private val getCurrentUserUseCase: GetCurrentUserUseCase,
     private val getPetUseCase: GetPetUseCase,
     private val getInteraction: GetInteraction,
-    private val notificationBadgeHandler: NotificationBadgeHandler,
+    private val appReminderInfoHandler: AppReminderInfoHandler,
+    private val notificationScheduler: NotificationScheduler,
+    private val scheduledInfoNotificationCreator: ScheduledInfoNotificationCreator,
     private val prefs: Preferences,
 ) {
 
@@ -83,6 +87,11 @@ class CreateBackupUseCase(
                 }
             }
         }
-        notificationBadgeHandler.setShowBadge(remindersDates.count { it <= today })
+        remindersDates.count { it <= today }.takeIf { it > 0 }?.let { count ->
+            appReminderInfoHandler.setShowBadge(count)
+            scheduledInfoNotificationCreator.createScheduledInfoNotification()?.let {
+                notificationScheduler.scheduleNotification(it)
+            }
+        }
     }
 }

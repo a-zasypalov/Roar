@@ -38,6 +38,7 @@ import com.gaoyun.roar.network.InteractionTemplatesApi
 import com.gaoyun.roar.network.PetsApi
 import com.gaoyun.roar.notifications.NotificationContentMaker
 import com.gaoyun.roar.notifications.NotificationHandler
+import com.gaoyun.roar.notifications.ScheduledInfoNotificationCreator
 import com.gaoyun.roar.presentation.about_screen.AboutScreenViewModel
 import com.gaoyun.roar.presentation.add_pet.avatar.AddPetAvatarScreenViewModel
 import com.gaoyun.roar.presentation.add_pet.data.AddPetDataScreenViewModel
@@ -91,7 +92,7 @@ fun initKoin(appDeclaration: IOSAppDeclaration) = startKoin {
         single { appDeclaration.signOutExecutor }
         single { appDeclaration.emailSender }
         single { appDeclaration.deleteRemoteAccountExecutor }
-        single { appDeclaration.notificationBadgeHandler }
+        single { appDeclaration.appReminderInfoHandler }
         single<BackupHandler> { NoopBackupHandler() }
         single<CloseAppActionHandler> { NoopCloseAppActionHandler() }
     }
@@ -155,7 +156,7 @@ val useCaseModule = module {
     single { CheckUserExistingUseCase(get()) }
     single { EditUserUseCase(get()) }
     single { LogoutUseCase(get(), get(), get(), get(), get(), get(), get()) }
-    single { SynchronisationUseCase(get(), get(), get(), get(), get(), get(), get(), get(), get(), get(), get()) }
+    single { SynchronisationUseCase(get(), get(), get(), get(), get(), get(), get(), get(), get(), get(), get(), get()) }
     single { DeleteAccountUseCase(get(), get()) }
 
     single { GetPetUseCase(get()) }
@@ -182,7 +183,7 @@ val useCaseModule = module {
     single { AddNextReminder(get(), get(), get(), get(), get(), get()) }
     single { DeactivateInteraction(get(), get()) }
 
-    single { CreateBackupUseCase(get(), get(), get(), get(), get()) }
+    single { CreateBackupUseCase(get(), get(), get(), get(), get(), get(), get()) }
     single { ImportBackupUseCase(get(), get(), get(), get(), get(), get(), get(), get()) }
     single { CompleteOnboardingUseCase(get()) }
     single { AppPreferencesUseCase(get()) }
@@ -191,6 +192,7 @@ val useCaseModule = module {
 
     single { NotificationHandler(get(), get()) }
     single { NotificationContentMaker(get(), get(), get()) }
+    single { ScheduledInfoNotificationCreator(get()) }
 }
 
 val networkModule = module {

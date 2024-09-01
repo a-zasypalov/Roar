@@ -25,7 +25,7 @@ struct iOSApp: App
             signOutExecutor: SignOutExecutorImpl(),
             emailSender: EmailSenderImpl(), 
             deleteRemoteAccountExecutor: DeleteRemoteAccountExecutorImpl(provider: provider),
-            notificationBadgeHandler: NotificationBadgeHandlerImpl()
+            appReminderInfoHandler: AppReminderInfoHandlerImpl()
         )
 
         KoinKt.doInitKoin(appDeclaration: appDeclaration)

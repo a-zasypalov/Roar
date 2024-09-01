@@ -1,7 +1,7 @@
 import sharedLib
 import UIKit
 
-class NotificationBadgeHandlerImpl: NotificationBadgeHandler {
+class AppReminderInfoHandlerImpl: AppReminderInfoHandler {
     func setShowBadge(count: Int32) {
         UIApplication.shared.applicationIconBadgeNumber = Int(count)
     }

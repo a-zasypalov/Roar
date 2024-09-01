@@ -18,6 +18,12 @@ class NotificationHandler(
             is NotificationItem.Push -> {
                 handleImmediate(notification.item); true
             }
+
+            is NotificationItem.InfoReminder -> {
+                val content = maker.makeInfoNotification()
+                displaying.display(content.title, content.content)
+                return true
+            }
         }
     }
 

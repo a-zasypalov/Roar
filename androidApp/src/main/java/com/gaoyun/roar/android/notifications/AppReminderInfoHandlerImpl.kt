@@ -1,8 +1,8 @@
 package com.gaoyun.roar.android.notifications
 
-import com.gaoyun.roar.notifications.NotificationBadgeHandler
+import com.gaoyun.roar.notifications.AppReminderInfoHandler
 
-class NotificationBadgeHandlerImpl : NotificationBadgeHandler {
+class AppReminderInfoHandlerImpl : AppReminderInfoHandler {
     override fun setShowBadge(count: Int) {
         //Noop because Android doesn't support badge handling
     }

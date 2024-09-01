@@ -13,7 +13,8 @@ import com.gaoyun.roar.model.domain.UserWithPets
 import com.gaoyun.roar.model.domain.interactions.withoutReminders
 import com.gaoyun.roar.model.domain.withoutInteractions
 import com.gaoyun.roar.model.domain.withoutPets
-import com.gaoyun.roar.notifications.NotificationBadgeHandler
+import com.gaoyun.roar.notifications.AppReminderInfoHandler
+import com.gaoyun.roar.notifications.ScheduledInfoNotificationCreator
 import com.gaoyun.roar.util.Preferences
 import com.gaoyun.roar.util.PreferencesKeys
 import com.gaoyun.roar.util.asCommonFlow
@@ -34,7 +35,8 @@ class SynchronisationUseCase(
     private val removeInteraction: RemoveInteraction,
     private val editUserUseCase: EditUserUseCase,
     private val notificationScheduler: NotificationScheduler,
-    private val notificationBadgeHandler: NotificationBadgeHandler,
+    private val appReminderInfoHandler: AppReminderInfoHandler,
+    private val scheduledInfoNotificationCreator: ScheduledInfoNotificationCreator,
     private val prefs: Preferences,
 ) {
 
@@ -81,13 +83,18 @@ class SynchronisationUseCase(
                     insertInteraction.insertInteraction(interaction.withoutReminders()).firstOrNull()
                     return@flatMap interaction.reminders
                 }.forEach { reminder ->
-                    if (reminder.dateTime.date <= Clock.System.now().toLocalDate()) {
+                    if (!reminder.isCompleted && reminder.dateTime.date <= Clock.System.now().toLocalDate()) {
                         todayOrPastRemindersCount++
                     }
                     insertReminder.insertReminderAndScheduleNotification(reminder).firstOrNull()
                 }
 
-                notificationBadgeHandler.setShowBadge(todayOrPastRemindersCount)
+                todayOrPastRemindersCount.takeIf { it > 0 }?.let { count ->
+                    appReminderInfoHandler.setShowBadge(count)
+                    scheduledInfoNotificationCreator.createScheduledInfoNotification()?.let {
+                        notificationScheduler.scheduleNotification(it)
+                    }
+                }
             }
 
             emit(true)

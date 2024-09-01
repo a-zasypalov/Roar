@@ -8,6 +8,7 @@ import com.gaoyun.roar.util.formatDateTime
 import kotlinx.coroutines.flow.firstOrNull
 import org.jetbrains.compose.resources.getString
 import roar.sharedlib.generated.resources.Res
+import roar.sharedlib.generated.resources.app_name
 import roar.sharedlib.generated.resources.notification_content_dont_forget
 import roar.sharedlib.generated.resources.notification_title
 
@@ -31,6 +32,14 @@ class NotificationContentMaker(
                 ),
             )
         } else null
+    }
+
+    suspend fun makeInfoNotification(): NotificationContent {
+        //TODO: Add real content
+        return NotificationContent(
+            title = getString(Res.string.app_name),
+            content = "Test of the scheduled info notification"
+        )
     }
 }
 

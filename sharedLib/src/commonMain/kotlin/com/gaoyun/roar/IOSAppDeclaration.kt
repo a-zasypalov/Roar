@@ -4,7 +4,7 @@ import com.gaoyun.roar.domain.NotificationScheduler
 import com.gaoyun.roar.domain.SynchronisationScheduler
 import com.gaoyun.roar.domain.user.DeleteRemoteAccountExecutor
 import com.gaoyun.roar.network.SynchronisationApi
-import com.gaoyun.roar.notifications.NotificationBadgeHandler
+import com.gaoyun.roar.notifications.AppReminderInfoHandler
 import com.gaoyun.roar.ui.features.registration.RegistrationLauncher
 import com.gaoyun.roar.util.EmailSender
 import com.gaoyun.roar.util.SignOutExecutor
@@ -19,5 +19,5 @@ class IOSAppDeclaration(
     val signOutExecutor: SignOutExecutor,
     val emailSender: EmailSender,
     val deleteRemoteAccountExecutor: DeleteRemoteAccountExecutor,
-    val notificationBadgeHandler: NotificationBadgeHandler
+    val appReminderInfoHandler: AppReminderInfoHandler
 )

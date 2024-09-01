@@ -15,6 +15,7 @@ object PreferencesKeys {
     const val LAST_UPDATE_CHECK_DATETIME = "LAST_UPDATE_CHECK_DATETIME"
     const val SHOW_CUSTOMIZATION_PROMPT = "SHOW_CUSTOMIZATION_PROMPT"
     const val LAST_SYNC = "LAST_SYNC"
+    const val SCHEDULED_INFO_NOTIFICATION_DATETIME = "SCHEDULED_INFO_NOTIFICATION_DATETIME"
 }
 
 expect class Preferences(name: String? = null) {

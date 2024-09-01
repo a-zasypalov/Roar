@@ -11,8 +11,10 @@ class NotificationSchedulerIOS: NotificationScheduler
         self.provider = provider
     }
 
-    func scheduledNotificationIds(completion: @escaping ([String]) -> Void) {
-        UNUserNotificationCenter.current().getPendingNotificationRequests { notificationRequests in
+    func scheduledNotificationIds(completion: @escaping ([String]) -> Void)
+    {
+        UNUserNotificationCenter.current().getPendingNotificationRequests
+        { notificationRequests in
             let ids = notificationRequests.map { request in request.identifier }
             completion(ids)
         }
@@ -24,7 +26,8 @@ class NotificationSchedulerIOS: NotificationScheduler
         cancelNotifications(ids: [id])
     }
 
-    func cancelNotifications(ids: [String]) {
+    func cancelNotifications(ids: [String])
+    {
         UNUserNotificationCenter.current().removePendingNotificationRequests(withIdentifiers: ids)
     }
 
@@ -35,51 +38,71 @@ class NotificationSchedulerIOS: NotificationScheduler
 
     func scheduleNotification(data: NotificationData)
     {
-        guard let reminderData = data.item as? NotificationItemReminder else { return }
-        provider.notificationContentMaker.make(itemId: reminderData.itemId)
-        { notificationData, error in
-            if let error
-            {
-                print("Notification scheduling failed (content making stage): \(String(describing: error))")
-                return
+        guard let scheduled = convertLocalDateTimeToSwiftDate(localDateTime: data.scheduled)
+        else { return }
+
+        guard let workId = (data.item as? IdentifiableNotification)?.workId else { return }
+
+        if data.item is NotificationItemReminder
+        {
+            guard let reminderData = data.item as? NotificationItemReminder else { return }
+            provider.notificationContentMaker.make(itemId: reminderData.itemId)
+            { notificationData, error in
+                self.executeNotificationScheduling(notificationData: notificationData, error: error, workId: workId, scheduled: scheduled)
             }
-            guard let notificationData else { return }
-
-            let content = UNMutableNotificationContent()
-            content.title = notificationData.title as String
-            content.body = notificationData.content as String
-            content.sound = UNNotificationSound.default
-            content.badge = NSNumber(value: UIApplication.shared.applicationIconBadgeNumber + 1)
-
-            guard let d = convertLocalDateTimeToSwiftDate(localDateTime: data.scheduled)
-            else { return }
-
-            let triggerInterval = if d.timeIntervalSinceNow > 0
+        }
+        if data.item is NotificationItemInfoReminder
+        {
+            provider.notificationContentMaker.makeInfoNotification
             {
-                d.timeIntervalSinceNow
+                notificationData, error in
+                self.executeNotificationScheduling(notificationData: notificationData, error: error, workId: workId, scheduled: scheduled)
             }
-            else
-            {
-                TimeInterval(integerLiteral: 0)
-                //TODO: implement controlled late notification
-                // oneHour (let oneHour: TimeInterval = 3_600)
-            }
+        }
+    }
 
-            if triggerInterval > 0
-            {
-                let trigger = UNTimeIntervalNotificationTrigger(timeInterval: triggerInterval, repeats: false)
-                let request = UNNotificationRequest(identifier: reminderData.workId, content: content, trigger: trigger)
+    private func executeNotificationScheduling(notificationData: NotificationContent?, error: Error?, workId: String, scheduled: Date)
+    {
+        if let error
+        {
+            print("Notification scheduling failed (content making stage): \(String(describing: error))")
+            return
+        }
+        guard let notificationData else { return }
 
-                UNUserNotificationCenter.current().add(request)
-                { error in
-                    if let error
-                    {
-                        print("Notification scheduling failed (scheduling stage): \(String(describing: error))")
-                    }
-                    else
-                    {
-                        print("Notification scheduling succeed! (\(String(describing: trigger.nextTriggerDate()))")
-                    }
+        let content = UNMutableNotificationContent()
+        content.title = notificationData.title as String
+        content.body = notificationData.content as String
+        content.sound = UNNotificationSound.default
+
+        // TODO: UIApplication.shared.applicationIconBadgeNumber can be used only on Main thread
+        // content.badge = NSNumber(value: UIApplication.shared.applicationIconBadgeNumber + 1)
+
+        let triggerInterval = if scheduled.timeIntervalSinceNow > 0
+        {
+            scheduled.timeIntervalSinceNow
+        }
+        else
+        {
+            TimeInterval(integerLiteral: 0)
+            // TODO: implement controlled late notification
+            // oneHour (let oneHour: TimeInterval = 3_600)
+        }
+
+        if triggerInterval > 0
+        {
+            let trigger = UNTimeIntervalNotificationTrigger(timeInterval: triggerInterval, repeats: false)
+            let request = UNNotificationRequest(identifier: workId, content: content, trigger: trigger)
+
+            UNUserNotificationCenter.current().add(request)
+            { error in
+                if let error
+                {
+                    print("Notification scheduling failed (scheduling stage): \(String(describing: error))")
+                }
+                else
+                {
+                    print("Notification scheduling succeed! (\(String(describing: trigger.nextTriggerDate()))")
                 }
             }
         }

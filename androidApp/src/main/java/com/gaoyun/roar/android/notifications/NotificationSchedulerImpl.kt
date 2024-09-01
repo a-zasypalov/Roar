@@ -10,8 +10,8 @@ import androidx.work.WorkInfo
 import androidx.work.WorkManager
 import androidx.work.WorkerParameters
 import com.gaoyun.roar.domain.NotificationScheduler
+import com.gaoyun.roar.model.domain.IdentifiableNotification
 import com.gaoyun.roar.model.domain.NotificationData
-import com.gaoyun.roar.model.domain.NotificationItem
 import com.gaoyun.roar.notification.toInputData
 import com.gaoyun.roar.notification.toNotificationData
 import com.gaoyun.roar.notifications.NotificationHandler
@@ -64,7 +64,7 @@ class NotificationSchedulerImpl(
     }
 
     private fun scheduleJob(data: NotificationData) {
-        val workId = UUID.fromString((data.item as? NotificationItem.Reminder)?.workId ?: randomUUID())
+        val workId = UUID.fromString((data.item as? IdentifiableNotification)?.workId ?: randomUUID())
         val windowMin = ChronoUnit.MILLIS.between(LocalDateTime.now(), data.scheduled.toJavaLocalDateTime()).coerceAtLeast(1)
         val request = OneTimeWorkRequestBuilder<NotificationWorker>()
             .setId(workId)
