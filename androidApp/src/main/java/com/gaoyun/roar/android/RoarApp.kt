@@ -6,6 +6,7 @@ import android.os.Bundle
 import androidx.core.app.NotificationManagerCompat
 import androidx.work.WorkManager
 import com.gaoyun.roar.android.notifications.FcmService
+import com.gaoyun.roar.android.notifications.NotificationBadgeHandlerImpl
 import com.gaoyun.roar.android.notifications.NotificationSchedulerImpl
 import com.gaoyun.roar.android.notifications.handling.NotificationChannelProvider
 import com.gaoyun.roar.android.notifications.handling.NotificationDisplayingImpl
@@ -22,6 +23,7 @@ import com.gaoyun.roar.migrations.MigrationsExecutor
 import com.gaoyun.roar.navigation.CloseAppActionHandlerImpl
 import com.gaoyun.roar.network.SynchronisationApi
 import com.gaoyun.roar.network.SynchronisationApiAndroid
+import com.gaoyun.roar.notifications.NotificationBadgeHandler
 import com.gaoyun.roar.notifications.NotificationDisplaying
 import com.gaoyun.roar.ui.features.registration.RegistrationLauncher
 import com.gaoyun.roar.ui.navigation.CloseAppActionHandler
@@ -108,6 +110,7 @@ val notificationsModule = module {
     single { NotificationChannelProvider(get()) }
     single<NotificationDisplaying> { NotificationDisplayingImpl(get(), get(), get()) }
     single { FcmService() }
+    single<NotificationBadgeHandler> { NotificationBadgeHandlerImpl() }
     worker { NotificationSchedulerImpl.NotificationWorker(get(), get(), get()) }
     worker { SynchronisationWorker(get(), get(), get(), get()) }
     worker { NightlySyncWorker(get(), get(), get(), get(), get()) }

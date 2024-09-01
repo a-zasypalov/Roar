@@ -18,7 +18,7 @@ import kotlin.time.Duration.Companion.days
 object RoarAppUpdater {
     fun checkAppUpdate(context: AppCompatActivity) {
         val appUpdateManager = AppUpdateManagerFactory.create(context)
-        val lastCheckingDateTime = context.getSharedPreferences("app_prefs", AppCompatActivity.MODE_PRIVATE)
+        val lastCheckingDateTime = context.getSharedPreferences(RoarAndroidConstants.SHARED_PREFS_NAME, AppCompatActivity.MODE_PRIVATE)
             .getLong(PreferencesKeys.LAST_UPDATE_CHECK_DATETIME, Long.MAX_VALUE)
 
         if (Instant.fromEpochMilliseconds(lastCheckingDateTime) + 1.days < Clock.System.now()) {
@@ -31,7 +31,7 @@ object RoarAppUpdater {
                     }
                 }
             }
-            context.getSharedPreferences("app_prefs", AppCompatActivity.MODE_PRIVATE).edit()
+            context.getSharedPreferences(RoarAndroidConstants.SHARED_PREFS_NAME, AppCompatActivity.MODE_PRIVATE).edit()
                 .putLong(PreferencesKeys.LAST_UPDATE_CHECK_DATETIME, Clock.System.now().toEpochMilliseconds()).apply()
         }
     }

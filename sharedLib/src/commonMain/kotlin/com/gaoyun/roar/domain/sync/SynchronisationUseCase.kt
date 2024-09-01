@@ -13,11 +13,14 @@ import com.gaoyun.roar.model.domain.UserWithPets
 import com.gaoyun.roar.model.domain.interactions.withoutReminders
 import com.gaoyun.roar.model.domain.withoutInteractions
 import com.gaoyun.roar.model.domain.withoutPets
+import com.gaoyun.roar.notifications.NotificationBadgeHandler
 import com.gaoyun.roar.util.Preferences
 import com.gaoyun.roar.util.PreferencesKeys
 import com.gaoyun.roar.util.asCommonFlow
+import com.gaoyun.roar.util.toLocalDate
 import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.flow.flow
+import kotlinx.datetime.Clock
 import kotlinx.serialization.SerializationException
 import kotlinx.serialization.json.Json
 
@@ -31,6 +34,7 @@ class SynchronisationUseCase(
     private val removeInteraction: RemoveInteraction,
     private val editUserUseCase: EditUserUseCase,
     private val notificationScheduler: NotificationScheduler,
+    private val notificationBadgeHandler: NotificationBadgeHandler,
     private val prefs: Preferences,
 ) {
 
@@ -67,6 +71,7 @@ class SynchronisationUseCase(
                     notificationScheduler.cancelNotifications(jobsToCancel)
                 }
 
+                var todayOrPastRemindersCount = 0
                 user.pets.map { pet ->
                     addPetUseCase.addPet(pet.withoutInteractions().copy(userId = currentUserId)).firstOrNull()
                     return@map pet
@@ -76,8 +81,13 @@ class SynchronisationUseCase(
                     insertInteraction.insertInteraction(interaction.withoutReminders()).firstOrNull()
                     return@flatMap interaction.reminders
                 }.forEach { reminder ->
+                    if (reminder.dateTime.date <= Clock.System.now().toLocalDate()) {
+                        todayOrPastRemindersCount++
+                    }
                     insertReminder.insertReminderAndScheduleNotification(reminder).firstOrNull()
                 }
+
+                notificationBadgeHandler.setShowBadge(todayOrPastRemindersCount)
             }
 
             emit(true)

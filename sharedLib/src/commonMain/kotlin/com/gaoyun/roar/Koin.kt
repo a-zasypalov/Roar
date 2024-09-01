@@ -91,6 +91,7 @@ fun initKoin(appDeclaration: IOSAppDeclaration) = startKoin {
         single { appDeclaration.signOutExecutor }
         single { appDeclaration.emailSender }
         single { appDeclaration.deleteRemoteAccountExecutor }
+        single { appDeclaration.notificationBadgeHandler }
         single<BackupHandler> { NoopBackupHandler() }
         single<CloseAppActionHandler> { NoopCloseAppActionHandler() }
     }
@@ -154,7 +155,7 @@ val useCaseModule = module {
     single { CheckUserExistingUseCase(get()) }
     single { EditUserUseCase(get()) }
     single { LogoutUseCase(get(), get(), get(), get(), get(), get(), get()) }
-    single { SynchronisationUseCase(get(), get(), get(), get(), get(), get(), get(), get(), get(), get()) }
+    single { SynchronisationUseCase(get(), get(), get(), get(), get(), get(), get(), get(), get(), get(), get()) }
     single { DeleteAccountUseCase(get(), get()) }
 
     single { GetPetUseCase(get()) }
@@ -181,7 +182,7 @@ val useCaseModule = module {
     single { AddNextReminder(get(), get(), get(), get(), get(), get()) }
     single { DeactivateInteraction(get(), get()) }
 
-    single { CreateBackupUseCase(get(), get(), get(), get()) }
+    single { CreateBackupUseCase(get(), get(), get(), get(), get()) }
     single { ImportBackupUseCase(get(), get(), get(), get(), get(), get(), get(), get()) }
     single { CompleteOnboardingUseCase(get()) }
     single { AppPreferencesUseCase(get()) }

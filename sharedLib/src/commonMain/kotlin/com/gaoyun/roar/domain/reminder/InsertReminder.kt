@@ -33,7 +33,7 @@ class InsertReminder(
         repository.insertReminder(newReminder)
 
         scheduleNotification(
-            notificationDateTime =  getNotificationDateTime(dateTime, remindConfig),
+            notificationDateTime = getNotificationDateTime(dateTime, remindConfig),
             reminderId = newReminder.id,
             notificationJobId = notificationJobId
         )
@@ -54,7 +54,7 @@ class InsertReminder(
         repository.insertReminder(reminderScheduled)
 
         val notificationDateTime = getNotificationDateTime(reminderScheduled.dateTime, interaction.remindConfig)
-        if(!reminder.isCompleted) {
+        if (!reminder.isCompleted) {
             scheduleNotification(notificationDateTime = notificationDateTime, reminderId = reminder.id, notificationJobId = notificationJobId)
         }
         emit(reminder)

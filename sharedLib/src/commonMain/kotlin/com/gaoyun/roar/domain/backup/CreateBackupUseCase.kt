@@ -6,12 +6,15 @@ import com.gaoyun.roar.domain.user.GetCurrentUserUseCase
 import com.gaoyun.roar.model.domain.UserWithPets
 import com.gaoyun.roar.model.domain.withInteractions
 import com.gaoyun.roar.model.domain.withPets
+import com.gaoyun.roar.notifications.NotificationBadgeHandler
 import com.gaoyun.roar.util.Preferences
 import com.gaoyun.roar.util.PreferencesKeys
 import com.gaoyun.roar.util.PreferencesKeys.LAST_SYNCHRONISED_HASH
 import com.gaoyun.roar.util.asCommonFlow
+import com.gaoyun.roar.util.toLocalDate
 import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.flow.flow
+import kotlinx.datetime.Clock
 import kotlinx.serialization.json.Json
 import kotlin.io.encoding.Base64
 import kotlin.io.encoding.ExperimentalEncodingApi
@@ -21,6 +24,7 @@ class CreateBackupUseCase(
     private val getCurrentUserUseCase: GetCurrentUserUseCase,
     private val getPetUseCase: GetPetUseCase,
     private val getInteraction: GetInteraction,
+    private val notificationBadgeHandler: NotificationBadgeHandler,
     private val prefs: Preferences,
 ) {
 
@@ -53,6 +57,8 @@ class CreateBackupUseCase(
             emit(null)
         } else {
             val userWithPets = user.withPets(pets)
+            updateNotificationBadgeFor(userWithPets)
+
             prefs.setLong(PreferencesKeys.LAST_SYNCHRONISED_TIMESTAMP, userWithPets.timestamp)
             val backupString = Json.encodeToString(UserWithPets.serializer(), userWithPets)
 
@@ -66,4 +72,17 @@ class CreateBackupUseCase(
         }
     }.asCommonFlow()
 
+    private fun updateNotificationBadgeFor(userWithPets: UserWithPets) {
+        val today = Clock.System.now().toLocalDate()
+        val remindersDates = userWithPets.pets.flatMap {
+            it.interactions.flatMap { interactions ->
+                interactions.value.flatMap { interaction ->
+                    interaction.reminders
+                        .filter { reminder -> !reminder.isCompleted }
+                        .map { reminder -> reminder.dateTime.date }
+                }
+            }
+        }
+        notificationBadgeHandler.setShowBadge(remindersDates.count { it <= today })
+    }
 }

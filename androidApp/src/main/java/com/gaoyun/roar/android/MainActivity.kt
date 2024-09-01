@@ -17,6 +17,7 @@ import androidx.compose.material3.dynamicLightColorScheme
 import androidx.core.content.ContextCompat
 import androidx.core.view.WindowCompat
 import androidx.lifecycle.lifecycleScope
+import com.gaoyun.roar.android.platform_utils.RoarAndroidConstants
 import com.gaoyun.roar.android.platform_utils.RoarAppUpdater
 import com.gaoyun.roar.ui.App
 import com.gaoyun.roar.util.Platform
@@ -28,7 +29,7 @@ import kotlinx.coroutines.launch
 class MainActivity : AppCompatActivity() {
 
     private val isDynamicColorsActive by lazy {
-        this.getSharedPreferences("app_prefs", MODE_PRIVATE)
+        this.getSharedPreferences(RoarAndroidConstants.SHARED_PREFS_NAME, MODE_PRIVATE)
             .getBoolean(PreferencesKeys.DYNAMIC_COLORS_ACTIVE, true)
     }
 
@@ -60,13 +61,14 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun prepareNotificationChannel() {
-        val id = "com.gaoyun.roar.RemindersChannel"
+        val id = RoarAndroidConstants.REMINDERS_CHANNEL_ID
         val name = "Pet's Reminders"
         val des = "Channel for reminding about important things about your pet"
 
         val importance = NotificationManager.IMPORTANCE_DEFAULT
         val channel = NotificationChannel(id, name, importance)
         channel.description = des
+        channel.setShowBadge(true)
 
         val manager = ContextCompat.getSystemService(this, NotificationManager::class.java)
 

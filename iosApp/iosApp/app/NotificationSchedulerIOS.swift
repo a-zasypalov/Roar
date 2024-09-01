@@ -1,4 +1,5 @@
 import sharedLib
+import UIKit
 import UserNotifications
 
 class NotificationSchedulerIOS: NotificationScheduler
@@ -48,6 +49,7 @@ class NotificationSchedulerIOS: NotificationScheduler
             content.title = notificationData.title as String
             content.body = notificationData.content as String
             content.sound = UNNotificationSound.default
+            content.badge = NSNumber(value: UIApplication.shared.applicationIconBadgeNumber + 1)
 
             guard let d = convertLocalDateTimeToSwiftDate(localDateTime: data.scheduled)
             else { return }
