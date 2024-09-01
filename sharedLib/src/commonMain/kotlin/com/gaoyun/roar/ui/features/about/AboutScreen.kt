@@ -48,18 +48,23 @@ import org.jetbrains.compose.ui.tooling.preview.Preview
 import roar.sharedlib.generated.resources.Res
 import roar.sharedlib.generated.resources.about_app_description
 import roar.sharedlib.generated.resources.about_app_title
+import roar.sharedlib.generated.resources.app_icon
 import roar.sharedlib.generated.resources.app_name
+import roar.sharedlib.generated.resources.email
 import roar.sharedlib.generated.resources.ic_tab_home
 import roar.sharedlib.generated.resources.ic_telegram
 import roar.sharedlib.generated.resources.ic_twitter
 import roar.sharedlib.generated.resources.privacy_policy
+import roar.sharedlib.generated.resources.telegram
 import roar.sharedlib.generated.resources.terms_and_conditions_button
+import roar.sharedlib.generated.resources.twitter
 import roar.sharedlib.generated.resources.url_email
 import roar.sharedlib.generated.resources.url_privacy_policy
 import roar.sharedlib.generated.resources.url_telegram
 import roar.sharedlib.generated.resources.url_terms_and_conditions
 import roar.sharedlib.generated.resources.url_twitter
 import roar.sharedlib.generated.resources.url_web
+import roar.sharedlib.generated.resources.website
 
 @Composable
 fun AboutScreenDestination(
@@ -122,7 +127,7 @@ fun AboutScreenContent(sendEmail: () -> Unit) {
         ) {
             Image(
                 painter = painterResource(resource = Res.drawable.ic_tab_home),
-                contentDescription = "icon",
+                contentDescription = stringResource(Res.string.app_icon),
                 modifier = Modifier.padding(16.dp),
                 colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.inverseSurface)
             )
@@ -181,40 +186,47 @@ private fun LinksBlock(sendEmail: () -> Unit) {
     Row {
         LinkItem(
             painterResource(resource = Res.drawable.ic_telegram),
+            stringResource(Res.string.telegram),
             Modifier.platformStyleClickable { uriHandler.openUri(telegramUrl) }
         )
         Spacer(size = 24.dp)
         LinkItem(
             Icons.Default.Mail,
+            stringResource(Res.string.email),
             Modifier.platformStyleClickable { sendEmail() }
         )
         Spacer(size = 24.dp)
         LinkItem(
             painterResource(resource = Res.drawable.ic_twitter),
+            stringResource(Res.string.twitter),
             Modifier.platformStyleClickable { uriHandler.openUri(twitterUrl) }
         )
         Spacer(size = 24.dp)
-        LinkItem(Icons.Default.Language, Modifier.platformStyleClickable { uriHandler.openUri(webUrl) })
+        LinkItem(
+            Icons.Default.Language,
+            stringResource(Res.string.website),
+            Modifier.platformStyleClickable { uriHandler.openUri(webUrl) })
     }
 }
 
 @Composable
-private fun LinkItem(icon: ImageVector, modifier: Modifier = Modifier) {
+private fun LinkItem(icon: ImageVector, contentDescription: String, modifier: Modifier = Modifier) {
     LinkItem(
         icon = rememberVectorPainter(image = icon),
+        contentDescription = contentDescription,
         modifier = modifier
     )
 }
 
 @Composable
-private fun LinkItem(icon: Painter, modifier: Modifier = Modifier) {
+private fun LinkItem(icon: Painter, contentDescription: String, modifier: Modifier = Modifier) {
     Surface(
         tonalElevation = RoarTheme.CLICKABLE_ITEM_ELEVATION,
         modifier = modifier.clip(MaterialTheme.shapes.medium)
     ) {
         Icon(
             icon,
-            contentDescription = null,
+            contentDescription = contentDescription,
             modifier = Modifier
                 .size(48.dp)
                 .padding(8.dp)
@@ -227,7 +239,7 @@ private fun LinkItem(icon: Painter, modifier: Modifier = Modifier) {
 fun AboutScreenPreview() {
     RoarThemePreview {
         SurfaceScaffold {
-            AboutScreenContent{}
+            AboutScreenContent {}
         }
     }
 }

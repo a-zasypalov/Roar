@@ -17,6 +17,8 @@ import com.gaoyun.roar.presentation.user_screen.UserScreenContract
 import com.gaoyun.roar.ui.common.composables.Spacer
 import org.jetbrains.compose.resources.stringResource
 import roar.sharedlib.generated.resources.Res
+import roar.sharedlib.generated.resources.cd_import_icon
+import roar.sharedlib.generated.resources.cd_save_icon
 import roar.sharedlib.generated.resources.export_button
 import roar.sharedlib.generated.resources.import_button
 
@@ -32,7 +34,7 @@ internal fun UserScreenBackupBlock(
                 .weight(1f)
                 .padding(end = 4.dp)
         ) {
-            Icon(Icons.Filled.Save, contentDescription = null)
+            Icon(Icons.Filled.Save, stringResource(Res.string.cd_save_icon))
             Spacer(size = 6.dp)
             Text(
                 text = stringResource(resource = Res.string.export_button),
@@ -46,7 +48,7 @@ internal fun UserScreenBackupBlock(
                 .weight(1f)
                 .padding(start = 4.dp)
         ) {
-            Icon(Icons.Filled.Download, contentDescription = null)
+            Icon(Icons.Filled.Download, stringResource(Res.string.cd_import_icon))
             Spacer(size = 6.dp)
             Text(
                 text = stringResource(resource = Res.string.import_button),

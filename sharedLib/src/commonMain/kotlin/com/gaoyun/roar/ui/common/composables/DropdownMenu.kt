@@ -23,6 +23,8 @@ import org.jetbrains.compose.resources.PluralStringResource
 import org.jetbrains.compose.resources.StringResource
 import org.jetbrains.compose.resources.pluralStringResource
 import org.jetbrains.compose.resources.stringResource
+import roar.sharedlib.generated.resources.Res
+import roar.sharedlib.generated.resources.cd_icon
 
 @Composable
 fun DropdownMenu(
@@ -122,7 +124,7 @@ private fun DropdownMenuInternal(
                 {
                     Icon(
                         it,
-                        "",
+                        contentDescription = stringResource(Res.string.cd_icon),
                         tint = MaterialTheme.colorScheme.onBackground
                     )
                 }

@@ -24,6 +24,9 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import com.gaoyun.roar.util.Platform
 import com.gaoyun.roar.util.PlatformNames
+import org.jetbrains.compose.resources.stringResource
+import roar.sharedlib.generated.resources.Res
+import roar.sharedlib.generated.resources.cd_back_button
 
 @Composable
 fun SurfaceScaffold(
@@ -62,9 +65,9 @@ fun SurfaceScaffold(
                         colors = IconButtonDefaults.iconButtonColors(contentColor = MaterialTheme.colorScheme.onSurface)
                     ) {
                         if (Platform.name == PlatformNames.Android) {
-                            Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = null)
+                            Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = stringResource(Res.string.cd_back_button))
                         } else {
-                            Icon(Icons.AutoMirrored.Filled.ArrowBackIos, contentDescription = null)
+                            Icon(Icons.AutoMirrored.Filled.ArrowBackIos, contentDescription = stringResource(Res.string.cd_back_button))
                         }
                     }
                 }

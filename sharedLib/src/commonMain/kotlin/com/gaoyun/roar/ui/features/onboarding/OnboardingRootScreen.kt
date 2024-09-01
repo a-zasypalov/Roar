@@ -39,7 +39,10 @@ import moe.tlaster.precompose.navigation.PopUpTo
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
 import roar.sharedlib.generated.resources.Res
+import roar.sharedlib.generated.resources.app_icon
 import roar.sharedlib.generated.resources.app_name
+import roar.sharedlib.generated.resources.cd_care_reminders_icon
+import roar.sharedlib.generated.resources.cd_community_icon
 import roar.sharedlib.generated.resources.ic_care_filled
 import roar.sharedlib.generated.resources.ic_community
 import roar.sharedlib.generated.resources.ic_tab_home
@@ -137,7 +140,7 @@ fun OnboardingHelloPage() {
         ) {
             Image(
                 painter = painterResource(resource = Res.drawable.ic_tab_home),
-                contentDescription = "icon",
+                contentDescription = stringResource(Res.string.app_icon),
                 modifier = Modifier.padding(16.dp),
                 colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.inverseSurface)
             )
@@ -171,7 +174,7 @@ fun OnboardingCarePage() {
         ) {
             Image(
                 painter = painterResource(resource = Res.drawable.ic_care_filled),
-                contentDescription = "icon",
+                contentDescription = stringResource(Res.string.cd_care_reminders_icon),
                 modifier = Modifier.padding(24.dp),
                 colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.inverseSurface)
             )
@@ -206,7 +209,7 @@ fun OnboardingCommunityPage() {
         ) {
             Image(
                 painter = painterResource(resource = Res.drawable.ic_community),
-                contentDescription = "icon",
+                contentDescription = stringResource(Res.string.cd_community_icon),
                 modifier = Modifier.padding(24.dp),
                 colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.inverseSurface)
             )

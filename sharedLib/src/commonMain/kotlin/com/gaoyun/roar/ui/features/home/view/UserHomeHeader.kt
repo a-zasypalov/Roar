@@ -30,6 +30,9 @@ import org.jetbrains.compose.resources.stringResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
 import roar.sharedlib.generated.resources.Res
 import roar.sharedlib.generated.resources.add_pet
+import roar.sharedlib.generated.resources.app_icon
+import roar.sharedlib.generated.resources.cd_add_pet_icon
+import roar.sharedlib.generated.resources.cd_profile_icon
 import roar.sharedlib.generated.resources.ic_tab_home
 import roar.sharedlib.generated.resources.profile
 
@@ -53,7 +56,7 @@ internal fun UserHomeHeader(
                 modifier = Modifier.weight(0.38f),
                 contentPadding = PaddingValues(all = 8.dp),
             ) {
-                Icon(Icons.Filled.Pets, contentDescription = null)
+                Icon(Icons.Filled.Pets, stringResource(resource = Res.string.cd_add_pet_icon))
                 Spacer(size = 6.dp)
                 Text(
                     stringResource(resource = Res.string.add_pet),
@@ -63,7 +66,7 @@ internal fun UserHomeHeader(
 
             Image(
                 painter = painterResource(Res.drawable.ic_tab_home),
-                contentDescription = "icon",
+                contentDescription = stringResource(Res.string.app_icon),
                 modifier = Modifier
                     .weight(0.24f)
                     .padding(horizontal = 24.dp),
@@ -81,7 +84,7 @@ internal fun UserHomeHeader(
                     verticalAlignment = Alignment.CenterVertically,
                     modifier = Modifier.padding(vertical = 8.dp)
                 ) {
-                    Icon(Icons.Filled.Person, contentDescription = null)
+                    Icon(Icons.Filled.Person, stringResource(Res.string.cd_profile_icon))
                     Spacer(size = 6.dp)
                     Text(
                         stringResource(Res.string.profile),

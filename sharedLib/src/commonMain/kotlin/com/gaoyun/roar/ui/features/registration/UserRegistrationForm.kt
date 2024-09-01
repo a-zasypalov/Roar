@@ -42,9 +42,12 @@ import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
 import roar.sharedlib.generated.resources.Res
+import roar.sharedlib.generated.resources.app_icon
 import roar.sharedlib.generated.resources.app_name
 import roar.sharedlib.generated.resources.btn_apple
 import roar.sharedlib.generated.resources.btn_google
+import roar.sharedlib.generated.resources.cd_apple_icon
+import roar.sharedlib.generated.resources.cd_google_icon
 import roar.sharedlib.generated.resources.continue_with_apple
 import roar.sharedlib.generated.resources.ic_tab_home
 import roar.sharedlib.generated.resources.privacy_policy
@@ -89,7 +92,7 @@ fun UserRegistrationForm(
             ) {
                 Image(
                     painter = painterResource(Res.drawable.ic_tab_home),
-                    contentDescription = "icon",
+                    contentDescription = stringResource(Res.string.app_icon),
                     modifier = Modifier.padding(16.dp),
                     colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.inverseSurface)
                 )
@@ -138,7 +141,7 @@ fun UserRegistrationForm(
                 ) {
                     Image(
                         painter = painterResource(Res.drawable.btn_google),
-                        contentDescription = null,
+                        contentDescription = stringResource(Res.string.cd_google_icon),
                         modifier = Modifier.size(48.dp).padding(bottom = 2.dp)
                     )
                     Text(
@@ -148,7 +151,7 @@ fun UserRegistrationForm(
                 }
             }
 
-            if(Platform.name == PlatformNames.IOS) {
+            if (Platform.name == PlatformNames.IOS) {
                 ElevatedButton(
                     onClick = { onRegisterClick(RegistrationType.Apple) },
                     elevation = ButtonDefaults.elevatedButtonElevation(
@@ -172,7 +175,7 @@ fun UserRegistrationForm(
                     ) {
                         Image(
                             painter = painterResource(Res.drawable.btn_apple),
-                            contentDescription = null,
+                            contentDescription = stringResource(Res.string.cd_apple_icon),
                             modifier = Modifier.size(24.dp).padding(bottom = 2.dp)
                         )
                         Spacer(modifier = Modifier.width(12.dp))

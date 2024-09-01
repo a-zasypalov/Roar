@@ -35,6 +35,8 @@ import com.gaoyun.roar.util.ColorTheme
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
 import roar.sharedlib.generated.resources.Res
+import roar.sharedlib.generated.resources.app_icon
+import roar.sharedlib.generated.resources.cd_close_button
 import roar.sharedlib.generated.resources.customization_prompt_caption
 import roar.sharedlib.generated.resources.customization_prompt_title
 import roar.sharedlib.generated.resources.ic_launcher_paw_foreground
@@ -48,7 +50,7 @@ internal fun CustomizationPrompt(onCloseClick: () -> Unit, modifier: Modifier = 
         Box {
             Icon(
                 imageVector = Icons.Default.Close,
-                contentDescription = "close",
+                contentDescription = stringResource(Res.string.cd_close_button),
                 modifier = Modifier
                     .align(Alignment.TopEnd)
                     .padding(2.dp)
@@ -89,7 +91,7 @@ internal fun CustomizationPrompt(onCloseClick: () -> Unit, modifier: Modifier = 
                 ) {
                     Image(
                         painterResource(Res.drawable.ic_launcher_paw_foreground),
-                        contentDescription = null,
+                        contentDescription = stringResource(Res.string.app_icon),
                         contentScale = ContentScale.FillWidth,
                     )
                 }

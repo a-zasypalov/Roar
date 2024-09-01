@@ -64,6 +64,8 @@ import roar.sharedlib.generated.resources.app_icon
 import roar.sharedlib.generated.resources.app_settings
 import roar.sharedlib.generated.resources.backup
 import roar.sharedlib.generated.resources.cancel
+import roar.sharedlib.generated.resources.cd_activated_icon
+import roar.sharedlib.generated.resources.cd_profile_icon
 import roar.sharedlib.generated.resources.colors
 import roar.sharedlib.generated.resources.delete_account
 import roar.sharedlib.generated.resources.delete_account_dialog_description
@@ -178,7 +180,7 @@ internal fun UserScreenContent(
                     )
 
                     Icon(
-                        Icons.Default.Person, contentDescription = null, modifier = Modifier
+                        Icons.Default.Person, stringResource(Res.string.cd_profile_icon), modifier = Modifier
                             .size(40.dp)
                             .padding(end = 8.dp, top = 8.dp)
                     )
@@ -300,7 +302,7 @@ internal fun UserScreenContent(
                                     if (state.activeColorTheme == it) {
                                         Icon(
                                             Icons.Default.Check,
-                                            contentDescription = null,
+                                            stringResource(Res.string.cd_activated_icon),
                                             tint = Color.White,
                                             modifier = Modifier
                                                 .fillMaxSize()
@@ -346,7 +348,7 @@ internal fun UserScreenContent(
                             ) {
                                 Image(
                                     painterResource(Res.drawable.ic_launcher_foreground),
-                                    contentDescription = null,
+                                    contentDescription = stringResource(Res.string.app_icon),
                                     contentScale = ContentScale.FillWidth,
                                 )
                             }
@@ -370,7 +372,7 @@ internal fun UserScreenContent(
                             ) {
                                 Image(
                                     painterResource(Res.drawable.ic_launcher_paw_foreground),
-                                    contentDescription = null,
+                                    contentDescription = stringResource(Res.string.app_icon),
                                     contentScale = ContentScale.FillWidth,
                                 )
                             }

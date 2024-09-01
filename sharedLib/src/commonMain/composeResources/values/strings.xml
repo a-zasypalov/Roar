@@ -214,13 +214,6 @@
     <string name="interaction_group_care">Care</string>
     <string name="interaction_group_routine">Routine</string>
 
-    <!--  Content descriptions  -->
-    <string name="cd_pet">pet</string>
-    <string name="cd_avatar">avatar</string>
-    <string name="cd_reminder">reminder</string>
-    <string name="cd_notes">notes</string>
-    <string name="cd_icon">icon</string>
-
     <!--  Interaction types  -->
     <string name="deworming">Deworming</string>
     <string name="flees">Flees</string>
@@ -264,8 +257,28 @@
     <string name="url_email" translatable="false">roar.mobile.app@gmail.com</string>
     <string name="url_terms_and_conditions" translatable="false">https://gaoyun.notion.site/Terms-and-Conditions-a7ec3b8d861447be93e8eb892f447012?pvs=4</string>
     <string name="url_privacy_policy" translatable="false">https://gaoyun.notion.site/Privacy-Policy-af2d66bd094c4c169334896ed5b63401?pvs=4</string>
-</resources>
 
-    <!--
-    import com.gaoyun.common.R as CommonR
-    -->
+    <!--  Accessibility  -->
+    <string name="twitter" translatable="false">Twitter</string>
+    <string name="telegram" translatable="false">Telegram</string>
+    <string name="website">Website</string>
+    <string name="email">Email</string>
+    <string name="cd_pet">pet</string>
+    <string name="cd_avatar">avatar</string>
+    <string name="cd_reminder">reminder</string>
+    <string name="cd_notes">notes</string>
+    <string name="cd_icon">icon</string>
+    <string name="cd_care_reminders_icon">Reminders icon</string>
+    <string name="cd_community_icon">Community icon</string>
+    <string name="cd_google_icon">Google icon</string>
+    <string name="cd_apple_icon">Apple icon</string>
+    <string name="cd_back_button">Back button</string>
+    <string name="cd_icon_template_used">Template used</string>
+    <string name="cd_close_button">Close button</string>
+    <string name="cd_add_pet_icon">Add pet icon</string>
+    <string name="cd_profile_icon">Profile icon</string>
+    <string name="cd_save_icon">Save icon</string>
+    <string name="cd_import_icon">Import icon</string>
+    <string name="cd_activated_icon">Activated icon</string>
+
+</resources>

@@ -36,6 +36,7 @@ import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
 import roar.sharedlib.generated.resources.Res
+import roar.sharedlib.generated.resources.cd_icon_template_used
 import roar.sharedlib.generated.resources.cd_reminder
 import roar.sharedlib.generated.resources.custom
 import roar.sharedlib.generated.resources.new_custom_reminder
@@ -201,7 +202,7 @@ fun TemplateItem(
                 }
 
                 if (isUsed) {
-                    Icon(Icons.Default.Check, contentDescription = null)
+                    Icon(Icons.Default.Check, contentDescription = stringResource(Res.string.cd_icon_template_used))
                 }
             }
         }

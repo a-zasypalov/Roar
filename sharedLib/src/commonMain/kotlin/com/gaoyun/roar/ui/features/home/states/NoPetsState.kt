@@ -32,6 +32,7 @@ import org.jetbrains.compose.resources.stringResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
 import roar.sharedlib.generated.resources.Res
 import roar.sharedlib.generated.resources.add_first_pet
+import roar.sharedlib.generated.resources.app_icon
 import roar.sharedlib.generated.resources.ic_tab_home
 import roar.sharedlib.generated.resources.import_backup_in_profile
 import roar.sharedlib.generated.resources.nice_to_meet_you
@@ -68,7 +69,7 @@ fun NoPetsState(
             ) {
                 Image(
                     painter = painterResource(Res.drawable.ic_tab_home),
-                    contentDescription = "icon",
+                    contentDescription = stringResource(Res.string.app_icon),
                     modifier = Modifier.padding(16.dp),
                     colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.inverseSurface)
                 )

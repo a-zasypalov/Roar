@@ -73,7 +73,7 @@ fun InteractionRepeatConfig.repeatConfigTextFull() =
                     } ?: when (repeatsEveryPeriodOn) {
                         InteractionRepeatConfig.REPEATS_EVERY_PERIOD_ON_LAST -> append(stringResource(Res.string.the_last_day))
                         InteractionRepeatConfig.REPEATS_EVERY_PERIOD_ON_SAME -> append(stringResource(Res.string.the_same_day))
-                        else -> append("")
+                        else -> {}
                     }
                 }
 
