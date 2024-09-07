@@ -35,6 +35,7 @@ class LogoutUseCase(
             prefs.apply {
                 setString(PreferencesKeys.CURRENT_USER_ID, "")
                 setLong(PreferencesKeys.LAST_SYNCHRONISED_TIMESTAMP, 0)
+                setLong(PreferencesKeys.SCHEDULED_INFO_NOTIFICATION_DATETIME, 0)
             }
 
             signOutExecutor.signOut()
