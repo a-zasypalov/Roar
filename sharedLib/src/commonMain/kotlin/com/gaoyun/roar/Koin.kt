@@ -155,7 +155,7 @@ val useCaseModule = module {
     single { GetCurrentUserUseCase(get(), get()) }
     single { CheckUserExistingUseCase(get()) }
     single { EditUserUseCase(get()) }
-    single { LogoutUseCase(get(), get(), get(), get(), get(), get(), get()) }
+    single { LogoutUseCase(get(), get(), get(), get(), get(), get(), get(), get()) }
     single { SynchronisationUseCase(get(), get(), get(), get(), get(), get(), get(), get(), get(), get(), get(), get()) }
     single { DeleteAccountUseCase(get(), get()) }
 

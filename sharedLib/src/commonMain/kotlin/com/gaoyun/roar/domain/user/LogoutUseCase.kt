@@ -3,6 +3,7 @@ package com.gaoyun.roar.domain.user
 import com.gaoyun.roar.domain.interaction.RemoveInteraction
 import com.gaoyun.roar.domain.pet.GetPetUseCase
 import com.gaoyun.roar.domain.pet.RemovePetUseCase
+import com.gaoyun.roar.notifications.AppReminderInfoHandler
 import com.gaoyun.roar.repository.UserRepository
 import com.gaoyun.roar.util.Preferences
 import com.gaoyun.roar.util.PreferencesKeys
@@ -18,6 +19,7 @@ class LogoutUseCase(
     private val removeInteraction: RemoveInteraction,
     private val userRepository: UserRepository,
     private val prefs: Preferences,
+    private val appReminderInfoHandler: AppReminderInfoHandler,
     private val signOutExecutor: SignOutExecutor
 ) {
 
@@ -37,6 +39,8 @@ class LogoutUseCase(
                 setLong(PreferencesKeys.LAST_SYNCHRONISED_TIMESTAMP, 0)
                 setLong(PreferencesKeys.SCHEDULED_INFO_NOTIFICATION_DATETIME, 0)
             }
+
+            appReminderInfoHandler.setShowBadge(0)
 
             signOutExecutor.signOut()
 
