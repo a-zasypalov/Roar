@@ -20,7 +20,7 @@ class NotificationHandler(
             }
 
             is NotificationItem.InfoReminder -> {
-                val content = maker.makeInfoNotification()
+                val content = maker.makeInfoNotification(notification.item.petRemindersCount)
                 displaying.display(content.title, content.content)
                 return true
             }

@@ -34,7 +34,8 @@ sealed interface NotificationItem {
     @Serializable
     @SerialName("info_reminder")
     data class InfoReminder(
-        //Static ID do not change
+        //Static ID, Do Not Change!
         override val workId: String = "97125f96-fcc6-4ea1-8c53-4ab97babd8cc",
+        val petRemindersCount: Map<String, Int>
     ) : NotificationItem, IdentifiableNotification
 }

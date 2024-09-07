@@ -16,9 +16,11 @@ import kotlinx.datetime.toLocalDateTime
 class ScheduledInfoNotificationCreator(
     private val appPreferencesUseCase: AppPreferencesUseCase
 ) {
-    fun createScheduledInfoNotification(): NotificationData? {
+    fun createScheduledInfoNotification(petRemindersCount: Map<String, Int>): NotificationData? {
         val now = Clock.System.now().toLocalDateTime(TimeZone.currentSystemDefault())
         val lastScheduledInfoNotification = Instant.fromEpochMilliseconds(appPreferencesUseCase.getLastScheduledInfoNotification()).toLocalDate()
+
+        //Show ScheduledInfoNotification not more than once per day
         if (now.date > lastScheduledInfoNotification) {
             val scheduleTime = when {
                 now.hour in 10..14 -> now.date.atTime(hour = 15, minute = 0)
@@ -29,7 +31,7 @@ class ScheduledInfoNotificationCreator(
             appPreferencesUseCase.setLastScheduledInfoNotification(at = scheduleTime.toInstant(TimeZone.currentSystemDefault()).toEpochMilliseconds())
             return NotificationData(
                 scheduled = scheduleTime,
-                item = NotificationItem.InfoReminder()
+                item = NotificationItem.InfoReminder(petRemindersCount = petRemindersCount)
             )
         } else return null
     }

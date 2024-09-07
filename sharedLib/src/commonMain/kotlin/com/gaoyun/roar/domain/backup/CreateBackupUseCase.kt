@@ -78,18 +78,21 @@ class CreateBackupUseCase(
 
     private fun updateNotificationBadgeFor(userWithPets: UserWithPets) {
         val today = Clock.System.now().toLocalDate()
-        val remindersDates = userWithPets.pets.flatMap {
-            it.interactions.flatMap { interactions ->
+        val remindersDates = userWithPets.pets.map {
+            val reminders = it.interactions.flatMap { interactions ->
                 interactions.value.flatMap { interaction ->
                     interaction.reminders
                         .filter { reminder -> !reminder.isCompleted }
                         .map { reminder -> reminder.dateTime.date }
                 }
             }
+            it.name to reminders
         }
-        remindersDates.count { it <= today }.takeIf { it > 0 }?.let { count ->
-            appReminderInfoHandler.setShowBadge(count)
-            scheduledInfoNotificationCreator.createScheduledInfoNotification()?.let {
+        val petReminderCount = remindersDates.associate { it.first to it.second.count { date -> date <= today } }.filterValues { it > 0 }
+        val count = petReminderCount.values.sum()
+        appReminderInfoHandler.setShowBadge(count)
+        if (count > 0) {
+            scheduledInfoNotificationCreator.createScheduledInfoNotification(petReminderCount)?.let {
                 notificationScheduler.scheduleNotification(it)
             }
         }

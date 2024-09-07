@@ -6,11 +6,14 @@ import com.gaoyun.roar.domain.reminder.GetReminder
 import com.gaoyun.roar.util.DateFormats
 import com.gaoyun.roar.util.formatDateTime
 import kotlinx.coroutines.flow.firstOrNull
+import org.jetbrains.compose.resources.getPluralString
 import org.jetbrains.compose.resources.getString
 import roar.sharedlib.generated.resources.Res
-import roar.sharedlib.generated.resources.app_name
 import roar.sharedlib.generated.resources.notification_content_dont_forget
 import roar.sharedlib.generated.resources.notification_title
+import roar.sharedlib.generated.resources.scheduled_info_notification_content
+import roar.sharedlib.generated.resources.scheduled_info_notification_title_multiple_pets
+import roar.sharedlib.generated.resources.scheduled_info_notification_title_single_pet
 
 class NotificationContentMaker(
     private val getInteraction: GetInteraction,
@@ -34,12 +37,20 @@ class NotificationContentMaker(
         } else null
     }
 
-    suspend fun makeInfoNotification(): NotificationContent {
-        //TODO: Add real content
-        return NotificationContent(
-            title = getString(Res.string.app_name),
-            content = "Test of the scheduled info notification"
-        )
+    suspend fun makeInfoNotification(petRemindersCount: Map<String, Int>): NotificationContent {
+        val remindersCount = petRemindersCount.values.sum()
+        return if (petRemindersCount.keys.size > 1) {
+            NotificationContent(
+                title = getString(Res.string.scheduled_info_notification_title_multiple_pets),
+                content = getPluralString(Res.plurals.scheduled_info_notification_content, remindersCount, remindersCount),
+            )
+        } else {
+            val petName = petRemindersCount.keys.firstOrNull() ?: ""
+            NotificationContent(
+                title = getString(Res.string.scheduled_info_notification_title_single_pet, petName),
+                content = getPluralString(Res.plurals.scheduled_info_notification_content, remindersCount, remindersCount),
+            )
+        }
     }
 }
 

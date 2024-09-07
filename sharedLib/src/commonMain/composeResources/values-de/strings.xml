@@ -248,6 +248,12 @@
     <!--  Benachrichtigungen  -->
     <string name="notification_title">Erinnerung für %1$s</string>
     <string name="notification_content_dont_forget">%1$s %2$s</string>
+    <string name="scheduled_info_notification_title_single_pet">%1$s braucht Ihre Aufmerksamkeit</string>
+    <string name="scheduled_info_notification_title_multiple_pets">Ihre Haustiere brauchen Aufmerksamkeit</string>
+    <plurals name="scheduled_info_notification_content">
+        <item quantity="one">%1$s Erinnerung zum Überprüfen</item>
+        <item quantity="other">%1$s Erinnerungen zum Überprüfen</item>
+    </plurals>
 
     <string name="about_app_button">Über die App</string>
     <string name="home_screen_mode_switcher_title">Vollständigen Haustierbildschirm anzeigen</string>

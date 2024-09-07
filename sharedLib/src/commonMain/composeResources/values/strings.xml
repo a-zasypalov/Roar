@@ -244,6 +244,12 @@
     <!--  Notifications  -->
     <string name="notification_title">Reminder for %1$s</string>
     <string name="notification_content_dont_forget">%1$s %2$s</string>
+    <string name="scheduled_info_notification_title_single_pet">%1$s needs your attention</string>
+    <string name="scheduled_info_notification_title_multiple_pets">Your pets need attention</string>
+    <plurals name="scheduled_info_notification_content">
+        <item quantity="one">%1$s reminder to check</item>
+        <item quantity="other">%1$s reminders to check</item>
+    </plurals>
 
     <!-- About page -->
     <string name="about_app_title">About Roar</string>

@@ -267,6 +267,13 @@
     <!--  Notifications  -->
     <string name="notification_title">%1$s</string>
     <string name="notification_content_dont_forget">%1$s %2$s</string>
+    <string name="scheduled_info_notification_title_single_pet">%1$s нуждается в вашем внимании</string>
+    <string name="scheduled_info_notification_title_multiple_pets">Вашим питомцам требуется внимание</string>
+    <plurals name="scheduled_info_notification_content">
+        <item quantity="one">%1$s напоминание ожидает вас</item>
+        <item quantity="two">%1$s напоминания ожидают вас</item>
+        <item quantity="other">%1$s напоминаний ожидают вас</item>
+    </plurals>
 
     <string name="about_app_button">О приложении</string>
     <string name="home_screen_mode_switcher_title">Развернутый вид домашнего экрана</string>

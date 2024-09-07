@@ -53,7 +53,8 @@ class NotificationSchedulerIOS: NotificationScheduler
         }
         if data.item is NotificationItemInfoReminder
         {
-            provider.notificationContentMaker.makeInfoNotification
+            guard let reminderData = data.item as? NotificationItemInfoReminder else { return }
+            provider.notificationContentMaker.makeInfoNotification(petRemindersCount: reminderData.petRemindersCount)
             {
                 notificationData, error in
                 self.executeNotificationScheduling(notificationData: notificationData, error: error, workId: workId, scheduled: scheduled)
@@ -85,8 +86,6 @@ class NotificationSchedulerIOS: NotificationScheduler
         else
         {
             TimeInterval(integerLiteral: 0)
-            // TODO: implement controlled late notification
-            // oneHour (let oneHour: TimeInterval = 3_600)
         }
 
         if triggerInterval > 0
