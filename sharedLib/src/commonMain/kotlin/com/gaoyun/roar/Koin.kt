@@ -131,7 +131,7 @@ val repositoryModule = module {
 
 val vmModule = module {
     single { AppNavigator(get()) }
-    factory { AppViewModel(get(), get(), get(), get(), get()) }
+    factory { AppViewModel(get(), get(), get()) }
     factory { OnboardingViewModel(get()) }
     factory { RegisterUserViewModel(get(), get(), get()) }
     factory { HomeScreenViewModel(get(), get(), get(), get(), get(), get(), get(), get(), get(), get()) }

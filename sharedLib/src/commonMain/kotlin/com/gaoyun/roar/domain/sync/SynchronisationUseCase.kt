@@ -1,6 +1,7 @@
 package com.gaoyun.roar.domain.sync
 
 import com.gaoyun.roar.domain.NotificationScheduler
+import com.gaoyun.roar.domain.interaction.GetInteraction
 import com.gaoyun.roar.domain.interaction.InsertInteraction
 import com.gaoyun.roar.domain.interaction.RemoveInteraction
 import com.gaoyun.roar.domain.pet.AddPetUseCase

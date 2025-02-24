@@ -23,8 +23,6 @@ class AppViewModel(
     private val colorsProvider: ColorsProvider,
     private val preferences: Preferences,
     private val appNavigator: AppNavigator,
-    synchronisationScheduler: SynchronisationScheduler,
-    getCurrentUserUseCase: GetCurrentUserUseCase,
 ) : ViewModel() {
 
     private val _event: MutableSharedFlow<NavigationSideEffect> = MutableSharedFlow()
@@ -35,7 +33,6 @@ class AppViewModel(
 
     init {
         scope.launch {
-            getCurrentUserUseCase.getCurrentUser().firstOrNull()?.run { synchronisationScheduler.scheduleNightlySynchronisation() }
             _event.collect {
                 handleNavigation(it)
             }

@@ -23,7 +23,6 @@ class UserRepositoryImpl(
     override suspend fun insertUser(user: User) {
         appDb.userEntityQueries.insert(user.id, user.name)
         scheduler.scheduleSynchronisation()
-        scheduler.scheduleNightlySynchronisation()
     }
 
     override suspend fun deleteUsers() {

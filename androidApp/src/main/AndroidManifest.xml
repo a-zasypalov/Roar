@@ -36,8 +36,6 @@
             </intent-filter>
         </service>
 
-        <receiver android:name="com.gaoyun.roar.domain.NightlyAlarmReceiver"/>
-
         <meta-data
             android:name="com.google.firebase.messaging.default_notification_channel_id"
             android:value="com.gaoyun.roar.push" />
