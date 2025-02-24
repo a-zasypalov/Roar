@@ -112,6 +112,7 @@ private fun PetAddingComplete(
         Text(
             stringResource(resource = Res.string.new_pet_added),
             style = MaterialTheme.typography.displayMedium,
+            textAlign = TextAlign.Center,
             modifier = Modifier.padding(horizontal = 8.dp)
         )
 
