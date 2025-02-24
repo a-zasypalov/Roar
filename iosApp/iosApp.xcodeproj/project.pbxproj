@@ -462,7 +462,7 @@
 				CODE_SIGN_ENTITLEMENTS = Roar.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 6;
+				CURRENT_PROJECT_VERSION = 8;
 				DEVELOPMENT_ASSET_PATHS = "\"iosApp/Preview Content\"";
 				DEVELOPMENT_TEAM = 55554XNCXE;
 				ENABLE_PREVIEWS = YES;
@@ -502,7 +502,7 @@
 				CODE_SIGN_ENTITLEMENTS = Roar.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 6;
+				CURRENT_PROJECT_VERSION = 8;
 				DEVELOPMENT_ASSET_PATHS = "\"iosApp/Preview Content\"";
 				DEVELOPMENT_TEAM = 55554XNCXE;
 				ENABLE_PREVIEWS = YES;
