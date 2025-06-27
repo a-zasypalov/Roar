@@ -1,7 +1,6 @@
 package com.gaoyun.roar.ui.features.interactions
 
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.icons.Icons
@@ -14,17 +13,13 @@ import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.compose.LifecycleEventEffect
-import com.gaoyun.roar.ui.navigation.BackNavigationEffect
-import com.gaoyun.roar.presentation.LAUNCH_LISTEN_FOR_EFFECTS
-import com.gaoyun.roar.ui.navigation.NavigationSideEffect
 import com.gaoyun.roar.presentation.interactions.InteractionScreenContract
 import com.gaoyun.roar.presentation.interactions.InteractionScreenViewModel
 import com.gaoyun.roar.ui.common.composables.BoxWithLoader
@@ -32,12 +27,11 @@ import com.gaoyun.roar.ui.common.composables.RoarExtendedFAB
 import com.gaoyun.roar.ui.common.composables.Spacer
 import com.gaoyun.roar.ui.common.composables.SurfaceScaffold
 import com.gaoyun.roar.ui.common.dialog.InteractionCompletionDialog
+import com.gaoyun.roar.ui.navigation.BackNavigationEffect
+import com.gaoyun.roar.ui.navigation.NavigationSideEffect
 import com.gaoyun.roar.util.SharedDateUtils
-import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.flow.onEach
-import moe.tlaster.precompose.koin.koinViewModel
-import moe.tlaster.precompose.navigation.BackHandler
 import org.jetbrains.compose.resources.stringResource
+import org.koin.compose.viewmodel.koinViewModel
 import roar.sharedlib.generated.resources.Res
 import roar.sharedlib.generated.resources.are_you_sure
 import roar.sharedlib.generated.resources.cancel
@@ -56,8 +50,9 @@ fun InteractionScreenDestination(
     onNavigationCall: (NavigationSideEffect) -> Unit,
     interactionId: String
 ) {
-    val viewModel = koinViewModel(vmClass = InteractionScreenViewModel::class)
-    val state = viewModel.viewState.collectAsState().value
+    val viewModel = koinViewModel<InteractionScreenViewModel>()
+    val state by viewModel.viewState.collectAsState()
+
     val notesState = rememberSaveable { mutableStateOf(state.interaction?.notes) }
     val savedNote = remember { mutableStateOf(state.interaction?.notes) }
 
@@ -66,44 +61,19 @@ fun InteractionScreenDestination(
         savedNote.value = state.interaction?.notes.orEmpty()
     }
 
-    LifecycleEventEffect(Lifecycle.Event.ON_CREATE) {
+    LaunchedEffect(Unit) {
         viewModel.buildScreenState(interactionId)
     }
 
-    BackHandler {
-        onNavigationCall(BackNavigationEffect)
-    }
+//    BackHandler { onNavigationCall(BackNavigationEffect) }
 
-    val showRemoveInteractionDialog = remember { mutableStateOf(false) }
-    val showRemoveReminderFromHistoryDialog = remember { mutableStateOf(false) }
+    // Local UI states for dialogs
+    val showRemoveReminderDialog = remember { mutableStateOf(false) }
     val reminderToRemoveId = remember { mutableStateOf<String?>(null) }
-
-    val showCompleteReminderDateDialog = remember { mutableStateOf(false) }
-    val completeReminderDateDialogDate = remember { mutableStateOf(SharedDateUtils.currentDateTime()) }
+    val showCompleteReminderDialog = remember { mutableStateOf(false) }
+    val completeReminderDate = remember { mutableStateOf(SharedDateUtils.currentDateTime()) }
     val reminderToCompleteId = remember { mutableStateOf<String?>(null) }
-
-    LaunchedEffect(LAUNCH_LISTEN_FOR_EFFECTS) {
-        viewModel.effect.onEach { effect ->
-            when (effect) {
-                is InteractionScreenContract.Effect.NavigateBack -> onNavigationCall(BackNavigationEffect)
-                is InteractionScreenContract.Effect.Navigation -> onNavigationCall(effect)
-                is InteractionScreenContract.Effect.ShowRemoveReminderFromHistoryDialog -> {
-                    reminderToRemoveId.value = effect.reminderId
-                    showRemoveReminderFromHistoryDialog.value = true
-                }
-
-                is InteractionScreenContract.Effect.ShowRemoveInteractionDialog -> {
-                    showRemoveInteractionDialog.value = true
-                }
-
-                is InteractionScreenContract.Effect.ShowCompleteReminderDialog -> {
-                    completeReminderDateDialogDate.value = effect.date
-                    reminderToCompleteId.value = effect.reminderId
-                    showCompleteReminderDateDialog.value = true
-                }
-            }
-        }.collect()
-    }
+    val showDeleteInteractionDialog = remember { mutableStateOf(false) }
 
     SurfaceScaffold(
         backHandler = { onNavigationCall(BackNavigationEffect) },
@@ -112,121 +82,99 @@ fun InteractionScreenDestination(
                 if (interaction.isActive) {
                     RoarExtendedFAB(
                         icon = Icons.Filled.Edit,
-                        contentDescription = stringResource(resource = Res.string.edit),
-                        text = stringResource(resource = Res.string.edit),
+                        contentDescription = stringResource(Res.string.edit),
+                        text = stringResource(Res.string.edit),
                         onClick = {
-                            viewModel.setEvent(
-                                InteractionScreenContract.Event.OnEditClick(
-                                    petId = state.pet?.id ?: "",
-                                    interaction = interaction
-                                )
-                            )
-                        })
+                            state.pet?.let { pet ->
+                                onNavigationCall(InteractionScreenContract.Effect.Navigation.ToEditInteraction(pet.id, interaction))
+                            }
+                        }
+                    )
                 }
             }
         },
         floatingActionButtonPosition = FabPosition.End
     ) {
-        when {
-            showRemoveReminderFromHistoryDialog.value -> {
-                AlertDialog(
-                    onDismissRequest = {
-                        showRemoveReminderFromHistoryDialog.value = false
-                        reminderToRemoveId.value = null
-                    },
-                    title = {
-                        Text(stringResource(resource = Res.string.are_you_sure))
-                    },
-                    text = {
-                        Text(stringResource(resource = Res.string.delete_reminder_from_history_confirmation_text))
-                    },
-                    confirmButton = {
-                        TextButton(onClick = {
-                            showRemoveReminderFromHistoryDialog.value = false
-                            reminderToRemoveId.value?.let {
-                                viewModel.setEvent(InteractionScreenContract.Event.OnReminderRemoveFromHistoryClick(reminderId = it, confirmed = true))
-                            }
-                            reminderToRemoveId.value = null
-                        }) {
-                            Text(stringResource(resource = Res.string.yes))
-                        }
-                    },
-                    dismissButton = {
-                        TextButton(onClick = {
-                            showRemoveReminderFromHistoryDialog.value = false
-                            reminderToRemoveId.value = null
-                        }) {
-                            Text(stringResource(resource = Res.string.cancel))
-                        }
-                    }
-                )
-            }
 
-            showRemoveInteractionDialog.value -> {
-                AlertDialog(
-                    onDismissRequest = { showRemoveInteractionDialog.value = false },
-                    title = {
-                        Text(stringResource(resource = Res.string.are_you_sure))
-                    },
-                    text = {
-                        Text(stringResource(resource = Res.string.delete_reminder_completely_confirmation_text))
-                    },
-                    confirmButton = {
-                        TextButton(onClick = {
-                            showRemoveInteractionDialog.value = false
-                            state.interaction?.let { interaction ->
-                                viewModel.setEvent(InteractionScreenContract.Event.OnDeleteButtonClick(interactionId = interaction.id, confirmed = true))
-                            }
-                        }) {
-                            Text(stringResource(resource = Res.string.yes))
+        // Remove Reminder dialog
+        if (showRemoveReminderDialog.value) {
+            AlertDialog(
+                onDismissRequest = { showRemoveReminderDialog.value = false },
+                title = { Text(stringResource(Res.string.are_you_sure)) },
+                text = { Text(stringResource(Res.string.delete_reminder_from_history_confirmation_text)) },
+                confirmButton = {
+                    TextButton(onClick = {
+                        reminderToRemoveId.value?.let {
+                            viewModel.removeReminderFromHistory(it)
                         }
-                    },
-                    dismissButton = {
-                        TextButton(onClick = {
-                            showRemoveInteractionDialog.value = false
-                        }) {
-                            Text(stringResource(resource = Res.string.cancel))
-                        }
-                    }
-                )
-            }
+                        showRemoveReminderDialog.value = false
+                    }) { Text(stringResource(Res.string.yes)) }
+                },
+                dismissButton = {
+                    TextButton(onClick = {
+                        showRemoveReminderDialog.value = false
+                    }) { Text(stringResource(Res.string.cancel)) }
+                }
+            )
+        }
 
-            showCompleteReminderDateDialog.value -> {
-                InteractionCompletionDialog(
-                    showCompleteReminderDateDialog = showCompleteReminderDateDialog,
-                    dateTime = completeReminderDateDialogDate.value,
-                    onConfirmButtonClick = {
-                        showCompleteReminderDateDialog.value = false
-                        viewModel.setEvent(
-                            InteractionScreenContract.Event.OnReminderCompleteClick(
-                                reminderId = reminderToCompleteId.value ?: "",
-                                isComplete = true,
-                                completionDateTime = SharedDateUtils.currentDateAt(
-                                    hour = completeReminderDateDialogDate.value.hour,
-                                    minute = completeReminderDateDialogDate.value.minute
-                                )
-                            )
+        // Complete Reminder dialog
+        if (showCompleteReminderDialog.value) {
+            InteractionCompletionDialog(
+                showCompleteReminderDateDialog = showCompleteReminderDialog,
+                dateTime = completeReminderDate.value,
+                onConfirmButtonClick = {
+                    showCompleteReminderDialog.value = false
+                    viewModel.onReminderComplete(
+                        reminderToCompleteId.value ?: "",
+                        isComplete = true,
+                        completionDateTime = SharedDateUtils.currentDateAt(
+                            hour = completeReminderDate.value.hour,
+                            minute = completeReminderDate.value.minute
                         )
-                    },
-                    onDismissButtonClick = {
-                        showCompleteReminderDateDialog.value = false
-                        viewModel.setEvent(
-                            InteractionScreenContract.Event.OnReminderCompleteClick(
-                                reminderId = reminderToCompleteId.value ?: "",
-                                isComplete = true,
-                                completionDateTime = completeReminderDateDialogDate.value
-                            )
-                        )
-                    }
-                )
-            }
+                    )
+                },
+                onDismissButtonClick = {
+                    showCompleteReminderDialog.value = false
+                    viewModel.onReminderComplete(
+                        reminderToCompleteId.value ?: "",
+                        isComplete = true,
+                        completionDateTime = completeReminderDate.value
+                    )
+                }
+            )
+        }
+
+        // Delete Interaction dialog
+        if (showDeleteInteractionDialog.value) {
+            AlertDialog(
+                onDismissRequest = { showDeleteInteractionDialog.value = false },
+                title = { Text(stringResource(Res.string.are_you_sure)) },
+                text = { Text(stringResource(Res.string.delete_reminder_completely_confirmation_text)) },
+                confirmButton = {
+                    TextButton(onClick = {
+                        state.interaction?.id?.let {
+                            viewModel.onDeleteInteraction(it) {
+                                onNavigationCall(BackNavigationEffect)
+                            }
+                        }
+                        showDeleteInteractionDialog.value = false
+                    }) { Text(stringResource(Res.string.yes)) }
+                },
+                dismissButton = {
+                    TextButton(onClick = {
+                        showDeleteInteractionDialog.value = false
+                    }) { Text(stringResource(Res.string.cancel)) }
+                }
+            )
         }
 
         BoxWithLoader(isLoading = state.isLoading) {
             state.interaction?.let { interaction ->
                 state.pet?.let { pet ->
                     val nextReminders = interaction.reminders.filter { !it.isCompleted }
-                    val completeReminders = interaction.reminders.filter { it.isCompleted }.sortedBy { it.dateTime }.reversed()
+                    val completedReminders = interaction.reminders.filter { it.isCompleted }
+                        .sortedByDescending { it.dateTime }
 
                     LazyColumn(modifier = Modifier.padding(horizontal = 8.dp)) {
                         item {
@@ -236,7 +184,7 @@ fun InteractionScreenDestination(
                                 notesState = notesState,
                                 savedNote = savedNote,
                                 onSaveNoteClick = {
-                                    viewModel.setEvent(InteractionScreenContract.Event.OnSaveNotes(notesState.value ?: ""))
+                                    viewModel.onSaveNotes(notesState.value ?: "")
                                 },
                                 modifier = Modifier.padding(top = 8.dp)
                             )
@@ -251,17 +199,24 @@ fun InteractionScreenDestination(
                                     modifier = Modifier.padding(vertical = 16.dp, horizontal = 8.dp)
                                 )
                             }
-
                             item {
                                 ReminderItems(
                                     reminders = nextReminders,
-                                    onReminderCompleteClick = viewModel::setEvent,
-                                    onCompleteReminderNotTodayClick = viewModel::setEvent
+                                    onReminderCompleteClick = { event ->
+                                        completeReminderDate.value = event.completionDateTime
+                                        reminderToCompleteId.value = event.reminderId
+                                        showCompleteReminderDialog.value = true
+                                    },
+                                    onCompleteReminderNotTodayClick = { event ->
+                                        completeReminderDate.value = event.date
+                                        reminderToCompleteId.value = event.reminderId
+                                        showCompleteReminderDialog.value = true
+                                    }
                                 )
                             }
                         }
 
-                        if (completeReminders.isNotEmpty()) {
+                        if (completedReminders.isNotEmpty()) {
                             item {
                                 Text(
                                     text = stringResource(resource = Res.string.history),
@@ -270,53 +225,51 @@ fun InteractionScreenDestination(
                                     modifier = Modifier.padding(vertical = 16.dp, horizontal = 8.dp)
                                 )
                             }
-
                             item {
                                 CompleteReminderItems(
-                                    reminders = completeReminders,
-                                    onReminderCompleteClick = viewModel::setEvent,
-                                    onReminderRemoveFromHistoryClick = viewModel::setEvent,
+                                    reminders = completedReminders,
+                                    onReminderCompleteClick = { event ->
+                                        completeReminderDate.value = event.completionDateTime
+                                        reminderToCompleteId.value = event.reminderId
+                                        showCompleteReminderDialog.value = true
+                                    },
+                                    onReminderRemoveFromHistoryClick = { event ->
+                                        reminderToRemoveId.value = event.reminderId
+                                        showRemoveReminderDialog.value = event.confirmed
+                                    }
                                 )
                             }
                         }
 
-                        item { Spacer(size = 32.dp) }
-
                         item {
-                            Column(
-                                modifier = Modifier.fillMaxWidth(),
-                                horizontalAlignment = Alignment.CenterHorizontally
-                            ) {
+                            Spacer(32.dp)
+                            Column(horizontalAlignment = Alignment.CenterHorizontally) {
                                 TextButton(onClick = {
-                                    viewModel.setEvent(
-                                        InteractionScreenContract.Event.OnActivateButtonClick(
-                                            interactionId = interaction.id,
-                                            activate = !interaction.isActive
-                                        )
+                                    viewModel.onActivateInteraction(
+                                        interactionId = interaction.id,
+                                        isActive = !interaction.isActive
                                     )
                                 }) {
                                     Text(
-                                        text = if (interaction.isActive) stringResource(resource = Res.string.deactivate) else stringResource(resource = Res.string.reactivate),
-                                        color = MaterialTheme.colorScheme.primary,
-                                        style = MaterialTheme.typography.titleMedium,
-                                        modifier = Modifier.padding(horizontal = 32.dp, vertical = 8.dp)
+                                        text = if (interaction.isActive)
+                                            stringResource(Res.string.deactivate)
+                                        else
+                                            stringResource(Res.string.reactivate)
                                     )
                                 }
-
                                 Spacer(8.dp)
-
-                                TextButton(onClick = { viewModel.setEvent(InteractionScreenContract.Event.OnDeleteButtonClick(interactionId = interaction.id)) }) {
+                                TextButton(onClick = {
+                                    showDeleteInteractionDialog.value = true
+                                }) {
                                     Text(
-                                        text = stringResource(resource = Res.string.delete_interaction),
-                                        color = MaterialTheme.colorScheme.error,
-                                        style = MaterialTheme.typography.titleMedium,
-                                        modifier = Modifier.padding(horizontal = 32.dp, vertical = 8.dp)
+                                        text = stringResource(Res.string.delete_interaction),
+                                        color = MaterialTheme.colorScheme.error
                                     )
                                 }
                             }
                         }
 
-                        item { Spacer(size = 120.dp) }
+                        item { Spacer(120.dp) }
                     }
                 }
             }
