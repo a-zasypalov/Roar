@@ -1,9 +1,7 @@
 package com.gaoyun.roar.presentation.add_reminder.complete
 
-import com.gaoyun.roar.presentation.MultiplatformBaseViewModel
-
 class AddReminderCompleteScreenViewModel :
-    MultiplatformBaseViewModel<AddReminderCompleteScreenContract.Event, AddReminderCompleteScreenContract.State, AddReminderCompleteScreenContract.Effect>() {
+    BaseViewModel<AddReminderCompleteScreenContract.Event, AddReminderCompleteScreenContract.State, AddReminderCompleteScreenContract.Effect>() {
 
     override fun setInitialState() = AddReminderCompleteScreenContract.State(isLoading = false)
 

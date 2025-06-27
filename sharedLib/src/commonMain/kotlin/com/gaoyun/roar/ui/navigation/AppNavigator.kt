@@ -1,10 +1,12 @@
 package com.gaoyun.roar.ui.navigation
 
 import androidx.navigation.NavType
-import com.gaoyun.roar.presentation.add_pet.avatar.AddPetAvatarScreenContract
+import com.gaoyun.roar.presentation.add_pet.ToPetData
 import com.gaoyun.roar.presentation.add_pet.data.AddPetDataScreenContract
 import com.gaoyun.roar.presentation.add_pet.setup.AddPetSetupScreenContract
-import com.gaoyun.roar.presentation.add_pet.type.AddPetPetTypeScreenContract
+import com.gaoyun.roar.presentation.add_pet.ToPetAvatar
+import com.gaoyun.roar.presentation.add_pet.data.ToAvatarEdit
+import com.gaoyun.roar.presentation.add_pet.data.ToPetSetup
 import com.gaoyun.roar.presentation.add_reminder.choose_template.AddReminderScreenContract
 import com.gaoyun.roar.presentation.add_reminder.complete.AddReminderCompleteScreenContract
 import com.gaoyun.roar.presentation.add_reminder.setup_reminder.SetupReminderScreenContract
@@ -47,10 +49,10 @@ class AppNavigator(private val closeAppActionHandler: CloseAppActionHandler) : K
         is HomeScreenContract.Effect.Navigation.ToUserScreen -> toUserScreen()
 
         is RegisterUserScreenContract.Effect.Navigation.ToPetAdding -> toPetAdding()
-        is AddPetPetTypeScreenContract.Effect.Navigation.ToPetAvatar -> NavigationAction.NavigateTo(AddPetAvatarArgs(call.petType))
-        is AddPetAvatarScreenContract.Effect.Navigation.ToPetData -> NavigationAction.NavigateTo(AddPetDataArgs(call.petType, call.avatar))
-        is AddPetDataScreenContract.Effect.Navigation.ToAvatarEdit -> NavigationAction.NavigateTo(PetEditAvatarArgs(call.petType.name, call.petId))
-        is AddPetDataScreenContract.Effect.Navigation.ToPetSetup -> NavigationAction.NavigateTo(AddPetSetupArgs(call.petId))
+        is ToPetAvatar -> NavigationAction.NavigateTo(AddPetAvatarArgs(call.petType))
+        is ToPetData -> NavigationAction.NavigateTo(AddPetDataArgs(call.petType, call.avatar))
+        is ToAvatarEdit -> NavigationAction.NavigateTo(PetEditAvatarArgs(call.petType.name, call.petId))
+        is ToPetSetup -> NavigationAction.NavigateTo(AddPetSetupArgs(call.petId))
         is AddPetSetupScreenContract.Effect.Navigation.Continue -> finishPetSetup()
         is AddPetSetupScreenContract.Effect.Navigation.OpenTemplates -> NavigationAction.NavigateTo(AddReminderArgs(call.petId))
 

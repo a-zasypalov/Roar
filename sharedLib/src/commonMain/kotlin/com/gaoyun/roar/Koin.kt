@@ -39,11 +39,11 @@ import com.gaoyun.roar.network.PetsApi
 import com.gaoyun.roar.notifications.NotificationContentMaker
 import com.gaoyun.roar.notifications.NotificationHandler
 import com.gaoyun.roar.notifications.ScheduledInfoNotificationCreator
-import com.gaoyun.roar.presentation.about_screen.AboutScreenViewModel
-import com.gaoyun.roar.presentation.add_pet.avatar.AddPetAvatarScreenViewModel
+import com.gaoyun.roar.presentation.AboutScreenViewModel
+import com.gaoyun.roar.presentation.add_pet.AddPetAvatarScreenViewModel
 import com.gaoyun.roar.presentation.add_pet.data.AddPetDataScreenViewModel
 import com.gaoyun.roar.presentation.add_pet.setup.AddPetSetupScreenViewModel
-import com.gaoyun.roar.presentation.add_pet.type.AddPetPetTypeScreenViewModel
+import com.gaoyun.roar.presentation.add_pet.AddPetPetTypeScreenViewModel
 import com.gaoyun.roar.presentation.add_reminder.choose_template.AddReminderScreenViewModel
 import com.gaoyun.roar.presentation.add_reminder.complete.AddReminderCompleteScreenViewModel
 import com.gaoyun.roar.presentation.add_reminder.setup_reminder.SetupReminderScreenViewModel

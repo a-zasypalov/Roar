@@ -13,58 +13,50 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.gaoyun.roar.config.PetsConfig
-import com.gaoyun.roar.ui.navigation.BackNavigationEffect
-import com.gaoyun.roar.presentation.LAUNCH_LISTEN_FOR_EFFECTS
-import com.gaoyun.roar.ui.navigation.NavigationSideEffect
-import com.gaoyun.roar.presentation.add_pet.type.AddPetPetTypeScreenContract
-import com.gaoyun.roar.presentation.add_pet.type.AddPetPetTypeScreenViewModel
+import com.gaoyun.roar.model.domain.PetType
+import com.gaoyun.roar.presentation.add_pet.AddPetPetTypeScreenViewModel
+import com.gaoyun.roar.presentation.add_pet.ToPetAvatar
 import com.gaoyun.roar.ui.common.composables.RoarIcon
 import com.gaoyun.roar.ui.common.composables.SurfaceScaffold
 import com.gaoyun.roar.ui.common.composables.platformStyleClickable
+import com.gaoyun.roar.ui.navigation.BackNavigationEffect
+import com.gaoyun.roar.ui.navigation.NavigationSideEffect
 import com.gaoyun.roar.ui.theme.RoarTheme
 import com.gaoyun.roar.ui.theme.RoarThemePreview
-import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.flow.onEach
-import moe.tlaster.precompose.koin.koinViewModel
 import org.jetbrains.compose.resources.stringResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
+import org.koin.compose.viewmodel.koinViewModel
 import roar.sharedlib.generated.resources.Res
 import roar.sharedlib.generated.resources.new_pet
 
 @Composable
-fun AddPetPetTypeDestination(onNavigationCall: (NavigationSideEffect) -> Unit) {
-    val viewModel = koinViewModel(vmClass = AddPetPetTypeScreenViewModel::class)
-    val state = viewModel.viewState.collectAsState().value
-
-    LaunchedEffect(LAUNCH_LISTEN_FOR_EFFECTS) {
-        viewModel.effect.onEach { effect ->
-            when (effect) {
-                is AddPetPetTypeScreenContract.Effect.Navigation -> onNavigationCall(effect)
-            }
-        }.collect()
-    }
+fun AddPetPetTypeDestination(
+    navigate: (NavigationSideEffect) -> Unit
+) {
+    val viewModel = koinViewModel<AddPetPetTypeScreenViewModel>()
+    val viewState = viewModel.viewState.collectAsState().value
 
     SurfaceScaffold(
-        backHandler = { onNavigationCall(BackNavigationEffect) }
+        backHandler = { navigate(BackNavigationEffect) }
     ) {
         ChoosePetType(
-            petTypes = state.petTypes,
-            onPetTypeChosen = viewModel::setEvent,
+            petTypes = viewState.petTypes,
+            onPetTypeChosen = { petType ->
+                navigate(ToPetAvatar(petType.name))
+            }
         )
     }
-
 }
 
 @Composable
 private fun ChoosePetType(
     petTypes: List<PetsConfig.PetTypeConfig>,
-    onPetTypeChosen: (AddPetPetTypeScreenContract.Event.PetTypeChosen) -> Unit
+    onPetTypeChosen: (PetType) -> Unit
 ) {
     Box(
         contentAlignment = Alignment.TopCenter,
@@ -98,11 +90,7 @@ private fun ChoosePetType(
                         modifier = Modifier
                             .fillMaxSize()
                             .platformStyleClickable {
-                                onPetTypeChosen(
-                                    AddPetPetTypeScreenContract.Event.PetTypeChosen(
-                                        type.enumType
-                                    )
-                                )
+                                onPetTypeChosen(type.enumType)
                             }
                     ) {
                         RoarIcon(

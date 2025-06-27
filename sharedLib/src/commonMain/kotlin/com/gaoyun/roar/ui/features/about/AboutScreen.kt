@@ -17,7 +17,6 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -29,22 +28,18 @@ import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
-import com.gaoyun.roar.ui.navigation.BackNavigationEffect
-import com.gaoyun.roar.presentation.LAUNCH_LISTEN_FOR_EFFECTS
-import com.gaoyun.roar.ui.navigation.NavigationSideEffect
-import com.gaoyun.roar.presentation.about_screen.AboutScreenContract
-import com.gaoyun.roar.presentation.about_screen.AboutScreenViewModel
+import com.gaoyun.roar.presentation.AboutScreenViewModel
 import com.gaoyun.roar.ui.common.composables.Spacer
 import com.gaoyun.roar.ui.common.composables.SurfaceScaffold
 import com.gaoyun.roar.ui.common.composables.platformStyleClickable
+import com.gaoyun.roar.ui.navigation.BackNavigationEffect
+import com.gaoyun.roar.ui.navigation.NavigationSideEffect
 import com.gaoyun.roar.ui.theme.RoarTheme
 import com.gaoyun.roar.ui.theme.RoarThemePreview
-import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.flow.onEach
-import moe.tlaster.precompose.koin.koinViewModel
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
+import org.koin.compose.viewmodel.koinViewModel
 import roar.sharedlib.generated.resources.Res
 import roar.sharedlib.generated.resources.about_app_description
 import roar.sharedlib.generated.resources.about_app_title
@@ -68,24 +63,14 @@ import roar.sharedlib.generated.resources.website
 
 @Composable
 fun AboutScreenDestination(
-    onNavigationCall: (NavigationSideEffect) -> Unit,
+    navigate: (NavigationSideEffect) -> Unit,
 ) {
-    val viewModel = koinViewModel(vmClass = AboutScreenViewModel::class)
+    val viewModel = koinViewModel<AboutScreenViewModel>()
 
     val email = stringResource(resource = Res.string.url_email)
     val subject = stringResource(resource = Res.string.app_name)
 
-    LaunchedEffect(LAUNCH_LISTEN_FOR_EFFECTS) {
-        viewModel.effect.onEach { effect ->
-            when (effect) {
-                is AboutScreenContract.Effect.NavigateBack -> onNavigationCall(BackNavigationEffect)
-            }
-        }.collect()
-    }
-
-    SurfaceScaffold(
-        backHandler = { viewModel.setEvent(AboutScreenContract.Event.NavigateBack) },
-    ) {
+    SurfaceScaffold(backHandler = { navigate(BackNavigationEffect) }) {
         AboutScreenContent { viewModel.sendEmail(email, subject) }
     }
 }

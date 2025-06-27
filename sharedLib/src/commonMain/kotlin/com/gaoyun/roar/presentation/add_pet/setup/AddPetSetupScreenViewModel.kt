@@ -1,36 +1,40 @@
 package com.gaoyun.roar.presentation.add_pet.setup
 
+import androidx.lifecycle.viewModelScope
 import com.gaoyun.roar.domain.pet.GetPetUseCase
-import com.gaoyun.roar.presentation.MultiplatformBaseViewModel
+import com.gaoyun.roar.model.domain.Pet
+import com.gaoyun.roar.presentation.BaseViewModel
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
 class AddPetSetupScreenViewModel(
     private val getPetUseCase: GetPetUseCase,
-) : MultiplatformBaseViewModel<AddPetSetupScreenContract.Event, AddPetSetupScreenContract.State, AddPetSetupScreenContract.Effect>() {
+) : BaseViewModel() {
 
-    override fun setInitialState() = AddPetSetupScreenContract.State(isLoading = false)
+    override val viewState = MutableStateFlow(
+        AddPetSetupScreenContractState(isLoading = false)
+    )
 
-    override fun handleEvents(event: AddPetSetupScreenContract.Event) {
-        when (event) {
-            is AddPetSetupScreenContract.Event.PetInit -> getPet(event.petId)
-            is AddPetSetupScreenContract.Event.ContinueButtonClicked -> setEffect {
-                AddPetSetupScreenContract.Effect.Navigation.Continue
-            }
-
-            is AddPetSetupScreenContract.Event.OpenTemplatesButtonClicked -> viewState.value.pet?.id?.let {
-                setEffect { AddPetSetupScreenContract.Effect.Navigation.OpenTemplates(it) }
-                setState { copy(isComplete = true, pet = null) }
+    fun initialize(petId: String, onContinue: () -> Unit) {
+        viewModelScope.launch {
+            if (viewState.value.isComplete) {
+                onContinue()
+            } else {
+                getPetUseCase.getPet(petId).collect { pet ->
+                    viewState.update { it.copy(pet = pet) }
+                }
             }
         }
     }
 
-    private fun getPet(petId: String) = scope.launch {
-        if (viewState.value.isComplete) {
-            setEffect { AddPetSetupScreenContract.Effect.Navigation.Continue }
-        } else {
-            getPetUseCase.getPet(petId).collect { pet ->
-                setState { copy(pet = pet) }
-            }
-        }
+    fun markComplete() {
+        viewState.update { it.copy(isComplete = true, pet = null) }
     }
 }
+
+data class AddPetSetupScreenContractState(
+    val pet: Pet? = null,
+    val isLoading: Boolean = false,
+    val isComplete: Boolean = false
+)

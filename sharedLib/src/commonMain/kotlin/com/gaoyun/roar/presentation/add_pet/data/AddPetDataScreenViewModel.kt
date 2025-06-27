@@ -1,18 +1,23 @@
 package com.gaoyun.roar.presentation.add_pet.data
 
+import androidx.lifecycle.viewModelScope
 import com.gaoyun.roar.domain.pet.AddPetUseCase
 import com.gaoyun.roar.domain.pet.GetPetBreedsUseCase
 import com.gaoyun.roar.domain.pet.GetPetUseCase
 import com.gaoyun.roar.domain.pet.SetPetAvatar
 import com.gaoyun.roar.model.domain.LanguageCode
+import com.gaoyun.roar.model.domain.Pet
 import com.gaoyun.roar.model.domain.PetType
 import com.gaoyun.roar.model.domain.toGender
 import com.gaoyun.roar.model.domain.toLanguageCode
 import com.gaoyun.roar.model.domain.toPetType
-import com.gaoyun.roar.presentation.MultiplatformBaseViewModel
+import com.gaoyun.roar.presentation.BaseViewModel
+import com.gaoyun.roar.ui.navigation.NavigationSideEffect
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.firstOrNull
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import kotlinx.datetime.LocalDate
 
@@ -21,56 +26,35 @@ class AddPetDataScreenViewModel(
     private val petBreedsUseCase: GetPetBreedsUseCase,
     private val getPet: GetPetUseCase,
     private val setPetAvatar: SetPetAvatar,
-) : MultiplatformBaseViewModel<AddPetDataScreenContract.Event, AddPetDataScreenContract.State, AddPetDataScreenContract.Effect>() {
+) : BaseViewModel() {
 
-    override fun setInitialState() = AddPetDataScreenContract.State(isLoading = true)
+    override val viewState = MutableStateFlow(AddPetDataScreenContractState(isLoading = true))
 
-    override fun handleEvents(event: AddPetDataScreenContract.Event) {
-        when (event) {
-            is AddPetDataScreenContract.Event.AddPetButtonClicked -> with(event) {
-                addPet(
-                    petType = petType,
-                    breed = breed,
-                    name = name,
-                    avatar = avatar,
-                    birthday = birthday,
-                    isSterilized = isSterilized,
-                    chipNumber = chipNumber,
-                    gender = gender
-                )
-            }
-
-            is AddPetDataScreenContract.Event.PetDataInit -> {
-                setState { copy(petType = event.petType.toPetType(), avatar = event.avatar) }
-                getPetInfo(event.petType.toPetType(), event.petId, event.localeCode.toLanguageCode(), event.noBreedString)
-            }
-
-            is AddPetDataScreenContract.Event.NavigateToAvatarEdit -> {
-                setEffect { AddPetDataScreenContract.Effect.Navigation.ToAvatarEdit(event.petId, event.petType) }
-            }
-
-            is AddPetDataScreenContract.Event.NavigateBack -> {
-                setEffect { AddPetDataScreenContract.Effect.NavigateBack(confirmed = false) }
-            }
-        }
+    fun initialize(
+        petType: String,
+        avatar: String,
+        petId: String?,
+        localeCode: String,
+        noBreedString: String
+    ) {
+        viewState.update { it.copy(petType = petType.toPetType(), avatar = avatar) }
+        getPetInfo(petType.toPetType(), petId, localeCode.toLanguageCode(), noBreedString)
     }
 
-    private fun getPetInfo(petType: PetType, petId: String?, languageCode: LanguageCode, noBreedString: String) = scope.launch {
+    private fun getPetInfo(
+        petType: PetType,
+        petId: String?,
+        languageCode: LanguageCode,
+        noBreedString: String
+    ) = viewModelScope.launch {
         val pet = petId?.let { id -> getPet.getPet(id).firstOrNull() }
-        petBreedsUseCase.getBreeds(petType, languageCode).collect {
-            val breeds = it.toMutableList()
-            breeds.add(0, noBreedString)
-            setState { copy(breeds = breeds, pet = pet, isLoading = false) }
+        petBreedsUseCase.getBreeds(petType, languageCode).collect { breeds ->
+            val listWithNone = breeds.toMutableList().apply { add(0, noBreedString) }
+            viewState.update { it.copy(breeds = listWithNone, pet = pet, isLoading = false) }
         }
     }
 
-    fun revertPetAvatar(petId: String, avatar: String) = scope.launch {
-        setPetAvatar.setAvatar(petId, avatar).collect {
-            setEffect { AddPetDataScreenContract.Effect.NavigateBack(confirmed = true) }
-        }
-    }
-
-    private fun addPet(
+    fun addOrEditPet(
         petType: String,
         breed: String,
         name: String,
@@ -78,12 +62,14 @@ class AddPetDataScreenViewModel(
         birthday: LocalDate,
         gender: String,
         chipNumber: String,
-        isSterilized: Boolean
-    ) = scope.launch {
-        val petToEdit = viewState.value.pet
-        if (petToEdit != null) {
+        isSterilized: Boolean,
+        onSuccessNavigate: (String) -> Unit,
+        onBack: () -> Unit
+    ) = viewModelScope.launch {
+        val existingPet = viewState.value.pet
+        if (existingPet != null) {
             addPetUseCase.addPet(
-                petToEdit.copy(
+                existingPet.copy(
                     name = name,
                     breed = breed,
                     avatar = avatar,
@@ -93,7 +79,9 @@ class AddPetDataScreenViewModel(
                     isSterilized = isSterilized
                 )
             ).catch { it.printStackTrace() }
-                .collectLatest { petSavedSuccessful() }
+                .collectLatest {
+                    onBack()
+                }
         } else {
             addPetUseCase.addPet(
                 petType = petType,
@@ -105,17 +93,29 @@ class AddPetDataScreenViewModel(
                 isSterilized = isSterilized,
                 gender = gender.toGender()
             ).catch { it.printStackTrace() }
-                .collectLatest { petId ->
-                    petAddedSuccessful(petId)
+                .collectLatest { newId ->
+                    onSuccessNavigate(newId)
                 }
         }
     }
 
-    private fun petAddedSuccessful(petId: String) {
-        setEffect { AddPetDataScreenContract.Effect.Navigation.ToPetSetup(petId) }
-    }
-
-    private fun petSavedSuccessful() {
-        setEffect { AddPetDataScreenContract.Effect.NavigateBack(confirmed = true) }
+    fun revertPetAvatar(
+        petId: String,
+        avatar: String,
+        onBack: () -> Unit
+    ) = viewModelScope.launch {
+        setPetAvatar.setAvatar(petId, avatar)
+        onBack()
     }
 }
+
+class ToAvatarEdit(val petId: String, val petType: PetType) : NavigationSideEffect
+class ToPetSetup(val petId: String) : NavigationSideEffect
+
+data class AddPetDataScreenContractState(
+    val petType: PetType? = null,
+    val avatar: String? = null,
+    val breeds: List<String> = listOf(),
+    val pet: Pet? = null,
+    val isLoading: Boolean = false
+)

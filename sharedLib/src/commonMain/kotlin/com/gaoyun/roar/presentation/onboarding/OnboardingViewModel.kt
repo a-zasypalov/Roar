@@ -1,11 +1,10 @@
 package com.gaoyun.roar.presentation.onboarding
 
 import com.gaoyun.roar.domain.onboarding.CompleteOnboardingUseCase
-import com.gaoyun.roar.presentation.MultiplatformBaseViewModel
 
 class OnboardingViewModel(
     private val completeOnboardingUseCase: CompleteOnboardingUseCase,
-) : MultiplatformBaseViewModel<OnboardingScreenContract.Event, OnboardingScreenContract.State, OnboardingScreenContract.Effect>() {
+) : BaseViewModel<OnboardingScreenContract.Event, OnboardingScreenContract.State, OnboardingScreenContract.Effect>() {
 
     override fun setInitialState() = OnboardingScreenContract.State
 

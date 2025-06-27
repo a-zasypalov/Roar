@@ -3,13 +3,12 @@ package com.gaoyun.roar.presentation.user_edit
 import com.gaoyun.roar.domain.user.EditUserUseCase
 import com.gaoyun.roar.domain.user.GetCurrentUserUseCase
 import com.gaoyun.roar.model.domain.User
-import com.gaoyun.roar.presentation.MultiplatformBaseViewModel
 import kotlinx.coroutines.launch
 
 class EditUserScreenViewModel(
     private val getUser: GetCurrentUserUseCase,
     private val editUserUseCase: EditUserUseCase,
-) : MultiplatformBaseViewModel<EditUserScreenContract.Event, EditUserScreenContract.State, EditUserScreenContract.Effect>() {
+) : BaseViewModel<EditUserScreenContract.Event, EditUserScreenContract.State, EditUserScreenContract.Effect>() {
 
     init {
         buildScreenState()

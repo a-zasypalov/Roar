@@ -5,7 +5,6 @@ import com.gaoyun.roar.domain.interaction.InteractionsListBuilder
 import com.gaoyun.roar.domain.pet.GetPetUseCase
 import com.gaoyun.roar.domain.pet.RemovePetUseCase
 import com.gaoyun.roar.domain.reminder.SetReminderComplete
-import com.gaoyun.roar.presentation.MultiplatformBaseViewModel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.map
@@ -18,7 +17,7 @@ class PetScreenViewModel(
     private val removePet: RemovePetUseCase,
     private val setReminderComplete: SetReminderComplete,
     private val interactionsListBuilder: InteractionsListBuilder,
-) : MultiplatformBaseViewModel<PetScreenContract.Event, PetScreenContract.State, PetScreenContract.Effect>() {
+) : BaseViewModel<PetScreenContract.Event, PetScreenContract.State, PetScreenContract.Effect>() {
 
     override fun setInitialState() = PetScreenContract.State(isLoading = true)
 

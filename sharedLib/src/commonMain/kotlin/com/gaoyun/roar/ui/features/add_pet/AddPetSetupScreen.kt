@@ -14,7 +14,6 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -27,8 +26,6 @@ import androidx.lifecycle.compose.LifecycleEventEffect
 import com.gaoyun.roar.model.domain.Gender
 import com.gaoyun.roar.model.domain.Pet
 import com.gaoyun.roar.model.domain.PetType
-import com.gaoyun.roar.presentation.LAUNCH_LISTEN_FOR_EFFECTS
-import com.gaoyun.roar.ui.navigation.NavigationSideEffect
 import com.gaoyun.roar.presentation.add_pet.setup.AddPetSetupScreenContract
 import com.gaoyun.roar.presentation.add_pet.setup.AddPetSetupScreenViewModel
 import com.gaoyun.roar.ui.common.composables.BoxWithLoader
@@ -36,16 +33,14 @@ import com.gaoyun.roar.ui.common.composables.PrimaryElevatedButton
 import com.gaoyun.roar.ui.common.composables.Spacer
 import com.gaoyun.roar.ui.common.composables.SurfaceScaffold
 import com.gaoyun.roar.ui.common.ext.getDrawableByName
+import com.gaoyun.roar.ui.navigation.NavigationSideEffect
 import com.gaoyun.roar.ui.theme.RoarThemePreview
 import com.gaoyun.roar.util.randomUUID
-import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.flow.onEach
 import kotlinx.datetime.LocalDate
-import moe.tlaster.precompose.koin.koinViewModel
-import moe.tlaster.precompose.navigation.BackHandler
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
+import org.koin.compose.viewmodel.koinViewModel
 import roar.sharedlib.generated.resources.Res
 import roar.sharedlib.generated.resources.new_pet_added
 import roar.sharedlib.generated.resources.new_pet_added_subtitle
@@ -54,33 +49,31 @@ import roar.sharedlib.generated.resources.skip_label
 
 @Composable
 fun AddPetSetupDestination(
-    onNavigationCall: (NavigationSideEffect) -> Unit,
+    navigate: (NavigationSideEffect) -> Unit,
     petId: String,
 ) {
-    val viewModel = koinViewModel(vmClass = AddPetSetupScreenViewModel::class)
+    val viewModel = koinViewModel<AddPetSetupScreenViewModel>()
     val state = viewModel.viewState.collectAsState().value
 
     LifecycleEventEffect(Lifecycle.Event.ON_CREATE) {
-        viewModel.setEvent(AddPetSetupScreenContract.Event.PetInit(petId))
+        viewModel.initialize(
+            petId,
+            onContinue = { navigate(AddPetSetupScreenContract.Effect.Navigation.Continue) }
+        )
     }
-
-    LaunchedEffect(LAUNCH_LISTEN_FOR_EFFECTS) {
-        viewModel.effect.onEach { effect ->
-            when (effect) {
-                is AddPetSetupScreenContract.Effect.Navigation -> onNavigationCall(effect)
-            }
-        }.collect()
-    }
-
-    BackHandler(enabled = true) {}
 
     SurfaceScaffold {
         BoxWithLoader(isLoading = state.isLoading, modifier = Modifier.fillMaxSize()) {
-            state.pet?.let {
+            state.pet?.let { pet ->
                 PetAddingComplete(
-                    pet = it,
-                    onContinueButtonClicked = viewModel::setEvent,
-                    onAddReminderButtonClicked = viewModel::setEvent,
+                    pet = pet,
+                    onContinueButtonClicked = {
+                        navigate(AddPetSetupScreenContract.Effect.Navigation.Continue)
+                    },
+                    onAddReminderButtonClicked = {
+                        navigate(AddPetSetupScreenContract.Effect.Navigation.OpenTemplates(pet.id))
+                        viewModel.markComplete()
+                    }
                 )
             }
         }

@@ -18,7 +18,6 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.toRoute
-import com.gaoyun.roar.presentation.LAUNCH_LISTEN_FOR_EFFECTS
 import com.gaoyun.roar.ui.features.about.AboutScreenDestination
 import com.gaoyun.roar.ui.features.add_pet.AddPetAvatarDestination
 import com.gaoyun.roar.ui.features.add_pet.AddPetPetTypeDestination
@@ -75,7 +74,7 @@ fun GlobalDestinationState(
 ) {
     val navController = rememberNavController()
 
-    LaunchedEffect(LAUNCH_LISTEN_FOR_EFFECTS) {
+    LaunchedEffect("LAUNCH_LISTEN_FOR_EFFECTS") {
         viewModel.navigationEffect.onEach { action ->
             when (action) {
                 is NavigationAction.NavigateBack -> navController.popBackStack()
@@ -200,7 +199,7 @@ internal val AppNavigationPaths: NavGraphBuilder.(
         val args = it.toRoute<AddPetAvatarArgs>()
         AddPetAvatarDestination(
             petType = args.petType,
-            onNavigationCall = viewModel::navigate
+            navigate = viewModel::navigate
         )
     }
 
@@ -238,7 +237,7 @@ internal val AppNavigationPaths: NavGraphBuilder.(
     }
 
     composable(NavigationKeys.Route.ABOUT_ROUTE) {
-        AboutScreenDestination(onNavigationCall = viewModel::navigate)
+        AboutScreenDestination(navigate = viewModel::navigate)
     }
 
     composable<PetEditAvatarArgs>(typeMap = appArgsTypeMap) {
@@ -246,7 +245,7 @@ internal val AppNavigationPaths: NavGraphBuilder.(
         AddPetAvatarDestination(
             petType = args.petType,
             petId = args.petId,
-            onNavigationCall = viewModel::navigate
+            navigate = viewModel::navigate
         )
     }
 

@@ -8,7 +8,6 @@ import com.gaoyun.roar.domain.user.DeleteAccountUseCase
 import com.gaoyun.roar.domain.user.GetCurrentUserUseCase
 import com.gaoyun.roar.domain.user.LogoutUseCase
 import com.gaoyun.roar.network.SynchronisationApi
-import com.gaoyun.roar.presentation.MultiplatformBaseViewModel
 import com.gaoyun.roar.util.AppIcon
 import com.gaoyun.roar.util.BackupHandler
 import com.gaoyun.roar.util.ColorTheme
@@ -35,7 +34,7 @@ class UserScreenViewModel(
     private val getPetUseCase: GetPetUseCase,
     private val themeChanger: ThemeChanger,
     private val backupHandler: BackupHandler
-) : MultiplatformBaseViewModel<UserScreenContract.Event, UserScreenContract.State, UserScreenContract.Effect>() {
+) : BaseViewModel<UserScreenContract.Event, UserScreenContract.State, UserScreenContract.Effect>() {
 
     private val backupState = MutableStateFlow("")
 

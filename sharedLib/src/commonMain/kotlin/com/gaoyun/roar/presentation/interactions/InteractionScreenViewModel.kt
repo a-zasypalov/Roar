@@ -8,7 +8,6 @@ import com.gaoyun.roar.domain.pet.GetPetUseCase
 import com.gaoyun.roar.domain.reminder.RemoveReminder
 import com.gaoyun.roar.domain.reminder.SetReminderComplete
 import com.gaoyun.roar.model.domain.interactions.withoutReminders
-import com.gaoyun.roar.presentation.MultiplatformBaseViewModel
 import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.launch
 import kotlinx.datetime.LocalDateTime
@@ -21,7 +20,7 @@ class InteractionScreenViewModel(
     private val removeReminder: RemoveReminder,
     private val removeInteraction: RemoveInteraction,
     private val activateInteraction: ActivateInteraction,
-) : MultiplatformBaseViewModel<InteractionScreenContract.Event, InteractionScreenContract.State, InteractionScreenContract.Effect>() {
+) : BaseViewModel<InteractionScreenContract.Event, InteractionScreenContract.State, InteractionScreenContract.Effect>() {
 
     override fun setInitialState() = InteractionScreenContract.State(isLoading = true)
 
