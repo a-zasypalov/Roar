@@ -1,7 +1,7 @@
 package com.gaoyun.roar.presentation.add_pet.avatar
 
 import com.gaoyun.roar.config.PetsConfig
-import com.gaoyun.roar.presentation.NavigationSideEffect
+import com.gaoyun.roar.ui.navigation.NavigationSideEffect
 import com.gaoyun.roar.presentation.ViewEvent
 import com.gaoyun.roar.presentation.ViewSideEffect
 import com.gaoyun.roar.presentation.ViewState

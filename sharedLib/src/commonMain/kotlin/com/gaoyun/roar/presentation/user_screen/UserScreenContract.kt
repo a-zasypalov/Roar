@@ -1,7 +1,7 @@
 package com.gaoyun.roar.presentation.user_screen
 
 import com.gaoyun.roar.model.domain.User
-import com.gaoyun.roar.presentation.NavigationSideEffect
+import com.gaoyun.roar.ui.navigation.NavigationSideEffect
 import com.gaoyun.roar.presentation.ViewEvent
 import com.gaoyun.roar.presentation.ViewSideEffect
 import com.gaoyun.roar.presentation.ViewState

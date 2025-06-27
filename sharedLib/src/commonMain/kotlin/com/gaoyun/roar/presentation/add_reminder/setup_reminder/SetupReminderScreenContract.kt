@@ -3,7 +3,7 @@ package com.gaoyun.roar.presentation.add_reminder.setup_reminder
 import com.gaoyun.roar.model.domain.Pet
 import com.gaoyun.roar.model.domain.Reminder
 import com.gaoyun.roar.model.domain.interactions.*
-import com.gaoyun.roar.presentation.NavigationSideEffect
+import com.gaoyun.roar.ui.navigation.NavigationSideEffect
 import com.gaoyun.roar.presentation.ViewEvent
 import com.gaoyun.roar.presentation.ViewSideEffect
 import com.gaoyun.roar.presentation.ViewState

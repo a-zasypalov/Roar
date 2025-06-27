@@ -28,7 +28,7 @@ import com.gaoyun.roar.model.domain.Gender
 import com.gaoyun.roar.model.domain.Pet
 import com.gaoyun.roar.model.domain.PetType
 import com.gaoyun.roar.presentation.LAUNCH_LISTEN_FOR_EFFECTS
-import com.gaoyun.roar.presentation.NavigationSideEffect
+import com.gaoyun.roar.ui.navigation.NavigationSideEffect
 import com.gaoyun.roar.presentation.add_pet.setup.AddPetSetupScreenContract
 import com.gaoyun.roar.presentation.add_pet.setup.AddPetSetupScreenViewModel
 import com.gaoyun.roar.ui.common.composables.BoxWithLoader

@@ -1,5 +1,7 @@
 package com.gaoyun.roar.ui.navigation
 
+import kotlinx.serialization.Serializable
+
 object NavigationKeys {
 
     object Arg {
@@ -44,3 +46,67 @@ object NavigationKeys {
     }
 
 }
+
+@Serializable
+data class AddPetAvatarArgs(
+    val petType: String
+)
+
+@Serializable
+data class AddPetDataArgs(
+    val petType: String,
+    val avatar: String
+)
+
+@Serializable
+data class AddPetSetupArgs(
+    val petId: String
+)
+
+@Serializable
+data class AddReminderArgs(
+    val petId: String
+)
+
+@Serializable
+data class SetupReminderArgs(
+    val petId: String,
+    val templateId: String
+)
+
+@Serializable
+data class EditReminderArgs(
+    val petId: String,
+    val templateId: String?,
+    val interactionId: String
+)
+
+@Serializable
+data class SetupReminderCompleteArgs(
+    val petId: String,
+    val templateId: String,
+    val avatar: String
+)
+
+@Serializable
+data class PetEditArgs(
+    val petId: String,
+    val avatar: String,
+    val petType: String
+)
+
+@Serializable
+data class PetEditAvatarArgs(
+    val petType: String,
+    val petId: String
+)
+
+@Serializable
+data class PetDetailArgs(
+    val petId: String
+)
+
+@Serializable
+data class InteractionDetailArgs(
+    val interactionId: String
+)

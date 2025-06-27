@@ -3,7 +3,7 @@ package com.gaoyun.roar.presentation.pet_screen
 import com.gaoyun.roar.model.domain.Pet
 import com.gaoyun.roar.model.domain.interactions.InteractionGroup
 import com.gaoyun.roar.model.domain.interactions.InteractionWithReminders
-import com.gaoyun.roar.presentation.NavigationSideEffect
+import com.gaoyun.roar.ui.navigation.NavigationSideEffect
 import com.gaoyun.roar.presentation.ViewEvent
 import com.gaoyun.roar.presentation.ViewSideEffect
 import com.gaoyun.roar.presentation.ViewState

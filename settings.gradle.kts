@@ -15,7 +15,7 @@ pluginManagement {
     }
 
     plugins {
-        id("org.jetbrains.compose") version "1.6.10" apply false
+        id("org.jetbrains.compose") version "1.8.1" apply false
     }
 }
 

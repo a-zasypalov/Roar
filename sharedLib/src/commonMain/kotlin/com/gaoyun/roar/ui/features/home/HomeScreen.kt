@@ -17,7 +17,7 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.compose.LifecycleEventEffect
 import com.gaoyun.roar.model.domain.PetWithInteractions
 import com.gaoyun.roar.presentation.LAUNCH_LISTEN_FOR_EFFECTS
-import com.gaoyun.roar.presentation.NavigationSideEffect
+import com.gaoyun.roar.ui.navigation.NavigationSideEffect
 import com.gaoyun.roar.presentation.home_screen.HomeScreenContract
 import com.gaoyun.roar.presentation.home_screen.HomeScreenViewModel
 import com.gaoyun.roar.ui.common.composables.BoxWithLoader

@@ -55,7 +55,6 @@ kotlin {
 
     sourceSets {
         commonMain.dependencies {
-            implementation(libs.kotlin.coroutines.core)
             implementation(libs.kotlin.serialization.core)
             implementation(libs.kotlin.datetime)
             implementation(libs.ktor.client.core)
@@ -65,12 +64,14 @@ kotlin {
             implementation(libs.ktor.cio)
             implementation(libs.ktor.contentnegotiation)
             implementation(libs.koin.core)
+            implementation(libs.koin.compose)
+            implementation(libs.koin.compose.viewmodel)
+            implementation(libs.koin.compose.viewmodel.navigation)
             implementation(libs.sqldelight.runtime)
             implementation(libs.lifecycle.common)
             implementation(libs.lifecycle.common.runtime)
-            implementation(libs.precompose)
-            implementation(libs.precompose.viewmodel)
-            implementation(libs.precompose.koin)
+            implementation(libs.androidx.lifecycle.viewmodel)
+            implementation(libs.navigation)
             implementation(compose.runtime)
             implementation(compose.foundation)
             implementation(compose.material3)
@@ -82,7 +83,6 @@ kotlin {
             implementation(libs.kotlin.test)
             implementation(libs.ktor.clientmock)
             implementation(libs.koin.core)
-            implementation(libs.koin.test)
         }
         androidMain.dependencies {
             implementation(libs.androidx.activity.ktx)

@@ -11,9 +11,9 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.remember
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.compose.LifecycleEventEffect
-import com.gaoyun.roar.presentation.BackNavigationEffect
+import com.gaoyun.roar.ui.navigation.BackNavigationEffect
 import com.gaoyun.roar.presentation.LAUNCH_LISTEN_FOR_EFFECTS
-import com.gaoyun.roar.presentation.NavigationSideEffect
+import com.gaoyun.roar.ui.navigation.NavigationSideEffect
 import com.gaoyun.roar.presentation.user_screen.UserScreenContract
 import com.gaoyun.roar.presentation.user_screen.UserScreenViewModel
 import com.gaoyun.roar.ui.common.composables.RoarExtendedFAB

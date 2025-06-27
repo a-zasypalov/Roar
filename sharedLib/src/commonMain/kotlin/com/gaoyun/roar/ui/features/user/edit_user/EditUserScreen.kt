@@ -11,9 +11,9 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.gaoyun.roar.presentation.BackNavigationEffect
+import com.gaoyun.roar.ui.navigation.BackNavigationEffect
 import com.gaoyun.roar.presentation.LAUNCH_LISTEN_FOR_EFFECTS
-import com.gaoyun.roar.presentation.NavigationSideEffect
+import com.gaoyun.roar.ui.navigation.NavigationSideEffect
 import com.gaoyun.roar.presentation.user_edit.EditUserScreenContract
 import com.gaoyun.roar.presentation.user_edit.EditUserScreenViewModel
 import com.gaoyun.roar.ui.common.composables.BoxWithLoader

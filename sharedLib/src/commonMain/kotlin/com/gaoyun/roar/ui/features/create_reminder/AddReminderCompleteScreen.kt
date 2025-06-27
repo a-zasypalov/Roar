@@ -13,7 +13,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.gaoyun.roar.presentation.LAUNCH_LISTEN_FOR_EFFECTS
-import com.gaoyun.roar.presentation.NavigationSideEffect
+import com.gaoyun.roar.ui.navigation.NavigationSideEffect
 import com.gaoyun.roar.presentation.add_reminder.complete.AddReminderCompleteScreenContract
 import com.gaoyun.roar.presentation.add_reminder.complete.AddReminderCompleteScreenViewModel
 import com.gaoyun.roar.ui.common.composables.PrimaryElevatedButton

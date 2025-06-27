@@ -1,6 +1,6 @@
 package com.gaoyun.roar.ui.navigation
 
-import com.gaoyun.roar.presentation.NavigationSideEffect
+import androidx.navigation.NavType
 import com.gaoyun.roar.presentation.add_pet.avatar.AddPetAvatarScreenContract
 import com.gaoyun.roar.presentation.add_pet.data.AddPetDataScreenContract
 import com.gaoyun.roar.presentation.add_pet.setup.AddPetSetupScreenContract
@@ -14,10 +14,30 @@ import com.gaoyun.roar.presentation.pet_screen.PetScreenContract
 import com.gaoyun.roar.presentation.user_register.RegisterUserScreenContract
 import com.gaoyun.roar.presentation.user_screen.UserScreenContract
 import org.koin.core.component.KoinComponent
+import kotlin.reflect.KType
+import kotlin.reflect.typeOf
 
+interface NavigationSideEffect
+object BackNavigationEffect : NavigationSideEffect
 object CloseAppNavigationSideEffect : NavigationSideEffect
+
+
+val appArgsTypeMap: Map<KType, NavType<*>> = mapOf(
+    typeOf<AddPetAvatarArgs>() to serializableNavType<AddPetAvatarArgs>(),
+    typeOf<AddPetDataArgs>() to serializableNavType<AddPetDataArgs>(),
+    typeOf<AddPetSetupArgs>() to serializableNavType<AddPetSetupArgs>(),
+    typeOf<AddReminderArgs>() to serializableNavType<AddReminderArgs>(),
+    typeOf<SetupReminderArgs>() to serializableNavType<SetupReminderArgs>(),
+    typeOf<EditReminderArgs>() to serializableNavType<EditReminderArgs>(),
+    typeOf<SetupReminderCompleteArgs>() to serializableNavType<SetupReminderCompleteArgs>(),
+    typeOf<PetEditArgs>() to serializableNavType<PetEditArgs>(),
+    typeOf<PetEditAvatarArgs>() to serializableNavType<PetEditAvatarArgs>(),
+    typeOf<PetDetailArgs>() to serializableNavType<PetDetailArgs>(),
+    typeOf<InteractionDetailArgs>() to serializableNavType<InteractionDetailArgs>()
+)
+
 class AppNavigator(private val closeAppActionHandler: CloseAppActionHandler) : KoinComponent {
-    fun navigate(call: NavigationSideEffect) = when (call) {
+    fun navigate(call: NavigationSideEffect): NavigationAction? = when (call) {
         is HomeScreenContract.Effect.Navigation.ToUserRegistration -> toUserRegistration()
         is HomeScreenContract.Effect.Navigation.ToAddPet -> toAddPet()
         is HomeScreenContract.Effect.Navigation.ToAddReminder -> toAddReminder(call)
@@ -27,26 +47,52 @@ class AppNavigator(private val closeAppActionHandler: CloseAppActionHandler) : K
         is HomeScreenContract.Effect.Navigation.ToUserScreen -> toUserScreen()
 
         is RegisterUserScreenContract.Effect.Navigation.ToPetAdding -> toPetAdding()
-        is AddPetPetTypeScreenContract.Effect.Navigation.ToPetAvatar -> toPetAvatar(call)
-        is AddPetAvatarScreenContract.Effect.Navigation.ToPetData -> toPetData(call)
-        is AddPetDataScreenContract.Effect.Navigation.ToAvatarEdit -> toAvatarEdit(call)
-        is AddPetDataScreenContract.Effect.Navigation.ToPetSetup -> toPetSetup(call)
+        is AddPetPetTypeScreenContract.Effect.Navigation.ToPetAvatar -> NavigationAction.NavigateTo(AddPetAvatarArgs(call.petType))
+        is AddPetAvatarScreenContract.Effect.Navigation.ToPetData -> NavigationAction.NavigateTo(AddPetDataArgs(call.petType, call.avatar))
+        is AddPetDataScreenContract.Effect.Navigation.ToAvatarEdit -> NavigationAction.NavigateTo(PetEditAvatarArgs(call.petType.name, call.petId))
+        is AddPetDataScreenContract.Effect.Navigation.ToPetSetup -> NavigationAction.NavigateTo(AddPetSetupArgs(call.petId))
         is AddPetSetupScreenContract.Effect.Navigation.Continue -> finishPetSetup()
-        is AddPetSetupScreenContract.Effect.Navigation.OpenTemplates -> toInteractionTemplates(call)
+        is AddPetSetupScreenContract.Effect.Navigation.OpenTemplates -> NavigationAction.NavigateTo(AddReminderArgs(call.petId))
 
         is UserScreenContract.Effect.Navigation.ToUserEdit -> toUserEdit()
         is UserScreenContract.Effect.Navigation.ToAboutScreen -> toAboutScreen()
 
-        is PetScreenContract.Effect.Navigation.ToInteractionDetails -> toInteractionDetails(call)
-        is PetScreenContract.Effect.Navigation.ToInteractionTemplates -> toInteractionTemplates(call)
-        is PetScreenContract.Effect.Navigation.ToEditPet -> toEditPet(call)
+        is PetScreenContract.Effect.Navigation.ToInteractionDetails -> NavigationAction.NavigateTo(InteractionDetailArgs(call.interactionId))
+        is PetScreenContract.Effect.Navigation.ToInteractionTemplates -> NavigationAction.NavigateTo(AddReminderArgs(call.petId))
+        is PetScreenContract.Effect.Navigation.ToEditPet -> NavigationAction.NavigateTo(
+            PetEditArgs(
+                petId = call.pet.id,
+                avatar = call.pet.avatar,
+                petType = call.pet.petType.name
+            )
+        )
 
-        is AddReminderScreenContract.Effect.Navigation.ToReminderSetup -> toReminderSetup(call)
-        is SetupReminderScreenContract.Effect.Navigation.ToComplete -> toCompleteInteractionSetup(call)
+        is AddReminderScreenContract.Effect.Navigation.ToReminderSetup -> NavigationAction.NavigateTo(
+            SetupReminderArgs(
+                petId = call.petId,
+                templateId = call.templateId
+            )
+        )
+
+        is SetupReminderScreenContract.Effect.Navigation.ToComplete -> NavigationAction.NavigateTo(
+            SetupReminderCompleteArgs(
+                petId = call.petId,
+                templateId = call.templateId,
+                avatar = call.petAvatar
+            )
+        )
+
         is SetupReminderScreenContract.Effect.Navigation.BackToTemplates -> completeReminderCreation()
         is AddReminderCompleteScreenContract.Effect.Navigation.Continue -> completeReminderCreation()
 
-        is InteractionScreenContract.Effect.Navigation.ToEditInteraction -> toEditInteraction(call)
+        is InteractionScreenContract.Effect.Navigation.ToEditInteraction -> NavigationAction.NavigateTo(
+            EditReminderArgs(
+                petId = call.petId,
+                templateId = call.interaction.templateId,
+                interactionId = call.interaction.id
+            )
+        )
+
         is CloseAppNavigationSideEffect -> {
             closeAppActionHandler.closeApp(); null
         }
@@ -61,34 +107,28 @@ class AppNavigator(private val closeAppActionHandler: CloseAppActionHandler) : K
         NavigationAction.NavigateTo(NavigationKeys.Route.ADD_PET_ROUTE)
 
     private fun toAddReminder(effect: HomeScreenContract.Effect.Navigation.ToAddReminder) =
-        NavigationAction.NavigateTo("${NavigationKeys.Route.ADD_REMINDER}/${effect.petId}")
+        NavigationAction.NavigateTo(AddReminderArgs(effect.petId))
 
     private fun toPetScreen(effect: HomeScreenContract.Effect.Navigation.ToPetScreen) =
-        NavigationAction.NavigateTo("${NavigationKeys.Route.PET_DETAIL}/${effect.petId}")
+        NavigationAction.NavigateTo(PetDetailArgs(effect.petId))
 
     private fun toInteractionDetails(effect: HomeScreenContract.Effect.Navigation.ToInteractionDetails) =
-        NavigationAction.NavigateTo("${NavigationKeys.Route.INTERACTION_DETAIL}/${effect.interactionId}")
+        NavigationAction.NavigateTo(InteractionDetailArgs(effect.interactionId))
 
     private fun toEditPet(effect: HomeScreenContract.Effect.Navigation.ToEditPet) =
-        NavigationAction.NavigateTo("${NavigationKeys.Route.EDIT}/${NavigationKeys.Route.PET_DETAIL}/${effect.pet.id}/${effect.pet.avatar}/${effect.pet.petType}")
+        NavigationAction.NavigateTo(
+            PetEditArgs(
+                petId = effect.pet.id,
+                avatar = effect.pet.avatar,
+                petType = effect.pet.petType.name
+            )
+        )
 
     private fun toUserScreen() =
-        NavigationAction.NavigateTo("${NavigationKeys.Route.HOME_ROUTE}/${NavigationKeys.Route.USER}")
+        NavigationAction.NavigateTo(NavigationKeys.Route.USER_ROUTE)
 
     private fun toPetAdding() =
         NavigationAction.PopTo(NavigationKeys.Route.HOME_ROUTE, inclusive = false)
-
-    private fun toPetAvatar(effect: AddPetPetTypeScreenContract.Effect.Navigation.ToPetAvatar) =
-        NavigationAction.NavigateTo("${NavigationKeys.Route.ADD_PET_ROUTE}/${effect.petType}")
-
-    private fun toPetData(effect: AddPetAvatarScreenContract.Effect.Navigation.ToPetData) =
-        NavigationAction.NavigateTo("${NavigationKeys.Route.ADD_PET_ROUTE}/${effect.petType}/${effect.avatar}")
-
-    private fun toAvatarEdit(effect: AddPetDataScreenContract.Effect.Navigation.ToAvatarEdit) =
-        NavigationAction.NavigateTo("${NavigationKeys.Route.EDIT}/${NavigationKeys.Route.AVATAR}/${NavigationKeys.Route.PET_DETAIL}/${effect.petType}/${effect.petId}")
-
-    private fun toPetSetup(effect: AddPetDataScreenContract.Effect.Navigation.ToPetSetup) =
-        NavigationAction.NavigateTo("${NavigationKeys.Route.ADD_PET_SETUP}/${effect.petId}")
 
     private fun finishPetSetup() =
         NavigationAction.PopTo(NavigationKeys.Route.ADD_PET_ROUTE, inclusive = true)
@@ -98,27 +138,6 @@ class AppNavigator(private val closeAppActionHandler: CloseAppActionHandler) : K
 
     private fun toAboutScreen() =
         NavigationAction.NavigateTo(NavigationKeys.Route.ABOUT_ROUTE)
-
-    private fun toInteractionDetails(effect: PetScreenContract.Effect.Navigation.ToInteractionDetails) =
-        NavigationAction.NavigateTo("${NavigationKeys.Route.INTERACTION_DETAIL}/${effect.interactionId}")
-
-    private fun toInteractionTemplates(effect: PetScreenContract.Effect.Navigation.ToInteractionTemplates) =
-        NavigationAction.NavigateTo("${NavigationKeys.Route.ADD_REMINDER}/${effect.petId}")
-
-    private fun toInteractionTemplates(effect: AddPetSetupScreenContract.Effect.Navigation.OpenTemplates) =
-        NavigationAction.NavigateTo("${NavigationKeys.Route.ADD_REMINDER}/${effect.petId}")
-
-    private fun toEditPet(effect: PetScreenContract.Effect.Navigation.ToEditPet) =
-        NavigationAction.NavigateTo("${NavigationKeys.Route.EDIT}/${NavigationKeys.Route.PET_DETAIL}/${effect.pet.id}/${effect.pet.avatar}/${effect.pet.petType}")
-
-    private fun toEditInteraction(effect: InteractionScreenContract.Effect.Navigation.ToEditInteraction) =
-        NavigationAction.NavigateTo("${NavigationKeys.Route.EDIT}/${NavigationKeys.Route.ADD_REMINDER}/${effect.petId}/${effect.interaction.templateId}/${effect.interaction.id}")
-
-    private fun toReminderSetup(effect: AddReminderScreenContract.Effect.Navigation.ToReminderSetup) =
-        NavigationAction.NavigateTo("${NavigationKeys.Route.ADD_REMINDER}/${effect.petId}/${effect.templateId}")
-
-    private fun toCompleteInteractionSetup(effect: SetupReminderScreenContract.Effect.Navigation.ToComplete) =
-        NavigationAction.NavigateTo("${NavigationKeys.Route.ADD_REMINDER}/${effect.petId}/${effect.templateId}/${effect.petAvatar}")
 
     private fun completeReminderCreation() =
         NavigationAction.PopTo(NavigationKeys.Route.ADD_REMINDER_ROUTE, inclusive = false)

@@ -10,11 +10,14 @@ import androidx.compose.animation.slideOutHorizontally
 import androidx.compose.material3.ColorScheme
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.remember
 import androidx.compose.ui.unit.IntOffset
-import androidx.compose.ui.unit.dp
+import androidx.navigation.NavGraphBuilder
+import androidx.navigation.NavHostController
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
+import androidx.navigation.toRoute
 import com.gaoyun.roar.presentation.LAUNCH_LISTEN_FOR_EFFECTS
 import com.gaoyun.roar.ui.features.about.AboutScreenDestination
 import com.gaoyun.roar.ui.features.add_pet.AddPetAvatarDestination
@@ -31,36 +34,36 @@ import com.gaoyun.roar.ui.features.pet.PetScreenDestination
 import com.gaoyun.roar.ui.features.registration.UserRegistrationDestination
 import com.gaoyun.roar.ui.features.user.edit_user.EditUserScreenDestination
 import com.gaoyun.roar.ui.features.user.user_screen.UserScreenDestination
+import com.gaoyun.roar.ui.navigation.AddPetAvatarArgs
+import com.gaoyun.roar.ui.navigation.AddPetDataArgs
+import com.gaoyun.roar.ui.navigation.AddPetSetupArgs
+import com.gaoyun.roar.ui.navigation.AddReminderArgs
+import com.gaoyun.roar.ui.navigation.EditReminderArgs
+import com.gaoyun.roar.ui.navigation.InteractionDetailArgs
 import com.gaoyun.roar.ui.navigation.NavigationAction
 import com.gaoyun.roar.ui.navigation.NavigationKeys
+import com.gaoyun.roar.ui.navigation.PetDetailArgs
+import com.gaoyun.roar.ui.navigation.PetEditArgs
+import com.gaoyun.roar.ui.navigation.PetEditAvatarArgs
+import com.gaoyun.roar.ui.navigation.SetupReminderArgs
+import com.gaoyun.roar.ui.navigation.SetupReminderCompleteArgs
+import com.gaoyun.roar.ui.navigation.appArgsTypeMap
 import com.gaoyun.roar.ui.theme.RoarTheme
 import com.gaoyun.roar.util.Platform
 import com.gaoyun.roar.util.PlatformNames
 import kotlinx.coroutines.flow.onEach
-import moe.tlaster.precompose.PreComposeApp
-import moe.tlaster.precompose.koin.koinViewModel
-import moe.tlaster.precompose.navigation.NavHost
-import moe.tlaster.precompose.navigation.PopUpTo
-import moe.tlaster.precompose.navigation.SwipeProperties
-import moe.tlaster.precompose.navigation.path
-import moe.tlaster.precompose.navigation.rememberNavigator
-import moe.tlaster.precompose.navigation.transition.NavTransition
+import org.koin.compose.viewmodel.koinViewModel
 
 @Composable
 fun App(
     dynamicColorsScheme: ColorScheme?,
 ) {
-    PreComposeApp {
-        val viewModel = koinViewModel(vmClass = AppViewModel::class)
-        val colors = dynamicColorsScheme ?: viewModel.getColorScheme()
+    val viewModel = koinViewModel<AppViewModel>()
+    val colors = dynamicColorsScheme ?: viewModel.getColorScheme()
 
-        //Workaround for Lifecycle 2.8.0 version https://issuetracker.google.com/issues/336842920#comment8
-        CompositionLocalProvider(androidx.lifecycle.compose.LocalLifecycleOwner provides androidx.compose.ui.platform.LocalLifecycleOwner.current) {
-            RoarTheme(colors) {
-                Surface(tonalElevation = RoarTheme.BACKGROUND_SURFACE_ELEVATION) {
-                    GlobalDestinationState(viewModel.isOnboardingComplete(), viewModel)
-                }
-            }
+    RoarTheme(colors) {
+        Surface(tonalElevation = RoarTheme.BACKGROUND_SURFACE_ELEVATION) {
+            GlobalDestinationState(viewModel.isOnboardingComplete(), viewModel)
         }
     }
 }
@@ -70,19 +73,26 @@ fun GlobalDestinationState(
     isOnboardingComplete: Boolean,
     viewModel: AppViewModel,
 ) {
-    val navigator = rememberNavigator()
+    val navController = rememberNavController()
 
     LaunchedEffect(LAUNCH_LISTEN_FOR_EFFECTS) {
-        viewModel.navigationEffect.onEach { destination ->
-            when (destination) {
-                is NavigationAction.NavigateTo -> navigator.navigate(destination.path)
-                is NavigationAction.NavigateBack -> navigator.goBack()
-                is NavigationAction.PopTo -> navigator.goBack(
-                    PopUpTo(
-                        route = destination.path,
-                        inclusive = destination.inclusive
-                    )
-                )
+        viewModel.navigationEffect.onEach { action ->
+            when (action) {
+                is NavigationAction.NavigateBack -> navController.popBackStack()
+                is NavigationAction.PopTo -> navController.popBackStack(action.path, action.inclusive)
+                is NavigationAction.NavigateToPath -> navController.navigate(action.path)
+                is NavigationAction.NavigateTo<*> -> navController.navigate(action.args)
+                is NavigationAction.NavigateToWithBackHandler<*, *> -> {
+                    navController.navigate(action.args) { popUpTo(action.popupTo) { inclusive = action.inclusive } }
+                }
+
+                is NavigationAction.NavigateToWithPathBackHandler<*> -> {
+                    navController.navigate(action.args) { popUpTo(route = action.popupTo) { inclusive = action.inclusive } }
+                }
+
+                is NavigationAction.NavigateToPathWithBackHandler -> {
+                    navController.navigate(action.path) { popUpTo(action.popupTo) { inclusive = action.inclusive } }
+                }
             }
         }.collect {
             println("GlobalDestination NavigationAction: $it")
@@ -95,161 +105,193 @@ fun GlobalDestinationState(
         NavigationKeys.Route.ONBOARDING_ROUTE
     }
 
-    NavHost(
-        navigator = navigator,
-        initialRoute = initialRoute,
-        swipeProperties = if (Platform.name == PlatformNames.IOS) remember {
-            SwipeProperties(
-                spaceToSwipe = 16.dp,
-                positionalThreshold = { distance: Float -> distance * 0.9f },
-                velocityThreshold = { 0.dp.toPx() }
-            )
-        } else null,
-        navTransition = if (Platform.name == PlatformNames.IOS) {
-            remember {
-                NavTransition(
-                    createTransition = fadeIn() + slideInHorizontally(
-                        animationSpec = spring(
-                            stiffness = Spring.StiffnessMediumLow,
-                            visibilityThreshold = IntOffset.VisibilityThreshold
-                        ),
-                        initialOffsetX = { it }
-                    ),
-                    destroyTransition = fadeOut(targetAlpha = 0.5f) + slideOutHorizontally(
-                        animationSpec = spring(
-                            stiffness = Spring.StiffnessMediumLow,
-                            visibilityThreshold = IntOffset.VisibilityThreshold
-                        ),
-                        targetOffsetX = { it }
-                    ),
-                    pauseTransition = fadeOut(targetAlpha = 0.5f) + slideOutHorizontally(
-                        animationSpec = spring(
-                            stiffness = Spring.StiffnessMediumLow,
-                            visibilityThreshold = IntOffset.VisibilityThreshold
-                        ),
-                        targetOffsetX = { -it / 2 }
-                    ),
-                    resumeTransition = fadeIn() + slideInHorizontally(
-                        animationSpec = spring(
+    NavigationGraph(navController, viewModel, initialRoute)
+}
 
-                            stiffness = Spring.StiffnessMediumLow,
-                            visibilityThreshold = IntOffset.VisibilityThreshold
-                        ),
-                        initialOffsetX = { -it / 2 }
+@Composable
+fun NavigationGraph(
+    navController: NavHostController,
+    viewModel: AppViewModel,
+    initialRoute: String,
+) {
+    val paths: NavGraphBuilder.() -> Unit = { AppNavigationPaths(navController, viewModel) }
+
+    when (Platform.name) {
+        PlatformNames.IOS -> NavHost(
+            navController = navController,
+            startDestination = initialRoute,
+            builder = paths
+        )
+
+        PlatformNames.Android -> NavHost(
+            navController = navController,
+            startDestination = initialRoute,
+            enterTransition = {
+                fadeIn() + slideInHorizontally(
+                    animationSpec = spring(
+                        stiffness = Spring.StiffnessMediumLow,
+                        visibilityThreshold = IntOffset.VisibilityThreshold
                     ),
-                    exitTargetContentZIndex = 1f
+                    initialOffsetX = { it }
                 )
-            }
-        } else NavTransition()
-    ) {
-        scene(NavigationKeys.Route.ONBOARDING_ROUTE) {
-            OnboardingRootScreen(navHostController = navigator)
-        }
-        scene(NavigationKeys.Route.HOME_ROUTE) {
-            HomeScreenDestination(onNavigationCall = viewModel::navigate)
-        }
-        scene(NavigationKeys.Route.REGISTER_USER_ROUTE) {
-            UserRegistrationDestination(onNavigationCall = viewModel::navigate)
-        }
+            },
+            exitTransition = {
+                fadeOut(targetAlpha = 0f) + slideOutHorizontally(
+                    animationSpec = spring(
+                        stiffness = Spring.StiffnessMediumLow,
+                        visibilityThreshold = IntOffset.VisibilityThreshold
+                    ),
+                    targetOffsetX = { -it }
+                )
+            },
+            popEnterTransition = {
+                fadeIn() + slideInHorizontally(
+                    animationSpec = spring(
+                        stiffness = Spring.StiffnessMediumLow,
+                        visibilityThreshold = IntOffset.VisibilityThreshold
+                    ),
+                    initialOffsetX = { -it }
+                )
+            },
+            popExitTransition = {
+                fadeOut(targetAlpha = 0f) + slideOutHorizontally(
+                    animationSpec = spring(
+                        stiffness = Spring.StiffnessMediumLow,
+                        visibilityThreshold = IntOffset.VisibilityThreshold
+                    ),
+                    targetOffsetX = { it }
+                )
+            },
+            builder = paths
+        )
+    }
+}
 
-        scene(NavigationKeys.Route.PET_DETAIL_ROUTE) {
-            PetScreenDestination(
-                viewModel::navigate,
-                petId = it.path<String>(NavigationKeys.Arg.PET_ID_KEY) ?: ""
-            )
-        }
+internal val AppNavigationPaths: NavGraphBuilder.(
+    NavHostController,
+    AppViewModel,
+) -> Unit = { navController, viewModel ->
 
-        scene(NavigationKeys.Route.ADD_PET_ROUTE) {
-            AddPetPetTypeDestination(onNavigationCall = viewModel::navigate)
-        }
+    composable(NavigationKeys.Route.ONBOARDING_ROUTE) {
+        OnboardingRootScreen(navHostController = navController)
+    }
 
-        scene(NavigationKeys.Route.ADD_PET_AVATAR_ROUTE) {
-            AddPetAvatarDestination(
-                petType = it.path<String>(NavigationKeys.Arg.PET_TYPE_KEY) ?: "",
-                onNavigationCall = viewModel::navigate
-            )
-        }
+    composable(NavigationKeys.Route.HOME_ROUTE) {
+        HomeScreenDestination(onNavigationCall = viewModel::navigate)
+    }
 
-        scene(NavigationKeys.Route.ADD_PET_DATA_ROUTE) {
-            AddPetDataDestination(
-                onNavigationCall = viewModel::navigate,
-                petType = it.path<String>(NavigationKeys.Arg.PET_TYPE_KEY) ?: "",
-                avatar = it.path<String>(NavigationKeys.Arg.AVATAR_KEY) ?: "",
-            )
-        }
+    composable(NavigationKeys.Route.REGISTER_USER_ROUTE) {
+        UserRegistrationDestination(onNavigationCall = viewModel::navigate)
+    }
 
-        scene(NavigationKeys.Route.ADD_PET_SETUP_ROUTE) {
-            AddPetSetupDestination(
-                onNavigationCall = viewModel::navigate,
-                petId = it.path<String>(NavigationKeys.Arg.PET_ID_KEY) ?: ""
-            )
-        }
+    composable<PetDetailArgs>(typeMap = appArgsTypeMap) {
+        val args = it.toRoute<PetDetailArgs>()
+        PetScreenDestination(
+            onNavigationCall = viewModel::navigate,
+            petId = args.petId
+        )
+    }
 
-        scene(NavigationKeys.Route.INTERACTION_DETAIL_ROUTE) {
-            InteractionScreenDestination(
-                onNavigationCall = viewModel::navigate,
-                interactionId = it.path<String>(NavigationKeys.Arg.INTERACTION_ID_KEY) ?: "",
-            )
-        }
+    composable(NavigationKeys.Route.ADD_PET_ROUTE) {
+        AddPetPetTypeDestination(onNavigationCall = viewModel::navigate)
+    }
 
-        scene(NavigationKeys.Route.USER_ROUTE) {
-            UserScreenDestination(viewModel::navigate)
-        }
+    composable<AddPetAvatarArgs>(typeMap = appArgsTypeMap) {
+        val args = it.toRoute<AddPetAvatarArgs>()
+        AddPetAvatarDestination(
+            petType = args.petType,
+            onNavigationCall = viewModel::navigate
+        )
+    }
 
-        scene(NavigationKeys.Route.USER_EDIT_ROUTE) {
-            EditUserScreenDestination(viewModel::navigate)
-        }
+    composable<AddPetDataArgs>(typeMap = appArgsTypeMap) {
+        val args = it.toRoute<AddPetDataArgs>()
+        AddPetDataDestination(
+            onNavigationCall = viewModel::navigate,
+            petType = args.petType,
+            avatar = args.avatar,
+        )
+    }
 
-        scene(NavigationKeys.Route.ABOUT_ROUTE) {
-            AboutScreenDestination(viewModel::navigate)
-        }
+    composable<AddPetSetupArgs>(typeMap = appArgsTypeMap) {
+        val args = it.toRoute<AddPetSetupArgs>()
+        AddPetSetupDestination(
+            onNavigationCall = viewModel::navigate,
+            petId = args.petId
+        )
+    }
 
-        scene(NavigationKeys.Route.PET_EDIT_AVATAR_ROUTE) {
-            AddPetAvatarDestination(
-                petType = it.path<String>(NavigationKeys.Arg.PET_TYPE_KEY) ?: "",
-                petId = it.path<String>(NavigationKeys.Arg.PET_ID_KEY),
-                onNavigationCall = viewModel::navigate
-            )
-        }
+    composable<InteractionDetailArgs>(typeMap = appArgsTypeMap) {
+        val args = it.toRoute<InteractionDetailArgs>()
+        InteractionScreenDestination(
+            onNavigationCall = viewModel::navigate,
+            interactionId = args.interactionId
+        )
+    }
 
-        scene(NavigationKeys.Route.PET_EDIT_ROUTE) {
-            AddPetDataDestination(
-                onNavigationCall = viewModel::navigate,
-                petType = it.path<String>(NavigationKeys.Arg.PET_TYPE_KEY) ?: "",
-                avatar = it.path<String>(NavigationKeys.Arg.AVATAR_KEY) ?: "",
-                petId = it.path<String>(NavigationKeys.Arg.PET_ID_KEY)
-            )
-        }
+    composable(NavigationKeys.Route.USER_ROUTE) {
+        UserScreenDestination(onNavigationCall = viewModel::navigate)
+    }
 
-        scene(NavigationKeys.Route.ADD_REMINDER_ROUTE) {
-            AddReminderDestination(
-                onNavigationCall = viewModel::navigate,
-                petId = it.path<String>(NavigationKeys.Arg.PET_ID_KEY) ?: ""
-            )
-        }
+    composable(NavigationKeys.Route.USER_EDIT_ROUTE) {
+        EditUserScreenDestination(onNavigationCall = viewModel::navigate)
+    }
 
-        scene(NavigationKeys.Route.SETUP_REMINDER_ROUTE) {
-            SetupReminderDestination(
-                onNavigationCall = viewModel::navigate,
-                petId = it.path<String>(NavigationKeys.Arg.PET_ID_KEY) ?: "",
-                templateId = it.path<String>(NavigationKeys.Arg.TEMPLATE_ID_KEY) ?: "custom"
-            )
-        }
+    composable(NavigationKeys.Route.ABOUT_ROUTE) {
+        AboutScreenDestination(onNavigationCall = viewModel::navigate)
+    }
 
-        scene(NavigationKeys.Route.EDIT_REMINDER_ROUTE) {
-            SetupReminderDestination(
-                onNavigationCall = viewModel::navigate,
-                petId = it.path<String>(NavigationKeys.Arg.PET_ID_KEY) ?: "",
-                templateId = it.path<String>(NavigationKeys.Arg.TEMPLATE_ID_KEY) ?: "custom",
-                interactionId = it.path<String>(NavigationKeys.Arg.INTERACTION_ID_KEY)
-            )
-        }
+    composable<PetEditAvatarArgs>(typeMap = appArgsTypeMap) {
+        val args = it.toRoute<PetEditAvatarArgs>()
+        AddPetAvatarDestination(
+            petType = args.petType,
+            petId = args.petId,
+            onNavigationCall = viewModel::navigate
+        )
+    }
 
-        scene(NavigationKeys.Route.SETUP_REMINDER_COMPLETE_ROUTE) {
-            AddReminderCompleteDestination(
-                onNavigationCall = viewModel::navigate,
-                petAvatar = it.path<String>(NavigationKeys.Arg.AVATAR_KEY) ?: "",
-            )
-        }
+    composable<PetEditArgs>(typeMap = appArgsTypeMap) {
+        val args = it.toRoute<PetEditArgs>()
+        AddPetDataDestination(
+            onNavigationCall = viewModel::navigate,
+            petType = args.petType,
+            avatar = args.avatar,
+            petId = args.petId
+        )
+    }
+
+    composable<AddReminderArgs>(typeMap = appArgsTypeMap) {
+        val args = it.toRoute<AddReminderArgs>()
+        AddReminderDestination(
+            onNavigationCall = viewModel::navigate,
+            petId = args.petId
+        )
+    }
+
+    composable<SetupReminderArgs>(typeMap = appArgsTypeMap) {
+        val args = it.toRoute<SetupReminderArgs>()
+        SetupReminderDestination(
+            onNavigationCall = viewModel::navigate,
+            petId = args.petId,
+            templateId = args.templateId
+        )
+    }
+
+    composable<EditReminderArgs>(typeMap = appArgsTypeMap) {
+        val args = it.toRoute<EditReminderArgs>()
+        SetupReminderDestination(
+            onNavigationCall = viewModel::navigate,
+            petId = args.petId,
+            templateId = args.templateId ?: "custom",
+            interactionId = args.interactionId
+        )
+    }
+
+    composable<SetupReminderCompleteArgs>(typeMap = appArgsTypeMap) {
+        val args = it.toRoute<SetupReminderCompleteArgs>()
+        AddReminderCompleteDestination(
+            onNavigationCall = viewModel::navigate,
+            petAvatar = args.avatar,
+        )
     }
 }

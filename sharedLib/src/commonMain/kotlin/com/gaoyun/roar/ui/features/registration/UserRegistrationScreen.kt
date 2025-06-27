@@ -3,7 +3,7 @@ package com.gaoyun.roar.ui.features.registration
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import com.gaoyun.roar.presentation.LAUNCH_LISTEN_FOR_EFFECTS
-import com.gaoyun.roar.presentation.NavigationSideEffect
+import com.gaoyun.roar.ui.navigation.NavigationSideEffect
 import com.gaoyun.roar.presentation.user_register.RegisterUserScreenContract
 import com.gaoyun.roar.presentation.user_register.RegisterUserViewModel
 import com.gaoyun.roar.ui.common.composables.SurfaceScaffold

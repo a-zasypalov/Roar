@@ -21,9 +21,9 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.compose.LifecycleEventEffect
-import com.gaoyun.roar.presentation.BackNavigationEffect
+import com.gaoyun.roar.ui.navigation.BackNavigationEffect
 import com.gaoyun.roar.presentation.LAUNCH_LISTEN_FOR_EFFECTS
-import com.gaoyun.roar.presentation.NavigationSideEffect
+import com.gaoyun.roar.ui.navigation.NavigationSideEffect
 import com.gaoyun.roar.presentation.add_reminder.setup_reminder.SetupReminderScreenContract
 import com.gaoyun.roar.presentation.add_reminder.setup_reminder.SetupReminderScreenViewModel
 import com.gaoyun.roar.ui.common.composables.AutoResizeText

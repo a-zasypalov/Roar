@@ -29,9 +29,9 @@ import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
-import com.gaoyun.roar.presentation.BackNavigationEffect
+import com.gaoyun.roar.ui.navigation.BackNavigationEffect
 import com.gaoyun.roar.presentation.LAUNCH_LISTEN_FOR_EFFECTS
-import com.gaoyun.roar.presentation.NavigationSideEffect
+import com.gaoyun.roar.ui.navigation.NavigationSideEffect
 import com.gaoyun.roar.presentation.about_screen.AboutScreenContract
 import com.gaoyun.roar.presentation.about_screen.AboutScreenViewModel
 import com.gaoyun.roar.ui.common.composables.Spacer
