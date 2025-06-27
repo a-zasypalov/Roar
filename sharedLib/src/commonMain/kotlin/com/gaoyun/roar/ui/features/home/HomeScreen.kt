@@ -1,5 +1,7 @@
 package com.gaoyun.roar.ui.features.home
 
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
@@ -12,17 +14,15 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.runtime.snapshotFlow
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.compose.LifecycleEventEffect
 import com.gaoyun.roar.model.domain.PetWithInteractions
-import com.gaoyun.roar.presentation.LAUNCH_LISTEN_FOR_EFFECTS
-import com.gaoyun.roar.ui.navigation.NavigationSideEffect
 import com.gaoyun.roar.presentation.home_screen.HomeScreenContract
 import com.gaoyun.roar.presentation.home_screen.HomeScreenViewModel
 import com.gaoyun.roar.ui.common.composables.BoxWithLoader
 import com.gaoyun.roar.ui.common.composables.RoarExtendedFAB
-import com.gaoyun.roar.ui.common.composables.Spacer
 import com.gaoyun.roar.ui.common.composables.SurfaceScaffold
 import com.gaoyun.roar.ui.common.dialog.InteractionCompletionDialog
 import com.gaoyun.roar.ui.common.dialog.RemovePetConfirmationDialog
@@ -31,43 +31,30 @@ import com.gaoyun.roar.ui.features.home.states.NoPetsState
 import com.gaoyun.roar.ui.features.home.states.NoUserState
 import com.gaoyun.roar.ui.features.home.view.InteractionPetChooser
 import com.gaoyun.roar.ui.features.registration.RegistrationLauncherComposable
-import com.gaoyun.roar.ui.navigation.CloseAppNavigationSideEffect
+import com.gaoyun.roar.ui.navigation.NavigationSideEffect
 import com.gaoyun.roar.util.Platform
 import com.gaoyun.roar.util.PlatformNames
 import com.gaoyun.roar.util.SharedDateUtils
-import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.flow.onEach
-import moe.tlaster.precompose.koin.koinViewModel
-import moe.tlaster.precompose.navigation.BackHandler
 import org.jetbrains.compose.resources.stringResource
+import org.koin.compose.viewmodel.koinViewModel
 import roar.sharedlib.generated.resources.Res
 import roar.sharedlib.generated.resources.add_reminder
 import roar.sharedlib.generated.resources.reminder
 
 @Composable
 fun HomeScreenDestination(onNavigationCall: (NavigationSideEffect) -> Unit) {
-    val viewModel = koinViewModel(vmClass = HomeScreenViewModel::class)
+    val viewModel = koinViewModel<HomeScreenViewModel>()
     val state = viewModel.viewState.collectAsState().value
-
-    LifecycleEventEffect(Lifecycle.Event.ON_RESUME) {
-        viewModel.checkUserRegistered()
-    }
 
     val showCompleteReminderDateDialog = remember { mutableStateOf(false) }
     val completeReminderDateDialogDate = remember { mutableStateOf(SharedDateUtils.currentDateTime()) }
     val reminderToCompleteId = remember { mutableStateOf<String?>(null) }
     val petToComplete = remember { mutableStateOf<PetWithInteractions?>(null) }
 
-    LaunchedEffect(LAUNCH_LISTEN_FOR_EFFECTS) {
-        viewModel.effect.onEach { effect ->
-            when (effect) {
-                is HomeScreenContract.Effect.NavigateBack -> {
-                    onNavigationCall(CloseAppNavigationSideEffect)
-                }
-
-                is HomeScreenContract.Effect.Navigation -> onNavigationCall(effect)
-            }
-        }.collect()
+    LifecycleEventEffect(Lifecycle.Event.ON_RESUME) {
+        viewModel.checkUserRegistered {
+            onNavigationCall(HomeScreenContract.Effect.Navigation.ToUserRegistration)
+        }
     }
 
     val verticalScroll = rememberLazyListState()
@@ -81,7 +68,7 @@ fun HomeScreenDestination(onNavigationCall: (NavigationSideEffect) -> Unit) {
             }
     }
 
-    BackHandler { onNavigationCall(CloseAppNavigationSideEffect) }
+//    BackHandler { onNavigationCall(CloseAppNavigationSideEffect) }
 
     SurfaceScaffold(
         floatingActionButton = {
@@ -93,9 +80,9 @@ fun HomeScreenDestination(onNavigationCall: (NavigationSideEffect) -> Unit) {
                     extended = fabExtended,
                     onClick = {
                         if (state.pets.size > 1) {
-                            viewModel.setEvent(HomeScreenContract.Event.SetPetChooserShow(true))
+                            viewModel.setPetChooserShow(true)
                         } else {
-                            viewModel.setEvent(HomeScreenContract.Event.PetChosenForReminderCreation(state.pets.firstOrNull()?.id ?: ""))
+                            onNavigationCall(HomeScreenContract.Effect.Navigation.ToAddReminder(state.pets.firstOrNull()?.id ?: ""))
                         }
                     })
             }
@@ -103,7 +90,10 @@ fun HomeScreenDestination(onNavigationCall: (NavigationSideEffect) -> Unit) {
         floatingActionButtonPosition = FabPosition.End
     ) {
 
-        val registrationCallback = { _: String, id: String -> viewModel.setEvent(HomeScreenContract.Event.LoginUser(id)) }
+        val registrationCallback: (String, String) -> Unit = { _, id ->
+            viewModel.onLoginUser(id) { onNavigationCall(HomeScreenContract.Effect.Navigation.ToUserRegistration) }
+        }
+
         val registrationLauncher = when (Platform.name) {
             PlatformNames.Android -> (viewModel.registrationLauncher as? RegistrationLauncherComposable)?.launcherComposable(registrationCallback)
             PlatformNames.IOS -> viewModel.registrationLauncher.launcher(registrationCallback)
@@ -113,8 +103,8 @@ fun HomeScreenDestination(onNavigationCall: (NavigationSideEffect) -> Unit) {
             state.showPetChooser -> {
                 InteractionPetChooser(
                     pets = state.pets,
-                    onPetChosen = { viewModel.setEvent(HomeScreenContract.Event.PetChosenForReminderCreation(it)) },
-                    onDismiss = { viewModel.setEvent(HomeScreenContract.Event.SetPetChooserShow(false)) }
+                    onPetChosen = { onNavigationCall(HomeScreenContract.Effect.Navigation.ToAddReminder(it)) },
+                    onDismiss = { viewModel.setPetChooserShow(false) }
                 )
             }
 
@@ -125,15 +115,13 @@ fun HomeScreenDestination(onNavigationCall: (NavigationSideEffect) -> Unit) {
                     onConfirmButtonClick = {
                         showCompleteReminderDateDialog.value = false
                         petToComplete.value?.let { pet ->
-                            viewModel.setEvent(
-                                HomeScreenContract.Event.OnInteractionCheckClicked(
-                                    reminderId = reminderToCompleteId.value ?: "",
-                                    completed = true,
-                                    completionDateTime = SharedDateUtils.currentDateAt(
-                                        hour = completeReminderDateDialogDate.value.hour,
-                                        minute = completeReminderDateDialogDate.value.minute
-                                    ),
-                                    pet = pet
+                            viewModel.markReminderComplete(
+                                pet = pet,
+                                reminderId = reminderToCompleteId.value ?: "",
+                                completed = true,
+                                completionDateTime = SharedDateUtils.currentDateAt(
+                                    hour = completeReminderDateDialogDate.value.hour,
+                                    minute = completeReminderDateDialogDate.value.minute
                                 )
                             )
                         }
@@ -141,13 +129,11 @@ fun HomeScreenDestination(onNavigationCall: (NavigationSideEffect) -> Unit) {
                     onDismissButtonClick = {
                         showCompleteReminderDateDialog.value = false
                         petToComplete.value?.let { pet ->
-                            viewModel.setEvent(
-                                HomeScreenContract.Event.OnInteractionCheckClicked(
-                                    reminderId = reminderToCompleteId.value ?: "",
-                                    completed = true,
-                                    completionDateTime = completeReminderDateDialogDate.value,
-                                    pet = pet
-                                )
+                            viewModel.markReminderComplete(
+                                pet = pet,
+                                reminderId = reminderToCompleteId.value ?: "",
+                                completed = true,
+                                completionDateTime = completeReminderDateDialogDate.value
                             )
                         }
                     }
@@ -156,9 +142,15 @@ fun HomeScreenDestination(onNavigationCall: (NavigationSideEffect) -> Unit) {
 
             state.deletePetDialogShow -> {
                 RemovePetConfirmationDialog(
-                    petName = state.pets.first().name,
+                    petName = state.pets.firstOrNull()?.name.orEmpty(),
                     onDismiss = viewModel::hideDeletePetDialog,
-                    onConfirm = { viewModel.setEvent(HomeScreenContract.Event.OnDeletePetConfirmed(state.pets.first())) }
+                    onConfirm = {
+                        state.pets.firstOrNull()?.let { pet ->
+                            viewModel.onDeletePetConfirmed(pet) {
+                                onNavigationCall(HomeScreenContract.Effect.Navigation.ToUserRegistration)
+                            }
+                        }
+                    }
                 )
             }
         }
@@ -171,11 +163,13 @@ fun HomeScreenDestination(onNavigationCall: (NavigationSideEffect) -> Unit) {
                         showCustomizationPrompt = state.showCustomizationPrompt,
                         pets = state.pets,
                         inactiveInteractions = state.inactiveInteractions,
-                        onAddPetButtonClick = viewModel::openAddPetScreen,
-                        onPetCardClick = viewModel::openPetScreen,
-                        onInteractionClick = viewModel::setEvent,
-                        onDeletePetClick = viewModel::setEvent,
-                        onEditPetClick = viewModel::setEvent,
+                        onAddPetButtonClick = { onNavigationCall(HomeScreenContract.Effect.Navigation.ToAddPet) },
+                        onPetCardClick = { petId -> onNavigationCall(HomeScreenContract.Effect.Navigation.ToPetScreen(petId)) },
+                        onInteractionClick = { interactionClicked ->
+                            onNavigationCall(HomeScreenContract.Effect.Navigation.ToInteractionDetails(interactionClicked.interactionId))
+                        },
+                        onDeletePetClick = { viewModel.onDeletePetClicked() },
+                        onEditPetClick = { pet -> onNavigationCall(HomeScreenContract.Effect.Navigation.ToEditPet(pet.pet)) },
                         onInteractionCheckClicked = { pet, reminderId, completed, completionDateTime ->
                             if (completed) {
                                 petToComplete.value = pet
@@ -183,32 +177,26 @@ fun HomeScreenDestination(onNavigationCall: (NavigationSideEffect) -> Unit) {
                                 completeReminderDateDialogDate.value = completionDateTime
                                 showCompleteReminderDateDialog.value = true
                             } else {
-                                viewModel.setEvent(
-                                    HomeScreenContract.Event.OnInteractionCheckClicked(
-                                        reminderId = reminderId,
-                                        completed = false,
-                                        completionDateTime = completionDateTime,
-                                        pet = pet
-                                    )
-                                )
+                                viewModel.markReminderComplete(pet, reminderId, false, completionDateTime)
                             }
                         },
-                        onUserDetailsClick = { viewModel.setEvent(HomeScreenContract.Event.ToUserScreenClicked) },
-                        onClosePromptClick = { viewModel.setEvent(HomeScreenContract.Event.RemoveCustomizationPromptClicked) },
+                        onUserDetailsClick = { onNavigationCall(HomeScreenContract.Effect.Navigation.ToUserScreen) },
+                        onClosePromptClick = { viewModel.closeCustomizationPrompt() },
                         state = verticalScroll
                     )
                 } else {
-                    NoPetsState(userName = user.name,
-                        onAddPetButtonClick = viewModel::openAddPetScreen,
-                        onUserDetailsClick = { viewModel.setEvent(HomeScreenContract.Event.ToUserScreenClicked) }
+                    NoPetsState(
+                        userName = user.name,
+                        onAddPetButtonClick = { onNavigationCall(HomeScreenContract.Effect.Navigation.ToAddPet) },
+                        onUserDetailsClick = { onNavigationCall(HomeScreenContract.Effect.Navigation.ToUserScreen) }
                     )
                 }
             } ?: if (!state.isLoading) {
                 NoUserState(
-                    onRegisterButtonClick = viewModel::openRegistration,
+                    onRegisterButtonClick = { onNavigationCall(HomeScreenContract.Effect.Navigation.ToUserRegistration) },
                     onLoginButtonClick = { registrationLauncher?.invoke() }
                 )
-            } else Spacer(size = 1.dp)
+            } else Spacer(Modifier.size(1.dp))
         }
     }
 }

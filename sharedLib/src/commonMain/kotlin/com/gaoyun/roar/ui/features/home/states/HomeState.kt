@@ -184,7 +184,7 @@ fun HomeState(
                             completionDateTime
                         )
                     },
-                    modifier = Modifier.animateItemPlacement()
+                    modifier = Modifier.animateItem()
                 )
             }
 

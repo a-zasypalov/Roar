@@ -12,3 +12,4 @@ xcuserdata
 /androidApp/release/
 /iosApp/iosApp/GoogleService-Info.plist
 .kotlin
+/iosApp/iosApp.xcodeproj/project.xcworkspace/xcshareddata/swiftpm/Package.resolved
