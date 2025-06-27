@@ -1,37 +1,19 @@
 package com.gaoyun.roar.presentation.interactions
 
-import com.gaoyun.roar.model.domain.Pet
 import com.gaoyun.roar.model.domain.interactions.InteractionWithReminders
 import com.gaoyun.roar.ui.navigation.NavigationSideEffect
-import com.gaoyun.roar.presentation.ViewEvent
-import com.gaoyun.roar.presentation.ViewSideEffect
-import com.gaoyun.roar.presentation.ViewState
 import kotlinx.datetime.LocalDateTime
 
 class InteractionScreenContract {
 
-    sealed class Event : ViewEvent {
-        class OnActivateButtonClick(val interactionId: String, val activate: Boolean) : Event()
-        class OnDeleteButtonClick(val interactionId: String, val confirmed: Boolean = false) : Event()
-        class OnSaveNotes(val notes: String) : Event()
+    sealed class Event {
         class OnReminderCompleteClick(val reminderId: String, val isComplete: Boolean, val completionDateTime: LocalDateTime) : Event()
         class OnReminderRemoveFromHistoryClick(val reminderId: String, val confirmed: Boolean = false) : Event()
         class OnCompleteReminderNotTodayClick(val reminderId: String, val date: LocalDateTime) : Event()
-        class OnEditClick(val petId: String, val interaction: InteractionWithReminders) : Event()
     }
 
-    data class State(
-        val isLoading: Boolean = false,
-        val pet: Pet? = null,
-        val interaction: InteractionWithReminders? = null
-    ) : ViewState
-
-    sealed class Effect : ViewSideEffect {
-        class ShowRemoveReminderFromHistoryDialog(val reminderId: String) : Effect()
-        class ShowCompleteReminderDialog(val reminderId: String, val date: LocalDateTime) : Effect()
-        data object ShowRemoveInteractionDialog : Effect()
+    sealed class Effect {
         data object NavigateBack : Effect()
-
         sealed class Navigation : Effect(), NavigationSideEffect {
             class ToEditInteraction(val petId: String, val interaction: InteractionWithReminders) : Navigation()
         }
