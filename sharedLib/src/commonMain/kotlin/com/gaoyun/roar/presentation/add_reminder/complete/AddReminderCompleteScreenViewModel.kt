@@ -1,15 +1,8 @@
 package com.gaoyun.roar.presentation.add_reminder.complete
 
-class AddReminderCompleteScreenViewModel :
-    BaseViewModel<AddReminderCompleteScreenContract.Event, AddReminderCompleteScreenContract.State, AddReminderCompleteScreenContract.Effect>() {
+import com.gaoyun.roar.presentation.BaseViewModel
+import kotlinx.coroutines.flow.MutableStateFlow
 
-    override fun setInitialState() = AddReminderCompleteScreenContract.State(isLoading = false)
-
-    override fun handleEvents(event: AddReminderCompleteScreenContract.Event) {
-        when (event) {
-            is AddReminderCompleteScreenContract.Event.ContinueButtonClicked -> setEffect {
-                AddReminderCompleteScreenContract.Effect.Navigation.Continue
-            }
-        }
-    }
+class AddReminderCompleteScreenViewModel : BaseViewModel() {
+    override val viewState = MutableStateFlow(Unit)
 }

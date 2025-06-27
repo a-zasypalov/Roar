@@ -1,5 +1,6 @@
 package com.gaoyun.roar.presentation.add_reminder.setup_reminder
 
+import androidx.lifecycle.viewModelScope
 import com.gaoyun.roar.domain.NotificationScheduler
 import com.gaoyun.roar.domain.interaction.GetInteraction
 import com.gaoyun.roar.domain.interaction.InsertInteraction
@@ -12,18 +13,21 @@ import com.gaoyun.roar.model.domain.Pet
 import com.gaoyun.roar.model.domain.interactions.InteractionGroup
 import com.gaoyun.roar.model.domain.interactions.InteractionRemindConfig
 import com.gaoyun.roar.model.domain.interactions.InteractionRepeatConfig
+import com.gaoyun.roar.model.domain.interactions.InteractionTemplate
 import com.gaoyun.roar.model.domain.interactions.InteractionType
 import com.gaoyun.roar.model.domain.interactions.InteractionWithReminders
 import com.gaoyun.roar.model.domain.interactions.toInteractionRemindConfig
 import com.gaoyun.roar.model.domain.interactions.toInteractionRepeatConfig
 import com.gaoyun.roar.model.domain.interactions.withoutReminders
+import com.gaoyun.roar.presentation.BaseViewModel
 import com.gaoyun.roar.util.randomUUID
 import com.gaoyun.roar.util.toLocalDate
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.firstOrNull
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import kotlinx.datetime.Instant
-import kotlinx.datetime.LocalDateTime
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.atTime
 import kotlinx.datetime.toInstant
@@ -36,83 +40,77 @@ class SetupReminderScreenViewModel(
     private val insertReminder: InsertReminder,
     private val getInteraction: GetInteraction,
     private val notificationScheduler: NotificationScheduler,
-) : BaseViewModel<SetupReminderScreenContract.Event, SetupReminderScreenContract.State, SetupReminderScreenContract.Effect>() {
+) : BaseViewModel() {
 
-    override fun setInitialState() = SetupReminderScreenContract.State(isLoading = true)
+    override val viewState = MutableStateFlow(
+        SetupReminderScreenContractState(isLoading = true)
+    )
 
-    override fun handleEvents(event: SetupReminderScreenContract.Event) {
-        when (event) {
-            is SetupReminderScreenContract.Event.RepeatConfigChanged -> with(event) {
-                setState { copy(repeatConfig = config.toInteractionRepeatConfig()) }
-            }
-
-            is SetupReminderScreenContract.Event.RemindConfigChanged -> with(event) {
-                setState { copy(remindConfig = config.toInteractionRemindConfig()) }
-            }
-
-            is SetupReminderScreenContract.Event.OnSaveButtonClick -> with(event) {
-                createOrUpdateInteraction(
-                    templateId = templateId,
-                    petId = petId,
-                    group = group,
-                    name = name,
-                    type = type,
-                    repeatConfig = if (repeatIsEnabled) repeatConfig else null,
-                    remindConfig = remindConfig,
-                    notes = notes,
-                    dateTime = Instant.fromEpochMilliseconds(date).toLocalDate().atTime(hour = timeHours, minute = timeMinutes)
-                )
-            }
-        }
-    }
-
-    fun buildScreenState(petId: String, templateId: String, interactionId: String?) = scope.launch {
+    fun initialize(petId: String, templateId: String, interactionId: String?) = viewModelScope.launch {
         getPetUseCase.getPet(petId).filterNotNull().collect { pet ->
-            val interaction = interactionId?.let { getInteraction.getInteractionWithReminders(it).firstOrNull() }
+            val interaction = interactionId?.let {
+                getInteraction.getInteractionWithReminders(it).firstOrNull()
+            }
+
             if (templateId == "null") {
-                setState {
-                    copy(
+                viewState.update {
+                    it.copy(
                         isLoading = false,
                         pet = pet,
                         interactionToEdit = interaction,
                         repeatConfig = interaction?.repeatConfig ?: InteractionRepeatConfig(),
-                        remindConfig = interaction?.remindConfig ?: InteractionRemindConfig(),
+                        remindConfig = interaction?.remindConfig ?: InteractionRemindConfig()
                     )
                 }
             } else {
-                getInteractionTemplate(pet, templateId, interaction)
+                getInteractionTemplateUseCase
+                    .getInteractionTemplate(templateId, pet.petType)
+                    .collect { template ->
+                        viewState.update {
+                            it.copy(
+                                isLoading = false,
+                                pet = pet,
+                                template = template,
+                                repeatConfig = interaction?.repeatConfig ?: template?.repeatConfig ?: InteractionRepeatConfig(),
+                                remindConfig = interaction?.remindConfig ?: InteractionRemindConfig(),
+                                interactionToEdit = interaction
+                            )
+                        }
+                    }
             }
         }
     }
 
-    private suspend fun getInteractionTemplate(pet: Pet, templateId: String, interaction: InteractionWithReminders?) {
-        getInteractionTemplateUseCase.getInteractionTemplate(templateId, pet.petType)
-            .collect { template ->
-                setState {
-                    copy(
-                        isLoading = false,
-                        pet = pet,
-                        template = template,
-                        repeatConfig = interaction?.repeatConfig ?: template?.repeatConfig ?: InteractionRepeatConfig(),
-                        remindConfig = interaction?.remindConfig ?: InteractionRemindConfig(),
-                        interactionToEdit = interaction
-                    )
-                }
-            }
+    fun updateRepeatConfig(config: String) {
+        viewState.update { it.copy(repeatConfig = config.toInteractionRepeatConfig()) }
     }
 
-    private fun createOrUpdateInteraction(
+    fun updateRemindConfig(config: String) {
+        viewState.update { it.copy(remindConfig = config.toInteractionRemindConfig()) }
+    }
+
+    fun createOrUpdateInteraction(
         templateId: String?,
         petId: String,
         group: InteractionGroup,
         name: String,
         type: InteractionType,
-        repeatConfig: InteractionRepeatConfig?,
+        repeatIsEnabled: Boolean,
+        repeatConfig: InteractionRepeatConfig,
         remindConfig: InteractionRemindConfig,
         notes: String,
-        dateTime: LocalDateTime,
-    ) = scope.launch {
+        date: Long,
+        timeHours: Int,
+        timeMinutes: Int,
+        onBackToTemplates: () -> Unit,
+        onToComplete: (petAvatar: String, petId: String, templateId: String) -> Unit
+    ) = viewModelScope.launch {
+        val dateTime = Instant.fromEpochMilliseconds(date)
+            .toLocalDate()
+            .atTime(hour = timeHours, minute = timeMinutes)
+
         val interactionToEdit = viewState.value.interactionToEdit
+
         if (interactionToEdit != null) {
             insertInteraction.insertInteraction(
                 interactionToEdit.copy(
@@ -120,11 +118,15 @@ class SetupReminderScreenViewModel(
                     notes = notes,
                     type = type,
                     group = group,
-                    repeatConfig = repeatConfig,
+                    repeatConfig = if (repeatIsEnabled) repeatConfig else null,
                     remindConfig = remindConfig
                 ).withoutReminders()
             ).firstOrNull() ?: return@launch
-            val reminderToInsert = interactionToEdit.reminders.filter { !it.isCompleted }.maxBy { it.dateTime }.copy(dateTime = dateTime)
+
+            val reminderToInsert = interactionToEdit.reminders
+                .filter { !it.isCompleted }
+                .maxBy { it.dateTime }
+                .copy(dateTime = dateTime)
 
             val notificationDateTime = dateTime
                 .toInstant(TimeZone.currentSystemDefault())
@@ -138,10 +140,11 @@ class SetupReminderScreenViewModel(
                     itemId = reminderToInsert.id
                 )
             )
+
             notificationScheduler.scheduleNotification(notificationData)
 
             insertReminder.insertReminder(reminderToInsert).collect {
-                setEffect { SetupReminderScreenContract.Effect.ReminderSaved(it) }
+                onBackToTemplates()
             }
         } else {
             val interaction = insertInteraction.insertInteraction(
@@ -150,24 +153,31 @@ class SetupReminderScreenViewModel(
                 type = type.toString(),
                 name = name,
                 group = group.toString(),
-                repeatConfig = repeatConfig,
+                repeatConfig = if (repeatIsEnabled) repeatConfig else null,
                 remindConfig = remindConfig,
                 notes = notes
             ).firstOrNull() ?: return@launch
 
-            insertReminder.createReminder(interaction.id, dateTime, remindConfig).collect { _ ->
-                setEffect {
-                    if (type == InteractionType.CUSTOM) {
-                        SetupReminderScreenContract.Effect.Navigation.ToComplete(
-                            petAvatar = viewState.value.pet?.avatar.toString(),
-                            petId = viewState.value.pet?.id.toString(),
-                            templateId = viewState.value.template?.id.toString()
-                        )
-                    } else {
-                        SetupReminderScreenContract.Effect.Navigation.BackToTemplates
-                    }
+            insertReminder.createReminder(interaction.id, dateTime, remindConfig).collect {
+                if (type == InteractionType.CUSTOM) {
+                    onToComplete(
+                        viewState.value.pet?.avatar.orEmpty(),
+                        viewState.value.pet?.id.orEmpty(),
+                        viewState.value.template?.id.orEmpty()
+                    )
+                } else {
+                    onBackToTemplates()
                 }
             }
         }
     }
 }
+
+data class SetupReminderScreenContractState(
+    val isLoading: Boolean = false,
+    val pet: Pet? = null,
+    val template: InteractionTemplate? = null,
+    val interactionToEdit: InteractionWithReminders? = null,
+    val repeatConfig: InteractionRepeatConfig = InteractionRepeatConfig(),
+    val remindConfig: InteractionRemindConfig = InteractionRemindConfig()
+)

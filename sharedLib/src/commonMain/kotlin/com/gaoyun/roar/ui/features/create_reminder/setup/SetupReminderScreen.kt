@@ -11,7 +11,6 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -21,9 +20,6 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.compose.LifecycleEventEffect
-import com.gaoyun.roar.ui.navigation.BackNavigationEffect
-import com.gaoyun.roar.presentation.LAUNCH_LISTEN_FOR_EFFECTS
-import com.gaoyun.roar.ui.navigation.NavigationSideEffect
 import com.gaoyun.roar.presentation.add_reminder.setup_reminder.SetupReminderScreenContract
 import com.gaoyun.roar.presentation.add_reminder.setup_reminder.SetupReminderScreenViewModel
 import com.gaoyun.roar.ui.common.composables.AutoResizeText
@@ -35,48 +31,37 @@ import com.gaoyun.roar.ui.common.composables.SurfaceScaffold
 import com.gaoyun.roar.ui.common.composables.surfaceCardFormElevation
 import com.gaoyun.roar.ui.common.composables.surfaceCardFormShape
 import com.gaoyun.roar.ui.common.ext.getDrawableByName
-import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.flow.onEach
-import moe.tlaster.precompose.koin.koinViewModel
+import com.gaoyun.roar.ui.navigation.BackNavigationEffect
+import com.gaoyun.roar.ui.navigation.NavigationSideEffect
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
+import org.koin.compose.viewmodel.koinViewModel
 import roar.sharedlib.generated.resources.Res
 import roar.sharedlib.generated.resources.reminder
 
 @Composable
 fun SetupReminderDestination(
-    onNavigationCall: (NavigationSideEffect) -> Unit,
+    navigate: (NavigationSideEffect) -> Unit,
     petId: String,
     templateId: String,
     interactionId: String? = null
 ) {
-    val viewModel = koinViewModel(vmClass = SetupReminderScreenViewModel::class)
+    val viewModel = koinViewModel<SetupReminderScreenViewModel>()
     val state = viewModel.viewState.collectAsState().value
     val snackbarHostState = remember { SnackbarHostState() }
-
-    LifecycleEventEffect(Lifecycle.Event.ON_CREATE) {
-        viewModel.buildScreenState(petId = petId, templateId = templateId, interactionId = interactionId)
-    }
-
     val avatar = remember { mutableStateOf("ic_cat") }
 
-    LaunchedEffect(LAUNCH_LISTEN_FOR_EFFECTS) {
-        viewModel.effect.onEach { effect ->
-            when (effect) {
-                is SetupReminderScreenContract.Effect.Navigation -> onNavigationCall(effect)
-                is SetupReminderScreenContract.Effect.ReminderSaved -> onNavigationCall(BackNavigationEffect)
-            }
-        }.collect()
+    LifecycleEventEffect(Lifecycle.Event.ON_CREATE) {
+        viewModel.initialize(petId, templateId, interactionId)
     }
 
     SurfaceScaffold(
-        backHandler = { onNavigationCall(BackNavigationEffect) },
-        snackbarHost = { SnackbarHost(snackbarHostState) },
+        backHandler = { navigate(BackNavigationEffect) },
+        snackbarHost = { SnackbarHost(snackbarHostState) }
     ) {
         BoxWithLoader(isLoading = state.isLoading) {
             state.pet?.let { pet ->
                 avatar.value = pet.avatar
-
                 Column(
                     verticalArrangement = Arrangement.Bottom,
                     modifier = Modifier.fillMaxSize()
@@ -91,7 +76,7 @@ fun SetupReminderDestination(
                         elevation = surfaceCardFormElevation(),
                         modifier = Modifier
                             .padding(horizontal = 6.dp)
-                            .padding(top = 8.dp),
+                            .padding(top = 8.dp)
                     ) {
                         ReminderSetupForm(
                             interactionToEdit = state.interactionToEdit,
@@ -99,28 +84,34 @@ fun SetupReminderDestination(
                             repeatConfig = state.repeatConfig,
                             remindConfig = state.remindConfig,
                             snackbarHost = snackbarHostState,
-                            onRepeatConfigSave = { config ->
-                                viewModel.setEvent(SetupReminderScreenContract.Event.RepeatConfigChanged(config))
-                            },
-                            onRemindConfigSave = { config ->
-                                viewModel.setEvent(SetupReminderScreenContract.Event.RemindConfigChanged(config))
-                            },
+                            onRepeatConfigSave = viewModel::updateRepeatConfig,
+                            onRemindConfigSave = viewModel::updateRemindConfig,
                             onSaveButtonClick = { name, type, group, repeatIsEnabled, repeatConfig, notes, date, timeHours, timeMinutes, remindConfig ->
-                                viewModel.setEvent(
-                                    SetupReminderScreenContract.Event.OnSaveButtonClick(
-                                        name = name,
-                                        type = type,
-                                        group = group,
-                                        repeatIsEnabled = repeatIsEnabled,
-                                        repeatConfig = repeatConfig,
-                                        remindConfig = remindConfig,
-                                        notes = notes,
-                                        petId = pet.id,
-                                        templateId = state.template?.id,
-                                        date = date,
-                                        timeHours = timeHours,
-                                        timeMinutes = timeMinutes
-                                    )
+                                viewModel.createOrUpdateInteraction(
+                                    templateId = state.template?.id,
+                                    petId = pet.id,
+                                    group = group,
+                                    name = name,
+                                    type = type,
+                                    repeatIsEnabled = repeatIsEnabled,
+                                    repeatConfig = repeatConfig,
+                                    remindConfig = remindConfig,
+                                    notes = notes,
+                                    date = date,
+                                    timeHours = timeHours,
+                                    timeMinutes = timeMinutes,
+                                    onBackToTemplates = {
+                                        navigate(SetupReminderScreenContract.Effect.Navigation.BackToTemplates)
+                                    },
+                                    onToComplete = { petAvatar, petId, templateId ->
+                                        navigate(
+                                            SetupReminderScreenContract.Effect.Navigation.ToComplete(
+                                                petAvatar = petAvatar,
+                                                petId = petId,
+                                                templateId = templateId
+                                            )
+                                        )
+                                    }
                                 )
                             },
                         )

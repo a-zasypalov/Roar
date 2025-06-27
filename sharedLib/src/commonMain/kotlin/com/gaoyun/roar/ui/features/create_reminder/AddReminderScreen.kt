@@ -10,61 +10,52 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.ScaffoldDefaults
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.compose.LifecycleEventEffect
-import com.gaoyun.roar.ui.navigation.BackNavigationEffect
-import com.gaoyun.roar.presentation.LAUNCH_LISTEN_FOR_EFFECTS
-import com.gaoyun.roar.ui.navigation.NavigationSideEffect
 import com.gaoyun.roar.presentation.add_reminder.choose_template.AddReminderScreenContract
 import com.gaoyun.roar.presentation.add_reminder.choose_template.AddReminderScreenViewModel
 import com.gaoyun.roar.ui.common.composables.BoxWithLoader
 import com.gaoyun.roar.ui.common.composables.PrimaryElevatedButtonOnSurface
 import com.gaoyun.roar.ui.common.composables.SurfaceScaffold
-import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.flow.onEach
-import moe.tlaster.precompose.koin.koinViewModel
+import com.gaoyun.roar.ui.navigation.BackNavigationEffect
+import com.gaoyun.roar.ui.navigation.NavigationSideEffect
 import org.jetbrains.compose.resources.stringResource
+import org.koin.compose.viewmodel.koinViewModel
 import roar.sharedlib.generated.resources.Res
 import roar.sharedlib.generated.resources.done
 
 @Composable
 fun AddReminderDestination(
-    onNavigationCall: (NavigationSideEffect) -> Unit,
+    navigate: (NavigationSideEffect) -> Unit,
     petId: String
 ) {
-    val viewModel = koinViewModel(vmClass = AddReminderScreenViewModel::class)
+    val viewModel = koinViewModel<AddReminderScreenViewModel>()
     val state = viewModel.viewState.collectAsState().value
 
     LifecycleEventEffect(Lifecycle.Event.ON_CREATE) {
-        viewModel.buildScreenState(petId)
-    }
-
-    LaunchedEffect(LAUNCH_LISTEN_FOR_EFFECTS) {
-        viewModel.effect.onEach { effect ->
-            when (effect) {
-                is AddReminderScreenContract.Effect.Navigation -> onNavigationCall(effect)
-            }
-        }.collect()
+        viewModel.initialize(petId)
     }
 
     SurfaceScaffold(
-        backHandler = { onNavigationCall(BackNavigationEffect) },
+        backHandler = { navigate(BackNavigationEffect) },
     ) {
         BoxWithLoader(isLoading = state.isLoading) {
-            state.pet?.let {
+            state.pet?.let { pet ->
                 TemplatesList(
-                    pet = it,
+                    pet = pet,
                     templates = state.templates,
-                    templateChosen = viewModel::setEvent,
+                    templateChosen = { template ->
+                        navigate(AddReminderScreenContract.Effect.Navigation.ToReminderSetup(pet.id, template.templateId))
+                    },
                     modifier = Modifier
                         .navigationBarsPadding()
                         .padding(bottom = 56.dp)
                 )
+
                 Box(modifier = Modifier.fillMaxSize()) {
                     Surface(
                         tonalElevation = 120.dp,
@@ -80,14 +71,13 @@ fun AddReminderDestination(
                     ) {
                         PrimaryElevatedButtonOnSurface(
                             text = stringResource(resource = Res.string.done),
-                            onClick = { onNavigationCall(BackNavigationEffect) },
+                            onClick = { navigate(BackNavigationEffect) },
                             modifier = Modifier
                                 .align(Alignment.Center)
                                 .padding(vertical = 16.dp)
                                 .navigationBarsPadding()
                         )
                     }
-
                 }
             }
         }

@@ -8,26 +8,21 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.gaoyun.roar.presentation.LAUNCH_LISTEN_FOR_EFFECTS
-import com.gaoyun.roar.ui.navigation.NavigationSideEffect
 import com.gaoyun.roar.presentation.add_reminder.complete.AddReminderCompleteScreenContract
 import com.gaoyun.roar.presentation.add_reminder.complete.AddReminderCompleteScreenViewModel
 import com.gaoyun.roar.ui.common.composables.PrimaryElevatedButton
 import com.gaoyun.roar.ui.common.composables.Spacer
 import com.gaoyun.roar.ui.common.composables.SurfaceScaffold
 import com.gaoyun.roar.ui.common.ext.getDrawableByName
+import com.gaoyun.roar.ui.navigation.NavigationSideEffect
 import com.gaoyun.roar.ui.theme.RoarThemePreview
-import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.flow.onEach
-import moe.tlaster.precompose.koin.koinViewModel
-import moe.tlaster.precompose.navigation.BackHandler
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
+import org.koin.compose.viewmodel.koinViewModel
 import roar.sharedlib.generated.resources.Res
 import roar.sharedlib.generated.resources.cd_avatar
 import roar.sharedlib.generated.resources.continue_label
@@ -35,25 +30,19 @@ import roar.sharedlib.generated.resources.reminder_ready
 
 @Composable
 fun AddReminderCompleteDestination(
-    onNavigationCall: (NavigationSideEffect) -> Unit,
+    navigate: (NavigationSideEffect) -> Unit,
     petAvatar: String
 ) {
-    val viewModel = koinViewModel(vmClass = AddReminderCompleteScreenViewModel::class)
-
-    LaunchedEffect(LAUNCH_LISTEN_FOR_EFFECTS) {
-        viewModel.effect.onEach { effect ->
-            when (effect) {
-                is AddReminderCompleteScreenContract.Effect.Navigation -> onNavigationCall(effect)
-            }
-        }.collect()
-    }
-
-    BackHandler {}
+    val viewModel = koinViewModel<AddReminderCompleteScreenViewModel>()
 
     SurfaceScaffold {
-        ReminderAddingComplete(petAvatar) { viewModel.setEvent(AddReminderCompleteScreenContract.Event.ContinueButtonClicked) }
+        ReminderAddingComplete(
+            petAvatar = petAvatar,
+            onContinueButtonClicked = {
+                navigate(AddReminderCompleteScreenContract.Effect.Navigation.Continue)
+            }
+        )
     }
-
 }
 
 @Composable
