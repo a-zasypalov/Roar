@@ -43,6 +43,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.gaoyun.roar.model.domain.User
 import com.gaoyun.roar.presentation.user_screen.UserScreenContract
+import com.gaoyun.roar.presentation.user_screen.UserScreenState
 import com.gaoyun.roar.ui.common.composables.AutoResizeText
 import com.gaoyun.roar.ui.common.composables.BoxWithLoader
 import com.gaoyun.roar.ui.common.composables.DropdownMenu
@@ -83,7 +84,7 @@ import roar.sharedlib.generated.resources.user_screen_subtitle
 
 @Composable
 internal fun UserScreenContent(
-    state: UserScreenContract.State,
+    state: UserScreenState,
     onCreateBackupClick: (UserScreenContract.Event) -> Unit,
     onNumberOfRemindersOnMainScreenChange: (UserScreenContract.Event.OnNumberOfRemindersOnMainScreen) -> Unit,
     onDynamicColorsStateChange: (UserScreenContract.Event.OnDynamicColorsStateChange) -> Unit,
@@ -463,7 +464,7 @@ internal fun UserScreenContent(
 @Composable
 fun UserScreenPreview() {
     UserScreenContent(
-        state = UserScreenContract.State(
+        state = UserScreenState(
             isLoading = false,
             dynamicColorActive = false,
             user = User("id", "Tester")

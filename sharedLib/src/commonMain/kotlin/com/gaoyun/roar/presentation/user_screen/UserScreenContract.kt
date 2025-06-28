@@ -1,21 +1,11 @@
 package com.gaoyun.roar.presentation.user_screen
 
-import com.gaoyun.roar.model.domain.User
 import com.gaoyun.roar.ui.navigation.NavigationSideEffect
-import com.gaoyun.roar.presentation.ViewEvent
-import com.gaoyun.roar.presentation.ViewSideEffect
-import com.gaoyun.roar.presentation.ViewState
 import com.gaoyun.roar.util.AppIcon
 import com.gaoyun.roar.util.ColorTheme
-import kotlinx.datetime.Clock
-import kotlinx.datetime.LocalDateTime
-import kotlinx.datetime.TimeZone
-import kotlinx.datetime.toLocalDateTime
 
 class UserScreenContract {
-    sealed class Event : ViewEvent {
-        data object OnDeleteAccountClick : Event()
-        data object OnEditAccountClick : Event()
+    sealed class Event {
         data object OnLogout : Event()
         data object OnAccountDeleteConfirmed : Event()
         data object OnAboutScreenClick : Event()
@@ -46,26 +36,9 @@ class UserScreenContract {
         data class OnStaticColorThemePick(val theme: ColorTheme) : Event()
         data class OnNumberOfRemindersOnMainScreen(val newNumber: Int) : Event()
         data class OnAppIconChange(val icon: AppIcon) : Event()
-        data object NavigateBack : Event()
     }
 
-    data class State(
-        val isLoading: Boolean = false,
-        val dynamicColorActive: Boolean = false,
-        val screenModeFull: Boolean = true,
-        val activeColorTheme: ColorTheme = ColorTheme.Orange,
-        val numberOfRemindersOnMainScreenState: String = "2",
-        val numberOfPets: Int = 1,
-        val lastSync: LocalDateTime = Clock.System.now().toLocalDateTime(TimeZone.currentSystemDefault()),
-        val user: User? = null,
-    ) : ViewState
-
-    sealed class Effect : ViewSideEffect {
-        data object BackupCreated : Effect()
-        data object BackupApplied : Effect()
-        data object LoggedOut : Effect()
-        data object NavigateBack : Effect()
-
+    sealed class Effect {
         sealed class Navigation : Effect(), NavigationSideEffect {
             object ToUserEdit : Navigation()
             object ToAboutScreen : Navigation()
