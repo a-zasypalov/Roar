@@ -6,47 +6,36 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.gaoyun.roar.ui.navigation.BackNavigationEffect
-import com.gaoyun.roar.presentation.LAUNCH_LISTEN_FOR_EFFECTS
-import com.gaoyun.roar.ui.navigation.NavigationSideEffect
-import com.gaoyun.roar.presentation.user_edit.EditUserScreenContract
 import com.gaoyun.roar.presentation.user_edit.EditUserScreenViewModel
 import com.gaoyun.roar.ui.common.composables.BoxWithLoader
 import com.gaoyun.roar.ui.common.composables.SurfaceScaffold
-import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.flow.onEach
-import moe.tlaster.precompose.koin.koinViewModel
+import com.gaoyun.roar.ui.navigation.BackNavigationEffect
+import com.gaoyun.roar.ui.navigation.NavigationSideEffect
 import org.jetbrains.compose.resources.stringResource
+import org.koin.compose.viewmodel.koinViewModel
 import roar.sharedlib.generated.resources.Res
 import roar.sharedlib.generated.resources.edit_profile
 
 @Composable
 fun EditUserScreenDestination(
-    onNavigationCall: (NavigationSideEffect) -> Unit,
+    navigate: (NavigationSideEffect) -> Unit,
 ) {
-    val viewModel = koinViewModel(vmClass = EditUserScreenViewModel::class)
-    val state = viewModel.viewState.collectAsState().value
-
-    LaunchedEffect(LAUNCH_LISTEN_FOR_EFFECTS) {
-        viewModel.effect.onEach { effect ->
-            when (effect) {
-                is EditUserScreenContract.Effect.NavigateBack -> onNavigationCall(BackNavigationEffect)
-            }
-        }.collect()
-    }
+    val viewModel = koinViewModel<EditUserScreenViewModel>()
+    val state by viewModel.viewState.collectAsState()
 
     SurfaceScaffold(
-        backHandler = { viewModel.setEvent(EditUserScreenContract.Event.NavigateBack) },
+        backHandler = { navigate(BackNavigationEffect) }
     ) {
-        BoxWithLoader(isLoading = state.userToEdit == null) {
+        BoxWithLoader(isLoading = state.isLoading) {
             state.userToEdit?.let { user ->
                 Box(
-                    contentAlignment = Alignment.BottomCenter, modifier = Modifier.fillMaxSize()
+                    contentAlignment = Alignment.BottomCenter,
+                    modifier = Modifier.fillMaxSize()
                 ) {
                     Text(
                         text = stringResource(resource = Res.string.edit_profile),
@@ -57,7 +46,11 @@ fun EditUserScreenDestination(
                     )
                     EditUserForm(
                         user = user,
-                        onSaveClick = viewModel::setEvent,
+                        onSaveClick = { updatedUser ->
+                            viewModel.saveUser(updatedUser.user) {
+                                navigate(BackNavigationEffect)
+                            }
+                        }
                     )
                 }
             }

@@ -1,36 +1,40 @@
 package com.gaoyun.roar.presentation.user_edit
 
+import androidx.lifecycle.viewModelScope
 import com.gaoyun.roar.domain.user.EditUserUseCase
 import com.gaoyun.roar.domain.user.GetCurrentUserUseCase
 import com.gaoyun.roar.model.domain.User
+import com.gaoyun.roar.presentation.BaseViewModel
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+
+data class EditUserScreenState(
+    val isLoading: Boolean = false,
+    val userToEdit: User? = null
+)
 
 class EditUserScreenViewModel(
     private val getUser: GetCurrentUserUseCase,
     private val editUserUseCase: EditUserUseCase,
-) : BaseViewModel<EditUserScreenContract.Event, EditUserScreenContract.State, EditUserScreenContract.Effect>() {
+) : BaseViewModel() {
+
+    override val viewState = MutableStateFlow(EditUserScreenState(isLoading = true))
 
     init {
-        buildScreenState()
+        loadUser()
     }
 
-    override fun setInitialState() = EditUserScreenContract.State(isLoading = true)
-
-    override fun handleEvents(event: EditUserScreenContract.Event) {
-        when (event) {
-            is EditUserScreenContract.Event.OnSaveAccountClick -> saveUserProfile(event.user)
-            is EditUserScreenContract.Event.NavigateBack -> setEffect { EditUserScreenContract.Effect.NavigateBack }
-        }
+    private fun loadUser() = viewModelScope.launch {
+        getUser.getCurrentUser()
+            .collect { user ->
+                viewState.update { it.copy(userToEdit = user, isLoading = false) }
+            }
     }
 
-    private fun buildScreenState() = scope.launch {
-        getUser.getCurrentUser().collect { setState { copy(isLoading = false, userToEdit = it) } }
-    }
-
-    private fun saveUserProfile(user: User) = scope.launch {
+    fun saveUser(user: User, onComplete: () -> Unit) = viewModelScope.launch {
         editUserUseCase.update(user).collect {
-            setEffect { EditUserScreenContract.Effect.NavigateBack }
+            onComplete()
         }
     }
-
 }
