@@ -103,10 +103,10 @@ class AppNavigator(private val closeAppActionHandler: CloseAppActionHandler) : K
     }
 
     private fun toUserRegistration() =
-        NavigationAction.NavigateTo(NavigationKeys.Route.REGISTER_USER_ROUTE)
+        NavigationAction.NavigateToPath(NavigationKeys.Route.REGISTER_USER_ROUTE)
 
     private fun toAddPet() =
-        NavigationAction.NavigateTo(NavigationKeys.Route.ADD_PET_ROUTE)
+        NavigationAction.NavigateToPath(NavigationKeys.Route.ADD_PET_ROUTE)
 
     private fun toAddReminder(effect: HomeScreenContract.Effect.Navigation.ToAddReminder) =
         NavigationAction.NavigateTo(AddReminderArgs(effect.petId))
@@ -127,7 +127,7 @@ class AppNavigator(private val closeAppActionHandler: CloseAppActionHandler) : K
         )
 
     private fun toUserScreen() =
-        NavigationAction.NavigateTo(NavigationKeys.Route.USER_ROUTE)
+        NavigationAction.NavigateToPath(NavigationKeys.Route.USER_ROUTE)
 
     private fun toPetAdding() =
         NavigationAction.PopTo(NavigationKeys.Route.HOME_ROUTE, inclusive = false)
@@ -136,10 +136,10 @@ class AppNavigator(private val closeAppActionHandler: CloseAppActionHandler) : K
         NavigationAction.PopTo(NavigationKeys.Route.ADD_PET_ROUTE, inclusive = true)
 
     private fun toUserEdit() =
-        NavigationAction.NavigateTo(NavigationKeys.Route.USER_EDIT_ROUTE)
+        NavigationAction.NavigateToPath(NavigationKeys.Route.USER_EDIT_ROUTE)
 
     private fun toAboutScreen() =
-        NavigationAction.NavigateTo(NavigationKeys.Route.ABOUT_ROUTE)
+        NavigationAction.NavigateToPath(NavigationKeys.Route.ABOUT_ROUTE)
 
     private fun completeReminderCreation() =
         NavigationAction.PopTo(NavigationKeys.Route.ADD_REMINDER_ROUTE, inclusive = false)
