@@ -8,11 +8,11 @@ plugins {
 
 android {
     namespace = "com.gaoyun.roar.android"
-    compileSdk = 34
+    compileSdk = 36
     defaultConfig {
         applicationId = "com.gaoyun.roar.android"
         minSdk = 26
-        targetSdk = 34
+        targetSdk = 36
         versionCode = libs.versions.app.code.get().toInt()
         versionName = libs.versions.app.name.get()
     }

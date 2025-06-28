@@ -50,7 +50,6 @@ import com.gaoyun.roar.ui.common.composables.surfaceCardFormShape
 import com.gaoyun.roar.ui.common.toLocalizedStringId
 import com.gaoyun.roar.ui.theme.RoarThemePreview
 import kotlinx.coroutines.launch
-import kotlinx.datetime.Clock
 import kotlinx.datetime.LocalDate
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.atStartOfDayIn
@@ -64,9 +63,11 @@ import roar.sharedlib.generated.resources.gender
 import roar.sharedlib.generated.resources.pet_is_sterilized
 import roar.sharedlib.generated.resources.pets_card
 import roar.sharedlib.generated.resources.save
+import kotlin.time.Clock
 import kotlin.time.Duration.Companion.milliseconds
+import kotlin.time.ExperimentalTime
 
-@OptIn(ExperimentalMaterial3Api::class)
+@OptIn(ExperimentalMaterial3Api::class, ExperimentalTime::class)
 @Composable
 internal fun AddPetForm(
     avatar: String,
@@ -236,9 +237,9 @@ internal fun AddPetForm(
                                     avatar = avatar,
                                     birthday = LocalDate.fromEpochDays(
                                         (petBirthdayState.value ?: Clock.System.now().toEpochMilliseconds())
-                                        .milliseconds
-                                        .inWholeDays
-                                        .toInt()
+                                            .milliseconds
+                                            .inWholeDays
+                                            .toInt()
                                     ),
                                     isSterilized = petIsSterilizedState,
                                     gender = petGenderState.value,

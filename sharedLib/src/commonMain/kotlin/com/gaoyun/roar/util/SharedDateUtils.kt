@@ -1,6 +1,5 @@
 package com.gaoyun.roar.util
 
-import kotlinx.datetime.Clock
 import kotlinx.datetime.LocalDate
 import kotlinx.datetime.LocalDateTime
 import kotlinx.datetime.LocalTime
@@ -9,7 +8,10 @@ import kotlinx.datetime.TimeZone
 import kotlinx.datetime.atTime
 import kotlinx.datetime.minus
 import kotlinx.datetime.toLocalDateTime
+import kotlin.time.Clock
+import kotlin.time.ExperimentalTime
 
+@OptIn(ExperimentalTime::class)
 object SharedDateUtils {
     val MAX_DATE = LocalDateTime(LocalDate(2970, Month.DECEMBER, 31), LocalTime(0, 0, 0))
     val MIN_DATE = LocalDateTime(LocalDate(1970, Month.JANUARY, 1), LocalTime(0, 0, 0))

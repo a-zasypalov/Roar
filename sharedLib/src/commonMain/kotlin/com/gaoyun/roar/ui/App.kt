@@ -180,19 +180,19 @@ internal val AppNavigationPaths: NavGraphBuilder.(
     }
 
     composable(NavigationKeys.Route.REGISTER_USER_ROUTE) {
-        UserRegistrationDestination(onNavigationCall = viewModel::navigate)
+        UserRegistrationDestination(navigate = viewModel::navigate)
     }
 
     composable<PetDetailArgs>(typeMap = appArgsTypeMap) {
         val args = it.toRoute<PetDetailArgs>()
         PetScreenDestination(
-            onNavigationCall = viewModel::navigate,
+            navigate = viewModel::navigate,
             petId = args.petId
         )
     }
 
     composable(NavigationKeys.Route.ADD_PET_ROUTE) {
-        AddPetPetTypeDestination(onNavigationCall = viewModel::navigate)
+        AddPetPetTypeDestination(navigate = viewModel::navigate)
     }
 
     composable<AddPetAvatarArgs>(typeMap = appArgsTypeMap) {
@@ -206,7 +206,7 @@ internal val AppNavigationPaths: NavGraphBuilder.(
     composable<AddPetDataArgs>(typeMap = appArgsTypeMap) {
         val args = it.toRoute<AddPetDataArgs>()
         AddPetDataDestination(
-            onNavigationCall = viewModel::navigate,
+            navigate = viewModel::navigate,
             petType = args.petType,
             avatar = args.avatar,
         )
@@ -215,7 +215,7 @@ internal val AppNavigationPaths: NavGraphBuilder.(
     composable<AddPetSetupArgs>(typeMap = appArgsTypeMap) {
         val args = it.toRoute<AddPetSetupArgs>()
         AddPetSetupDestination(
-            onNavigationCall = viewModel::navigate,
+            navigate = viewModel::navigate,
             petId = args.petId
         )
     }
@@ -223,17 +223,17 @@ internal val AppNavigationPaths: NavGraphBuilder.(
     composable<InteractionDetailArgs>(typeMap = appArgsTypeMap) {
         val args = it.toRoute<InteractionDetailArgs>()
         InteractionScreenDestination(
-            onNavigationCall = viewModel::navigate,
+            navigate = viewModel::navigate,
             interactionId = args.interactionId
         )
     }
 
     composable(NavigationKeys.Route.USER_ROUTE) {
-        UserScreenDestination(onNavigationCall = viewModel::navigate)
+        UserScreenDestination(navigate = viewModel::navigate)
     }
 
     composable(NavigationKeys.Route.USER_EDIT_ROUTE) {
-        EditUserScreenDestination(onNavigationCall = viewModel::navigate)
+        EditUserScreenDestination(navigate = viewModel::navigate)
     }
 
     composable(NavigationKeys.Route.ABOUT_ROUTE) {
@@ -252,7 +252,7 @@ internal val AppNavigationPaths: NavGraphBuilder.(
     composable<PetEditArgs>(typeMap = appArgsTypeMap) {
         val args = it.toRoute<PetEditArgs>()
         AddPetDataDestination(
-            onNavigationCall = viewModel::navigate,
+            navigate = viewModel::navigate,
             petType = args.petType,
             avatar = args.avatar,
             petId = args.petId
@@ -262,7 +262,7 @@ internal val AppNavigationPaths: NavGraphBuilder.(
     composable<AddReminderArgs>(typeMap = appArgsTypeMap) {
         val args = it.toRoute<AddReminderArgs>()
         AddReminderDestination(
-            onNavigationCall = viewModel::navigate,
+            navigate = viewModel::navigate,
             petId = args.petId
         )
     }
@@ -270,7 +270,7 @@ internal val AppNavigationPaths: NavGraphBuilder.(
     composable<SetupReminderArgs>(typeMap = appArgsTypeMap) {
         val args = it.toRoute<SetupReminderArgs>()
         SetupReminderDestination(
-            onNavigationCall = viewModel::navigate,
+            navigate = viewModel::navigate,
             petId = args.petId,
             templateId = args.templateId
         )
@@ -279,7 +279,7 @@ internal val AppNavigationPaths: NavGraphBuilder.(
     composable<EditReminderArgs>(typeMap = appArgsTypeMap) {
         val args = it.toRoute<EditReminderArgs>()
         SetupReminderDestination(
-            onNavigationCall = viewModel::navigate,
+            navigate = viewModel::navigate,
             petId = args.petId,
             templateId = args.templateId ?: "custom",
             interactionId = args.interactionId
@@ -289,7 +289,7 @@ internal val AppNavigationPaths: NavGraphBuilder.(
     composable<SetupReminderCompleteArgs>(typeMap = appArgsTypeMap) {
         val args = it.toRoute<SetupReminderCompleteArgs>()
         AddReminderCompleteDestination(
-            onNavigationCall = viewModel::navigate,
+            navigate = viewModel::navigate,
             petAvatar = args.avatar,
         )
     }

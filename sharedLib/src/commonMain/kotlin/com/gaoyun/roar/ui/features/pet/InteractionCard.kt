@@ -1,3 +1,5 @@
+@file:OptIn(ExperimentalTime::class)
+
 package com.gaoyun.roar.ui.features.pet
 
 import androidx.compose.animation.AnimatedVisibility
@@ -33,7 +35,6 @@ import com.gaoyun.roar.util.formatDateTime
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import kotlinx.datetime.Clock
 import kotlinx.datetime.LocalDateTime
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.toLocalDateTime
@@ -43,6 +44,8 @@ import roar.sharedlib.generated.resources.at
 import roar.sharedlib.generated.resources.cd_reminder
 import roar.sharedlib.generated.resources.next
 import roar.sharedlib.generated.resources.no_active_reminder
+import kotlin.time.Clock
+import kotlin.time.ExperimentalTime
 
 @Composable
 fun InteractionCard(
@@ -68,7 +71,8 @@ fun InteractionCard(
         shape = shape,
         modifier = modifier,
     ) {
-        Column(modifier = Modifier
+        Column(
+            modifier = Modifier
             .platformStyleClickable {
                 onClick(interaction.id)
                 MainScope().launch {

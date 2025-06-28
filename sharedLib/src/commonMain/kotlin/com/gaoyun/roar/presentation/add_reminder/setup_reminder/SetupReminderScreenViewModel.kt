@@ -27,11 +27,12 @@ import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-import kotlinx.datetime.Instant
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.atTime
 import kotlinx.datetime.toInstant
 import kotlinx.datetime.toLocalDateTime
+import kotlin.time.ExperimentalTime
+import kotlin.time.Instant
 
 class SetupReminderScreenViewModel(
     private val getInteractionTemplateUseCase: GetInteractionTemplate,
@@ -89,6 +90,7 @@ class SetupReminderScreenViewModel(
         viewState.update { it.copy(remindConfig = config.toInteractionRemindConfig()) }
     }
 
+    @OptIn(ExperimentalTime::class)
     fun createOrUpdateInteraction(
         templateId: String?,
         petId: String,

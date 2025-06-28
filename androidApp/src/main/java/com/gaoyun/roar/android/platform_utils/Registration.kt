@@ -16,7 +16,6 @@ private val AuthUIConfig = AuthUI.getInstance()
     .setAvailableProviders(arrayListOf(AuthUI.IdpConfig.GoogleBuilder().build()))
     .setLogo(R.drawable.ic_tab_home)
     .setTheme(R.style.RoarTheme)
-    .setIsSmartLockEnabled(false)
     .build()
 
 

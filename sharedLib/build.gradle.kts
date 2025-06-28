@@ -1,5 +1,3 @@
-import org.jetbrains.kotlin.gradle.plugin.mpp.BitcodeEmbeddingMode
-
 plugins {
     alias(libs.plugins.android.library)
     alias(libs.plugins.kotlin.multiplatform)
@@ -13,7 +11,7 @@ val appId = "com.gaoyun.roar"
 
 android {
     namespace = appId
-    compileSdk = 34
+    compileSdk = 36
     defaultConfig {
         minSdk = 26
     }
@@ -44,7 +42,6 @@ kotlin {
         it.binaries.framework {
             baseName = "sharedLib"
             isStatic = true
-            embedBitcode(BitcodeEmbeddingMode.DISABLE)
             linkerOpts("-lsqlite3", "-application_extension", "-ld64")
             binaryOption("bundleId", "${appId}.sharedLib")
             freeCompilerArgs += listOf("-Xoverride-konan-properties=minVersion.ios=14.0.0", "-Xexpect-actual-classes")

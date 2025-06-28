@@ -1,3 +1,5 @@
+@file:OptIn(ExperimentalTime::class)
+
 package com.gaoyun.roar.ui.features.add_pet.pet_data
 
 import androidx.compose.foundation.layout.padding
@@ -20,12 +22,13 @@ import com.gaoyun.roar.ui.common.dialog.DatePicker
 import com.gaoyun.roar.util.DateFormats
 import com.gaoyun.roar.util.formatDate
 import com.gaoyun.roar.util.toLocalDate
-import kotlinx.datetime.Clock
-import kotlinx.datetime.Instant
 import org.jetbrains.compose.resources.stringResource
 import roar.sharedlib.generated.resources.Res
 import roar.sharedlib.generated.resources.birthday
 import roar.sharedlib.generated.resources.pets_birthday
+import kotlin.time.Clock
+import kotlin.time.ExperimentalTime
+import kotlin.time.Instant
 
 @Composable
 fun PetDataScreenBirthdayPicker(

@@ -28,7 +28,7 @@ import roar.sharedlib.generated.resources.edit_profile
 
 @Composable
 fun UserScreenDestination(
-    onNavigationCall: (NavigationSideEffect) -> Unit,
+    navigate: (NavigationSideEffect) -> Unit,
 ) {
     val viewModel = koinViewModel<UserScreenViewModel>()
     val state by viewModel.viewState.collectAsState()
@@ -50,13 +50,13 @@ fun UserScreenDestination(
 
     SurfaceScaffold(
         snackbarHost = { SnackbarHost(snackbarHostState) },
-        backHandler = { onNavigationCall(BackNavigationEffect) },
+        backHandler = { navigate(BackNavigationEffect) },
         floatingActionButton = {
             RoarExtendedFAB(
                 icon = Icons.Filled.Edit,
                 contentDescription = stringResource(resource = Res.string.edit_profile),
                 text = stringResource(resource = Res.string.edit),
-                onClick = { onNavigationCall(UserScreenContract.Effect.Navigation.ToUserEdit) }
+                onClick = { navigate(UserScreenContract.Effect.Navigation.ToUserEdit) }
             )
         },
         floatingActionButtonPosition = FabPosition.End
@@ -87,11 +87,11 @@ fun UserScreenDestination(
             },
             onLogout = {
                 viewModel.logout {
-                    onNavigationCall(BackNavigationEffect)
+                    navigate(BackNavigationEffect)
                 }
             },
             onAboutScreenButtonClick = {
-                onNavigationCall(UserScreenContract.Effect.Navigation.ToAboutScreen)
+                navigate(UserScreenContract.Effect.Navigation.ToAboutScreen)
             },
             onHomeScreenModeChange = {
                 viewModel.switchHomeScreenMode()
@@ -101,7 +101,7 @@ fun UserScreenDestination(
             },
             onAccountDeleteConfirmed = {
                 viewModel.deleteAccount {
-                    onNavigationCall(BackNavigationEffect)
+                    navigate(BackNavigationEffect)
                 }
             }
         )

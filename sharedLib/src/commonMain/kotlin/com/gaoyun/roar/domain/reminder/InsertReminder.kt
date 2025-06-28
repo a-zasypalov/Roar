@@ -14,6 +14,7 @@ import kotlinx.datetime.LocalDateTime
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.toInstant
 import kotlinx.datetime.toLocalDateTime
+import kotlin.time.ExperimentalTime
 
 class InsertReminder(
     private val repository: ReminderRepository,
@@ -60,6 +61,7 @@ class InsertReminder(
         emit(reminder)
     }
 
+    @OptIn(ExperimentalTime::class)
     private fun getNotificationDateTime(dateTime: LocalDateTime, remindConfig: InteractionRemindConfig): LocalDateTime {
         return dateTime
             .toInstant(TimeZone.currentSystemDefault())

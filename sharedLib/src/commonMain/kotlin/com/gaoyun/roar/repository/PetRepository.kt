@@ -10,7 +10,8 @@ import com.gaoyun.roar.network.SynchronisationApi
 import com.gaoyun.roar.util.DatetimeConstants
 import com.gaoyun.roar.util.Preferences
 import com.gaoyun.roar.util.PreferencesKeys
-import kotlinx.datetime.Clock
+import kotlin.time.Clock
+import kotlin.time.ExperimentalTime
 
 interface PetRepository {
     fun getPet(id: String): Pet?
@@ -45,6 +46,7 @@ class PetRepositoryImpl(
         return appDb.petEntityQueries.selectByUserId(userId).executeAsList().map { it.toDomain() }
     }
 
+    @OptIn(ExperimentalTime::class)
     override suspend fun getBreeds(petType: String, languageCode: LanguageCode): List<String> {
         val cachedBreeds = appDb.petBreedEntityQueries.selectByPetType(petType).executeAsList()
         val breedsLastUpdatedDateTime = preferences.getLong(PreferencesKeys.PET_BREEDS_LAST_UPDATE, 0L)

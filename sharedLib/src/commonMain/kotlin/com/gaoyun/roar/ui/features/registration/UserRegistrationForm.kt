@@ -32,12 +32,12 @@ import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.gaoyun.roar.ui.common.composables.Spacer
 import com.gaoyun.roar.ui.common.composables.platformStyleClickable
 import com.gaoyun.roar.ui.theme.RoarTheme
 import com.gaoyun.roar.ui.theme.RoarThemePreview
 import com.gaoyun.roar.util.Platform
 import com.gaoyun.roar.util.PlatformNames
-import kotlinx.datetime.Clock
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
@@ -55,12 +55,15 @@ import roar.sharedlib.generated.resources.register_or_login
 import roar.sharedlib.generated.resources.terms_and_conditions_button
 import roar.sharedlib.generated.resources.url_privacy_policy
 import roar.sharedlib.generated.resources.url_terms_and_conditions
+import kotlin.time.Clock
+import kotlin.time.ExperimentalTime
 import com.gaoyun.roar.ui.common.composables.Spacer as SpacerRoar
 
 enum class RegistrationType {
     Google, Apple
 }
 
+@OptIn(ExperimentalTime::class)
 @Composable
 fun UserRegistrationForm(
     onRegisterClick: (RegistrationType) -> Unit,
@@ -98,7 +101,7 @@ fun UserRegistrationForm(
                 )
             }
 
-            com.gaoyun.roar.ui.common.composables.Spacer(size = 24.dp)
+            Spacer(size = 24.dp)
             Text(
                 text = stringResource(resource = Res.string.app_name),
                 style = MaterialTheme.typography.titleLarge,

@@ -5,9 +5,10 @@ import com.gaoyun.roar.model.domain.interactions.withReminders
 import com.gaoyun.roar.repository.InteractionRepository
 import com.gaoyun.roar.repository.ReminderRepository
 import kotlinx.coroutines.flow.flow
-import kotlinx.datetime.Clock
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.toLocalDateTime
+import kotlin.time.Clock
+import kotlin.time.ExperimentalTime
 
 class ActivateInteraction(
     private val repository: InteractionRepository,
@@ -15,6 +16,7 @@ class ActivateInteraction(
     private val addNextReminder: AddNextReminder,
 ) {
 
+    @OptIn(ExperimentalTime::class)
     fun setInteractionIsActive(id: String, isActive: Boolean) = flow {
         repository.setInteractionIsActive(id, isActive)
         repository.getInteraction(id)?.let { interaction ->

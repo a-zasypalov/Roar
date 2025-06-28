@@ -2,8 +2,9 @@ package com.gaoyun.roar.model.domain
 
 import com.gaoyun.roar.model.entity.UserEntity
 import com.gaoyun.roar.util.randomUUID
-import kotlinx.datetime.Clock
 import kotlinx.serialization.Serializable
+import kotlin.time.Clock
+import kotlin.time.ExperimentalTime
 
 @Serializable
 data class User(
@@ -12,6 +13,7 @@ data class User(
 )
 
 
+@OptIn(ExperimentalTime::class)
 @Serializable
 data class UserWithPets(
     val id: String = randomUUID(),
@@ -22,6 +24,7 @@ data class UserWithPets(
 
 fun UserEntity.toDomain(): User = User(id = id, name = name)
 
+@OptIn(ExperimentalTime::class)
 fun User.withPets(pets: List<PetWithInteractions>) = UserWithPets(
     id = id,
     name = name,

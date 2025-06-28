@@ -1,3 +1,5 @@
+@file:OptIn(ExperimentalTime::class)
+
 package com.gaoyun.roar.ui.features.create_reminder.setup
 
 import androidx.compose.foundation.background
@@ -45,9 +47,7 @@ import com.gaoyun.roar.ui.common.ext.toLocalizedStringId
 import com.gaoyun.roar.util.DateFormats
 import com.gaoyun.roar.util.formatDate
 import com.gaoyun.roar.util.toLocalDate
-import kotlinx.datetime.Clock
 import kotlinx.datetime.DayOfWeek
-import kotlinx.datetime.Instant
 import kotlinx.datetime.LocalDate
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.atStartOfDayIn
@@ -69,6 +69,9 @@ import roar.sharedlib.generated.resources.reminder_ends_on
 import roar.sharedlib.generated.resources.repeats_every
 import roar.sharedlib.generated.resources.same_day
 import roar.sharedlib.generated.resources.week
+import kotlin.time.Clock
+import kotlin.time.ExperimentalTime
+import kotlin.time.Instant
 
 @Composable
 internal fun RepeatConfigDialog(

@@ -8,14 +8,16 @@ import com.gaoyun.roar.repository.PetRepository
 import com.gaoyun.roar.util.toLocalDate
 import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.flow.flow
-import kotlinx.datetime.Clock
 import kotlinx.datetime.LocalDate
+import kotlin.time.Clock
+import kotlin.time.ExperimentalTime
 
 class AddPetUseCase(
     private val repository: PetRepository,
     private val getUserUseCase: GetCurrentUserUseCase,
 ) {
 
+    @OptIn(ExperimentalTime::class)
     fun addPet(
         petType: String,
         breed: String,

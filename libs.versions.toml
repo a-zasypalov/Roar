@@ -1,14 +1,14 @@
 [versions]
 # App
-app-name = "1.3.1"
-app-code = "10105"
+app-name = "1.4.0"
+app-code = "10400"
 
 # Plugins
-agp = "8.7.3"
-kotlin = "2.1.21"
-compose-multiplatform = "1.8.1"
+agp = "8.11.0"
+kotlin = "2.2.0"
+compose-multiplatform = "1.8.2"
 sqldelight = "1.5.5"
-google-services = "4.4.2"
+google-services = "4.4.3"
 crashlytics = "3.0.4"
 mapsSecrets = "2.0.1"
 
@@ -17,22 +17,22 @@ mapsSecrets = "2.0.1"
 activity = "1.10.1"
 browser = "1.8.0"
 material = "1.12.0"
-lifecycle = "2.9.0"
-workManager = "2.10.1"
+lifecycle = "2.9.1"
+workManager = "2.10.2"
 # Kotlin
-kotlinSerialization = "1.8.1"
-kotlinDatetime = "0.6.2"
+kotlinSerialization = "1.9.0"
+kotlinDatetime = "0.7.0"
 # Compose
-compose = "1.8.2"
+compose = "1.8.3"
 compose-compiler = "1.5.12" #do not delete
 compose-material3 = "1.3.2"
-lifecycle-common = "2.9.0"
-navigation = "2.9.0-beta02"
+lifecycle-common = "2.9.1"
+navigation = "2.9.0-beta03"
 # Firebase
-firebase = "33.15.0"
+firebase = "33.16.0"
 firebase-authui = "9.0.0"
 # Others
-koin = "4.1.0-RC1"
+koin = "4.1.0"
 koin-extension = "3.0.2"
 ktor = "3.1.3"
 logging-interceptor = "4.12.0"

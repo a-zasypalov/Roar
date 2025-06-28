@@ -8,7 +8,8 @@ import com.gaoyun.roar.network.InteractionTemplatesApi
 import com.gaoyun.roar.util.DatetimeConstants.DAY_MILLIS
 import com.gaoyun.roar.util.Preferences
 import com.gaoyun.roar.util.PreferencesKeys.INTERACTION_TEMPLATES_LAST_UPDATE
-import kotlinx.datetime.Clock
+import kotlin.time.Clock
+import kotlin.time.ExperimentalTime
 
 interface InteractionTemplateRepository {
     suspend fun getInteractionTemplatesForPetType(type: String): List<InteractionTemplate>
@@ -23,6 +24,7 @@ class InteractionTemplateRepositoryImpl(
     private val preferences: Preferences,
 ) : InteractionTemplateRepository {
 
+    @OptIn(ExperimentalTime::class)
     override suspend fun getInteractionTemplatesForPetType(type: String): List<InteractionTemplate> {
         val cachedTemplates = appDb.interactionTemplateEntityQueries.selectByPetType(type).executeAsList().map { it.toDomain() }
         val templatesLastUpdatedDateTime = preferences.getLong(INTERACTION_TEMPLATES_LAST_UPDATE, 0L)
@@ -33,7 +35,7 @@ class InteractionTemplateRepositoryImpl(
                     .map { template -> template.toDomain() }
                     .onEach { template -> insertInteractionTemplate(template) }
                     .also { preferences.setLong(INTERACTION_TEMPLATES_LAST_UPDATE, Clock.System.now().toEpochMilliseconds()) }
-            } catch(e: Exception) {
+            } catch (e: Exception) {
                 cachedTemplates
             }
         } else {

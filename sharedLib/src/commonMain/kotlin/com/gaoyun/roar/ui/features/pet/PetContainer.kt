@@ -68,7 +68,7 @@ fun PetContainer(
                     color = MaterialTheme.colorScheme.onSurface,
                     modifier = Modifier
                         .fillMaxWidth()
-                        .animateItemPlacement()
+                        .animateItem()
                         .padding(vertical = 8.dp, horizontal = 8.dp)
                 )
             }
@@ -84,7 +84,7 @@ fun PetContainer(
                     modifier = Modifier
                         .padding(horizontal = 8.dp, vertical = 8.dp)
                         .fillMaxWidth()
-                        .animateItemPlacement()
+                        .animateItem()
                 )
             }
         }
@@ -101,7 +101,7 @@ fun PetContainer(
                     color = MaterialTheme.colorScheme.onSurface,
                     modifier = Modifier
                         .fillMaxWidth()
-                        .animateItemPlacement()
+                        .animateItem()
                         .padding(top = 4.dp, bottom = 4.dp, start = 8.dp, end = 8.dp)
                 )
             }
@@ -116,7 +116,7 @@ fun PetContainer(
                 onClick = onInteractionClick,
                 modifier = Modifier
                     .padding(horizontal = 8.dp, vertical = 8.dp)
-                    .animateItemPlacement()
+                    .animateItem()
                     .fillMaxWidth()
             )
         }

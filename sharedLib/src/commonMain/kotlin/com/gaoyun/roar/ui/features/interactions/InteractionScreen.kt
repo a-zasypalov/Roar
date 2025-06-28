@@ -47,7 +47,7 @@ import roar.sharedlib.generated.resources.yes
 
 @Composable
 fun InteractionScreenDestination(
-    onNavigationCall: (NavigationSideEffect) -> Unit,
+    navigate: (NavigationSideEffect) -> Unit,
     interactionId: String
 ) {
     val viewModel = koinViewModel<InteractionScreenViewModel>()
@@ -76,7 +76,7 @@ fun InteractionScreenDestination(
     val showDeleteInteractionDialog = remember { mutableStateOf(false) }
 
     SurfaceScaffold(
-        backHandler = { onNavigationCall(BackNavigationEffect) },
+        backHandler = { navigate(BackNavigationEffect) },
         floatingActionButton = {
             state.interaction?.let { interaction ->
                 if (interaction.isActive) {
@@ -86,7 +86,7 @@ fun InteractionScreenDestination(
                         text = stringResource(Res.string.edit),
                         onClick = {
                             state.pet?.let { pet ->
-                                onNavigationCall(InteractionScreenContract.Effect.Navigation.ToEditInteraction(pet.id, interaction))
+                                navigate(InteractionScreenContract.Effect.Navigation.ToEditInteraction(pet.id, interaction))
                             }
                         }
                     )
@@ -155,7 +155,7 @@ fun InteractionScreenDestination(
                     TextButton(onClick = {
                         state.interaction?.id?.let {
                             viewModel.onDeleteInteraction(it) {
-                                onNavigationCall(BackNavigationEffect)
+                                navigate(BackNavigationEffect)
                             }
                         }
                         showDeleteInteractionDialog.value = false

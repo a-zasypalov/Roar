@@ -4,9 +4,10 @@ import com.gaoyun.roar.model.entity.PetEntity
 import com.gaoyun.roar.util.SharedDateUtils
 import com.gaoyun.roar.util.randomUUID
 import com.gaoyun.roar.util.toLocalDate
-import kotlinx.datetime.Clock
 import kotlinx.datetime.LocalDate
 import kotlinx.serialization.Serializable
+import kotlin.time.Clock
+import kotlin.time.ExperimentalTime
 
 @Serializable
 data class Pet(
@@ -22,6 +23,7 @@ data class Pet(
     val chipNumber: String,
     val dateCreated: LocalDate,
 ) {
+    @OptIn(ExperimentalTime::class)
     companion object {
         fun preview() = Pet(
             petType = PetType.CAT,

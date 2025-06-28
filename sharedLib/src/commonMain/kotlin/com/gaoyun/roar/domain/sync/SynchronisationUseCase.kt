@@ -1,7 +1,6 @@
 package com.gaoyun.roar.domain.sync
 
 import com.gaoyun.roar.domain.NotificationScheduler
-import com.gaoyun.roar.domain.interaction.GetInteraction
 import com.gaoyun.roar.domain.interaction.InsertInteraction
 import com.gaoyun.roar.domain.interaction.RemoveInteraction
 import com.gaoyun.roar.domain.pet.AddPetUseCase
@@ -22,9 +21,10 @@ import com.gaoyun.roar.util.asCommonFlow
 import com.gaoyun.roar.util.toLocalDate
 import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.flow.flow
-import kotlinx.datetime.Clock
 import kotlinx.serialization.SerializationException
 import kotlinx.serialization.json.Json
+import kotlin.time.Clock
+import kotlin.time.ExperimentalTime
 
 class SynchronisationUseCase(
     private val addPetUseCase: AddPetUseCase,
@@ -41,6 +41,7 @@ class SynchronisationUseCase(
     private val prefs: Preferences,
 ) {
 
+    @OptIn(ExperimentalTime::class)
     fun sync(backup: ByteArray) = flow {
         try {
             val user = Json.decodeFromString(UserWithPets.serializer(), backup.decodeToString())

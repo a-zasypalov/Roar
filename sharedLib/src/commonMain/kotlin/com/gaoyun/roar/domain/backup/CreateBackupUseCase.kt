@@ -16,10 +16,11 @@ import com.gaoyun.roar.util.asCommonFlow
 import com.gaoyun.roar.util.toLocalDate
 import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.flow.flow
-import kotlinx.datetime.Clock
 import kotlinx.serialization.json.Json
 import kotlin.io.encoding.Base64
 import kotlin.io.encoding.ExperimentalEncodingApi
+import kotlin.time.Clock
+import kotlin.time.ExperimentalTime
 
 @OptIn(ExperimentalEncodingApi::class)
 class CreateBackupUseCase(
@@ -76,6 +77,7 @@ class CreateBackupUseCase(
         }
     }.asCommonFlow()
 
+    @OptIn(ExperimentalTime::class)
     private fun updateNotificationBadgeFor(userWithPets: UserWithPets) {
         val today = Clock.System.now().toLocalDate()
         val remindersDates = userWithPets.pets.map {

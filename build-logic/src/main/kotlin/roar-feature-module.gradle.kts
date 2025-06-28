@@ -1,10 +1,9 @@
-import org.gradle.api.JavaVersion
 import com.android.build.gradle.BaseExtension
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 configure<BaseExtension> {
     namespace = "com.gaoyun.common"
-    compileSdkVersion(34)
+    compileSdkVersion(36)
 
     buildFeatures.compose = true
 

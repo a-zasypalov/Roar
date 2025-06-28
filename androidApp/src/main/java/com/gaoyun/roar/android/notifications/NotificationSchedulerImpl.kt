@@ -16,7 +16,6 @@ import com.gaoyun.roar.notification.toInputData
 import com.gaoyun.roar.notification.toNotificationData
 import com.gaoyun.roar.notifications.NotificationHandler
 import com.gaoyun.roar.util.randomUUID
-import kotlinx.datetime.Clock
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.toJavaLocalDateTime
 import kotlinx.datetime.toLocalDateTime
@@ -24,6 +23,8 @@ import java.time.LocalDateTime
 import java.time.temporal.ChronoUnit
 import java.util.UUID
 import java.util.concurrent.TimeUnit
+import kotlin.time.Clock
+import kotlin.time.ExperimentalTime
 
 const val NOTIFICATION_WORK_TAG = "NOTIFICATION_WORK_TAG"
 private const val TAG = "NotificationScheduler"
@@ -32,6 +33,7 @@ class NotificationSchedulerImpl(
     private val workManager: WorkManager,
     private val notificationManager: NotificationManagerCompat
 ) : NotificationScheduler {
+    @OptIn(ExperimentalTime::class)
     override fun scheduleNotification(data: NotificationData) {
         if (!notificationManager.areNotificationsEnabled()) return
 

@@ -1,3 +1,5 @@
+@file:OptIn(ExperimentalTime::class)
+
 package com.gaoyun.roar.ui.features.create_reminder.setup
 
 import androidx.compose.foundation.ExperimentalFoundationApi
@@ -52,8 +54,6 @@ import com.gaoyun.roar.util.formatDate
 import com.gaoyun.roar.util.formatDateTime
 import com.gaoyun.roar.util.toLocalDate
 import kotlinx.coroutines.launch
-import kotlinx.datetime.Clock
-import kotlinx.datetime.Instant
 import kotlinx.datetime.LocalTime
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.toInstant
@@ -72,7 +72,10 @@ import roar.sharedlib.generated.resources.remind
 import roar.sharedlib.generated.resources.remind_on_from
 import roar.sharedlib.generated.resources.repeat
 import roar.sharedlib.generated.resources.save
+import kotlin.time.Clock
 import kotlin.time.Duration.Companion.days
+import kotlin.time.ExperimentalTime
+import kotlin.time.Instant
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable

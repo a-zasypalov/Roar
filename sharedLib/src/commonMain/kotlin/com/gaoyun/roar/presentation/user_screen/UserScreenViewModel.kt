@@ -24,13 +24,14 @@ import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-import kotlinx.datetime.Clock
-import kotlinx.datetime.Instant
 import kotlinx.datetime.LocalDateTime
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.toLocalDateTime
+import kotlin.time.Clock
 import kotlin.time.ExperimentalTime
+import kotlin.time.Instant
 
+@OptIn(ExperimentalTime::class)
 data class UserScreenState @OptIn(ExperimentalTime::class) constructor(
     val isLoading: Boolean = false,
     val dynamicColorActive: Boolean = false,
@@ -59,6 +60,7 @@ class UserScreenViewModel(
     private val snackbarMessages = MutableSharedFlow<String>()
     val messages = snackbarMessages.asSharedFlow()
 
+    @OptIn(ExperimentalTime::class)
     fun loadScreen() = viewModelScope.launch {
         getUser.getCurrentUser()
             .filterNotNull()

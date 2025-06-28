@@ -3,11 +3,12 @@ package com.gaoyun.roar.model.domain.interactions
 import com.gaoyun.roar.model.domain.Reminder
 import com.gaoyun.roar.model.entity.InteractionEntity
 import com.gaoyun.roar.util.randomUUID
-import kotlinx.datetime.Clock
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.toLocalDateTime
 import kotlinx.serialization.Serializable
+import kotlin.time.Clock
 import kotlin.time.Duration.Companion.hours
+import kotlin.time.ExperimentalTime
 
 @Serializable
 data class Interaction(
@@ -37,6 +38,7 @@ data class InteractionWithReminders(
     val notes: String = "",
     val reminders: List<Reminder> = listOf()
 ) {
+    @OptIn(ExperimentalTime::class)
     companion object {
         fun preview() = InteractionWithReminders(
             petId = "",

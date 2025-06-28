@@ -10,7 +10,6 @@ import com.gaoyun.roar.model.domain.interactions.InteractionRepeatConfigEach
 import com.gaoyun.roar.model.domain.interactions.InteractionWithReminders
 import com.gaoyun.roar.util.toLocalDate
 import kotlinx.coroutines.flow.firstOrNull
-import kotlinx.datetime.Clock
 import kotlinx.datetime.DateTimeUnit
 import kotlinx.datetime.DayOfWeek
 import kotlinx.datetime.LocalDate
@@ -18,11 +17,14 @@ import kotlinx.datetime.daysUntil
 import kotlinx.datetime.isoDayNumber
 import kotlinx.datetime.minus
 import kotlinx.datetime.plus
+import kotlin.time.Clock
+import kotlin.time.ExperimentalTime
 
 class RepeatConfigUseCase(
     private val getInteraction: GetInteraction,
 ) {
 
+    @OptIn(ExperimentalTime::class)
     suspend fun getNextDateAccordingToRepeatConfig(
         interactionId: String,
         repeatConfig: InteractionRepeatConfig,
@@ -32,6 +34,7 @@ class RepeatConfigUseCase(
             getNextDateAccordingToRepeatConfig(repeatConfig = repeatConfig, from = from, interaction = it)
         }
 
+    @OptIn(ExperimentalTime::class)
     private fun getNextDateAccordingToRepeatConfig(
         repeatConfig: InteractionRepeatConfig,
         interaction: InteractionWithReminders,

@@ -14,6 +14,7 @@ import kotlinx.datetime.LocalDateTime
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.toInstant
 import kotlinx.datetime.toLocalDateTime
+import kotlin.time.ExperimentalTime
 
 class SetReminderComplete(
     private val getInteraction: GetInteraction,
@@ -48,7 +49,7 @@ class SetReminderComplete(
         val interaction = getNewInteractionState(uncompletedReminder.interactionId) ?: return null
         val workId = uncompletedReminder.notificationJobId ?: randomUUID()
 
-        if(uncompletedReminder.notificationJobId == null) {
+        if (uncompletedReminder.notificationJobId == null) {
             insertReminder.insertReminder(uncompletedReminder.copy(notificationJobId = workId))
         }
 
@@ -64,6 +65,7 @@ class SetReminderComplete(
         return interaction
     }
 
+    @OptIn(ExperimentalTime::class)
     private fun prepareReminder(workId: String, reminderDateTime: LocalDateTime, reminderId: String, remindConfig: InteractionRemindConfig): NotificationData {
         val notificationDateTime = reminderDateTime
             .toInstant(TimeZone.currentSystemDefault())

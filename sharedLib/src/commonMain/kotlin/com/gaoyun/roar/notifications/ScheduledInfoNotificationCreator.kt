@@ -4,18 +4,20 @@ import com.gaoyun.roar.domain.AppPreferencesUseCase
 import com.gaoyun.roar.model.domain.NotificationData
 import com.gaoyun.roar.model.domain.NotificationItem
 import com.gaoyun.roar.util.toLocalDate
-import kotlinx.datetime.Clock
 import kotlinx.datetime.DateTimeUnit
-import kotlinx.datetime.Instant
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.atTime
 import kotlinx.datetime.plus
 import kotlinx.datetime.toInstant
 import kotlinx.datetime.toLocalDateTime
+import kotlin.time.Clock
+import kotlin.time.ExperimentalTime
+import kotlin.time.Instant
 
 class ScheduledInfoNotificationCreator(
     private val appPreferencesUseCase: AppPreferencesUseCase
 ) {
+    @OptIn(ExperimentalTime::class)
     fun createScheduledInfoNotification(petRemindersCount: Map<String, Int>): NotificationData? {
         val now = Clock.System.now().toLocalDateTime(TimeZone.currentSystemDefault())
         val lastScheduledInfoNotification = Instant.fromEpochMilliseconds(appPreferencesUseCase.getLastScheduledInfoNotification()).toLocalDate()
