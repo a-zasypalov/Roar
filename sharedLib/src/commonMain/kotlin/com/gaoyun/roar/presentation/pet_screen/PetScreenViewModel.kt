@@ -1,15 +1,29 @@
 package com.gaoyun.roar.presentation.pet_screen
 
+import androidx.lifecycle.viewModelScope
 import com.gaoyun.roar.domain.interaction.GetInteraction
 import com.gaoyun.roar.domain.interaction.InteractionsListBuilder
 import com.gaoyun.roar.domain.pet.GetPetUseCase
 import com.gaoyun.roar.domain.pet.RemovePetUseCase
 import com.gaoyun.roar.domain.reminder.SetReminderComplete
+import com.gaoyun.roar.model.domain.Pet
+import com.gaoyun.roar.model.domain.interactions.InteractionGroup
+import com.gaoyun.roar.model.domain.interactions.InteractionWithReminders
+import com.gaoyun.roar.presentation.BaseViewModel
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.filterNotNull
-import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import kotlinx.datetime.LocalDateTime
+
+data class PetScreenState(
+    val isLoading: Boolean = false,
+    val pet: Pet? = null,
+    val interactions: Map<InteractionGroup, List<InteractionWithReminders>> = mapOf(),
+    val inactiveInteractions: List<InteractionWithReminders> = listOf(),
+    val deletePetDialogShow: Boolean = false,
+)
 
 class PetScreenViewModel(
     private val getPetUseCase: GetPetUseCase,
@@ -17,47 +31,19 @@ class PetScreenViewModel(
     private val removePet: RemovePetUseCase,
     private val setReminderComplete: SetReminderComplete,
     private val interactionsListBuilder: InteractionsListBuilder,
-) : BaseViewModel<PetScreenContract.Event, PetScreenContract.State, PetScreenContract.Effect>() {
+) : BaseViewModel() {   // since your BaseViewModel is so minimal, might as well use ViewModel directly
+    override val viewState = MutableStateFlow(PetScreenState(isLoading = true))
 
-    override fun setInitialState() = PetScreenContract.State(isLoading = true)
-
-    override fun handleEvents(event: PetScreenContract.Event) {
-        when (event) {
-            is PetScreenContract.Event.InteractionClicked -> setEffect {
-                PetScreenContract.Effect.Navigation.ToInteractionDetails(event.interactionId)
-            }
-
-            is PetScreenContract.Event.AddReminderButtonClicked -> setEffect {
-                PetScreenContract.Effect.Navigation.ToInteractionTemplates(event.petId)
-            }
-
-            is PetScreenContract.Event.OnDeletePetClicked -> {
-                setState { copy(deletePetDialogShow = true) }
-            }
-
-            is PetScreenContract.Event.OnEditPetClick -> {
-                viewState.value.pet?.let { pet -> setEffect { PetScreenContract.Effect.Navigation.ToEditPet(pet) } }
-            }
-
-            is PetScreenContract.Event.OnDeletePetConfirmed -> {
-                scope.launch {
-                    hideDeletePetDialog()
-                    delay(250)
-                    removePet.removePet(event.petId)
-                        .map { PetScreenContract.Effect.NavigateBack }
-                        .collect { setEffect { it } }
-                }
-            }
-
-            is PetScreenContract.Event.OnInteractionCheckClicked -> setReminderComplete(event.reminderId, event.completed, event.completionDateTime)
-        }
+    init {
+        // optionally, could load default
     }
 
-    fun buildScreenState(petId: String) = scope.launch {
+    fun loadPet(petId: String) = viewModelScope.launch {
+        viewState.update { it.copy(isLoading = true) }
         getPetUseCase.getPet(petId).filterNotNull().collect { pet ->
             getInteraction.getInteractionByPet(pet.id).collect { interactions ->
-                setState {
-                    copy(
+                viewState.update {
+                    it.copy(
                         pet = pet,
                         isLoading = false,
                         interactions = interactionsListBuilder.buildInitialInteractionsListForPet(interactions),
@@ -68,13 +54,29 @@ class PetScreenViewModel(
         }
     }
 
-    fun hideDeletePetDialog() {
-        setState { copy(deletePetDialogShow = false) }
+    fun confirmDelete() = viewModelScope.launch {
+        viewState.update { it.copy(deletePetDialogShow = false) }
+        delay(250)
+        viewState.value.pet?.id?.let { removePet.removePet(it) }
     }
 
-    private fun setReminderComplete(reminderId: String, isComplete: Boolean, completionDateTime: LocalDateTime) = scope.launch {
-        setReminderComplete.setComplete(reminderId, isComplete, completionDateTime).filterNotNull().collect { interaction ->
-            setState { copy(interactions = interactionsListBuilder.buildListOnCompletingReminder(viewState.value.interactions, interaction, isComplete)) }
+    fun showDeleteConfirmDialog() {
+        viewState.update { it.copy(deletePetDialogShow = true) }
+    }
+
+    fun hideDeleteConfirmDialog() {
+        viewState.update { it.copy(deletePetDialogShow = false) }
+    }
+
+    fun completeReminder(reminderId: String, isComplete: Boolean, dateTime: LocalDateTime) = viewModelScope.launch {
+        setReminderComplete.setComplete(reminderId, isComplete, dateTime).filterNotNull().collect { interaction ->
+            viewState.update {
+                it.copy(
+                    interactions = interactionsListBuilder.buildListOnCompletingReminder(
+                        it.interactions, interaction, isComplete
+                    )
+                )
+            }
         }
     }
 }

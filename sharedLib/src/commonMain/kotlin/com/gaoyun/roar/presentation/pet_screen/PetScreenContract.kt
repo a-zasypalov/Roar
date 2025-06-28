@@ -11,7 +11,7 @@ import kotlinx.datetime.LocalDateTime
 
 class PetScreenContract {
 
-    sealed class Event : ViewEvent {
+    sealed class Event {
         class InteractionClicked(val interactionId: String) : Event()
         data object OnDeletePetClicked : Event()
         class AddReminderButtonClicked(val petId: String) : Event()
@@ -19,14 +19,6 @@ class PetScreenContract {
         class OnInteractionCheckClicked(val reminderId: String, val completed: Boolean, val completionDateTime: LocalDateTime) : Event()
         data object OnEditPetClick : Event()
     }
-
-    data class State(
-        val isLoading: Boolean = false,
-        val pet: Pet? = null,
-        val interactions: Map<InteractionGroup, List<InteractionWithReminders>> = mapOf(),
-        val inactiveInteractions: List<InteractionWithReminders> = listOf(),
-        val deletePetDialogShow: Boolean = false,
-    ) : ViewState
 
     sealed class Effect : ViewSideEffect {
         data object NavigateBack : Effect()

@@ -20,9 +20,6 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.compose.LifecycleEventEffect
 import com.gaoyun.roar.model.domain.PetWithInteractions
 import com.gaoyun.roar.model.domain.withInteractions
-import com.gaoyun.roar.ui.navigation.BackNavigationEffect
-import com.gaoyun.roar.presentation.LAUNCH_LISTEN_FOR_EFFECTS
-import com.gaoyun.roar.ui.navigation.NavigationSideEffect
 import com.gaoyun.roar.presentation.pet_screen.PetScreenContract
 import com.gaoyun.roar.presentation.pet_screen.PetScreenViewModel
 import com.gaoyun.roar.ui.common.composables.BoxWithLoader
@@ -30,42 +27,32 @@ import com.gaoyun.roar.ui.common.composables.RoarExtendedFAB
 import com.gaoyun.roar.ui.common.composables.SurfaceScaffold
 import com.gaoyun.roar.ui.common.dialog.InteractionCompletionDialog
 import com.gaoyun.roar.ui.common.dialog.RemovePetConfirmationDialog
+import com.gaoyun.roar.ui.navigation.BackNavigationEffect
+import com.gaoyun.roar.ui.navigation.NavigationSideEffect
 import com.gaoyun.roar.ui.theme.RoarThemePreview
 import com.gaoyun.roar.util.SharedDateUtils
-import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.flow.onEach
-import moe.tlaster.precompose.koin.koinViewModel
 import org.jetbrains.compose.resources.stringResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
+import org.koin.compose.viewmodel.koinViewModel
 import roar.sharedlib.generated.resources.Res
 import roar.sharedlib.generated.resources.add_reminder
 import roar.sharedlib.generated.resources.reminder
 
 @Composable
 fun PetScreenDestination(
-    onNavigationCall: (NavigationSideEffect) -> Unit,
+    navigate: (NavigationSideEffect) -> Unit,
     petId: String,
 ) {
-    val viewModel = koinViewModel(vmClass = PetScreenViewModel::class)
-    val state = viewModel.viewState.collectAsState().value
+    val viewModel = koinViewModel<PetScreenViewModel>()
+    val state by viewModel.viewState.collectAsState()
 
     LifecycleEventEffect(Lifecycle.Event.ON_CREATE) {
-        viewModel.buildScreenState(petId)
+        viewModel.loadPet(petId)
     }
 
     val showCompleteReminderDateDialog = remember { mutableStateOf(false) }
-    val completeReminderDateDialogDate =
-        remember { mutableStateOf(SharedDateUtils.currentDateTime()) }
+    val completeReminderDateDialogDate = remember { mutableStateOf(SharedDateUtils.currentDateTime()) }
     val reminderToCompleteId = remember { mutableStateOf<String?>(null) }
-
-    LaunchedEffect(LAUNCH_LISTEN_FOR_EFFECTS) {
-        viewModel.effect.onEach { effect ->
-            when (effect) {
-                is PetScreenContract.Effect.Navigation -> onNavigationCall(effect)
-                is PetScreenContract.Effect.NavigateBack -> onNavigationCall(BackNavigationEffect)
-            }
-        }.collect()
-    }
 
     val verticalScroll = rememberScrollState()
     var fabExtended by remember { mutableStateOf(true) }
@@ -86,26 +73,25 @@ fun PetScreenDestination(
                 text = stringResource(resource = Res.string.reminder),
                 extended = fabExtended,
                 onClick = {
-                    viewModel.setEvent(
-                        PetScreenContract.Event.AddReminderButtonClicked(
-                            state.pet?.id ?: ""
+                    // direct navigation to interaction templates
+                    state.pet?.id?.let { id ->
+                        navigate(
+                            PetScreenContract.Effect.Navigation.ToInteractionTemplates(id)
                         )
-                    )
-                })
+                    }
+                }
+            )
         },
         floatingActionButtonPosition = FabPosition.End,
-        backHandler = { onNavigationCall(BackNavigationEffect) }
+        backHandler = { navigate(BackNavigationEffect) }
     ) {
         if (state.deletePetDialogShow) {
             RemovePetConfirmationDialog(
-                petName = state.pet?.name.toString(),
-                onDismiss = viewModel::hideDeletePetDialog,
+                petName = state.pet?.name.orEmpty(),
+                onDismiss = viewModel::hideDeleteConfirmDialog,
                 onConfirm = {
-                    viewModel.setEvent(
-                        PetScreenContract.Event.OnDeletePetConfirmed(
-                            state.pet?.id ?: ""
-                        )
-                    )
+                    viewModel.confirmDelete()
+                    navigate(BackNavigationEffect)
                 }
             )
         }
@@ -116,25 +102,21 @@ fun PetScreenDestination(
                 dateTime = completeReminderDateDialogDate.value,
                 onConfirmButtonClick = {
                     showCompleteReminderDateDialog.value = false
-                    viewModel.setEvent(
-                        PetScreenContract.Event.OnInteractionCheckClicked(
-                            reminderId = reminderToCompleteId.value ?: "",
-                            completed = true,
-                            completionDateTime = SharedDateUtils.currentDateAt(
-                                hour = completeReminderDateDialogDate.value.hour,
-                                minute = completeReminderDateDialogDate.value.minute,
-                            ),
+                    viewModel.completeReminder(
+                        reminderId = reminderToCompleteId.value ?: "",
+                        isComplete = true,
+                        dateTime = SharedDateUtils.currentDateAt(
+                            hour = completeReminderDateDialogDate.value.hour,
+                            minute = completeReminderDateDialogDate.value.minute,
                         )
                     )
                 },
                 onDismissButtonClick = {
                     showCompleteReminderDateDialog.value = false
-                    viewModel.setEvent(
-                        PetScreenContract.Event.OnInteractionCheckClicked(
-                            reminderId = reminderToCompleteId.value ?: "",
-                            completed = true,
-                            completionDateTime = completeReminderDateDialogDate.value,
-                        )
+                    viewModel.completeReminder(
+                        reminderId = reminderToCompleteId.value ?: "",
+                        isComplete = true,
+                        dateTime = completeReminderDateDialogDate.value
                     )
                 }
             )
@@ -145,38 +127,33 @@ fun PetScreenDestination(
                 PetContainer(
                     pet = pet.withInteractions(state.interactions),
                     inactiveInteractions = state.inactiveInteractions,
-                    onInteractionClick = {
-                        viewModel.setEvent(
-                            PetScreenContract.Event.InteractionClicked(
-                                it
-                            )
+                    onInteractionClick = { interactionId ->
+                        navigate(
+                            PetScreenContract.Effect.Navigation.ToInteractionDetails(interactionId)
                         )
                     },
-                    onDeletePetClick = { viewModel.setEvent(PetScreenContract.Event.OnDeletePetClicked) },
-                    onEditPetClick = { viewModel.setEvent(PetScreenContract.Event.OnEditPetClick) },
+                    onDeletePetClick = { viewModel.showDeleteConfirmDialog() },
+                    onEditPetClick = {
+                        navigate(
+                            PetScreenContract.Effect.Navigation.ToEditPet(pet)
+                        )
+                    },
                     onInteractionCheckClicked = { reminderId, completed, completionDateTime ->
                         if (completed) {
                             reminderToCompleteId.value = reminderId
                             completeReminderDateDialogDate.value = completionDateTime
                             showCompleteReminderDateDialog.value = true
                         } else {
-                            viewModel.setEvent(
-                                PetScreenContract.Event.OnInteractionCheckClicked(
-                                    reminderId = reminderId,
-                                    completed = false,
-                                    completionDateTime = completionDateTime
-                                )
-                            )
+                            viewModel.completeReminder(reminderId, false, completionDateTime)
                         }
                     },
                     modifier = Modifier
-                        .padding(start = 8.dp, end = 8.dp)
+                        .padding(horizontal = 8.dp)
                         .fillMaxWidth()
                 )
             }
         }
     }
-
 }
 
 @Composable
