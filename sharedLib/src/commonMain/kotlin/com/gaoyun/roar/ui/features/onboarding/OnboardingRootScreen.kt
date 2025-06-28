@@ -25,19 +25,17 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.unit.dp
-import com.gaoyun.roar.presentation.onboarding.OnboardingViewModel
+import androidx.navigation.NavHostController
+import com.gaoyun.roar.presentation.OnboardingViewModel
 import com.gaoyun.roar.ui.common.composables.PrimaryElevatedButton
 import com.gaoyun.roar.ui.common.composables.Spacer
 import com.gaoyun.roar.ui.common.composables.SurfaceScaffold
 import com.gaoyun.roar.ui.navigation.NavigationKeys
 import com.gaoyun.roar.ui.theme.RoarTheme
 import kotlinx.coroutines.launch
-import moe.tlaster.precompose.koin.koinViewModel
-import moe.tlaster.precompose.navigation.NavOptions
-import moe.tlaster.precompose.navigation.Navigator
-import moe.tlaster.precompose.navigation.PopUpTo
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
+import org.koin.compose.viewmodel.koinViewModel
 import roar.sharedlib.generated.resources.Res
 import roar.sharedlib.generated.resources.app_icon
 import roar.sharedlib.generated.resources.app_name
@@ -57,12 +55,12 @@ import roar.sharedlib.generated.resources.start
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun OnboardingRootScreen(
-    navHostController: Navigator,
+    navHostController: NavHostController,
 ) {
-    val state = rememberPagerState(pageCount = { return@rememberPagerState 3 })
+    val state = rememberPagerState(pageCount = { 3 })
     val scope = rememberCoroutineScope()
 
-    val viewModel = koinViewModel(vmClass = OnboardingViewModel::class)
+    val viewModel = koinViewModel<OnboardingViewModel>()
 
     SurfaceScaffold {
         Box {
@@ -91,10 +89,10 @@ fun OnboardingRootScreen(
                     selectedColor = MaterialTheme.colorScheme.inverseSurface,
                     unSelectedColor = MaterialTheme.colorScheme.outline,
                 )
-                Spacer(size = 16.dp)
+                Spacer(16.dp)
                 if (state.currentPage < 2) {
                     PrimaryElevatedButton(
-                        text = stringResource(resource = Res.string.next_button),
+                        text = stringResource(Res.string.next_button),
                         onClick = {
                             scope.launch {
                                 state.animateScrollToPage(state.currentPage + 1)
@@ -102,21 +100,16 @@ fun OnboardingRootScreen(
                         })
                 } else {
                     PrimaryElevatedButton(
-                        text = stringResource(resource = Res.string.start),
+                        text = stringResource(Res.string.start),
                         onClick = {
                             viewModel.completeOnboarding()
-                            navHostController.navigate(
-                                NavigationKeys.Route.HOME_ROUTE, NavOptions(
-                                    popUpTo = PopUpTo(
-                                        route = NavigationKeys.Route.ONBOARDING_ROUTE,
-                                        inclusive = true
-                                    )
-                                )
-                            )
+                            navHostController.navigate(NavigationKeys.Route.HOME_ROUTE) {
+                                popUpTo(route = NavigationKeys.Route.ONBOARDING_ROUTE) { inclusive = true }
+                            }
                         })
                 }
                 Spacer(
-                    size = WindowInsets.navigationBars.asPaddingValues().calculateBottomPadding()
+                    WindowInsets.navigationBars.asPaddingValues().calculateBottomPadding()
                 )
             }
         }
