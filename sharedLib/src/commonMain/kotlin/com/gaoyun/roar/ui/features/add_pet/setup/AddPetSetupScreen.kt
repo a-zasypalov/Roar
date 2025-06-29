@@ -31,6 +31,8 @@ import com.gaoyun.roar.ui.common.composables.PrimaryElevatedButton
 import com.gaoyun.roar.ui.common.composables.Spacer
 import com.gaoyun.roar.ui.common.composables.SurfaceScaffold
 import com.gaoyun.roar.ui.common.ext.getDrawableByName
+import com.gaoyun.roar.ui.navigation.FinishPetSetup
+import com.gaoyun.roar.ui.navigation.OpenTemplates
 import com.gaoyun.roar.ui.navigation.NavigationSideEffect
 import com.gaoyun.roar.ui.theme.RoarThemePreview
 import com.gaoyun.roar.util.randomUUID
@@ -56,7 +58,7 @@ fun AddPetSetupDestination(
     LifecycleEventEffect(Lifecycle.Event.ON_CREATE) {
         viewModel.initialize(
             petId,
-            onContinue = { navigate(AddPetSetupScreenContract.Effect.Navigation.Continue) }
+            onContinue = { navigate(FinishPetSetup) }
         )
     }
 
@@ -66,10 +68,10 @@ fun AddPetSetupDestination(
                 PetAddingComplete(
                     pet = pet,
                     onContinueButtonClicked = {
-                        navigate(AddPetSetupScreenContract.Effect.Navigation.Continue)
+                        navigate(FinishPetSetup)
                     },
                     onAddReminderButtonClicked = {
-                        navigate(AddPetSetupScreenContract.Effect.Navigation.OpenTemplates(pet.id))
+                        navigate(OpenTemplates(pet.id))
                         viewModel.markComplete()
                     }
                 )

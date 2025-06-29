@@ -1,6 +1,5 @@
 package com.gaoyun.roar.ui.features.user.user_screen
 
-import com.gaoyun.roar.ui.navigation.NavigationSideEffect
 import com.gaoyun.roar.util.AppIcon
 import com.gaoyun.roar.util.ColorTheme
 
@@ -36,12 +35,5 @@ class UserScreenContract {
         data class OnStaticColorThemePick(val theme: ColorTheme) : Event()
         data class OnNumberOfRemindersOnMainScreen(val newNumber: Int) : Event()
         data class OnAppIconChange(val icon: AppIcon) : Event()
-    }
-
-    sealed class Effect {
-        sealed class Navigation : Effect(), NavigationSideEffect {
-            object ToUserEdit : Navigation()
-            object ToAboutScreen : Navigation()
-        }
     }
 }

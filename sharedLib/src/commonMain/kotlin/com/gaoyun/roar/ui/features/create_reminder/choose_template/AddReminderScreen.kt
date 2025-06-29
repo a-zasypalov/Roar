@@ -21,6 +21,7 @@ import com.gaoyun.roar.ui.common.composables.PrimaryElevatedButtonOnSurface
 import com.gaoyun.roar.ui.common.composables.SurfaceScaffold
 import com.gaoyun.roar.ui.navigation.BackNavigationEffect
 import com.gaoyun.roar.ui.navigation.NavigationSideEffect
+import com.gaoyun.roar.ui.navigation.ToReminderSetup
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
 import roar.sharedlib.generated.resources.Res
@@ -46,9 +47,7 @@ fun AddReminderDestination(
                 TemplatesList(
                     pet = pet,
                     templates = state.templates,
-                    templateChosen = { template ->
-                        navigate(AddReminderScreenContract.Effect.Navigation.ToReminderSetup(pet.id, template.templateId))
-                    },
+                    templateChosen = { template -> navigate(ToReminderSetup(pet.id, template.templateId)) },
                     modifier = Modifier
                         .navigationBarsPadding()
                         .padding(bottom = 56.dp)

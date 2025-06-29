@@ -12,7 +12,6 @@ import com.gaoyun.roar.model.domain.toGender
 import com.gaoyun.roar.model.domain.toLanguageCode
 import com.gaoyun.roar.model.domain.toPetType
 import com.gaoyun.roar.ui.common.BaseViewModel
-import com.gaoyun.roar.ui.navigation.NavigationSideEffect
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.collectLatest
@@ -108,9 +107,6 @@ class AddPetDataScreenViewModel(
         onBack()
     }
 }
-
-class ToAvatarEdit(val petId: String, val petType: PetType) : NavigationSideEffect
-class ToPetSetup(val petId: String) : NavigationSideEffect
 
 data class AddPetDataScreenContractState(
     val petType: PetType? = null,

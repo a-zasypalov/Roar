@@ -19,11 +19,19 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.compose.LifecycleEventEffect
 import com.gaoyun.roar.model.domain.PetWithInteractions
+import com.gaoyun.roar.model.domain.withoutInteractions
 import com.gaoyun.roar.ui.common.composables.BoxWithLoader
 import com.gaoyun.roar.ui.common.composables.RoarExtendedFAB
 import com.gaoyun.roar.ui.common.composables.SurfaceScaffold
 import com.gaoyun.roar.ui.common.dialog.InteractionCompletionDialog
 import com.gaoyun.roar.ui.common.dialog.RemovePetConfirmationDialog
+import com.gaoyun.roar.ui.navigation.ToAddPet
+import com.gaoyun.roar.ui.navigation.ToAddReminder
+import com.gaoyun.roar.ui.navigation.ToEditPet
+import com.gaoyun.roar.ui.navigation.ToInteractionDetails
+import com.gaoyun.roar.ui.navigation.ToPetScreen
+import com.gaoyun.roar.ui.navigation.ToUserRegistration
+import com.gaoyun.roar.ui.navigation.ToUserScreen
 import com.gaoyun.roar.ui.features.home.states.HomeState
 import com.gaoyun.roar.ui.features.home.states.NoPetsState
 import com.gaoyun.roar.ui.features.home.states.NoUserState
@@ -51,7 +59,7 @@ fun HomeScreenDestination(onNavigationCall: (NavigationSideEffect) -> Unit) {
 
     LifecycleEventEffect(Lifecycle.Event.ON_RESUME) {
         viewModel.checkUserRegistered {
-            onNavigationCall(HomeScreenContract.Effect.Navigation.ToUserRegistration)
+            onNavigationCall(ToUserRegistration)
         }
     }
 
@@ -80,7 +88,7 @@ fun HomeScreenDestination(onNavigationCall: (NavigationSideEffect) -> Unit) {
                         if (state.pets.size > 1) {
                             viewModel.setPetChooserShow(true)
                         } else {
-                            onNavigationCall(HomeScreenContract.Effect.Navigation.ToAddReminder(state.pets.firstOrNull()?.id ?: ""))
+                            onNavigationCall(ToAddReminder(state.pets.firstOrNull()?.id ?: ""))
                         }
                     })
             }
@@ -89,7 +97,7 @@ fun HomeScreenDestination(onNavigationCall: (NavigationSideEffect) -> Unit) {
     ) {
 
         val registrationCallback: (String, String) -> Unit = { _, id ->
-            viewModel.onLoginUser(id) { onNavigationCall(HomeScreenContract.Effect.Navigation.ToUserRegistration) }
+            viewModel.onLoginUser(id) { onNavigationCall(ToUserRegistration) }
         }
 
         val registrationLauncher = when (Platform.name) {
@@ -101,7 +109,7 @@ fun HomeScreenDestination(onNavigationCall: (NavigationSideEffect) -> Unit) {
             state.showPetChooser -> {
                 InteractionPetChooser(
                     pets = state.pets,
-                    onPetChosen = { onNavigationCall(HomeScreenContract.Effect.Navigation.ToAddReminder(it)) },
+                    onPetChosen = { onNavigationCall(ToAddReminder(it)) },
                     onDismiss = { viewModel.setPetChooserShow(false) }
                 )
             }
@@ -145,7 +153,7 @@ fun HomeScreenDestination(onNavigationCall: (NavigationSideEffect) -> Unit) {
                     onConfirm = {
                         state.pets.firstOrNull()?.let { pet ->
                             viewModel.onDeletePetConfirmed(pet) {
-                                onNavigationCall(HomeScreenContract.Effect.Navigation.ToUserRegistration)
+                                onNavigationCall(ToUserRegistration)
                             }
                         }
                     }
@@ -161,13 +169,13 @@ fun HomeScreenDestination(onNavigationCall: (NavigationSideEffect) -> Unit) {
                         showCustomizationPrompt = state.showCustomizationPrompt,
                         pets = state.pets,
                         inactiveInteractions = state.inactiveInteractions,
-                        onAddPetButtonClick = { onNavigationCall(HomeScreenContract.Effect.Navigation.ToAddPet) },
-                        onPetCardClick = { petId -> onNavigationCall(HomeScreenContract.Effect.Navigation.ToPetScreen(petId)) },
+                        onAddPetButtonClick = { onNavigationCall(ToAddPet) },
+                        onPetCardClick = { petId -> onNavigationCall(ToPetScreen(petId)) },
                         onInteractionClick = { interactionClicked ->
-                            onNavigationCall(HomeScreenContract.Effect.Navigation.ToInteractionDetails(interactionClicked.interactionId))
+                            onNavigationCall(ToInteractionDetails(interactionClicked.interactionId))
                         },
                         onDeletePetClick = { viewModel.onDeletePetClicked() },
-                        onEditPetClick = { pet -> onNavigationCall(HomeScreenContract.Effect.Navigation.ToEditPet(pet.pet)) },
+                        onEditPetClick = { pet -> onNavigationCall(ToEditPet(pet.pet.withoutInteractions())) },
                         onInteractionCheckClicked = { pet, reminderId, completed, completionDateTime ->
                             if (completed) {
                                 petToComplete.value = pet
@@ -178,20 +186,20 @@ fun HomeScreenDestination(onNavigationCall: (NavigationSideEffect) -> Unit) {
                                 viewModel.markReminderComplete(pet, reminderId, false, completionDateTime)
                             }
                         },
-                        onUserDetailsClick = { onNavigationCall(HomeScreenContract.Effect.Navigation.ToUserScreen) },
+                        onUserDetailsClick = { onNavigationCall(ToUserScreen) },
                         onClosePromptClick = { viewModel.closeCustomizationPrompt() },
                         state = verticalScroll
                     )
                 } else {
                     NoPetsState(
                         userName = user.name,
-                        onAddPetButtonClick = { onNavigationCall(HomeScreenContract.Effect.Navigation.ToAddPet) },
-                        onUserDetailsClick = { onNavigationCall(HomeScreenContract.Effect.Navigation.ToUserScreen) }
+                        onAddPetButtonClick = { onNavigationCall(ToAddPet) },
+                        onUserDetailsClick = { onNavigationCall(ToUserScreen) }
                     )
                 }
             } ?: if (!state.isLoading) {
                 NoUserState(
-                    onRegisterButtonClick = { onNavigationCall(HomeScreenContract.Effect.Navigation.ToUserRegistration) },
+                    onRegisterButtonClick = { onNavigationCall(ToUserRegistration) },
                     onLoginButtonClick = { registrationLauncher?.invoke() }
                 )
             } else Spacer(Modifier.size(1.dp))

@@ -15,6 +15,7 @@ import com.gaoyun.roar.ui.common.composables.PrimaryElevatedButton
 import com.gaoyun.roar.ui.common.composables.Spacer
 import com.gaoyun.roar.ui.common.composables.SurfaceScaffold
 import com.gaoyun.roar.ui.common.ext.getDrawableByName
+import com.gaoyun.roar.ui.navigation.FinishReminderAdding
 import com.gaoyun.roar.ui.navigation.NavigationSideEffect
 import com.gaoyun.roar.ui.theme.RoarThemePreview
 import org.jetbrains.compose.resources.painterResource
@@ -37,9 +38,7 @@ fun AddReminderCompleteDestination(
     SurfaceScaffold {
         ReminderAddingComplete(
             petAvatar = petAvatar,
-            onContinueButtonClicked = {
-                navigate(AddReminderCompleteScreenContract.Effect.Navigation.Continue(petId))
-            }
+            onContinueButtonClicked = { navigate(FinishReminderAdding(petId)) }
         )
     }
 }

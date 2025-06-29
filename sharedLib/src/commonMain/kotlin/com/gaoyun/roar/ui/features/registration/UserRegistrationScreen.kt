@@ -5,6 +5,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import com.gaoyun.roar.ui.common.composables.BoxWithLoader
 import com.gaoyun.roar.ui.common.composables.SurfaceScaffold
+import com.gaoyun.roar.ui.navigation.ToPetAdding
 import com.gaoyun.roar.ui.navigation.NavigationSideEffect
 import com.gaoyun.roar.util.Platform
 import com.gaoyun.roar.util.PlatformNames
@@ -20,9 +21,7 @@ fun UserRegistrationDestination(
 //    BackHandler { navigate(CloseAppNavigationSideEffect) }
 
     val registrationCallback: (String, String) -> Unit = { username, id ->
-        viewModel.registerUser(username, id) {
-            navigate(RegisterUserScreenContract.Effect.Navigation.ToPetAdding)
-        }
+        viewModel.registerUser(username, id) { navigate(ToPetAdding) }
     }
 
     val registrationLauncherGoogle = when (Platform.name) {
@@ -50,9 +49,7 @@ fun UserRegistrationDestination(
                     }
                 },
                 onRegisterTestClick = {
-                    viewModel.registerUser("Tester", "tester") {
-                        navigate(RegisterUserScreenContract.Effect.Navigation.ToPetAdding)
-                    }
+                    viewModel.registerUser("Tester", "tester") { navigate(ToPetAdding) }
                 }
             )
         }

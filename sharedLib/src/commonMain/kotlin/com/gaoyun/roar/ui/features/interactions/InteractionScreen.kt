@@ -27,6 +27,7 @@ import com.gaoyun.roar.ui.common.composables.SurfaceScaffold
 import com.gaoyun.roar.ui.common.dialog.InteractionCompletionDialog
 import com.gaoyun.roar.ui.navigation.BackNavigationEffect
 import com.gaoyun.roar.ui.navigation.NavigationSideEffect
+import com.gaoyun.roar.ui.navigation.ToEditInteraction
 import com.gaoyun.roar.util.SharedDateUtils
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
@@ -83,9 +84,7 @@ fun InteractionScreenDestination(
                         contentDescription = stringResource(Res.string.edit),
                         text = stringResource(Res.string.edit),
                         onClick = {
-                            state.pet?.let { pet ->
-                                navigate(InteractionScreenContract.Effect.Navigation.ToEditInteraction(pet.id, interaction))
-                            }
+                            state.pet?.let { pet -> navigate(ToEditInteraction(pet.id, interaction)) }
                         }
                     )
                 }

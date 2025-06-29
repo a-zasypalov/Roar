@@ -29,6 +29,8 @@ import com.gaoyun.roar.ui.common.composables.SurfaceScaffold
 import com.gaoyun.roar.ui.common.composables.surfaceCardFormElevation
 import com.gaoyun.roar.ui.common.composables.surfaceCardFormShape
 import com.gaoyun.roar.ui.common.ext.getDrawableByName
+import com.gaoyun.roar.ui.navigation.BackToTemplates
+import com.gaoyun.roar.ui.navigation.ToComplete
 import com.gaoyun.roar.ui.navigation.BackNavigationEffect
 import com.gaoyun.roar.ui.navigation.NavigationSideEffect
 import org.jetbrains.compose.resources.painterResource
@@ -99,11 +101,11 @@ fun SetupReminderDestination(
                                     timeHours = timeHours,
                                     timeMinutes = timeMinutes,
                                     onBackToTemplates = {
-                                        navigate(SetupReminderScreenContract.Effect.Navigation.BackToTemplates(petId))
+                                        navigate(BackToTemplates(petId))
                                     },
                                     onToComplete = { petAvatar, petId, templateId ->
                                         navigate(
-                                            SetupReminderScreenContract.Effect.Navigation.ToComplete(
+                                            ToComplete(
                                                 petAvatar = petAvatar,
                                                 petId = petId,
                                                 templateId = templateId

@@ -13,6 +13,8 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import com.gaoyun.roar.ui.common.composables.RoarExtendedFAB
 import com.gaoyun.roar.ui.common.composables.SurfaceScaffold
+import com.gaoyun.roar.ui.navigation.ToAboutScreen
+import com.gaoyun.roar.ui.navigation.ToUserEdit
 import com.gaoyun.roar.ui.navigation.BackNavigationEffect
 import com.gaoyun.roar.ui.navigation.NavigationSideEffect
 import kotlinx.coroutines.launch
@@ -54,7 +56,7 @@ fun UserScreenDestination(
                 icon = Icons.Filled.Edit,
                 contentDescription = stringResource(resource = Res.string.edit_profile),
                 text = stringResource(resource = Res.string.edit),
-                onClick = { navigate(UserScreenContract.Effect.Navigation.ToUserEdit) }
+                onClick = { navigate(ToUserEdit) }
             )
         },
         floatingActionButtonPosition = FabPosition.End
@@ -89,7 +91,7 @@ fun UserScreenDestination(
                 }
             },
             onAboutScreenButtonClick = {
-                navigate(UserScreenContract.Effect.Navigation.ToAboutScreen)
+                navigate(ToAboutScreen)
             },
             onHomeScreenModeChange = {
                 viewModel.switchHomeScreenMode()

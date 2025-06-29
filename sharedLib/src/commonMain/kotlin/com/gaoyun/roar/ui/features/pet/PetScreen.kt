@@ -25,6 +25,9 @@ import com.gaoyun.roar.ui.common.composables.RoarExtendedFAB
 import com.gaoyun.roar.ui.common.composables.SurfaceScaffold
 import com.gaoyun.roar.ui.common.dialog.InteractionCompletionDialog
 import com.gaoyun.roar.ui.common.dialog.RemovePetConfirmationDialog
+import com.gaoyun.roar.ui.navigation.ToEditPet
+import com.gaoyun.roar.ui.navigation.ToInteractionDetails
+import com.gaoyun.roar.ui.navigation.ToInteractionTemplates
 import com.gaoyun.roar.ui.features.pet.composables.PetContainer
 import com.gaoyun.roar.ui.navigation.BackNavigationEffect
 import com.gaoyun.roar.ui.navigation.NavigationSideEffect
@@ -73,11 +76,7 @@ fun PetScreenDestination(
                 extended = fabExtended,
                 onClick = {
                     // direct navigation to interaction templates
-                    state.pet?.id?.let { id ->
-                        navigate(
-                            PetScreenContract.Effect.Navigation.ToInteractionTemplates(id)
-                        )
-                    }
+                    state.pet?.id?.let { id -> navigate(ToInteractionTemplates(id)) }
                 }
             )
         },
@@ -126,17 +125,9 @@ fun PetScreenDestination(
                 PetContainer(
                     pet = pet.withInteractions(state.interactions),
                     inactiveInteractions = state.inactiveInteractions,
-                    onInteractionClick = { interactionId ->
-                        navigate(
-                            PetScreenContract.Effect.Navigation.ToInteractionDetails(interactionId)
-                        )
-                    },
+                    onInteractionClick = { interactionId -> navigate(ToInteractionDetails(interactionId)) },
                     onDeletePetClick = { viewModel.showDeleteConfirmDialog() },
-                    onEditPetClick = {
-                        navigate(
-                            PetScreenContract.Effect.Navigation.ToEditPet(pet)
-                        )
-                    },
+                    onEditPetClick = { navigate(ToEditPet(pet)) },
                     onInteractionCheckClicked = { reminderId, completed, completionDateTime ->
                         if (completed) {
                             reminderToCompleteId.value = reminderId
