@@ -19,6 +19,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.gaoyun.roar.config.PetsConfig
 import com.gaoyun.roar.model.domain.PetType
+import com.gaoyun.roar.presentation.add_pet.AddPetPetTypeScreenViewModel
+import com.gaoyun.roar.presentation.add_pet.ToPetAvatar
 import com.gaoyun.roar.ui.common.composables.RoarIcon
 import com.gaoyun.roar.ui.common.composables.SurfaceScaffold
 import com.gaoyun.roar.ui.common.composables.platformStyleClickable

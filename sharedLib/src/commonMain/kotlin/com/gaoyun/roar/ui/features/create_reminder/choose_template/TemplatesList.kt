@@ -21,6 +21,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.gaoyun.roar.model.domain.PetWithInteractions
 import com.gaoyun.roar.model.domain.interactions.InteractionTemplate
+import com.gaoyun.roar.presentation.add_reminder.choose_template.AddReminderScreenContract
 import com.gaoyun.roar.ui.common.composables.RoarIcon
 import com.gaoyun.roar.ui.common.composables.Spacer
 import com.gaoyun.roar.ui.common.composables.platformStyleClickable

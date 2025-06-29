@@ -27,6 +27,8 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.compose.LifecycleEventEffect
 import com.gaoyun.roar.config.PetsConfig
+import com.gaoyun.roar.presentation.add_pet.AddPetAvatarScreenViewModel
+import com.gaoyun.roar.presentation.add_pet.ToPetData
 import com.gaoyun.roar.ui.common.composables.SurfaceScaffold
 import com.gaoyun.roar.ui.common.composables.platformStyleClickable
 import com.gaoyun.roar.ui.common.ext.getDrawableByName

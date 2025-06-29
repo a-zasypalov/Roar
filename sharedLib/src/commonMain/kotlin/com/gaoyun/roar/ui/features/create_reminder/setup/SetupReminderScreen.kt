@@ -20,6 +20,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.compose.LifecycleEventEffect
+import com.gaoyun.roar.presentation.add_reminder.setup_reminder.SetupReminderScreenContract
+import com.gaoyun.roar.presentation.add_reminder.setup_reminder.SetupReminderScreenViewModel
 import com.gaoyun.roar.ui.common.composables.AutoResizeText
 import com.gaoyun.roar.ui.common.composables.BoxWithLoader
 import com.gaoyun.roar.ui.common.composables.FontSizeRange
@@ -29,7 +31,6 @@ import com.gaoyun.roar.ui.common.composables.SurfaceScaffold
 import com.gaoyun.roar.ui.common.composables.surfaceCardFormElevation
 import com.gaoyun.roar.ui.common.composables.surfaceCardFormShape
 import com.gaoyun.roar.ui.common.ext.getDrawableByName
-import com.gaoyun.roar.ui.features.create_reminder.setup.composables.ReminderSetupForm
 import com.gaoyun.roar.ui.navigation.BackNavigationEffect
 import com.gaoyun.roar.ui.navigation.NavigationSideEffect
 import org.jetbrains.compose.resources.painterResource
