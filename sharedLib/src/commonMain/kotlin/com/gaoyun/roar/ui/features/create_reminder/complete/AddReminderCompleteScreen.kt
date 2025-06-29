@@ -11,8 +11,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.gaoyun.roar.presentation.add_reminder.complete.AddReminderCompleteScreenContract
-import com.gaoyun.roar.presentation.add_reminder.complete.AddReminderCompleteScreenViewModel
 import com.gaoyun.roar.ui.common.composables.PrimaryElevatedButton
 import com.gaoyun.roar.ui.common.composables.Spacer
 import com.gaoyun.roar.ui.common.composables.SurfaceScaffold
@@ -31,7 +29,8 @@ import roar.sharedlib.generated.resources.reminder_ready
 @Composable
 fun AddReminderCompleteDestination(
     navigate: (NavigationSideEffect) -> Unit,
-    petAvatar: String
+    petAvatar: String,
+    petId: String
 ) {
     val viewModel = koinViewModel<AddReminderCompleteScreenViewModel>()
 
@@ -39,7 +38,7 @@ fun AddReminderCompleteDestination(
         ReminderAddingComplete(
             petAvatar = petAvatar,
             onContinueButtonClicked = {
-                navigate(AddReminderCompleteScreenContract.Effect.Navigation.Continue)
+                navigate(AddReminderCompleteScreenContract.Effect.Navigation.Continue(petId))
             }
         )
     }

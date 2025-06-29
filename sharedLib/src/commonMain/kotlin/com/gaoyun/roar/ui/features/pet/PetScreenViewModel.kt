@@ -31,7 +31,7 @@ class PetScreenViewModel(
     private val removePet: RemovePetUseCase,
     private val setReminderComplete: SetReminderComplete,
     private val interactionsListBuilder: InteractionsListBuilder,
-) : BaseViewModel() {   // since your BaseViewModel is so minimal, might as well use ViewModel directly
+) : BaseViewModel() {
     override val viewState = MutableStateFlow(PetScreenState(isLoading = true))
 
     init {

@@ -1,11 +1,11 @@
-package com.gaoyun.roar.presentation.add_reminder.complete
+package com.gaoyun.roar.ui.features.create_reminder.complete
 
 import com.gaoyun.roar.ui.navigation.NavigationSideEffect
 
 class AddReminderCompleteScreenContract {
     sealed class Effect {
         sealed class Navigation : Effect(), NavigationSideEffect {
-            object Continue : Navigation()
+            class Continue(val petId: String) : Navigation()
         }
     }
 }

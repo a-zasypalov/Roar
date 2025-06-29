@@ -22,5 +22,6 @@ sealed class NavigationAction {
     ) : NavigationAction()
 
     data object NavigateBack : NavigationAction()
-    class PopTo(val path: String, val inclusive: Boolean) : NavigationAction()
+    class PopToPath(val path: String, val inclusive: Boolean) : NavigationAction()
+    class PopTo<T : Any>(val args: T, val inclusive: Boolean) : NavigationAction()
 }

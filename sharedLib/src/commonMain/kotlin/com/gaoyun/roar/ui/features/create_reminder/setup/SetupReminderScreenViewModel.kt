@@ -1,4 +1,4 @@
-package com.gaoyun.roar.presentation.add_reminder.setup_reminder
+package com.gaoyun.roar.ui.features.create_reminder.setup
 
 import androidx.lifecycle.viewModelScope
 import com.gaoyun.roar.domain.NotificationScheduler

@@ -1,4 +1,4 @@
-package com.gaoyun.roar.presentation.add_reminder.choose_template
+package com.gaoyun.roar.ui.features.create_reminder.choose_template
 
 import androidx.lifecycle.viewModelScope
 import com.gaoyun.roar.domain.interaction.GetInteraction

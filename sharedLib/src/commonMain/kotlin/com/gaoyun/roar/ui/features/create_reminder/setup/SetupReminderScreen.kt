@@ -20,8 +20,6 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.compose.LifecycleEventEffect
-import com.gaoyun.roar.presentation.add_reminder.setup_reminder.SetupReminderScreenContract
-import com.gaoyun.roar.presentation.add_reminder.setup_reminder.SetupReminderScreenViewModel
 import com.gaoyun.roar.ui.common.composables.AutoResizeText
 import com.gaoyun.roar.ui.common.composables.BoxWithLoader
 import com.gaoyun.roar.ui.common.composables.FontSizeRange
@@ -101,7 +99,7 @@ fun SetupReminderDestination(
                                     timeHours = timeHours,
                                     timeMinutes = timeMinutes,
                                     onBackToTemplates = {
-                                        navigate(SetupReminderScreenContract.Effect.Navigation.BackToTemplates)
+                                        navigate(SetupReminderScreenContract.Effect.Navigation.BackToTemplates(petId))
                                     },
                                     onToComplete = { petAvatar, petId, templateId ->
                                         navigate(

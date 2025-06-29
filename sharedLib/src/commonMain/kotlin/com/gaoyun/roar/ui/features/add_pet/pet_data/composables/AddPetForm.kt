@@ -37,7 +37,7 @@ import androidx.compose.ui.unit.dp
 import com.gaoyun.roar.model.domain.Gender
 import com.gaoyun.roar.model.domain.Pet
 import com.gaoyun.roar.model.domain.toGender
-import com.gaoyun.roar.presentation.add_pet.data.AddPetDataScreenContract
+import com.gaoyun.roar.ui.features.add_pet.pet_data.AddPetDataScreenContract
 import com.gaoyun.roar.ui.common.composables.DropdownMenu
 import com.gaoyun.roar.ui.common.composables.LabelledCheckBox
 import com.gaoyun.roar.ui.common.composables.PrimaryElevatedButtonOnSurface

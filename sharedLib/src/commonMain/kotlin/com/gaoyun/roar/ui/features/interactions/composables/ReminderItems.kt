@@ -10,7 +10,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.gaoyun.roar.model.domain.Reminder
-import com.gaoyun.roar.presentation.interactions.InteractionScreenContract
 import com.gaoyun.roar.ui.common.composables.LabelledCheckBox
 import com.gaoyun.roar.ui.theme.RoarTheme
 import com.gaoyun.roar.util.DateFormats

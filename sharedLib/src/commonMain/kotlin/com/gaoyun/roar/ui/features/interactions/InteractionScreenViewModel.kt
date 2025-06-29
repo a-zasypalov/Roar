@@ -1,4 +1,4 @@
-package com.gaoyun.roar.presentation.interactions
+package com.gaoyun.roar.ui.features.interactions
 
 import androidx.lifecycle.viewModelScope
 import com.gaoyun.roar.domain.interaction.ActivateInteraction

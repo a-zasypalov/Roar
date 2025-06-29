@@ -1,4 +1,4 @@
-package com.gaoyun.roar.presentation.add_pet
+package com.gaoyun.roar.ui.features.add_pet.avatar
 
 import androidx.lifecycle.viewModelScope
 import com.gaoyun.roar.config.PetsConfig

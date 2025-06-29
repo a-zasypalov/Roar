@@ -1,16 +1,16 @@
 package com.gaoyun.roar.ui.navigation
 
 import androidx.navigation.NavType
-import com.gaoyun.roar.presentation.add_pet.ToPetAvatar
-import com.gaoyun.roar.presentation.add_pet.ToPetData
-import com.gaoyun.roar.presentation.add_pet.data.ToAvatarEdit
-import com.gaoyun.roar.presentation.add_pet.data.ToPetSetup
-import com.gaoyun.roar.presentation.add_pet.setup.AddPetSetupScreenContract
-import com.gaoyun.roar.presentation.add_reminder.choose_template.AddReminderScreenContract
-import com.gaoyun.roar.presentation.add_reminder.complete.AddReminderCompleteScreenContract
-import com.gaoyun.roar.presentation.add_reminder.setup_reminder.SetupReminderScreenContract
-import com.gaoyun.roar.presentation.home_screen.HomeScreenContract
-import com.gaoyun.roar.presentation.interactions.InteractionScreenContract
+import com.gaoyun.roar.ui.features.add_pet.pet_type.ToPetAvatar
+import com.gaoyun.roar.ui.features.add_pet.avatar.ToPetData
+import com.gaoyun.roar.ui.features.add_pet.pet_data.ToAvatarEdit
+import com.gaoyun.roar.ui.features.add_pet.pet_data.ToPetSetup
+import com.gaoyun.roar.ui.features.add_pet.setup.AddPetSetupScreenContract
+import com.gaoyun.roar.ui.features.create_reminder.choose_template.AddReminderScreenContract
+import com.gaoyun.roar.ui.features.create_reminder.complete.AddReminderCompleteScreenContract
+import com.gaoyun.roar.ui.features.create_reminder.setup.SetupReminderScreenContract
+import com.gaoyun.roar.ui.features.home.HomeScreenContract
+import com.gaoyun.roar.ui.features.interactions.InteractionScreenContract
 import com.gaoyun.roar.ui.features.pet.PetScreenContract
 import com.gaoyun.roar.ui.features.registration.RegisterUserScreenContract
 import com.gaoyun.roar.ui.features.user.user_screen.UserScreenContract
@@ -83,8 +83,8 @@ class AppNavigator(private val closeAppActionHandler: CloseAppActionHandler) : K
             )
         )
 
-        is SetupReminderScreenContract.Effect.Navigation.BackToTemplates -> completeReminderCreation()
-        is AddReminderCompleteScreenContract.Effect.Navigation.Continue -> completeReminderCreation()
+        is SetupReminderScreenContract.Effect.Navigation.BackToTemplates -> completeReminderCreation(call.petId)
+        is AddReminderCompleteScreenContract.Effect.Navigation.Continue -> completeReminderCreation(call.petId)
 
         is InteractionScreenContract.Effect.Navigation.ToEditInteraction -> NavigationAction.NavigateTo(
             EditReminderArgs(
@@ -140,6 +140,6 @@ class AppNavigator(private val closeAppActionHandler: CloseAppActionHandler) : K
     private fun toAboutScreen() =
         NavigationAction.NavigateToPath(NavigationKeys.Route.ABOUT_ROUTE)
 
-    private fun completeReminderCreation() =
-        NavigationAction.PopTo(NavigationKeys.Route.ADD_REMINDER_ROUTE, inclusive = false)
+    private fun completeReminderCreation(petId: String) =
+        NavigationAction.PopTo(AddReminderArgs(petId), inclusive = false)
 }

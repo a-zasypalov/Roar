@@ -1,4 +1,4 @@
-package com.gaoyun.roar.presentation.interactions
+package com.gaoyun.roar.ui.features.interactions
 
 import com.gaoyun.roar.model.domain.interactions.InteractionWithReminders
 import com.gaoyun.roar.ui.navigation.NavigationSideEffect

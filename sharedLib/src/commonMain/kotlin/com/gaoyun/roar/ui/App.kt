@@ -1,11 +1,16 @@
 package com.gaoyun.roar.ui
 
+import androidx.compose.animation.core.FastOutSlowInEasing
 import androidx.compose.animation.core.Spring
 import androidx.compose.animation.core.VisibilityThreshold
 import androidx.compose.animation.core.spring
+import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
+import androidx.compose.animation.scaleIn
+import androidx.compose.animation.scaleOut
 import androidx.compose.animation.slideInHorizontally
+import androidx.compose.animation.slideInVertically
 import androidx.compose.animation.slideOutHorizontally
 import androidx.compose.material3.ColorScheme
 import androidx.compose.material3.Surface
@@ -78,7 +83,8 @@ fun GlobalDestinationState(
         viewModel.navigationEffect.onEach { action ->
             when (action) {
                 is NavigationAction.NavigateBack -> navController.popBackStack()
-                is NavigationAction.PopTo -> navController.popBackStack(action.path, action.inclusive)
+                is NavigationAction.PopToPath -> navController.popBackStack(action.path, action.inclusive)
+                is NavigationAction.PopTo<*> -> navController.popBackStack(action.args, action.inclusive)
                 is NavigationAction.NavigateToPath -> navController.navigate(action.path)
                 is NavigationAction.NavigateTo<*> -> navController.navigate(action.args)
                 is NavigationAction.NavigateToWithBackHandler<*, *> -> {
@@ -126,39 +132,41 @@ fun NavigationGraph(
             navController = navController,
             startDestination = initialRoute,
             enterTransition = {
-                fadeIn() + slideInHorizontally(
-                    animationSpec = spring(
-                        stiffness = Spring.StiffnessMediumLow,
-                        visibilityThreshold = IntOffset.VisibilityThreshold
-                    ),
-                    initialOffsetX = { it }
+                scaleIn(
+                    initialScale = 0.9f,
+                    animationSpec = tween(
+                        durationMillis = 300,
+                        easing = FastOutSlowInEasing
+                    )
+                ) + fadeIn(
+                    animationSpec = tween(300)
                 )
             },
             exitTransition = {
-                fadeOut(targetAlpha = 0f) + slideOutHorizontally(
-                    animationSpec = spring(
-                        stiffness = Spring.StiffnessMediumLow,
-                        visibilityThreshold = IntOffset.VisibilityThreshold
-                    ),
-                    targetOffsetX = { -it }
+                scaleOut(
+                    targetScale = 1.1f,
+                    animationSpec = tween(
+                        durationMillis = 300,
+                        easing = FastOutSlowInEasing
+                    )
+                ) + fadeOut(
+                    animationSpec = tween(300)
                 )
             },
             popEnterTransition = {
-                fadeIn() + slideInHorizontally(
-                    animationSpec = spring(
-                        stiffness = Spring.StiffnessMediumLow,
-                        visibilityThreshold = IntOffset.VisibilityThreshold
-                    ),
-                    initialOffsetX = { -it }
+                scaleIn(
+                    initialScale = 0.9f,
+                    animationSpec = tween(300)
+                ) + fadeIn(
+                    animationSpec = tween(300)
                 )
             },
             popExitTransition = {
-                fadeOut(targetAlpha = 0f) + slideOutHorizontally(
-                    animationSpec = spring(
-                        stiffness = Spring.StiffnessMediumLow,
-                        visibilityThreshold = IntOffset.VisibilityThreshold
-                    ),
-                    targetOffsetX = { it }
+                scaleOut(
+                    targetScale = 1.1f,
+                    animationSpec = tween(300)
+                ) + fadeOut(
+                    animationSpec = tween(300)
                 )
             },
             builder = paths
@@ -291,6 +299,7 @@ internal val AppNavigationPaths: NavGraphBuilder.(
         AddReminderCompleteDestination(
             navigate = viewModel::navigate,
             petAvatar = args.avatar,
+            petId = args.petId,
         )
     }
 }

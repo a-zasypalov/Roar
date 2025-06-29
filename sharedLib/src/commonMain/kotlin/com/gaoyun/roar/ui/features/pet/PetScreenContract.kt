@@ -5,7 +5,6 @@ import com.gaoyun.roar.ui.navigation.NavigationSideEffect
 
 class PetScreenContract {
     sealed class Effect {
-        data object NavigateBack : Effect()
         sealed class Navigation : Effect(), NavigationSideEffect {
             class ToInteractionDetails(val interactionId: String) : Navigation()
             class ToInteractionTemplates(val petId: String) : Navigation()

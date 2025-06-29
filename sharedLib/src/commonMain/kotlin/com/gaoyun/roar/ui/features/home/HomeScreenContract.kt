@@ -1,4 +1,4 @@
-package com.gaoyun.roar.presentation.home_screen
+package com.gaoyun.roar.ui.features.home
 
 import com.gaoyun.roar.model.domain.PetWithInteractions
 import com.gaoyun.roar.ui.navigation.NavigationSideEffect
@@ -12,7 +12,6 @@ class HomeScreenContract {
     }
 
     sealed class Effect {
-        data object NavigateBack : Effect()
         sealed class Navigation : Effect(), NavigationSideEffect {
             object ToUserRegistration : Navigation()
             object ToAddPet : Navigation()
