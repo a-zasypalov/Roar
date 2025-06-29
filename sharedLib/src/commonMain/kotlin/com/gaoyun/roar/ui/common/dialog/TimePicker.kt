@@ -1,5 +1,6 @@
 package com.gaoyun.roar.ui.common.dialog
 
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Button
 import androidx.compose.material3.DatePickerDialog
@@ -37,7 +38,7 @@ object TimePicker {
             },
             onDismissRequest = onDismiss,
         ) {
-            TimePicker(state = state, modifier = Modifier.align(Alignment.CenterHorizontally).padding(top = 16.dp))
+            TimePicker(state = state, modifier = Modifier.fillMaxWidth().align(Alignment.CenterHorizontally).padding(top = 16.dp))
         }
     }
 }

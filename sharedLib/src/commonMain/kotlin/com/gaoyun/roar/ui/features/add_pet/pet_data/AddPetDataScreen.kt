@@ -13,6 +13,8 @@ import com.gaoyun.roar.ui.common.composables.SurfaceScaffold
 import com.gaoyun.roar.ui.features.add_pet.pet_data.composables.AddPetForm
 import com.gaoyun.roar.ui.navigation.BackNavigationEffect
 import com.gaoyun.roar.ui.navigation.NavigationSideEffect
+import com.gaoyun.roar.ui.navigation.ToAvatarEdit
+import com.gaoyun.roar.ui.navigation.ToPetSetup
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
 import roar.sharedlib.generated.resources.Res

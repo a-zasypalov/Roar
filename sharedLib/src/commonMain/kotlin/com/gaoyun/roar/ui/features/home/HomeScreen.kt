@@ -25,6 +25,12 @@ import com.gaoyun.roar.ui.common.composables.RoarExtendedFAB
 import com.gaoyun.roar.ui.common.composables.SurfaceScaffold
 import com.gaoyun.roar.ui.common.dialog.InteractionCompletionDialog
 import com.gaoyun.roar.ui.common.dialog.RemovePetConfirmationDialog
+import com.gaoyun.roar.ui.features.home.states.HomeState
+import com.gaoyun.roar.ui.features.home.states.NoPetsState
+import com.gaoyun.roar.ui.features.home.states.NoUserState
+import com.gaoyun.roar.ui.features.home.view.InteractionPetChooser
+import com.gaoyun.roar.ui.features.registration.RegistrationLauncherComposable
+import com.gaoyun.roar.ui.navigation.NavigationSideEffect
 import com.gaoyun.roar.ui.navigation.ToAddPet
 import com.gaoyun.roar.ui.navigation.ToAddReminder
 import com.gaoyun.roar.ui.navigation.ToEditPet
@@ -32,12 +38,6 @@ import com.gaoyun.roar.ui.navigation.ToInteractionDetails
 import com.gaoyun.roar.ui.navigation.ToPetScreen
 import com.gaoyun.roar.ui.navigation.ToUserRegistration
 import com.gaoyun.roar.ui.navigation.ToUserScreen
-import com.gaoyun.roar.ui.features.home.states.HomeState
-import com.gaoyun.roar.ui.features.home.states.NoPetsState
-import com.gaoyun.roar.ui.features.home.states.NoUserState
-import com.gaoyun.roar.ui.features.home.view.InteractionPetChooser
-import com.gaoyun.roar.ui.features.registration.RegistrationLauncherComposable
-import com.gaoyun.roar.ui.navigation.NavigationSideEffect
 import com.gaoyun.roar.util.Platform
 import com.gaoyun.roar.util.PlatformNames
 import com.gaoyun.roar.util.SharedDateUtils
@@ -109,7 +109,7 @@ fun HomeScreenDestination(onNavigationCall: (NavigationSideEffect) -> Unit) {
             state.showPetChooser -> {
                 InteractionPetChooser(
                     pets = state.pets,
-                    onPetChosen = { onNavigationCall(ToAddReminder(it)) },
+                    onPetChosen = { onNavigationCall(ToAddReminder(it)); viewModel.setPetChooserShow(false) },
                     onDismiss = { viewModel.setPetChooserShow(false) }
                 )
             }

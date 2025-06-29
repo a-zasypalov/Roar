@@ -13,6 +13,7 @@ import com.gaoyun.roar.ui.common.BaseViewModel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.filterNotNull
+import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import kotlinx.datetime.LocalDateTime
@@ -57,7 +58,7 @@ class PetScreenViewModel(
     fun confirmDelete() = viewModelScope.launch {
         viewState.update { it.copy(deletePetDialogShow = false) }
         delay(250)
-        viewState.value.pet?.id?.let { removePet.removePet(it) }
+        viewState.value.pet?.id?.let { removePet.removePet(it).firstOrNull() }
     }
 
     fun showDeleteConfirmDialog() {

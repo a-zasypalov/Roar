@@ -2,6 +2,7 @@
 
 package com.gaoyun.roar.ui.common.dialog
 
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Button
 import androidx.compose.material3.DatePicker
@@ -49,7 +50,7 @@ object DatePicker {
         ) {
             DatePicker(
                 state = state,
-                title = { Text(title, modifier = Modifier.padding(start = 24.dp, top = 16.dp)) }
+                title = { Text(title, modifier = Modifier.fillMaxWidth().padding(start = 24.dp, top = 16.dp)) }
             )
         }
     }

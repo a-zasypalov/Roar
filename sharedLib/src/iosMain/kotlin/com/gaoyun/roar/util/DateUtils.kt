@@ -1,10 +1,12 @@
 package com.gaoyun.roar.util
 
-import kotlinx.datetime.Instant
 import kotlinx.datetime.toNSDate
 import platform.Foundation.NSDateFormatter
 import platform.Foundation.timeIntervalSince1970
+import kotlin.time.ExperimentalTime
+import kotlin.time.Instant
 
+@OptIn(ExperimentalTime::class)
 actual fun Instant.formatDate(pattern: String, defValue: String): String {
     return try {
         val dateFormatter = NSDateFormatter()

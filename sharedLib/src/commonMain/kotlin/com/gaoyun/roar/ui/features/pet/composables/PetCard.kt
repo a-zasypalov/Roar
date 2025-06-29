@@ -41,7 +41,7 @@ fun PetCard(
         shadowElevation = 2.dp,
         modifier = modifier.padding(horizontal = 16.dp, vertical = 8.dp),
     ) {
-        Column(modifier = Modifier.platformStyleClickable { onPetCardClick(pet.id) }) {
+        Column(modifier = Modifier.platformStyleClickable { onPetCardClick(pet.id) }.animateContentSize()) {
             Row(
                 modifier = Modifier
                     .fillMaxWidth()

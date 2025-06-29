@@ -1,6 +1,7 @@
 package com.gaoyun.roar.ui.features.interactions
 
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.icons.Icons
@@ -173,7 +174,10 @@ fun InteractionScreenDestination(
                     val completedReminders = interaction.reminders.filter { it.isCompleted }
                         .sortedByDescending { it.dateTime }
 
-                    LazyColumn(modifier = Modifier.padding(horizontal = 8.dp)) {
+                    LazyColumn(
+                        horizontalAlignment = Alignment.CenterHorizontally,
+                        modifier = Modifier.padding(horizontal = 8.dp)
+                    ) {
                         item {
                             InteractionHeader(
                                 pet = pet,
@@ -193,7 +197,7 @@ fun InteractionScreenDestination(
                                     text = stringResource(resource = Res.string.next),
                                     style = MaterialTheme.typography.headlineSmall,
                                     color = MaterialTheme.colorScheme.onSurface,
-                                    modifier = Modifier.padding(vertical = 16.dp, horizontal = 8.dp)
+                                    modifier = Modifier.fillMaxWidth().padding(vertical = 16.dp, horizontal = 8.dp)
                                 )
                             }
                             item {
@@ -219,7 +223,7 @@ fun InteractionScreenDestination(
                                     text = stringResource(resource = Res.string.history),
                                     style = MaterialTheme.typography.headlineSmall,
                                     color = MaterialTheme.colorScheme.onSurface,
-                                    modifier = Modifier.padding(vertical = 16.dp, horizontal = 8.dp)
+                                    modifier = Modifier.fillMaxWidth().padding(vertical = 16.dp, horizontal = 8.dp)
                                 )
                             }
                             item {
