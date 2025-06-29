@@ -8,12 +8,9 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.text.intl.Locale
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.compose.LifecycleEventEffect
-import com.gaoyun.roar.presentation.add_pet.data.AddPetDataScreenContractState
-import com.gaoyun.roar.presentation.add_pet.data.AddPetDataScreenViewModel
-import com.gaoyun.roar.presentation.add_pet.data.ToAvatarEdit
-import com.gaoyun.roar.presentation.add_pet.data.ToPetSetup
 import com.gaoyun.roar.ui.common.composables.BoxWithLoader
 import com.gaoyun.roar.ui.common.composables.SurfaceScaffold
+import com.gaoyun.roar.ui.features.add_pet.pet_data.composables.AddPetForm
 import com.gaoyun.roar.ui.navigation.BackNavigationEffect
 import com.gaoyun.roar.ui.navigation.NavigationSideEffect
 import org.jetbrains.compose.resources.stringResource

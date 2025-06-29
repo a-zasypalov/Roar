@@ -28,7 +28,7 @@ import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
-import com.gaoyun.roar.presentation.AboutScreenViewModel
+import com.gaoyun.roar.ui.features.about.AboutScreenViewModel
 import com.gaoyun.roar.ui.common.composables.Spacer
 import com.gaoyun.roar.ui.common.composables.SurfaceScaffold
 import com.gaoyun.roar.ui.common.composables.platformStyleClickable

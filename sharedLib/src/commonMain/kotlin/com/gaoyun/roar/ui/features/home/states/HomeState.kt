@@ -22,14 +22,14 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.gaoyun.roar.model.domain.PetWithInteractions
 import com.gaoyun.roar.model.domain.interactions.InteractionWithReminders
-import com.gaoyun.roar.presentation.home_screen.HomeScreenContract
+import com.gaoyun.roar.ui.features.home.HomeScreenContract
 import com.gaoyun.roar.ui.common.composables.AutoResizeText
 import com.gaoyun.roar.ui.common.composables.FontSizeRange
 import com.gaoyun.roar.ui.common.composables.Spacer
 import com.gaoyun.roar.ui.features.home.view.CustomizationPrompt
 import com.gaoyun.roar.ui.features.home.view.UserHomeHeader
-import com.gaoyun.roar.ui.features.pet.PetCard
-import com.gaoyun.roar.ui.features.pet.PetContainer
+import com.gaoyun.roar.ui.features.pet.composables.PetCard
+import com.gaoyun.roar.ui.features.pet.composables.PetContainer
 import com.gaoyun.roar.ui.theme.RoarThemePreview
 import kotlinx.datetime.LocalDateTime
 import org.jetbrains.compose.resources.stringResource

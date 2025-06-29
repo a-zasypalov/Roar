@@ -13,7 +13,6 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.gaoyun.roar.presentation.user_screen.UserScreenContract
 import com.gaoyun.roar.ui.common.composables.Spacer
 import org.jetbrains.compose.resources.stringResource
 import roar.sharedlib.generated.resources.Res

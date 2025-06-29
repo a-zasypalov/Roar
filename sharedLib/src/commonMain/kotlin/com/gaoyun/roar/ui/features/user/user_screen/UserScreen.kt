@@ -11,8 +11,6 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
-import com.gaoyun.roar.presentation.user_screen.UserScreenContract
-import com.gaoyun.roar.presentation.user_screen.UserScreenViewModel
 import com.gaoyun.roar.ui.common.composables.RoarExtendedFAB
 import com.gaoyun.roar.ui.common.composables.SurfaceScaffold
 import com.gaoyun.roar.ui.navigation.BackNavigationEffect

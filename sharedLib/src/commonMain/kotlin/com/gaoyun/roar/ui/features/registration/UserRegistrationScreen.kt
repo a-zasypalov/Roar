@@ -3,8 +3,6 @@ package com.gaoyun.roar.ui.features.registration
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import com.gaoyun.roar.presentation.user_register.RegisterUserScreenContract
-import com.gaoyun.roar.presentation.user_register.RegisterUserViewModel
 import com.gaoyun.roar.ui.common.composables.BoxWithLoader
 import com.gaoyun.roar.ui.common.composables.SurfaceScaffold
 import com.gaoyun.roar.ui.navigation.NavigationSideEffect

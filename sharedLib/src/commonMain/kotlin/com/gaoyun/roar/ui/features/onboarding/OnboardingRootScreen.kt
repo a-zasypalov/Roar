@@ -26,7 +26,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
-import com.gaoyun.roar.presentation.OnboardingViewModel
+import com.gaoyun.roar.ui.features.onboarding.OnboardingViewModel
 import com.gaoyun.roar.ui.common.composables.PrimaryElevatedButton
 import com.gaoyun.roar.ui.common.composables.Spacer
 import com.gaoyun.roar.ui.common.composables.SurfaceScaffold

@@ -19,12 +19,12 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.toRoute
 import com.gaoyun.roar.ui.features.about.AboutScreenDestination
-import com.gaoyun.roar.ui.features.add_pet.AddPetAvatarDestination
-import com.gaoyun.roar.ui.features.add_pet.AddPetPetTypeDestination
-import com.gaoyun.roar.ui.features.add_pet.AddPetSetupDestination
+import com.gaoyun.roar.ui.features.add_pet.avatar.AddPetAvatarDestination
+import com.gaoyun.roar.ui.features.add_pet.pet_type.AddPetPetTypeDestination
+import com.gaoyun.roar.ui.features.add_pet.setup.AddPetSetupDestination
 import com.gaoyun.roar.ui.features.add_pet.pet_data.AddPetDataDestination
-import com.gaoyun.roar.ui.features.create_reminder.AddReminderCompleteDestination
-import com.gaoyun.roar.ui.features.create_reminder.AddReminderDestination
+import com.gaoyun.roar.ui.features.create_reminder.complete.AddReminderCompleteDestination
+import com.gaoyun.roar.ui.features.create_reminder.choose_template.AddReminderDestination
 import com.gaoyun.roar.ui.features.create_reminder.setup.SetupReminderDestination
 import com.gaoyun.roar.ui.features.home.HomeScreenDestination
 import com.gaoyun.roar.ui.features.interactions.InteractionScreenDestination

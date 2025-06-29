@@ -1,6 +1,6 @@
 package com.gaoyun.roar.util
 
-import com.gaoyun.roar.presentation.user_screen.UserScreenContract
+import com.gaoyun.roar.ui.features.user.user_screen.UserScreenContract
 
 interface BackupHandler {
     fun registerExecutor()

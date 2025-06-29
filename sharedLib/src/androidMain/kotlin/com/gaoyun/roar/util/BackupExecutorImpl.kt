@@ -7,7 +7,7 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import com.gaoyun.roar.R
-import com.gaoyun.roar.presentation.user_screen.UserScreenContract
+import com.gaoyun.roar.ui.features.user.user_screen.UserScreenContract
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch

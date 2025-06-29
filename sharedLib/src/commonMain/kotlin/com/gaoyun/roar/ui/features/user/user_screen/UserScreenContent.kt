@@ -42,8 +42,6 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.gaoyun.roar.model.domain.User
-import com.gaoyun.roar.presentation.user_screen.UserScreenContract
-import com.gaoyun.roar.presentation.user_screen.UserScreenState
 import com.gaoyun.roar.ui.common.composables.AutoResizeText
 import com.gaoyun.roar.ui.common.composables.BoxWithLoader
 import com.gaoyun.roar.ui.common.composables.DropdownMenu
